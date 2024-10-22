@@ -67,8 +67,9 @@ def main():
 
         # Create dynamic filenames
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        json_file = f"{results['state']}_{timestamp}.json"
-        csv_file = f"{results['state']}_{timestamp}.csv"
+        file_path = r"/Users/home/Downloads"
+        json_file = f"/{results['state']}_{timestamp}.json"
+        csv_file = f"/{results['state']}_{timestamp}.csv"
 
         # Start scraping each constituency page
         while seq_no <= seq_limit:
@@ -96,12 +97,12 @@ def main():
 
         if results:
             # Write results to JSON file
-            with open(json_file, "w") as file:
+            with open(file_path+json_file, "w") as file:
                 json.dump(results, file, indent=4)
-                print(f"Scraped data stored in {json_file}")
+                print(f"Scraped data stored in {file_path+json_file}")
 
             # Write results to CSV file
-            with open(csv_file, 'w') as f_write:
+            with open(file_path+csv_file, 'w') as f_write:
                 fieldnames = ['state', 'constituency', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
                 writer = csv.DictWriter(f_write, fieldnames=fieldnames)
                 writer.writeheader()
@@ -110,7 +111,7 @@ def main():
                         candidate['state'] = results['state']
                         candidate['constituency'] = constituency['voting_data']['assembly_constituency']
                         writer.writerow(candidate)
-                print(f"Scraped data also stored in {csv_file}")
+                print(f"Scraped data also stored in {file_path+csv_file}")
 
 if __name__ == "__main__":
     main()
