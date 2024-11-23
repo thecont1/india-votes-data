@@ -73,19 +73,19 @@ The JSON files (e.g., `2024ACHR.json`, `2024ACJH.json`) contain detailed constit
 
 ## Setup
 
-1. Clone the repository:
+1.Clone the repository:
 
 ```bash
 git clone https://github.com/thecont1/india-votes-data.git
 ```
 
-2. Install required packages:
+2.Install required packages:
 
 ```bash
 pip install selenium
 ```
 
-3. Ensure Chrome browser is installed on your system
+3.Ensure Chrome browser is installed on your system
 
 ## Usage
 
