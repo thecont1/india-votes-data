@@ -1,7 +1,9 @@
 {
     "title": "Election Commission of India",
     "headline": "General Election to Assembly Constituencies: Trends & Results October -2024",
-    "state": "Haryana",
+    "election_year": "2024",
+    "election_type": "AC",
+    "election_state": "HR",
     "constituencywise_results": [
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS071.htm",
