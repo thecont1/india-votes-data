@@ -1,7 +1,9 @@
 {
     "title": "Election Commission of India",
     "headline": "General Election to Assembly Constituencies: Trends & Results November-2024",
-    "state": "Jharkhand",
+    "election_year": "2024",
+    "election_type": "AC",
+    "election_state": "JH",
     "constituencywise_results": [
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS271.htm",
@@ -12,106 +14,106 @@
                         "serial_no": "1",
                         "candidate": "ANANT KUMAR OJHA",
                         "party": "Bharatiya Janata Party",
-                        "evm_votes": "95663",
-                        "postal_votes": "0"
+                        "evm_votes": "95680",
+                        "postal_votes": "1064"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "MD. TAJUDDIN",
                         "party": "Jharkhand Mukti Morcha",
-                        "evm_votes": "138044",
-                        "postal_votes": "0"
+                        "evm_votes": "139023",
+                        "postal_votes": "1153"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "NANDLAL SAH",
                         "party": "Lokhit Adhikar Party",
-                        "evm_votes": "1086",
-                        "postal_votes": "0"
+                        "evm_votes": "1091",
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "MOTILAL SARKAR",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
                         "evm_votes": "1876",
-                        "postal_votes": "0"
+                        "postal_votes": "42"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "RAMESHWAR MANDAL",
                         "party": "Peoples Party of India (Democratic)",
                         "evm_votes": "342",
-                        "postal_votes": "0"
+                        "postal_votes": "6"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "MD SAHADAT HUSSAIN",
                         "party": "Samajwadi Party",
-                        "evm_votes": "306",
-                        "postal_votes": "0"
+                        "evm_votes": "309",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "ADHIR KUMAR MANDAL",
                         "party": "Independent",
-                        "evm_votes": "697",
-                        "postal_votes": "0"
+                        "evm_votes": "698",
+                        "postal_votes": "10"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "MD ASLAM",
                         "party": "Independent",
                         "evm_votes": "172",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "GOPAL CHANDRA MANDAL",
                         "party": "Independent",
                         "evm_votes": "219",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "NAIM SEKH",
                         "party": "Independent",
-                        "evm_votes": "338",
-                        "postal_votes": "0"
+                        "evm_votes": "339",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "MURLI DHAR TIWARI",
                         "party": "Independent",
                         "evm_votes": "553",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "RANDHIR PRASAD",
                         "party": "Independent",
                         "evm_votes": "591",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "SADDAM HUSSAIN",
                         "party": "Independent",
                         "evm_votes": "906",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "SUNIL YADAV",
                         "party": "Independent",
                         "evm_votes": "13802",
-                        "postal_votes": "0"
+                        "postal_votes": "210"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "3039",
-                        "postal_votes": "0"
+                        "evm_votes": "3040",
+                        "postal_votes": "18"
                     }
                 ]
             }
@@ -740,127 +742,127 @@
                         "serial_no": "1",
                         "candidate": "MADHAV CHANDRA MAHATO",
                         "party": "Bharatiya Janata Party",
-                        "evm_votes": "78712",
-                        "postal_votes": "0"
+                        "evm_votes": "81652",
+                        "postal_votes": "567"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "RABINDRA NATH MAHATO",
                         "party": "Jharkhand Mukti Morcha",
-                        "evm_votes": "88981",
-                        "postal_votes": "0"
+                        "evm_votes": "92005",
+                        "postal_votes": "697"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "KANAI CHANDRA MALPAHARIA",
                         "party": "Communist Party of India",
-                        "evm_votes": "5936",
-                        "postal_votes": "0"
+                        "evm_votes": "6083",
+                        "postal_votes": "28"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "MAHASHON MURMU",
                         "party": "Lokhit Adhikar Party",
-                        "evm_votes": "542",
+                        "evm_votes": "553",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "RAGHUBIR YADAV",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
-                        "evm_votes": "1142",
-                        "postal_votes": "0"
+                        "evm_votes": "1153",
+                        "postal_votes": "21"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "AMIT KUMAR CHALAK",
                         "party": "Independent",
-                        "evm_votes": "123",
+                        "evm_votes": "125",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "GUNADHAR MONDAL",
                         "party": "Independent",
-                        "evm_votes": "112",
-                        "postal_votes": "0"
+                        "evm_votes": "119",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "JOYANTO BANERJEE",
                         "party": "Independent",
-                        "evm_votes": "193",
-                        "postal_votes": "0"
+                        "evm_votes": "197",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "DIGUMBER PRASAD SAHA",
                         "party": "Independent",
-                        "evm_votes": "226",
-                        "postal_votes": "0"
+                        "evm_votes": "236",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "PURAN PUJHAR",
                         "party": "Independent",
-                        "evm_votes": "245",
-                        "postal_votes": "0"
+                        "evm_votes": "253",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "BISHWANATH SOREN",
                         "party": "Independent",
-                        "evm_votes": "215",
-                        "postal_votes": "0"
+                        "evm_votes": "218",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "MUSTAK SHEKH",
                         "party": "Independent",
-                        "evm_votes": "403",
-                        "postal_votes": "0"
+                        "evm_votes": "413",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "RAJIB HEMBROM",
                         "party": "Independent",
-                        "evm_votes": "837",
-                        "postal_votes": "0"
+                        "evm_votes": "887",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "RAJESHSWER HANSDA",
                         "party": "Independent",
-                        "evm_votes": "1038",
-                        "postal_votes": "0"
+                        "evm_votes": "1088",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "SHANTI GOPAL MAHATO",
                         "party": "Independent",
-                        "evm_votes": "2984",
-                        "postal_votes": "0"
+                        "evm_votes": "3077",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "SANTOSH HEMBRAM",
                         "party": "Independent",
-                        "evm_votes": "4255",
-                        "postal_votes": "0"
+                        "evm_votes": "4370",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "17",
                         "candidate": "SUJIT KUMAR SARKAR",
                         "party": "Independent",
-                        "evm_votes": "1443",
-                        "postal_votes": "0"
+                        "evm_votes": "1493",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "18",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "1553",
-                        "postal_votes": "0"
+                        "evm_votes": "1616",
+                        "postal_votes": "10"
                     }
                 ]
             }
@@ -1361,113 +1363,113 @@
                         "serial_no": "1",
                         "candidate": "GANGA NARAYAN SINGH",
                         "party": "Bharatiya Janata Party",
-                        "evm_votes": "114314",
-                        "postal_votes": "0"
+                        "evm_votes": "122929",
+                        "postal_votes": "997"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "MD JIYAUL HAK",
                         "party": "Bahujan Samaj Party",
-                        "evm_votes": "1479",
-                        "postal_votes": "0"
+                        "evm_votes": "1648",
+                        "postal_votes": "26"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "HAFIZUL HASSAN",
                         "party": "Jharkhand Mukti Morcha",
-                        "evm_votes": "118071",
-                        "postal_votes": "0"
+                        "evm_votes": "142993",
+                        "postal_votes": "960"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "ABDUL LATIF ANSARI",
                         "party": "Rashtriya Jankranti Morcha",
-                        "evm_votes": "1171",
-                        "postal_votes": "0"
+                        "evm_votes": "1379",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "SADDAM HUSSAIN",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
-                        "evm_votes": "378",
-                        "postal_votes": "0"
+                        "evm_votes": "500",
+                        "postal_votes": "15"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "SUMAN PANDIT",
                         "party": "Nationalist Congress Party",
-                        "evm_votes": "162",
-                        "postal_votes": "0"
+                        "evm_votes": "172",
+                        "postal_votes": "6"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "UMESH SINGH",
                         "party": "Independent",
-                        "evm_votes": "145",
+                        "evm_votes": "158",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "DEVKI DEVI",
                         "party": "Independent",
-                        "evm_votes": "148",
-                        "postal_votes": "0"
+                        "evm_votes": "162",
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "NILESH KUMAR GUPTA",
                         "party": "Independent",
-                        "evm_votes": "183",
-                        "postal_votes": "0"
+                        "evm_votes": "193",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "PRAVIN KUMAR THAKUR",
                         "party": "Independent",
-                        "evm_votes": "198",
-                        "postal_votes": "0"
+                        "evm_votes": "210",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "BINAY KUMAR DAS",
                         "party": "Independent",
-                        "evm_votes": "240",
-                        "postal_votes": "0"
+                        "evm_votes": "254",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "RAMKISHOR SHAHI",
                         "party": "Independent",
-                        "evm_votes": "328",
-                        "postal_votes": "0"
+                        "evm_votes": "362",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "SANJAY KUMAR YADAV",
                         "party": "Independent",
-                        "evm_votes": "583",
-                        "postal_votes": "0"
+                        "evm_votes": "668",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "SAHUD MIAN",
                         "party": "Independent",
-                        "evm_votes": "2852",
+                        "evm_votes": "3399",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "SUBODH KUMAR RAJHANS",
                         "party": "Independent",
-                        "evm_votes": "1567",
-                        "postal_votes": "0"
+                        "evm_votes": "1717",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "3356",
-                        "postal_votes": "0"
+                        "evm_votes": "3647",
+                        "postal_votes": "10"
                     }
                 ]
             }
@@ -1481,127 +1483,127 @@
                         "serial_no": "1",
                         "candidate": "UDAY SHANKAR SINGH",
                         "party": "Jharkhand Mukti Morcha",
-                        "evm_votes": "124669",
-                        "postal_votes": "0"
+                        "evm_votes": "134295",
+                        "postal_votes": "924"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "RANDHIR KUMAR SINGH",
                         "party": "Bharatiya Janata Party",
-                        "evm_votes": "92440",
-                        "postal_votes": "0"
+                        "evm_votes": "97153",
+                        "postal_votes": "637"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "SAIF AHMAD YAQUBI",
                         "party": "Bahujan Samaj Party",
-                        "evm_votes": "1224",
-                        "postal_votes": "0"
+                        "evm_votes": "1288",
+                        "postal_votes": "12"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "MD. AZHARUDDIN",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
-                        "evm_votes": "593",
-                        "postal_votes": "0"
+                        "evm_votes": "625",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "KAJAL KUMAR MAHTO",
                         "party": "Samajwadi Party",
-                        "evm_votes": "270",
-                        "postal_votes": "0"
+                        "evm_votes": "284",
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "CHHAYA KOL",
                         "party": "Communist Party of India",
-                        "evm_votes": "619",
-                        "postal_votes": "0"
+                        "evm_votes": "644",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "SHIVESHWAR TUDU",
                         "party": "Peoples Party of India (Democratic)",
-                        "evm_votes": "263",
+                        "evm_votes": "273",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "SIRAJUDDIN ANSARI",
                         "party": "Jharkhand People's Party",
-                        "evm_votes": "189",
+                        "evm_votes": "200",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "ABIR MIYAN",
                         "party": "Independent",
-                        "evm_votes": "170",
-                        "postal_votes": "0"
+                        "evm_votes": "175",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "KISHOR MANDAL",
                         "party": "Independent",
-                        "evm_votes": "169",
-                        "postal_votes": "0"
+                        "evm_votes": "176",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "KRISHNA KUMAR SINGH",
                         "party": "Independent",
-                        "evm_votes": "185",
-                        "postal_votes": "0"
+                        "evm_votes": "195",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "DHANNAJAY PRSAD SINGH",
                         "party": "Independent",
-                        "evm_votes": "193",
+                        "evm_votes": "206",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "PINKI KUMARI",
                         "party": "Independent",
-                        "evm_votes": "840",
-                        "postal_votes": "0"
+                        "evm_votes": "874",
+                        "postal_votes": "8"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "MANISH KUMAR GUPTA",
                         "party": "Independent",
-                        "evm_votes": "681",
+                        "evm_votes": "720",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "VICKY KUMAR MANDAL",
                         "party": "Independent",
-                        "evm_votes": "2855",
+                        "evm_votes": "3013",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "SANJAY PANDIT",
                         "party": "Independent",
-                        "evm_votes": "3092",
-                        "postal_votes": "0"
+                        "evm_votes": "3302",
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "17",
                         "candidate": "SANTOSH KUMAR GUPTA",
                         "party": "Independent",
-                        "evm_votes": "2163",
+                        "evm_votes": "2350",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "18",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "1469",
-                        "postal_votes": "0"
+                        "evm_votes": "1577",
+                        "postal_votes": "5"
                     }
                 ]
             }
@@ -1906,49 +1908,49 @@
                         "candidate": "ASHOK KUMAR",
                         "party": "Bharatiya Janata Party",
                         "evm_votes": "94612",
-                        "postal_votes": "0"
+                        "postal_votes": "812"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "DEEPIKA PANDEY SINGH",
                         "party": "Indian National Congress",
                         "evm_votes": "112806",
-                        "postal_votes": "0"
+                        "postal_votes": "1263"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "JAWAHAR LAL YADAV",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
                         "evm_votes": "5061",
-                        "postal_votes": "0"
+                        "postal_votes": "56"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "PAVAN KUMAR TURI",
                         "party": "Mera Adhikaar Rashtriya Dal",
                         "evm_votes": "349",
-                        "postal_votes": "0"
+                        "postal_votes": "8"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "MOHAMMAD KAMRAN KHAN",
                         "party": "All India Majlis-E-Ittehadul Muslimeen",
                         "evm_votes": "1766",
-                        "postal_votes": "0"
+                        "postal_votes": "17"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "KRISHAN MOHAN CHOUBEY",
                         "party": "Independent",
                         "evm_votes": "273",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "MD KHURSHID ALAM",
                         "party": "Independent",
                         "evm_votes": "288",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "8",
@@ -1976,7 +1978,7 @@
                         "candidate": "NOTA",
                         "party": "None of the Above",
                         "evm_votes": "2913",
-                        "postal_votes": "0"
+                        "postal_votes": "9"
                     }
                 ]
             }
@@ -2386,35 +2388,35 @@
                         "candidate": "AMBA PRASAD",
                         "party": "Indian National Congress",
                         "evm_votes": "92143",
-                        "postal_votes": "0"
+                        "postal_votes": "932"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "KAMESHWAR KUMAR DAS",
                         "party": "Bahujan Samaj Party",
                         "evm_votes": "1320",
-                        "postal_votes": "0"
+                        "postal_votes": "10"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "ROSHAN LAL CHOUDHARY",
                         "party": "Bharatiya Janata Party",
                         "evm_votes": "123740",
-                        "postal_votes": "0"
+                        "postal_votes": "728"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "ANIRUDDH KUMAR",
                         "party": "Communist Party of India",
                         "evm_votes": "2376",
-                        "postal_votes": "0"
+                        "postal_votes": "9"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "GOVIND BEDIA",
                         "party": "Samajwadi Party",
                         "evm_votes": "868",
-                        "postal_votes": "0"
+                        "postal_votes": "8"
                     },
                     {
                         "serial_no": "6",
@@ -2435,14 +2437,14 @@
                         "candidate": "BALESHWAR KUMAR",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
                         "evm_votes": "26630",
-                        "postal_votes": "0"
+                        "postal_votes": "237"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "BITTU KUMAR SINGH",
                         "party": "Rashtriya Lok Dal",
                         "evm_votes": "566",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "10",
@@ -2456,28 +2458,28 @@
                         "candidate": "RANJAN SONI",
                         "party": "Akhil Bhartiya Aarakshit Samaj Party",
                         "evm_votes": "300",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "VIKASH KUMAR",
                         "party": "Rashtriya Samanta Dal",
                         "evm_votes": "421",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "MD SHAMIM MIYAN",
                         "party": "All India Majlis-E-Ittehadul Muslimeen",
                         "evm_votes": "1640",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "SOHAR MAHTO",
                         "party": "Jharkhand Mukti Morcha (Ulgulan)",
                         "evm_votes": "1635",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "15",
@@ -2491,7 +2493,7 @@
                         "candidate": "AMAN KUMAR",
                         "party": "Independent",
                         "evm_votes": "2665",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "17",
@@ -2505,49 +2507,49 @@
                         "candidate": "JAGTAR SINGH",
                         "party": "Independent",
                         "evm_votes": "373",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "19",
                         "candidate": "JHAMAN PRASAD",
                         "party": "Independent",
                         "evm_votes": "1186",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "20",
                         "candidate": "JHARI MUNDA",
                         "party": "Independent",
                         "evm_votes": "646",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "21",
                         "candidate": "DURGA CHARAN PRASAD",
                         "party": "Independent",
                         "evm_votes": "577",
-                        "postal_votes": "0"
+                        "postal_votes": "10"
                     },
                     {
                         "serial_no": "22",
                         "candidate": "PRABHU ORAON",
                         "party": "Independent",
                         "evm_votes": "683",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "23",
                         "candidate": "BHOLA NATH PRASAD",
                         "party": "Independent",
                         "evm_votes": "221",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "24",
                         "candidate": "RAJ KISHOR CHOUDHARY",
                         "party": "Independent",
                         "evm_votes": "507",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "25",
@@ -2568,7 +2570,7 @@
                         "candidate": "NOTA",
                         "party": "None of the Above",
                         "evm_votes": "1170",
-                        "postal_votes": "0"
+                        "postal_votes": "9"
                     }
                 ]
             }
@@ -2717,84 +2719,84 @@
                         "candidate": "JAI PRAKASH BHAI PATEL",
                         "party": "Indian National Congress",
                         "evm_votes": "89607",
-                        "postal_votes": "0"
+                        "postal_votes": "1033"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "NIRMAL MAHTO",
                         "party": "AJSU Party",
                         "evm_votes": "89945",
-                        "postal_votes": "0"
+                        "postal_votes": "926"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "SUSHIL KUMAR",
                         "party": "Bahujan Samaj Party",
                         "evm_votes": "1108",
-                        "postal_votes": "0"
+                        "postal_votes": "16"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "JAGO SAW",
                         "party": "Lokhit Adhikar Party",
                         "evm_votes": "678",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "BIHARI KUMAR",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
                         "evm_votes": "70696",
-                        "postal_votes": "0"
+                        "postal_votes": "580"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "MD. MAHMOOD ALAM",
                         "party": "Rashtriya Jankranti Morcha",
                         "evm_votes": "724",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "MUKHTAR KHAN",
                         "party": "Aapki Vikas Party",
                         "evm_votes": "277",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "MOHAMMAD ABDULLAH HAWARI",
                         "party": "Nationalist Congress Party",
                         "evm_votes": "419",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "MOHAMMAD NAZIR ANSARI",
                         "party": "Aazad Samaj Party (Kanshi Ram)",
                         "evm_votes": "10110",
-                        "postal_votes": "0"
+                        "postal_votes": "88"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "MD. SALMAN ANSARI",
                         "party": "Peoples Party of India (Democratic)",
                         "evm_votes": "621",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "ANUJ KUMAR ROY",
                         "party": "Independent",
                         "evm_votes": "622",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "ANAND SOREN",
                         "party": "Independent",
                         "evm_votes": "4661",
-                        "postal_votes": "0"
+                        "postal_votes": "35"
                     },
                     {
                         "serial_no": "13",
@@ -2808,42 +2810,42 @@
                         "candidate": "PRADEEP MUNDA",
                         "party": "Independent",
                         "evm_votes": "1545",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "BIPIN KUMAR SINHA",
                         "party": "Independent",
                         "evm_votes": "2361",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "MAHESH TIGGA",
                         "party": "Independent",
                         "evm_votes": "4738",
-                        "postal_votes": "0"
+                        "postal_votes": "14"
                     },
                     {
                         "serial_no": "17",
                         "candidate": "RANJEET KUMAR SOREN",
                         "party": "Independent",
                         "evm_votes": "1321",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "18",
                         "candidate": "SANJAY KUMAR MEHTA",
                         "party": "Independent",
                         "evm_votes": "843",
-                        "postal_votes": "0"
+                        "postal_votes": "8"
                     },
                     {
                         "serial_no": "19",
                         "candidate": "NOTA",
                         "party": "None of the Above",
                         "evm_votes": "991",
-                        "postal_votes": "0"
+                        "postal_votes": "20"
                     }
                 ]
             }
@@ -2858,119 +2860,119 @@
                         "candidate": "ABHISHEK KUMAR",
                         "party": "Bahujan Samaj Party",
                         "evm_votes": "1429",
-                        "postal_votes": "0"
+                        "postal_votes": "28"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "PRADIP PRASAD",
                         "party": "Bharatiya Janata Party",
                         "evm_votes": "137372",
-                        "postal_votes": "0"
+                        "postal_votes": "2086"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "MUNNA SINGH",
                         "party": "Indian National Congress",
                         "evm_votes": "93856",
-                        "postal_votes": "0"
+                        "postal_votes": "2125"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "UDAY KUMAR MEHTA",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
                         "evm_votes": "13853",
-                        "postal_votes": "0"
+                        "postal_votes": "217"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "NIRMAL SAW",
                         "party": "Lokhit Adhikar Party",
                         "evm_votes": "379",
-                        "postal_votes": "0"
+                        "postal_votes": "6"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "NISHANT KUMAR SINHA",
                         "party": "Peoples Party of India (Democratic)",
                         "evm_votes": "428",
-                        "postal_votes": "0"
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "PRADEEP KUMAR PANDEY",
                         "party": "Nationalist Congress Party",
                         "evm_votes": "245",
-                        "postal_votes": "0"
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "FAHIM UDDIN AHMAD",
                         "party": "Samata Party",
                         "evm_votes": "505",
-                        "postal_votes": "0"
+                        "postal_votes": "17"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "RAMESHWAR RAM KUSHWAHA",
                         "party": "Bharatiya Rashtriya Forward Bloc",
                         "evm_votes": "194",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "SANJAY KUMAR",
                         "party": "Aazad Samaj Party (Kanshi Ram)",
                         "evm_votes": "1489",
-                        "postal_votes": "0"
+                        "postal_votes": "45"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "SATISH KUMAR",
                         "party": "Rashtriya Samanta Dal",
                         "evm_votes": "422",
-                        "postal_votes": "0"
+                        "postal_votes": "6"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "SURESH THAKUR",
                         "party": "Bharatiya Sarvjan Vikas Party",
                         "evm_votes": "446",
-                        "postal_votes": "0"
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "ARBIND KUMAR OJHA",
                         "party": "Independent",
                         "evm_votes": "668",
-                        "postal_votes": "0"
+                        "postal_votes": "12"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "TEKOCHAND MAHTO",
                         "party": "Independent",
                         "evm_votes": "1318",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "PRASHANT KUMAR VARMA",
                         "party": "Independent",
                         "evm_votes": "1550",
-                        "postal_votes": "0"
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "BHAIYA BANKE BIHARI",
                         "party": "Independent",
                         "evm_votes": "1346",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "17",
                         "candidate": "MUKESH KUMAR KASERA",
                         "party": "Independent",
                         "evm_votes": "595",
-                        "postal_votes": "0"
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "18",
@@ -2984,42 +2986,42 @@
                         "candidate": "RAJ KUMAR SINGH",
                         "party": "Independent",
                         "evm_votes": "647",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "20",
                         "candidate": "VIKRAM RANA",
                         "party": "Independent",
                         "evm_votes": "898",
-                        "postal_votes": "0"
+                        "postal_votes": "15"
                     },
                     {
                         "serial_no": "21",
                         "candidate": "SACHIDA NAND PANDEY",
                         "party": "Independent",
                         "evm_votes": "257",
-                        "postal_votes": "0"
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "22",
                         "candidate": "SINTU RAM",
                         "party": "Independent",
                         "evm_votes": "224",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "23",
                         "candidate": "HARSH AJMERA",
                         "party": "Independent",
                         "evm_votes": "4004",
-                        "postal_votes": "0"
+                        "postal_votes": "23"
                     },
                     {
                         "serial_no": "24",
                         "candidate": "NOTA",
                         "party": "None of the Above",
                         "evm_votes": "1006",
-                        "postal_votes": "0"
+                        "postal_votes": "53"
                     }
                 ]
             }
@@ -3217,175 +3219,175 @@
                         "serial_no": "1",
                         "candidate": "NIZAM UDDIN ANSARI",
                         "party": "Jharkhand Mukti Morcha",
-                        "evm_votes": "48286",
+                        "evm_votes": "61322",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "BABU LAL MARANDI",
                         "party": "Bharatiya Janata Party",
-                        "evm_votes": "72433",
+                        "evm_votes": "94099",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "MUKESH KUMAR VERMA",
                         "party": "Bahujan Samaj Party",
-                        "evm_votes": "1067",
+                        "evm_votes": "1297",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "AKLESHWAR SAW",
                         "party": "Lokhit Adhikar Party",
-                        "evm_votes": "329",
+                        "evm_votes": "388",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "MRITUNJAY KUMAR",
                         "party": "Bhartiya Janjagran Gandhiwadi Party",
-                        "evm_votes": "262",
+                        "evm_votes": "315",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "MOHAMMAD DANISH",
                         "party": "Aazad Samaj Party (Kanshi Ram)",
-                        "evm_votes": "527",
+                        "evm_votes": "618",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "RAJ KUMAR YADAV",
                         "party": "Communist Party of India (Marxist-Leninist) (Liberation)",
-                        "evm_votes": "24159",
+                        "evm_votes": "28068",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "RAJDESH RATAN",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
-                        "evm_votes": "884",
+                        "evm_votes": "1135",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "ABHISHEK KUMAR",
                         "party": "Independent",
-                        "evm_votes": "511",
+                        "evm_votes": "622",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "ARBIND PASWAN",
                         "party": "Independent",
-                        "evm_votes": "1319",
+                        "evm_votes": "1663",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "KARAN YADAV",
                         "party": "Independent",
-                        "evm_votes": "334",
+                        "evm_votes": "378",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "GOPIKRISHN YADAV",
                         "party": "Independent",
-                        "evm_votes": "367",
+                        "evm_votes": "423",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "DEVENDRA KR. GUPTA",
                         "party": "Independent",
-                        "evm_votes": "318",
+                        "evm_votes": "397",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "NIRANJAN RAI",
                         "party": "Independent",
-                        "evm_votes": "1153",
+                        "evm_votes": "1395",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "PAWAN KUMAR RAM",
                         "party": "Independent",
-                        "evm_votes": "2285",
+                        "evm_votes": "2702",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "BRAHMDEV TUDOO",
                         "party": "Independent",
-                        "evm_votes": "2790",
+                        "evm_votes": "3375",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "17",
                         "candidate": "BHARAT YADAV",
                         "party": "Independent",
-                        "evm_votes": "1711",
+                        "evm_votes": "2088",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "18",
                         "candidate": "MANNA VINAY BASKE",
                         "party": "Independent",
-                        "evm_votes": "1411",
+                        "evm_votes": "1707",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "19",
                         "candidate": "RAKESH MISHRA",
                         "party": "Independent",
-                        "evm_votes": "481",
+                        "evm_votes": "622",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "20",
                         "candidate": "RAMESHWAR PRASAD YADAV",
                         "party": "Independent",
-                        "evm_votes": "157",
+                        "evm_votes": "180",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "21",
                         "candidate": "SHREE LAL SAHU",
                         "party": "Independent",
-                        "evm_votes": "127",
+                        "evm_votes": "147",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "22",
                         "candidate": "SANJAY KUMAR",
                         "party": "Independent",
-                        "evm_votes": "200",
+                        "evm_votes": "227",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "23",
                         "candidate": "MD SAGIR",
                         "party": "Independent",
-                        "evm_votes": "614",
+                        "evm_votes": "709",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "24",
                         "candidate": "SANTU THAKUR",
                         "party": "Independent",
-                        "evm_votes": "429",
+                        "evm_votes": "526",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "25",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "949",
+                        "evm_votes": "1170",
                         "postal_votes": "0"
                     }
                 ]
@@ -3401,14 +3403,14 @@
                         "candidate": "NAGENDRA MAHTO",
                         "party": "Bharatiya Janata Party",
                         "evm_votes": "126781",
-                        "postal_votes": "0"
+                        "postal_votes": "720"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "SANTOSH KUMAR",
                         "party": "Bahujan Samaj Party",
                         "evm_votes": "1297",
-                        "postal_votes": "0"
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "3",
@@ -3422,35 +3424,35 @@
                         "candidate": "ASHISH KUMAR",
                         "party": "Right to Recall Party",
                         "evm_votes": "453",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "CHANDRASHEKHAR MANDAL",
                         "party": "Samata Party",
                         "evm_votes": "663",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "JAGESHWAR PARSAD VERMA",
                         "party": "Rashtriya Samanta Dal",
                         "evm_votes": "885",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "VINOD KUMAR SINGH",
                         "party": "Communist Party of India (Marxist-Leninist) (Liberation)",
                         "evm_votes": "94106",
-                        "postal_votes": "0"
+                        "postal_votes": "778"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "MD SALIM",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
                         "evm_votes": "17651",
-                        "postal_votes": "0"
+                        "postal_votes": "85"
                     },
                     {
                         "serial_no": "9",
@@ -3464,7 +3466,7 @@
                         "candidate": "DINESH KUMAR YADAV",
                         "party": "Independent",
                         "evm_votes": "1273",
-                        "postal_votes": "0"
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "11",
@@ -3485,14 +3487,14 @@
                         "candidate": "SHRIKANT PRASAD",
                         "party": "Independent",
                         "evm_votes": "1201",
-                        "postal_votes": "0"
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "NOTA",
                         "party": "None of the Above",
                         "evm_votes": "5434",
-                        "postal_votes": "0"
+                        "postal_votes": "6"
                     }
                 ]
             }
@@ -3577,113 +3579,113 @@
                         "serial_no": "1",
                         "candidate": "KALPANA MURMU SOREN",
                         "party": "Jharkhand Mukti Morcha",
-                        "evm_votes": "111618",
-                        "postal_votes": "0"
+                        "evm_votes": "118521",
+                        "postal_votes": "851"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "MD KAUSAR AZAD",
                         "party": "Bahujan Samaj Party",
-                        "evm_votes": "1057",
-                        "postal_votes": "0"
+                        "evm_votes": "1101",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "MUNIYA DEVI",
                         "party": "Bharatiya Janata Party",
-                        "evm_votes": "98562",
-                        "postal_votes": "0"
+                        "evm_votes": "101561",
+                        "postal_votes": "669"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "ARJUN BAITHA",
                         "party": "Aazad Samaj Party (Kanshi Ram)",
-                        "evm_votes": "2624",
-                        "postal_votes": "0"
+                        "evm_votes": "2747",
+                        "postal_votes": "13"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "MD. ARIF UDDIN",
                         "party": "Aapki Vikas Party",
-                        "evm_votes": "247",
-                        "postal_votes": "0"
+                        "evm_votes": "261",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "KAMESHWAR PRASAD SAW",
                         "party": "Lokhit Adhikar Party",
-                        "evm_votes": "156",
+                        "evm_votes": "158",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "MOHAMMAD KUDUS ANSARI",
                         "party": "Rashtriya Samanta Dal",
-                        "evm_votes": "121",
+                        "evm_votes": "126",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "RAJESH KUMAR",
                         "party": "All India Forward Bloc",
-                        "evm_votes": "1065",
-                        "postal_votes": "0"
+                        "evm_votes": "1075",
+                        "postal_votes": "11"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "SAMIM AKHTAR",
                         "party": "Jagrook Janta Party",
-                        "evm_votes": "1100",
-                        "postal_votes": "0"
+                        "evm_votes": "1125",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "DINESH PRASAD VERMA",
                         "party": "Independent",
-                        "evm_votes": "161",
+                        "evm_votes": "172",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "PRITEE KUMARI",
                         "party": "Independent",
-                        "evm_votes": "214",
-                        "postal_votes": "0"
+                        "evm_votes": "217",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "BASANT DEV HANSDA",
                         "party": "Independent",
-                        "evm_votes": "453",
+                        "evm_votes": "474",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "BIRENDRA KU. VISHWAKARMA",
                         "party": "Independent",
-                        "evm_votes": "913",
-                        "postal_votes": "0"
+                        "evm_votes": "948",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "RAMESHWAR DUSADH",
                         "party": "Independent",
-                        "evm_votes": "2448",
+                        "evm_votes": "2539",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "LALITA ROY",
                         "party": "Independent",
-                        "evm_votes": "685",
-                        "postal_votes": "0"
+                        "evm_votes": "706",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "2910",
-                        "postal_votes": "0"
+                        "evm_votes": "3047",
+                        "postal_votes": "4"
                     }
                 ]
             }
@@ -4956,35 +4958,35 @@
                         "candidate": "DINESHANANDA GOSWAMI",
                         "party": "Bharatiya Janata Party",
                         "evm_votes": "78207",
-                        "postal_votes": "0"
+                        "postal_votes": "538"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "SANAT KUMAR MAHATO",
                         "party": "Bahujan Samaj Party",
                         "evm_votes": "889",
-                        "postal_votes": "0"
+                        "postal_votes": "8"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "SAMIR KUMAR MOHANTY",
                         "party": "Jharkhand Mukti Morcha",
                         "evm_votes": "95834",
-                        "postal_votes": "0"
+                        "postal_votes": "1036"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "SWAPAN KUMAR MAHATO",
                         "party": "Communist Party of India (Marxist)",
                         "evm_votes": "4509",
-                        "postal_votes": "0"
+                        "postal_votes": "9"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "ARJUN KUMAR TUDU",
                         "party": "Bharat Adivasi Party",
                         "evm_votes": "430",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "6",
@@ -4998,7 +5000,7 @@
                         "candidate": "ASHOK MAHATO",
                         "party": "Nationalist Congress Party",
                         "evm_votes": "206",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "8",
@@ -5012,49 +5014,49 @@
                         "candidate": "KABITA SHAW",
                         "party": "Independent",
                         "evm_votes": "443",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "DURGA PADA GHOSH",
                         "party": "Independent",
                         "evm_votes": "267",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "PHANI BHUSHAN MAHATO",
                         "party": "Independent",
                         "evm_votes": "1610",
-                        "postal_votes": "0"
+                        "postal_votes": "15"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "RANJIT CHATIAL",
                         "party": "Independent",
                         "evm_votes": "901",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "RAM MURMU",
                         "party": "Independent",
                         "evm_votes": "2641",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "SURAJ GOPE",
                         "party": "Independent",
                         "evm_votes": "821",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "NOTA",
                         "party": "None of the Above",
                         "evm_votes": "2472",
-                        "postal_votes": "0"
+                        "postal_votes": "23"
                     }
                 ]
             }
@@ -5069,91 +5071,91 @@
                         "candidate": "BABU LAL SOREN",
                         "party": "Bharatiya Janata Party",
                         "evm_votes": "75287",
-                        "postal_votes": "0"
+                        "postal_votes": "623"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "RAM DAS SOREN",
                         "party": "Jharkhand Mukti Morcha",
                         "evm_votes": "97261",
-                        "postal_votes": "0"
+                        "postal_votes": "1095"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "INDRAJIT MURMU",
                         "party": "Bharat Adivasi Party",
                         "evm_votes": "1020",
-                        "postal_votes": "0"
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "DIKU BESRA",
                         "party": "Socialist Unity Centre Of India (COMMUNIST)",
                         "evm_votes": "577",
-                        "postal_votes": "0"
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "PARWATI HANSDA",
                         "party": "Peoples Party of India (Democratic)",
                         "evm_votes": "364",
-                        "postal_votes": "0"
+                        "postal_votes": "8"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "MANOJ MARDI",
                         "party": "Ambedkarite Party of India",
                         "evm_votes": "445",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "RAMDAS MURMU",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
                         "evm_votes": "8017",
-                        "postal_votes": "0"
+                        "postal_votes": "75"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "SURYA SINGH BESRA",
                         "party": "Jharkhand People's Party",
                         "evm_votes": "513",
-                        "postal_votes": "0"
+                        "postal_votes": "14"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "PANCHANAN SOREN",
                         "party": "Independent",
                         "evm_votes": "339",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "BIKRAM KISKU",
                         "party": "Independent",
                         "evm_votes": "424",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "RAMDEV HEMBROM",
                         "party": "Independent",
                         "evm_votes": "740",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "SUNIL KUMAR MURMU",
                         "party": "Independent",
                         "evm_votes": "1268",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "NOTA",
                         "party": "None of the Above",
                         "evm_votes": "2854",
-                        "postal_votes": "0"
+                        "postal_votes": "14"
                     }
                 ]
             }
@@ -5294,92 +5296,92 @@
                         "serial_no": "1",
                         "candidate": "MANGAL KALINDI",
                         "party": "Jharkhand Mukti Morcha",
-                        "evm_votes": "120230",
-                        "postal_votes": "0"
+                        "evm_votes": "120425",
+                        "postal_votes": "865"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "RAM CHANDRA SAHIS",
                         "party": "AJSU Party",
-                        "evm_votes": "77105",
-                        "postal_votes": "0"
+                        "evm_votes": "77343",
+                        "postal_votes": "502"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "KARTIK MUKHI",
                         "party": "Bharat Adivasi Party",
-                        "evm_votes": "1207",
-                        "postal_votes": "0"
+                        "evm_votes": "1211",
+                        "postal_votes": "9"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "CHANDAN BHUIYAN",
                         "party": "Akhil Bhartiya Jharkhand Party",
-                        "evm_votes": "664",
-                        "postal_votes": "0"
+                        "evm_votes": "665",
+                        "postal_votes": "6"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "BINOD SWANSI",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
-                        "evm_votes": "36698",
-                        "postal_votes": "0"
+                        "evm_votes": "36733",
+                        "postal_votes": "265"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "SRISHTI BHUNIYA",
                         "party": "Nationalist Congress Party",
                         "evm_votes": "492",
-                        "postal_votes": "0"
+                        "postal_votes": "10"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "JUGAL KISHORE MUKHI",
                         "party": "Independent",
-                        "evm_votes": "740",
-                        "postal_votes": "0"
+                        "evm_votes": "742",
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "DUKHU MACHHUA",
                         "party": "Independent",
-                        "evm_votes": "934",
-                        "postal_votes": "0"
+                        "evm_votes": "939",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "BIPLAV BHUIYAN",
                         "party": "Independent",
-                        "evm_votes": "2063",
-                        "postal_votes": "0"
+                        "evm_votes": "2092",
+                        "postal_votes": "8"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "MANOJ KARUA",
                         "party": "Independent",
-                        "evm_votes": "902",
-                        "postal_votes": "0"
+                        "evm_votes": "903",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "MOHAN LAL RAJAK",
                         "party": "Independent",
-                        "evm_votes": "1408",
-                        "postal_votes": "0"
+                        "evm_votes": "1411",
+                        "postal_votes": "6"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "VIMAL KISHOR BAITHA",
                         "party": "Independent",
-                        "evm_votes": "2604",
-                        "postal_votes": "0"
+                        "evm_votes": "2621",
+                        "postal_votes": "11"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "4018",
-                        "postal_votes": "0"
+                        "evm_votes": "4029",
+                        "postal_votes": "52"
                     }
                 ]
             }
@@ -5576,203 +5578,203 @@
                         "serial_no": "1",
                         "candidate": "BANNA GUPTA",
                         "party": "Indian National Congress",
-                        "evm_votes": "55257",
+                        "evm_votes": "94814",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "BRINDABAN DAS",
                         "party": "Bahujan Samaj Party",
-                        "evm_votes": "565",
+                        "evm_votes": "643",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "AJIT KUMAR YADAV",
                         "party": "Samajwadi Party",
-                        "evm_votes": "436",
+                        "evm_votes": "487",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "ASHOK KUMAR",
                         "party": "Peoples Party of India (Democratic)",
-                        "evm_votes": "343",
+                        "evm_votes": "379",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "MD QUASHIF RAZA SIDDIQUE",
                         "party": "Aazad Samaj Party (Kanshi Ram)",
-                        "evm_votes": "717",
+                        "evm_votes": "1290",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "PYARE LAL SAHU",
                         "party": "Lokhit Adhikar Party",
-                        "evm_votes": "381",
+                        "evm_votes": "408",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "MAHESH KUMAR",
                         "party": "Right to Recall Party",
-                        "evm_votes": "181",
+                        "evm_votes": "215",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "RANJEET DAS",
                         "party": "Aadarsh Sangram Party",
-                        "evm_votes": "148",
+                        "evm_votes": "169",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "RAM BACHAN",
                         "party": "Bhartiya Azad Sena",
-                        "evm_votes": "151",
+                        "evm_votes": "189",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "RASHID HUSSAIN",
                         "party": "All India Majlis-E-Ittehadul Muslimeen",
-                        "evm_votes": "1614",
+                        "evm_votes": "4778",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "BIPIN KUMAR SINGH",
                         "party": "Socialist Unity Centre Of India (COMMUNIST)",
-                        "evm_votes": "449",
+                        "evm_votes": "492",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "SARYU ROY",
                         "party": "Janata Dal (United)",
-                        "evm_votes": "97190",
+                        "evm_votes": "102914",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "SAURABH KUMAR OJHA",
                         "party": "Nationalist Congress Party",
-                        "evm_votes": "227",
+                        "evm_votes": "257",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "ANNI AMRITA",
                         "party": "Independent",
-                        "evm_votes": "370",
+                        "evm_votes": "422",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "DR. UMESH KUMAR",
                         "party": "Independent",
-                        "evm_votes": "322",
+                        "evm_votes": "359",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "OM PRAKASH ANAND",
                         "party": "Independent",
-                        "evm_votes": "670",
+                        "evm_votes": "911",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "17",
                         "candidate": "CHANDAN PRASAD",
                         "party": "Independent",
-                        "evm_votes": "729",
+                        "evm_votes": "1024",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "18",
                         "candidate": "G. JAYRAMDAS",
                         "party": "Independent",
-                        "evm_votes": "196",
+                        "evm_votes": "215",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "19",
                         "candidate": "JITENDRA SINGH",
                         "party": "Independent",
-                        "evm_votes": "182",
+                        "evm_votes": "208",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "20",
                         "candidate": "PRABHAT KUMAR SINGH",
                         "party": "Independent",
-                        "evm_votes": "225",
+                        "evm_votes": "248",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "21",
                         "candidate": "MRITUNJAY KUMAR",
                         "party": "Independent",
-                        "evm_votes": "395",
+                        "evm_votes": "504",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "22",
                         "candidate": "VIKAS SINGH",
                         "party": "Independent",
-                        "evm_votes": "1961",
+                        "evm_votes": "2196",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "23",
                         "candidate": "VIJAY PRASAD TIWARY",
                         "party": "Independent",
-                        "evm_votes": "194",
+                        "evm_votes": "216",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "24",
                         "candidate": "SHAMBHU NATH CHOUDHARY",
                         "party": "Independent",
-                        "evm_votes": "2082",
+                        "evm_votes": "2261",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "25",
                         "candidate": "SANTOSH KUMAR RAY",
                         "party": "Independent",
-                        "evm_votes": "1157",
+                        "evm_votes": "1259",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "26",
                         "candidate": "SANTOSHI BAI",
                         "party": "Independent",
-                        "evm_votes": "384",
+                        "evm_votes": "417",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "27",
                         "candidate": "SARYU DUSADH",
                         "party": "Independent",
-                        "evm_votes": "547",
+                        "evm_votes": "614",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "28",
                         "candidate": "SAROJINI SHAH",
                         "party": "Independent",
-                        "evm_votes": "416",
+                        "evm_votes": "479",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "29",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "1336",
+                        "evm_votes": "1514",
                         "postal_votes": "0"
                     }
                 ]
@@ -5787,169 +5789,169 @@
                         "serial_no": "1",
                         "candidate": "KALYAN CHANDRA SINGH",
                         "party": "Bahujan Samaj Party",
-                        "evm_votes": "1059",
-                        "postal_votes": "0"
+                        "evm_votes": "1271",
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "SABITA MAHATO",
                         "party": "Jharkhand Mukti Morcha",
-                        "evm_votes": "57125",
-                        "postal_votes": "0"
+                        "evm_votes": "76830",
+                        "postal_votes": "722"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "HARE LAL MAHATO",
                         "party": "AJSU Party",
-                        "evm_votes": "45070",
-                        "postal_votes": "0"
+                        "evm_votes": "50222",
+                        "postal_votes": "807"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "TARUN MAHATO",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
-                        "evm_votes": "38974",
-                        "postal_votes": "0"
+                        "evm_votes": "40665",
+                        "postal_votes": "473"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "PRITHIVI NATH MAHATO",
                         "party": "Right to Recall Party",
-                        "evm_votes": "656",
-                        "postal_votes": "0"
+                        "evm_votes": "710",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "PRAVESH KUMAR",
                         "party": "Sampoorna Bharat Kranti Party",
-                        "evm_votes": "452",
-                        "postal_votes": "0"
+                        "evm_votes": "499",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "BIRENDRA NATH MANJHI",
                         "party": "Abua Jharkhand Party",
-                        "evm_votes": "628",
-                        "postal_votes": "0"
+                        "evm_votes": "717",
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "RAMHARI GOPE",
                         "party": "Ambedkarite Party of India",
-                        "evm_votes": "492",
-                        "postal_votes": "0"
+                        "evm_votes": "561",
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "RIZWAN",
                         "party": "Nationalist Congress Party",
-                        "evm_votes": "724",
-                        "postal_votes": "0"
+                        "evm_votes": "782",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "SHYAM BIHARI PRAJAPATI",
                         "party": "Bhagidari Party(P)",
-                        "evm_votes": "660",
-                        "postal_votes": "0"
+                        "evm_votes": "706",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "SUDHAKAR SINGH",
                         "party": "Bharat Adivasi Party",
-                        "evm_votes": "984",
-                        "postal_votes": "0"
+                        "evm_votes": "1075",
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "AJMAL BALKHI",
                         "party": "Independent",
-                        "evm_votes": "1129",
-                        "postal_votes": "0"
+                        "evm_votes": "2345",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "ANUP KUMAR MAHATO",
                         "party": "Independent",
-                        "evm_votes": "2167",
-                        "postal_votes": "0"
+                        "evm_votes": "2345",
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "ARVIND KUMAR SINGH",
                         "party": "Independent",
-                        "evm_votes": "18590",
-                        "postal_votes": "0"
+                        "evm_votes": "20080",
+                        "postal_votes": "139"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "ASHUTOSH MAHATO",
                         "party": "Independent",
-                        "evm_votes": "2147",
-                        "postal_votes": "0"
+                        "evm_votes": "2367",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "ASHUDEV MAHATO",
                         "party": "Independent",
-                        "evm_votes": "1995",
-                        "postal_votes": "0"
+                        "evm_votes": "2193",
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "17",
                         "candidate": "MD QAIYUM KHAN",
                         "party": "Independent",
-                        "evm_votes": "555",
-                        "postal_votes": "0"
+                        "evm_votes": "697",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "18",
                         "candidate": "KHAGEN MAHTO",
                         "party": "Independent",
-                        "evm_votes": "2102",
-                        "postal_votes": "0"
+                        "evm_votes": "2301",
+                        "postal_votes": "31"
                     },
                     {
                         "serial_no": "19",
                         "candidate": "TULSI DAS MAHATO",
                         "party": "Independent",
-                        "evm_votes": "915",
+                        "evm_votes": "998",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "20",
                         "candidate": "BRIHASPATI SINGH SARDAR",
                         "party": "Independent",
-                        "evm_votes": "659",
-                        "postal_votes": "0"
+                        "evm_votes": "742",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "21",
                         "candidate": "MANU DUTTA",
                         "party": "Independent",
-                        "evm_votes": "522",
-                        "postal_votes": "0"
+                        "evm_votes": "550",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "22",
                         "candidate": "SHAMBHU GORAI",
                         "party": "Independent",
-                        "evm_votes": "737",
-                        "postal_votes": "0"
+                        "evm_votes": "782",
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "23",
                         "candidate": "SUKHRAM HEMBRAM",
                         "party": "Independent",
-                        "evm_votes": "14917",
-                        "postal_votes": "0"
+                        "evm_votes": "15494",
+                        "postal_votes": "239"
                     },
                     {
                         "serial_no": "24",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "1211",
-                        "postal_votes": "0"
+                        "evm_votes": "1339",
+                        "postal_votes": "21"
                     }
                 ]
             }
@@ -6968,77 +6970,77 @@
                         "candidate": "AJIT KUMAR",
                         "party": "Bahujan Samaj Party",
                         "evm_votes": "891",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "AMIT KUMAR",
                         "party": "Jharkhand Mukti Morcha",
                         "evm_votes": "72741",
-                        "postal_votes": "0"
+                        "postal_votes": "428"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "SUDESH KUMAR MAHTO",
                         "party": "AJSU Party",
                         "evm_votes": "48862",
-                        "postal_votes": "0"
+                        "postal_votes": "440"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "ANIL KUMAR MAHTO",
                         "party": "Peoples Party of India (Democratic)",
                         "evm_votes": "755",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "ANIL SINGH MUNDA",
                         "party": "Bharat Adivasi Party",
                         "evm_votes": "1118",
-                        "postal_votes": "0"
+                        "postal_votes": "19"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "DEVENDRA NATH MAHTO",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
                         "evm_votes": "41129",
-                        "postal_votes": "0"
+                        "postal_votes": "596"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "RABINDRA LAL YADAV",
                         "party": "Jharkhand Party",
                         "evm_votes": "558",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "RAMESHWAR MAHTO",
                         "party": "Jharkhand Mukti Morcha (Ulgulan)",
                         "evm_votes": "211",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "DR. AMIT KUMAR",
                         "party": "Independent",
                         "evm_votes": "346",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "DHANPATI MAHTO",
                         "party": "Independent",
                         "evm_votes": "435",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "PANKAJ MAHTO",
                         "party": "Independent",
                         "evm_votes": "735",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "12",
@@ -7059,7 +7061,7 @@
                         "candidate": "VIKAS SINGH MUNDA",
                         "party": "Independent",
                         "evm_votes": "1446",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "15",
@@ -7073,7 +7075,7 @@
                         "candidate": "NOTA",
                         "party": "None of the Above",
                         "evm_votes": "1308",
-                        "postal_votes": "0"
+                        "postal_votes": "5"
                     }
                 ]
             }
@@ -7088,35 +7090,35 @@
                         "candidate": "BAJRANG LOHRA",
                         "party": "Bahujan Samaj Party",
                         "evm_votes": "1263",
-                        "postal_votes": "0"
+                        "postal_votes": "12"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "RAJESH KACHHAP",
                         "party": "Indian National Congress",
                         "evm_votes": "122834",
-                        "postal_votes": "0"
+                        "postal_votes": "1215"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "RAM KUMAR PAHAN",
                         "party": "Bharatiya Janata Party",
                         "evm_votes": "94274",
-                        "postal_votes": "0"
+                        "postal_votes": "710"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "AJAY KACHHAP",
                         "party": "Bharat Adivasi Party",
                         "evm_votes": "1791",
-                        "postal_votes": "0"
+                        "postal_votes": "14"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "PRITAM SAAD LOHRA",
                         "party": "Republican Party of India (A)",
                         "evm_votes": "390",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "6",
@@ -7130,105 +7132,105 @@
                         "candidate": "BISHWANATH TIRKEY",
                         "party": "Rashtriya Deshaj Party",
                         "evm_votes": "350",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "SAMUNDAR PAHAN",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
                         "evm_votes": "26827",
-                        "postal_votes": "0"
+                        "postal_votes": "203"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "SURAJ KACHHAP",
                         "party": "Ambedkarite Party of India",
                         "evm_votes": "995",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "ANURAG KUJUR",
                         "party": "Independent",
                         "evm_votes": "704",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "JAGAN ORAON",
                         "party": "Independent",
                         "evm_votes": "724",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "JITENDER ORAON",
                         "party": "Independent",
                         "evm_votes": "485",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "BIPIN TOPPO",
                         "party": "Independent",
                         "evm_votes": "1978",
-                        "postal_votes": "0"
+                        "postal_votes": "15"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "BIRSA ORAON",
                         "party": "Independent",
                         "evm_votes": "1376",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "BIRISH MINZ",
                         "party": "Independent",
                         "evm_votes": "1682",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "MANOJ TOPPO",
                         "party": "Independent",
                         "evm_votes": "1582",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "17",
                         "candidate": "YOGENDRA BHAGAT",
                         "party": "Independent",
                         "evm_votes": "344",
-                        "postal_votes": "0"
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "18",
                         "candidate": "RAJ KACHHAP",
                         "party": "Independent",
                         "evm_votes": "1256",
-                        "postal_votes": "0"
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "19",
                         "candidate": "RAMAVTAR KERKETTA",
                         "party": "Independent",
                         "evm_votes": "894",
-                        "postal_votes": "0"
+                        "postal_votes": "6"
                     },
                     {
                         "serial_no": "20",
                         "candidate": "SUSHMA DEVI",
                         "party": "Independent",
                         "evm_votes": "247",
-                        "postal_votes": "0"
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "21",
                         "candidate": "NOTA",
                         "party": "None of the Above",
                         "evm_votes": "844",
-                        "postal_votes": "0"
+                        "postal_votes": "20"
                     }
                 ]
             }
@@ -7383,197 +7385,197 @@
                         "serial_no": "1",
                         "candidate": "AJAY NATH SHAHDEO",
                         "party": "Indian National Congress",
-                        "evm_votes": "126991",
-                        "postal_votes": "0"
+                        "evm_votes": "136430",
+                        "postal_votes": "1896"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "NAVIN JAISWAL",
                         "party": "Bharatiya Janata Party",
-                        "evm_votes": "142623",
-                        "postal_votes": "0"
+                        "evm_votes": "151241",
+                        "postal_votes": "1708"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "AMRENDRA KUMAR",
                         "party": "Jharkhand Jan Kranti Morcha",
-                        "evm_votes": "645",
-                        "postal_votes": "0"
+                        "evm_votes": "679",
+                        "postal_votes": "10"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "AYUB ALI",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
-                        "evm_votes": "1054",
-                        "postal_votes": "0"
+                        "evm_votes": "1114",
+                        "postal_votes": "27"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "ADARSH KUMAR",
                         "party": "Nationalist Congress Party",
-                        "evm_votes": "195",
-                        "postal_votes": "0"
+                        "evm_votes": "206",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "KUNDARSI MUNDA",
                         "party": "Bharat Adivasi Party",
-                        "evm_votes": "448",
-                        "postal_votes": "0"
+                        "evm_votes": "512",
+                        "postal_votes": "28"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "KUSHWAHA VIJAY KUMAR MAHTO",
                         "party": "Johaar Party",
-                        "evm_votes": "522",
-                        "postal_votes": "0"
+                        "evm_votes": "536",
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "JOYTI BALA DEVI",
                         "party": "Rashtriya Jaihind Party",
-                        "evm_votes": "147",
-                        "postal_votes": "0"
+                        "evm_votes": "158",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "DIWASHANKAR PASWAN",
                         "party": "Peoples Party of India (Democratic)",
-                        "evm_votes": "173",
-                        "postal_votes": "0"
+                        "evm_votes": "182",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "DHANANJAY BHAGAT \"GANDHI\"",
                         "party": "Mera Adhikaar Rashtriya Dal",
-                        "evm_votes": "139",
+                        "evm_votes": "150",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "NIPU SINGH",
                         "party": "Rashtriya Suraksha Party",
-                        "evm_votes": "213",
-                        "postal_votes": "0"
+                        "evm_votes": "229",
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "RAJENDRA PRASAD SAHU",
                         "party": "Sadan Vikas Party",
-                        "evm_votes": "212",
+                        "evm_votes": "218",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "VIJAY SINGH",
                         "party": "Sampoorna Bharat Kranti Party",
-                        "evm_votes": "280",
-                        "postal_votes": "0"
+                        "evm_votes": "292",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "VIVEK TRIPATHI",
                         "party": "Swatantra Rashtravadi Party",
-                        "evm_votes": "331",
+                        "evm_votes": "357",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "SURESH TOPPO",
                         "party": "Ambedkarite Party of India",
-                        "evm_votes": "1068",
-                        "postal_votes": "0"
+                        "evm_votes": "1156",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "SOMA SINGH",
                         "party": "Jai Maha Bharath Party",
-                        "evm_votes": "1363",
+                        "evm_votes": "1467",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "17",
                         "candidate": "HAJARI PRASAD SAHU",
                         "party": "Lokhit Adhikar Party",
-                        "evm_votes": "1086",
+                        "evm_votes": "1164",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "18",
                         "candidate": "ABHISHEK KUMAR SRIVASTAVA",
                         "party": "Independent",
-                        "evm_votes": "644",
-                        "postal_votes": "0"
+                        "evm_votes": "678",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "19",
                         "candidate": "ALBIN LAKRA",
                         "party": "Independent",
-                        "evm_votes": "1263",
-                        "postal_votes": "0"
+                        "evm_votes": "1327",
+                        "postal_votes": "20"
                     },
                     {
                         "serial_no": "20",
                         "candidate": "OMSHANKAR GUPTA",
                         "party": "Independent",
-                        "evm_votes": "193",
-                        "postal_votes": "0"
+                        "evm_votes": "206",
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "21",
                         "candidate": "AINUL ANSARI",
                         "party": "Independent",
-                        "evm_votes": "135",
+                        "evm_votes": "137",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "22",
                         "candidate": "GAURAV PRIYADARSHI",
                         "party": "Independent",
-                        "evm_votes": "101",
-                        "postal_votes": "0"
+                        "evm_votes": "108",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "23",
                         "candidate": "DIWAKAR PRASAD SAHU",
                         "party": "Independent",
-                        "evm_votes": "83",
-                        "postal_votes": "0"
+                        "evm_votes": "90",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "24",
                         "candidate": "NAGMA RANI",
                         "party": "Independent",
-                        "evm_votes": "182",
-                        "postal_votes": "0"
+                        "evm_votes": "203",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "25",
                         "candidate": "BISHU TIRKEY",
                         "party": "Independent",
-                        "evm_votes": "247",
-                        "postal_votes": "0"
+                        "evm_votes": "260",
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "26",
                         "candidate": "BHARAT KANSHI",
                         "party": "Independent",
-                        "evm_votes": "6439",
-                        "postal_votes": "0"
+                        "evm_votes": "6626",
+                        "postal_votes": "42"
                     },
                     {
                         "serial_no": "27",
                         "candidate": "YADRAM SAHU",
                         "party": "Independent",
-                        "evm_votes": "250",
+                        "evm_votes": "265",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "28",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "1247",
-                        "postal_votes": "0"
+                        "evm_votes": "1337",
+                        "postal_votes": "21"
                     }
                 ]
             }
@@ -7693,127 +7695,127 @@
                         "serial_no": "1",
                         "candidate": "KEERTI SINGH MUNDA",
                         "party": "Communist Party of India (Marxist)",
-                        "evm_votes": "2793",
-                        "postal_votes": "0"
+                        "evm_votes": "2812",
+                        "postal_votes": "9"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "SHILPI NEHA TIRKEY",
                         "party": "Indian National Congress",
-                        "evm_votes": "133568",
-                        "postal_votes": "0"
+                        "evm_votes": "134670",
+                        "postal_votes": "1266"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "SUNNY TOPPO",
                         "party": "Bharatiya Janata Party",
-                        "evm_votes": "111433",
-                        "postal_votes": "0"
+                        "evm_votes": "112582",
+                        "postal_votes": "551"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "SUKHMANI TIGGA",
                         "party": "Bahujan Samaj Party",
-                        "evm_votes": "1458",
-                        "postal_votes": "0"
+                        "evm_votes": "1468",
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "KANTA KHALKHO",
                         "party": "Ambedkarite Party of India",
-                        "evm_votes": "1431",
-                        "postal_votes": "0"
+                        "evm_votes": "1448",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "GUNA BHAGAT",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
-                        "evm_votes": "3021",
-                        "postal_votes": "0"
+                        "evm_votes": "3039",
+                        "postal_votes": "68"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "JAGRE ORAON",
                         "party": "Bharat Adivasi Party",
-                        "evm_votes": "7011",
-                        "postal_votes": "0"
+                        "evm_votes": "7064",
+                        "postal_votes": "65"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "BIMLA LOHA",
                         "party": "Bhagidari Party(P)",
-                        "evm_votes": "338",
-                        "postal_votes": "0"
+                        "evm_votes": "345",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "SANJAY MAHLI",
                         "party": "Peoples Party of India (Democratic)",
-                        "evm_votes": "517",
-                        "postal_votes": "0"
+                        "evm_votes": "519",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "DR. PARMESHWAR BHAGAT",
                         "party": "Independent",
-                        "evm_votes": "942",
-                        "postal_votes": "0"
+                        "evm_votes": "949",
+                        "postal_votes": "32"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "BINODIT TIGGA",
                         "party": "Independent",
-                        "evm_votes": "500",
-                        "postal_votes": "0"
+                        "evm_votes": "502",
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "BISHRAM ORAON",
                         "party": "Independent",
-                        "evm_votes": "441",
+                        "evm_votes": "445",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "RAMLAKHAN MAHLI",
                         "party": "Independent",
-                        "evm_votes": "762",
-                        "postal_votes": "0"
+                        "evm_votes": "773",
+                        "postal_votes": "1"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "REKHA DEVI",
                         "party": "Independent",
-                        "evm_votes": "2465",
+                        "evm_votes": "2492",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "VIKASH JYOTI ORAON",
                         "party": "Independent",
-                        "evm_votes": "1942",
-                        "postal_votes": "0"
+                        "evm_votes": "1964",
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "SHIV ORAON",
                         "party": "Independent",
-                        "evm_votes": "1664",
-                        "postal_votes": "0"
+                        "evm_votes": "1679",
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "17",
                         "candidate": "SUSHIL KUJUR",
                         "party": "Independent",
-                        "evm_votes": "544",
-                        "postal_votes": "0"
+                        "evm_votes": "546",
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "18",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "2026",
-                        "postal_votes": "0"
+                        "evm_votes": "2039",
+                        "postal_votes": "11"
                     }
                 ]
             }
@@ -7828,112 +7830,112 @@
                         "candidate": "ARUN KUMAR ORAON",
                         "party": "Bharatiya Janata Party",
                         "evm_votes": "66262",
-                        "postal_votes": "0"
+                        "postal_votes": "807"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "JIGA SUSARAN HORO",
                         "party": "Jharkhand Mukti Morcha",
                         "evm_votes": "104825",
-                        "postal_votes": "0"
+                        "postal_votes": "1233"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "BANDE KUMAR TIRKEY",
                         "party": "Bahujan Samaj Party",
                         "evm_votes": "1536",
-                        "postal_votes": "0"
+                        "postal_votes": "6"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "MADUA KACHHAP",
                         "party": "Communist Party of India (Marxist)",
                         "evm_votes": "3983",
-                        "postal_votes": "0"
+                        "postal_votes": "11"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "CHANDRAKISHOR ORAON",
                         "party": "Peoples Party of India (Democratic)",
                         "evm_votes": "447",
-                        "postal_votes": "0"
+                        "postal_votes": "4"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "DEBID SUNIL KUMAR MINJ",
                         "party": "Jharkhand Party",
                         "evm_votes": "403",
-                        "postal_votes": "0"
+                        "postal_votes": "9"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "SHYAM SUNDAR BADAIK",
                         "party": "Bhagidari Party(P)",
                         "evm_votes": "208",
-                        "postal_votes": "0"
+                        "postal_votes": "7"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "SUSHIL TOPNO",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
                         "evm_votes": "1377",
-                        "postal_votes": "0"
+                        "postal_votes": "50"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "ARBIND KUJUR",
                         "party": "Independent",
                         "evm_votes": "402",
-                        "postal_votes": "0"
+                        "postal_votes": "16"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "JENGA ORAON",
                         "party": "Independent",
                         "evm_votes": "1515",
-                        "postal_votes": "0"
+                        "postal_votes": "38"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "RAJESH LINDA",
                         "party": "Independent",
                         "evm_votes": "268",
-                        "postal_votes": "0"
+                        "postal_votes": "3"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "RAIMON BAA",
                         "party": "Independent",
                         "evm_votes": "395",
-                        "postal_votes": "0"
+                        "postal_votes": "2"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "LOHOR MAIN ORAON",
                         "party": "Independent",
                         "evm_votes": "749",
-                        "postal_votes": "0"
+                        "postal_votes": "5"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "SANJAY BARLA",
                         "party": "Independent",
                         "evm_votes": "1653",
-                        "postal_votes": "0"
+                        "postal_votes": "6"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "SUJIT TETE",
                         "party": "Independent",
                         "evm_votes": "3088",
-                        "postal_votes": "0"
+                        "postal_votes": "10"
                     },
                     {
                         "serial_no": "16",
                         "candidate": "NOTA",
                         "party": "None of the Above",
                         "evm_votes": "3192",
-                        "postal_votes": "0"
+                        "postal_votes": "11"
                     }
                 ]
             }
@@ -8180,105 +8182,105 @@
                         "serial_no": "1",
                         "candidate": "ANUJ KUNDESHWAR RAM",
                         "party": "Bahujan Samaj Party",
-                        "evm_votes": "1471",
+                        "evm_votes": "1569",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "BHUSHAN BARA",
                         "party": "Indian National Congress",
-                        "evm_votes": "69763",
+                        "evm_votes": "73711",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "SHRADHANAND BESRA",
                         "party": "Bharatiya Janata Party",
-                        "evm_votes": "60156",
+                        "evm_votes": "65196",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "IREEN EKKA",
                         "party": "Jharkhand Party",
-                        "evm_votes": "14898",
+                        "evm_votes": "16427",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "PRAPHUL CHANDRA BESRA",
                         "party": "Gondvana Gantantra Party",
-                        "evm_votes": "598",
+                        "evm_votes": "636",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "SHISHIR TOPPO",
                         "party": "Bharat Adivasi Party",
-                        "evm_votes": "392",
+                        "evm_votes": "413",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "SUMAN KULLU",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
-                        "evm_votes": "1679",
+                        "evm_votes": "1713",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "ARUN BRIJESH BARAIK",
                         "party": "Independent",
-                        "evm_votes": "173",
+                        "evm_votes": "182",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "NIRAJ LOHRA",
                         "party": "Independent",
-                        "evm_votes": "221",
+                        "evm_votes": "239",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "BASANT KUMAR DUNGDUNG",
                         "party": "Independent",
-                        "evm_votes": "262",
+                        "evm_votes": "286",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "11",
                         "candidate": "MONIKA MINZ",
                         "party": "Independent",
-                        "evm_votes": "402",
+                        "evm_votes": "436",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "12",
                         "candidate": "BINOD KERKETTA",
                         "party": "Independent",
-                        "evm_votes": "1012",
+                        "evm_votes": "1108",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "13",
                         "candidate": "SHANTI BALA KERKETTA",
                         "party": "Independent",
-                        "evm_votes": "1830",
+                        "evm_votes": "2007",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "14",
                         "candidate": "SUSHIL LAKRA",
                         "party": "Independent",
-                        "evm_votes": "1840",
+                        "evm_votes": "1968",
                         "postal_votes": "0"
                     },
                     {
                         "serial_no": "15",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "1708",
+                        "evm_votes": "1824",
                         "postal_votes": "0"
                     }
                 ]
@@ -8568,70 +8570,70 @@
                         "serial_no": "1",
                         "candidate": "RAMCHANDRA SINGH",
                         "party": "Indian National Congress",
-                        "evm_votes": "73273",
+                        "evm_votes": "73736",
                         "postal_votes": "1210"
                     },
                     {
                         "serial_no": "2",
                         "candidate": "HARIKRISHNA SINGH",
                         "party": "Bharatiya Janata Party",
-                        "evm_votes": "57062",
+                        "evm_votes": "57500",
                         "postal_votes": "592"
                     },
                     {
                         "serial_no": "3",
                         "candidate": "ATUL KUMAR SINGH",
                         "party": "Hindustani Awam Manch (United),",
-                        "evm_votes": "2797",
+                        "evm_votes": "2807",
                         "postal_votes": "13"
                     },
                     {
                         "serial_no": "4",
                         "candidate": "BALWANT SINGH",
                         "party": "Jharkhand Loktantrik Krantikari Morcha",
-                        "evm_votes": "3491",
+                        "evm_votes": "3506",
                         "postal_votes": "77"
                     },
                     {
                         "serial_no": "5",
                         "candidate": "RAGHUPAL SINGH",
                         "party": "Samajwadi Party",
-                        "evm_votes": "8139",
+                        "evm_votes": "8266",
                         "postal_votes": "137"
                     },
                     {
                         "serial_no": "6",
                         "candidate": "PRABHUDAS MINJ",
                         "party": "Independent",
-                        "evm_votes": "903",
+                        "evm_votes": "918",
                         "postal_votes": "8"
                     },
                     {
                         "serial_no": "7",
                         "candidate": "BIJAY SINGH",
                         "party": "Independent",
-                        "evm_votes": "1046",
+                        "evm_votes": "1051",
                         "postal_votes": "5"
                     },
                     {
                         "serial_no": "8",
                         "candidate": "MUNESHWAR ORAON",
                         "party": "Independent",
-                        "evm_votes": "18352",
+                        "evm_votes": "18364",
                         "postal_votes": "384"
                     },
                     {
                         "serial_no": "9",
                         "candidate": "RAKESH KUMAR SINGH",
                         "party": "Independent",
-                        "evm_votes": "2720",
+                        "evm_votes": "2743",
                         "postal_votes": "4"
                     },
                     {
                         "serial_no": "10",
                         "candidate": "NOTA",
                         "party": "None of the Above",
-                        "evm_votes": "4974",
+                        "evm_votes": "5022",
                         "postal_votes": "8"
                     }
                 ]
