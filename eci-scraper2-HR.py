@@ -9,7 +9,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from datetime import datetime
 
 def source_url(seq_no) -> str:
-    base_url = "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS27"
+    base_url = "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS07"
     return base_url + str(seq_no) + ".htm"     
 
 def extract_results(driver) -> dict:
@@ -44,10 +44,10 @@ def main():
     driver = webdriver.Chrome(options=options)
     
     seq_no = 1
-    seq_limit = 81  # This could be dynamic based on the content of the website
+    seq_limit = 500  # This could be dynamic based on the content of the website
     election_year = '2024'
     election_type = 'AC'
-    election_state = 'JH'
+    election_state = 'HR'
     json_file = f"{election_year}{election_type}-{election_state}.json"
     csv_file = f"{election_year}{election_type}-{election_state}.csv"
     results = {}

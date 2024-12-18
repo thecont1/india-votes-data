@@ -48,8 +48,8 @@ def main():
     election_year = '2024'
     election_type = 'AC'
     election_state = 'MH'
-    json_file = f"{election_year}{election_type}{election_state}.json"
-    csv_file = f"{election_year}{election_type}{election_state}.csv"
+    json_file = f"{election_year}{election_type}-{election_state}.json"
+    csv_file = f"{election_year}{election_type}-{election_state}.csv"
     results = {}
 
     try:
@@ -77,7 +77,7 @@ def main():
 
             driver.get(url)
             if "404" in driver.title:
-                print(f"404 Not Found at {url}. Ending scraping.")
+                print(f"\nNo more data found. Scraping process terminates.")
                 break
 
             result = extract_results(driver)

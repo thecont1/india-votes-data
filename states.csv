@@ -1,0 +1,36 @@
+code,name,type,population,region,districts,assembly_seats,parliamentary_seats
+AN,Andaman and Nicobar Islands,UT,380581,South,3,0,1
+AP,Andhra Pradesh,State,49577103,South,26,175,25
+AR,Arunachal Pradesh,State,1383727,Northeast,25,60,2
+AS,Assam,State,31205576,Northeast,35,126,14
+BR,Bihar,State,104099452,East,38,243,40
+CH,Chandigarh,UT,1055450,Northwest,1,0,1
+CT,Chhattisgarh,State,25545198,Central,33,90,11
+DN,Dadra and Nagar Haveli and Daman and Diu,UT,586956,West,3,0,2
+DL,Delhi,UT,16787941,Northwest,11,70,7
+GA,Goa,State,1540000,West,2,40,2
+GJ,Gujarat,State,60439692,West,33,182,26
+HR,Haryana,State,25351462,Northwest,22,90,10
+HP,Himachal Pradesh,State,6864602,North,12,68,4
+JK,Jammu and Kashmir,UT,12267032,North,20,90,5
+JH,Jharkhand,State,32988134,East,24,81,14
+KA,Karnataka,State,61095297,South,31,224,28
+KL,Kerala,State,33406061,South,14,140,20
+LA,Ladakh,UT,274289,North,2,0,1
+MP,Madhya Pradesh,State,72626809,Central,52,230,29
+MH,Maharashtra,State,112374333,West,36,288,48
+MN,Manipur,State,2855794,Northeast,16,60,2
+ML,Meghalaya,State,2966889,Northeast,11,60,2
+MZ,Mizoram,State,1097206,Northeast,11,40,1
+NL,Nagaland,State,1978502,Northeast,12,60,1
+OR,Odisha,State,41974218,East,30,147,21
+PY,Puducherry,UT,1247953,South,4,30,1
+PB,Punjab,State,27743338,Northwest,22,117,13
+RJ,Rajasthan,State,68548437,Northwest,33,200,25
+SK,Sikkim,State,610577,Northeast,4,32,1
+TN,Tamil Nadu,State,72147030,South,38,234,39
+TG,Telangana,State,35003674,South,33,119,17
+TR,Tripura,State,3673917,Northeast,8,60,2
+UP,Uttar Pradesh,State,199812341,North,75,403,80
+UK,Uttarakhand,State,10086292,North,13,70,5
+WB,West Bengal,State,91276115,East,23,294,42
