@@ -1,4 +1,4 @@
-code,name,type,population,region,districts,assembly_seats,parliamentary_seats
+state_code,state_name,state_status,population,region,districts,assembly_seats,parliamentary_seats
 AN,Andaman and Nicobar Islands,UT,380581,South,3,0,1
 AP,Andhra Pradesh,State,49577103,South,26,175,25
 AR,Arunachal Pradesh,State,1383727,Northeast,25,60,2
@@ -7,7 +7,7 @@ BR,Bihar,State,104099452,East,38,243,40
 CH,Chandigarh,UT,1055450,Northwest,1,0,1
 CT,Chhattisgarh,State,25545198,Central,33,90,11
 DN,Dadra and Nagar Haveli and Daman and Diu,UT,586956,West,3,0,2
-DL,Delhi,UT,16787941,Northwest,11,70,7
+DL,NCT of Delhi,UT,16787941,Northwest,11,70,7
 GA,Goa,State,1540000,West,2,40,2
 GJ,Gujarat,State,60439692,West,33,182,26
 HR,Haryana,State,25351462,Northwest,22,90,10
