@@ -1,0 +1,964 @@
+election_year,election_type,election_state,constituency,serial_no,candidate,party,evm_votes,postal_votes
+2024,Assembly,JK,KARNAH,1,JAVAID AHMAD MIRCHAL,Jammu & Kashmir National Conference,14043,251
+2024,Assembly,JK,KARNAH,2,FIRDOUS AHMAD MIR,Jammu & Kashmir Peoples Democratic Party,6301,53
+2024,Assembly,JK,KARNAH,3,MOHD IDREES,Bharatiya Janata Party,2909,64
+2024,Assembly,JK,KARNAH,4,RAJA MANZOOR AHMAD KHAN,Jammu and Kashmir Apni Party,5047,104
+2024,Assembly,JK,KARNAH,5,SAJID AHMAD MIR,Bhim Sena,386,6
+2024,Assembly,JK,KARNAH,6,SAJAWAL SHAH,Samajwadi Party,712,23
+2024,Assembly,JK,KARNAH,7,NASEER AHMAD AWAN,Jammu & Kashmir People Conference,7856,176
+2024,Assembly,JK,KARNAH,8,FAYAZ AHMAD,Independent,2882,43
+2024,Assembly,JK,KARNAH,9,NOTA,None of the Above,457,7
+2024,Assembly,JK,TREHGAM,1,SAIFULLAH MIR,Jammu & Kashmir National Conference,17769,233
+2024,Assembly,JK,TREHGAM,2,MOHAMMAD AFZAL WANI,Jammu & Kashmir Peoples Democratic Party,3449,46
+2024,Assembly,JK,TREHGAM,3,BASHIR AHMAD DAR,Jammu & Kashmir People Conference,14216,160
+2024,Assembly,JK,TREHGAM,4,SAJAD KHAN,Samajwadi Party,458,4
+2024,Assembly,JK,TREHGAM,5,DR NOOR UD DIN AHMAD SHAH,Jammu and Kashmir Apni Party,3789,39
+2024,Assembly,JK,TREHGAM,6,JAVID AHMAD MIR,Independent,2374,12
+2024,Assembly,JK,TREHGAM,7,SHAFEEQA BEGUM,Independent,324,5
+2024,Assembly,JK,TREHGAM,8,SHAIR ZAMAN DEEDAD,Independent,205,0
+2024,Assembly,JK,TREHGAM,9,KAYSAR AHMAD MIR,Independent,1112,17
+2024,Assembly,JK,TREHGAM,10,NAZIR AHMAD MIR,Independent,8125,91
+2024,Assembly,JK,TREHGAM,11,NOTA,None of the Above,903,17
+2024,Assembly,JK,KUPWARA,1,MIR MOHAMMAD FAYAZ,Jammu & Kashmir Peoples Democratic Party,27514,259
+2024,Assembly,JK,KUPWARA,2,NASIR ASLAM WANI,Jammu & Kashmir National Conference,17746,230
+2024,Assembly,JK,KUPWARA,3,BASHIR AHMAD MALIK,Bhim Sena,408,2
+2024,Assembly,JK,KUPWARA,4,SAJAD GANI LONE,Jammu & Kashmir People Conference,7352,105
+2024,Assembly,JK,KUPWARA,5,SALEEMA,Nationalist Congress Party,215,3
+2024,Assembly,JK,KUPWARA,6,SABIHA BEGUM,Samajwadi Party,583,8
+2024,Assembly,JK,KUPWARA,7,PIRZADA FIRDOUS AHMAD,Independent,5586,86
+2024,Assembly,JK,KUPWARA,8,GH NABI KHAN PATHAN,Independent,574,1
+2024,Assembly,JK,KUPWARA,9,NOTA,None of the Above,1363,20
+2024,Assembly,JK,LOLAB,1,QAYSAR JAMSHAID LONE,Jammu & Kashmir National Conference,19348,255
+2024,Assembly,JK,LOLAB,2,WAQAR UL HAQ KHAN,Jammu & Kashmir Peoples Democratic Party,10429,79
+2024,Assembly,JK,LOLAB,3,ZAHID AHMAD SHAH,Anarakshit Samaj Party,240,2
+2024,Assembly,JK,LOLAB,4,SHADAB SHAHEEN,Samajwadi Party,423,3
+2024,Assembly,JK,LOLAB,5,ABDUL REHMAN WANI,Jammu and Kashmir Apni Party,953,14
+2024,Assembly,JK,LOLAB,6,FAROOQ AHMAD BHAT,Bhim Sena,282,5
+2024,Assembly,JK,LOLAB,7,MUDASIR AKBAR SHAH,Jammu & Kashmir People Conference,4055,40
+2024,Assembly,JK,LOLAB,8,MUNEER AHMAD MIR,Democratic Progressive Azad Party,2980,18
+2024,Assembly,JK,LOLAB,9,DAWOOD BASHIR BHAT,Independent,11640,92
+2024,Assembly,JK,LOLAB,10,HAJI FAROOQ AHMAD MIR,Independent,6253,39
+2024,Assembly,JK,LOLAB,11,NAZIR AHMAD,Independent,972,2
+2024,Assembly,JK,LOLAB,12,NOTA,None of the Above,1208,12
+2024,Assembly,JK,HANDWARA,1,CHOWDRY MOHAMMAD RAMZAN,Jammu & Kashmir National Conference,28785,365
+2024,Assembly,JK,HANDWARA,2,GHULAM MOHAMMAD MIR,Bharatiya Janata Party,1721,29
+2024,Assembly,JK,HANDWARA,3,GAUHAR AZAD MIR,Jammu & Kashmir Peoples Democratic Party,1926,84
+2024,Assembly,JK,HANDWARA,4,SAJAD GANI LONE,Jammu & Kashmir People Conference,29358,454
+2024,Assembly,JK,HANDWARA,5,ZAHID MUSHTAQ SHEIKH,Independent,1210,8
+2024,Assembly,JK,HANDWARA,6,SHAHID HUSSAIN MIR,Independent,264,4
+2024,Assembly,JK,HANDWARA,7,ABDUL MAJID BANDAY,Independent,7526,113
+2024,Assembly,JK,HANDWARA,8,NOTA,None of the Above,1226,27
+2024,Assembly,JK,LANGATE,1,IRSHAD HUSSAIN GANAIE,Indian National Congress,7728,95
+2024,Assembly,JK,LANGATE,2,SYED GHULAM NABI BUKHARI,Jammu & Kashmir Peoples Democratic Party,812,20
+2024,Assembly,JK,LANGATE,3,ABDUL HAMEED TELI,Bharatiya Sampuran Krantikari Party,266,3
+2024,Assembly,JK,LANGATE,4,IRFAN BASHIR MALIK,Rashtriya Lok Dal,297,3
+2024,Assembly,JK,LANGATE,5,IRFAN SULTAN PANDITHPURI,Jammu & Kashmir People Conference,24034,348
+2024,Assembly,JK,LANGATE,6,MOHAMMAD ASHRAF GOJRI,Bhim Sena,399,4
+2024,Assembly,JK,LANGATE,7,MOHAMMAD MUNAWAR KHAWAJA,Jammu and Kashmir Apni Party,1135,19
+2024,Assembly,JK,LANGATE,8,JUNAID JAWAID MIR,Independent,9012,113
+2024,Assembly,JK,LANGATE,9,KHURSHEED AHMAD SHIEKH,Independent,25625,359
+2024,Assembly,JK,LANGATE,10,KHURSHEEDA BAGAM,Independent,499,0
+2024,Assembly,JK,LANGATE,11,SHABIR AHMAD SHAH,Independent,545,2
+2024,Assembly,JK,LANGATE,12,GHULAM QADIR SHAH,Independent,487,0
+2024,Assembly,JK,LANGATE,13,KALIMULLAH LONE,Independent,3463,72
+2024,Assembly,JK,LANGATE,14,MOHAMMAD SULTAN MAGRAY,Independent,865,11
+2024,Assembly,JK,LANGATE,15,MOHAMMAD MUZAFFAR SHEIKH,Independent,733,9
+2024,Assembly,JK,LANGATE,16,NOTA,None of the Above,1078,26
+2024,Assembly,JK,SOPORE,1,IRSHAD RASOOL KAR,Jammu & Kashmir National Conference,26783,192
+2024,Assembly,JK,SOPORE,2,ABDUL RASHID DAR,Indian National Congress,5127,40
+2024,Assembly,JK,SOPORE,3,IRFAN ALI LONE,Jammu & Kashmir Peoples Democratic Party,1681,6
+2024,Assembly,JK,SOPORE,4,IRSHAD AHMAD TANTRAY,Jammu & Kashmir Awami National Conference,1146,8
+2024,Assembly,JK,SOPORE,5,RAQUIB-UL-RASHID BUDHA,Jammu & Kashmir All Alliance Democratic Party,270,0
+2024,Assembly,JK,SOPORE,6,GHULAM MOHAMMAD WAR,Jammu and Kashmir Apni Party,1513,6
+2024,Assembly,JK,SOPORE,7,FAROOQ AHMAD RATHER,Rashtriya Lok Dal,178,0
+2024,Assembly,JK,SOPORE,8,DR MANZOOR AHMAD BHAT,Jammu & Kashmir People Conference,982,5
+2024,Assembly,JK,SOPORE,9,ARTI NEHRU,Independent,469,2
+2024,Assembly,JK,SOPORE,10,AIJAZ AHMAD GANAI,Independent,845,3
+2024,Assembly,JK,SOPORE,11,AIJAZ AHMAD GUROO,Independent,129,0
+2024,Assembly,JK,SOPORE,12,TANVEER FATIMA,Independent,214,1
+2024,Assembly,JK,SOPORE,13,RIZWAN ILLAHI PARVAIZ,Independent,256,2
+2024,Assembly,JK,SOPORE,14,SHUIAB MOHD SHIEKH,Independent,466,3
+2024,Assembly,JK,SOPORE,15,DR FAROOZ AHMAD GANAI,Independent,1065,1
+2024,Assembly,JK,SOPORE,16,MOHAMMAD LATIEF WANI,Independent,2082,17
+2024,Assembly,JK,SOPORE,17,MURSALEEN AAJIR,Independent,6563,56
+2024,Assembly,JK,SOPORE,18,MUSHTAQ AHMAD CHANGA,Independent,385,0
+2024,Assembly,JK,SOPORE,19,MANZOOR AHMAD KALOO,Independent,403,3
+2024,Assembly,JK,SOPORE,20,WARIS ABDULLAH DAR,Independent,306,4
+2024,Assembly,JK,SOPORE,21,NOTA,None of the Above,321,20
+2024,Assembly,JK,RAFIABAD,1,ALTAF HUSSAIN MALIK,Jammu & Kashmir Peoples Democratic Party,1395,5
+2024,Assembly,JK,RAFIABAD,2,JAVID AHMAD DAR,Jammu & Kashmir National Conference,28541,242
+2024,Assembly,JK,RAFIABAD,3,SAJAD AHMAD DAR,Democratic Progressive Azad Party,1445,11
+2024,Assembly,JK,RAFIABAD,4,TAHIR SALMANI,Samajwadi Party,392,4
+2024,Assembly,JK,RAFIABAD,5,ABDUL GANI VAKIL,Jammu & Kashmir People Conference,6343,27
+2024,Assembly,JK,RAFIABAD,6,FATIMA JAVID,Sampoorna Bharat Kranti Party,356,1
+2024,Assembly,JK,RAFIABAD,7,MOHD AKBAR BHAT,Rashtriya Lok Dal,549,0
+2024,Assembly,JK,RAFIABAD,8,YAWAR AHMAD MIR,Jammu and Kashmir Apni Party,19416,165
+2024,Assembly,JK,RAFIABAD,9,GHULAM NABI PARRAY,Independent,458,3
+2024,Assembly,JK,RAFIABAD,10,MOHMAD SAYEED PEER,Independent,555,2
+2024,Assembly,JK,RAFIABAD,11,MUZAFAR AHMAD DAR,Independent,8399,74
+2024,Assembly,JK,RAFIABAD,12,NAZIR AHMAD MIR,Independent,1609,18
+2024,Assembly,JK,RAFIABAD,13,NOTA,None of the Above,1173,20
+2024,Assembly,JK,URI,1,SAJJAD SHAFI,Jammu & Kashmir National Conference,38922,791
+2024,Assembly,JK,URI,2,SHEIKH MUNEEB,Jammu & Kashmir Peoples Democratic Party,1370,12
+2024,Assembly,JK,URI,3,DR. BASHIR AHMAD CHALKOO,Jammu & Kashmir People Conference,1754,38
+2024,Assembly,JK,URI,4,TAJ MOHI UD DIN,Independent,24907,337
+2024,Assembly,JK,URI,5,SAJAD SUBHAN RATHER,Independent,936,5
+2024,Assembly,JK,URI,6,MUNIR AHMAD,Independent,3281,35
+2024,Assembly,JK,URI,7,NOTA,None of the Above,1502,18
+2024,Assembly,JK,BARAMULLA,1,JAVID HASSAN BAIG,Jammu & Kashmir National Conference,22338,185
+2024,Assembly,JK,BARAMULLA,2,MOHD RAFIQ RATHER,Jammu & Kashmir Peoples Democratic Party,3131,46
+2024,Assembly,JK,BARAMULLA,3,MIR IQBAL AHMAD,Indian National Congress,4642,27
+2024,Assembly,JK,BARAMULLA,4,ARSHAD WALI,Janata Dal (United),381,9
+2024,Assembly,JK,BARAMULLA,5,ASIF AKBER LONE,Jammu & Kashmir People Conference,1322,8
+2024,Assembly,JK,BARAMULLA,6,SANTOSH LABROO,Jammu & Kashmir All Alliance Democratic Party,126,1
+2024,Assembly,JK,BARAMULLA,7,SHABIR AHMAD LONE,Jammu and Kashmir Apni Party,3171,12
+2024,Assembly,JK,BARAMULLA,8,ADIL ISLAM,Republican Party of India (Athawale),403,0
+2024,Assembly,JK,BARAMULLA,9,MUSHTAQ AHMAD LONE,Rashtriya Lok Dal,352,0
+2024,Assembly,JK,BARAMULLA,10,MANZOOR AHMAD DAR,Samajwadi Party,603,1
+2024,Assembly,JK,BARAMULLA,11,WASEEM HABIB GANAIE,Republican Party of India (A),445,0
+2024,Assembly,JK,BARAMULLA,12,TOUSEEF MEHRAJ RAINA,Independent,5289,35
+2024,Assembly,JK,BARAMULLA,13,JAVID AHMAD DAR,Independent,305,0
+2024,Assembly,JK,BARAMULLA,14,JAVED HUSSAIN,Independent,614,18
+2024,Assembly,JK,BARAMULLA,15,RAQIA AKHTER,Independent,540,0
+2024,Assembly,JK,BARAMULLA,16,RAVINDER SINGH,Independent,2582,17
+2024,Assembly,JK,BARAMULLA,17,SAYED NISAR GEELANI,Independent,460,0
+2024,Assembly,JK,BARAMULLA,18,SHOAIB NABI LONE,Independent,10696,54
+2024,Assembly,JK,BARAMULLA,19,ABDUL REHMAN SHALLA,Independent,1945,23
+2024,Assembly,JK,BARAMULLA,20,GHULAM RASOOL MIR,Independent,1370,6
+2024,Assembly,JK,BARAMULLA,21,MOHAMMAD MAQBOOL MAKNU,Independent,106,1
+2024,Assembly,JK,BARAMULLA,22,MUDASSIR MANZOOR,Independent,195,0
+2024,Assembly,JK,BARAMULLA,23,MUSAIB HASSAN LONE,Independent,381,2
+2024,Assembly,JK,BARAMULLA,24,MUZAFAR HUSSAIN BAIG,Independent,5845,27
+2024,Assembly,JK,BARAMULLA,25,NIGHAT PARVEEN,Independent,502,2
+2024,Assembly,JK,BARAMULLA,26,NOTA,None of the Above,555,6
+2024,Assembly,JK,GULMARG,1,PIRZADA FAROOQ AHMED SHAH,Jammu & Kashmir National Conference,26571,413
+2024,Assembly,JK,GULMARG,2,SHABIR AHMED MIR,Jammu & Kashmir Peoples Democratic Party,5970,42
+2024,Assembly,JK,GULMARG,3,ABID HUSSAIN MALIK,Bhim Sena,136,1
+2024,Assembly,JK,GULMARG,4,ABDUL AHAD AAKHOON,Republican Party of India (Athawale),301,1
+2024,Assembly,JK,GULMARG,5,GHULAM HASSAN MIR,Jammu and Kashmir Apni Party,22498,295
+2024,Assembly,JK,GULMARG,6,MOHAMMAD IQBAL SHAH,Rashtriya Lok Dal,275,1
+2024,Assembly,JK,GULMARG,7,HILAL AHMAD MALLA,Samajwadi Party,338,4
+2024,Assembly,JK,GULMARG,8,AADIL NAZIR KHAN,Independent,4614,42
+2024,Assembly,JK,GULMARG,9,TEJINDER SINGH,Independent,216,4
+2024,Assembly,JK,GULMARG,10,SYED AMEER SUHAIL,Independent,505,1
+2024,Assembly,JK,GULMARG,11,SHABIR AHMAD NAJAR,Independent,376,0
+2024,Assembly,JK,GULMARG,12,UMAR FAROOQ PARRY,Independent,545,0
+2024,Assembly,JK,GULMARG,13,AMOOD GULZAR,Independent,740,3
+2024,Assembly,JK,GULMARG,14,NOTA,None of the Above,1478,16
+2024,Assembly,JK,WAGOORA - KREERI,1,SYED BASHARAT AHMED BUKHARI,Jammu & Kashmir Peoples Democratic Party,9179,72
+2024,Assembly,JK,WAGOORA - KREERI,2,IRFAN HAFIZ LONE,Indian National Congress,16868,134
+2024,Assembly,JK,WAGOORA - KREERI,3,IMTIYAZ AHMAD PARRA,Jammu & Kashmir People Conference,962,7
+2024,Assembly,JK,WAGOORA - KREERI,4,INAM UL RASHID,Nationalist Congress Party,229,3
+2024,Assembly,JK,WAGOORA - KREERI,5,OWAIS ABASS,Jammu & Kashmir Awami National Conference,494,9
+2024,Assembly,JK,WAGOORA - KREERI,6,REHANA BEGUM,Janata Dal (United),2580,7
+2024,Assembly,JK,WAGOORA - KREERI,7,SYED ABAS HUSSAIN,Democratic Progressive Azad Party,1595,7
+2024,Assembly,JK,WAGOORA - KREERI,8,SHABIR AHMAD SHAH,Jammu and Kashmir Apni Party,2205,14
+2024,Assembly,JK,WAGOORA - KREERI,9,ABDUL GANI DAR,Samajwadi Party,365,1
+2024,Assembly,JK,WAGOORA - KREERI,10,TAJAMUL HAMID,Independent,446,1
+2024,Assembly,JK,WAGOORA - KREERI,11,SAFINA BAIG,Independent,1685,14
+2024,Assembly,JK,WAGOORA - KREERI,12,NASEER AHMAD RATHER,Independent,6277,78
+2024,Assembly,JK,WAGOORA - KREERI,13,NOTA,None of the Above,1303,10
+2024,Assembly,JK,PATTAN,1,JAVID IQBAL GANAIE,Jammu & Kashmir Peoples Democratic Party,2748,10
+2024,Assembly,JK,PATTAN,2,JAVAID RIYAZ,Jammu & Kashmir National Conference,29714,179
+2024,Assembly,JK,PATTAN,3,ABDUL AHAD,Jammu & Kashmir National Panthers Party (Bhim),230,2
+2024,Assembly,JK,PATTAN,4,BASHIR AHMAD PARRAY,Sampoorna Bharat Kranti Party,110,1
+2024,Assembly,JK,PATTAN,5,REYAZ AHMAD SHEIKH,Jammu and Kashmir Apni Party,551,7
+2024,Assembly,JK,PATTAN,6,IMRAN RAZA ANSARI,Jammu & Kashmir People Conference,29164,126
+2024,Assembly,JK,PATTAN,7,MOHAMMAD MUSTAFA LONE,Rashtriya Lok Dal,642,2
+2024,Assembly,JK,PATTAN,8,MUNIR AHMAD KHAN,Jammu and Kashmir Nationalist People's Front,422,4
+2024,Assembly,JK,PATTAN,9,NISAR HUSSAIN DAR,Bhim Sena,543,1
+2024,Assembly,JK,PATTAN,10,WASIM GULZAR,Samajwadi Party,326,0
+2024,Assembly,JK,PATTAN,11,BILAL AHMAD WANI,Independent,526,3
+2024,Assembly,JK,PATTAN,12,SYEED ABRAR AHMAD SHAH,Independent,612,1
+2024,Assembly,JK,PATTAN,13,MOHD AKBAR RATHER,Independent,3290,26
+2024,Assembly,JK,PATTAN,14,NOTA,None of the Above,1021,11
+2024,Assembly,JK,SONAWARI,1,AB RASHID KHAN,Bharatiya Janata Party,1018,6
+2024,Assembly,JK,SONAWARI,2,MOHAMMAD TAHIR QADRI,Jammu & Kashmir Peoples Democratic Party,3753,20
+2024,Assembly,JK,SONAWARI,3,HILAL AKBAR LONE,Jammu & Kashmir National Conference,31320,215
+2024,Assembly,JK,SONAWARI,4,IMTIYAZ AHMAD PARRAY,Jammu and Kashmir Apni Party,17544,64
+2024,Assembly,JK,SONAWARI,5,SYED TAJAMUL ALI,Rashtriya Lok Dal,377,0
+2024,Assembly,JK,SONAWARI,6,GHULAM MOHAMMAD DAR,Bhim Sena,296,3
+2024,Assembly,JK,SONAWARI,7,MOHAMMAD ABDULLAH KHAN,Republican Party of India (Athawale),153,0
+2024,Assembly,JK,SONAWARI,8,HILAL AHMAD WAGAY,Republican Party of India (A),210,1
+2024,Assembly,JK,SONAWARI,9,AASIF AHMAD KHAN,Independent,265,1
+2024,Assembly,JK,SONAWARI,10,AAFAQ SADIQ,Independent,467,2
+2024,Assembly,JK,SONAWARI,11,SAHEER AHMAD RATHER,Independent,1799,8
+2024,Assembly,JK,SONAWARI,12,SYED FIDA HUSSAIN MOOSVI,Independent,357,0
+2024,Assembly,JK,SONAWARI,13,SYED MOHAMMAD,Independent,2047,4
+2024,Assembly,JK,SONAWARI,14,SHABIR AHMAD MIR,Independent,1382,0
+2024,Assembly,JK,SONAWARI,15,ABDUL MAJEED SHEIKH,Independent,3421,1
+2024,Assembly,JK,SONAWARI,16,WAZIR AHMAD QURESHI,Independent,1243,2
+2024,Assembly,JK,SONAWARI,17,YASIR RESHI,Independent,17703,88
+2024,Assembly,JK,SONAWARI,18,YOUNIS QAWAM,Independent,456,5
+2024,Assembly,JK,SONAWARI,19,NOTA,None of the Above,844,2
+2024,Assembly,JK,BANDIPORA,1,SYED TAJAMUL ISLAM,Jammu & Kashmir Peoples Democratic Party,1754,15
+2024,Assembly,JK,BANDIPORA,2,NASEER AHMAD LONE,Bharatiya Janata Party,1168,28
+2024,Assembly,JK,BANDIPORA,3,NIZAM UDDIN BHAT,Indian National Congress,20234,157
+2024,Assembly,JK,BANDIPORA,4,SYED SHAFAT QAZMI,Jammu and Kashmir Apni Party,6609,41
+2024,Assembly,JK,BANDIPORA,5,TARIQ AHMAD SHEIKH,National Youth Party,481,8
+2024,Assembly,JK,BANDIPORA,6,TAHIR AHMAD RATHER,Jammu & Kashmir All Alliance Democratic Party,305,8
+2024,Assembly,JK,BANDIPORA,7,GHULAM MOHAMMAD BHAT,Bhim Sena,440,1
+2024,Assembly,JK,BANDIPORA,8,GHULAM MUSTAFA KHAN,Samajwadi Party,1662,33
+2024,Assembly,JK,BANDIPORA,9,MOHAMMAD ASLAM CHOPAN,Bharat Jodo Party,273,0
+2024,Assembly,JK,BANDIPORA,10,MUDASIR AHMAD BHAT,Jammu & Kashmir People Conference,1750,12
+2024,Assembly,JK,BANDIPORA,11,BILAL AHMAD BHAT,Independent,919,2
+2024,Assembly,JK,BANDIPORA,12,BALKEES AKHTER,Independent,2907,13
+2024,Assembly,JK,BANDIPORA,13,PRINCE PARVEZ,Independent,8100,38
+2024,Assembly,JK,BANDIPORA,14,USMAN ABDUL MAJID,Independent,19461,119
+2024,Assembly,JK,BANDIPORA,15,IMRAN SHEIKH,Independent,775,4
+2024,Assembly,JK,BANDIPORA,16,MOHAMMAD ISMAIL BHAT,Independent,1776,9
+2024,Assembly,JK,BANDIPORA,17,MOHAMMAD SIKANDAR MALIK,Independent,2395,16
+2024,Assembly,JK,BANDIPORA,18,MOHAMMAD SHAFI KHAN,Independent,836,5
+2024,Assembly,JK,BANDIPORA,19,MUDASIR AHMAD BHAT,Independent,1438,3
+2024,Assembly,JK,BANDIPORA,20,NOTA,None of the Above,489,12
+2024,Assembly,JK,GUREZ(ST),1,FAQEER MOHAMMAD KHAN,Bharatiya Janata Party,7046,200
+2024,Assembly,JK,GUREZ(ST),2,NAZIR AHMAD KHAN,Jammu & Kashmir National Conference,8095,283
+2024,Assembly,JK,GUREZ(ST),3,MOHAMMAD HAMZA LONE,Jammu & Kashmir People Conference,105,4
+2024,Assembly,JK,GUREZ(ST),4,NISAR AHMAD LONE,Democratic Progressive Azad Party,1891,75
+2024,Assembly,JK,GUREZ(ST),5,GHULAM RASOOL,Independent,111,2
+2024,Assembly,JK,GUREZ(ST),6,NOTA,None of the Above,149,1
+2024,Assembly,JK,KANGAN(ST),1,SYED JAMAT ALI SHAH,Jammu & Kashmir Peoples Democratic Party,24703,385
+2024,Assembly,JK,KANGAN(ST),2,MIAN MEHAR ALI,Jammu & Kashmir National Conference,28473,434
+2024,Assembly,JK,KANGAN(ST),3,ABDUL MAJEED BANIYEA,Republican Party of India (A),591,4
+2024,Assembly,JK,KANGAN(ST),4,ATTA MOHAMMAD KHATANA,Jammu and Kashmir Apni Party,708,10
+2024,Assembly,JK,KANGAN(ST),5,GULAM RUBANI TADWA,Anarakshit Samaj Party,353,1
+2024,Assembly,JK,KANGAN(ST),6,MOHD AYOUB CHOHAN,All Jammu & Kashmir Liberal Democratic Party,617,4
+2024,Assembly,JK,KANGAN(ST),7,NOTA,None of the Above,1506,58
+2024,Assembly,JK,GANDERBAL,1,BASHIR AHMAD MIR,Jammu & Kashmir Peoples Democratic Party,21890,263
+2024,Assembly,JK,GANDERBAL,2,ABDUL RASHID GANAIE,Jammu & Kashmir National Panthers Party (Bhim),307,1
+2024,Assembly,JK,GANDERBAL,3,OMAR ABDULLAH,Jammu & Kashmir National Conference,32236,491
+2024,Assembly,JK,GANDERBAL,4,TARIQ AHMAD ZARGAR,Rashtriya Lok Janshakti Party,458,2
+2024,Assembly,JK,GANDERBAL,5,ZAHOOR AHMAD MALIK,Republican Party of India (A),452,7
+2024,Assembly,JK,GANDERBAL,6,GHULAM QADIR RATHER,Rashtriya Lok Dal,157,1
+2024,Assembly,JK,GANDERBAL,7,QAZI MUBISHER FAROOQ,Jammu and Kashmir Apni Party,1155,5
+2024,Assembly,JK,GANDERBAL,8,QAISER SULTAN GANAIE,Democratic Progressive Azad Party,3750,31
+2024,Assembly,JK,GANDERBAL,9,ISHFAQ AHMAD SHEIKH,Independent,5981,79
+2024,Assembly,JK,GANDERBAL,10,SAQUIB RAHMAN MAKHDOOMI,Independent,218,0
+2024,Assembly,JK,GANDERBAL,11,JAVAID AHMAD WANI,Independent,761,4
+2024,Assembly,JK,GANDERBAL,12,SARJAN AHMAD WAGAY,Independent,423,15
+2024,Assembly,JK,GANDERBAL,13,ASHIQ AHMAD SHEIKH,Independent,955,8
+2024,Assembly,JK,GANDERBAL,14,FAROOQ AHMAD BHAT,Independent,2716,16
+2024,Assembly,JK,GANDERBAL,15,MAAJID ASHRAF MIR,Independent,620,1
+2024,Assembly,JK,GANDERBAL,16,NOTA,None of the Above,1677,36
+2024,Assembly,JK,HAZRATBAL,1,ASIEA NAQASH,Jammu & Kashmir Peoples Democratic Party,8592,3
+2024,Assembly,JK,HAZRATBAL,2,SALMAN SAGAR,Jammu & Kashmir National Conference,18850,40
+2024,Assembly,JK,HAZRATBAL,3,BASIT BASHIR GAGROO,Jammu and Kashmir Nationalist People's Front,224,1
+2024,Assembly,JK,HAZRATBAL,4,BASIT HAYAT ZARGAR,Rashtriya Lok Dal,185,0
+2024,Assembly,JK,HAZRATBAL,5,PEER BILAL AHMAD,Democratic Progressive Azad Party,5441,30
+2024,Assembly,JK,HAZRATBAL,6,DR SAJJAD HUSSAIN QANUNGO,Jammu & Kashmir All Alliance Democratic Party,139,0
+2024,Assembly,JK,HAZRATBAL,7,SHADIB HANIEF KHAN,Nationalist Congress Party,96,0
+2024,Assembly,JK,HAZRATBAL,8,SHAHID HASSAN,Samajwadi Party,342,0
+2024,Assembly,JK,HAZRATBAL,9,SHABIR AHMAD GANIE,Independent,174,1
+2024,Assembly,JK,HAZRATBAL,10,OMAR MAJEED WANI,Independent,171,0
+2024,Assembly,JK,HAZRATBAL,11,FAIZ AHMAD BHAT,Independent,703,0
+2024,Assembly,JK,HAZRATBAL,12,MOHD SIDIQ SHAH,Independent,117,0
+2024,Assembly,JK,HAZRATBAL,13,MOHAMMAD MAQBOOL BEIGH,Independent,827,0
+2024,Assembly,JK,HAZRATBAL,14,NOTA,None of the Above,732,0
+2024,Assembly,JK,KHANYAR,1,TAFAZUL MUSHTAQ,Jammu & Kashmir Peoples Democratic Party,648,3
+2024,Assembly,JK,KHANYAR,2,ALI MOHAMMAD SAGAR,Jammu & Kashmir National Conference,14871,35
+2024,Assembly,JK,KHANYAR,3,FAROOQ AHMED,Jammu & Kashmir National Panthers Party (Bhim),111,0
+2024,Assembly,JK,KHANYAR,4,BILAL AHMAD MIR,Jammu and Kashmir Apni Party,312,0
+2024,Assembly,JK,KHANYAR,5,PARVEZ JAMAL,Independent,247,0
+2024,Assembly,JK,KHANYAR,6,RIYAZ AHMAD BHAT,Independent,75,1
+2024,Assembly,JK,KHANYAR,7,SHABIR AHMAD MALIK,Independent,94,0
+2024,Assembly,JK,KHANYAR,8,SHEIKH IMRAN,Independent,4991,3
+2024,Assembly,JK,KHANYAR,9,MOHAMMAD SHAFI KHAN KASHI,Independent,111,1
+2024,Assembly,JK,KHANYAR,10,WASEEM AHMED SHALLA,Independent,1950,1
+2024,Assembly,JK,KHANYAR,11,NOTA,None of the Above,408,3
+2024,Assembly,JK,HABBAKADAL,1,ASHOK KUMAR BHAT,Bharatiya Janata Party,2702,197
+2024,Assembly,JK,HABBAKADAL,2,SHAMIM FIRDOUS,Jammu & Kashmir National Conference,12390,47
+2024,Assembly,JK,HABBAKADAL,3,ARIF IRSHAD LAIGROO,Jammu & Kashmir Peoples Democratic Party,602,0
+2024,Assembly,JK,HABBAKADAL,4,FAISAL MANZOOR,Jammu & Kashmir National Panthers Party (Bhim),40,0
+2024,Assembly,JK,HABBAKADAL,5,JEELANI HAMID KUMAR,Jammu and Kashmir Apni Party,97,0
+2024,Assembly,JK,HABBAKADAL,6,RUBINA AKHTER,National Loktantrik Party,46,0
+2024,Assembly,JK,HABBAKADAL,7,SANJAY SARAF,Rashtriya Lok Janshakti Party,265,0
+2024,Assembly,JK,HABBAKADAL,8,MOHAMMAD FAROOQ KHAN,Samajwadi Party,100,0
+2024,Assembly,JK,HABBAKADAL,9,MUZZAFAR SHAH,Jammu & Kashmir Awami National Conference,274,2
+2024,Assembly,JK,HABBAKADAL,10,NANAJI DEMBI,Sampoorna Bharat Kranti Party,65,0
+2024,Assembly,JK,HABBAKADAL,11,ASHOK SHAIB,Independent,91,6
+2024,Assembly,JK,HABBAKADAL,12,ASIF AHMAD BEIGH,Independent,158,2
+2024,Assembly,JK,HABBAKADAL,13,AJAZ AHMAD SOFI,Independent,133,1
+2024,Assembly,JK,HABBAKADAL,14,FAYAZ AHMAD BUTT,Independent,58,0
+2024,Assembly,JK,HABBAKADAL,15,NAZIR AHMAD SOFI,Independent,329,1
+2024,Assembly,JK,HABBAKADAL,16,NAZIR AHMAD GILKAR,Independent,1475,0
+2024,Assembly,JK,HABBAKADAL,17,NOTA,None of the Above,145,3
+2024,Assembly,JK,LAL CHOWK,1,AIJAZ HUSSAIN RATHER,Bharatiya Janata Party,3267,14
+2024,Assembly,JK,LAL CHOWK,2,ZUHAIB YOUSF MIR,Jammu & Kashmir Peoples Democratic Party,4955,11
+2024,Assembly,JK,LAL CHOWK,3,SHEIKH AHSAN AHMED,Jammu & Kashmir National Conference,16696,35
+2024,Assembly,JK,LAL CHOWK,4,ABDUL RASHID HAROON,Jammu & Kashmir Awami National Conference,374,0
+2024,Assembly,JK,LAL CHOWK,5,QARI ZAHEER ABBAS BHATTI,All India Forward Bloc,102,1
+2024,Assembly,JK,LAL CHOWK,6,MOHAMMAD ASHRAF MIR,Jammu and Kashmir Apni Party,5374,14
+2024,Assembly,JK,LAL CHOWK,7,SHEIKH SARWAR HUSSAIN,Independent,151,0
+2024,Assembly,JK,LAL CHOWK,8,GAZANFAR ALI,Independent,461,0
+2024,Assembly,JK,LAL CHOWK,9,MANZOOR AHMAD BHAT,Independent,4473,2
+2024,Assembly,JK,LAL CHOWK,10,NISAR AHMAD WANI,Independent,296,0
+2024,Assembly,JK,LAL CHOWK,11,NOTA,None of the Above,583,2
+2024,Assembly,JK,CHANNAPORA,1,MOHAMMED IQBAL TRUMBOO,Jammu & Kashmir Peoples Democratic Party,1444,6
+2024,Assembly,JK,CHANNAPORA,2,MUSHTAQ GUROO,Jammu & Kashmir National Conference,13661,56
+2024,Assembly,JK,CHANNAPORA,3,HILAL AHMAD WANI,Bharatiya Janata Party,720,2
+2024,Assembly,JK,CHANNAPORA,4,SYED MOHAMMAD ALTAF BUKHARI,Jammu and Kashmir Apni Party,8006,23
+2024,Assembly,JK,CHANNAPORA,5,A. R. WANI,Jammu & Kashmir Awami National Conference,123,0
+2024,Assembly,JK,CHANNAPORA,6,JIBRAN DAR,Independent,597,1
+2024,Assembly,JK,CHANNAPORA,7,SHOWKAT AHMAD BHAT,Independent,211,1
+2024,Assembly,JK,CHANNAPORA,8,SHEEBAN ASHAI,Independent,225,0
+2024,Assembly,JK,CHANNAPORA,9,NOTA,None of the Above,353,2
+2024,Assembly,JK,ZADIBAL,1,TANVIR SADIQ,Jammu & Kashmir National Conference,22121,68
+2024,Assembly,JK,ZADIBAL,2,SHEIKH GOWHER ALI,Jammu & Kashmir Peoples Democratic Party,952,4
+2024,Assembly,JK,ZADIBAL,3,TANVEER HUSSAIN PATHAN,Jammu and Kashmir Apni Party,601,3
+2024,Assembly,JK,ZADIBAL,4,ABID HUSSAIN ANSARI,Jammu & Kashmir People Conference,5999,17
+2024,Assembly,JK,ZADIBAL,5,AASIFUL HASSAN,Independent,153,0
+2024,Assembly,JK,ZADIBAL,6,BURHAN BASHEER BAZAZ,Independent,391,0
+2024,Assembly,JK,ZADIBAL,7,JUNAID AZIM MATTU,Independent,2693,7
+2024,Assembly,JK,ZADIBAL,8,SHEIKH MASOODI JOHN,Independent,162,0
+2024,Assembly,JK,ZADIBAL,9,MOHAMMAD OMAR HAFIZ,Independent,899,3
+2024,Assembly,JK,ZADIBAL,10,MIRZA SAJAD HUSSAIN BEIGH,Independent,125,0
+2024,Assembly,JK,ZADIBAL,11,NOTA,None of the Above,693,2
+2024,Assembly,JK,EIDGAH,1,ARIF MAJEED PAMPORE,Bharatiya Janata Party,479,0
+2024,Assembly,JK,EIDGAH,2,MUBARIK GUL,Jammu & Kashmir National Conference,7677,23
+2024,Assembly,JK,EIDGAH,3,MOHAMMAD KHURSHID ALAM,Jammu & Kashmir Peoples Democratic Party,3299,3
+2024,Assembly,JK,EIDGAH,4,IRFAN AHMAD MATTOO,Jammu & Kashmir People Conference,1283,2
+2024,Assembly,JK,EIDGAH,5,MOHAMMAD ASHRAF BHAT PALPORI,Jammu and Kashmir Apni Party,441,1
+2024,Assembly,JK,EIDGAH,6,MEHRAJ UD DIN AHANGER,Samajwadi Party,110,0
+2024,Assembly,JK,EIDGAH,7,NISSAR AHMED DAR,Nationalist Congress Party,65,0
+2024,Assembly,JK,EIDGAH,8,IMTIYAZ AHMAD KHAN,Independent,953,4
+2024,Assembly,JK,EIDGAH,9,ROUF AHMAD BHAT,Independent,297,1
+2024,Assembly,JK,EIDGAH,10,SHAKEEL AHMAD DAR,Independent,736,5
+2024,Assembly,JK,EIDGAH,11,IRFAN AHMAD SHAH,Independent,712,0
+2024,Assembly,JK,EIDGAH,12,GHULAM NABI BHAT,Independent,6011,9
+2024,Assembly,JK,EIDGAH,13,MOHAMMAD FAHEEM RESHI,Independent,470,0
+2024,Assembly,JK,EIDGAH,14,NOTA,None of the Above,403,1
+2024,Assembly,JK,CENTRAL SHALTENG,1,TARIQ HAMEED KARRA,Indian National Congress,18905,28
+2024,Assembly,JK,CENTRAL SHALTENG,2,ABDUL QAYUM BHAT,Jammu & Kashmir Peoples Democratic Party,2724,6
+2024,Assembly,JK,CENTRAL SHALTENG,3,RIYAZ AHMAD MIR,Jammu & Kashmir Awami National Conference,293,2
+2024,Assembly,JK,CENTRAL SHALTENG,4,SAMEER AHMED BHAT,National Republic Party Of India,184,0
+2024,Assembly,JK,CENTRAL SHALTENG,5,ZAFFER HABIB DAR,Jammu and Kashmir Apni Party,886,0
+2024,Assembly,JK,CENTRAL SHALTENG,6,IRSHAD AHMAD,Independent,167,0
+2024,Assembly,JK,CENTRAL SHALTENG,7,INDOMEET SINGH,Independent,350,0
+2024,Assembly,JK,CENTRAL SHALTENG,8,INAM HUSSAIN,Independent,124,0
+2024,Assembly,JK,CENTRAL SHALTENG,9,ADIL HUSSAIN DAR,Independent,356,1
+2024,Assembly,JK,CENTRAL SHALTENG,10,MUHAMMAD IRFAN SHAH,Independent,4524,14
+2024,Assembly,JK,CENTRAL SHALTENG,11,MUDDASIR RASHID BAZAZ,Independent,203,0
+2024,Assembly,JK,CENTRAL SHALTENG,12,MUZAFFAR HUSSAIN DAR,Independent,200,0
+2024,Assembly,JK,CENTRAL SHALTENG,13,NOOR MOHAMMAD SHEIKH,Independent,4099,4
+2024,Assembly,JK,CENTRAL SHALTENG,14,NOTA,None of the Above,820,1
+2024,Assembly,JK,BUDGAM,1,AGA SYED MUNTAZIR MEHDI,Jammu & Kashmir Peoples Democratic Party,17445,80
+2024,Assembly,JK,BUDGAM,2,OMAR ABDULLAH,Jammu & Kashmir National Conference,35804,206
+2024,Assembly,JK,BUDGAM,3,AGA SYED AHMAD MOOSVI,Jammu & Kashmir Awami National Conference,516,8
+2024,Assembly,JK,BUDGAM,4,GAZANFAR MAQBOOL SHAH,Samajwadi Party,255,1
+2024,Assembly,JK,BUDGAM,5,NISAR AHMAD PAL,Jammu And Kashmir Peoples Democratic Front (Secular),3327,38
+2024,Assembly,JK,BUDGAM,6,MUKHTAR AHMAD DAR,Independent,1666,8
+2024,Assembly,JK,BUDGAM,7,MEHRAJ UD DIN GANAYEE,Independent,3339,19
+2024,Assembly,JK,BUDGAM,8,NAZIR AHMAD WANI,Independent,1580,3
+2024,Assembly,JK,BUDGAM,9,NOTA,None of the Above,1728,29
+2024,Assembly,JK,BEERWAH,1,SHAFI AHMAD WANI,Jammu & Kashmir National Conference,19974,144
+2024,Assembly,JK,BEERWAH,2,ALI MOHAMMAD DAR,Jammu & Kashmir National Panthers Party (Bhim),522,6
+2024,Assembly,JK,BEERWAH,3,GULAM AHMAD KHAN,Jammu & Kashmir Peoples Democratic Party,7661,57
+2024,Assembly,JK,BEERWAH,4,SHOWKET AHMED WANI,Jammu & Kashmir People Conference,698,7
+2024,Assembly,JK,BEERWAH,5,SHOWKET HUSSAIN MIR,Jammu & Kashmir Awami National Conference,786,6
+2024,Assembly,JK,BEERWAH,6,NISAR AHMAD DAR,Samajwadi Party,365,2
+2024,Assembly,JK,BEERWAH,7,NAZIR AHMAD KHAN,Nationalist Congress Party,419,12
+2024,Assembly,JK,BEERWAH,8,SARJAN AHMAD WAGAY,Independent,12235,47
+2024,Assembly,JK,BEERWAH,9,SANJAY PARVA,Independent,925,2
+2024,Assembly,JK,BEERWAH,10,FAROOQ AHMAD GANAIE,Independent,3949,21
+2024,Assembly,JK,BEERWAH,11,MIR FANOON RAFIQ,Independent,804,0
+2024,Assembly,JK,BEERWAH,12,NAZIR AHMAD KHAN,Independent,15880,77
+2024,Assembly,JK,BEERWAH,13,NOTA,None of the Above,1639,8
+2024,Assembly,JK,KHANSAHIB,1,SAIF UD DIN BHAT,Jammu & Kashmir National Conference,33066,159
+2024,Assembly,JK,KHANSAHIB,2,DR ALI MOHD MIR,Bharatiya Janata Party,1597,8
+2024,Assembly,JK,KHANSAHIB,3,MANZOOR AHMAD WANI,Jammu & Kashmir Peoples Democratic Party,3316,18
+2024,Assembly,JK,KHANSAHIB,4,HAKEEM MOHAMMAD YASEEN SHAH,Jammu And Kashmir Peoples Democratic Front (Secular),21475,136
+2024,Assembly,JK,KHANSAHIB,5,REYAZ AHMAD BATANA,Jammu and Kashmir Apni Party,485,0
+2024,Assembly,JK,KHANSAHIB,6,SHAHNAZ HUSSAIN SHAH,Nationalist Congress Party,206,0
+2024,Assembly,JK,KHANSAHIB,7,FIRDOUSE AHMED FARASH,Jammu & Kashmir People Conference,1404,3
+2024,Assembly,JK,KHANSAHIB,8,JAHANGIR AHMAD SHEIKH,Independent,2630,13
+2024,Assembly,JK,KHANSAHIB,9,SYED BASHARAT HUSSAIN,Independent,615,1
+2024,Assembly,JK,KHANSAHIB,10,MUDASIR AHMAD SHAH,Independent,834,0
+2024,Assembly,JK,KHANSAHIB,11,NOTA,None of the Above,2355,9
+2024,Assembly,JK,CHRAR-i- SHARIEF,1,ZAHID HUSSAIN JAN,Bharatiya Janata Party,1763,16
+2024,Assembly,JK,CHRAR-i- SHARIEF,2,ADVOCATE ABDUL RAHIM RATHER,Jammu & Kashmir National Conference,35662,295
+2024,Assembly,JK,CHRAR-i- SHARIEF,3,GHULAM NABI LONE,Jammu & Kashmir Peoples Democratic Party,24285,176
+2024,Assembly,JK,CHRAR-i- SHARIEF,4,MOHD SHAFI HURRAH,Jammu & Kashmir National Panthers Party (Bhim),348,0
+2024,Assembly,JK,CHRAR-i- SHARIEF,5,OWAIS ASHRAF SHAH,Jammu and Kashmir Apni Party,1838,15
+2024,Assembly,JK,CHRAR-i- SHARIEF,6,HAKEEM MOHAMMAD YASEEN SHAH,Jammu And Kashmir Peoples Democratic Front (Secular),4381,20
+2024,Assembly,JK,CHRAR-i- SHARIEF,7,JAVED MOHMAD HUBI,Independent,1275,20
+2024,Assembly,JK,CHRAR-i- SHARIEF,8,GAZANFAR ALI,Independent,654,17
+2024,Assembly,JK,CHRAR-i- SHARIEF,9,MOHD YOUSUF GANAIE,Independent,999,0
+2024,Assembly,JK,CHRAR-i- SHARIEF,10,NISAR AHMAD MIR,Independent,1078,1
+2024,Assembly,JK,CHRAR-i- SHARIEF,11,NOTA,None of the Above,1312,21
+2024,Assembly,JK,CHADOORA,1,ALI MOHAMMAD DAR,Jammu & Kashmir National Conference,31902,89
+2024,Assembly,JK,CHADOORA,2,MOHMAD YASEEN BHAT,Jammu & Kashmir Peoples Democratic Party,14730,43
+2024,Assembly,JK,CHADOORA,3,SYED FAHED ANDRABI,Jammu and Kashmir Apni Party,714,2
+2024,Assembly,JK,CHADOORA,4,MOHD ABASS KANT,National Loktantrik Party,182,0
+2024,Assembly,JK,CHADOORA,5,FAISAL FAYAZ,Independent,939,3
+2024,Assembly,JK,CHADOORA,6,NILOFAR SAJJAD GANDRU,Independent,452,0
+2024,Assembly,JK,CHADOORA,7,NOTA,None of the Above,1257,8
+2024,Assembly,JK,PAMPORE,1,MOHAMMAD ALTAF MIR,Jammu and Kashmir Apni Party,1538,5
+2024,Assembly,JK,PAMPORE,2,HASNAIN MASOODI,Jammu & Kashmir National Conference,14999,89
+2024,Assembly,JK,PAMPORE,3,MASHOOQ AHMAD MIR,Jammu and Kashmir Nationalist People's Front,474,2
+2024,Assembly,JK,PAMPORE,4,ZAHOOR AHMAD MIR,Jammu & Kashmir Peoples Democratic Party,12245,80
+2024,Assembly,JK,PAMPORE,5,MOHD ASIF GANAI,Independent,1182,3
+2024,Assembly,JK,PAMPORE,6,MOHAMMAD MAQBOOL SHAH,Independent,5829,17
+2024,Assembly,JK,PAMPORE,7,MOHAMMAD AKBAR LONE,Independent,527,3
+2024,Assembly,JK,PAMPORE,8,SHAKEEL AHMAD DAR,Independent,222,0
+2024,Assembly,JK,PAMPORE,9,AADIL RASHID BHAT,Independent,2230,7
+2024,Assembly,JK,PAMPORE,10,ABDUL QUYOOM MIR,Independent,2291,14
+2024,Assembly,JK,PAMPORE,11,BILAL AHMAD BHAT,Independent,796,1
+2024,Assembly,JK,PAMPORE,12,SYED SHOWKAT GAYOOR ANDRABI,Bharatiya Janata Party,946,11
+2024,Assembly,JK,PAMPORE,13,PARVAIZ AHMAD HAJAM,Jammu & Kashmir National Panthers Party (Bhim),651,2
+2024,Assembly,JK,PAMPORE,14,ARSHID AHMAD,Jammu & Kashmir Awami National Conference,287,2
+2024,Assembly,JK,PAMPORE,15,NOTA,None of the Above,954,12
+2024,Assembly,JK,TRAL,1,RAFIQ AHMAD NAIK,Jammu & Kashmir Peoples Democratic Party,10522,188
+2024,Assembly,JK,TRAL,2,SURINDER SINGH,Indian National Congress,10107,143
+2024,Assembly,JK,TRAL,3,ABDUL RASHID GOJAR,All Jammu & Kashmir Liberal Democratic Party,694,15
+2024,Assembly,JK,TRAL,4,PUSHVINDER SINGH,Independent,748,18
+2024,Assembly,JK,TRAL,5,ZAHID IQBAL,Independent,441,3
+2024,Assembly,JK,TRAL,6,TAHIR MANSOOR ZARGAR,Independent,254,4
+2024,Assembly,JK,TRAL,7,ABDUL RASHID GOJJER,Independent,460,1
+2024,Assembly,JK,TRAL,8,GHULAM NABI BHAT,Independent,9654,124
+2024,Assembly,JK,TRAL,9,HARBAKSH SINGH SASSAN,Independent,8467,90
+2024,Assembly,JK,TRAL,10,NOTA,None of the Above,1415,30
+2024,Assembly,JK,PULWAMA,1,FAYAZ AHMAD SOFI,Aam Aadmi Party,1214,10
+2024,Assembly,JK,PULWAMA,2,MOHAMMAD KHALIL BAND,Jammu & Kashmir National Conference,16445,123
+2024,Assembly,JK,PULWAMA,3,WAHEED UR REHMAN PARA,Jammu & Kashmir Peoples Democratic Party,24497,219
+2024,Assembly,JK,PULWAMA,4,ISHTIYAQ AHMAD SHEIKH,Nationalist Congress Party,386,14
+2024,Assembly,JK,PULWAMA,5,SHABIR AHMAD WANI,Rashtriya Lok Janshakti Party,205,2
+2024,Assembly,JK,PULWAMA,6,ASIF NABI DAR,Independent,224,3
+2024,Assembly,JK,PULWAMA,7,JAVEED AHMAD CHOPAN,Independent,801,9
+2024,Assembly,JK,PULWAMA,8,SOFI MOHAMMAD AKBAR,Independent,1113,4
+2024,Assembly,JK,PULWAMA,9,TALAT MAJID ALIE,Independent,1817,16
+2024,Assembly,JK,PULWAMA,10,ALI MOHMMAD WANI,Independent,379,0
+2024,Assembly,JK,PULWAMA,11,MOHD IQBAL SOFI,Independent,870,1
+2024,Assembly,JK,PULWAMA,12,MOHD AYOUB MIR,Independent,1048,4
+2024,Assembly,JK,PULWAMA,13,NOTA,None of the Above,1077,18
+2024,Assembly,JK,RAJPORA,1,ARSHEED AHMAD BHAT,Bharatiya Janata Party,5554,30
+2024,Assembly,JK,RAJPORA,2,SYED BASHIR AHMAD,Jammu & Kashmir Peoples Democratic Party,11230,84
+2024,Assembly,JK,RAJPORA,3,GHULAM MOHI UDDIN MIR,Jammu & Kashmir National Conference,25433,194
+2024,Assembly,JK,RAJPORA,4,MUDDASIR HASSAN,Aam Aadmi Party,2801,26
+2024,Assembly,JK,RAJPORA,5,ARUN KUMAR RAINA,Nationalist Congress Party,174,3
+2024,Assembly,JK,RAJPORA,6,DAISY RAINA,Republican Party of India (Athawale),234,1
+2024,Assembly,JK,RAJPORA,7,GULAM NABI DIGOO,Liberal Democratic Party,469,2
+2024,Assembly,JK,RAJPORA,8,GHULAM NABI WANI NILOORA,Democratic Progressive Azad Party,1340,14
+2024,Assembly,JK,RAJPORA,9,GHULAM HASAN MALIK,Independent,1356,1
+2024,Assembly,JK,RAJPORA,10,MOHD ALTAF BHAT,Independent,3248,25
+2024,Assembly,JK,RAJPORA,11,NOTA,None of the Above,1230,18
+2024,Assembly,JK,ZAINAPORA,1,SHOWKAT HUSSAIN GANIE,Jammu & Kashmir National Conference,28017,234
+2024,Assembly,JK,ZAINAPORA,2,GH MOHI UD DIN WANI,Jammu & Kashmir Peoples Democratic Party,6143,66
+2024,Assembly,JK,ZAINAPORA,3,ABDUL REHMAN BHAT,Liberal Democratic Party,575,3
+2024,Assembly,JK,ZAINAPORA,4,GOWHAR HUSSAIN WANI,Jammu and Kashmir Apni Party,5122,41
+2024,Assembly,JK,ZAINAPORA,5,MASHOOQ AHMAD DAR,Garib Democratic Party,626,3
+2024,Assembly,JK,ZAINAPORA,6,NAZIR AHMED NAJAR,Jammu and Kashmir Nationalist People's Front,512,1
+2024,Assembly,JK,ZAINAPORA,7,AIJAZ AHMAD MIR,Independent,14890,128
+2024,Assembly,JK,ZAINAPORA,8,UMAR HAMID MALLA,Independent,725,6
+2024,Assembly,JK,ZAINAPORA,9,MOHD SUHAIB BHAT,Independent,1145,7
+2024,Assembly,JK,ZAINAPORA,10,MOHAMMAD YOUSUF MIR,Independent,537,1
+2024,Assembly,JK,ZAINAPORA,11,NOTA,None of the Above,2056,26
+2024,Assembly,JK,SHOPIAN,1,JAVID AHMAD QADRI,Bharatiya Janata Party,6813,82
+2024,Assembly,JK,SHOPIAN,2,SHEIKH MOHAMMAD RAFI,Jammu & Kashmir National Conference,12762,144
+2024,Assembly,JK,SHOPIAN,3,MUSHTAQ AHMAD KHAN,Jammu & Kashmir National Panthers Party (Bhim),1432,16
+2024,Assembly,JK,SHOPIAN,4,YAWAR SHAFI BANDAY,Peoples Democratic Party,5428,58
+2024,Assembly,JK,SHOPIAN,5,OVAIS MUSHTAQ,Jammu and Kashmir Apni Party,3052,24
+2024,Assembly,JK,SHOPIAN,6,RAJA ABDUL WAHEED,Independent,10319,121
+2024,Assembly,JK,SHOPIAN,7,RIYAZ AHMAD GORSI,Independent,582,2
+2024,Assembly,JK,SHOPIAN,8,SUHAIL AHMAD MIR,Independent,1216,5
+2024,Assembly,JK,SHOPIAN,9,SHABIR AHMAD KULLAY,Independent,13974,139
+2024,Assembly,JK,SHOPIAN,10,FEROZ AHMAD NAJAR,Independent,768,2
+2024,Assembly,JK,SHOPIAN,11,MOHD YAQOOB MALLA,Independent,956,3
+2024,Assembly,JK,SHOPIAN,12,NOTA,None of the Above,1536,23
+2024,Assembly,JK,D. H. PORA,1,SAKEENA MASOOD,Jammu & Kashmir National Conference,36432,191
+2024,Assembly,JK,D. H. PORA,2,GULZAR AHMAD DAR,Jammu & Kashmir Peoples Democratic Party,19112,62
+2024,Assembly,JK,D. H. PORA,3,ABDUL MAJEED PADDER,Jammu and Kashmir Apni Party,2953,21
+2024,Assembly,JK,D. H. PORA,4,MOHAMMAD AYUB MATOO,Janata Dal (United),2617,3
+2024,Assembly,JK,D. H. PORA,5,SAJAD AHMAD DAR,Independent,678,7
+2024,Assembly,JK,D. H. PORA,6,MOHD ARIF DAR,Independent,4045,9
+2024,Assembly,JK,D. H. PORA,7,NOTA,None of the Above,2388,2
+2024,Assembly,JK,KULGAM,1,SUDARSHAN SINGH,Jammu & Kashmir National Panthers Party (Bhim),759,19
+2024,Assembly,JK,KULGAM,2,MOHD AMIN DAR,Jammu & Kashmir Peoples Democratic Party,7506,55
+2024,Assembly,JK,KULGAM,3,MOHAMAD YOUSUF TARIGAMI,Communist Party of India (Marxist),33390,244
+2024,Assembly,JK,KULGAM,4,ABDUL AHAD MIR,Aman Aur Shanti Tehreek-E-Jammu & Kashmir,641,5
+2024,Assembly,JK,KULGAM,5,MOHAMMAD AAQIB DAR,Jammu and Kashmir Apni Party,2707,19
+2024,Assembly,JK,KULGAM,6,NAZIR AHMAD LAWAY,Jammu & Kashmir People Conference,492,14
+2024,Assembly,JK,KULGAM,7,AFROOZA BANOO,Independent,328,16
+2024,Assembly,JK,KULGAM,8,SAJAD AHMAD DAR,Independent,634,2
+2024,Assembly,JK,KULGAM,9,SAYAR AHMAD RESHI,Independent,25639,157
+2024,Assembly,JK,KULGAM,10,ZAMAN IRSHAD PARRY,Independent,992,1
+2024,Assembly,JK,KULGAM,11,NOTA,None of the Above,1347,11
+2024,Assembly,JK,DEVSAR,1,AMAN ULLAH MANTOO,Indian National Congress,4694,52
+2024,Assembly,JK,DEVSAR,2,PEERZADA FEROZE AHAMAD,Jammu & Kashmir National Conference,18093,137
+2024,Assembly,JK,DEVSAR,3,SHEIKH FIDA HUSSAIN,Aam Aadmi Party,519,5
+2024,Assembly,JK,DEVSAR,4,MOHAMMAD SARTAJ MADNI,Jammu & Kashmir Peoples Democratic Party,17295,95
+2024,Assembly,JK,DEVSAR,5,REYAZ AHMAD BHAT,Jammu and Kashmir Apni Party,2837,18
+2024,Assembly,JK,DEVSAR,6,MOHAMMAD AMIN BHAT,Democratic Progressive Azad Party,6936,23
+2024,Assembly,JK,DEVSAR,7,SUHIL AHMAD BHAT,Independent,5475,31
+2024,Assembly,JK,DEVSAR,8,ABDUL ROUF NAIK,Independent,1848,4
+2024,Assembly,JK,DEVSAR,9,NAZIR AHMAD BHAT,Independent,5816,22
+2024,Assembly,JK,DEVSAR,10,NOTA,None of the Above,1404,6
+2024,Assembly,JK,DOORU,1,GULAM AHMAD MIR,Indian National Congress,43922,348
+2024,Assembly,JK,DOORU,2,MOHSIN SHAFQAT MIR,Aam Aadmi Party,830,9
+2024,Assembly,JK,DOORU,3,MOHAMMAD ASHRAF MALIK,Jammu & Kashmir Peoples Democratic Party,14509,33
+2024,Assembly,JK,DOORU,4,BASHIR AHMAD WANI,Jammu and Kashmir Apni Party,2097,11
+2024,Assembly,JK,DOORU,5,SAMEER AHMAD PARRAY,Rashtriya Lok Janshakti Party,239,5
+2024,Assembly,JK,DOORU,6,MOHAMAD SALEEM PARAY,Democratic Progressive Azad Party,2867,10
+2024,Assembly,JK,DOORU,7,RIYAZ AHMAD SOFI,Independent,222,0
+2024,Assembly,JK,DOORU,8,MOHD IQBAL AHANGAR,Independent,1498,4
+2024,Assembly,JK,DOORU,9,NIZAMUDDIN BHAT,Independent,835,4
+2024,Assembly,JK,DOORU,10,HILAL AHMAD MALIK,Independent,2287,5
+2024,Assembly,JK,DOORU,11,NOTA,None of the Above,2646,16
+2024,Assembly,JK,KOKERNAG(ST),1,ROSHAN HUSSAIN KHAN GOJAR,Bharatiya Janata Party,4119,54
+2024,Assembly,JK,KOKERNAG(ST),2,ZAFAR ALI KHATANA,Jammu & Kashmir National Conference,17697,252
+2024,Assembly,JK,KOKERNAG(ST),3,HAROON RASHID KHATANA,Jammu & Kashmir Peoples Democratic Party,11671,116
+2024,Assembly,JK,KOKERNAG(ST),4,MOHAMMAD WAQAR,Jammu and Kashmir Apni Party,838,9
+2024,Assembly,JK,KOKERNAG(ST),5,ABRAR AHMAD GOJJAR,Independent,366,3
+2024,Assembly,JK,KOKERNAG(ST),6,DR ISHFAQ AHMED CHODHARY,Independent,2972,35
+2024,Assembly,JK,KOKERNAG(ST),7,ANWAR JAAN,Independent,6952,25
+2024,Assembly,JK,KOKERNAG(ST),8,BASHIR AHMAD KHARI,Independent,1616,12
+2024,Assembly,JK,KOKERNAG(ST),9,GULZAR AHMAD KHATANA,Independent,7950,116
+2024,Assembly,JK,KOKERNAG(ST),10,MOHAMMAD SHARIEF SHAH,Independent,1105,8
+2024,Assembly,JK,KOKERNAG(ST),11,NOTA,None of the Above,1532,29
+2024,Assembly,JK,ANANTNAG WEST,1,ABDUL GAFFAR SOFI,Jammu & Kashmir Peoples Democratic Party,14599,101
+2024,Assembly,JK,ANANTNAG WEST,2,ABDUL MAJEED BHAT,Jammu & Kashmir National Conference,24922,213
+2024,Assembly,JK,ANANTNAG WEST,3,MOHAMMAD RAFIQ WANI,Jammu & Kashmir National Panthers Party (Bhim),426,2
+2024,Assembly,JK,ANANTNAG WEST,4,MOHD RAFIQ WANI,Bharatiya Janata Party,6509,65
+2024,Assembly,JK,ANANTNAG WEST,5,BILAL AHMAD DEVA,Democratic Progressive Azad Party,6482,48
+2024,Assembly,JK,ANANTNAG WEST,6,GULL MOHD BHAT,Janata Dal (United),1528,18
+2024,Assembly,JK,ANANTNAG WEST,7,AAQIB MUSHTAQ GANIE,Independent,2854,23
+2024,Assembly,JK,ANANTNAG WEST,8,FAYAZ AHMAD KHANDAY,Independent,1855,7
+2024,Assembly,JK,ANANTNAG WEST,9,GULSHAN AKHTER,Independent,890,9
+2024,Assembly,JK,ANANTNAG WEST,10,NOTA,None of the Above,1348,34
+2024,Assembly,JK,ANANTNAG,1,PEERZADA MOHAMMAD SYED,Indian National Congress,6603,76
+2024,Assembly,JK,ANANTNAG,2,SYED PEERZADA WAJAHAT HUSSAIN,Bharatiya Janata Party,1483,25
+2024,Assembly,JK,ANANTNAG,3,MEHBOOB BEG,Jammu & Kashmir Peoples Democratic Party,4945,48
+2024,Assembly,JK,ANANTNAG,4,RAFIQ AHMAD KUNROO,Jammu & Kashmir Awami National Conference,149,6
+2024,Assembly,JK,ANANTNAG,5,SANJAY SARAF,Rashtriya Lok Janshakti Party,156,5
+2024,Assembly,JK,ANANTNAG,6,MIR ALTAF HUSSAIN,Democratic Progressive Azad Party,2308,23
+2024,Assembly,JK,ANANTNAG,7,NASIR ALI KOCHAK,Jammu & Kashmir All Alliance Democratic Party,399,3
+2024,Assembly,JK,ANANTNAG,8,HILAL AHMAD SHAH,Jammu and Kashmir Apni Party,4227,18
+2024,Assembly,JK,ANANTNAG,9,BILAL AHMAD MIR,Independent,207,2
+2024,Assembly,JK,ANANTNAG,10,TAWSEEF NISAR,Independent,556,4
+2024,Assembly,JK,ANANTNAG,11,JAVAID AHMAD RATHER,Independent,234,2
+2024,Assembly,JK,ANANTNAG,12,MOHD ASIF BHAT,Independent,1926,4
+2024,Assembly,JK,ANANTNAG,13,MANSOOR HUSSAIN SOHARVARDI,Independent,4035,12
+2024,Assembly,JK,ANANTNAG,14,NOTA,None of the Above,629,11
+2024,Assembly,JK,SRIGUFWARA - BIJBEHARA,1,ILTIJA MEHBOOBA MUFTI,Jammu & Kashmir Peoples Democratic Party,23349,180
+2024,Assembly,JK,SRIGUFWARA - BIJBEHARA,2,BASHIR AHMAD SHAH VEERI,Jammu & Kashmir National Conference,33127,172
+2024,Assembly,JK,SRIGUFWARA - BIJBEHARA,3,SOFI YOUSIF,Bharatiya Janata Party,3699,17
+2024,Assembly,JK,SRIGUFWARA - BIJBEHARA,4,NOTA,None of the Above,1530,22
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,1,REYAZ AHMAD KHAN,Jammu & Kashmir National Conference,29921,424
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,2,ABDUL REHMAN BHAT,Jammu & Kashmir Peoples Democratic Party,15660,153
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,3,VIR JI SARAF,Bharatiya Janata Party,1921,67
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,4,IRSHAD AHMAD MALIK,National Loktantrik Party,571,7
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,5,ABDUL HAMID WANI,Jammu & Kashmir All Alliance Democratic Party,110,7
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,6,ABDUL MAJEED KHAN,Bhim Sena,166,4
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,7,MAHARAJ KRISHAN YOGI,Jammu and Kashmir Apni Party,1150,12
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,8,IMTIYAZ AHMAD RATHER,Independent,897,26
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,9,DILIP KUMAR PANDITA,Independent,249,0
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,10,RAWOOF AHMAD PADDER,Independent,766,10
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,11,REYAZ MAJID SOFI,Independent,618,7
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,12,SHEIKH ZAFARRULAH,Independent,1356,7
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,13,FAIZAN RAHI,Independent,1976,4
+2024,Assembly,JK,SHANGUS - ANANTNAG EAST,14,NOTA,None of the Above,1878,27
+2024,Assembly,JK,PAHALGAM,1,ALTAF AHMAD WANI,Jammu & Kashmir National Conference,25940,270
+2024,Assembly,JK,PAHALGAM,2,SHABIR AHMAD SEDIQUI,Jammu & Kashmir Peoples Democratic Party,7966,85
+2024,Assembly,JK,PAHALGAM,3,RAFI AHMED MIR,Jammu and Kashmir Apni Party,12347,107
+2024,Assembly,JK,PAHALGAM,4,SHABIR AHMAD PADDER,Jammu & Kashmir Awami National Conference,391,3
+2024,Assembly,JK,PAHALGAM,5,SHOWKET AHMAD BHAT,Independent,939,11
+2024,Assembly,JK,PAHALGAM,6,MOHD MAQBOOL KHAN,Independent,600,2
+2024,Assembly,JK,PAHALGAM,7,NOTA,None of the Above,1482,20
+2024,Assembly,JK,INDERWAL,1,SALMAN NISAR,Bahujan Samaj Party,549,0
+2024,Assembly,JK,INDERWAL,2,TARAQ HUSSAIN KEEN,Bharatiya Janata Party,9280,270
+2024,Assembly,JK,INDERWAL,3,MOHD ZAFARULLAH,Indian National Congress,12225,308
+2024,Assembly,JK,INDERWAL,4,NASIR HUSSAIN SHEIKH,Jammu & Kashmir Peoples Democratic Party,1037,7
+2024,Assembly,JK,INDERWAL,5,ASHIQ HUSSAIN,Jammu and Kashmir Apni Party,296,3
+2024,Assembly,JK,INDERWAL,6,IMTIYAZ BASHIR,Independent,263,2
+2024,Assembly,JK,INDERWAL,7,PAYARE LAL SHARMA,Independent,13851,344
+2024,Assembly,JK,INDERWAL,8,SALMAN RABBANI,Independent,722,1
+2024,Assembly,JK,INDERWAL,9,GHULAM MOHD SAROORI,Independent,13312,240
+2024,Assembly,JK,INDERWAL,10,NOTA,None of the Above,1138,7
+2024,Assembly,JK,KISHTWAR,1,SAJJAD AHMED KICHLOO,Jammu & Kashmir National Conference,27644,888
+2024,Assembly,JK,KISHTWAR,2,SUMIT KUMAR,Bahujan Samaj Party,426,15
+2024,Assembly,JK,KISHTWAR,3,SHAGUN PARIHAR,Bharatiya Janata Party,27774,1279
+2024,Assembly,JK,KISHTWAR,4,FIRDOOS AHMED TAK,Jammu & Kashmir Peoples Democratic Party,966,31
+2024,Assembly,JK,KISHTWAR,5,ANOOP KUMAR,Independent,137,1
+2024,Assembly,JK,KISHTWAR,6,ROOP LAL,Independent,552,19
+2024,Assembly,JK,KISHTWAR,7,RAVI KUMAR,Independent,176,1
+2024,Assembly,JK,KISHTWAR,8,NOTA,None of the Above,607,8
+2024,Assembly,JK,PADDER - NAGSENI,1,POOJA THAKUR,Jammu & Kashmir National Conference,15098,392
+2024,Assembly,JK,PADDER - NAGSENI,2,SANDESH KUMAR,Jammu & Kashmir Peoples Democratic Party,368,4
+2024,Assembly,JK,PADDER - NAGSENI,3,SUNIL KUMAR SHARMA,Bharatiya Janata Party,16543,493
+2024,Assembly,JK,PADDER - NAGSENI,4,ANIL KUMAR,Independent,157,1
+2024,Assembly,JK,PADDER - NAGSENI,5,RAKESH GOSWAMI,Independent,203,6
+2024,Assembly,JK,PADDER - NAGSENI,6,SHRI KANT,Independent,166,3
+2024,Assembly,JK,PADDER - NAGSENI,7,NOTA,None of the Above,359,3
+2024,Assembly,JK,BHADARWAH,1,ASHOK KUMAR KACHROO,Jammu & Kashmir All Alliance Democratic Party,400,5
+2024,Assembly,JK,BHADARWAH,2,SHEIKH MEHBOOB IQBAL,Jammu & Kashmir National Conference,31382,616
+2024,Assembly,JK,BHADARWAH,3,MOHD MAJID,Independent,401,8
+2024,Assembly,JK,BHADARWAH,4,MANOJ KUMAR,Independent,763,14
+2024,Assembly,JK,BHADARWAH,5,NADEEM SHARIEF,Indian National Congress,6902,249
+2024,Assembly,JK,BHADARWAH,6,DALEEP SINGH,Bharatiya Janata Party,40735,1393
+2024,Assembly,JK,BHADARWAH,7,MOHSIN IMTIYAZ,Independent,466,6
+2024,Assembly,JK,BHADARWAH,8,VIKRAM RATHORE,Jammu and Kashmir Apni Party,574,6
+2024,Assembly,JK,BHADARWAH,9,MEENKASHI BHAGAT,Bahujan Samaj Party,990,76
+2024,Assembly,JK,BHADARWAH,10,VINOD KUMAR,Shiv Sena (Uddhav Balasaheb Thackeray),159,6
+2024,Assembly,JK,BHADARWAH,11,NOTA,None of the Above,850,15
+2024,Assembly,JK,DODA,1,KHALID NAJIB SUHARWARDY,Jammu & Kashmir National Conference,12975,359
+2024,Assembly,JK,DODA,2,SHEIKH RIAZ AHMED,Indian National Congress,4087,83
+2024,Assembly,JK,DODA,3,GAJAY SINGH RANA,Bharatiya Janata Party,18174,516
+2024,Assembly,JK,DODA,4,MEHRAJ MALIK,Aam Aadmi Party,22944,284
+2024,Assembly,JK,DODA,5,MANSOOR AHMED BATT,Jammu & Kashmir Peoples Democratic Party,1354,5
+2024,Assembly,JK,DODA,6,ABDUL MAJID WANI,Democratic Progressive Azad Party,9784,243
+2024,Assembly,JK,DODA,7,BILAL KHAN,Independent,616,2
+2024,Assembly,JK,DODA,8,JAWAZ AHMED,Independent,425,1
+2024,Assembly,JK,DODA,9,TARIQ HUSSAIN,Independent,303,3
+2024,Assembly,JK,DODA,10,NOTA,None of the Above,812,10
+2024,Assembly,JK,DODA WEST,1,PARDEEP KUMAR,Indian National Congress,29888,623
+2024,Assembly,JK,DODA WEST,2,TANVEER HUSSAIN,Jammu & Kashmir Peoples Democratic Party,428,5
+2024,Assembly,JK,DODA WEST,3,SHAKTI RAJ PARIHAR,Bharatiya Janata Party,33118,846
+2024,Assembly,JK,DODA WEST,4,YASIR SHAFI MATTO,Aam Aadmi Party,434,3
+2024,Assembly,JK,DODA WEST,5,TILAK RAJ SHAN,Shiv Sena (Uddhav Balasaheb Thackeray),161,1
+2024,Assembly,JK,DODA WEST,6,ABDUL GHANI,Democratic Progressive Azad Party,427,9
+2024,Assembly,JK,DODA WEST,7,SWARN VEER SINGH JARAL,Independent,848,9
+2024,Assembly,JK,DODA WEST,8,MEENAKSHI KALRA,Independent,144,2
+2024,Assembly,JK,DODA WEST,9,NOTA,None of the Above,994,4
+2024,Assembly,JK,RAMBAN,1,ARJUN SINGH RAJU,Jammu & Kashmir National Conference,28068,357
+2024,Assembly,JK,RAMBAN,2,RAKESH SINGH THAKUR,Bharatiya Janata Party,17254,257
+2024,Assembly,JK,RAMBAN,3,TILAK RAJ,Shiv Sena (Uddhav Balasaheb Thackeray),563,4
+2024,Assembly,JK,RAMBAN,4,CHAIN SINGH,Independent,192,3
+2024,Assembly,JK,RAMBAN,5,DEV RAJ SINGH,Independent,172,3
+2024,Assembly,JK,RAMBAN,6,SUTEESH KUMAR,Independent,425,3
+2024,Assembly,JK,RAMBAN,7,SUNIL SINGH,Independent,1353,18
+2024,Assembly,JK,RAMBAN,8,SURAJ SINGH PARIHAR,Independent,19199,213
+2024,Assembly,JK,RAMBAN,9,NOTA,None of the Above,1122,1
+2024,Assembly,JK,BANIHAL,1,IMTIAZ AHMED SHAN,Jammu & Kashmir Peoples Democratic Party,26711,307
+2024,Assembly,JK,BANIHAL,2,SAJAD SHAHEEN,Jammu & Kashmir National Conference,32654,474
+2024,Assembly,JK,BANIHAL,3,MOHD SALEEM BHAT,Bharatiya Janata Party,6189,96
+2024,Assembly,JK,BANIHAL,4,MUDASSIR AZMAT,Aam Aadmi Party,653,1
+2024,Assembly,JK,BANIHAL,5,VIKAR RASOOL WANI,Indian National Congress,20153,305
+2024,Assembly,JK,BANIHAL,6,BASHIR AHMED SHAN,Independent,834,3
+2024,Assembly,JK,BANIHAL,7,MUNAZAR AHMED MALIK,Independent,1068,3
+2024,Assembly,JK,BANIHAL,8,NOTA,None of the Above,1628,3
+2024,Assembly,JK,GULABGARH(ST),1,KHURSHIED AHMED,Jammu & Kashmir National Conference,30056,535
+2024,Assembly,JK,GULABGARH(ST),2,MOHD AKRAM,Bharatiya Janata Party,12075,140
+2024,Assembly,JK,GULABGARH(ST),3,MOHD FAROOQ,Jammu & Kashmir Peoples Democratic Party,1668,20
+2024,Assembly,JK,GULABGARH(ST),4,RIAZ AHMED,All India Forward Bloc,358,2
+2024,Assembly,JK,GULABGARH(ST),5,ARSHAD AHMED,Independent,774,1
+2024,Assembly,JK,GULABGARH(ST),6,AIJAZ AHMAD KHAN,Independent,23533,531
+2024,Assembly,JK,GULABGARH(ST),7,NOTA,None of the Above,1743,0
+2024,Assembly,JK,REASI,1,BASHIR UD DIN,J&K National Panthers Party (India),240,5
+2024,Assembly,JK,REASI,2,BODH RAJ MEANIA,Jammu & Kashmir Peoples Democratic Party,147,4
+2024,Assembly,JK,REASI,3,SATISH MOHAN,Bahujan Samaj Party,291,3
+2024,Assembly,JK,REASI,4,KULDEEP RAJ DUBEY,Bharatiya Janata Party,39035,612
+2024,Assembly,JK,REASI,5,MUMTAZ AHMED,Indian National Congress,20526,306
+2024,Assembly,JK,REASI,6,ARJUN SINGH,Independent,488,13
+2024,Assembly,JK,REASI,7,DIKSHA KALURIA,Independent,338,8
+2024,Assembly,JK,REASI,8,NOTA,None of the Above,414,0
+2024,Assembly,JK,SHRI MATA VAISHNO DEVI,1,BALDEV RAJ SHARMA,Bharatiya Janata Party,17963,236
+2024,Assembly,JK,SHRI MATA VAISHNO DEVI,2,BHUPINDER SINGH,Indian National Congress,5596,59
+2024,Assembly,JK,SHRI MATA VAISHNO DEVI,3,PARTAP KRISHAN SHARMA,Jammu & Kashmir Peoples Democratic Party,210,0
+2024,Assembly,JK,SHRI MATA VAISHNO DEVI,4,BANSI LAL,Independent,294,2
+2024,Assembly,JK,SHRI MATA VAISHNO DEVI,5,JUGAL KISHORE,Independent,15983,221
+2024,Assembly,JK,SHRI MATA VAISHNO DEVI,6,RAJ KUMAR,Independent,434,0
+2024,Assembly,JK,SHRI MATA VAISHNO DEVI,7,SHAM SINGH,Independent,4155,36
+2024,Assembly,JK,SHRI MATA VAISHNO DEVI,8,NOTA,None of the Above,353,2
+2024,Assembly,JK,UDHAMPUR WEST,1,PAWAN KUMAR GUPTA,Bharatiya Janata Party,46525,639
+2024,Assembly,JK,UDHAMPUR WEST,2,TRANTER SINGH,Jammu & Kashmir National Panthers Party (Bhim),626,11
+2024,Assembly,JK,UDHAMPUR WEST,3,SUMEET MAGOTRA,Indian National Congress,26051,361
+2024,Assembly,JK,UDHAMPUR WEST,4,KEWAL KUMAR,Jammu & Kashmir Peoples Democratic Party,338,3
+2024,Assembly,JK,UDHAMPUR WEST,5,SAHIL MANHAS,Samajwadi Party,283,5
+2024,Assembly,JK,UDHAMPUR WEST,6,SANJEEV KUMAR,Shiv Sena (Uddhav Balasaheb Thackeray),168,2
+2024,Assembly,JK,UDHAMPUR WEST,7,AJAY KUMAR,Independent,186,6
+2024,Assembly,JK,UDHAMPUR WEST,8,ANIL KHAJURIA,Independent,493,2
+2024,Assembly,JK,UDHAMPUR WEST,9,JASVIR SINGH,Independent,12396,160
+2024,Assembly,JK,UDHAMPUR WEST,10,SULAKSHNA KHAJURIA,Independent,263,4
+2024,Assembly,JK,UDHAMPUR WEST,11,SOMA,Independent,476,1
+2024,Assembly,JK,UDHAMPUR WEST,12,GANPATI SHARMA,Independent,311,3
+2024,Assembly,JK,UDHAMPUR WEST,13,NOTA,None of the Above,1281,9
+2024,Assembly,JK,UDHAMPUR EAST,1,ACHHAV SINGH,Bahujan Samaj Party,581,10
+2024,Assembly,JK,UDHAMPUR EAST,2,BAQEEL SINGH,Jammu & Kashmir Peoples Democratic Party,181,5
+2024,Assembly,JK,UDHAMPUR EAST,3,BALWAN SINGH,J&K National Panthers Party (India),8341,86
+2024,Assembly,JK,UDHAMPUR EAST,4,RANBIR SINGH PATHANIA,Bharatiya Janata Party,32528,468
+2024,Assembly,JK,UDHAMPUR EAST,5,SUNIL VERMA,Jammu & Kashmir National Conference,4436,59
+2024,Assembly,JK,UDHAMPUR EAST,6,SAHIL GANDOTRA,Shiv Sena (Uddhav Balasaheb Thackeray),394,3
+2024,Assembly,JK,UDHAMPUR EAST,7,PAWAN KHAJURIA,Independent,30245,402
+2024,Assembly,JK,UDHAMPUR EAST,8,SOMA,Independent,738,2
+2024,Assembly,JK,UDHAMPUR EAST,9,MOHINDER SINGH,Independent,175,1
+2024,Assembly,JK,UDHAMPUR EAST,10,NOTA,None of the Above,585,6
+2024,Assembly,JK,CHENANI,1,BALWANT SINGH MANKOTIA,Bharatiya Janata Party,47419,571
+2024,Assembly,JK,CHENANI,2,SHAM LAL DOGRA,Bahujan Samaj Party,447,10
+2024,Assembly,JK,CHENANI,3,GULAM RASOOL,Jammu & Kashmir National Panthers Party (Bhim),163,4
+2024,Assembly,JK,CHENANI,4,MOHD VASEEM,Jammu & Kashmir Peoples Democratic Party,260,7
+2024,Assembly,JK,CHENANI,5,HARSH DEV SINGH,J&K National Panthers Party (India),31950,429
+2024,Assembly,JK,CHENANI,6,SHABIR,Jammu & Kashmir All Alliance Democratic Party,938,3
+2024,Assembly,JK,CHENANI,7,GEETA MANHAS,Samajwadi Party,218,5
+2024,Assembly,JK,CHENANI,8,SURJEET SINGH,Independent,494,1
+2024,Assembly,JK,CHENANI,9,KRISHAN CHAND,Independent,302,0
+2024,Assembly,JK,CHENANI,10,NOTA,None of the Above,1846,9
+2024,Assembly,JK,RAMNAGAR(SC),1,ASHRI DEVI,J&K National Panthers Party (India),24779,465
+2024,Assembly,JK,RAMNAGAR(SC),2,SANJU KUMAR,Jammu & Kashmir National Panthers Party (Bhim),483,3
+2024,Assembly,JK,RAMNAGAR(SC),3,SUNIL BHARDWAJ,Bharatiya Janata Party,34034,516
+2024,Assembly,JK,RAMNAGAR(SC),4,MOOL RAJ,Indian National Congress,7644,156
+2024,Assembly,JK,RAMNAGAR(SC),5,HERJEET,Bahujan Samaj Party,797,12
+2024,Assembly,JK,RAMNAGAR(SC),6,RAJ SINGH,Shiv Sena (Uddhav Balasaheb Thackeray),711,3
+2024,Assembly,JK,RAMNAGAR(SC),7,SANDEEP KUMAR SARMAL,Democratic Progressive Azad Party,458,5
+2024,Assembly,JK,RAMNAGAR(SC),8,NOTA,None of the Above,1153,14
+2024,Assembly,JK,BANI,1,JEWAN LAL,Bharatiya Janata Party,16306,318
+2024,Assembly,JK,BANI,2,ROMESH CHANDER VERMA,Jammu & Kashmir Peoples Democratic Party,189,0
+2024,Assembly,JK,BANI,3,MS KAJAL,Indian National Congress,1941,29
+2024,Assembly,JK,BANI,4,GOURI SHANKER,Democratic Progressive Azad Party,3911,90
+2024,Assembly,JK,BANI,5,PARVEEN KUMAR,Independent,188,2
+2024,Assembly,JK,BANI,6,JATINDER SINGH,Independent,627,1
+2024,Assembly,JK,BANI,7,DR RAMESHWAR SINGH,Independent,18356,316
+2024,Assembly,JK,BANI,8,SARFRAZ SAFDER,Independent,291,0
+2024,Assembly,JK,BANI,9,NOTA,None of the Above,426,1
+2024,Assembly,JK,BILLAWAR,1,AKHTER ALI,Jammu & Kashmir Peoples Democratic Party,299,10
+2024,Assembly,JK,BILLAWAR,2,SATISH KUMAR SHARMA,Bharatiya Janata Party,43972,657
+2024,Assembly,JK,BILLAWAR,3,SANJAY KUMAR,Bahujan Samaj Party,587,8
+2024,Assembly,JK,BILLAWAR,4,MANOHAR LAL SHARMA,Indian National Congress,22922,339
+2024,Assembly,JK,BILLAWAR,5,NOTA,None of the Above,520,5
+2024,Assembly,JK,BASOHLI,1,PANKAJ KUMAR,Bahujan Samaj Party,410,11
+2024,Assembly,JK,BASOHLI,2,DARSHAN KUMAR,Bharatiya Janata Party,31506,368
+2024,Assembly,JK,BASOHLI,3,CH. LAL SINGH,Indian National Congress,15627,213
+2024,Assembly,JK,BASOHLI,4,YOGINDER SINGH,Jammu & Kashmir Peoples Democratic Party,362,6
+2024,Assembly,JK,BASOHLI,5,NOTA,None of the Above,245,1
+2024,Assembly,JK,JASROTA,1,BALBIR SINGH,Indian National Congress,3083,136
+2024,Assembly,JK,JASROTA,2,RAJIV JASROTIA,Bharatiya Janata Party,33604,553
+2024,Assembly,JK,JASROTA,3,RAMAN KUMAR,Bahujan Samaj Party,3264,38
+2024,Assembly,JK,JASROTA,4,GANESH DUTT SHARMA,Jammu & Kashmir Peoples Democratic Party,109,3
+2024,Assembly,JK,JASROTA,5,JASWINDER SINGH,Aazad Samaj Party (Kanshi Ram),907,19
+2024,Assembly,JK,JASROTA,6,RAJESH KUMAR,Shiv Sena (Uddhav Balasaheb Thackeray),102,2
+2024,Assembly,JK,JASROTA,7,AMRISH JASROTIA,Independent,1728,27
+2024,Assembly,JK,JASROTA,8,BRIJESHWAR SINGH,Independent,21514,223
+2024,Assembly,JK,JASROTA,9,NOTA,None of the Above,449,7
+2024,Assembly,JK,KATHUA(SC),1,DR. BHARAT BHUSHAN,Bharatiya Janata Party,45344,600
+2024,Assembly,JK,KATHUA(SC),2,SUBASH CHANDER,Jammu & Kashmir National Conference,1548,49
+2024,Assembly,JK,KATHUA(SC),3,SUDESH KUMAR,Jammu & Kashmir Peoples Democratic Party,457,3
+2024,Assembly,JK,KATHUA(SC),4,SANDEEP MAJOTRA,Bahujan Samaj Party,33600,227
+2024,Assembly,JK,KATHUA(SC),5,KHUSHBOO BHAGAT,Independent,655,25
+2024,Assembly,JK,KATHUA(SC),6,NOTA,None of the Above,725,8
+2024,Assembly,JK,HIRANAGAR,1,BALBIR SINGH,Bahujan Samaj Party,965,50
+2024,Assembly,JK,HIRANAGAR,2,RAKESH KUMAR,Indian National Congress,27616,511
+2024,Assembly,JK,HIRANAGAR,3,VIJAY KUMAR,Bharatiya Janata Party,36068,669
+2024,Assembly,JK,HIRANAGAR,4,VISHAL SALGOTRA,Jammu & Kashmir Peoples Democratic Party,201,6
+2024,Assembly,JK,HIRANAGAR,5,GAURAV KUMAR,Aazad Samaj Party (Kanshi Ram),499,7
+2024,Assembly,JK,HIRANAGAR,6,SURINDER SINGH,Independent,182,7
+2024,Assembly,JK,HIRANAGAR,7,NOTA,None of the Above,310,11
+2024,Assembly,JK,RAMGARH(SC),1,PARSHOTAM SINGH,Bahujan Samaj Party,438,19
+2024,Assembly,JK,RAMGARH(SC),2,DR DEVINDER KUMAR MANYAL,Bharatiya Janata Party,35171,501
+2024,Assembly,JK,RAMGARH(SC),3,RAKESH KUMAR,Jammu & Kashmir National Panthers Party (Bhim),235,10
+2024,Assembly,JK,RAMGARH(SC),4,YASH PAUL KUNDAL,Indian National Congress,21136,334
+2024,Assembly,JK,RAMGARH(SC),5,SAHIL BHARTI,Jammu and Kashmir Apni Party,10345,81
+2024,Assembly,JK,RAMGARH(SC),6,SURINDER KUMAR ATTRI,Azad Samaj Party,450,13
+2024,Assembly,JK,RAMGARH(SC),7,MANOJ KUMAR,Independent,197,11
+2024,Assembly,JK,RAMGARH(SC),8,NOTA,None of the Above,276,7
+2024,Assembly,JK,SAMBA,1,BALDEV RAJ,Bahujan Samaj Party,1268,41
+2024,Assembly,JK,SAMBA,2,RAJAN JAMWAL,Jammu & Kashmir National Panthers Party (Bhim),122,12
+2024,Assembly,JK,SAMBA,3,RAJINDER SINGH,Jammu & Kashmir Peoples Democratic Party,307,11
+2024,Assembly,JK,SAMBA,4,SURJEET SINGH SLATHIA,Bharatiya Janata Party,42206,976
+2024,Assembly,JK,SAMBA,5,KRISHAN DEV SINGH,Indian National Congress,3473,155
+2024,Assembly,JK,SAMBA,6,PINKI DEVI,National Awami United Party,365,10
+2024,Assembly,JK,SAMBA,7,RAJ KUMAR,Aazad Samaj Party (Kanshi Ram),479,9
+2024,Assembly,JK,SAMBA,8,LOVELY MANGOL,Jammu and Kashmir Apni Party,889,12
+2024,Assembly,JK,SAMBA,9,VINOD KUMAR,Democratic Progressive Azad Party,4234,55
+2024,Assembly,JK,SAMBA,10,BHANU PARTAP SINGH,Independent,1125,15
+2024,Assembly,JK,SAMBA,11,RAVINDER SINGH,Independent,12725,148
+2024,Assembly,JK,SAMBA,12,REENA CHOUDHARY,Independent,524,20
+2024,Assembly,JK,SAMBA,13,SANDEEP SINGH SAMBYAL,Independent,262,8
+2024,Assembly,JK,SAMBA,14,VINOD KUMAR,Independent,157,1
+2024,Assembly,JK,SAMBA,15,NOTA,None of the Above,313,17
+2024,Assembly,JK,VIJAYPUR,1,UTTAM CHAND,Jammu & Kashmir National Panthers Party (Bhim),152,10
+2024,Assembly,JK,VIJAYPUR,2,BACHAN LAL,Jammu & Kashmir Peoples Democratic Party,666,6
+2024,Assembly,JK,VIJAYPUR,3,CHANDER PARKASH,Bharatiya Janata Party,32302,557
+2024,Assembly,JK,VIJAYPUR,4,RAJ KUMAR CHALOTRA,Bahujan Samaj Party,519,25
+2024,Assembly,JK,VIJAYPUR,5,RAJESH KUMAR PARGOTRA,Jammu & Kashmir National Conference,13593,226
+2024,Assembly,JK,VIJAYPUR,6,INDERJEET,Samajwadi Party,196,4
+2024,Assembly,JK,VIJAYPUR,7,MANJIT SINGH,Jammu and Kashmir Apni Party,13036,125
+2024,Assembly,JK,VIJAYPUR,8,BALWAN SINGH,Independent,145,7
+2024,Assembly,JK,VIJAYPUR,9,PARAMVEER SINGH,Independent,160,5
+2024,Assembly,JK,VIJAYPUR,10,RAJ SINGH,Independent,241,1
+2024,Assembly,JK,VIJAYPUR,11,KRISHAN DUTT,Independent,167,2
+2024,Assembly,JK,VIJAYPUR,12,NOTA,None of the Above,308,12
+2024,Assembly,JK,BISHNAH(SC),1,TILAK RAJ,Bahujan Samaj Party,631,29
+2024,Assembly,JK,BISHNAH(SC),2,RAJEEV KUMAR,Bharatiya Janata Party,52810,625
+2024,Assembly,JK,BISHNAH(SC),3,NEERAJ KUNDAN,Indian National Congress,37470,338
+2024,Assembly,JK,BISHNAH(SC),4,VICKY KUMAR DOGRA,Jammu & Kashmir Peoples Democratic Party,286,11
+2024,Assembly,JK,BISHNAH(SC),5,TARSEM LAL KHULLAR,Samajwadi Party,216,9
+2024,Assembly,JK,BISHNAH(SC),6,JAI BHARAT,Shiv Sena (Uddhav Balasaheb Thackeray),458,17
+2024,Assembly,JK,BISHNAH(SC),7,KAMAL KUMAR,Hindustan Shakti Sena,164,6
+2024,Assembly,JK,BISHNAH(SC),8,PREM PAL,Independent,785,14
+2024,Assembly,JK,BISHNAH(SC),9,VISHAL KUMAR,Independent,335,6
+2024,Assembly,JK,BISHNAH(SC),10,NOTA,None of the Above,388,13
+2024,Assembly,JK,SUCHETGARH(SC),1,BISHAN DASS,Bahujan Samaj Party,1071,23
+2024,Assembly,JK,SUCHETGARH(SC),2,BHUSAN LAL,Indian National Congress,27841,320
+2024,Assembly,JK,SUCHETGARH(SC),3,KARAN SINGH,Jammu & Kashmir Peoples Democratic Party,487,8
+2024,Assembly,JK,SUCHETGARH(SC),4,GHARU RAM,Bharatiya Janata Party,38867,435
+2024,Assembly,JK,SUCHETGARH(SC),5,AJAIB SINGH,Democratic Progressive Azad Party,8225,40
+2024,Assembly,JK,SUCHETGARH(SC),6,USHA DEVI,Independent,4165,45
+2024,Assembly,JK,SUCHETGARH(SC),7,DR PREETI KUMARI,Independent,574,70
+2024,Assembly,JK,SUCHETGARH(SC),8,SWARN LAL,Independent,409,2
+2024,Assembly,JK,SUCHETGARH(SC),9,SHAM LAL,Independent,1264,13
+2024,Assembly,JK,SUCHETGARH(SC),10,KULBIR KUMAR,Independent,103,1
+2024,Assembly,JK,SUCHETGARH(SC),11,DR HANS RAJ BHARADWAJ,Independent,473,2
+2024,Assembly,JK,SUCHETGARH(SC),12,NOTA,None of the Above,398,11
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,1,RAMAN BHALLA,Indian National Congress,41080,271
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,2,GURDEV RAJ,Bahujan Samaj Party,727,10
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,3,DR. NARINDER SINGH RAINA,Bharatiya Janata Party,43041,276
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,4,NARINDER SHARMA,Jammu & Kashmir Peoples Democratic Party,515,5
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,5,HARPREET SINGH,Janata Dal (United),201,3
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,6,PAVNEET KOUR,Jammu and Kashmir Apni Party,394,7
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,7,CHAUDHARY GARU RAM,Democratic Progressive Azad Party,236,1
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,8,ATUL RAINA,Independent,147,1
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,9,RAVINDER SINGH,Independent,97,0
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,10,SUBASH CHANDER,Independent,28,0
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,11,SULAKSH GUPTA,Independent,57,0
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,12,SUNNY KANT CHIB,Independent,92,0
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,13,SHASHI KANT KHAJURIA,Independent,220,0
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,14,HARBANS LAL,Independent,148,1
+2024,Assembly,JK,R. S. PURA- JAMMU SOUTH,15,NOTA,None of the Above,428,4
+2024,Assembly,JK,BAHU,1,PUSHP SHABALYA,Bahujan Samaj Party,868,1
+2024,Assembly,JK,BAHU,2,TARANJIT SINGH TONY,Indian National Congress,29084,50
+2024,Assembly,JK,BAHU,3,ROHIT SHARMA,Jammu & Kashmir National Panthers Party (Bhim),137,1
+2024,Assembly,JK,BAHU,4,VARINDER SINGH,Jammu & Kashmir Peoples Democratic Party,916,2
+2024,Assembly,JK,BAHU,5,VIKRAM RANDHAWA,Bharatiya Janata Party,40283,102
+2024,Assembly,JK,BAHU,6,BISHAN DASS BABORIA,Nationalist Congress Party,135,1
+2024,Assembly,JK,BAHU,7,DR SOHAIL MUZAMMIL GONI,Jammu & Kashmir All Alliance Democratic Party,96,0
+2024,Assembly,JK,BAHU,8,SOBAT ALI,Democratic Progressive Azad Party,361,1
+2024,Assembly,JK,BAHU,9,QARI ZAHEER ABBAS BHATTI,All India Forward Bloc,84,0
+2024,Assembly,JK,BAHU,10,JAYESH KUMAR,Independent,160,0
+2024,Assembly,JK,BAHU,11,SULAKSH GUPTA,Independent,93,0
+2024,Assembly,JK,BAHU,12,KULWANT SINGH,Independent,140,0
+2024,Assembly,JK,BAHU,13,NOTA,None of the Above,458,2
+2024,Assembly,JK,JAMMU EAST,1,ADITYA GUPTA,Jammu & Kashmir Peoples Democratic Party,443,5
+2024,Assembly,JK,JAMMU EAST,2,RAJESH GUPTA,Bahujan Samaj Party,337,2
+2024,Assembly,JK,JAMMU EAST,3,RAJESH GONDHI,Jammu & Kashmir National Panthers Party (Bhim),141,3
+2024,Assembly,JK,JAMMU EAST,4,YUDHVIR SETHI,Bharatiya Janata Party,42405,184
+2024,Assembly,JK,JAMMU EAST,5,YOGESH SAWHNEY,Indian National Congress,24378,97
+2024,Assembly,JK,JAMMU EAST,6,RAJ KUMAR,Hindustan Shakti Sena,238,1
+2024,Assembly,JK,JAMMU EAST,7,SANJEEV LUTHRA,Sainik Samaj Party,155,0
+2024,Assembly,JK,JAMMU EAST,8,ASIF D.M,Independent,141,1
+2024,Assembly,JK,JAMMU EAST,9,CHANDER MOHAN SHARMA,Independent,196,6
+2024,Assembly,JK,JAMMU EAST,10,NOTA,None of the Above,561,4
+2024,Assembly,JK,NAGROTA,1,BALBIR SINGH,Indian National Congress,5904,75
+2024,Assembly,JK,NAGROTA,2,JOGINDER SINGH,Jammu & Kashmir National Conference,17531,110
+2024,Assembly,JK,NAGROTA,3,DEVENDER SINGH RANA,Bharatiya Janata Party,47668,445
+2024,Assembly,JK,NAGROTA,4,SHAK MOHD,Bahujan Samaj Party,785,6
+2024,Assembly,JK,NAGROTA,5,SAT PAUL,Samajwadi Party,139,5
+2024,Assembly,JK,NAGROTA,6,SHABIR CHOWDHARY,Jammu and Kashmir Apni Party,103,0
+2024,Assembly,JK,NAGROTA,7,JASWANT SINGH,Independent,799,10
+2024,Assembly,JK,NAGROTA,8,SHAH MOHD,Independent,218,0
+2024,Assembly,JK,NAGROTA,9,NOTA,None of the Above,285,0
+2024,Assembly,JK,JAMMU WEST,1,ARVIND GUPTA,Bharatiya Janata Party,41725,238
+2024,Assembly,JK,JAMMU WEST,2,RAKESH KUMAR,Jammu & Kashmir National Panthers Party (Bhim),170,4
+2024,Assembly,JK,JAMMU WEST,3,RAJAT GUPTA,Jammu & Kashmir Peoples Democratic Party,381,2
+2024,Assembly,JK,JAMMU WEST,4,MANMOHAN SINGH,Indian National Congress,19757,79
+2024,Assembly,JK,JAMMU WEST,5,SUMIT SHARMA,Sainik Samaj Party,193,0
+2024,Assembly,JK,JAMMU WEST,6,SAWTANTER BHARAT BAKSHI,Haq Insaaf Party,73,0
+2024,Assembly,JK,JAMMU WEST,7,SHIKHA BANDRAL,National Awami United Party,147,2
+2024,Assembly,JK,JAMMU WEST,8,GOURAV CHOPRA,Democratic Progressive Azad Party,662,5
+2024,Assembly,JK,JAMMU WEST,9,MEENAKSHI CHIBBER,ShivSena (Uddhav Balasaheb Thackeray),126,0
+2024,Assembly,JK,JAMMU WEST,10,RAJ KUMAR LALOTRA,Independent,153,7
+2024,Assembly,JK,JAMMU WEST,11,RISHI KAUL,Independent,87,0
+2024,Assembly,JK,JAMMU WEST,12,SAHIL SHARMA,Independent,476,3
+2024,Assembly,JK,JAMMU WEST,13,NOTA,None of the Above,526,4
+2024,Assembly,JK,JAMMU NORTH,1,AJAY KUMAR SADHOTRA,Jammu & Kashmir National Conference,19705,151
+2024,Assembly,JK,JAMMU NORTH,2,BADRI NATH,Bahujan Samaj Party,591,7
+2024,Assembly,JK,JAMMU NORTH,3,DARSHAN KUMAR MAGOTRA,Jammu & Kashmir Peoples Democratic Party,264,2
+2024,Assembly,JK,JAMMU NORTH,4,SHAM LAL SHARMA,Bharatiya Janata Party,46871,348
+2024,Assembly,JK,JAMMU NORTH,5,NARESH KUMAR CHIB,Jammu & Kashmir National Panthers Party (Bhim),147,3
+2024,Assembly,JK,JAMMU NORTH,6,SUNITA TURKI,National Democratic Party (Indian),196,3
+2024,Assembly,JK,JAMMU NORTH,7,MOHIT,National Awami United Party,189,2
+2024,Assembly,JK,JAMMU NORTH,8,MAHESHWAR SINGH MANHAS,Democratic Progressive Azad Party,203,1
+2024,Assembly,JK,JAMMU NORTH,9,AJAY SINGH SAINI,Independent,246,2
+2024,Assembly,JK,JAMMU NORTH,10,AKASH SINGH SLATHIA,Independent,1148,13
+2024,Assembly,JK,JAMMU NORTH,11,AMIT KAPOOR,Independent,558,2
+2024,Assembly,JK,JAMMU NORTH,12,OM PRAKASH GUPTA,Independent,60,1
+2024,Assembly,JK,JAMMU NORTH,13,PRIYANKA SHARMA,Independent,107,2
+2024,Assembly,JK,JAMMU NORTH,14,RAVI DUTT,Independent,183,3
+2024,Assembly,JK,JAMMU NORTH,15,SHIV DEV SINGH,Independent,2431,11
+2024,Assembly,JK,JAMMU NORTH,16,KUSHAL SHARMA,Independent,246,0
+2024,Assembly,JK,JAMMU NORTH,17,KULDEEP KUMAR RAO,Independent,163,0
+2024,Assembly,JK,JAMMU NORTH,18,NOTA,None of the Above,310,9
+2024,Assembly,JK,MARH(SC),1,JAGDISH CHANDER,Bahujan Samaj Party,480,16
+2024,Assembly,JK,MARH(SC),2,SURINDER KUMAR,Bharatiya Janata Party,42128,435
+2024,Assembly,JK,MARH(SC),3,MULA RAM,Indian National Congress,19266,211
+2024,Assembly,JK,MARH(SC),4,ASHOK KUMAR,Democratic Progressive Azad Party,414,8
+2024,Assembly,JK,MARH(SC),5,SOM NATH,Aazad Samaj Party (Kanshi Ram),794,8
+2024,Assembly,JK,MARH(SC),6,MOHAN LAL KAITH,Independent,12771,97
+2024,Assembly,JK,MARH(SC),7,NOTA,None of the Above,400,11
+2024,Assembly,JK,AKHNOOR(SC),1,ASHOK KUMAR,Indian National Congress,24965,283
+2024,Assembly,JK,AKHNOOR(SC),2,CHITTAR MANU,Bahujan Samaj Party,985,24
+2024,Assembly,JK,AKHNOOR(SC),3,MOHAN LAL,Bharatiya Janata Party,49342,585
+2024,Assembly,JK,AKHNOOR(SC),4,NOTA,None of the Above,763,15
+2024,Assembly,JK,CHHAMB,1,TARA CHAND,Indian National Congress,16119,330
+2024,Assembly,JK,CHHAMB,2,RAJEEV SHARMA,Bharatiya Janata Party,26484,572
+2024,Assembly,JK,CHHAMB,3,MALKEET KUMAR,Bahujan Samaj Party,294,19
+2024,Assembly,JK,CHHAMB,4,VIJAY KUMAR,Jammu & Kashmir National Panthers Party (Bhim),286,8
+2024,Assembly,JK,CHHAMB,5,PARVEEN KUMAR,Independent,183,16
+2024,Assembly,JK,CHHAMB,6,SATISH SHARMA,Independent,33285,700
+2024,Assembly,JK,CHHAMB,7,SURINDER KUMAR,Independent,251,10
+2024,Assembly,JK,CHHAMB,8,NARINDER SINGH,Independent,7921,84
+2024,Assembly,JK,CHHAMB,9,NOTA,None of the Above,362,22
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,1,RANDHIR SINGH,Bharatiya Janata Party,34091,919
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,2,MAJID HUSSAIN SHAH,Jammu & Kashmir Peoples Democratic Party,490,17
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,3,YASHU VARDHAN SINGH,Jammu & Kashmir National Conference,20241,360
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,4,ARUN K SHARMA,Jammu and Kashmir Apni Party,9198,182
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,5,ASHOK KUMAR SHARMA,Democratic Progressive Azad Party,1635,60
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,6,RAKESH KUMAR,Shiv Sena (Uddhav Balasaheb Thackeray),120,6
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,7,PINTY DEVI,Independent,93,16
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,8,PANKAJ KUMAR RAINA,Independent,162,5
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,9,SURESH KUMAR,Independent,205,2
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,10,SWARN KUMAR,Independent,300,2
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,11,KABIR AHMED,Independent,217,5
+2024,Assembly,JK,KALAKOTE - SUNDERBANI,12,NOTA,None of the Above,573,4
+2024,Assembly,JK,NOWSHERA,1,HAQ NAWAZ,Jammu & Kashmir Peoples Democratic Party,411,14
+2024,Assembly,JK,NOWSHERA,2,RAVINDER RAINA,Bharatiya Janata Party,26553,697
+2024,Assembly,JK,NOWSHERA,3,SURINDER KUMAR CHOUDHARY,Jammu & Kashmir National Conference,34362,707
+2024,Assembly,JK,NOWSHERA,4,MANOHAR SINGH,Bahujan Samaj Party,1414,42
+2024,Assembly,JK,NOWSHERA,5,SHIV DEV SHARMA,Independent,318,8
+2024,Assembly,JK,NOWSHERA,6,NOTA,None of the Above,209,13
+2024,Assembly,JK,RAJOURI(ST),1,IFTKAR AHMED,Indian National Congress,28364,559
+2024,Assembly,JK,RAJOURI(ST),2,TASADIQ HUSSAIN,Jammu & Kashmir Peoples Democratic Party,710,17
+2024,Assembly,JK,RAJOURI(ST),3,VIBOD KUMAR,Bharatiya Janata Party,26935,584
+2024,Assembly,JK,RAJOURI(ST),4,RAFAQAT AJAZ,Aazad Samaj Party (Kanshi Ram),350,3
+2024,Assembly,JK,RAJOURI(ST),5,MANZOOR HUSSAIN SHAH,Jammu and Kashmir Apni Party,1730,36
+2024,Assembly,JK,RAJOURI(ST),6,MOHD ARIF,Independent,159,3
+2024,Assembly,JK,RAJOURI(ST),7,MIAN MOHD MEHFOOZ,Independent,3986,66
+2024,Assembly,JK,RAJOURI(ST),8,HEMKANT SHARMA,Independent,179,1
+2024,Assembly,JK,RAJOURI(ST),9,NOTA,None of the Above,531,7
+2024,Assembly,JK,BUDHAL(ST),1,JAVAID IQBAL,Jammu & Kashmir National Conference,41306,737
+2024,Assembly,JK,BUDHAL(ST),2,CHOWDHARY ZULFKAR ALI,Bharatiya Janata Party,22519,616
+2024,Assembly,JK,BUDHAL(ST),3,ABDUL RASHID,Bahujan Samaj Party,492,5
+2024,Assembly,JK,BUDHAL(ST),4,GUFTAR AHMED,Jammu & Kashmir Peoples Democratic Party,1859,26
+2024,Assembly,JK,BUDHAL(ST),5,NOTA,None of the Above,810,4
+2024,Assembly,JK,THANNAMANDI(ST),1,QAMAR HUSSAIN,Jammu & Kashmir Peoples Democratic Party,21541,445
+2024,Assembly,JK,THANNAMANDI(ST),2,MOHD IQBAL MALIK,Bharatiya Janata Party,25887,579
+2024,Assembly,JK,THANNAMANDI(ST),3,MOHD SHABIR KHAN,Indian National Congress,7275,233
+2024,Assembly,JK,THANNAMANDI(ST),4,IRFAN ANJUM,Jammu and Kashmir Apni Party,661,5
+2024,Assembly,JK,THANNAMANDI(ST),5,ASTKHAR ALI AHMED,Independent,1002,13
+2024,Assembly,JK,THANNAMANDI(ST),6,MUZAFFAR IQBAL KHAN,Independent,32006,639
+2024,Assembly,JK,THANNAMANDI(ST),7,NOTA,None of the Above,1088,6
+2024,Assembly,JK,SURANKOTE(ST),1,JAVAID IQBAL,Jammu & Kashmir Peoples Democratic Party,1303,22
+2024,Assembly,JK,SURANKOTE(ST),2,MOHD SHAHNAWAZ,Indian National Congress,24916,434
+2024,Assembly,JK,SURANKOTE(ST),3,MUSHTAQ AHMED SHAH BUKHARI,Bharatiya Janata Party,23068,705
+2024,Assembly,JK,SURANKOTE(ST),4,JAVAID AHMED,All India Forward Bloc,375,1
+2024,Assembly,JK,SURANKOTE(ST),5,CHOUDHARY MOHAMMED AKRAM,Independent,33607,594
+2024,Assembly,JK,SURANKOTE(ST),6,FAIZ HUSSAIN,Independent,299,0
+2024,Assembly,JK,SURANKOTE(ST),7,QAZI MOHD IRSHAD,Independent,687,2
+2024,Assembly,JK,SURANKOTE(ST),8,MOHD AKRAM,Independent,480,0
+2024,Assembly,JK,SURANKOTE(ST),9,NOTA,None of the Above,374,4
+2024,Assembly,JK,POONCH HAVELI,1,AJAZ AHMED JAN,Jammu & Kashmir National Conference,41162,645
+2024,Assembly,JK,POONCH HAVELI,2,SHAMIM AHMED,Jammu & Kashmir Peoples Democratic Party,8482,149
+2024,Assembly,JK,POONCH HAVELI,3,CHOUDHARY ABDUL GHANI,Bharatiya Janata Party,20507,421
+2024,Assembly,JK,POONCH HAVELI,4,RYDHAM PREET SINGH SUDAN,Jammu & Kashmir People Conference,987,23
+2024,Assembly,JK,POONCH HAVELI,5,SHAH MOHD TANTRAY,Jammu and Kashmir Apni Party,8966,124
+2024,Assembly,JK,POONCH HAVELI,6,UDESH PAUL SHARMA,Independent,5622,109
+2024,Assembly,JK,POONCH HAVELI,7,SANJEEV KUMAR,Independent,789,5
+2024,Assembly,JK,POONCH HAVELI,8,MASOOD AHMED,Independent,8923,94
+2024,Assembly,JK,POONCH HAVELI,9,NOTA,None of the Above,843,4
+2024,Assembly,JK,MENDHAR(ST),1,JAVED AHMED RANA,Jammu & Kashmir National Conference,31417,759
+2024,Assembly,JK,MENDHAR(ST),2,MURTAZA AHMED KHAN,Bharatiya Janata Party,16683,587
+2024,Assembly,JK,MENDHAR(ST),3,NADEEM AHMED KHAN,Jammu & Kashmir Peoples Democratic Party,6947,188
+2024,Assembly,JK,MENDHAR(ST),4,NOOR MOHD,Bahujan Samaj Party,277,9
+2024,Assembly,JK,MENDHAR(ST),5,SHAZAD AHMED MALIK,Independent,10445,230
+2024,Assembly,JK,MENDHAR(ST),6,MOHD ASHFAQ,Independent,13473,277
+2024,Assembly,JK,MENDHAR(ST),7,MOHD ASIF,Independent,281,3
+2024,Assembly,JK,MENDHAR(ST),8,NAZIR HUSSAIN,Independent,275,14
+2024,Assembly,JK,MENDHAR(ST),9,WASEEM HAYAT,Independent,378,1
+2024,Assembly,JK,MENDHAR(ST),10,NOTA,None of the Above,475,15

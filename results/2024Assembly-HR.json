@@ -1,14 +1,13 @@
 {
-    "title": "Election Commission of India",
-    "headline": "General Election to Assembly Constituencies: Trends & Results October -2024",
+    "title": "General Election to Assembly Constituencies: Trends & Results October -2024",
     "election_year": "2024",
-    "election_type": "AC",
+    "election_type": "Assembly",
     "election_state": "HR",
     "constituencywise_results": [
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS071.htm",
             "voting_data": {
-                "assembly_constituency": "KALKA",
+                "constituency": "KALKA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -72,7 +71,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS072.htm",
             "voting_data": {
-                "assembly_constituency": "PANCHKULA",
+                "constituency": "PANCHKULA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -157,7 +156,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS073.htm",
             "voting_data": {
-                "assembly_constituency": "NARAINGARH",
+                "constituency": "NARAINGARH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -221,7 +220,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS074.htm",
             "voting_data": {
-                "assembly_constituency": "AMBALA CANTT.",
+                "constituency": "AMBALA CANTT.",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -313,7 +312,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS075.htm",
             "voting_data": {
-                "assembly_constituency": "AMBALA CITY",
+                "constituency": "AMBALA CITY",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -405,7 +404,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS076.htm",
             "voting_data": {
-                "assembly_constituency": "MULANA",
+                "constituency": "MULANA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -490,7 +489,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS077.htm",
             "voting_data": {
-                "assembly_constituency": "SADHAURA",
+                "constituency": "SADHAURA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -568,7 +567,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS078.htm",
             "voting_data": {
-                "assembly_constituency": "JAGADHRI",
+                "constituency": "JAGADHRI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -660,7 +659,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS079.htm",
             "voting_data": {
-                "assembly_constituency": "YAMUNANAGAR",
+                "constituency": "YAMUNANAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -745,7 +744,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0710.htm",
             "voting_data": {
-                "assembly_constituency": "RADAUR",
+                "constituency": "RADAUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -830,7 +829,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0711.htm",
             "voting_data": {
-                "assembly_constituency": "LADWA",
+                "constituency": "LADWA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -957,7 +956,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0712.htm",
             "voting_data": {
-                "assembly_constituency": "SHAHBAD",
+                "constituency": "SHAHBAD",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1035,7 +1034,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0713.htm",
             "voting_data": {
-                "assembly_constituency": "THANESAR",
+                "constituency": "THANESAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1113,7 +1112,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0714.htm",
             "voting_data": {
-                "assembly_constituency": "PEHOWA",
+                "constituency": "PEHOWA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1191,7 +1190,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0715.htm",
             "voting_data": {
-                "assembly_constituency": "GUHLA",
+                "constituency": "GUHLA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1269,7 +1268,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0716.htm",
             "voting_data": {
-                "assembly_constituency": "KALAYAT",
+                "constituency": "KALAYAT",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1382,7 +1381,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0717.htm",
             "voting_data": {
-                "assembly_constituency": "KAITHAL",
+                "constituency": "KAITHAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1481,7 +1480,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0718.htm",
             "voting_data": {
-                "assembly_constituency": "PUNDRI",
+                "constituency": "PUNDRI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1622,7 +1621,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0719.htm",
             "voting_data": {
-                "assembly_constituency": "NILOKHERI",
+                "constituency": "NILOKHERI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1742,7 +1741,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0720.htm",
             "voting_data": {
-                "assembly_constituency": "INDRI",
+                "constituency": "INDRI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1799,7 +1798,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0721.htm",
             "voting_data": {
-                "assembly_constituency": "KARNAL",
+                "constituency": "KARNAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1898,7 +1897,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0722.htm",
             "voting_data": {
-                "assembly_constituency": "GHARAUNDA",
+                "constituency": "GHARAUNDA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1969,7 +1968,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0723.htm",
             "voting_data": {
-                "assembly_constituency": "ASSANDH",
+                "constituency": "ASSANDH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2082,7 +2081,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0724.htm",
             "voting_data": {
-                "assembly_constituency": "PANIPAT RURAL",
+                "constituency": "PANIPAT RURAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2174,7 +2173,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0725.htm",
             "voting_data": {
-                "assembly_constituency": "PANIPAT CITY",
+                "constituency": "PANIPAT CITY",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2266,7 +2265,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0726.htm",
             "voting_data": {
-                "assembly_constituency": "ISRANA",
+                "constituency": "ISRANA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2330,7 +2329,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0727.htm",
             "voting_data": {
-                "assembly_constituency": "SAMALKHA",
+                "constituency": "SAMALKHA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2394,7 +2393,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0728.htm",
             "voting_data": {
-                "assembly_constituency": "GANAUR",
+                "constituency": "GANAUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2486,7 +2485,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0729.htm",
             "voting_data": {
-                "assembly_constituency": "RAI",
+                "constituency": "RAI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2599,7 +2598,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0730.htm",
             "voting_data": {
-                "assembly_constituency": "KHARKHAUDA",
+                "constituency": "KHARKHAUDA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2684,7 +2683,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0731.htm",
             "voting_data": {
-                "assembly_constituency": "SONIPAT",
+                "constituency": "SONIPAT",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2783,7 +2782,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0732.htm",
             "voting_data": {
-                "assembly_constituency": "GOHANA",
+                "constituency": "GOHANA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2875,7 +2874,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0733.htm",
             "voting_data": {
-                "assembly_constituency": "BARODA",
+                "constituency": "BARODA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2939,7 +2938,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0734.htm",
             "voting_data": {
-                "assembly_constituency": "JULANA",
+                "constituency": "JULANA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3038,7 +3037,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0735.htm",
             "voting_data": {
-                "assembly_constituency": "SAFIDON",
+                "constituency": "SAFIDON",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3172,7 +3171,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0736.htm",
             "voting_data": {
-                "assembly_constituency": "JIND",
+                "constituency": "JIND",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3278,7 +3277,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0737.htm",
             "voting_data": {
-                "assembly_constituency": "UCHANA KALAN",
+                "constituency": "UCHANA KALAN",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3433,7 +3432,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0738.htm",
             "voting_data": {
-                "assembly_constituency": "NARWANA",
+                "constituency": "NARWANA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3518,7 +3517,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0739.htm",
             "voting_data": {
-                "assembly_constituency": "TOHANA",
+                "constituency": "TOHANA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3617,7 +3616,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0740.htm",
             "voting_data": {
-                "assembly_constituency": "FATEHABAD",
+                "constituency": "FATEHABAD",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3758,7 +3757,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0741.htm",
             "voting_data": {
-                "assembly_constituency": "RATIA",
+                "constituency": "RATIA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3843,7 +3842,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0742.htm",
             "voting_data": {
-                "assembly_constituency": "KALANWALI",
+                "constituency": "KALANWALI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3893,7 +3892,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0743.htm",
             "voting_data": {
-                "assembly_constituency": "DABWALI",
+                "constituency": "DABWALI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3992,7 +3991,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0744.htm",
             "voting_data": {
-                "assembly_constituency": "RANIA",
+                "constituency": "RANIA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4105,7 +4104,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0745.htm",
             "voting_data": {
-                "assembly_constituency": "SIRSA",
+                "constituency": "SIRSA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4211,7 +4210,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0746.htm",
             "voting_data": {
-                "assembly_constituency": "ELLENABAD",
+                "constituency": "ELLENABAD",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4296,7 +4295,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0747.htm",
             "voting_data": {
-                "assembly_constituency": "ADAMPUR",
+                "constituency": "ADAMPUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4395,7 +4394,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0748.htm",
             "voting_data": {
-                "assembly_constituency": "UKLANA",
+                "constituency": "UKLANA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4459,7 +4458,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0749.htm",
             "voting_data": {
-                "assembly_constituency": "NARNAUND",
+                "constituency": "NARNAUND",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4572,7 +4571,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0750.htm",
             "voting_data": {
-                "assembly_constituency": "HANSI",
+                "constituency": "HANSI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4678,7 +4677,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0751.htm",
             "voting_data": {
-                "assembly_constituency": "BARWALA",
+                "constituency": "BARWALA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4756,7 +4755,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0752.htm",
             "voting_data": {
-                "assembly_constituency": "HISAR",
+                "constituency": "HISAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4918,7 +4917,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0753.htm",
             "voting_data": {
-                "assembly_constituency": "NALWA",
+                "constituency": "NALWA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5024,7 +5023,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0754.htm",
             "voting_data": {
-                "assembly_constituency": "LOHARU",
+                "constituency": "LOHARU",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5130,7 +5129,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0755.htm",
             "voting_data": {
-                "assembly_constituency": "BADHRA",
+                "constituency": "BADHRA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5250,7 +5249,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0756.htm",
             "voting_data": {
-                "assembly_constituency": "DADRI",
+                "constituency": "DADRI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5391,7 +5390,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0757.htm",
             "voting_data": {
-                "assembly_constituency": "BHIWANI",
+                "constituency": "BHIWANI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5532,7 +5531,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0758.htm",
             "voting_data": {
-                "assembly_constituency": "TOSHAM",
+                "constituency": "TOSHAM",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5652,7 +5651,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0759.htm",
             "voting_data": {
-                "assembly_constituency": "BAWANI KHERA",
+                "constituency": "BAWANI KHERA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5737,7 +5736,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0760.htm",
             "voting_data": {
-                "assembly_constituency": "MEHAM",
+                "constituency": "MEHAM",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5885,7 +5884,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0761.htm",
             "voting_data": {
-                "assembly_constituency": "GARHI SAMPLA - KILOI",
+                "constituency": "GARHI SAMPLA - KILOI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5963,7 +5962,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0762.htm",
             "voting_data": {
-                "assembly_constituency": "ROHTAK",
+                "constituency": "ROHTAK",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6083,7 +6082,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0763.htm",
             "voting_data": {
-                "assembly_constituency": "KALANAUR",
+                "constituency": "KALANAUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6189,7 +6188,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0764.htm",
             "voting_data": {
-                "assembly_constituency": "BAHADURGARH",
+                "constituency": "BAHADURGARH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6302,7 +6301,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0765.htm",
             "voting_data": {
-                "assembly_constituency": "BADLI",
+                "constituency": "BADLI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6380,7 +6379,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0766.htm",
             "voting_data": {
-                "assembly_constituency": "JHAJJAR",
+                "constituency": "JHAJJAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6472,7 +6471,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0767.htm",
             "voting_data": {
-                "assembly_constituency": "BERI",
+                "constituency": "BERI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6543,7 +6542,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0768.htm",
             "voting_data": {
-                "assembly_constituency": "ATELI",
+                "constituency": "ATELI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6614,7 +6613,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0769.htm",
             "voting_data": {
-                "assembly_constituency": "MAHENDRAGARH",
+                "constituency": "MAHENDRAGARH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6720,7 +6719,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0770.htm",
             "voting_data": {
-                "assembly_constituency": "NARNAUL",
+                "constituency": "NARNAUL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6812,7 +6811,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0771.htm",
             "voting_data": {
-                "assembly_constituency": "NANGAL CHAUDHRY",
+                "constituency": "NANGAL CHAUDHRY",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6862,7 +6861,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0772.htm",
             "voting_data": {
-                "assembly_constituency": "BAWAL",
+                "constituency": "BAWAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6947,7 +6946,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0773.htm",
             "voting_data": {
-                "assembly_constituency": "KOSLI",
+                "constituency": "KOSLI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7081,7 +7080,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0774.htm",
             "voting_data": {
-                "assembly_constituency": "REWARI",
+                "constituency": "REWARI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7180,7 +7179,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0775.htm",
             "voting_data": {
-                "assembly_constituency": "PATAUDI",
+                "constituency": "PATAUDI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7244,7 +7243,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0776.htm",
             "voting_data": {
-                "assembly_constituency": "BADSHAHPUR",
+                "constituency": "BADSHAHPUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7350,7 +7349,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0777.htm",
             "voting_data": {
-                "assembly_constituency": "GURGAON",
+                "constituency": "GURGAON",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7484,7 +7483,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0778.htm",
             "voting_data": {
-                "assembly_constituency": "SOHNA",
+                "constituency": "SOHNA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7569,7 +7568,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0779.htm",
             "voting_data": {
-                "assembly_constituency": "NUH",
+                "constituency": "NUH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7626,7 +7625,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0780.htm",
             "voting_data": {
-                "assembly_constituency": "FEROZEPUR JHIRKA",
+                "constituency": "FEROZEPUR JHIRKA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7697,7 +7696,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0781.htm",
             "voting_data": {
-                "assembly_constituency": "PUNAHANA",
+                "constituency": "PUNAHANA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7761,7 +7760,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0782.htm",
             "voting_data": {
-                "assembly_constituency": "HATHIN",
+                "constituency": "HATHIN",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7832,7 +7831,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0783.htm",
             "voting_data": {
-                "assembly_constituency": "HODAL",
+                "constituency": "HODAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7931,7 +7930,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0784.htm",
             "voting_data": {
-                "assembly_constituency": "PALWAL",
+                "constituency": "PALWAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -8037,7 +8036,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0785.htm",
             "voting_data": {
-                "assembly_constituency": "PRITHLA",
+                "constituency": "PRITHLA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -8143,7 +8142,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0786.htm",
             "voting_data": {
-                "assembly_constituency": "FARIDABAD NIT",
+                "constituency": "FARIDABAD NIT",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -8249,7 +8248,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0787.htm",
             "voting_data": {
-                "assembly_constituency": "BADKHAL",
+                "constituency": "BADKHAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -8327,7 +8326,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0788.htm",
             "voting_data": {
-                "assembly_constituency": "BALLABGARH",
+                "constituency": "BALLABGARH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -8398,7 +8397,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0789.htm",
             "voting_data": {
-                "assembly_constituency": "FARIDABAD",
+                "constituency": "FARIDABAD",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -8469,7 +8468,7 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseS0790.htm",
             "voting_data": {
-                "assembly_constituency": "TIGAON",
+                "constituency": "TIGAON",
                 "voting_tally": [
                     {
                         "serial_no": "1",
