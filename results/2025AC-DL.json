@@ -1,0 +1,73 @@
+{
+    "title": "Election Commission of India",
+    "headline": "General Election to Assembly Constituencies: Trends & Results February-2025",
+    "state": "NCT of Delhi",
+    "constituencywise_results": [
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU051.htm",
+            "voting_data": {
+                "constituency_number": "1",
+                "assembly_constituency": "NERELA",
+                "state": "NCT of Delhi",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ARUNA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "6724",
+                        "postal_votes": "58"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "RAJ KARAN KHATRI",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "86463",
+                        "postal_votes": "752"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SHARAD KUMAR",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "78395",
+                        "postal_votes": "224"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ANIL KUMAR SINGH",
+                        "party": "Communist Party of India (Marxist-Leninist) (Liberation)",
+                        "evm_votes": "328",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "MD KHALID",
+                        "party": "Aazad Samaj Party (Kanshi Ram)",
+                        "evm_votes": "278",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "BUDIYA",
+                        "party": "Independent",
+                        "evm_votes": "242",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "VIKAS BHARDWAJ",
+                        "party": "Independent",
+                        "evm_votes": "300",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "973",
+                        "postal_votes": "8"
+                    }
+                ]
+            }
+        }
+    ]
+}
