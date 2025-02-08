@@ -12,6 +12,14 @@ def source_url(seq_no) -> str:
     base_url = "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU05"  # NCT of Delhi
     return base_url + str(seq_no) + ".htm"
 
+def get_state_code(state_name):
+    import pandas as pd
+    # Read states.csv and create a mapping of state names to codes
+    states = pd.read_csv('states.csv')
+    states['state_name'].str.lower()
+    state_code = states[states['state_name'] == state_name]['state_code'].iloc[0]
+    return state_code
+
 def extract_results(driver) -> dict:
     results = {}
     try:
@@ -25,17 +33,16 @@ def extract_results(driver) -> dict:
         
         # Extract constituency name and state using regex
         import re
+        state_name = ''
         match = re.match(r'(.+?) \((.+?)\)', parts[1])
         if match:
             constituency_name = match.group(1)
             state_name = match.group(2)
         else:
             constituency_name = parts[1]
-            state_name = ''
-            
+
         results["constituency_number"] = constituency_number
-        results["assembly_constituency"] = constituency_name
-        results["state"] = state_name
+        results["constituency"] = constituency_name
         results["voting_tally"] = []
 
         # Extracting candidate results
@@ -73,19 +80,23 @@ def main():
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
 
         # Initialize results dictionary with page title and other details
+        h1 = driver.find_element(By.TAG_NAME, 'h1').text
+        h2 = driver.find_element(By.TAG_NAME, 'h2').text.replace('<span>', '').replace('</span>', '').replace('<strong>', '').replace('</strong>', '').replace('  ', ' ')
+        state_name = h2.split('(')[-1].replace(')', '')
         results = {
-            "title": driver.title,
-            "headline": driver.find_element(By.TAG_NAME, 'h1').text,
-            "state": driver.find_element(By.TAG_NAME, 'h2').find_element(By.TAG_NAME, 'strong').text.replace('(', '').replace(')', ''),
+            "title": h1,
+            "election_year": h1.split('-')[-1].strip(),
+            "election_type": ''.join(h2.split()[:1]),
+            "election_state": get_state_code(state_name),
             "constituencywise_results": []
         }
 
-        print(f"{results['headline']} \nState/UT: {results['state']}\n")
+        print(f"{results['election_year']} {results['election_type']} Elections, {state_name}\n")
 
         # Create dynamic filenames
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        json_file = f"./results/{results['state']}_{timestamp}.json"
-        csv_file = f"./results/{results['state']}_{timestamp}.csv"
+        json_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.json"
+        csv_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.csv"
 
         # Start scraping each constituency page
         while seq_no <= seq_limit:
@@ -100,7 +111,7 @@ def main():
             result = extract_results(driver)
             if result:
                 results["constituencywise_results"].append({"source_url": url, "voting_data": result})
-                print("Done.")
+                print(" Done.")
 
             seq_no += 1
 
@@ -115,19 +126,22 @@ def main():
             # Write results to JSON file
             with open(json_file, "w") as file:
                 json.dump(results, file, indent=4)
-                print(f"Scraped data stored in {json_file}")
+                print(f"\nData stored in: \n{json_file}")
 
             # Write results to CSV file
             with open(csv_file, 'w') as f_write:
-                fieldnames = ['state', 'constituency', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
+                fieldnames = ['election_year', 'election_type', 'election_state', 'constituency', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
                 writer = csv.DictWriter(f_write, fieldnames=fieldnames)
                 writer.writeheader()
                 for constituency in results['constituencywise_results']:
                     for candidate in constituency['voting_data']['voting_tally']:
-                        candidate['state'] = results['state']
-                        candidate['constituency'] = constituency['voting_data']['assembly_constituency']
+                        candidate['election_year'] = results['election_year']
+                        candidate['election_type'] = results['election_type']
+                        candidate['election_state'] = results['election_state']
+                        candidate['constituency'] = constituency['voting_data']['constituency']
+                        candidate['serial_no'] = candidate['serial_no']
                         writer.writerow(candidate)
-                print(f"Scraped data also stored in {csv_file}")
+                print(f"{csv_file}")
 
 if __name__ == "__main__":
     main()
