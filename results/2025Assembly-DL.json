@@ -1,14 +1,14 @@
 {
-    "title": "Election Commission of India",
-    "headline": "General Election to Assembly Constituencies: Trends & Results February-2025",
-    "state": "NCT of Delhi",
+    "title": "General Election to Assembly Constituencies: Trends & Results February-2025",
+    "election_year": "2025",
+    "election_type": "Assembly",
+    "election_state": "DL",
     "constituencywise_results": [
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU051.htm",
             "voting_data": {
                 "constituency_number": "1",
-                "assembly_constituency": "NERELA",
-                "state": "NCT of Delhi",
+                "constituency": "NERELA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -73,8 +73,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU052.htm",
             "voting_data": {
                 "constituency_number": "2",
-                "assembly_constituency": "BURARI",
-                "state": "NCT of Delhi",
+                "constituency": "BURARI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -188,8 +187,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU053.htm",
             "voting_data": {
                 "constituency_number": "3",
-                "assembly_constituency": "TIMARPUR",
-                "state": "NCT of Delhi",
+                "constituency": "TIMARPUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -289,8 +287,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU054.htm",
             "voting_data": {
                 "constituency_number": "4",
-                "assembly_constituency": "ADARSH NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "ADARSH NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -323,7 +320,7 @@
                     {
                         "serial_no": "5",
                         "candidate": "PRIYA",
-                        "party": "Aam Janmat Party",
+                        "party": "Aam Janmat Party,",
                         "evm_votes": "56",
                         "postal_votes": "0"
                     },
@@ -404,8 +401,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU055.htm",
             "voting_data": {
                 "constituency_number": "5",
-                "assembly_constituency": "BADLI",
-                "state": "NCT of Delhi",
+                "constituency": "BADLI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -459,7 +455,7 @@
                     {
                         "serial_no": "8",
                         "candidate": "RAJENDER",
-                        "party": "Aam Janmat Party",
+                        "party": "Aam Janmat Party,",
                         "evm_votes": "68",
                         "postal_votes": "0"
                     },
@@ -505,8 +501,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU056.htm",
             "voting_data": {
                 "constituency_number": "6",
-                "assembly_constituency": "RITHALA",
-                "state": "NCT of Delhi",
+                "constituency": "RITHALA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -599,8 +594,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU057.htm",
             "voting_data": {
                 "constituency_number": "7",
-                "assembly_constituency": "BAWANA",
-                "state": "NCT of Delhi",
+                "constituency": "BAWANA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -665,8 +659,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU058.htm",
             "voting_data": {
                 "constituency_number": "8",
-                "assembly_constituency": "MUNDKA",
-                "state": "NCT of Delhi",
+                "constituency": "MUNDKA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -773,8 +766,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU059.htm",
             "voting_data": {
                 "constituency_number": "9",
-                "assembly_constituency": "KIRARI",
-                "state": "NCT of Delhi",
+                "constituency": "KIRARI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -853,8 +845,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0510.htm",
             "voting_data": {
                 "constituency_number": "10",
-                "assembly_constituency": "SULTANPUR MAJRA",
-                "state": "NCT of Delhi",
+                "constituency": "SULTANPUR MAJRA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -954,8 +945,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0511.htm",
             "voting_data": {
                 "constituency_number": "11",
-                "assembly_constituency": "NANGLOI JAT",
-                "state": "NCT of Delhi",
+                "constituency": "NANGLOI JAT",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1034,8 +1024,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0512.htm",
             "voting_data": {
                 "constituency_number": "12",
-                "assembly_constituency": "MANGOL PURI",
-                "state": "NCT of Delhi",
+                "constituency": "MANGOL PURI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1093,8 +1082,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0513.htm",
             "voting_data": {
                 "constituency_number": "13",
-                "assembly_constituency": "ROHINI",
-                "state": "NCT of Delhi",
+                "constituency": "ROHINI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1166,8 +1154,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0514.htm",
             "voting_data": {
                 "constituency_number": "14",
-                "assembly_constituency": "SHALIMAR BAGH",
-                "state": "NCT of Delhi",
+                "constituency": "SHALIMAR BAGH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1246,8 +1233,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0515.htm",
             "voting_data": {
                 "constituency_number": "15",
-                "assembly_constituency": "SHAKUR BASTI",
-                "state": "NCT of Delhi",
+                "constituency": "SHAKUR BASTI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1312,8 +1298,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0516.htm",
             "voting_data": {
                 "constituency_number": "16",
-                "assembly_constituency": "TRI NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "TRI NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1371,8 +1356,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0517.htm",
             "voting_data": {
                 "constituency_number": "17",
-                "assembly_constituency": "WAZIRPUR",
-                "state": "NCT of Delhi",
+                "constituency": "WAZIRPUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1451,8 +1435,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0518.htm",
             "voting_data": {
                 "constituency_number": "18",
-                "assembly_constituency": "MODEL TOWN",
-                "state": "NCT of Delhi",
+                "constituency": "MODEL TOWN",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1531,8 +1514,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0519.htm",
             "voting_data": {
                 "constituency_number": "19",
-                "assembly_constituency": "SADAR BAZAR",
-                "state": "NCT of Delhi",
+                "constituency": "SADAR BAZAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1625,8 +1607,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0520.htm",
             "voting_data": {
                 "constituency_number": "20",
-                "assembly_constituency": "CHANDNI CHOWK",
-                "state": "NCT of Delhi",
+                "constituency": "CHANDNI CHOWK",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1691,8 +1672,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0521.htm",
             "voting_data": {
                 "constituency_number": "21",
-                "assembly_constituency": "MATIA MAHAL",
-                "state": "NCT of Delhi",
+                "constituency": "MATIA MAHAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1785,8 +1765,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0522.htm",
             "voting_data": {
                 "constituency_number": "22",
-                "assembly_constituency": "BALLIMARAN",
-                "state": "NCT of Delhi",
+                "constituency": "BALLIMARAN",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1865,8 +1844,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0523.htm",
             "voting_data": {
                 "constituency_number": "23",
-                "assembly_constituency": "KAROL BAGH",
-                "state": "NCT of Delhi",
+                "constituency": "KAROL BAGH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1924,8 +1902,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0524.htm",
             "voting_data": {
                 "constituency_number": "24",
-                "assembly_constituency": "PATEL NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "PATEL NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1976,8 +1953,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0525.htm",
             "voting_data": {
                 "constituency_number": "25",
-                "assembly_constituency": "MOTI NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "MOTI NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2077,8 +2053,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0526.htm",
             "voting_data": {
                 "constituency_number": "26",
-                "assembly_constituency": "MADIPUR",
-                "state": "NCT of Delhi",
+                "constituency": "MADIPUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2157,8 +2132,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0527.htm",
             "voting_data": {
                 "constituency_number": "27",
-                "assembly_constituency": "RAJOURI GARDEN",
-                "state": "NCT of Delhi",
+                "constituency": "RAJOURI GARDEN",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2230,8 +2204,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0528.htm",
             "voting_data": {
                 "constituency_number": "28",
-                "assembly_constituency": "HARI NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "HARI NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2317,8 +2290,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0529.htm",
             "voting_data": {
                 "constituency_number": "29",
-                "assembly_constituency": "TILAK NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "TILAK NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2376,8 +2348,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0530.htm",
             "voting_data": {
                 "constituency_number": "30",
-                "assembly_constituency": "JANAKPURI",
-                "state": "NCT of Delhi",
+                "constituency": "JANAKPURI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2505,8 +2476,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0531.htm",
             "voting_data": {
                 "constituency_number": "31",
-                "assembly_constituency": "VIKASPURI",
-                "state": "NCT of Delhi",
+                "constituency": "VIKASPURI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2613,8 +2583,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0532.htm",
             "voting_data": {
                 "constituency_number": "32",
-                "assembly_constituency": "UTTAM NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "UTTAM NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2693,8 +2662,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0533.htm",
             "voting_data": {
                 "constituency_number": "33",
-                "assembly_constituency": "DWARKA",
-                "state": "NCT of Delhi",
+                "constituency": "DWARKA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2801,8 +2769,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0534.htm",
             "voting_data": {
                 "constituency_number": "34",
-                "assembly_constituency": "MATIALA",
-                "state": "NCT of Delhi",
+                "constituency": "MATIALA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2909,8 +2876,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0535.htm",
             "voting_data": {
                 "constituency_number": "35",
-                "assembly_constituency": "NAJAFGARH",
-                "state": "NCT of Delhi",
+                "constituency": "NAJAFGARH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2989,8 +2955,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0536.htm",
             "voting_data": {
                 "constituency_number": "36",
-                "assembly_constituency": "BIJWASAN",
-                "state": "NCT of Delhi",
+                "constituency": "BIJWASAN",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3090,8 +3055,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0537.htm",
             "voting_data": {
                 "constituency_number": "37",
-                "assembly_constituency": "PALAM",
-                "state": "NCT of Delhi",
+                "constituency": "PALAM",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3156,8 +3120,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0538.htm",
             "voting_data": {
                 "constituency_number": "38",
-                "assembly_constituency": "DELHI CANTT",
-                "state": "NCT of Delhi",
+                "constituency": "DELHI CANTT",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3222,8 +3185,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0539.htm",
             "voting_data": {
                 "constituency_number": "39",
-                "assembly_constituency": "RAJINDER NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "RAJINDER NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3288,8 +3250,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0540.htm",
             "voting_data": {
                 "constituency_number": "40",
-                "assembly_constituency": "NEW DELHI",
-                "state": "NCT of Delhi",
+                "constituency": "NEW DELHI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3466,8 +3427,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0541.htm",
             "voting_data": {
                 "constituency_number": "41",
-                "assembly_constituency": "JANGPURA",
-                "state": "NCT of Delhi",
+                "constituency": "JANGPURA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3546,8 +3506,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0542.htm",
             "voting_data": {
                 "constituency_number": "42",
-                "assembly_constituency": "KASTURBA NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "KASTURBA NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3598,8 +3557,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0543.htm",
             "voting_data": {
                 "constituency_number": "43",
-                "assembly_constituency": "MALVIYA NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "MALVIYA NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3664,8 +3622,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0544.htm",
             "voting_data": {
                 "constituency_number": "44",
-                "assembly_constituency": "R. K. PURAM",
-                "state": "NCT of Delhi",
+                "constituency": "R. K. PURAM",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3772,8 +3729,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0545.htm",
             "voting_data": {
                 "constituency_number": "45",
-                "assembly_constituency": "MEHRAULI",
-                "state": "NCT of Delhi",
+                "constituency": "MEHRAULI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3845,8 +3801,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0546.htm",
             "voting_data": {
                 "constituency_number": "46",
-                "assembly_constituency": "CHHATARPUR",
-                "state": "NCT of Delhi",
+                "constituency": "CHHATARPUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3939,8 +3894,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0547.htm",
             "voting_data": {
                 "constituency_number": "47",
-                "assembly_constituency": "DEOLI",
-                "state": "NCT of Delhi",
+                "constituency": "DEOLI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4005,8 +3959,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0548.htm",
             "voting_data": {
                 "constituency_number": "48",
-                "assembly_constituency": "AMBEDKAR NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "AMBEDKAR NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4085,8 +4038,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0549.htm",
             "voting_data": {
                 "constituency_number": "49",
-                "assembly_constituency": "SANGAM VIHAR",
-                "state": "NCT of Delhi",
+                "constituency": "SANGAM VIHAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4179,8 +4131,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0550.htm",
             "voting_data": {
                 "constituency_number": "50",
-                "assembly_constituency": "GREATER KAILASH",
-                "state": "NCT of Delhi",
+                "constituency": "GREATER KAILASH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4238,8 +4189,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0551.htm",
             "voting_data": {
                 "constituency_number": "51",
-                "assembly_constituency": "KALKAJI",
-                "state": "NCT of Delhi",
+                "constituency": "KALKAJI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4346,8 +4296,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0552.htm",
             "voting_data": {
                 "constituency_number": "52",
-                "assembly_constituency": "TUGHLAKABAD",
-                "state": "NCT of Delhi",
+                "constituency": "TUGHLAKABAD",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4426,8 +4375,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0553.htm",
             "voting_data": {
                 "constituency_number": "53",
-                "assembly_constituency": "BADARPUR",
-                "state": "NCT of Delhi",
+                "constituency": "BADARPUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4527,8 +4475,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0554.htm",
             "voting_data": {
                 "constituency_number": "54",
-                "assembly_constituency": "OKHLA",
-                "state": "NCT of Delhi",
+                "constituency": "OKHLA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4642,8 +4589,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0555.htm",
             "voting_data": {
                 "constituency_number": "55",
-                "assembly_constituency": "TRILOKPURI",
-                "state": "NCT of Delhi",
+                "constituency": "TRILOKPURI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4708,8 +4654,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0556.htm",
             "voting_data": {
                 "constituency_number": "56",
-                "assembly_constituency": "KONDLI",
-                "state": "NCT of Delhi",
+                "constituency": "KONDLI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4788,8 +4733,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0557.htm",
             "voting_data": {
                 "constituency_number": "57",
-                "assembly_constituency": "PATPARGANJ",
-                "state": "NCT of Delhi",
+                "constituency": "PATPARGANJ",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4868,8 +4812,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0558.htm",
             "voting_data": {
                 "constituency_number": "58",
-                "assembly_constituency": "LAXMI NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "LAXMI NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4990,8 +4933,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0559.htm",
             "voting_data": {
                 "constituency_number": "59",
-                "assembly_constituency": "VISHWAS NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "VISHWAS NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5077,8 +5019,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0560.htm",
             "voting_data": {
                 "constituency_number": "60",
-                "assembly_constituency": "KRISHNA NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "KRISHNA NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5143,8 +5084,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0561.htm",
             "voting_data": {
                 "constituency_number": "61",
-                "assembly_constituency": "GANDHI NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "GANDHI NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5202,8 +5142,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0562.htm",
             "voting_data": {
                 "constituency_number": "62",
-                "assembly_constituency": "SHAHDARA",
-                "state": "NCT of Delhi",
+                "constituency": "SHAHDARA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5289,8 +5228,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0563.htm",
             "voting_data": {
                 "constituency_number": "63",
-                "assembly_constituency": "SEEMAPURI",
-                "state": "NCT of Delhi",
+                "constituency": "SEEMAPURI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5383,8 +5321,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0564.htm",
             "voting_data": {
                 "constituency_number": "64",
-                "assembly_constituency": "ROHTAS NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "ROHTAS NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5505,8 +5442,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0565.htm",
             "voting_data": {
                 "constituency_number": "65",
-                "assembly_constituency": "SEELAM PUR",
-                "state": "NCT of Delhi",
+                "constituency": "SEELAM PUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5613,8 +5549,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0566.htm",
             "voting_data": {
                 "constituency_number": "66",
-                "assembly_constituency": "GHONDA",
-                "state": "NCT of Delhi",
+                "constituency": "GHONDA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5693,8 +5628,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0567.htm",
             "voting_data": {
                 "constituency_number": "67",
-                "assembly_constituency": "BABARPUR",
-                "state": "NCT of Delhi",
+                "constituency": "BABARPUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5766,8 +5700,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0568.htm",
             "voting_data": {
                 "constituency_number": "68",
-                "assembly_constituency": "GOKALPUR",
-                "state": "NCT of Delhi",
+                "constituency": "GOKALPUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5867,8 +5800,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0569.htm",
             "voting_data": {
                 "constituency_number": "69",
-                "assembly_constituency": "MUSTAFABAD",
-                "state": "NCT of Delhi",
+                "constituency": "MUSTAFABAD",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5968,8 +5900,7 @@
             "source_url": "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU0570.htm",
             "voting_data": {
                 "constituency_number": "70",
-                "assembly_constituency": "KARAWAL NAGAR",
-                "state": "NCT of Delhi",
+                "constituency": "KARAWAL NAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
