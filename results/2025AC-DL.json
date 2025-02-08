@@ -323,7 +323,7 @@
                     {
                         "serial_no": "5",
                         "candidate": "PRIYA",
-                        "party": "Aam Janmat Party,",
+                        "party": "Aam Janmat Party",
                         "evm_votes": "56",
                         "postal_votes": "0"
                     },
@@ -459,7 +459,7 @@
                     {
                         "serial_no": "8",
                         "candidate": "RAJENDER",
-                        "party": "Aam Janmat Party,",
+                        "party": "Aam Janmat Party",
                         "evm_votes": "68",
                         "postal_votes": "0"
                     },
