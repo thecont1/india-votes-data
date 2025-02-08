@@ -9,16 +9,33 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from datetime import datetime
 
 def source_url(seq_no) -> str:
-    base_url = "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS27"
-    return base_url + str(seq_no) + ".htm"     
+    base_url = "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU05"  # NCT of Delhi
+    return base_url + str(seq_no) + ".htm"
 
 def extract_results(driver) -> dict:
     results = {}
     try:
         # Wait for necessary elements to load before scraping
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'h2')))
-        constituency_name = " ".join(driver.find_element(By.TAG_NAME, 'h2').find_element(By.TAG_NAME, 'span').text.split()[2:-1])
+        full_text = driver.find_element(By.TAG_NAME, 'h2').find_element(By.TAG_NAME, 'span').text
+        
+        # Split by ' - ' to get constituency number and remaining text
+        parts = full_text.split(' - ')
+        constituency_number = parts[0].strip()
+        
+        # Extract constituency name and state using regex
+        import re
+        match = re.match(r'(.+?) \((.+?)\)', parts[1])
+        if match:
+            constituency_name = match.group(1)
+            state_name = match.group(2)
+        else:
+            constituency_name = parts[1]
+            state_name = ''
+            
+        results["constituency_number"] = constituency_number
         results["assembly_constituency"] = constituency_name
+        results["state"] = state_name
         results["voting_tally"] = []
 
         # Extracting candidate results
@@ -33,24 +50,22 @@ def extract_results(driver) -> dict:
     return results
 
 def main():
+    seq_no = 1
+    seq_limit = 3  # This could be dynamic based on the content of the website
+
     # Chrome browser setup with performance and headless mode enabled
     options = Options()
     options.add_argument("--blink-settings=imagesEnabled=false")
     options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
-    options.add_argument("user-agent=Mozilla/6.3 (Windows NT 10.0; Win64; x64) AppleWebKit/602.11 (KHTML, like Gecko) Chrome/116.1.2119.32 Safari/541.85")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.77 Safari/537.36")
 
     driver = webdriver.Chrome(options=options)
     
-    seq_no = 1
-    seq_limit = 81  # This could be dynamic based on the content of the website
-    election_year = '2024'
-    election_type = 'AC'
-    election_state = 'JH'
-    json_file = f"{election_year}{election_type}-{election_state}.json"
-    csv_file = f"{election_year}{election_type}-{election_state}.csv"
     results = {}
+    json_file = ""
+    csv_file = ""
 
     try:
         # Get initial state/UT information to create output filenames
@@ -59,16 +74,18 @@ def main():
 
         # Initialize results dictionary with page title and other details
         results = {
-            'title': driver.title,
-            'headline': driver.find_element(By.TAG_NAME, 'h1').text,
-            'election_year': election_year,
-            'election_type': election_type,
-            'election_state': election_state,
-#            "state": driver.find_element(By.TAG_NAME, 'h2').find_element(By.TAG_NAME, 'strong').text.replace('(', '').replace(')', ''),
-            'constituencywise_results': []
+            "title": driver.title,
+            "headline": driver.find_element(By.TAG_NAME, 'h1').text,
+            "state": driver.find_element(By.TAG_NAME, 'h2').find_element(By.TAG_NAME, 'strong').text.replace('(', '').replace(')', ''),
+            "constituencywise_results": []
         }
 
-        print(f"{results['headline']} \nState/UT: {results['election_state']}\n")
+        print(f"{results['headline']} \nState/UT: {results['state']}\n")
+
+        # Create dynamic filenames
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        json_file = f"./results/{results['state']}_{timestamp}.json"
+        csv_file = f"./results/{results['state']}_{timestamp}.csv"
 
         # Start scraping each constituency page
         while seq_no <= seq_limit:
@@ -77,7 +94,7 @@ def main():
 
             driver.get(url)
             if "404" in driver.title:
-                print(f"\nNo more data found. Scraping process terminates.")
+                print(f"\n\n404 Not Found at {url}. End scraping.")
                 break
 
             result = extract_results(driver)
@@ -89,6 +106,7 @@ def main():
 
     except (NoSuchElementException, TimeoutException, AssertionError) as e:
         print(f"Scraping stopped due to error: {e}")
+        # print(driver.page_source)
 
     finally:
         driver.quit()
@@ -101,14 +119,12 @@ def main():
 
             # Write results to CSV file
             with open(csv_file, 'w') as f_write:
-                fieldnames = ['election_year', 'election_type', 'election_state', 'constituency', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
+                fieldnames = ['state', 'constituency', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
                 writer = csv.DictWriter(f_write, fieldnames=fieldnames)
                 writer.writeheader()
                 for constituency in results['constituencywise_results']:
                     for candidate in constituency['voting_data']['voting_tally']:
-                        candidate['election_year'] = election_year
-                        candidate['election_type'] = election_type
-                        candidate['election_state'] = election_state
+                        candidate['state'] = results['state']
                         candidate['constituency'] = constituency['voting_data']['assembly_constituency']
                         writer.writerow(candidate)
                 print(f"Scraped data also stored in {csv_file}")
