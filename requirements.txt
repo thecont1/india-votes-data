@@ -1,0 +1,12 @@
+# Core dependencies
+selenium>=4.15.0
+pandas>=2.1.0
+
+# Optional dependencies for data analysis
+jupyter>=1.0.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Development dependencies
+black>=23.11.0  # code formatting
+pylint>=3.0.0   # code quality checks
