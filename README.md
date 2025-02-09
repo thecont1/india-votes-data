@@ -1,6 +1,6 @@
 # India Votes Data
 
-A Python-based web scraping tool for extracting and processing election results data from the Election Commission of India's website.
+A Python-based tool for extracting, processing and archiving election results data from the [Election Commission of India](https://www.eci.gov.in/) website.
 
 ## Overview
 
@@ -8,55 +8,76 @@ This project provides an automated tool to collect, clean, and store Indian parl
 
 ## Features
 
-- Automated scraping of election results from ECI website
+- Automated extraction of election results from ECI website within seconds
 
-- Support for multiple states in a single unified script (coming soon)
-
-- Data extraction for parliamentary and assembly constituencies
-
-- Data extraction for bye-election sets (coming soon)
+- Support for multiple states in a single unified script
 
 - Output in both CSV and JSON formats
 
-- Robust error handling and retry mechanisms
+- Data extraction for bye-election sets (coming soon)
 
-- Headless browser operation for efficient scraping. Run it and grab a quick coffee!
+- Robust error handling with automatic termination
+
+- Headless browser operation for maximum efficiency. Grab your ☕ before you run the script!
 
 ## Data Format
 
 All datasets are also available at the [dedicated Kaggle repository](https://www.kaggle.com/datasets/maheshshantaram/indian-elections-fresh-data/) for **India Votes Data**.
 
+A handy Kaggle notebook to provide for quick data analysis is over here:
+[https://www.kaggle.com/code/maheshshantaram/elections-analysis-ready-reckoner](https://www.kaggle.com/code/maheshshantaram/elections-analysis-ready-reckoner)
+
 ### CSV Format
 
-The data is stored in CSV files (e.g., `2024ACHR.csv`, `2024ACJH.csv`) with the following columns:
+The data is stored in CSV files (e.g., `2024Assembly-HR.csv`, `2024Assembly-JH.csv`) with the following columns:
 
-- Election Year
+- `election_year`: Year of the election
 
-- Election Type (Parliamentary or Assembly)
+- `election_type`: Type of election (Assembly/Parliamentary)
 
-- Election State
+- `election_state`: Full name of the state
 
-- Serial Number (of candidate within their constituency)
+- `state_code`: Two-letter state code
 
-- Candidate Name
+- `constituency`: Name of the constituency
 
-- Party Affiliation
+- `serial_no`: Candidate's serial number
 
-- EVM Votes
+- `candidate`: Candidate's name
 
-- Postal Votes
+- `party`: Party affiliation
+
+- `evm_votes`: Votes from Electronic Voting Machines
+
+- `postal_votes`: Postal ballot votes
 
 ### JSON Format
 
-The JSON files (e.g., `2024ACHR.json`, `2024ACJH.json`) contain detailed constituency-wise data including:
+The JSON files (e.g., `2024Assembly-HR.json`, `2024Assembly-JH.json`) contain detailed constituency-wise data including:
 
-- Assembly Constituency Name
+- `election_year`: Year of the election
 
-- Voting Tally (per candidate)
-  - Serial Number
-  - Candidate Details
-  - Party Information
-  - Vote Counts (EVM and Postal)
+- `election_type`: Type of election
+
+- `election_state`: State code
+
+- `constituencywise_results`: Constituency-wise results
+
+  - `constituency_number`: Numeric ID
+
+  - `constituency`: Name of constituency
+
+  - `voting_tally`: Voting tally
+
+    - `serial_no`: Candidate's serial number
+
+    - `candidate`: Candidate's name
+
+    - `party`: Party affiliation
+
+    - `evm_votes`: EVM votes received
+
+    - `postal_votes`: Postal votes received
 
 ## Requirements
 
@@ -66,52 +87,112 @@ The JSON files (e.g., `2024ACHR.json`, `2024ACJH.json`) contain detailed constit
 
 - Chrome Browser
 
-- Required Python packages:
+- Required Python packages: (refer `requirements.txt`)
   - selenium
+  - pandas
   - csv
   - json
 
 ## Setup
 
-1.Clone the repository:
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/thecont1/india-votes-data.git
+cd india-votes-data
 ```
 
-2.Install required packages:
+2. Create and activate a virtual environment (recommended):
 
 ```bash
-pip install selenium
+python -m venv venv
+
+# On Windows
+venv\Scripts\activate
+
+# On macOS/Linux
+source venv/bin/activate
 ```
 
-3.Ensure Chrome browser is installed on your system
+3. Install required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. If the Chrome browser isn't already installed on your system, Selenium will automatically do the job. Give it a minute or two.
 
 ## Usage
 
-Run the scraper script:
+### Basic Usage
 
-```bash
-python eci-scraper2.py
+Configure and run the program:
+
+1. Set the base URL for your target state:
+
+```python
+# Example: Delhi Assembly Election results
+base_url = "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU05"
 ```
 
-The script will automatically handle data collection for multiple states and generate corresponding CSV and JSON output files.
+2. Optionally, adjust the constituency limit:
+
+```python
+# Set a high number - program will auto-stop when done
+seq_limit = 1000  # Will stop automatically when no more constituencies are found
+```
+
+The program intelligently detects when it has processed all available constituencies and stops automatically.
+
+### Output
+
+The script will generate two types of files in the `results` directory:
+
+- CSV file: `YYYYAssembly-XX.csv` (e.g., `2024Assembly-HR.csv`)
+
+- JSON file: `YYYYAssembly-XX.json` (e.g., `2024Assembly-HR.json`)
+
+where:
+
+- `YYYY`: Election year
+
+- `XX`: Two-letter state code
+
+### Superfast Pull & Push
+
+To automatically download election results and quickly commit to GitHub, use the provided shell script:
+
+```bash
+./results_updater.sh
+```
+
+This script will:
+
+- Run the scraper for Delhi
+
+- Add new results to git
+
+- Commit with timestamp
+
+- Push to GitHub
 
 ## Data Files
 
 The repository includes processed data files for various states:
 
-- Haryana: `2024ACHR.csv`, `2024ACHR.json`
+- Haryana: `2024Assembly-HR.csv`, `2024Assembly-HR.json`
 
-- Jharkhand: `2024ACJH.csv`, `2024ACJH.json`
+- Jharkhand: `2024Assembly-JH.csv`, `2024Assembly-JH.json`
 
-- Jammu & Kashmir: `2024ACJK.csv`, `2024ACJK.json`
+- Jammu & Kashmir: `2024Assembly-JK.csv`, `2024Assembly-JK.json`
 
-- Maharashtra: `2024ACMH.csv`, `2024ACMH.json`
+- Maharashtra: `2024Assembly-MH.csv`, `2024Assembly-MH.json`
+
+- NCT of Delhi: `2025Assembly-DL.csv`, `2025Assembly-DL.json`
 
 ## Implementation Details
 
-The scraper uses Selenium WebDriver with the following optimizations:
+The scraper uses Selenium WebDriver with the following optimizations and features:
 
 - Headless mode for better performance
 
@@ -123,6 +204,21 @@ The scraper uses Selenium WebDriver with the following optimizations:
 
 - Automatic retry mechanisms
 
+- Pandas-based data processing
+
+- State code validation against master data
+
+- Standardized file naming convention
+
 ## License
 
-(Still under consideration)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+You are free to:
+- Use this code commercially
+- Modify the code
+- Distribute the code
+- Use it privately
+
+Under the following conditions:
+- Include the original license and copyright notice
