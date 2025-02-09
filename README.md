@@ -216,9 +216,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 You are free to:
 - Use this code commercially
+
 - Modify the code
+
 - Distribute the code
+
 - Use it privately
 
 Under the following conditions:
+
 - Include the original license and copyright notice
