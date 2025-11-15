@@ -8,9 +8,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from datetime import datetime
+from time import perf_counter
 
 def source_url(seq_no) -> str:
-    base_url = "https://results.eci.gov.in/ResultAcGenNov2025/ConstituencywiseS04"  # NCT of Delhi
+    base_url = "https://results.eci.gov.in/ResultAcGenNov2025/ConstituencywiseS04"  # Bihar
     return base_url + str(seq_no) + ".htm"
 
 def get_state_code(state_name):
@@ -111,6 +112,7 @@ def main():
 
         # Start scraping each constituency page and stop early when no more data exists
         end_of_results = False
+        start_time = perf_counter()
         while seq_no <= seq_limit:
             url = source_url(seq_no)
             print(f"Loading {url}...", end='')
@@ -118,7 +120,7 @@ def main():
             driver.get(url)
             if "404" in driver.title:
                 print(" Stop.")
-                print(f"\n\n404 Not Found at {url}.")
+                print(f"\n404 Not Found at {url}.")
                 end_of_results = True
                 break
 
@@ -126,18 +128,22 @@ def main():
             if result:
                 results["constituencywise_results"].append({"source_url": url, "voting_data": result})
                 constituency_label = result.get("constituency")
-                suffix = f" {constituency_label}." if constituency_label else ""
-                print(f"{suffix}. Done.")
+                suffix = f" {seq_no:03d}-{constituency_label}." if constituency_label else ""
+                print(f"{suffix} Done.")
 
             seq_no += 1
 
+        total_time = perf_counter() - start_time
         if end_of_results:
-            print(f"\nReached end of results. Scraping ends. {len(results['constituencywise_results'])} constituencies found.")
+            print(
+                f"\nReached end of results. Downloaded data for {len(results['constituencywise_results'])} constituencies in {total_time:.3f} seconds."
+            )
         else:
-            print(f"\nFinished scraping {len(results['constituencywise_results'])} constituencies.")
+            print(
+                f"\nJob successful. Downloaded data for {len(results['constituencywise_results'])} constituencies in {total_time:.3f} seconds."
+            )
     except (NoSuchElementException, TimeoutException, AssertionError) as e:
         print(f"Scraping stopped due to error: {e}")
-        # print(driver.page_source)
 
     finally:
         driver.quit()
