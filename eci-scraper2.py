@@ -1,3 +1,4 @@
+import argparse
 import csv
 import json
 from selenium import webdriver
@@ -9,7 +10,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from datetime import datetime
 
 def source_url(seq_no) -> str:
-    base_url = "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU05"  # NCT of Delhi
+    base_url = "https://results.eci.gov.in/ResultAcGenNov2025/ConstituencywiseS04"  # NCT of Delhi
     return base_url + str(seq_no) + ".htm"
 
 def get_state_code(state_name):
@@ -58,7 +59,17 @@ def extract_results(driver) -> dict:
 
 def main():
     seq_no = 1
-    seq_limit = 3  # This could be dynamic based on the content of the website
+
+    parser = argparse.ArgumentParser(description="Scrape selected constituencies from ECI results")
+    # Optional parameter lets the caller cap how many constituency pages to scrape
+    parser.add_argument(
+        "limit",
+        nargs="?",
+        type=int,
+        default=3,
+        help="Number of constituencies to scrape (default: 3)",
+    )
+    seq_limit = max(1, parser.parse_args().limit)
 
     # Chrome browser setup with performance and headless mode enabled
     options = Options()
@@ -98,23 +109,32 @@ def main():
         json_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.json"
         csv_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.csv"
 
-        # Start scraping each constituency page
+        # Start scraping each constituency page and stop early when no more data exists
+        end_of_results = False
         while seq_no <= seq_limit:
             url = source_url(seq_no)
             print(f"Loading {url}...", end='')
 
             driver.get(url)
             if "404" in driver.title:
-                print(f"\n\n404 Not Found at {url}. End scraping.")
+                print(" Stop.")
+                print(f"\n\n404 Not Found at {url}.")
+                end_of_results = True
                 break
 
             result = extract_results(driver)
             if result:
                 results["constituencywise_results"].append({"source_url": url, "voting_data": result})
-                print(" Done.")
+                constituency_label = result.get("constituency")
+                suffix = f" {constituency_label}." if constituency_label else ""
+                print(f"{suffix}. Done.")
 
             seq_no += 1
 
+        if end_of_results:
+            print(f"\nReached end of results. Scraping ends. {len(results['constituencywise_results'])} constituencies found.")
+        else:
+            print(f"\nFinished scraping {len(results['constituencywise_results'])} constituencies.")
     except (NoSuchElementException, TimeoutException, AssertionError) as e:
         print(f"Scraping stopped due to error: {e}")
         # print(driver.page_source)
