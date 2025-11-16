@@ -31,7 +31,7 @@ def extract_results(driver) -> dict:
         
         # Split by ' - ' to get constituency number and remaining text
         parts = full_text.split(' - ')
-        constituency_number = parts[0].strip()
+        constituency_no = parts[0].strip()
         
         # Extract constituency name and state using regex
         import re
@@ -43,7 +43,7 @@ def extract_results(driver) -> dict:
         else:
             constituency_name = parts[1]
 
-        results["constituency_number"] = constituency_number
+        results["constituency_no"] = constituency_no
         results["constituency"] = constituency_name
         results["voting_tally"] = []
 
@@ -156,7 +156,7 @@ def main():
 
             # Write results to CSV file
             with open(csv_file, 'w') as f_write:
-                fieldnames = ['election_year', 'election_type', 'election_state', 'constituency', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
+                fieldnames = ['election_year', 'election_type', 'election_state', 'constituency', 'constituency_no', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
                 writer = csv.DictWriter(f_write, fieldnames=fieldnames)
                 writer.writeheader()
                 for constituency in results['constituencywise_results']:
@@ -165,6 +165,7 @@ def main():
                         candidate['election_type'] = results['election_type']
                         candidate['election_state'] = results['election_state']
                         candidate['constituency'] = constituency['voting_data']['constituency']
+                        candidate['constituency_no'] = constituency['voting_data']['constituency_no']
                         candidate['serial_no'] = candidate['serial_no']
                         writer.writerow(candidate)
                 print(f"{csv_file}")
