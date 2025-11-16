@@ -7,7 +7,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU081.htm",
             "voting_data": {
-                "constituency": "KARNAH (Jammu &",
+                "constituency_no": "1",
+                "constituency": "KARNAH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -78,7 +79,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU082.htm",
             "voting_data": {
-                "constituency": "TREHGAM (Jammu &",
+                "constituency_no": "2",
+                "constituency": "TREHGAM",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -163,7 +165,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU083.htm",
             "voting_data": {
-                "constituency": "KUPWARA (Jammu &",
+                "constituency_no": "3",
+                "constituency": "KUPWARA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -234,7 +237,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU084.htm",
             "voting_data": {
-                "constituency": "LOLAB (Jammu &",
+                "constituency_no": "4",
+                "constituency": "LOLAB",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -326,7 +330,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU085.htm",
             "voting_data": {
-                "constituency": "HANDWARA (Jammu &",
+                "constituency_no": "5",
+                "constituency": "HANDWARA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -390,7 +395,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU086.htm",
             "voting_data": {
-                "constituency": "LANGATE (Jammu &",
+                "constituency_no": "6",
+                "constituency": "LANGATE",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -510,7 +516,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU087.htm",
             "voting_data": {
-                "constituency": "SOPORE (Jammu &",
+                "constituency_no": "7",
+                "constituency": "SOPORE",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -665,7 +672,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU088.htm",
             "voting_data": {
-                "constituency": "RAFIABAD (Jammu &",
+                "constituency_no": "8",
+                "constituency": "RAFIABAD",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -764,7 +772,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU089.htm",
             "voting_data": {
-                "constituency": "URI (Jammu &",
+                "constituency_no": "9",
+                "constituency": "URI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -821,7 +830,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0810.htm",
             "voting_data": {
-                "constituency": "BARAMULLA (Jammu &",
+                "constituency_no": "10",
+                "constituency": "BARAMULLA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1011,7 +1021,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0811.htm",
             "voting_data": {
-                "constituency": "GULMARG (Jammu &",
+                "constituency_no": "11",
+                "constituency": "GULMARG",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1117,7 +1128,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0812.htm",
             "voting_data": {
-                "constituency": "WAGOORA - KREERI (Jammu &",
+                "constituency_no": "12",
+                "constituency": "WAGOORA - KREERI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1216,7 +1228,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0813.htm",
             "voting_data": {
-                "constituency": "PATTAN (Jammu &",
+                "constituency_no": "13",
+                "constituency": "PATTAN",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1322,7 +1335,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0814.htm",
             "voting_data": {
-                "constituency": "SONAWARI (Jammu &",
+                "constituency_no": "14",
+                "constituency": "SONAWARI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1463,7 +1477,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0815.htm",
             "voting_data": {
-                "constituency": "BANDIPORA (Jammu &",
+                "constituency_no": "15",
+                "constituency": "BANDIPORA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1611,7 +1626,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0816.htm",
             "voting_data": {
-                "constituency": "GUREZ(ST) (Jammu &",
+                "constituency_no": "16",
+                "constituency": "GUREZ(ST)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1661,7 +1677,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0817.htm",
             "voting_data": {
-                "constituency": "KANGAN(ST) (Jammu &",
+                "constituency_no": "17",
+                "constituency": "KANGAN(ST)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1718,7 +1735,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0818.htm",
             "voting_data": {
-                "constituency": "GANDERBAL (Jammu &",
+                "constituency_no": "18",
+                "constituency": "GANDERBAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1838,7 +1856,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0819.htm",
             "voting_data": {
-                "constituency": "HAZRATBAL (Jammu &",
+                "constituency_no": "19",
+                "constituency": "HAZRATBAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -1944,7 +1963,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0820.htm",
             "voting_data": {
-                "constituency": "KHANYAR (Jammu &",
+                "constituency_no": "20",
+                "constituency": "KHANYAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2029,7 +2049,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0821.htm",
             "voting_data": {
-                "constituency": "HABBAKADAL (Jammu &",
+                "constituency_no": "21",
+                "constituency": "HABBAKADAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2156,7 +2177,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0822.htm",
             "voting_data": {
-                "constituency": "LAL CHOWK (Jammu &",
+                "constituency_no": "22",
+                "constituency": "LAL CHOWK",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2241,7 +2263,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0823.htm",
             "voting_data": {
-                "constituency": "CHANNAPORA (Jammu &",
+                "constituency_no": "23",
+                "constituency": "CHANNAPORA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2312,7 +2335,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0824.htm",
             "voting_data": {
-                "constituency": "ZADIBAL (Jammu &",
+                "constituency_no": "24",
+                "constituency": "ZADIBAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2397,7 +2421,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0825.htm",
             "voting_data": {
-                "constituency": "EIDGAH (Jammu &",
+                "constituency_no": "25",
+                "constituency": "EIDGAH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2503,7 +2528,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0826.htm",
             "voting_data": {
-                "constituency": "CENTRAL SHALTENG (Jammu &",
+                "constituency_no": "26",
+                "constituency": "CENTRAL SHALTENG",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2609,7 +2635,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0827.htm",
             "voting_data": {
-                "constituency": "BUDGAM (Jammu &",
+                "constituency_no": "27",
+                "constituency": "BUDGAM",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2680,7 +2707,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0828.htm",
             "voting_data": {
-                "constituency": "BEERWAH (Jammu &",
+                "constituency_no": "28",
+                "constituency": "BEERWAH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2779,7 +2807,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0829.htm",
             "voting_data": {
-                "constituency": "KHANSAHIB (Jammu &",
+                "constituency_no": "29",
+                "constituency": "KHANSAHIB",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2864,7 +2893,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0830.htm",
             "voting_data": {
-                "constituency": "CHRAR-i- SHARIEF (Jammu &",
+                "constituency_no": "30",
+                "constituency": "CHRAR-i- SHARIEF",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -2949,7 +2979,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0831.htm",
             "voting_data": {
-                "constituency": "CHADOORA (Jammu &",
+                "constituency_no": "31",
+                "constituency": "CHADOORA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3006,7 +3037,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0832.htm",
             "voting_data": {
-                "constituency": "PAMPORE (Jammu &",
+                "constituency_no": "32",
+                "constituency": "PAMPORE",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3119,7 +3151,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0833.htm",
             "voting_data": {
-                "constituency": "TRAL (Jammu &",
+                "constituency_no": "33",
+                "constituency": "TRAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3197,7 +3230,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0834.htm",
             "voting_data": {
-                "constituency": "PULWAMA (Jammu &",
+                "constituency_no": "34",
+                "constituency": "PULWAMA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3296,7 +3330,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0835.htm",
             "voting_data": {
-                "constituency": "RAJPORA (Jammu &",
+                "constituency_no": "35",
+                "constituency": "RAJPORA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3381,7 +3416,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0836.htm",
             "voting_data": {
-                "constituency": "ZAINAPORA (Jammu &",
+                "constituency_no": "36",
+                "constituency": "ZAINAPORA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3466,7 +3502,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0837.htm",
             "voting_data": {
-                "constituency": "SHOPIAN (Jammu &",
+                "constituency_no": "37",
+                "constituency": "SHOPIAN",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3558,7 +3595,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0838.htm",
             "voting_data": {
-                "constituency": "D. H. PORA (Jammu &",
+                "constituency_no": "38",
+                "constituency": "D. H. PORA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3615,7 +3653,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0839.htm",
             "voting_data": {
-                "constituency": "KULGAM (Jammu &",
+                "constituency_no": "39",
+                "constituency": "KULGAM",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3700,7 +3739,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0840.htm",
             "voting_data": {
-                "constituency": "DEVSAR (Jammu &",
+                "constituency_no": "40",
+                "constituency": "DEVSAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3778,7 +3818,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0841.htm",
             "voting_data": {
-                "constituency": "DOORU (Jammu &",
+                "constituency_no": "41",
+                "constituency": "DOORU",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3863,7 +3904,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0842.htm",
             "voting_data": {
-                "constituency": "KOKERNAG(ST) (Jammu &",
+                "constituency_no": "42",
+                "constituency": "KOKERNAG(ST)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -3948,7 +3990,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0843.htm",
             "voting_data": {
-                "constituency": "ANANTNAG WEST (Jammu &",
+                "constituency_no": "43",
+                "constituency": "ANANTNAG WEST",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4026,7 +4069,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0844.htm",
             "voting_data": {
-                "constituency": "ANANTNAG (Jammu &",
+                "constituency_no": "44",
+                "constituency": "ANANTNAG",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4132,7 +4176,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0845.htm",
             "voting_data": {
-                "constituency": "SRIGUFWARA - BIJBEHARA (Jammu &",
+                "constituency_no": "45",
+                "constituency": "SRIGUFWARA - BIJBEHARA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4168,7 +4213,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0846.htm",
             "voting_data": {
-                "constituency": "SHANGUS - ANANTNAG EAST (Jammu &",
+                "constituency_no": "46",
+                "constituency": "SHANGUS - ANANTNAG EAST",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4274,7 +4320,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0847.htm",
             "voting_data": {
-                "constituency": "PAHALGAM (Jammu &",
+                "constituency_no": "47",
+                "constituency": "PAHALGAM",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4331,7 +4378,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0848.htm",
             "voting_data": {
-                "constituency": "INDERWAL (Jammu &",
+                "constituency_no": "48",
+                "constituency": "INDERWAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4409,7 +4457,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0849.htm",
             "voting_data": {
-                "constituency": "KISHTWAR (Jammu &",
+                "constituency_no": "49",
+                "constituency": "KISHTWAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4473,7 +4522,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0850.htm",
             "voting_data": {
-                "constituency": "PADDER - NAGSENI (Jammu &",
+                "constituency_no": "50",
+                "constituency": "PADDER - NAGSENI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4530,7 +4580,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0851.htm",
             "voting_data": {
-                "constituency": "BHADARWAH (Jammu &",
+                "constituency_no": "51",
+                "constituency": "BHADARWAH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4615,7 +4666,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0852.htm",
             "voting_data": {
-                "constituency": "DODA (Jammu &",
+                "constituency_no": "52",
+                "constituency": "DODA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4693,7 +4745,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0853.htm",
             "voting_data": {
-                "constituency": "DODA WEST (Jammu &",
+                "constituency_no": "53",
+                "constituency": "DODA WEST",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4764,7 +4817,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0854.htm",
             "voting_data": {
-                "constituency": "RAMBAN (Jammu &",
+                "constituency_no": "54",
+                "constituency": "RAMBAN",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4835,7 +4889,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0855.htm",
             "voting_data": {
-                "constituency": "BANIHAL (Jammu &",
+                "constituency_no": "55",
+                "constituency": "BANIHAL",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4899,7 +4954,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0856.htm",
             "voting_data": {
-                "constituency": "GULABGARH(ST) (Jammu &",
+                "constituency_no": "56",
+                "constituency": "GULABGARH(ST)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -4956,7 +5012,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0857.htm",
             "voting_data": {
-                "constituency": "REASI (Jammu &",
+                "constituency_no": "57",
+                "constituency": "REASI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5020,7 +5077,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0858.htm",
             "voting_data": {
-                "constituency": "SHRI MATA VAISHNO DEVI (Jammu &",
+                "constituency_no": "58",
+                "constituency": "SHRI MATA VAISHNO DEVI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5084,7 +5142,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0859.htm",
             "voting_data": {
-                "constituency": "UDHAMPUR WEST (Jammu &",
+                "constituency_no": "59",
+                "constituency": "UDHAMPUR WEST",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5183,7 +5242,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0860.htm",
             "voting_data": {
-                "constituency": "UDHAMPUR EAST (Jammu &",
+                "constituency_no": "60",
+                "constituency": "UDHAMPUR EAST",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5261,7 +5321,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0861.htm",
             "voting_data": {
-                "constituency": "CHENANI (Jammu &",
+                "constituency_no": "61",
+                "constituency": "CHENANI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5339,7 +5400,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0862.htm",
             "voting_data": {
-                "constituency": "RAMNAGAR(SC) (Jammu &",
+                "constituency_no": "62",
+                "constituency": "RAMNAGAR(SC)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5403,7 +5465,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0863.htm",
             "voting_data": {
-                "constituency": "BANI (Jammu &",
+                "constituency_no": "63",
+                "constituency": "BANI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5474,7 +5537,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0864.htm",
             "voting_data": {
-                "constituency": "BILLAWAR (Jammu &",
+                "constituency_no": "64",
+                "constituency": "BILLAWAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5517,7 +5581,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0865.htm",
             "voting_data": {
-                "constituency": "BASOHLI (Jammu &",
+                "constituency_no": "65",
+                "constituency": "BASOHLI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5560,7 +5625,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0866.htm",
             "voting_data": {
-                "constituency": "JASROTA (Jammu &",
+                "constituency_no": "66",
+                "constituency": "JASROTA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5631,7 +5697,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0867.htm",
             "voting_data": {
-                "constituency": "KATHUA(SC) (Jammu &",
+                "constituency_no": "67",
+                "constituency": "KATHUA(SC)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5681,7 +5748,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0868.htm",
             "voting_data": {
-                "constituency": "HIRANAGAR (Jammu &",
+                "constituency_no": "68",
+                "constituency": "HIRANAGAR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5738,7 +5806,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0869.htm",
             "voting_data": {
-                "constituency": "RAMGARH(SC) (Jammu &",
+                "constituency_no": "69",
+                "constituency": "RAMGARH(SC)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5802,7 +5871,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0870.htm",
             "voting_data": {
-                "constituency": "SAMBA (Jammu &",
+                "constituency_no": "70",
+                "constituency": "SAMBA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -5915,7 +5985,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0871.htm",
             "voting_data": {
-                "constituency": "VIJAYPUR (Jammu &",
+                "constituency_no": "71",
+                "constituency": "VIJAYPUR",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6007,7 +6078,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0872.htm",
             "voting_data": {
-                "constituency": "BISHNAH(SC) (Jammu &",
+                "constituency_no": "72",
+                "constituency": "BISHNAH(SC)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6085,7 +6157,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0873.htm",
             "voting_data": {
-                "constituency": "SUCHETGARH(SC) (Jammu &",
+                "constituency_no": "73",
+                "constituency": "SUCHETGARH(SC)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6177,7 +6250,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0874.htm",
             "voting_data": {
-                "constituency": "R. S. PURA- JAMMU SOUTH (Jammu &",
+                "constituency_no": "74",
+                "constituency": "R. S. PURA- JAMMU SOUTH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6290,7 +6364,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0875.htm",
             "voting_data": {
-                "constituency": "BAHU (Jammu &",
+                "constituency_no": "75",
+                "constituency": "BAHU",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6389,7 +6464,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0876.htm",
             "voting_data": {
-                "constituency": "JAMMU EAST (Jammu &",
+                "constituency_no": "76",
+                "constituency": "JAMMU EAST",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6467,7 +6543,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0877.htm",
             "voting_data": {
-                "constituency": "NAGROTA (Jammu &",
+                "constituency_no": "77",
+                "constituency": "NAGROTA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6538,7 +6615,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0878.htm",
             "voting_data": {
-                "constituency": "JAMMU WEST (Jammu &",
+                "constituency_no": "78",
+                "constituency": "JAMMU WEST",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6637,7 +6715,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0879.htm",
             "voting_data": {
-                "constituency": "JAMMU NORTH (Jammu &",
+                "constituency_no": "79",
+                "constituency": "JAMMU NORTH",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6771,7 +6850,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0880.htm",
             "voting_data": {
-                "constituency": "MARH(SC) (Jammu &",
+                "constituency_no": "80",
+                "constituency": "MARH(SC)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6828,7 +6908,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0881.htm",
             "voting_data": {
-                "constituency": "AKHNOOR(SC) (Jammu &",
+                "constituency_no": "81",
+                "constituency": "AKHNOOR(SC)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6864,7 +6945,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0882.htm",
             "voting_data": {
-                "constituency": "CHHAMB (Jammu &",
+                "constituency_no": "82",
+                "constituency": "CHHAMB",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -6935,7 +7017,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0883.htm",
             "voting_data": {
-                "constituency": "KALAKOTE - SUNDERBANI (Jammu &",
+                "constituency_no": "83",
+                "constituency": "KALAKOTE - SUNDERBANI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7027,7 +7110,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0884.htm",
             "voting_data": {
-                "constituency": "NOWSHERA (Jammu &",
+                "constituency_no": "84",
+                "constituency": "NOWSHERA",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7077,7 +7161,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0885.htm",
             "voting_data": {
-                "constituency": "RAJOURI(ST) (Jammu &",
+                "constituency_no": "85",
+                "constituency": "RAJOURI(ST)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7148,7 +7233,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0886.htm",
             "voting_data": {
-                "constituency": "BUDHAL(ST) (Jammu &",
+                "constituency_no": "86",
+                "constituency": "BUDHAL(ST)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7191,7 +7277,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0887.htm",
             "voting_data": {
-                "constituency": "THANNAMANDI(ST) (Jammu &",
+                "constituency_no": "87",
+                "constituency": "THANNAMANDI(ST)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7248,7 +7335,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0888.htm",
             "voting_data": {
-                "constituency": "SURANKOTE(ST) (Jammu &",
+                "constituency_no": "88",
+                "constituency": "SURANKOTE(ST)",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7319,7 +7407,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0889.htm",
             "voting_data": {
-                "constituency": "POONCH HAVELI (Jammu &",
+                "constituency_no": "89",
+                "constituency": "POONCH HAVELI",
                 "voting_tally": [
                     {
                         "serial_no": "1",
@@ -7390,7 +7479,8 @@
         {
             "source_url": "https://results.eci.gov.in/AcResultGenOct2024/ConstituencywiseU0890.htm",
             "voting_data": {
-                "constituency": "MENDHAR(ST) (Jammu &",
+                "constituency_no": "90",
+                "constituency": "MENDHAR(ST)",
                 "voting_tally": [
                     {
                         "serial_no": "1",

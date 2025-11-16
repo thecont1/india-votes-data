@@ -7,6 +7,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS271.htm",
             "voting_data": {
+                "constituency_no": "1",
                 "constituency": "RAJMAHAL",
                 "voting_tally": [
                     {
@@ -120,6 +121,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS272.htm",
             "voting_data": {
+                "constituency_no": "2",
                 "constituency": "BORIO",
                 "voting_tally": [
                     {
@@ -240,6 +242,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS273.htm",
             "voting_data": {
+                "constituency_no": "3",
                 "constituency": "BARHAIT",
                 "voting_tally": [
                     {
@@ -318,6 +321,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS274.htm",
             "voting_data": {
+                "constituency_no": "4",
                 "constituency": "LITIPARA",
                 "voting_tally": [
                     {
@@ -396,6 +400,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS275.htm",
             "voting_data": {
+                "constituency_no": "5",
                 "constituency": "PAKAUR",
                 "voting_tally": [
                     {
@@ -523,6 +528,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS276.htm",
             "voting_data": {
+                "constituency_no": "6",
                 "constituency": "MAHESHPUR",
                 "voting_tally": [
                     {
@@ -643,6 +649,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS277.htm",
             "voting_data": {
+                "constituency_no": "7",
                 "constituency": "SIKARIPARA",
                 "voting_tally": [
                     {
@@ -735,6 +742,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS278.htm",
             "voting_data": {
+                "constituency_no": "8",
                 "constituency": "NALA",
                 "voting_tally": [
                     {
@@ -869,6 +877,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS279.htm",
             "voting_data": {
+                "constituency_no": "9",
                 "constituency": "JAMTARA",
                 "voting_tally": [
                     {
@@ -975,6 +984,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2710.htm",
             "voting_data": {
+                "constituency_no": "10",
                 "constituency": "DUMKA",
                 "voting_tally": [
                     {
@@ -1081,6 +1091,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2711.htm",
             "voting_data": {
+                "constituency_no": "11",
                 "constituency": "JAMA",
                 "voting_tally": [
                     {
@@ -1222,6 +1233,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2712.htm",
             "voting_data": {
+                "constituency_no": "12",
                 "constituency": "JARMUNDI",
                 "voting_tally": [
                     {
@@ -1356,6 +1368,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2713.htm",
             "voting_data": {
+                "constituency_no": "13",
                 "constituency": "MADHUPUR",
                 "voting_tally": [
                     {
@@ -1476,6 +1489,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2714.htm",
             "voting_data": {
+                "constituency_no": "14",
                 "constituency": "SARATH",
                 "voting_tally": [
                     {
@@ -1610,6 +1624,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2715.htm",
             "voting_data": {
+                "constituency_no": "15",
                 "constituency": "DEOGHAR",
                 "voting_tally": [
                     {
@@ -1674,6 +1689,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2716.htm",
             "voting_data": {
+                "constituency_no": "16",
                 "constituency": "POREYAHAT",
                 "voting_tally": [
                     {
@@ -1780,6 +1796,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2717.htm",
             "voting_data": {
+                "constituency_no": "17",
                 "constituency": "GODDA",
                 "voting_tally": [
                     {
@@ -1900,6 +1917,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2718.htm",
             "voting_data": {
+                "constituency_no": "18",
                 "constituency": "MAHAGAMA",
                 "voting_tally": [
                     {
@@ -1985,6 +2003,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2719.htm",
             "voting_data": {
+                "constituency_no": "19",
                 "constituency": "KODARMA",
                 "voting_tally": [
                     {
@@ -2091,6 +2110,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2720.htm",
             "voting_data": {
+                "constituency_no": "20",
                 "constituency": "BARKATHA",
                 "voting_tally": [
                     {
@@ -2246,6 +2266,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2721.htm",
             "voting_data": {
+                "constituency_no": "21",
                 "constituency": "BARHI",
                 "voting_tally": [
                     {
@@ -2380,6 +2401,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2722.htm",
             "voting_data": {
+                "constituency_no": "22",
                 "constituency": "BARKAGAON",
                 "voting_tally": [
                     {
@@ -2577,6 +2599,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2723.htm",
             "voting_data": {
+                "constituency_no": "23",
                 "constituency": "RAMGARH",
                 "voting_tally": [
                     {
@@ -2711,6 +2734,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2724.htm",
             "voting_data": {
+                "constituency_no": "24",
                 "constituency": "MANDU",
                 "voting_tally": [
                     {
@@ -2852,6 +2876,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2725.htm",
             "voting_data": {
+                "constituency_no": "25",
                 "constituency": "HAZARIBAGH",
                 "voting_tally": [
                     {
@@ -3028,6 +3053,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2726.htm",
             "voting_data": {
+                "constituency_no": "26",
                 "constituency": "SIMARIA",
                 "voting_tally": [
                     {
@@ -3120,6 +3146,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2727.htm",
             "voting_data": {
+                "constituency_no": "27",
                 "constituency": "CHATRA",
                 "voting_tally": [
                     {
@@ -3212,6 +3239,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2728.htm",
             "voting_data": {
+                "constituency_no": "28",
                 "constituency": "DHANWAR",
                 "voting_tally": [
                     {
@@ -3395,6 +3423,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2729.htm",
             "voting_data": {
+                "constituency_no": "29",
                 "constituency": "BAGODAR",
                 "voting_tally": [
                     {
@@ -3501,6 +3530,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2730.htm",
             "voting_data": {
+                "constituency_no": "30",
                 "constituency": "JAMUA",
                 "voting_tally": [
                     {
@@ -3572,6 +3602,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2731.htm",
             "voting_data": {
+                "constituency_no": "31",
                 "constituency": "GANDEY",
                 "voting_tally": [
                     {
@@ -3692,6 +3723,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2732.htm",
             "voting_data": {
+                "constituency_no": "32",
                 "constituency": "GIRIDIH",
                 "voting_tally": [
                     {
@@ -3805,6 +3837,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2733.htm",
             "voting_data": {
+                "constituency_no": "33",
                 "constituency": "DUMRI",
                 "voting_tally": [
                     {
@@ -3904,6 +3937,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2734.htm",
             "voting_data": {
+                "constituency_no": "34",
                 "constituency": "GOMIA",
                 "voting_tally": [
                     {
@@ -4003,6 +4037,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2735.htm",
             "voting_data": {
+                "constituency_no": "35",
                 "constituency": "BERMO",
                 "voting_tally": [
                     {
@@ -4116,6 +4151,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2736.htm",
             "voting_data": {
+                "constituency_no": "36",
                 "constituency": "BOKARO",
                 "voting_tally": [
                     {
@@ -4229,6 +4265,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2737.htm",
             "voting_data": {
+                "constituency_no": "37",
                 "constituency": "CHANDANKIYARI",
                 "voting_tally": [
                     {
@@ -4300,6 +4337,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2738.htm",
             "voting_data": {
+                "constituency_no": "38",
                 "constituency": "SINDRI",
                 "voting_tally": [
                     {
@@ -4378,6 +4416,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2739.htm",
             "voting_data": {
+                "constituency_no": "39",
                 "constituency": "NIRSA",
                 "voting_tally": [
                     {
@@ -4456,6 +4495,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2740.htm",
             "voting_data": {
+                "constituency_no": "40",
                 "constituency": "DHANBAD",
                 "voting_tally": [
                     {
@@ -4597,6 +4637,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2741.htm",
             "voting_data": {
+                "constituency_no": "41",
                 "constituency": "JHARIA",
                 "voting_tally": [
                     {
@@ -4689,6 +4730,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2742.htm",
             "voting_data": {
+                "constituency_no": "42",
                 "constituency": "TUNDI",
                 "voting_tally": [
                     {
@@ -4844,6 +4886,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2743.htm",
             "voting_data": {
+                "constituency_no": "43",
                 "constituency": "BAGHMARA",
                 "voting_tally": [
                     {
@@ -4950,6 +4993,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2744.htm",
             "voting_data": {
+                "constituency_no": "44",
                 "constituency": "BAHARAGORA",
                 "voting_tally": [
                     {
@@ -5063,6 +5107,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2745.htm",
             "voting_data": {
+                "constituency_no": "45",
                 "constituency": "GHATSILA",
                 "voting_tally": [
                     {
@@ -5162,6 +5207,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2746.htm",
             "voting_data": {
+                "constituency_no": "46",
                 "constituency": "POTKA",
                 "voting_tally": [
                     {
@@ -5289,6 +5335,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2747.htm",
             "voting_data": {
+                "constituency_no": "47",
                 "constituency": "JUGSALAI",
                 "voting_tally": [
                     {
@@ -5388,6 +5435,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2748.htm",
             "voting_data": {
+                "constituency_no": "48",
                 "constituency": "JAMSHEDPUR EAST",
                 "voting_tally": [
                     {
@@ -5571,6 +5619,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2749.htm",
             "voting_data": {
+                "constituency_no": "49",
                 "constituency": "JAMSHEDPUR WEST",
                 "voting_tally": [
                     {
@@ -5782,6 +5831,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2750.htm",
             "voting_data": {
+                "constituency_no": "50",
                 "constituency": "ICHAGARH",
                 "voting_tally": [
                     {
@@ -5958,6 +6008,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2751.htm",
             "voting_data": {
+                "constituency_no": "51",
                 "constituency": "SERAIKELLA",
                 "voting_tally": [
                     {
@@ -6064,6 +6115,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2752.htm",
             "voting_data": {
+                "constituency_no": "52",
                 "constituency": "CHAIBASA",
                 "voting_tally": [
                     {
@@ -6177,6 +6229,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2753.htm",
             "voting_data": {
+                "constituency_no": "53",
                 "constituency": "MAJHGAON",
                 "voting_tally": [
                     {
@@ -6276,6 +6329,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2754.htm",
             "voting_data": {
+                "constituency_no": "54",
                 "constituency": "JAGANATHPUR",
                 "voting_tally": [
                     {
@@ -6347,6 +6401,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2755.htm",
             "voting_data": {
+                "constituency_no": "55",
                 "constituency": "MANOHARPUR",
                 "voting_tally": [
                     {
@@ -6446,6 +6501,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2756.htm",
             "voting_data": {
+                "constituency_no": "56",
                 "constituency": "CHAKRADHARPUR",
                 "voting_tally": [
                     {
@@ -6545,6 +6601,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2757.htm",
             "voting_data": {
+                "constituency_no": "57",
                 "constituency": "KHARSAWAN",
                 "voting_tally": [
                     {
@@ -6630,6 +6687,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2758.htm",
             "voting_data": {
+                "constituency_no": "58",
                 "constituency": "TAMAR",
                 "voting_tally": [
                     {
@@ -6771,6 +6829,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2759.htm",
             "voting_data": {
+                "constituency_no": "59",
                 "constituency": "TORPA",
                 "voting_tally": [
                     {
@@ -6870,6 +6929,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2760.htm",
             "voting_data": {
+                "constituency_no": "60",
                 "constituency": "KHUNTI",
                 "voting_tally": [
                     {
@@ -6962,6 +7022,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2761.htm",
             "voting_data": {
+                "constituency_no": "61",
                 "constituency": "SILLI",
                 "voting_tally": [
                     {
@@ -7082,6 +7143,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2762.htm",
             "voting_data": {
+                "constituency_no": "62",
                 "constituency": "KHIJRI",
                 "voting_tally": [
                     {
@@ -7237,6 +7299,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2763.htm",
             "voting_data": {
+                "constituency_no": "63",
                 "constituency": "RANCHI",
                 "voting_tally": [
                     {
@@ -7378,6 +7441,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2764.htm",
             "voting_data": {
+                "constituency_no": "64",
                 "constituency": "HATIA",
                 "voting_tally": [
                     {
@@ -7582,6 +7646,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2765.htm",
             "voting_data": {
+                "constituency_no": "65",
                 "constituency": "KANKE",
                 "voting_tally": [
                     {
@@ -7688,6 +7753,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2766.htm",
             "voting_data": {
+                "constituency_no": "66",
                 "constituency": "MANDAR",
                 "voting_tally": [
                     {
@@ -7822,6 +7888,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2767.htm",
             "voting_data": {
+                "constituency_no": "67",
                 "constituency": "SISAI",
                 "voting_tally": [
                     {
@@ -7942,6 +8009,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2768.htm",
             "voting_data": {
+                "constituency_no": "68",
                 "constituency": "GUMLA",
                 "voting_tally": [
                     {
@@ -8062,6 +8130,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2769.htm",
             "voting_data": {
+                "constituency_no": "69",
                 "constituency": "BISHUNPUR",
                 "voting_tally": [
                     {
@@ -8175,6 +8244,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2770.htm",
             "voting_data": {
+                "constituency_no": "70",
                 "constituency": "SIMDEGA",
                 "voting_tally": [
                     {
@@ -8288,6 +8358,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2771.htm",
             "voting_data": {
+                "constituency_no": "71",
                 "constituency": "KOLEBIRA",
                 "voting_tally": [
                     {
@@ -8429,6 +8500,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2772.htm",
             "voting_data": {
+                "constituency_no": "72",
                 "constituency": "LOHARDAGA",
                 "voting_tally": [
                     {
@@ -8563,6 +8635,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2773.htm",
             "voting_data": {
+                "constituency_no": "73",
                 "constituency": "MANIKA",
                 "voting_tally": [
                     {
@@ -8641,6 +8714,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2774.htm",
             "voting_data": {
+                "constituency_no": "74",
                 "constituency": "LATEHAR",
                 "voting_tally": [
                     {
@@ -8733,6 +8807,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2775.htm",
             "voting_data": {
+                "constituency_no": "75",
                 "constituency": "PANKI",
                 "voting_tally": [
                     {
@@ -8846,6 +8921,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2776.htm",
             "voting_data": {
+                "constituency_no": "76",
                 "constituency": "DALTONGANJ",
                 "voting_tally": [
                     {
@@ -9022,6 +9098,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2777.htm",
             "voting_data": {
+                "constituency_no": "77",
                 "constituency": "BISHRAMPUR",
                 "voting_tally": [
                     {
@@ -9156,6 +9233,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2778.htm",
             "voting_data": {
+                "constituency_no": "78",
                 "constituency": "CHHATARPUR",
                 "voting_tally": [
                     {
@@ -9269,6 +9347,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2779.htm",
             "voting_data": {
+                "constituency_no": "79",
                 "constituency": "HUSSAINABAD",
                 "voting_tally": [
                     {
@@ -9410,6 +9489,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2780.htm",
             "voting_data": {
+                "constituency_no": "80",
                 "constituency": "GARHWA",
                 "voting_tally": [
                     {
@@ -9565,6 +9645,7 @@
         {
             "source_url": "https://results.eci.gov.in/ResultAcGenNov2024/ConstituencywiseS2781.htm",
             "voting_data": {
+                "constituency_no": "81",
                 "constituency": "BHAWANATHPUR",
                 "voting_tally": [
                     {
