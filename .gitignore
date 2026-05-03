@@ -1,3 +1,11 @@
 eci-karnataka.html
 /archive
 .DS_Store
+
+# Live tracker
+live_tracker/live_results.db
+live_tracker/scraper.log
+live_tracker/scheduler_stdout.log
+live_tracker/scheduler.pid
+live_tracker/__pycache__/
+live_tracker/*.pyc
