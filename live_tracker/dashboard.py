@@ -224,9 +224,8 @@ def settings_dialog():
 # State selector
 # ---------------------------------------------------------------------------
 
-params = st.query_params
 state_options = ["Overall"] + [s["name"] for s in STATES]
-default_state = params.get("state", "Overall")
+default_state = st.session_state.get("selected_state", "Overall")
 if default_state not in state_options:
     default_state = "Overall"
 
@@ -234,8 +233,8 @@ if default_state not in state_options:
 col_pills, col_gear = st.columns([8, 1])
 with col_pills:
     selected_state = st.pills("State", state_options, default=default_state, selection_mode="single", label_visibility="collapsed")
-    if selected_state and selected_state != params.get("state"):
-        st.query_params["state"] = selected_state
+    if selected_state and selected_state != st.session_state.get("selected_state"):
+        st.session_state["selected_state"] = selected_state
         st.rerun()
 with col_gear:
     if st.button("⚙️", key="gear_top"):
@@ -308,38 +307,6 @@ with st.container(border=True):
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         )
         st.plotly_chart(fig, width="stretch", config=CHART_CFG)
-
-    # Per-state expanders (Overall only)
-    if selected_state == "Overall":
-        for state in STATES:
-            sc = state["code"]
-            maj = MAJORITIES.get(sc, 0)
-            with st.expander(f"{state['name']}  (majority: {maj})"):
-                sw = get_party_seat_tally_won_leading(DB_PATH, sc)
-                if sw.empty:
-                    st.info("No data yet.")
-                    continue
-                sd = collapse_others(sw, "party", "total", top_n=8)
-                sd["short"] = sd["party"].apply(short)
-                for c in ["won", "leading", "total"]:
-                    sd[c] = sd[c].fillna(0).astype(int)
-                f2 = go.Figure()
-                f2.add_trace(go.Bar(y=sd["short"], x=sd["won"], orientation="h", name="Won",
-                    marker_color=[get_pc(p) for p in sd["party"]],
-                    text=sd.apply(lambda r: str(int(r["won"])) if r["won"]>0 else "", axis=1),
-                    textposition="inside", textfont=dict(color="white", size=12)))
-                f2.add_trace(go.Bar(y=sd["short"], x=sd["leading"], orientation="h", name="Leading",
-                    marker_color=[get_pc(p) for p in sd["party"]],
-                    marker_pattern=dict(shape="/", solidity=0.6),
-                    text=sd.apply(lambda r: str(int(r["leading"])) if r["leading"]>0 else "", axis=1),
-                    textposition="outside", textfont=dict(size=11)))
-                f2.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
-                f2.add_annotation(x=maj, y=len(sd) - 2, text=f"Majority ({maj})",
-                    showarrow=False, font=dict(color="red", size=13),
-                    xanchor="left", xshift=8, yanchor="middle")
-                f2.update_layout(barmode="stack", height=max(250, len(sd)*35),
-                    yaxis=dict(autorange="reversed"), margin=dict(l=0,r=50,t=20,b=30), showlegend=False)
-                st.plotly_chart(f2, width="stretch", config=CHART_CFG)
 
 
 # ===========================================================================
@@ -459,13 +426,13 @@ with st.container(border=True):
     if not ac_opts:
         st.info("No data.")
     else:
-        da = params.get("drill_ac", ac_opts[0])
+        da = st.session_state.get("drill_ac", ac_opts[0])
         if da not in ac_opts:
             da = ac_opts[0]
         # Dynamic key so widget resets when state changes
         sel_ac = st.selectbox("Constituency", ac_opts, index=ac_opts.index(da), key=f"drill_ac_{dsc}")
-        if sel_ac and sel_ac != params.get("drill_ac"):
-            st.query_params["drill_ac"] = sel_ac
+        if sel_ac and sel_ac != st.session_state.get("drill_ac"):
+            st.session_state["drill_ac"] = sel_ac
             st.rerun()
 
         ac_no = int(sel_ac.split(".")[0])
