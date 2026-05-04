@@ -111,7 +111,7 @@ st.markdown("""
     .header-bar h2 { margin: 0; font-size: 1.15rem; color: white; }
     .header-bar .ts { font-size: 1.0rem; font-weight: 600; letter-spacing: 0.03em; opacity: 1; }
     /* Gear button: no border, scaled up */
-    [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) [data-testid="stButton"] button {
+    [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-of-type(2) button {
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
@@ -120,7 +120,11 @@ st.markdown("""
         min-height: 0 !important;
         line-height: 1 !important;
     }
-    [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) [data-testid="stButton"] button:hover {
+    [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-of-type(2) button:hover {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-of-type(2) button:active {
         background: transparent !important;
         box-shadow: none !important;
     }
@@ -138,9 +142,11 @@ if not os.path.exists(DB_PATH):
 @st.dialog("⚙️ Settings & System Monitor", width="large")
 def settings_dialog():
     st.subheader("Refresh")
-    refresh_interval = st.slider("Auto-refresh (seconds)", 30, 300, 120, key="dlg_refresh")
-    if st.button("🔄 Refresh Now", key="dlg_refresh_btn"):
-        st.rerun()
+    col_refresh, _ = st.columns([1, 3])
+    with col_refresh:
+        refresh_interval = st.slider("Auto-refresh (seconds)", 30, 300, 120, key="dlg_refresh")
+        if st.button("🔄 Refresh Now", key="dlg_refresh_btn"):
+            st.rerun()
     last_update = get_last_scrape_time(DB_PATH)
     if last_update:
         st.caption(f"Last update: {fmt_ist(last_update)}")
@@ -153,11 +159,32 @@ def settings_dialog():
     live = ss.get("LIVE", 0)
     pending = ss.get("PENDING", 0)
     errors = ss.get("ERROR", 0)
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Total", total, help="Total constituencies being tracked across all states")
+    c1, c2, c3, c4, c5 = st.columns(5)
+    c1.metric("Total", total, help="All constituencies being tracked across all states")
     c2.metric("Counted", done, help="Counting complete — all rounds scraped (DONE)")
     c3.metric("Counting", live, help="Counting in progress — rounds still coming in (LIVE)")
-    c4.metric("Pending / Errors", f"{pending} / {errors}", help="Not yet live (Pending) + scraping failed (Errors)")
+    c4.metric("Pending", pending, help="Page not yet live on ECI — counting hasn't started (PENDING)")
+    c5.metric("Errors", errors, help="Scraping failed after multiple retries (ERROR)")
+
+    st.divider()
+    st.subheader("State Overview")
+    summary = get_state_status_summary(DB_PATH)
+    if summary:
+        df_sum = pd.DataFrame(summary)
+        for state in STATES:
+            sd = df_sum[df_sum["state_name"] == state["name"]]
+            if not sd.empty:
+                c = dict(zip(sd["status"], sd["cnt"]))
+                total_s = sum(c.values())
+                counted = c.get("DONE", 0)
+                counting = c.get("LIVE", 0)
+                pending_s = c.get("PENDING", 0)
+                errors_s = c.get("ERROR", 0)
+                st.markdown(
+                    f"**{state['name']}**: "
+                    f"🟢{counted} 🟡{counting} ⚪{pending_s} 🔴{errors_s} "
+                    f"({counted + counting}/{total_s})"
+                )
 
     st.divider()
     st.subheader("Update Cycles")
@@ -179,28 +206,6 @@ def settings_dialog():
             name = row.get("ac_name") or f"AC-{row['ac_no']}"
             url = get_url(row["state_code"], row["ac_no"])
             st.markdown(f"- **{name}** ({row['state_name']}) — [View]({url})")
-
-    st.divider()
-    st.subheader("State Overview")
-    summary = get_state_status_summary(DB_PATH)
-    if summary:
-        df_sum = pd.DataFrame(summary)
-        for state in STATES:
-            sd = df_sum[df_sum["state_name"] == state["name"]]
-            if not sd.empty:
-                c = dict(zip(sd["status"], sd["cnt"]))
-                total_s = sum(c.values())
-                counted = c.get("DONE", 0)
-                counting = c.get("LIVE", 0)
-                pending = c.get("PENDING", 0)
-                errors = c.get("ERROR", 0)
-                parts = []
-                if counted: parts.append(f"{counted} counted")
-                if counting: parts.append(f"{counting} counting")
-                if pending: parts.append(f"{pending} pending")
-                if errors: parts.append(f"{errors} error{'s' if errors > 1 else ''}")
-                detail = ", ".join(parts) if parts else "no data"
-                st.markdown(f"**{state['name']}** ({counted + counting}/{total_s} reporting): {detail}")
 
 
 # ---------------------------------------------------------------------------
