@@ -418,7 +418,8 @@ with st.container(border=True):
         da = params.get("drill_ac", ac_opts[0])
         if da not in ac_opts:
             da = ac_opts[0]
-        sel_ac = st.selectbox("Constituency", ac_opts, index=ac_opts.index(da), key="drill_ac_select")
+        # Dynamic key so widget resets when state changes
+        sel_ac = st.selectbox("Constituency", ac_opts, index=ac_opts.index(da), key=f"drill_ac_{dsc}")
         if sel_ac and sel_ac != params.get("drill_ac"):
             st.query_params["drill_ac"] = sel_ac
             st.rerun()
