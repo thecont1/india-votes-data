@@ -534,6 +534,7 @@ with st.container(border=True):
             fig.update_layout(title=f"Round {rnd} Snapshot", height=max(300, len(latest)*35),
                 xaxis_title="Votes", yaxis_title="", margin=dict(l=0,r=0,t=40,b=0))
             st.plotly_chart(fig, width="stretch", config=CHART_CFG)
+            st.caption("🏆 Winner  ·  🥈 Runner-up  ·  🦆 Lost deposit (< 1/6 of total valid votes)")
 
             if len(rdf["scraped_at"].unique()) > 1:
                 # Get top candidates and NOTA
