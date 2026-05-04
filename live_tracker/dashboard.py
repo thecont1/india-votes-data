@@ -129,7 +129,7 @@ st.markdown("""
         line-height: 1 !important;
         width: auto !important;
         height: auto !important;
-        zoom: 2.8 !important;
+        zoom: 2.0 !important;
     }
     [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stButton"] button:hover {
         background: transparent !important;
@@ -489,21 +489,37 @@ with st.container(border=True):
             st.plotly_chart(fig, width="stretch", config=CHART_CFG)
 
             if len(rdf["scraped_at"].unique()) > 1:
-                rdf["time_ist"] = pd.to_datetime(rdf["scraped_at"]).dt.tz_convert(IST)
+                # Get top candidates and NOTA
                 tc = rdf[rdf["scraped_at"] == lt].nlargest(4, "votes")["candidate"].tolist()
                 nc = rdf[rdf["party"] == "NOTA"]["candidate"].unique().tolist()
                 sc = set(tc + nc)
+
+                # For each candidate, get the latest vote count per round_no
+                rdf_sorted = rdf.sort_values("scraped_at")
+                latest_per_round = rdf_sorted.groupby(["candidate", "round_no"]).tail(1)
+
                 fl = go.Figure()
                 for c in sc:
-                    cf = rdf[rdf["candidate"] == c]
+                    cf = latest_per_round[latest_per_round["candidate"] == c].sort_values("round_no")
                     if cf.empty:
                         continue
                     party = cf["party"].iloc[0]
                     color = "#374151" if party == "NOTA" else get_pc(party)
-                    fl.add_trace(go.Scatter(x=cf["time_ist"], y=cf["votes"], mode="lines+markers",
-                        name=f"{cdn(c)} ({short(party)})", line=dict(color=color, width=2)))
-                fl.update_layout(xaxis_title="Time (IST)", yaxis_title="Cumulative Votes",
-                    height=400, hovermode="x unified", margin=dict(l=0,r=0,t=10,b=0))
+                    fl.add_trace(go.Scatter(
+                        x=cf["round_no"].apply(lambda r: f"R{r}"),
+                        y=cf["votes"], mode="lines+markers",
+                        name=f"{cdn(c)} ({short(party)})",
+                        line=dict(color=color, width=2),
+                    ))
+                max_r = int(latest_per_round["round_no"].max()) if not latest_per_round.empty else 1
+                rl = [f"R{i}" for i in range(1, max_r + 1)]
+                fl.update_layout(
+                    xaxis_title="Counting Round", yaxis_title="Cumulative Votes",
+                    height=400, hovermode="x unified",
+                    xaxis=dict(categoryorder="array", categoryarray=rl),
+                    legend=dict(orientation="h", yanchor="middle", y=0.5, xanchor="right", x=1),
+                    margin=dict(l=0, r=0, t=10, b=0),
+                )
                 st.plotly_chart(fl, width="stretch", config=CHART_CFG)
 
 
