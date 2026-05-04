@@ -550,13 +550,12 @@ with st.container(border=True):
                 text=chart_data.apply(lambda r: f"{r['sp']} ({r['votes']:,})", axis=1),
                 textposition="auto", hovertext=chart_data["ht"]))
 
-            # Margin line: scatter trace at runner-up's y-position showing the gap
+            # Margin line: anchored at runner-up bar end, spanning to winner votes
             if len(latest) >= 2:
                 w_votes = int(latest.iloc[0]["votes"])
                 r_votes = int(latest.iloc[1]["votes"])
                 margin = w_votes - r_votes
                 if margin > 0:
-                    # Horizontal line from runner-up votes to winner votes
                     fig.add_trace(go.Scatter(
                         x=[r_votes, w_votes], y=[1, 1],
                         mode="lines+markers+text",
@@ -565,13 +564,6 @@ with st.container(border=True):
                         text=["", f"+{margin:,}"], textposition="middle right",
                         textfont=dict(color="#6B7280", size=10),
                         showlegend=False, hoverinfo="skip"))
-                    # Vertical dashed lines connecting the margin line to the bars
-                    fig.add_shape(type="line",
-                        x0=r_votes, x1=r_votes, y0=0.7, y1=1,
-                        line=dict(color="#D1D5DB", width=1, dash="dot"), layer="above")
-                    fig.add_shape(type="line",
-                        x0=w_votes, x1=w_votes, y0=0.7, y1=1,
-                        line=dict(color="#D1D5DB", width=1, dash="dot"), layer="above")
 
             rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
             _legend_text = "  🏆 Winner  ·  🥈 Runner-up  ·  🦆 Lost deposit"
