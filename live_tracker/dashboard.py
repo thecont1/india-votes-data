@@ -419,18 +419,36 @@ with st.container(border=True):
     ac_statuses = get_all_constituency_statuses(DB_PATH)
     acl = ac_statuses[ac_statuses["state_code"] == dsc]
     ac_opts = []
+    margin_map = {}
     for _, row in acl.iterrows():
         name = row.get("ac_name") or f"AC-{row['ac_no']}"
         ac_opts.append(f"{row['ac_no']}. {name}")
+        # Compute margin for default selection
+        rdf_tmp = get_constituency_rounds(DB_PATH, dsc, int(row["ac_no"]))
+        if not rdf_tmp.empty:
+            lt_tmp = rdf_tmp["scraped_at"].max()
+            latest_tmp = rdf_tmp[rdf_tmp["scraped_at"] == lt_tmp]
+            if len(latest_tmp) >= 2:
+                sv = latest_tmp.sort_values("votes", ascending=False)
+                margin_map[f"{row['ac_no']}. {name}"] = int(sv.iloc[0]["votes"]) - int(sv.iloc[1]["votes"])
+            else:
+                margin_map[f"{row['ac_no']}. {name}"] = 0
+        else:
+            margin_map[f"{row['ac_no']}. {name}"] = 0
 
     if not ac_opts:
         st.info("No data.")
     else:
         da = st.session_state.get("drill_ac", ac_opts[0])
         if da not in ac_opts:
-            da = ac_opts[0]
+            # Default to constituency with largest margin
+            da = max(margin_map, key=margin_map.get) if margin_map else ac_opts[0]
         # Dynamic key so widget resets when state changes
-        sel_ac = st.selectbox("Constituency", ac_opts, index=ac_opts.index(da), key=f"drill_ac_{dsc}")
+        col_label, col_select = st.columns([1, 4])
+        with col_label:
+            st.markdown("**Constituency**")
+        with col_select:
+            sel_ac = st.selectbox("", ac_opts, index=ac_opts.index(da), key=f"drill_ac_{dsc}", label_visibility="collapsed")
         if sel_ac and sel_ac != st.session_state.get("drill_ac"):
             st.session_state["drill_ac"] = sel_ac
             st.rerun()
@@ -505,20 +523,24 @@ with st.container(border=True):
                         continue
                     party = cf["party"].iloc[0]
                     color = "#374151" if party == "NOTA" else get_pc(party)
+                    label = f"{cdn(c)} ({short(party)})"
+                    # Show name only on the last point
+                    text_vals = [""] * (len(cf) - 1) + [label]
                     fl.add_trace(go.Scatter(
                         x=cf["round_no"].apply(lambda r: f"R{r}"),
-                        y=cf["votes"], mode="lines+markers",
-                        name=f"{cdn(c)} ({short(party)})",
+                        y=cf["votes"], mode="lines+markers+text",
+                        text=text_vals, textposition="middle right",
+                        textfont=dict(size=11, color=color),
+                        name=label, showlegend=False,
                         line=dict(color=color, width=2),
                     ))
                 max_r = int(latest_per_round["round_no"].max()) if not latest_per_round.empty else 1
                 rl = [f"R{i}" for i in range(1, max_r + 1)]
                 fl.update_layout(
                     xaxis_title="Counting Round", yaxis_title="Cumulative Votes",
-                    height=400, hovermode="x unified",
+                    height=400, hovermode="x unified", showlegend=False,
                     xaxis=dict(categoryorder="array", categoryarray=rl),
-                    legend=dict(orientation="h", yanchor="middle", y=0.5, xanchor="right", x=1),
-                    margin=dict(l=0, r=0, t=10, b=0),
+                    margin=dict(l=0, r=80, t=10, b=0),
                 )
                 st.plotly_chart(fl, width="stretch", config=CHART_CFG)
 
