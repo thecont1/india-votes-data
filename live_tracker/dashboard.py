@@ -90,12 +90,13 @@ st.markdown("""
 <style>
     [data-testid="stSidebar"] {display: none !important;}
     [data-testid="collapsedControl"] {display: none !important;}
-    /* Hide Streamlit heading anchors */
+    /* Hide Streamlit header and heading anchors */
+    header[data-testid="stHeader"] {display: none !important;}
     [data-testid="stHeaderActionElements"] {display: none !important;}
     h1 a, h2 a, h3 a {display: none !important;}
-    /* Constrain width */
+    /* Constrain width and tighter top padding */
     .block-container {
-        padding-top: 0.5rem !important;
+        padding-top: 0.2rem !important;
         padding-bottom: 1rem !important;
         max-width: 65%;
         margin: 0 auto;
@@ -185,10 +186,16 @@ default_state = params.get("state", "Overall")
 if default_state not in state_options:
     default_state = "Overall"
 
-selected_state = st.pills("State", state_options, default=default_state, selection_mode="single")
-if selected_state and selected_state != params.get("state"):
-    st.query_params["state"] = selected_state
-    st.rerun()
+# Pills + gear button on same row
+col_pills, col_gear = st.columns([9, 1])
+with col_pills:
+    selected_state = st.pills("State", state_options, default=default_state, selection_mode="single", label_visibility="collapsed")
+    if selected_state and selected_state != params.get("state"):
+        st.query_params["state"] = selected_state
+        st.rerun()
+with col_gear:
+    if st.button("⚙️", help="Settings & System Monitor", key="gear_top"):
+        settings_dialog()
 
 state_code_filter = None
 if selected_state != "Overall":
@@ -208,12 +215,6 @@ st.markdown(
 </div>""",
     unsafe_allow_html=True,
 )
-
-# Gear button (top right)
-col_spacer, col_gear = st.columns([10, 1])
-with col_gear:
-    if st.button("⚙️", help="Settings & System Monitor", key="gear_top"):
-        settings_dialog()
 
 CHART_CFG = dict(displayModeBar=False, responsive=True)
 
@@ -252,8 +253,9 @@ with st.container(border=True):
         if state_code_filter and state_code_filter in MAJORITIES:
             maj = MAJORITIES[state_code_filter]
             fig.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
-            fig.add_annotation(x=maj, y=1.05, text=f"Majority ({maj})",
-                               showarrow=False, font=dict(color="red", size=11))
+            fig.add_annotation(x=maj, y=-0.5, text=f"Majority ({maj})",
+                               showarrow=False, font=dict(color="red", size=11),
+                               xanchor="right", yanchor="top")
         fig.update_layout(
             barmode="stack", height=max(300, len(wl) * 40),
             xaxis_title="Seats", yaxis_title="",
@@ -288,8 +290,9 @@ with st.container(border=True):
                     text=sd.apply(lambda r: str(int(r["leading"])) if r["leading"]>0 else "", axis=1),
                     textposition="outside", textfont=dict(size=11)))
                 f2.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
-                f2.add_annotation(x=maj, y=1.05, text=f"Majority ({maj})",
-                    showarrow=False, font=dict(color="red", size=11))
+                f2.add_annotation(x=maj, y=-0.5, text=f"Majority ({maj})",
+                    showarrow=False, font=dict(color="red", size=11),
+                    xanchor="right", yanchor="top")
                 f2.update_layout(barmode="stack", height=max(250, len(sd)*35),
                     yaxis=dict(autorange="reversed"), margin=dict(l=0,r=0,t=20,b=0), showlegend=False)
                 st.plotly_chart(f2, width="stretch", config=CHART_CFG)
@@ -392,19 +395,13 @@ with st.container(border=True):
 with st.container(border=True):
     st.markdown("**🔍 Constituency Drill-Down**")
 
-    state_opts = [s["name"] for s in STATES]
-    dds = params.get("drill_state", state_opts[0])
-    if dds not in state_opts:
-        dds = state_opts[0]
+    # Use the state selected by the top pills (or first state if Overall)
+    if state_code_filter:
+        drill_state_name = selected_state
+    else:
+        drill_state_name = STATES[0]["name"]
+    dsc = state_code_for(drill_state_name)
 
-    col1, col2 = st.columns(2)
-    with col1:
-        drill_state = st.selectbox("State", state_opts, index=state_opts.index(dds), key="drill_state_select")
-    if drill_state and drill_state != params.get("drill_state"):
-        st.query_params["drill_state"] = drill_state
-        st.rerun()
-
-    dsc = state_code_for(drill_state)
     ac_statuses = get_all_constituency_statuses(DB_PATH)
     acl = ac_statuses[ac_statuses["state_code"] == dsc]
     ac_opts = []
@@ -418,8 +415,7 @@ with st.container(border=True):
         da = params.get("drill_ac", ac_opts[0])
         if da not in ac_opts:
             da = ac_opts[0]
-        with col2:
-            sel_ac = st.selectbox("Constituency", ac_opts, index=ac_opts.index(da), key="drill_ac_select")
+        sel_ac = st.selectbox("Constituency", ac_opts, index=ac_opts.index(da), key="drill_ac_select")
         if sel_ac and sel_ac != params.get("drill_ac"):
             st.query_params["drill_ac"] = sel_ac
             st.rerun()
