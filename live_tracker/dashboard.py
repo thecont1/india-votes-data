@@ -236,7 +236,25 @@ def settings_dialog():
 # State selector
 # ---------------------------------------------------------------------------
 
-state_options = ["Overall"] + [s["name"] for s in STATES]
+def _get_state_dots():
+    """Return {state_name: dot_emoji} for coloured status dots."""
+    ss = get_status_summary(DB_PATH)
+    total = sum(ss.values())
+    done = ss.get("DONE", 0)
+    live = ss.get("LIVE", 0)
+    errors = ss.get("ERROR", 0)
+    if total == 0:
+        return {}
+    if errors > 0:
+        return {s["name"]: "🔴" for s in STATES}
+    if done == total:
+        return {s["name"]: "🟢" for s in STATES}
+    if live > 0:
+        return {s["name"]: "🟡" for s in STATES}
+    return {s["name"]: "⚪" for s in STATES}
+
+state_dots = _get_state_dots()
+state_options = ["Overall"] + [f"{state_dots.get(s['name'], '⚪')} {s['name']}" for s in STATES]
 default_state = st.session_state.get("selected_state", "Overall")
 if default_state not in state_options:
     default_state = "Overall"
@@ -245,16 +263,19 @@ if default_state not in state_options:
 col_pills, col_gear = st.columns([8, 1])
 with col_pills:
     selected_state = st.pills("State", state_options, default=default_state, selection_mode="single", label_visibility="collapsed")
-    if selected_state and selected_state != st.session_state.get("selected_state"):
-        st.session_state["selected_state"] = selected_state
+    # Strip leading dot emoji for state lookup
+    _clean_state = selected_state.lstrip("🟢🟡⚪🔴 ") if selected_state else selected_state
+    if _clean_state and _clean_state != st.session_state.get("selected_state"):
+        st.session_state["selected_state"] = _clean_state
         st.rerun()
 with col_gear:
     if st.button("⚙️", key="gear_top"):
         settings_dialog()
 
 state_code_filter = None
-if selected_state != "Overall":
-    state_code_filter = state_code_for(selected_state)
+_display_state = st.session_state.get("selected_state", "Overall")
+if _display_state and _display_state != "Overall":
+    state_code_filter = state_code_for(_display_state)
 
 # ---------------------------------------------------------------------------
 # Header bar
@@ -265,7 +286,7 @@ last_ts = fmt_ist(last_update) if last_update else "No data yet"
 
 st.markdown(
     f"""<div class="header-bar">
-    <h2>🗳️ ECI Live Election Tracker — {selected_state}</h2>
+    <h2>🗳️ ECI Live Election Tracker — {_display_state}</h2>
     <span class="ts">📅 {last_ts}</span>
 </div>""",
     unsafe_allow_html=True,
@@ -421,7 +442,7 @@ with st.container(border=True):
     # When a specific state is selected, drill-down follows it.
     # When "Overall" is selected, show a state dropdown so user can pick one.
     if state_code_filter:
-        drill_state_name = selected_state
+        drill_state_name = _display_state
         dsc = state_code_filter
     else:
         drill_state_opts = [s["name"] for s in STATES]
@@ -468,15 +489,8 @@ with st.container(border=True):
         cr = int(arow.get("current_round", 0) or 0)
         tr = int(arow.get("total_rounds", 0) or 0)
 
-        if status == "DONE":
-            st.success(f"✅ Complete — Round {cr}/{tr}")
-        elif status == "LIVE":
-            pct = (cr / tr * 100) if tr > 0 else 0
-            st.warning(f"🔴 Live — Round {cr}/{tr} (~{pct:.0f}% counted)")
-        elif status == "ERROR":
-            st.error("⚠️ Error fetching data")
-        else:
-            st.info("⏳ No data yet")
+        # Status dot for chart title
+        _status_dot = {"DONE": "🟢", "LIVE": "🟡", "ERROR": "🔴"}.get(status, "⚪")
 
         rdf = get_constituency_rounds(DB_PATH, dsc, ac_no)
         if not rdf.empty:
@@ -511,28 +525,34 @@ with st.container(border=True):
                 text=chart_data.apply(lambda r: f"{r['sp']} ({r['votes']:,})", axis=1),
                 textposition="auto", hovertext=chart_data["ht"]))
 
-            # Visual margin between winner and runner-up
+            # Striped margin bar between winner and runner-up
             if len(latest) >= 2:
                 w_votes = int(latest.iloc[0]["votes"])
                 r_votes = int(latest.iloc[1]["votes"])
                 margin = w_votes - r_votes
                 if margin > 0:
-                    mid_y = 0.5
-                    fig.add_shape(type="rect",
-                        x0=r_votes, x1=w_votes, y0=mid_y - 0.35, y1=mid_y + 0.35,
-                        fillcolor="rgba(200, 200, 200, 0.25)", line=dict(color="#9CA3AF", width=1, dash="dot"),
-                        layer="above")
-                    fig.add_annotation(
-                        x=(w_votes + r_votes) / 2, y=mid_y,
-                        text=f"+{margin:,}", showarrow=False,
-                        font=dict(color="#6B7280", size=10),
-                        bgcolor="white", borderpad=1)
+                    # Runner-up label y-position (second bar from top in reversed chart)
+                    ru_label = chart_data["label"].iloc[-1]
+                    fig.add_trace(go.Bar(
+                        y=[ru_label], x=[margin], orientation="h", base=[r_votes],
+                        marker_color="rgba(180, 180, 180, 0.35)",
+                        marker_pattern=dict(shape="/", solidity=0.4, fgcolor="#9CA3AF"),
+                        showlegend=False, hoverinfo="skip",
+                        text=[f"+{margin:,}"], textposition="inside",
+                        textfont=dict(color="#6B7280", size=10),
+                    ))
+                    # Shift winner bar right by the margin so its visual end aligns
+                    # Actually, we overlay the margin bar on top — no need to shift
 
             rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
-            fig.update_layout(title=f"Round {rnd} Snapshot", height=max(300, len(latest)*35),
-                xaxis_title="Votes", yaxis_title="", margin=dict(l=0,r=0,t=40,b=0))
+            _legend_text = "  🏆 Winner  ·  🥈 Runner-up  ·  🦆 Lost deposit"
+            fig.update_layout(
+                title=dict(text=f"{_status_dot} Round {rnd} Snapshot{_legend_text}",
+                           font=dict(size=16)),
+                height=max(300, len(latest)*35),
+                xaxis_title="Votes", yaxis_title="",
+                margin=dict(l=0,r=0,t=50,b=0))
             st.plotly_chart(fig, width="stretch", config=CHART_CFG)
-            st.caption("🏆 Winner  ·  🥈 Runner-up  ·  🦆 Lost deposit (< 1/6 of total valid votes)")
 
             if len(rdf["scraped_at"].unique()) > 1:
                 # Get top candidates and NOTA
