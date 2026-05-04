@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """
-ECI Live Election Dashboard — Single Page View
+ECI Live Election Dashboard — Single-Page Template
+Reusable across all state pages and Overall.
 """
 
 import os
+import sqlite3 as _sqlite3
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
@@ -23,10 +25,10 @@ from db_utils import (
 from states_may2026 import (
     MAJORITIES,
     PARTY_COLORS,
-    PARTY_SHORT,
     STATES,
     STATUS_COLORS,
     get_url,
+    normalise_party,
     short,
     state_code_for,
 )
@@ -34,12 +36,11 @@ from states_may2026 import (
 IST = ZoneInfo("Asia/Kolkata")
 DB_PATH = os.path.join(os.path.dirname(__file__), "live_results.db")
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
-def fmt_ist(utc_iso, fmt="%H:%M IST"):
+def fmt_ist(utc_iso, fmt="%d %b %H:%M IST"):
     if not utc_iso:
         return "N/A"
     try:
@@ -51,31 +52,28 @@ def fmt_ist(utc_iso, fmt="%H:%M IST"):
         return str(utc_iso)
 
 
-def get_party_color(party):
-    return PARTY_COLORS.get(party, PARTY_COLORS.get("Others", "#ADB5BD"))
+def get_pc(party):
+    return PARTY_COLORS.get(party, "#ADB5BD")
 
 
-def collapse_others(df, party_col, value_col, top_n=10):
-    df_sorted = df.sort_values(value_col, ascending=False).reset_index(drop=True)
-    top = df_sorted.head(top_n).copy()
-    rest = df_sorted.iloc[top_n:]
+def collapse_others(df, party_col, val_col, top_n=10):
+    s = df.sort_values(val_col, ascending=False).reset_index(drop=True)
+    top = s.head(top_n).copy()
+    rest = s.iloc[top_n:]
     if not rest.empty:
-        others_row = pd.DataFrame([{
-            party_col: f"Others ({len(rest)} parties)",
-            value_col: rest[value_col].sum(),
-        }])
-        top = pd.concat([top, others_row], ignore_index=True)
+        other = pd.DataFrame([{party_col: f"Others ({len(rest)} parties)", val_col: rest[val_col].sum()}])
+        top = pd.concat([top, other], ignore_index=True)
     return top
 
 
-def candidate_display_name(name):
+def cdn(name):
     if name.upper() == "NOTA":
         return "NOTA"
     return name.title()
 
 
 # ---------------------------------------------------------------------------
-# Page config — no sidebar
+# Page config
 # ---------------------------------------------------------------------------
 
 st.set_page_config(
@@ -85,19 +83,43 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Hide sidebar, constrain width, position settings gear
+# ---------------------------------------------------------------------------
+# Global styles: hidden sidebar, 60% width, card styling, gear button
+# ---------------------------------------------------------------------------
+
 st.markdown("""
 <style>
     [data-testid="stSidebar"] {display: none !important;}
     [data-testid="collapsedControl"] {display: none !important;}
     .block-container {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        max-width: 60%;
+        padding-top: 0.5rem !important;
+        padding-bottom: 1rem !important;
+        max-width: 65%;
         margin: 0 auto;
     }
-    /* Settings gear button — position top-right */
-    .settings-gear {position: fixed; top: 0.5rem; right: 5rem; z-index: 999;}
+    /* Card styling */
+    .dash-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 1.2rem 1.5rem;
+        margin-bottom: 1.5rem;
+        background: #fafafa;
+    }
+    .dash-card h3 {
+        margin-top: 0;
+        margin-bottom: 0.8rem;
+        font-size: 1.1rem;
+        color: #333;
+    }
+    /* Gear button */
+    .gear-btn {
+        position: fixed; top: 0.3rem; right: 4.5rem; z-index: 999;
+        background: none; border: none; font-size: 1.4rem; cursor: pointer;
+        padding: 0.3rem 0.5rem; border-radius: 6px;
+    }
+    .gear-btn:hover { background: #f0f0f0; }
+    /* State pills — tighter */
+    [data-testid="stPills"] { margin-bottom: 0.5rem; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -106,45 +128,89 @@ if not os.path.exists(DB_PATH):
     st.stop()
 
 # ---------------------------------------------------------------------------
-# Settings panel (top-right gear)
+# Gear button (opens settings dialog)
 # ---------------------------------------------------------------------------
 
-# Settings gear — fixed top-right (next to Deploy/⋮)
-st.markdown(
-    '<div class="settings-gear">'
-    '<form action="" method="get">'
-    '<input type="hidden" name="settings" value="1">'
-    '<button type="submit" style="background:none;border:none;font-size:1.5rem;cursor:pointer;" title="Settings & System Monitor">⚙️</button>'
-    '</form></div>',
-    unsafe_allow_html=True,
-)
+@st.dialog("⚙️ Settings & System Monitor", width="large")
+def settings_dialog():
+    # Refresh controls
+    st.subheader("Refresh")
+    refresh_interval = st.slider("Auto-refresh (seconds)", 30, 300, 120)
+    if st.button("🔄 Refresh Now"):
+        st.rerun()
 
-st.markdown("# 🗳️ ECI Live Election Tracker")
+    last_update = get_last_scrape_time(DB_PATH)
+    if last_update:
+        st.caption(f"Last update: {fmt_ist(last_update)}")
 
-params = st.query_params
-# Check if settings was clicked (via query param)
-show_settings = params.get("settings") == "1"
-if show_settings:
-    # Add a "Back" link
-    st.markdown('[← Back to dashboard](?)')
     st.divider()
 
+    # Status summary
+    st.subheader("Status")
+    status_summary = get_status_summary(DB_PATH)
+    total_acs = sum(status_summary.values())
+    reporting = status_summary.get("LIVE", 0) + status_summary.get("DONE", 0)
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Total ACs", total_acs)
+    c2.metric("Reporting", f"{reporting}/{total_acs}")
+    c3.metric("Counted", status_summary.get("DONE", 0))
+    c4.metric("Errors", status_summary.get("ERROR", 0))
+
+    st.divider()
+
+    # Update cycles
+    st.subheader("Update Cycles")
+    cycles_df = get_scrape_cycles(DB_PATH)
+    if not cycles_df.empty:
+        dc = cycles_df.copy()
+        for col in ["started_at", "finished_at"]:
+            if col in dc.columns:
+                dc[col] = dc[col].apply(lambda x: fmt_ist(x, "%H:%M:%S IST") if pd.notna(x) else "")
+        show_cols = [c for c in ["started_at","finished_at","pages_attempted","pages_success","pages_skipped","pages_error","cycle_duration_sec"] if c in dc.columns]
+        st.dataframe(dc[show_cols].head(10), use_container_width=True, hide_index=True)
+
+    st.divider()
+
+    # Errors
+    ac_statuses = get_all_constituency_statuses(DB_PATH)
+    error_acs = ac_statuses[ac_statuses["status"] == "ERROR"] if not ac_statuses.empty else pd.DataFrame()
+    if not error_acs.empty:
+        st.subheader(f"⚠️ Failed ({len(error_acs)})")
+        for _, row in error_acs.iterrows():
+            name = row.get("ac_name") or f"AC-{row['ac_no']}"
+            url = get_url(row["state_code"], row["ac_no"])
+            st.markdown(f"- **{name}** ({row['state_name']}) — [View]({url})")
+
+    st.divider()
+
+    # Quick stats per state
+    st.subheader("State Overview")
+    summary = get_state_status_summary(DB_PATH)
+    if summary:
+        df_sum = pd.DataFrame(summary)
+        for state in STATES:
+            sd = df_sum[df_sum["state_name"] == state["name"]]
+            if not sd.empty:
+                counts = dict(zip(sd["status"], sd["cnt"]))
+                total = sum(counts.values())
+                d = counts.get("DONE", 0)
+                l = counts.get("LIVE", 0)
+                p = counts.get("PENDING", 0)
+                e = counts.get("ERROR", 0)
+                st.markdown(f"**{state['name']}**: 🟢{d} 🟡{l} ⚪{p} 🔴{e} ({d+l}/{total})")
+
+
 # ---------------------------------------------------------------------------
-# State selector — one-click pills
+# State selector
 # ---------------------------------------------------------------------------
 
+params = st.query_params
 state_options = ["Overall"] + [s["name"] for s in STATES]
 default_state = params.get("state", "Overall")
 if default_state not in state_options:
     default_state = "Overall"
 
-selected_state = st.pills(
-    "State",
-    state_options,
-    default=default_state,
-    selection_mode="single",
-)
-# Only write to query_params if changed (avoids double-rerun)
+selected_state = st.pills("State", state_options, default=default_state, selection_mode="single")
 if selected_state and selected_state != params.get("state"):
     st.query_params["state"] = selected_state
     st.rerun()
@@ -153,245 +219,107 @@ state_code_filter = None
 if selected_state != "Overall":
     state_code_filter = state_code_for(selected_state)
 
-# Majority info
-if selected_state != "Overall":
-    maj = MAJORITIES.get(state_code_filter, 0)
-    st.caption(f"Majority: {maj} seats")
-
 # ---------------------------------------------------------------------------
-# Settings / System Monitor panel (conditional)
+# Header
 # ---------------------------------------------------------------------------
 
-if show_settings:
-    st.divider()
-    st.subheader("⚙️ Settings & System Monitor")
-
-    # Status summary
-    status_summary = get_status_summary(DB_PATH, state_code_filter)
-    total_acs = sum(status_summary.values())
-    reporting = status_summary.get("LIVE", 0) + status_summary.get("DONE", 0)
-
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Total ACs", total_acs)
-    with col2:
-        st.metric("Reporting", f"{reporting} / {total_acs}")
-    with col3:
-        st.metric("All Rounds Counted", status_summary.get("DONE", 0))
-    with col4:
-        st.metric("Errors", status_summary.get("ERROR", 0))
-
-    # Auto-refresh
-    refresh_interval = st.slider("Auto-refresh (seconds)", 30, 300, 120, key="refresh_slider")
-    if st.button("🔄 Refresh Now"):
-        st.rerun()
-
-    # Last update
+header_left, header_right = st.columns([5, 1])
+with header_left:
+    st.markdown(f"### 🗳️ ECI Live Election Tracker — **{selected_state}**")
     last_update = get_last_scrape_time(DB_PATH)
     if last_update:
-        st.caption(f"Last update: {fmt_ist(last_update, '%H:%M:%S IST')}")
-
-    st.divider()
-
-    # Update cycles
-    st.subheader("Update Cycles")
-    cycles_df = get_scrape_cycles(DB_PATH)
-    if not cycles_df.empty:
-        display_cycles = cycles_df.copy()
-        for col in ["started_at", "finished_at"]:
-            if col in display_cycles.columns:
-                display_cycles[col] = display_cycles[col].apply(
-                    lambda x: fmt_ist(x, "%H:%M:%S IST") if pd.notna(x) else ""
-                )
-        display_cols = [c for c in [
-            "started_at", "finished_at", "pages_attempted",
-            "pages_success", "pages_skipped", "pages_error", "cycle_duration_sec",
-        ] if c in display_cycles.columns]
-        st.dataframe(display_cycles[display_cols].head(10), width="stretch", hide_index=True)
-
-    st.divider()
-
-    # Error URLs
-    ac_statuses = get_all_constituency_statuses(DB_PATH)
-    error_acs = ac_statuses[ac_statuses["status"] == "ERROR"] if not ac_statuses.empty else pd.DataFrame()
-    if not error_acs.empty:
-        st.subheader(f"⚠️ Failed Updates ({len(error_acs)})")
-        for _, row in error_acs.iterrows():
-            ac_name = row.get("ac_name") or f"AC-{row['ac_no']}"
-            url = get_url(row["state_code"], row["ac_no"])
-            st.markdown(f"- **{ac_name}** ({row['state_name']}) — {row['error_count']} errors — [View page]({url})")
-        st.divider()
-
-    # Constituency table with search
-    st.subheader("All Constituencies")
-    if not ac_statuses.empty:
-        search_col, status_col = st.columns([2, 1])
-        with search_col:
-            search = st.text_input("Search", "", placeholder="e.g. Madavaram, Kochi", key="search_ac")
-        with status_col:
-            status_filter = st.selectbox("Status", ["All", "LIVE", "DONE", "PENDING", "ERROR"], key="filter_status")
-
-        filtered = ac_statuses.copy()
-        if search:
-            filtered = filtered[
-                filtered["ac_name"].str.upper().str.contains(search.upper(), na=False)
-                | filtered["state_name"].str.upper().str.contains(search.upper(), na=False)
-            ]
-        if status_filter != "All":
-            filtered = filtered[filtered["status"] == status_filter]
-
-        if "last_scraped" in filtered.columns:
-            filtered["last_updated"] = filtered["last_scraped"].apply(
-                lambda x: fmt_ist(x, "%d %b %H:%M") if pd.notna(x) and x else ""
-            )
-
-        display_cols = [c for c in [
-            "state_name", "ac_no", "ac_name", "status",
-            "current_round", "total_rounds", "last_updated",
-        ] if c in filtered.columns]
-
-        def color_status(val):
-            bg = STATUS_COLORS.get(val, "#6B7280")
-            return f"background-color: {bg}; color: white; font-weight: bold"
-
-        styled = filtered[display_cols].style.map(color_status, subset=["status"])
-        st.dataframe(styled, width="stretch", height=400, hide_index=True)
-
-    # State-wise quick stats
-    st.subheader("Quick Stats")
-    summary = get_state_status_summary(DB_PATH)
-    if summary:
-        df_sum = pd.DataFrame(summary)
-        for state in STATES:
-            state_data = df_sum[df_sum["state_name"] == state["name"]]
-            if not state_data.empty:
-                counts = dict(zip(state_data["status"], state_data["cnt"]))
-                total = sum(counts.values())
-                done = counts.get("DONE", 0)
-                live = counts.get("LIVE", 0)
-                pend = counts.get("PENDING", 0)
-                err = counts.get("ERROR", 0)
-                st.markdown(
-                    f"**{state['name']}**: "
-                    f"🟢 {done} done  🟡 {live} live  ⚪ {pend} pending  🔴 {err} error  "
-                    f"({done + live}/{total} reporting)"
-                )
-
-    st.stop()  # Don't show main content when settings is open
+        st.caption(f"Last updated: {fmt_ist(last_update)}")
+with header_right:
+    if st.button("⚙️", help="Settings & System Monitor", use_container_width=True):
+        settings_dialog()
 
 
 # ===========================================================================
-# MAIN CONTENT — single page, no tabs
+# SECTION 1: SEAT TALLY
 # ===========================================================================
 
-# --- SECTION 1: SEAT TALLY ---
-st.subheader("Seat Tally")
+st.container().markdown("""<div class="dash-card"><h3>📊 Seat Tally</h3></div>""", unsafe_allow_html=True)
 
 wl_tally = get_party_seat_tally_won_leading(DB_PATH, state_code_filter)
 if wl_tally.empty:
     st.info("No data yet.")
 else:
-    wl_display = collapse_others(wl_tally, "party", "total", top_n=10)
-    wl_display["short"] = wl_display["party"].apply(short)
-    for col in ["won", "leading", "total"]:
-        wl_display[col] = wl_display[col].fillna(0).astype(int)
+    wl = collapse_others(wl_tally, "party", "total", top_n=10)
+    wl["short"] = wl["party"].apply(short)
+    for c in ["won", "leading", "total"]:
+        wl[c] = wl[c].fillna(0).astype(int)
 
     fig = go.Figure()
-
-    # Won — solid, text inside
     fig.add_trace(go.Bar(
-        y=wl_display["short"],
-        x=wl_display["won"],
-        orientation="h",
-        name="Won",
-        marker_color=[get_party_color(p) for p in wl_display["party"]],
-        text=wl_display.apply(lambda r: str(int(r["won"])) if r["won"] > 0 else "", axis=1),
-        textposition="inside",
-        textfont=dict(color="white", size=13),
-        hovertext=wl_display.apply(lambda r: f"{r['party']}: {int(r['won'])} won", axis=1),
+        y=wl["short"], x=wl["won"], orientation="h", name="Won",
+        marker_color=[get_pc(p) for p in wl["party"]],
+        text=wl.apply(lambda r: str(int(r["won"])) if r["won"] > 0 else "", axis=1),
+        textposition="inside", textfont=dict(color="white", size=13),
+        hovertext=wl.apply(lambda r: f"{r['party']}: {int(r['won'])} won", axis=1),
     ))
-
-    # Leading — hatched, text outside
     fig.add_trace(go.Bar(
-        y=wl_display["short"],
-        x=wl_display["leading"],
-        orientation="h",
-        name="Leading",
-        marker_color=[get_party_color(p) for p in wl_display["party"]],
+        y=wl["short"], x=wl["leading"], orientation="h", name="Leading",
+        marker_color=[get_pc(p) for p in wl["party"]],
         marker_pattern=dict(shape="/", solidity=0.6),
-        text=wl_display.apply(lambda r: str(int(r["leading"])) if r["leading"] > 0 else "", axis=1),
-        textposition="outside",
-        textfont=dict(size=12),
-        hovertext=wl_display.apply(lambda r: f"{r['party']}: {int(r['leading'])} leading", axis=1),
+        text=wl.apply(lambda r: str(int(r["leading"])) if r["leading"] > 0 else "", axis=1),
+        textposition="outside", textfont=dict(size=12),
+        hovertext=wl.apply(lambda r: f"{r['party']}: {int(r['leading'])} leading", axis=1),
     ))
-
-    # Majority line
     if state_code_filter and state_code_filter in MAJORITIES:
         maj = MAJORITIES[state_code_filter]
         fig.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
         fig.add_annotation(x=maj, y=1.05, text=f"Majority ({maj})",
                            showarrow=False, font=dict(color="red", size=11))
-
     fig.update_layout(
-        barmode="stack",
-        height=max(300, len(wl_display) * 40),
-        xaxis_title="Seats",
-        yaxis_title="",
+        barmode="stack", height=max(300, len(wl) * 40),
+        xaxis_title="Seats", yaxis_title="",
         yaxis=dict(autorange="reversed"),
         margin=dict(l=0, r=0, t=20, b=0),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
     )
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig, use_container_width=True)
 
-    # Per-state panels (only in Overall view)
+    # Per-state panels (Overall only)
     if selected_state == "Overall":
         for state in STATES:
             sc = state["code"]
             maj = MAJORITIES.get(sc, 0)
-            with st.expander(f"{state['name']}  (majority: {maj} seats)", expanded=False):
-                st_wl = get_party_seat_tally_won_leading(DB_PATH, sc)
-                if st_wl.empty:
+            with st.expander(f"{state['name']}  (majority: {maj})"):
+                sw = get_party_seat_tally_won_leading(DB_PATH, sc)
+                if sw.empty:
                     st.info("No data yet.")
                     continue
-                st_display = collapse_others(st_wl, "party", "total", top_n=8)
-                st_display["short"] = st_display["party"].apply(short)
-                for col in ["won", "leading", "total"]:
-                    st_display[col] = st_display[col].fillna(0).astype(int)
-
-                fig = go.Figure()
-                fig.add_trace(go.Bar(
-                    y=st_display["short"], x=st_display["won"], orientation="h",
-                    name="Won", marker_color=[get_party_color(p) for p in st_display["party"]],
-                    text=st_display.apply(lambda r: str(int(r["won"])) if r["won"] > 0 else "", axis=1),
-                    textposition="inside", textfont=dict(color="white", size=12),
-                ))
-                fig.add_trace(go.Bar(
-                    y=st_display["short"], x=st_display["leading"], orientation="h",
-                    name="Leading", marker_color=[get_party_color(p) for p in st_display["party"]],
+                sd = collapse_others(sw, "party", "total", top_n=8)
+                sd["short"] = sd["party"].apply(short)
+                for c in ["won", "leading", "total"]:
+                    sd[c] = sd[c].fillna(0).astype(int)
+                f2 = go.Figure()
+                f2.add_trace(go.Bar(y=sd["short"], x=sd["won"], orientation="h", name="Won",
+                    marker_color=[get_pc(p) for p in sd["party"]],
+                    text=sd.apply(lambda r: str(int(r["won"])) if r["won"]>0 else "", axis=1),
+                    textposition="inside", textfont=dict(color="white", size=12)))
+                f2.add_trace(go.Bar(y=sd["short"], x=sd["leading"], orientation="h", name="Leading",
+                    marker_color=[get_pc(p) for p in sd["party"]],
                     marker_pattern=dict(shape="/", solidity=0.6),
-                    text=st_display.apply(lambda r: str(int(r["leading"])) if r["leading"] > 0 else "", axis=1),
-                    textposition="outside", textfont=dict(size=11),
-                ))
-                fig.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
-                fig.add_annotation(x=maj, y=1.05, text=f"Majority ({maj})",
-                                   showarrow=False, font=dict(color="red", size=11))
-                fig.update_layout(
-                    barmode="stack", height=max(250, len(st_display) * 35),
-                    yaxis=dict(autorange="reversed"),
-                    margin=dict(l=0, r=0, t=20, b=0), showlegend=False,
-                )
-                st.plotly_chart(fig, width="stretch")
+                    text=sd.apply(lambda r: str(int(r["leading"])) if r["leading"]>0 else "", axis=1),
+                    textposition="outside", textfont=dict(size=11)))
+                f2.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
+                f2.add_annotation(x=maj, y=1.05, text=f"Majority ({maj})",
+                    showarrow=False, font=dict(color="red", size=11))
+                f2.update_layout(barmode="stack", height=max(250, len(sd)*35),
+                    yaxis=dict(autorange="reversed"), margin=dict(l=0,r=0,t=20,b=0), showlegend=False)
+                st.plotly_chart(f2, use_container_width=True)
 
 
-# --- SECTION 2: PARTY FORTUNES BY ROUND ---
-st.divider()
-st.subheader("Party Fortunes by Counting Round")
+# ===========================================================================
+# SECTION 2: PARTY FORTUNES BY ROUND
+# ===========================================================================
+
+st.container().markdown("""<div class="dash-card"><h3>📈 Party Fortunes by Counting Round</h3></div>""", unsafe_allow_html=True)
 
 trend_mode = st.radio("Display mode", ["Cumulative Votes", "Vote Share %"], horizontal=True, key="trend_mode")
 metric = "vote_share_pct" if trend_mode == "Vote Share %" else "cumulative_votes"
 
-# Compute round-based series
-import sqlite3 as _sqlite3
 
 def compute_party_round_series(db_path, state_code=None, metric="cumulative_votes"):
     where = "WHERE state_code = ?" if state_code else ""
@@ -405,47 +333,37 @@ def compute_party_round_series(db_path, state_code=None, metric="cumulative_vote
     conn.close()
     if raw.empty:
         return pd.DataFrame(columns=["party", "round_num", "round_label", "value"])
-
     raw["votes"] = pd.to_numeric(raw["votes"], errors="coerce").fillna(0).astype(int)
     raw["scraped_at"] = pd.to_datetime(raw["scraped_at"])
     max_round = int(raw["round_no"].max())
-
-    latest_per_round = raw.groupby(["state_code", "ac_no", "round_no"])["scraped_at"].max().reset_index()
-    raw_latest = raw.merge(latest_per_round, on=["state_code", "ac_no", "round_no", "scraped_at"], how="inner")
-
+    lpr = raw.groupby(["state_code", "ac_no", "round_no"])["scraped_at"].max().reset_index()
+    rl = raw.merge(lpr, on=["state_code", "ac_no", "round_no", "scraped_at"], how="inner")
     results = []
     for r in range(1, max_round + 1):
-        eligible = raw_latest[raw_latest["round_no"] <= r]
-        if eligible.empty:
+        el = rl[rl["round_no"] <= r]
+        if el.empty:
             continue
-        latest_ac = eligible.groupby(["state_code", "ac_no"])["round_no"].max().reset_index()
-        snapshot = eligible.merge(latest_ac, on=["state_code", "ac_no", "round_no"], how="inner")
-        party_totals = snapshot.groupby("party")["votes"].sum().reset_index()
-        party_totals["round_num"] = r
-        party_totals["round_label"] = f"R{r}"
-        results.append(party_totals)
-
+        la = el.groupby(["state_code", "ac_no"])["round_no"].max().reset_index()
+        sn = el.merge(la, on=["state_code", "ac_no", "round_no"], how="inner")
+        pt = sn.groupby("party")["votes"].sum().reset_index()
+        pt["round_num"] = r
+        pt["round_label"] = f"R{r}"
+        results.append(pt)
     if not results:
         return pd.DataFrame(columns=["party", "round_num", "round_label", "value"])
-
-    series_df = pd.concat(results, ignore_index=True)
-    series_df.rename(columns={"votes": "value"}, inplace=True)
-
-    all_parties = series_df["party"].unique()
-    r0 = pd.DataFrame({"party": all_parties, "round_num": 0, "round_label": "R0", "value": 0})
-    series_df = pd.concat([r0, series_df], ignore_index=True)
-
-    full_idx = pd.MultiIndex.from_product([all_parties, range(0, max_round + 1)], names=["party", "round_num"])
-    series_df = series_df.set_index(["party", "round_num"]).reindex(full_idx).reset_index()
-    series_df["round_label"] = series_df["round_num"].apply(lambda x: f"R{x}")
-    series_df["value"] = series_df.groupby("party")["value"].ffill().fillna(0)
-
+    s = pd.concat(results, ignore_index=True)
+    s.rename(columns={"votes": "value"}, inplace=True)
+    ap = s["party"].unique()
+    r0 = pd.DataFrame({"party": ap, "round_num": 0, "round_label": "R0", "value": 0})
+    s = pd.concat([r0, s], ignore_index=True)
+    fi = pd.MultiIndex.from_product([ap, range(0, max_round + 1)], names=["party", "round_num"])
+    s = s.set_index(["party", "round_num"]).reindex(fi).reset_index()
+    s["round_label"] = s["round_num"].apply(lambda x: f"R{x}")
+    s["value"] = s.groupby("party")["value"].ffill().fillna(0)
     if metric == "vote_share_pct":
-        final_total = series_df[series_df["round_num"] == max_round]["value"].sum()
-        series_df["value"] = series_df.apply(
-            lambda r: (r["value"] / final_total * 100) if final_total > 0 else 0, axis=1
-        )
-    return series_df
+        ft = s[s["round_num"] == max_round]["value"].sum()
+        s["value"] = s.apply(lambda r: (r["value"] / ft * 100) if ft > 0 else 0, axis=1)
+    return s
 
 
 series_df = compute_party_round_series(DB_PATH, state_code_filter, metric)
@@ -457,187 +375,145 @@ else:
     if max_round < 1:
         st.info("Waiting for counting data...")
     else:
-        latest_round = series_df[series_df["round_num"] == max_round]
-        top_parties = latest_round.nlargest(10, "value")["party"].tolist()
-
-        series_df["party_group"] = series_df["party"].apply(lambda p: p if p in top_parties else "Others")
-        plot_df = series_df.groupby(["party_group", "round_num", "round_label"])["value"].sum().reset_index()
-        round_labels = [f"R{i}" for i in range(0, max_round + 1)]
-
+        lr = series_df[series_df["round_num"] == max_round]
+        tp = lr.nlargest(10, "value")["party"].tolist()
+        series_df["pg"] = series_df["party"].apply(lambda p: p if p in tp else "Others")
+        pdf = series_df.groupby(["pg", "round_num", "round_label"])["value"].sum().reset_index()
+        rl = [f"R{i}" for i in range(0, max_round + 1)]
         fig = go.Figure()
-        for party in top_parties + ["Others"]:
-            party_df = plot_df[plot_df["party_group"] == party].sort_values("round_num")
-            if party_df.empty:
+        for p in tp + ["Others"]:
+            pf = pdf[pdf["pg"] == p].sort_values("round_num")
+            if pf.empty:
                 continue
             fig.add_trace(go.Scatter(
-                x=party_df["round_label"], y=party_df["value"],
-                mode="lines+markers", name=short(party),
-                line=dict(color=get_party_color(party), width=2),
-                marker=dict(size=5),
-                hovertemplate=f"<b>{short(party)}</b><br>Round: %{{x}}<br>{trend_mode}: %{{y:,.0f}}<extra></extra>",
+                x=pf["round_label"], y=pf["value"], mode="lines+markers", name=short(p),
+                line=dict(color=get_pc(p), width=2), marker=dict(size=5),
+                hovertemplate=f"<b>{short(p)}</b><br>Round: %{{x}}<br>{trend_mode}: %{{y:,.0f}}<extra></extra>",
             ))
-
-        y_label = "Vote Share (%)" if metric == "vote_share_pct" else "Cumulative Votes"
+        yl = "Vote Share (%)" if metric == "vote_share_pct" else "Cumulative Votes"
         fig.update_layout(
-            xaxis_title="Counting Round", yaxis_title=y_label, height=500,
+            xaxis_title="Counting Round", yaxis_title=yl, height=500,
             hovermode="x unified",
-            xaxis=dict(categoryorder="array", categoryarray=round_labels),
+            xaxis=dict(categoryorder="array", categoryarray=rl),
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
             margin=dict(l=0, r=0, t=40, b=0),
         )
-        st.plotly_chart(fig, width="stretch")
-
-        st.caption(
-            "Each line shows a party's cumulative share of the final total across counting rounds. "
-            "Lines converge to the final declared share. "
-            "Flat segments mean no new votes in that round."
-        )
+        st.plotly_chart(fig, use_container_width=True)
+        st.caption("Lines converge to the final declared share. Flat segments = no new votes in that round.")
 
 
-# --- SECTION 3: CONSTITUENCY DRILL-DOWN ---
-st.divider()
-st.subheader("Constituency Drill-Down")
+# ===========================================================================
+# SECTION 3: CONSTITUENCY DRILL-DOWN
+# ===========================================================================
 
-state_for_ac_options = [s["name"] for s in STATES]
-default_drill_state = params.get("drill_state", state_for_ac_options[0])
-if default_drill_state not in state_for_ac_options:
-    default_drill_state = state_for_ac_options[0]
+st.container().markdown("""<div class="dash-card"><h3>🔍 Constituency Drill-Down</h3></div>""", unsafe_allow_html=True)
 
-col_state, col_ac = st.columns(2)
-with col_state:
-    state_for_ac = st.selectbox("State", state_for_ac_options,
-                                 index=state_for_ac_options.index(default_drill_state),
-                                 key="drill_state_select")
-if state_for_ac and state_for_ac != params.get("drill_state"):
-    st.query_params["drill_state"] = state_for_ac
+state_opts = [s["name"] for s in STATES]
+dds = params.get("drill_state", state_opts[0])
+if dds not in state_opts:
+    dds = state_opts[0]
+
+col1, col2 = st.columns(2)
+with col1:
+    drill_state = st.selectbox("State", state_opts, index=state_opts.index(dds), key="drill_state_select")
+if drill_state and drill_state != params.get("drill_state"):
+    st.query_params["drill_state"] = drill_state
     st.rerun()
 
-selected_state_code = state_code_for(state_for_ac)
+dsc = state_code_for(drill_state)
 ac_statuses = get_all_constituency_statuses(DB_PATH)
-ac_list = ac_statuses[ac_statuses["state_code"] == selected_state_code]
-
-ac_options = []
-for _, row in ac_list.iterrows():
+acl = ac_statuses[ac_statuses["state_code"] == dsc]
+ac_opts = []
+for _, row in acl.iterrows():
     name = row.get("ac_name") or f"AC-{row['ac_no']}"
-    ac_options.append(f"{row['ac_no']}. {name}")
+    ac_opts.append(f"{row['ac_no']}. {name}")
 
-if not ac_options:
-    st.info("No constituency data available.")
+if not ac_opts:
+    st.info("No data.")
 else:
-    default_ac = params.get("drill_ac", ac_options[0])
-    if default_ac not in ac_options:
-        default_ac = ac_options[0]
-
-    with col_ac:
-        selected_ac = st.selectbox("Constituency", ac_options,
-                                    index=ac_options.index(default_ac),
-                                    key="drill_ac_select")
-    if selected_ac and selected_ac != params.get("drill_ac"):
-        st.query_params["drill_ac"] = selected_ac
+    da = params.get("drill_ac", ac_opts[0])
+    if da not in ac_opts:
+        da = ac_opts[0]
+    with col2:
+        sel_ac = st.selectbox("Constituency", ac_opts, index=ac_opts.index(da), key="drill_ac_select")
+    if sel_ac and sel_ac != params.get("drill_ac"):
+        st.query_params["drill_ac"] = sel_ac
         st.rerun()
-    ac_no = int(selected_ac.split(".")[0])
 
-    ac_row = ac_list[ac_list["ac_no"] == ac_no].iloc[0]
-    status = ac_row["status"]
-    current_round = int(ac_row.get("current_round", 0) or 0)
-    total_rounds = int(ac_row.get("total_rounds", 0) or 0)
+    ac_no = int(sel_ac.split(".")[0])
+    arow = acl[acl["ac_no"] == ac_no].iloc[0]
+    status = arow["status"]
+    cr = int(arow.get("current_round", 0) or 0)
+    tr = int(arow.get("total_rounds", 0) or 0)
 
     if status == "DONE":
-        st.success(f"✅ Counting complete — Round {current_round}/{total_rounds}")
+        st.success(f"✅ Complete — Round {cr}/{tr}")
     elif status == "LIVE":
-        pct_est = (current_round / total_rounds * 100) if total_rounds > 0 else 0
-        st.warning(f"🔴 Live — Round {current_round}/{total_rounds} (approx {pct_est:.0f}% of EVM votes counted)")
+        pct = (cr / tr * 100) if tr > 0 else 0
+        st.warning(f"🔴 Live — Round {cr}/{tr} (~{pct:.0f}% counted)")
     elif status == "ERROR":
         st.error("⚠️ Error fetching data")
     else:
         st.info("⏳ No data yet")
 
-    rounds_df = get_constituency_rounds(DB_PATH, selected_state_code, ac_no)
+    rdf = get_constituency_rounds(DB_PATH, dsc, ac_no)
+    if not rdf.empty:
+        lt = rdf["scraped_at"].max()
+        latest = rdf[rdf["scraped_at"] == lt].copy().sort_values("votes", ascending=True)
 
-    if rounds_df.empty:
-        if status == "PENDING":
-            st.info("No data yet. It will appear after the next update cycle.")
-    else:
-        latest_time = rounds_df["scraped_at"].max()
-        latest = rounds_df[rounds_df["scraped_at"] == latest_time].copy()
-        latest = latest.sort_values("votes", ascending=True)
-
-        # Leading candidate callout
         if len(latest) >= 2:
-            df_sorted = latest.sort_values("votes", ascending=False)
-            leader = df_sorted.iloc[0]
-            runner = df_sorted.iloc[1]
+            ds = latest.sort_values("votes", ascending=False)
+            leader = ds.iloc[0]
+            runner = ds.iloc[1]
             margin = int(leader["votes"]) - int(runner["votes"])
-            leader_name = candidate_display_name(leader["candidate"])
-            runner_name = candidate_display_name(runner["candidate"])
-            msg = f"**{leader_name}** ({short(leader['party'])}) leading by **{margin:,} votes** over {runner_name} ({short(runner['party'])})"
-            if current_round > 0 and total_rounds > 0:
-                msg += f" — approx {current_round / total_rounds * 100:.0f}% counted"
+            ln = cdn(leader["candidate"])
+            rn = cdn(runner["candidate"])
+            msg = f"**{ln}** ({short(leader['party'])}) leading by **{margin:,} votes** over {rn} ({short(runner['party'])})"
+            if cr > 0 and tr > 0:
+                msg += f" — ~{cr/tr*100:.0f}% counted"
             if margin < 100:
-                st.error(f"🔥 Extremely close! {msg}")
+                st.error(f"🔥 {msg}")
             elif margin < 500:
-                st.warning(f"⚠️ Too close to call. {msg}")
+                st.warning(f"⚠️ {msg}")
             else:
                 st.success(f"🏆 {msg}")
 
-        # Bar chart with party colours
-        latest["display_name"] = latest["candidate"].apply(candidate_display_name)
-        latest["short_party"] = latest["party"].apply(short)
-        latest["hover"] = latest.apply(lambda r: f"{r['candidate']} ({r['party']})", axis=1)
-        colors = ["#374151" if row["party"] == "NOTA" else get_party_color(row["party"]) for _, row in latest.iterrows()]
+        latest["dn"] = latest["candidate"].apply(cdn)
+        latest["sp"] = latest["party"].apply(short)
+        latest["ht"] = latest.apply(lambda r: f"{r['candidate']} ({r['party']})", axis=1)
+        colors = ["#374151" if row["party"] == "NOTA" else get_pc(row["party"]) for _, row in latest.iterrows()]
 
         fig = go.Figure()
-        fig.add_trace(go.Bar(
-            y=latest["display_name"], x=latest["votes"], orientation="h",
+        fig.add_trace(go.Bar(y=latest["dn"], x=latest["votes"], orientation="h",
             marker_color=colors,
-            text=latest.apply(lambda r: f"{r['short_party']} ({r['votes']:,})", axis=1),
-            textposition="auto", hovertext=latest["hover"],
-        ))
-        round_no = latest["round_no"].iloc[0] if "round_no" in latest.columns else current_round
-        fig.update_layout(
-            title=f"Round {round_no} Snapshot",
-            height=max(300, len(latest) * 35),
-            xaxis_title="Votes", yaxis_title="",
-            margin=dict(l=0, r=0, t=40, b=0),
-        )
-        st.plotly_chart(fig, width="stretch")
+            text=latest.apply(lambda r: f"{r['sp']} ({r['votes']:,})", axis=1),
+            textposition="auto", hovertext=latest["ht"]))
+        rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
+        fig.update_layout(title=f"Round {rnd} Snapshot", height=max(300, len(latest)*35),
+            xaxis_title="Votes", yaxis_title="", margin=dict(l=0,r=0,t=40,b=0))
+        st.plotly_chart(fig, use_container_width=True)
 
-        # Round-by-round history
-        if len(rounds_df["scraped_at"].unique()) > 1:
-            st.subheader("Vote Trajectory Over Time")
-            rounds_df["time_ist"] = pd.to_datetime(rounds_df["scraped_at"]).dt.tz_convert(IST)
-            top_cands = rounds_df[rounds_df["scraped_at"] == latest_time].nlargest(4, "votes")["candidate"].tolist()
-            nota_candidates = rounds_df[rounds_df["party"] == "NOTA"]["candidate"].unique().tolist()
-            show_cands = set(top_cands + nota_candidates)
-
-            fig_line = go.Figure()
-            for cand in show_cands:
-                cand_df = rounds_df[rounds_df["candidate"] == cand]
-                if cand_df.empty:
+        # History chart
+        if len(rdf["scraped_at"].unique()) > 1:
+            rdf["time_ist"] = pd.to_datetime(rdf["scraped_at"]).dt.tz_convert(IST)
+            tc = rdf[rdf["scraped_at"] == lt].nlargest(4, "votes")["candidate"].tolist()
+            nc = rdf[rdf["party"] == "NOTA"]["candidate"].unique().tolist()
+            sc = set(tc + nc)
+            fl = go.Figure()
+            for c in sc:
+                cf = rdf[rdf["candidate"] == c]
+                if cf.empty:
                     continue
-                party = cand_df["party"].iloc[0]
-                color = "#374151" if party == "NOTA" else get_party_color(party)
-                fig_line.add_trace(go.Scatter(
-                    x=cand_df["time_ist"], y=cand_df["votes"],
-                    mode="lines+markers",
-                    name=f"{candidate_display_name(cand)} ({short(party)})",
-                    line=dict(color=color, width=2),
-                ))
-            fig_line.update_layout(
-                xaxis_title="Time (IST)", yaxis_title="Cumulative Votes",
-                height=400, hovermode="x unified",
-                margin=dict(l=0, r=0, t=10, b=0),
-            )
-            st.plotly_chart(fig_line, width="stretch")
+                party = cf["party"].iloc[0]
+                color = "#374151" if party == "NOTA" else get_pc(party)
+                fl.add_trace(go.Scatter(x=cf["time_ist"], y=cf["votes"], mode="lines+markers",
+                    name=f"{cdn(c)} ({short(party)})", line=dict(color=color, width=2)))
+            fl.update_layout(xaxis_title="Time (IST)", yaxis_title="Cumulative Votes",
+                height=400, hovermode="x unified", margin=dict(l=0,r=0,t=10,b=0))
+            st.plotly_chart(fl, use_container_width=True)
 
 
 # ---------------------------------------------------------------------------
-# Auto-refresh via meta tag
+# Auto-refresh
 # ---------------------------------------------------------------------------
-
-# Use default refresh if settings not opened
-refresh_interval = 120  # default
-st.markdown(
-    f"<meta http-equiv='refresh' content='{refresh_interval}'>",
-    unsafe_allow_html=True,
-)
+st.markdown("<meta http-equiv='refresh' content='120'>", unsafe_allow_html=True)
