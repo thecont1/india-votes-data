@@ -510,6 +510,26 @@ with st.container(border=True):
                 marker_color=[colors[latest.index.get_loc(idx)] for idx in chart_data.index],
                 text=chart_data.apply(lambda r: f"{r['sp']} ({r['votes']:,})", axis=1),
                 textposition="auto", hovertext=chart_data["ht"]))
+
+            # Visual margin between winner and runner-up
+            if len(latest) >= 2:
+                w_votes = int(latest.iloc[0]["votes"])
+                r_votes = int(latest.iloc[1]["votes"])
+                margin = w_votes - r_votes
+                if margin > 0:
+                    # Winner is at y=0 (top in reversed), runner-up at y=1
+                    # Draw a shaded bracket between the two bars
+                    mid_y = 0.5
+                    fig.add_shape(type="rect",
+                        x0=r_votes, x1=w_votes, y0=mid_y - 0.3, y1=mid_y + 0.3,
+                        fillcolor="rgba(220, 38, 38, 0.15)", line=dict(color="#DC2626", width=1.5, dash="dot"),
+                        layer="above")
+                    fig.add_annotation(
+                        x=(w_votes + r_votes) / 2, y=mid_y,
+                        text=f"<b>+{margin:,}</b>", showarrow=False,
+                        font=dict(color="#DC2626", size=12),
+                        bgcolor="white", borderpad=2)
+
             rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
             fig.update_layout(title=f"Round {rnd} Snapshot", height=max(300, len(latest)*35),
                 xaxis_title="Votes", yaxis_title="", margin=dict(l=0,r=0,t=40,b=0))
