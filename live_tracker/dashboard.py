@@ -551,8 +551,8 @@ with st.container(border=True):
                 r_votes = int(latest.iloc[1]["votes"])
                 margin = w_votes - r_votes
                 if margin > 0:
-                    # Runner-up label y-position (second bar from top in reversed chart)
-                    ru_label = chart_data["label"].iloc[-1]
+                    # Runner-up label: second from top in reversed chart = iloc[-2] in ascending sort
+                    ru_label = chart_data["label"].iloc[-2]
                     fig.add_trace(go.Bar(
                         y=[ru_label], x=[margin], orientation="h", base=[r_votes],
                         marker_color="rgba(180, 180, 180, 0.35)",
