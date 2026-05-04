@@ -373,7 +373,7 @@ with st.container(border=True):
     with col_title:
         st.markdown("**📈 Party Fortunes by Counting Round**")
     with col_toggle:
-        share_pct = st.toggle("Vote Share %", value=False, key="trend_mode")
+        share_pct = st.toggle("Vote Share %", value=False, key="vote_share_toggle")
     metric = "vote_share_pct" if share_pct else "cumulative_votes"
 
     def compute_party_round_series(db_path, state_code=None, metric="cumulative_votes"):
