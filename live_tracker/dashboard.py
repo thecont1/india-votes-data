@@ -550,27 +550,28 @@ with st.container(border=True):
                 text=chart_data.apply(lambda r: f"{r['sp']} ({r['votes']:,})", axis=1),
                 textposition="auto", hovertext=chart_data["ht"]))
 
-            # Margin bar: separate bar beside runner-up showing the gap
+            # Margin line: scatter trace at runner-up's y-position showing the gap
             if len(latest) >= 2:
                 w_votes = int(latest.iloc[0]["votes"])
                 r_votes = int(latest.iloc[1]["votes"])
                 margin = w_votes - r_votes
                 if margin > 0:
-                    # Runner-up sits at y index 1 in descending sort
-                    # In the chart (ascending + reversed), runner-up is at the second position from top
-                    # Use a shape rectangle at the runner-up's y-position
-                    bar_h = 0.55  # height of the margin bar (same visual weight as data bars)
-                    fig.add_shape(type="rect",
-                        x0=r_votes, x1=w_votes,
-                        y0=1 - bar_h / 2, y1=1 + bar_h / 2,
-                        fillcolor="rgba(180, 180, 180, 0.3)",
-                        line=dict(color="#9CA3AF", width=1),
-                        layer="above")
-                    fig.add_annotation(
-                        x=(w_votes + r_votes) / 2, y=1,
-                        text=f"+{margin:,}", showarrow=False,
-                        font=dict(color="#6B7280", size=10),
-                        bgcolor="white", borderpad=1)
+                    # Horizontal line from runner-up votes to winner votes
+                    fig.add_trace(go.Scatter(
+                        x=[r_votes, w_votes], y=[1, 1],
+                        mode="lines+markers+text",
+                        line=dict(color="#9CA3AF", width=1.5),
+                        marker=dict(size=6, color="#9CA3AF", symbol="diamond"),
+                        text=["", f"+{margin:,}"], textposition="middle right",
+                        textfont=dict(color="#6B7280", size=10),
+                        showlegend=False, hoverinfo="skip"))
+                    # Vertical dashed lines connecting the margin line to the bars
+                    fig.add_shape(type="line",
+                        x0=r_votes, x1=r_votes, y0=0.7, y1=1,
+                        line=dict(color="#D1D5DB", width=1, dash="dot"), layer="above")
+                    fig.add_shape(type="line",
+                        x0=w_votes, x1=w_votes, y0=0.7, y1=1,
+                        line=dict(color="#D1D5DB", width=1, dash="dot"), layer="above")
 
             rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
             _legend_text = "  🏆 Winner  ·  🥈 Runner-up  ·  🦆 Lost deposit"
