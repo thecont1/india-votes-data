@@ -29,6 +29,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+try:
+    import undetected_chromedriver as uc
+    HAS_UC = True
+except ImportError:
+    HAS_UC = False
+
 from db_utils import (
     get_work_queue,
     init_db,
@@ -78,7 +84,25 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 def _create_driver() -> webdriver.Chrome:
-    """Create a new headless Chrome driver."""
+    """Create a new headless Chrome driver, preferring undetected-chromedriver."""
+    if HAS_UC:
+        try:
+            options = uc.ChromeOptions()
+            options.add_argument("--headless=new")
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--blink-settings=imagesEnabled=false")
+            options.add_argument("--window-size=1280,800")
+            driver = uc.Chrome(options=options, version_main=None)
+            driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
+            driver.implicitly_wait(3)
+            logger.info("Created undetected-chromedriver instance")
+            return driver
+        except Exception as e:
+            logger.warning("undetected-chromedriver failed, falling back to standard: %s", e)
+
+    # Fallback: standard Selenium Chrome
     options = Options()
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
@@ -93,6 +117,7 @@ def _create_driver() -> webdriver.Chrome:
     driver = webdriver.Chrome(options=options)
     driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
     driver.implicitly_wait(3)
+    logger.info("Created standard Chrome driver")
     return driver
 
 
