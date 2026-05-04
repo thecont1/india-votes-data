@@ -395,12 +395,15 @@ with st.container(border=True):
 with st.container(border=True):
     st.markdown("**🔍 Constituency Drill-Down**")
 
-    # Use the state selected by the top pills (or first state if Overall)
+    # When a specific state is selected, drill-down follows it.
+    # When "Overall" is selected, show a state dropdown so user can pick one.
     if state_code_filter:
         drill_state_name = selected_state
+        dsc = state_code_filter
     else:
-        drill_state_name = STATES[0]["name"]
-    dsc = state_code_for(drill_state_name)
+        drill_state_opts = [s["name"] for s in STATES]
+        drill_state_name = st.selectbox("State", drill_state_opts, key="drill_state_select")
+        dsc = state_code_for(drill_state_name)
 
     ac_statuses = get_all_constituency_statuses(DB_PATH)
     acl = ac_statuses[ac_statuses["state_code"] == dsc]
