@@ -139,6 +139,9 @@ st.markdown("""
         background: transparent !important;
         box-shadow: none !important;
     }
+    /* Right-align numeric columns in State Overview table */
+    [data-testid="stDataFrame"] thead th:not(:first-child) { text-align: right !important; }
+    [data-testid="stDataFrame"] tbody td:not(:first-child) { text-align: right !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -196,7 +199,16 @@ def settings_dialog():
                     "Reporting": f"{c.get('DONE', 0) + c.get('LIVE', 0)}/{sum(c.values())}",
                 })
         if so_rows:
-            st.dataframe(pd.DataFrame(so_rows), width="stretch", hide_index=True)
+            so_df = pd.DataFrame(so_rows)
+            st.dataframe(so_df, width="stretch", hide_index=True,
+                column_config={
+                    "State": st.column_config.TextColumn("State", width="small"),
+                    "🟢 Counted": st.column_config.NumberColumn("🟢 Counted", width="small"),
+                    "🟡 Counting": st.column_config.NumberColumn("🟡 Counting", width="small"),
+                    "⚪ Pending": st.column_config.NumberColumn("⚪ Pending", width="small"),
+                    "🔴 Errors": st.column_config.NumberColumn("🔴 Errors", width="small"),
+                    "Reporting": st.column_config.TextColumn("Reporting", width="small"),
+                })
 
     st.divider()
     st.subheader("Update Cycles")
@@ -444,11 +456,8 @@ with st.container(border=True):
             # Default to constituency with largest margin
             da = max(margin_map, key=margin_map.get) if margin_map else ac_opts[0]
         # Dynamic key so widget resets when state changes
-        col_label, col_select = st.columns([1, 4])
-        with col_label:
-            st.markdown("**Constituency**")
-        with col_select:
-            sel_ac = st.selectbox("", ac_opts, index=ac_opts.index(da), key=f"drill_ac_{dsc}", label_visibility="collapsed")
+        st.markdown('<style>[data-testid="stVerticalBlock"] label:has(+ div [data-testid="stSelectbox"]) { text-align: left !important; }</style>', unsafe_allow_html=True)
+        sel_ac = st.selectbox("Constituency", ac_opts, index=ac_opts.index(da), key=f"drill_ac_{dsc}")
         if sel_ac and sel_ac != st.session_state.get("drill_ac"):
             st.session_state["drill_ac"] = sel_ac
             st.rerun()
@@ -472,35 +481,35 @@ with st.container(border=True):
         rdf = get_constituency_rounds(DB_PATH, dsc, ac_no)
         if not rdf.empty:
             lt = rdf["scraped_at"].max()
-            latest = rdf[rdf["scraped_at"] == lt].copy().sort_values("votes", ascending=True)
-
-            if len(latest) >= 2:
-                ds = latest.sort_values("votes", ascending=False)
-                leader = ds.iloc[0]
-                runner = ds.iloc[1]
-                margin = int(leader["votes"]) - int(runner["votes"])
-                ln = cdn(leader["candidate"])
-                rn = cdn(runner["candidate"])
-                msg = f"**{ln}** ({short(leader['party'])}) leading by **{margin:,} votes** over {rn} ({short(runner['party'])})"
-                if cr > 0 and tr > 0:
-                    msg += f" — ~{cr/tr*100:.0f}% counted"
-                if margin < 100:
-                    st.error(f"🔥 {msg}")
-                elif margin < 500:
-                    st.warning(f"⚠️ {msg}")
-                else:
-                    st.success(f"🏆 {msg}")
+            latest = rdf[rdf["scraped_at"] == lt].copy().sort_values("votes", ascending=False)
 
             latest["dn"] = latest["candidate"].apply(cdn)
             latest["sp"] = latest["party"].apply(short)
             latest["ht"] = latest.apply(lambda r: f"{r['candidate']} ({r['party']})", axis=1)
             colors = ["#374151" if row["party"] == "NOTA" else get_pc(row["party"]) for _, row in latest.iterrows()]
 
+            # Determine winner, runner-up, and deposit-lost
+            total_valid = int(latest["votes"].sum())
+            deposit_threshold = total_valid / 6
+
+            def _badge(row, idx):
+                if idx == 0:
+                    return "🏆 " + row["dn"]
+                elif idx == 1:
+                    return "🥈 " + row["dn"]
+                elif row["votes"] < deposit_threshold and row["party"] != "NOTA":
+                    return "🦆 " + row["dn"]
+                return row["dn"]
+
+            latest["label"] = [_badge(r, i) for i, (_, r) in enumerate(latest.iterrows())]
+            # Keep sorted ascending for horizontal bar (highest at top when reversed)
+            chart_data = latest.sort_values("votes", ascending=True)
+
             fig = go.Figure()
-            fig.add_trace(go.Bar(y=latest["dn"], x=latest["votes"], orientation="h",
-                marker_color=colors,
-                text=latest.apply(lambda r: f"{r['sp']} ({r['votes']:,})", axis=1),
-                textposition="auto", hovertext=latest["ht"]))
+            fig.add_trace(go.Bar(y=chart_data["label"], x=chart_data["votes"], orientation="h",
+                marker_color=[colors[latest.index.get_loc(idx)] for idx in chart_data.index],
+                text=chart_data.apply(lambda r: f"{r['sp']} ({r['votes']:,})", axis=1),
+                textposition="auto", hovertext=chart_data["ht"]))
             rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
             fig.update_layout(title=f"Round {rnd} Snapshot", height=max(300, len(latest)*35),
                 xaxis_title="Votes", yaxis_title="", margin=dict(l=0,r=0,t=40,b=0))
