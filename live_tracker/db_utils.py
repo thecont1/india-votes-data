@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS constituency_status (
     total_rounds    INTEGER DEFAULT 0,
     error_count     INTEGER DEFAULT 0,
     last_scraped    TEXT,
+    won             INTEGER DEFAULT 0,
     PRIMARY KEY (state_code, ac_no)
 );
 
@@ -130,6 +131,11 @@ def init_db(db_path: str) -> None:
     conn = _connect(db_path)
     try:
         conn.executescript(_CREATE_TABLES)
+        # Migration: add 'won' column if missing
+        try:
+            conn.execute("SELECT won FROM constituency_status LIMIT 1")
+        except sqlite3.OperationalError:
+            conn.execute("ALTER TABLE constituency_status ADD COLUMN won INTEGER DEFAULT 0")
         for state in STATES:
             for ac_no in range(1, state["ac_count"] + 1):
                 conn.execute(
@@ -278,6 +284,31 @@ def record_cycle(
         conn.close()
 
 
+def update_won_status(db_path: str, state_code: str, won_ac_nos: list[int]) -> None:
+    """
+    Update won status for constituencies based on ECI's official won list.
+    Sets won=1 for ACs in won_ac_nos, won=0 for all others in that state.
+    """
+    conn = _connect(db_path)
+    try:
+        # Reset all to not-won
+        conn.execute(
+            "UPDATE constituency_status SET won=0 WHERE state_code=?",
+            (state_code,),
+        )
+        # Mark won ones
+        if won_ac_nos:
+            placeholders = ",".join("?" * len(won_ac_nos))
+            conn.execute(
+                f"UPDATE constituency_status SET won=1 "
+                f"WHERE state_code=? AND ac_no IN ({placeholders})",
+                [state_code] + won_ac_nos,
+            )
+        conn.commit()
+    finally:
+        conn.close()
+
+
 # ---------------------------------------------------------------------------
 # Reads (for dashboard)
 # ---------------------------------------------------------------------------
@@ -412,21 +443,18 @@ def get_party_seat_tally_won_leading(db_path: str, state_code: Optional[str] = N
     finally:
         conn.close()
 
-    # Build from leading_seats + constituency_status
+    # Build from leading_seats + constituency_status (won column)
     conn = _connect(db_path)
     try:
         ac_status_rows = conn.execute(
-            "SELECT state_code, ac_no, status FROM constituency_status"
+            "SELECT state_code, ac_no, won FROM constituency_status"
         ).fetchall()
-        status_map = {(r["state_code"], r["ac_no"]): r["status"] for r in ac_status_rows}
+        won_map = {(r["state_code"], r["ac_no"]): r["won"] for r in ac_status_rows}
     finally:
         conn.close()
 
-    df["status"] = df.apply(
-        lambda r: status_map.get((r["state_code"], r["ac_no"]), "LIVE"), axis=1
-    )
-    df["is_won"] = (df["status"] == "DONE").astype(int)
-    df["is_leading"] = (df["status"] != "DONE").astype(int)
+    df["is_won"] = df.apply(lambda r: won_map.get((r["state_code"], r["ac_no"]), 0), axis=1)
+    df["is_leading"] = 1 - df["is_won"]
 
     result = df.groupby("leading_party").agg(
         won=("is_won", "sum"),

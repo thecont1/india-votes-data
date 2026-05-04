@@ -49,9 +49,10 @@ from db_utils import (
     init_db,
     insert_round_snapshot,
     record_cycle,
+    update_won_status,
     upsert_constituency_status,
 )
-from states_may2026 import get_url, normalise_party
+from states_may2026 import STATES, get_url, normalise_party
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -467,6 +468,100 @@ def _worker_run(tasks: list[dict], scraped_at: str) -> list[dict]:
     return results
 
 
+def fetch_won_lists() -> dict[str, list[int]]:
+    """
+    Scrape ECI's partywise result pages to get won constituency numbers.
+    Uses the link text won counts from the partywise result page, then
+    matches to specific constituencies by vote rank (highest-vote ACs first).
+    Returns {state_code: [ac_no, ac_no, ...]} for all won seats.
+    """
+    won_by_state: dict[str, list[int]] = {}
+    session = _get_session()
+
+    for state in STATES:
+        state_code = state["code"]
+
+        # Fetch partywise result page
+        party_url = f"https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-{state_code}.htm"
+        try:
+            resp = session.get(party_url, timeout=PAGE_LOAD_TIMEOUT)
+            if resp.status_code != 200:
+                continue
+            soup = BeautifulSoup(resp.text, "html.parser")
+        except Exception:
+            continue
+
+        # Extract won counts from link text: <a href="partywisewinresult-...">COUNT</a>
+        won_by_party: dict[str, int] = {}
+        for link in soup.find_all("a", href=True):
+            href = link["href"]
+            if "partywisewinresult" not in href:
+                continue
+            try:
+                won_count = int(link.get_text(strip=True))
+            except ValueError:
+                continue
+            # Get party name from the same row's first <td>
+            parent_tr = link.find_parent("tr")
+            if parent_tr:
+                tds = parent_tr.find_all("td")
+                if tds:
+                    party_text = tds[0].get_text(strip=True)
+                    party_name = party_text.split(" - ")[0].strip() if " - " in party_text else party_text
+                    canonical = normalise_party(party_name)
+                    won_by_party[canonical] = won_count
+
+        if not won_by_party:
+            continue
+
+        # Get leading seats for this state from DB (party + ac_no + votes)
+        # Match won counts to specific ACs by vote rank
+        conn = _connect(DB_PATH)
+        try:
+            rows = conn.execute(
+                """
+                SELECT r.party, r.ac_no, r.votes
+                FROM rounds r
+                INNER JOIN (
+                    SELECT state_code, ac_no, MAX(scraped_at) as latest
+                    FROM rounds WHERE state_code=?
+                    GROUP BY state_code, ac_no
+                ) latest ON r.state_code=latest.state_code AND r.ac_no=latest.ac_no AND r.scraped_at=latest.latest
+                WHERE r.state_code=? AND r.votes = (
+                    SELECT MAX(r2.votes) FROM rounds r2
+                    WHERE r2.state_code=r.state_code AND r2.ac_no=r.ac_no AND r2.scraped_at=r.scraped_at
+                )
+                """,
+                (state_code, state_code),
+            ).fetchall()
+        finally:
+            conn.close()
+
+        # Group by party, sort by votes descending
+        party_acs: dict[str, list[tuple[int, int]]] = {}
+        for row in rows:
+            party = normalise_party(row["party"])
+            if party not in party_acs:
+                party_acs[party] = []
+            party_acs[party].append((row["ac_no"], row["votes"]))
+
+        # For each party, take top N ACs by votes (N = won count from ECI)
+        all_won_acs = []
+        for party, won_count in won_by_party.items():
+            if party in party_acs:
+                sorted_acs = sorted(party_acs[party], key=lambda x: -x[1])
+                all_won_acs.extend([ac_no for ac_no, _ in sorted_acs[:won_count]])
+
+        if all_won_acs:
+            won_by_state[state_code] = list(set(all_won_acs))
+            logger.info(
+                "ECI won list for %s: %d constituencies",
+                state["name"], len(all_won_acs),
+            )
+
+    return won_by_state
+
+
 def run_cycle() -> None:
     """
     One complete scrape cycle across all non-DONE constituencies.
@@ -580,6 +675,15 @@ def run_cycle() -> None:
         "=== Cycle done in %.1fs | success=%d skipped=%d error=%d ===",
         duration, pages_success, pages_skipped, pages_error,
     )
+
+    # Fetch ECI's official won lists and update DB
+    try:
+        won_lists = fetch_won_lists()
+        for state_code, won_acs in won_lists.items():
+            update_won_status(DB_PATH, state_code, won_acs)
+        logger.info("Updated won status for %d states", len(won_lists))
+    except Exception as e:
+        logger.warning("Failed to fetch won lists: %s", e)
 
 
 # ---------------------------------------------------------------------------
