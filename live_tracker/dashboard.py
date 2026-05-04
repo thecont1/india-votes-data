@@ -576,7 +576,7 @@ with st.container(border=True):
                         x=(w_votes + r_votes) / 2, y=mid_y,
                         text=f"+{margin:,}", showarrow=False,
                         font=dict(color="#6B7280", size=10),
-                        bgcolor="white", borderpad=1, layer="above")
+                        bgcolor="white", borderpad=1)
 
             rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
             _legend_text = "  🏆 Winner  ·  🥈 Runner-up  ·  🦆 Lost deposit"
