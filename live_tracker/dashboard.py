@@ -115,8 +115,8 @@ st.markdown("""
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
-        font-size: 1.8rem !important;
-        padding: 0.2rem 0.5rem !important;
+        font-size: 2.8rem !important;
+        padding: 0 !important;
         min-height: 0 !important;
         line-height: 1 !important;
     }
