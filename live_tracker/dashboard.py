@@ -517,24 +517,22 @@ with st.container(border=True):
                 r_votes = int(latest.iloc[1]["votes"])
                 margin = w_votes - r_votes
                 if margin > 0:
-                    # Winner is at y=0 (top in reversed), runner-up at y=1
-                    # Draw a shaded bracket between the two bars
                     mid_y = 0.5
                     fig.add_shape(type="rect",
-                        x0=r_votes, x1=w_votes, y0=mid_y - 0.3, y1=mid_y + 0.3,
-                        fillcolor="rgba(220, 38, 38, 0.15)", line=dict(color="#DC2626", width=1.5, dash="dot"),
+                        x0=r_votes, x1=w_votes, y0=mid_y - 0.35, y1=mid_y + 0.35,
+                        fillcolor="rgba(200, 200, 200, 0.25)", line=dict(color="#9CA3AF", width=1, dash="dot"),
                         layer="above")
                     fig.add_annotation(
                         x=(w_votes + r_votes) / 2, y=mid_y,
-                        text=f"<b>+{margin:,}</b>", showarrow=False,
-                        font=dict(color="#DC2626", size=12),
-                        bgcolor="white", borderpad=2)
+                        text=f"+{margin:,}", showarrow=False,
+                        font=dict(color="#6B7280", size=10),
+                        bgcolor="white", borderpad=1)
 
             rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
             fig.update_layout(title=f"Round {rnd} Snapshot", height=max(300, len(latest)*35),
                 xaxis_title="Votes", yaxis_title="", margin=dict(l=0,r=0,t=40,b=0))
             st.plotly_chart(fig, width="stretch", config=CHART_CFG)
-            st.caption("🏆 winner · 🥈 runner-up · 🦆 lost deposit")
+            st.caption("🏆 Winner  ·  🥈 Runner-up  ·  🦆 Lost deposit (< 1/6 of total valid votes)")
 
             if len(rdf["scraped_at"].unique()) > 1:
                 # Get top candidates and NOTA
