@@ -111,20 +111,31 @@ st.markdown("""
     .header-bar h2 { margin: 0; font-size: 1.15rem; color: white; }
     .header-bar .ts { font-size: 1.0rem; font-weight: 600; letter-spacing: 0.03em; opacity: 1; }
     /* Gear button: no border, scaled up */
-    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) button[data-testid="stBaseButton-secondary"] {
+    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stElementContainer"] {
+        width: auto !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+    }
+    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stButton"] {
+        width: auto !important;
+    }
+    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stButton"] button {
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
-        font-size: 2.8rem !important;
-        padding: 0 !important;
+        font-size: 1rem !important;
+        padding: 0.2rem 0.4rem !important;
         min-height: 0 !important;
         line-height: 1 !important;
+        width: auto !important;
+        height: auto !important;
+        zoom: 2.8 !important;
     }
-    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) button[data-testid="stBaseButton-secondary"]:hover {
+    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stButton"] button:hover {
         background: transparent !important;
         box-shadow: none !important;
     }
-    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) button[data-testid="stBaseButton-secondary"]:active {
+    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stButton"] button:active {
         background: transparent !important;
         box-shadow: none !important;
     }
@@ -220,7 +231,7 @@ if default_state not in state_options:
     default_state = "Overall"
 
 # Pills + gear button on same row
-col_pills, col_gear = st.columns([9, 1])
+col_pills, col_gear = st.columns([8, 1])
 with col_pills:
     selected_state = st.pills("State", state_options, default=default_state, selection_mode="single", label_visibility="collapsed")
     if selected_state and selected_state != params.get("state"):
