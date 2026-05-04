@@ -237,21 +237,31 @@ def settings_dialog():
 # ---------------------------------------------------------------------------
 
 def _get_state_dots():
-    """Return {state_name: dot_emoji} for coloured status dots."""
-    ss = get_status_summary(DB_PATH)
-    total = sum(ss.values())
-    done = ss.get("DONE", 0)
-    live = ss.get("LIVE", 0)
-    errors = ss.get("ERROR", 0)
-    if total == 0:
-        return {}
-    if errors > 0:
-        return {s["name"]: "🔴" for s in STATES}
-    if done == total:
-        return {s["name"]: "🟢" for s in STATES}
-    if live > 0:
-        return {s["name"]: "🟡" for s in STATES}
-    return {s["name"]: "⚪" for s in STATES}
+    """Return {state_name: dot_emoji} for per-state coloured status dots."""
+    summary = get_state_status_summary(DB_PATH)
+    dots = {}
+    if not summary:
+        return {s["name"]: "⚪" for s in STATES}
+    df_sum = pd.DataFrame(summary)
+    for state in STATES:
+        sd = df_sum[df_sum["state_name"] == state["name"]]
+        if sd.empty:
+            dots[state["name"]] = "⚪"
+            continue
+        c = dict(zip(sd["status"], sd["cnt"]))
+        total_s = sum(c.values())
+        done = c.get("DONE", 0)
+        live = c.get("LIVE", 0)
+        errors = c.get("ERROR", 0)
+        if errors > 0:
+            dots[state["name"]] = "🔴"
+        elif done == total_s and total_s > 0:
+            dots[state["name"]] = "🟢"
+        elif live > 0:
+            dots[state["name"]] = "🟡"
+        else:
+            dots[state["name"]] = "⚪"
+    return dots
 
 state_dots = _get_state_dots()
 state_options = ["Overall"] + [f"{state_dots.get(s['name'], '⚪')} {s['name']}" for s in STATES]
