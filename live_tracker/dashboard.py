@@ -139,15 +139,20 @@ st.markdown("""
         background: transparent !important;
         box-shadow: none !important;
     }
-    /* Right-align numeric columns in State Overview table */
-    [data-testid="stDataFrame"] thead th:not(:first-child) { text-align: right !important; }
+    /* Right-align ALL headers and numeric data in tables */
+    [data-testid="stDataFrame"] thead th { text-align: right !important; }
     [data-testid="stDataFrame"] tbody td:not(:first-child) { text-align: right !important; }
     /* Reduce State Overview table width */
     [data-testid="stDialog"] [data-testid="stDataFrame"] { max-width: 90% !important; }
-    /* Equal-width metric cells in Status */
-    [data-testid="stDialog"] [data-testid="stHorizontalBlock"] [data-testid="column"] {
+    /* Equal-width metric cells in Status (dialog only) */
+    [data-testid="stDialog"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {
         flex: 1 1 0% !important;
         min-width: 0 !important;
+        max-width: none !important;
+    }
+    /* Metric labels right-aligned in dialog */
+    [data-testid="stDialog"] [data-testid="stMetric"] [data-testid="stMetricLabel"] {
+        text-align: right !important;
     }
 </style>
 """, unsafe_allow_html=True)
