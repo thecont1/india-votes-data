@@ -121,6 +121,7 @@ st.markdown(
 
 st.markdown("# 🗳️ ECI Live Election Tracker")
 
+params = st.query_params
 # Check if settings was clicked (via query param)
 show_settings = params.get("settings") == "1"
 if show_settings:
@@ -132,7 +133,6 @@ if show_settings:
 # State selector — one-click pills
 # ---------------------------------------------------------------------------
 
-params = st.query_params
 state_options = ["Overall"] + [s["name"] for s in STATES]
 default_state = params.get("state", "Overall")
 if default_state not in state_options:
