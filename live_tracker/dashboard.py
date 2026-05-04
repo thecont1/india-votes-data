@@ -357,10 +357,12 @@ with st.container(border=True):
 # ===========================================================================
 
 with st.container(border=True):
-    st.markdown("**📈 Party Fortunes by Counting Round**")
-
-    trend_mode = st.radio("Display mode", ["Cumulative Votes", "Vote Share %"], horizontal=True, key="trend_mode")
-    metric = "vote_share_pct" if trend_mode == "Vote Share %" else "cumulative_votes"
+    col_title, col_toggle = st.columns([5, 1])
+    with col_title:
+        st.markdown("**📈 Party Fortunes by Counting Round**")
+    with col_toggle:
+        share_pct = st.toggle("Vote Share %", value=False, key="trend_mode")
+    metric = "vote_share_pct" if share_pct else "cumulative_votes"
 
     def compute_party_round_series(db_path, state_code=None, metric="cumulative_votes"):
         where = "WHERE state_code = ?" if state_code else ""
@@ -428,13 +430,14 @@ with st.container(border=True):
                 fig.add_trace(go.Scatter(
                     x=pf["round_label"], y=pf["value"], mode="lines+markers", name=short(p),
                     line=dict(color=get_pc(p), width=2), marker=dict(size=5),
-                    hovertemplate=f"<b>{short(p)}</b><br>Round: %{{x}}<br>{trend_mode}: %{{y:,.0f}}<extra></extra>",
+                    hovertemplate=f"<b>{short(p)}</b><br>Round: %{{x}}<br>{'Vote Share' if metric == 'vote_share_pct' else 'Votes'}: %{{y:,.1f}}{'%' if metric == 'vote_share_pct' else ''}<extra></extra>",
                 ))
             yl = "Vote Share (%)" if metric == "vote_share_pct" else "Cumulative Votes"
             fig.update_layout(
                 xaxis_title="Counting Round", yaxis_title=yl, height=500,
                 hovermode="x unified",
                 xaxis=dict(categoryorder="array", categoryarray=rl),
+                yaxis=dict(ticksuffix="%" if metric == "vote_share_pct" else ""),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
                 margin=dict(l=0, r=0, t=40, b=0),
             )
