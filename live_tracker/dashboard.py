@@ -332,22 +332,26 @@ with tab1:
         # Collapse minor parties (by total)
         wl_display = collapse_others(wl_tally, "party", "total", top_n=10)
         wl_display["short"] = wl_display["party"].apply(short)
+        # Ensure integers
+        for col in ["won", "leading", "total"]:
+            wl_display[col] = wl_display[col].astype(int)
 
         fig = go.Figure()
 
-        # Won seats — solid blocks
+        # Won seats — solid blocks, text inside
         fig.add_trace(go.Bar(
             y=wl_display["short"],
             x=wl_display["won"],
             orientation="h",
             name="Won",
             marker_color=[get_party_color(p) for p in wl_display["party"]],
-            text=wl_display.apply(lambda r: f"{r['won']}" if r["won"] > 0 else "", axis=1),
+            text=wl_display.apply(lambda r: str(int(r["won"])) if r["won"] > 0 else "", axis=1),
             textposition="inside",
-            hovertext=wl_display.apply(lambda r: f"{r['party']}: {r['won']} won", axis=1),
+            textfont=dict(color="white", size=13),
+            hovertext=wl_display.apply(lambda r: f"{r['party']}: {int(r['won'])} won", axis=1),
         ))
 
-        # Leading seats — same colour but hatched/striped
+        # Leading seats — hatched, text outside (right of bar for readability)
         fig.add_trace(go.Bar(
             y=wl_display["short"],
             x=wl_display["leading"],
@@ -355,9 +359,10 @@ with tab1:
             name="Leading",
             marker_color=[get_party_color(p) for p in wl_display["party"]],
             marker_pattern=dict(shape="/", solidity=0.6),
-            text=wl_display.apply(lambda r: f"{r['leading']}" if r["leading"] > 0 else "", axis=1),
-            textposition="inside",
-            hovertext=wl_display.apply(lambda r: f"{r['party']}: {r['leading']} leading", axis=1),
+            text=wl_display.apply(lambda r: str(int(r["leading"])) if r["leading"] > 0 else "", axis=1),
+            textposition="outside",
+            textfont=dict(size=12),
+            hovertext=wl_display.apply(lambda r: f"{r['party']}: {int(r['leading'])} leading", axis=1),
         ))
 
         # Majority line
@@ -399,19 +404,22 @@ with tab1:
                     continue
                 st_display = collapse_others(st_wl, "party", "total", top_n=8)
                 st_display["short"] = st_display["party"].apply(short)
+                for col in ["won", "leading", "total"]:
+                    st_display[col] = st_display[col].astype(int)
 
                 fig = go.Figure()
-                # Won — solid
+                # Won — solid, text inside
                 fig.add_trace(go.Bar(
                     y=st_display["short"],
                     x=st_display["won"],
                     orientation="h",
                     name="Won",
                     marker_color=[get_party_color(p) for p in st_display["party"]],
-                    text=st_display.apply(lambda r: f"{r['won']}" if r["won"] > 0 else "", axis=1),
+                    text=st_display.apply(lambda r: str(int(r["won"])) if r["won"] > 0 else "", axis=1),
                     textposition="inside",
+                    textfont=dict(color="white", size=12),
                 ))
-                # Leading — hatched
+                # Leading — hatched, text outside
                 fig.add_trace(go.Bar(
                     y=st_display["short"],
                     x=st_display["leading"],
@@ -419,8 +427,9 @@ with tab1:
                     name="Leading",
                     marker_color=[get_party_color(p) for p in st_display["party"]],
                     marker_pattern=dict(shape="/", solidity=0.6),
-                    text=st_display.apply(lambda r: f"{r['leading']}" if r["leading"] > 0 else "", axis=1),
-                    textposition="inside",
+                    text=st_display.apply(lambda r: str(int(r["leading"])) if r["leading"] > 0 else "", axis=1),
+                    textposition="outside",
+                    textfont=dict(size=11),
                 ))
                 fig.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
                 fig.add_annotation(x=maj, y=1.05, text=f"Majority ({maj})",
