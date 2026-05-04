@@ -11,3 +11,5 @@ live_tracker/__pycache__/
 live_tracker/*.pyc
 live_tracker/.venv/
 live_tracker/uv.lock
+live_tracker/live_results.db-shm
+live_tracker/live_results.db-wal
