@@ -64,8 +64,8 @@ def get_party_color(party: str) -> str:
     return PARTY_COLORS.get(party, PARTY_COLORS.get("Others", "#ADB5BD"))
 
 
-def minutes_since_last_scrape() -> int:
-    """Returns minutes since last successful scrape."""
+def minutes_since_last_update() -> int:
+    """Returns minutes since last successful data update."""
     ts = get_last_scrape_time(DB_PATH)
     if not ts:
         return 999
@@ -119,18 +119,20 @@ if not os.path.exists(DB_PATH):
 st.sidebar.title("🗳️ ECI Live Tracker")
 st.sidebar.caption("General Assembly Elections — May 2026")
 
-# State filter — persisted across refreshes
+# State filter — persisted via query params (survives meta-refresh)
 state_options = [s["name"] for s in STATES] + ["All States"]
-if "sidebar_state" not in st.session_state:
-    st.session_state["sidebar_state"] = "All States"
+params = st.query_params
+default_state = params.get("state", "All States")
+if default_state not in state_options:
+    default_state = "All States"
 
 selected_state = st.sidebar.selectbox(
     "Filter by State",
     state_options,
-    index=state_options.index(st.session_state["sidebar_state"]),
+    index=state_options.index(default_state),
     key="sidebar_state_select",
 )
-st.session_state["sidebar_state"] = selected_state
+st.query_params["state"] = selected_state
 
 state_code_filter = None
 if selected_state != "All States":
@@ -188,10 +190,7 @@ with tab1:
 
     # Progress bar
     reporting_pct = reporting / max(total_acs, 1)
-    st.progress(
-        reporting_pct,
-        text=f"Reporting: {reporting_pct:.0%} ACs",
-    )
+    st.progress(reporting_pct, text=f"Reporting: {reporting_pct:.0%} ACs")
 
     st.divider()
 
@@ -219,7 +218,7 @@ with tab1:
             hovertext=seat_tally_display["party"],
         ))
 
-        # Majority line (for filtered state or combined)
+        # Majority line (for filtered state)
         if state_code_filter and state_code_filter in MAJORITIES:
             maj = MAJORITIES[state_code_filter]
             fig.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
@@ -245,7 +244,7 @@ with tab1:
                 height=400,
             )
 
-    # --- Per-state breakdowns ---
+    # --- Per-state breakdowns (only when "All States" selected) ---
     if selected_state == "All States":
         st.divider()
         st.subheader("State-by-State Breakdown")
@@ -292,14 +291,11 @@ with tab1:
         pivot = df_states.pivot_table(
             index="state_name", columns="status", values="cnt", fill_value=0
         ).astype(int)
-        # Add total
         pivot["Total"] = pivot.sum(axis=1)
-        # Add progress
         for col in ["DONE", "LIVE", "PENDING", "ERROR"]:
             if col not in pivot.columns:
                 pivot[col] = 0
         pivot["% Reporting"] = ((pivot["DONE"] + pivot["LIVE"]) / pivot["Total"] * 100).round(0).astype(int)
-        # Reorder
         pivot = pivot[["Total", "LIVE", "DONE", "PENDING", "ERROR", "% Reporting"]]
         pivot.index.name = "State"
         st.dataframe(pivot, width="stretch")
@@ -352,9 +348,9 @@ with tab2:
         if n_cycles == 1:
             st.caption(
                 f"Snapshot from {trends_df['time_ist'].iloc[0].strftime('%H:%M IST')} — "
-                "trend lines will appear after the 2nd update cycle (~15 min)"
+                "trend lines will appear after the 2nd update cycle (~5 min)"
             )
-            # Show bar chart differentiated from overview (vote share)
+            # Show bar chart (vote share view)
             bar_df = (
                 trends_df.groupby("party_group")[y_col]
                 .sum()
@@ -424,19 +420,19 @@ with tab2:
 with tab3:
     st.header("Constituency Drill-Down")
 
-    # --- Session state for persistence across refreshes ---
-    if "drill_state" not in st.session_state:
-        st.session_state["drill_state"] = STATES[0]["name"]
-    if "drill_ac" not in st.session_state:
-        st.session_state["drill_ac"] = 0
+    # --- Persist via query params (survives meta-refresh) ---
+    state_for_ac_options = [s["name"] for s in STATES]
+    default_drill_state = params.get("drill_state", state_for_ac_options[0])
+    if default_drill_state not in state_for_ac_options:
+        default_drill_state = state_for_ac_options[0]
 
     state_for_ac = st.selectbox(
         "Select State",
-        [s["name"] for s in STATES],
-        index=[s["name"] for s in STATES].index(st.session_state["drill_state"]),
+        state_for_ac_options,
+        index=state_for_ac_options.index(default_drill_state),
         key="drill_state_select",
     )
-    st.session_state["drill_state"] = state_for_ac
+    st.query_params["drill_state"] = state_for_ac
 
     selected_state_code = state_code_for(state_for_ac)
 
@@ -452,15 +448,18 @@ with tab3:
     if not ac_options:
         st.info("No constituency data available.")
     else:
-        # Persist selection
-        ac_index = min(st.session_state["drill_ac"], len(ac_options) - 1)
+        # Persist AC selection via query params
+        default_ac = params.get("drill_ac", ac_options[0])
+        if default_ac not in ac_options:
+            default_ac = ac_options[0]
+
         selected_ac = st.selectbox(
             "Select Constituency",
             ac_options,
-            index=ac_index,
+            index=ac_options.index(default_ac),
             key="drill_ac_select",
         )
-        st.session_state["drill_ac"] = ac_options.index(selected_ac)
+        st.query_params["drill_ac"] = selected_ac
         ac_no = int(selected_ac.split(".")[0])
 
         # Get status
@@ -479,7 +478,7 @@ with tab3:
                 f"(approx {pct_est:.0f}% of EVM votes counted)"
             )
         elif status == "ERROR":
-            st.error("⚠️ Error scraping this constituency")
+            st.error("⚠️ Error fetching data for this constituency")
         else:
             st.info("⏳ No data yet — counting hasn't started or data available yet")
 
@@ -519,7 +518,7 @@ with tab3:
                 else:
                     st.success(f"🏆 {msg}")
 
-            # --- Bar chart with party colours ---
+            # --- Bar chart with party colours + title-case names ---
             latest["display_name"] = latest["candidate"].apply(candidate_display_name)
             latest["short_party"] = latest["party"].apply(short)
             latest["hover"] = latest.apply(
@@ -598,7 +597,7 @@ with tab3:
 with tab4:
     st.header("System Monitor")
 
-    # --- Scrape cycle duration chart ---
+    # --- Update cycle duration chart ---
     st.subheader("Update Cycles")
     cycles_df = get_scrape_cycles(DB_PATH)
     if cycles_df.empty:
@@ -675,13 +674,13 @@ with tab4:
 
         # Format timestamps to IST
         if "last_scraped" in filtered.columns:
-            filtered["last_scraped_ist"] = filtered["last_scraped"].apply(
+            filtered["last_updated"] = filtered["last_scraped"].apply(
                 lambda x: fmt_ist(x, "%d %b %H:%M") if pd.notna(x) and x else ""
             )
 
         display_cols = [c for c in [
             "state_name", "ac_no", "ac_name", "status",
-            "current_round", "total_rounds", "last_scraped_ist",
+            "current_round", "total_rounds", "last_updated",
         ] if c in filtered.columns]
 
         # Style with status colours
