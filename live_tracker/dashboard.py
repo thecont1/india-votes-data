@@ -150,7 +150,7 @@ def settings_dialog():
             if col in dc.columns:
                 dc[col] = dc[col].apply(lambda x: fmt_ist(x, "%H:%M:%S IST") if pd.notna(x) else "")
         show_cols = [c for c in ["started_at","finished_at","pages_attempted","pages_success","pages_skipped","pages_error","cycle_duration_sec"] if c in dc.columns]
-        st.dataframe(dc[show_cols].head(10), use_container_width=True, hide_index=True)
+        st.dataframe(dc[show_cols].head(10), width="stretch", hide_index=True)
 
     st.divider()
     ac_statuses = get_all_constituency_statuses(DB_PATH)
@@ -261,7 +261,7 @@ with st.container(border=True):
             margin=dict(l=0, r=0, t=20, b=0),
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         )
-        st.plotly_chart(fig, use_container_width=True, config=CHART_CFG)
+        st.plotly_chart(fig, width="stretch", config=CHART_CFG)
 
     # Per-state expanders (Overall only)
     if selected_state == "Overall":
@@ -292,7 +292,7 @@ with st.container(border=True):
                     showarrow=False, font=dict(color="red", size=11))
                 f2.update_layout(barmode="stack", height=max(250, len(sd)*35),
                     yaxis=dict(autorange="reversed"), margin=dict(l=0,r=0,t=20,b=0), showlegend=False)
-                st.plotly_chart(f2, use_container_width=True, config=CHART_CFG)
+                st.plotly_chart(f2, width="stretch", config=CHART_CFG)
 
 
 # ===========================================================================
@@ -381,7 +381,7 @@ with st.container(border=True):
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
                 margin=dict(l=0, r=0, t=40, b=0),
             )
-            st.plotly_chart(fig, use_container_width=True, config=CHART_CFG)
+            st.plotly_chart(fig, width="stretch", config=CHART_CFG)
             st.caption("Lines converge to the final declared share. Flat = no new votes in that round.")
 
 
@@ -475,7 +475,7 @@ with st.container(border=True):
             rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
             fig.update_layout(title=f"Round {rnd} Snapshot", height=max(300, len(latest)*35),
                 xaxis_title="Votes", yaxis_title="", margin=dict(l=0,r=0,t=40,b=0))
-            st.plotly_chart(fig, use_container_width=True, config=CHART_CFG)
+            st.plotly_chart(fig, width="stretch", config=CHART_CFG)
 
             if len(rdf["scraped_at"].unique()) > 1:
                 rdf["time_ist"] = pd.to_datetime(rdf["scraped_at"]).dt.tz_convert(IST)
@@ -493,7 +493,7 @@ with st.container(border=True):
                         name=f"{cdn(c)} ({short(party)})", line=dict(color=color, width=2)))
                 fl.update_layout(xaxis_title="Time (IST)", yaxis_title="Cumulative Votes",
                     height=400, hovermode="x unified", margin=dict(l=0,r=0,t=10,b=0))
-                st.plotly_chart(fl, use_container_width=True, config=CHART_CFG)
+                st.plotly_chart(fl, width="stretch", config=CHART_CFG)
 
 
 # ---------------------------------------------------------------------------
