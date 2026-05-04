@@ -440,8 +440,8 @@ with st.container(border=True):
                 if pf.empty:
                     continue
                 fig.add_trace(go.Scatter(
-                    x=pf["round_label"], y=pf["value"], mode="lines+markers", name=short(p),
-                    line=dict(color=get_pc(p), width=2), marker=dict(size=5),
+                    x=pf["round_label"], y=pf["value"], mode="lines", name=short(p),
+                    line=dict(color=get_pc(p), width=2),
                     hovertemplate=f"<b>{short(p)}</b><br>Round: %{{x}}<br>{'Vote Share' if metric == 'vote_share_pct' else 'Votes'}: %{{y:,.1f}}{'%' if metric == 'vote_share_pct' else ''}<extra></extra>",
                 ))
             yl = "Vote Share (%)" if metric == "vote_share_pct" else "Cumulative Votes"
