@@ -85,12 +85,19 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Hide sidebar completely
+# Hide sidebar, constrain width, position settings gear
 st.markdown("""
 <style>
     [data-testid="stSidebar"] {display: none !important;}
     [data-testid="collapsedControl"] {display: none !important;}
-    .block-container {padding-top: 1rem; padding-bottom: 1rem;}
+    .block-container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        max-width: 60%;
+        margin: 0 auto;
+    }
+    /* Settings gear button — position top-right */
+    .settings-gear {position: fixed; top: 0.5rem; right: 5rem; z-index: 999;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -102,13 +109,24 @@ if not os.path.exists(DB_PATH):
 # Settings panel (top-right gear)
 # ---------------------------------------------------------------------------
 
-settings_col, title_col = st.columns([1, 8])
+# Settings gear — fixed top-right (next to Deploy/⋮)
+st.markdown(
+    '<div class="settings-gear">'
+    '<form action="" method="get">'
+    '<input type="hidden" name="settings" value="1">'
+    '<button type="submit" style="background:none;border:none;font-size:1.5rem;cursor:pointer;" title="Settings & System Monitor">⚙️</button>'
+    '</form></div>',
+    unsafe_allow_html=True,
+)
 
-with settings_col:
-    show_settings = st.button("⚙️", help="Settings & System Monitor", use_container_width=True)
+st.markdown("# 🗳️ ECI Live Election Tracker")
 
-with title_col:
-    st.markdown("# 🗳️ ECI Live Election Tracker")
+# Check if settings was clicked (via query param)
+show_settings = params.get("settings") == "1"
+if show_settings:
+    # Add a "Back" link
+    st.markdown('[← Back to dashboard](?)')
+    st.divider()
 
 # ---------------------------------------------------------------------------
 # State selector — one-click pills
@@ -126,7 +144,10 @@ selected_state = st.pills(
     default=default_state,
     selection_mode="single",
 )
-st.query_params["state"] = selected_state
+# Only write to query_params if changed (avoids double-rerun)
+if selected_state and selected_state != params.get("state"):
+    st.query_params["state"] = selected_state
+    st.rerun()
 
 state_code_filter = None
 if selected_state != "Overall":
@@ -487,7 +508,9 @@ with col_state:
     state_for_ac = st.selectbox("State", state_for_ac_options,
                                  index=state_for_ac_options.index(default_drill_state),
                                  key="drill_state_select")
-st.query_params["drill_state"] = state_for_ac
+if state_for_ac and state_for_ac != params.get("drill_state"):
+    st.query_params["drill_state"] = state_for_ac
+    st.rerun()
 
 selected_state_code = state_code_for(state_for_ac)
 ac_statuses = get_all_constituency_statuses(DB_PATH)
@@ -509,7 +532,9 @@ else:
         selected_ac = st.selectbox("Constituency", ac_options,
                                     index=ac_options.index(default_ac),
                                     key="drill_ac_select")
-    st.query_params["drill_ac"] = selected_ac
+    if selected_ac and selected_ac != params.get("drill_ac"):
+        st.query_params["drill_ac"] = selected_ac
+        st.rerun()
     ac_no = int(selected_ac.split(".")[0])
 
     ac_row = ac_list[ac_list["ac_no"] == ac_no].iloc[0]
