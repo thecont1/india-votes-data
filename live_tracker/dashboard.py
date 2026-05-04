@@ -241,7 +241,7 @@ with tab1:
             yaxis=dict(autorange="reversed"),
             margin=dict(l=0, r=0, t=20, b=0),
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
         # Show all parties expander
         with st.expander("Show all parties"):
@@ -249,7 +249,7 @@ with tab1:
                 seat_tally.rename(columns={"party": "Party", "seats_leading": "Seats"})
                 .sort_values("Seats", ascending=False)
                 .reset_index(drop=True),
-                use_container_width=True,
+                width="stretch",
                 height=400,
             )
 
@@ -289,7 +289,7 @@ with tab1:
                     margin=dict(l=0, r=0, t=20, b=0),
                     showlegend=False,
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width="stretch")
 
     # --- State-wise status table ---
     st.divider()
@@ -310,7 +310,7 @@ with tab1:
         # Reorder
         pivot = pivot[["Total", "LIVE", "DONE", "PENDING", "ERROR", "% Reporting"]]
         pivot.index.name = "State"
-        st.dataframe(pivot, use_container_width=True)
+        st.dataframe(pivot, width="stretch")
 
 
 # ===========================================================================
@@ -331,7 +331,7 @@ with tab2:
         st.info("No trend data yet.")
     else:
         trends_df["scraped_at"] = pd.to_datetime(trends_df["scraped_at"])
-        trends_df["time_ist"] = trends_df["scraped_at"].dt.tz_localize("UTC").dt.tz_convert(IST)
+        trends_df["time_ist"] = trends_df["scraped_at"].dt.tz_convert(IST)
 
         n_cycles = trends_df["scraped_at"].nunique()
 
@@ -387,7 +387,7 @@ with tab2:
                 height=max(400, len(bar_df) * 32),
                 margin=dict(l=0, r=0, t=10, b=0),
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
 
             st.caption("Vote share = % of total votes counted so far across all reporting constituencies")
         else:
@@ -421,7 +421,7 @@ with tab2:
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
                 margin=dict(l=0, r=0, t=40, b=0),
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
 
             st.caption("Vote share = % of total votes counted so far across all reporting constituencies")
 
@@ -558,14 +558,14 @@ with tab3:
                 yaxis_title="",
                 margin=dict(l=0, r=0, t=40, b=0),
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
 
             # --- Round-by-round history chart ---
             if len(rounds_df["scraped_at"].unique()) > 1:
                 st.subheader("Vote Trajectory Over Scrapes")
                 rounds_df["time_ist"] = pd.to_datetime(
                     rounds_df["scraped_at"]
-                ).dt.tz_localize("UTC").dt.tz_convert(IST)
+                ).dt.tz_convert(IST)
 
                 # Top 4 candidates + NOTA by latest total
                 top_cands = (
@@ -597,7 +597,7 @@ with tab3:
                     hovermode="x unified",
                     margin=dict(l=0, r=0, t=10, b=0),
                 )
-                st.plotly_chart(fig_line, use_container_width=True)
+                st.plotly_chart(fig_line, width="stretch")
 
 
 # ===========================================================================
@@ -629,7 +629,7 @@ with tab4:
                 height=250,
                 margin=dict(l=0, r=0, t=10, b=0),
             )
-            st.plotly_chart(fig_cycles, use_container_width=True)
+            st.plotly_chart(fig_cycles, width="stretch")
 
         # Cycles table (most recent first)
         display_cycles = cycles_df.copy()
@@ -642,7 +642,7 @@ with tab4:
             "started_at", "finished_at", "pages_attempted",
             "pages_success", "pages_skipped", "pages_error", "cycle_duration_sec",
         ] if c in display_cycles.columns]
-        st.dataframe(display_cycles[display_cols].head(10), use_container_width=True)
+        st.dataframe(display_cycles[display_cols].head(10), width="stretch")
 
     st.divider()
 
@@ -698,7 +698,7 @@ with tab4:
             return f"background-color: {bg}; color: white; font-weight: bold"
 
         styled = filtered[display_cols].style.map(color_status, subset=["status"])
-        st.dataframe(styled, use_container_width=True, height=400)
+        st.dataframe(styled, width="stretch", height=400)
 
     # --- Quick stats ---
     st.subheader("Quick Stats")
