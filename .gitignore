@@ -9,3 +9,5 @@ live_tracker/scheduler_stdout.log
 live_tracker/scheduler.pid
 live_tracker/__pycache__/
 live_tracker/*.pyc
+live_tracker/.venv/
+live_tracker/uv.lock
