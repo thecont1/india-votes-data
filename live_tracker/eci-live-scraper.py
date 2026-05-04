@@ -12,6 +12,7 @@ Called by scheduler.sh every 15 minutes on counting day.
 import logging
 import random
 import re
+import sqlite3
 import sys
 import threading
 import time
@@ -516,7 +517,7 @@ def fetch_won_lists() -> dict[str, list[int]]:
 
         # Get leading seats for this state from DB (party + ac_no + votes)
         # Match won counts to specific ACs by vote rank
-        conn = _connect(DB_PATH)
+        conn = sqlite3.connect(DB_PATH, timeout=30)
         try:
             rows = conn.execute(
                 """
