@@ -210,11 +210,13 @@ def compute_party_round_series(
     series_df["value"] = series_df.groupby("party")["value"].ffill().fillna(0)
 
     # Compute vote share % if requested
+    # Use the FINAL total as denominator (not round-specific total)
+    # This shows "what % of final total has each party accumulated so far"
+    # Lines are monotonically increasing and converge to the final share
     if metric == "vote_share_pct":
-        totals_per_round = series_df.groupby("round_num")["value"].sum()
-        series_df = series_df.merge(totals_per_round, on="round_num", suffixes=("", "_total"))
+        final_total = series_df[series_df["round_num"] == max_round]["value"].sum()
         series_df["value"] = series_df.apply(
-            lambda r: (r["value"] / r["value_total"] * 100) if r["value_total"] > 0 else 0,
+            lambda r: (r["value"] / final_total * 100) if final_total > 0 else 0,
             axis=1,
         )
 
@@ -520,9 +522,9 @@ with tab2:
             st.plotly_chart(fig, width="stretch")
 
             st.caption(
-                "Each line shows how a party's fortunes change as counting rounds progress. "
-                "Flat segments mean no new votes in that round. "
-                "Vote share = % of total votes counted so far across all reporting constituencies."
+                "Each line shows a party's cumulative share of the final total across counting rounds. "
+                "Lines converge to the final declared share. "
+                "Flat segments mean no new votes in that round."
             )
 
 
