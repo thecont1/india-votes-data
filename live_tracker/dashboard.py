@@ -253,14 +253,14 @@ with st.container(border=True):
         if state_code_filter and state_code_filter in MAJORITIES:
             maj = MAJORITIES[state_code_filter]
             fig.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
-            fig.add_annotation(x=maj, y=-1.0, text=f"Majority ({maj})",
+            fig.add_annotation(x=maj, y=len(wl) + 1, text=f"Majority ({maj})",
                                showarrow=False, font=dict(color="red", size=11),
-                               xanchor="right", yanchor="top")
+                               xanchor="right", yanchor="bottom")
         fig.update_layout(
             barmode="stack", height=max(300, len(wl) * 40),
             xaxis_title="Seats", yaxis_title="",
             yaxis=dict(autorange="reversed"),
-            margin=dict(l=0, r=50, t=20, b=0),
+            margin=dict(l=0, r=50, t=20, b=30),
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         )
         st.plotly_chart(fig, width="stretch", config=CHART_CFG)
@@ -290,11 +290,11 @@ with st.container(border=True):
                     text=sd.apply(lambda r: str(int(r["leading"])) if r["leading"]>0 else "", axis=1),
                     textposition="outside", textfont=dict(size=11)))
                 f2.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
-                f2.add_annotation(x=maj, y=-1.0, text=f"Majority ({maj})",
+                f2.add_annotation(x=maj, y=len(sd) + 1, text=f"Majority ({maj})",
                     showarrow=False, font=dict(color="red", size=11),
-                    xanchor="right", yanchor="top")
+                    xanchor="right", yanchor="bottom")
                 f2.update_layout(barmode="stack", height=max(250, len(sd)*35),
-                    yaxis=dict(autorange="reversed"), margin=dict(l=0,r=50,t=20,b=0), showlegend=False)
+                    yaxis=dict(autorange="reversed"), margin=dict(l=0,r=50,t=20,b=30), showlegend=False)
                 st.plotly_chart(f2, width="stretch", config=CHART_CFG)
 
 
