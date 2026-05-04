@@ -4,6 +4,8 @@ version = "0.1.0"
 description = "ECI Live Election Tracker — General Assembly Elections, May 2026"
 requires-python = ">=3.11"
 dependencies = [
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
     "selenium>=4.18.0",
     "undetected-chromedriver>=3.5.0",
     "streamlit>=1.32.0",
