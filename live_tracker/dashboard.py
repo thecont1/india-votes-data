@@ -109,7 +109,7 @@ st.set_page_config(
 )
 
 if not os.path.exists(DB_PATH):
-    st.error("Database not found. Start the scraper first: `./scheduler.sh`")
+    st.error("Database not found. Start the data collector first: `./scheduler.sh`")
     st.stop()
 
 # ---------------------------------------------------------------------------
@@ -119,25 +119,27 @@ if not os.path.exists(DB_PATH):
 st.sidebar.title("🗳️ ECI Live Tracker")
 st.sidebar.caption("General Assembly Elections — May 2026")
 
-# Stale data warning (global)
-stale_mins = minutes_since_last_scrape()
-if stale_mins > 20:
-    st.sidebar.warning(f"⚠️ Data may be stale ({stale_mins} min since last scrape)")
-elif stale_mins > 5:
-    st.sidebar.caption(f"🕐 Last scrape: {stale_mins} min ago")
+# State filter — persisted across refreshes
+state_options = [s["name"] for s in STATES] + ["All States"]
+if "sidebar_state" not in st.session_state:
+    st.session_state["sidebar_state"] = "All States"
 
-# State filter
-state_options = ["All States"] + [s["name"] for s in STATES]
-selected_state = st.sidebar.selectbox("Filter by State", state_options)
+selected_state = st.sidebar.selectbox(
+    "Filter by State",
+    state_options,
+    index=state_options.index(st.session_state["sidebar_state"]),
+    key="sidebar_state_select",
+)
+st.session_state["sidebar_state"] = selected_state
 
 state_code_filter = None
 if selected_state != "All States":
     state_code_filter = state_code_for(selected_state)
 
 # Refresh
-last_scrape = get_last_scrape_time(DB_PATH)
-if last_scrape:
-    st.sidebar.metric("Last Data", fmt_ist(last_scrape, "%H:%M:%S IST"))
+last_update = get_last_scrape_time(DB_PATH)
+if last_update:
+    st.sidebar.metric("Last Update", fmt_ist(last_update, "%H:%M:%S IST"))
 
 refresh_interval = st.sidebar.slider("Auto-refresh (seconds)", 30, 300, 120)
 
@@ -148,16 +150,6 @@ if st.sidebar.button("🔄 Refresh Now"):
 if selected_state != "All States":
     maj = MAJORITIES.get(state_code_filter, 0)
     st.sidebar.info(f"Majority in {selected_state}: **{maj}** seats")
-
-# ---------------------------------------------------------------------------
-# Stale data banner (global)
-# ---------------------------------------------------------------------------
-
-if stale_mins > 20:
-    st.warning(
-        f"⚠️ Data may be stale — last scrape was {stale_mins} minutes ago. "
-        "Check that scheduler.sh is running."
-    )
 
 # ---------------------------------------------------------------------------
 # Tab layout
@@ -174,8 +166,8 @@ tab1, tab2, tab3, tab4 = st.tabs(
 with tab1:
     st.header("Election Overview")
 
-    # Summary metrics
-    status_summary = get_status_summary(DB_PATH)
+    # Summary metrics — filtered by selected state
+    status_summary = get_status_summary(DB_PATH, state_code_filter)
     total_acs = sum(status_summary.values())
     reporting = status_summary.get("LIVE", 0) + status_summary.get("DONE", 0)
 
@@ -198,7 +190,7 @@ with tab1:
     reporting_pct = reporting / max(total_acs, 1)
     st.progress(
         reporting_pct,
-        text=f"Reporting: {reporting}/{total_acs} ACs ({reporting_pct:.0%})",
+        text=f"Reporting: {reporting_pct:.0%} ACs",
     )
 
     st.divider()
@@ -360,7 +352,7 @@ with tab2:
         if n_cycles == 1:
             st.caption(
                 f"Snapshot from {trends_df['time_ist'].iloc[0].strftime('%H:%M IST')} — "
-                "trend lines will appear after the 2nd scrape cycle (~15 min)"
+                "trend lines will appear after the 2nd update cycle (~15 min)"
             )
             # Show bar chart differentiated from overview (vote share)
             bar_df = (
@@ -489,14 +481,14 @@ with tab3:
         elif status == "ERROR":
             st.error("⚠️ Error scraping this constituency")
         else:
-            st.info("⏳ No data yet — counting hasn't started or first scrape pending")
+            st.info("⏳ No data yet — counting hasn't started or data available yet")
 
         # Get round data
         rounds_df = get_constituency_rounds(DB_PATH, selected_state_code, ac_no)
 
         if rounds_df.empty:
             if status == "PENDING":
-                st.info("No data yet. It will appear after the next scrape cycle.")
+                st.info("No data yet. It will appear after the next update cycle.")
         else:
             # Latest snapshot
             latest_time = rounds_df["scraped_at"].max()
@@ -562,7 +554,7 @@ with tab3:
 
             # --- Round-by-round history chart ---
             if len(rounds_df["scraped_at"].unique()) > 1:
-                st.subheader("Vote Trajectory Over Scrapes")
+                st.subheader("Vote Trajectory Over Time")
                 rounds_df["time_ist"] = pd.to_datetime(
                     rounds_df["scraped_at"]
                 ).dt.tz_convert(IST)
@@ -607,10 +599,10 @@ with tab4:
     st.header("System Monitor")
 
     # --- Scrape cycle duration chart ---
-    st.subheader("Scrape Cycles")
+    st.subheader("Update Cycles")
     cycles_df = get_scrape_cycles(DB_PATH)
     if cycles_df.empty:
-        st.info("No scrape cycles recorded yet.")
+        st.info("No update cycles recorded yet.")
     else:
         # Duration trend chart
         if len(cycles_df) > 1:
@@ -649,7 +641,7 @@ with tab4:
     # --- Error URLs ---
     error_acs = ac_statuses[ac_statuses["status"] == "ERROR"] if not ac_statuses.empty else pd.DataFrame()
     if not error_acs.empty:
-        st.subheader(f"⚠️ Failed Scrapes ({len(error_acs)})")
+        st.subheader(f"⚠️ Failed Updates ({len(error_acs)})")
         from states_may2026 import get_url
         for _, row in error_acs.iterrows():
             ac_name = row.get("ac_name") or f"AC-{row['ac_no']}"

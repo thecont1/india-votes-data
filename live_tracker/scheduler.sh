@@ -8,8 +8,8 @@
 set -e
 cd "$(dirname "$0")"
 
-INTERVAL=900          # 15 minutes in seconds
-MAX_CYCLES=70         # ~17.5 hours of coverage (70 × 15 min)
+INTERVAL=300          # 5 minutes in seconds
+MAX_CYCLES=210         # ~17.5 hours of coverage (70 × 15 min)
 LOG_FILE="scraper.log"
 CYCLE=0
 
@@ -23,7 +23,7 @@ while [ $CYCLE -lt $MAX_CYCLES ]; do
 
     # Run the scraper; capture exit code but don't exit on error
     set +e
-    python3 eci-live-scraper.py
+    uv run eci-live-scraper.py
     EXIT_CODE=$?
     set -e
 

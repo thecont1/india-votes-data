@@ -13,3 +13,8 @@ dependencies = [
     "pandas>=2.0.0",
     "webdriver-manager>=4.0.0",
 ]
+
+[dependency-groups]
+dev = [
+    "watchdog>=6.0.0",
+]

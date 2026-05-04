@@ -282,13 +282,20 @@ def record_cycle(
 # Reads (for dashboard)
 # ---------------------------------------------------------------------------
 
-def get_status_summary(db_path: str) -> dict:
+def get_status_summary(db_path: str, state_code: str = None) -> dict:
     """Get counts by status: {'PENDING': N, 'LIVE': N, 'DONE': N, 'ERROR': N}."""
     conn = _connect(db_path)
     try:
-        rows = conn.execute(
-            "SELECT status, COUNT(*) as cnt FROM constituency_status GROUP BY status"
-        ).fetchall()
+        if state_code:
+            rows = conn.execute(
+                "SELECT status, COUNT(*) as cnt FROM constituency_status "
+                "WHERE state_code = ? GROUP BY status",
+                (state_code,),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT status, COUNT(*) as cnt FROM constituency_status GROUP BY status"
+            ).fetchall()
         return {r["status"]: r["cnt"] for r in rows}
     finally:
         conn.close()
