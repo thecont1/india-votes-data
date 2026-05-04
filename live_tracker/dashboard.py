@@ -545,24 +545,33 @@ with st.container(border=True):
                 text=chart_data.apply(lambda r: f"{r['sp']} ({r['votes']:,})", axis=1),
                 textposition="auto", hovertext=chart_data["ht"]))
 
-            # Striped margin bar between winner and runner-up
+            # Margin bracket between winner and runner-up
             if len(latest) >= 2:
                 w_votes = int(latest.iloc[0]["votes"])
                 r_votes = int(latest.iloc[1]["votes"])
                 margin = w_votes - r_votes
                 if margin > 0:
-                    # Runner-up label: second from top in reversed chart = iloc[-2] in ascending sort
-                    ru_label = chart_data["label"].iloc[-2]
-                    fig.add_trace(go.Bar(
-                        y=[ru_label], x=[margin], orientation="h", base=[r_votes],
-                        marker_color="rgba(180, 180, 180, 0.35)",
-                        marker_pattern=dict(shape="/", solidity=0.4, fgcolor="#9CA3AF"),
-                        showlegend=False, hoverinfo="skip",
-                        text=[f"+{margin:,}"], textposition="inside",
-                        textfont=dict(color="#6B7280", size=10),
-                    ))
-                    # Shift winner bar right by the margin so its visual end aligns
-                    # Actually, we overlay the margin bar on top — no need to shift
+                    # Draw a bracket: vertical line at winner votes, horizontal connectors
+                    mid_y = 0.5  # Between winner (y=0) and runner-up (y=1)
+                    bracket_color = "#9CA3AF"
+                    # Horizontal line from runner-up votes to winner votes at mid_y
+                    fig.add_shape(type="line",
+                        x0=r_votes, x1=w_votes, y0=mid_y, y1=mid_y,
+                        line=dict(color=bracket_color, width=1.5), layer="above")
+                    # Vertical tick at runner-up end
+                    fig.add_shape(type="line",
+                        x0=r_votes, x1=r_votes, y0=mid_y - 0.15, y1=mid_y + 0.15,
+                        line=dict(color=bracket_color, width=1.5), layer="above")
+                    # Vertical tick at winner end
+                    fig.add_shape(type="line",
+                        x0=w_votes, x1=w_votes, y0=mid_y - 0.15, y1=mid_y + 0.15,
+                        line=dict(color=bracket_color, width=1.5), layer="above")
+                    # Margin label
+                    fig.add_annotation(
+                        x=(w_votes + r_votes) / 2, y=mid_y,
+                        text=f"+{margin:,}", showarrow=False,
+                        font=dict(color="#6B7280", size=10),
+                        bgcolor="white", borderpad=1, layer="above")
 
             rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
             _legend_text = "  🏆 Winner  ·  🥈 Runner-up  ·  🦆 Lost deposit"
