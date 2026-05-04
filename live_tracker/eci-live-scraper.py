@@ -381,62 +381,62 @@ def _parse_page_selenium(task: dict) -> dict:
 # Main scrape function (tries requests first, falls back to Selenium)
 # ---------------------------------------------------------------------------
 
+def _fetch_html_curl(url: str, timeout: int = 15) -> str | None:
+    """Fetch HTML via curl subprocess. Avoids Akamai TLS fingerprint blocking."""
+    try:
+        r = subprocess.run(
+            ["curl", "-s", "-L", "--max-time", str(timeout), url],
+            capture_output=True, text=True, timeout=timeout + 5,
+        )
+        if r.returncode != 0:
+            return None
+        return r.stdout
+    except Exception:
+        return None
+
+
 def scrape_constituency(task: dict) -> dict:
     """
     Scrape one constituency Roundwise page.
-    Tries requests+BS4 first, falls back to Selenium if needed.
+    Primary: curl + BeautifulSoup (avoids Akamai TLS fingerprint block).
+    Fallback: Selenium (if curl fails).
     """
-    # --- Primary: requests + BeautifulSoup ---
-    try:
-        session = _get_session()
-        resp = session.get(task["url"], timeout=PAGE_LOAD_TIMEOUT)
+    not_yet_live = {
+        "state_code": task["state_code"],
+        "state_name": task["state_name"],
+        "ac_no": task["ac_no"],
+        "url": task["url"],
+        "status": "NOT_YET_LIVE",
+        "ac_name": None,
+        "current_round": 0,
+        "total_rounds": 0,
+        "candidates": [],
+    }
 
-        # Check for Access Denied (Akamai CDN block)
-        if resp.status_code == 403 or "Access Denied" in resp.text[:500]:
-            logger.debug("requests blocked for %s, trying Selenium", task["url"])
-            if HAS_SELENIUM:
-                result = _parse_page_selenium(task)
-                time.sleep(random.uniform(MIN_JITTER, MAX_JITTER))
-                return result
-            else:
-                result = {
-                    "state_code": task["state_code"],
-                    "state_name": task["state_name"],
-                    "ac_no": task["ac_no"],
-                    "url": task["url"],
-                    "status": "ERROR",
-                    "ac_name": None,
-                    "current_round": 0,
-                    "total_rounds": 0,
-                    "candidates": [],
-                }
-                return result
+    # --- Primary: curl + BeautifulSoup ---
+    html = _fetch_html_curl(task["url"], timeout=PAGE_LOAD_TIMEOUT)
+    if html:
+        # Check for 404 / Access Denied in the HTML itself
+        if "404" in html[:500] or "Not Found" in html[:500] or "Access Denied" in html[:500]:
+            time.sleep(random.uniform(MIN_JITTER, MAX_JITTER))
+            return not_yet_live
 
-        if resp.status_code == 404:
-            result = {
-                "state_code": task["state_code"],
-                "state_name": task["state_name"],
-                "ac_no": task["ac_no"],
-                "url": task["url"],
-                "status": "NOT_YET_LIVE",
-                "ac_name": None,
-                "current_round": 0,
-                "total_rounds": 0,
-                "candidates": [],
-            }
+        result = _parse_page_bs4(html, task)
+        if result["status"] != "ERROR":
+            time.sleep(random.uniform(MIN_JITTER, MAX_JITTER))
             return result
+        # BS4 parse failed — fall through to Selenium
+        logger.debug("BS4 parse failed for %s, trying Selenium", task["url"])
+    else:
+        logger.debug("curl failed for %s, trying Selenium", task["url"])
 
-        result = _parse_page_bs4(resp.text, task)
+    # --- Fallback: Selenium ---
+    if HAS_SELENIUM:
+        result = _parse_page_selenium(task)
         time.sleep(random.uniform(MIN_JITTER, MAX_JITTER))
         return result
 
-    except requests.RequestException as e:
-        logger.debug("requests failed for %s: %s — trying Selenium", task["url"], e)
-        if HAS_SELENIUM:
-            result = _parse_page_selenium(task)
-            time.sleep(random.uniform(MIN_JITTER, MAX_JITTER))
-            return result
-        raise
+    return not_yet_live
 
 
 # ---------------------------------------------------------------------------
