@@ -13,6 +13,7 @@ import logging
 import random
 import re
 import sqlite3
+import subprocess
 import sys
 import threading
 import time
@@ -472,27 +473,28 @@ def _worker_run(tasks: list[dict], scraped_at: str) -> list[dict]:
 def fetch_won_lists() -> dict[str, list[int]]:
     """
     Scrape ECI's partywise result pages to get won constituency numbers.
-    Uses the link text won counts from the partywise result page, then
-    matches to specific constituencies by vote rank (highest-vote ACs first).
+    Uses subprocess curl (Akamai blocks requests session on these pages).
     Returns {state_code: [ac_no, ac_no, ...]} for all won seats.
     """
     won_by_state: dict[str, list[int]] = {}
-    session = _get_session()
 
     for state in STATES:
         state_code = state["code"]
 
-        # Fetch partywise result page
+        # Fetch partywise result page via curl
         party_url = f"https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-{state_code}.htm"
         try:
-            resp = session.get(party_url, timeout=PAGE_LOAD_TIMEOUT)
-            if resp.status_code != 200:
+            result = subprocess.run(
+                ["curl", "-s", "-A", "Mozilla/5.0", party_url],
+                capture_output=True, text=True, timeout=15,
+            )
+            if result.returncode != 0:
                 continue
-            soup = BeautifulSoup(resp.text, "html.parser")
+            soup = BeautifulSoup(result.stdout, "html.parser")
         except Exception:
             continue
 
-        # Extract won counts from link text: <a href="partywisewinresult-...">COUNT</a>
+        # Extract won counts from link text
         won_by_party: dict[str, int] = {}
         for link in soup.find_all("a", href=True):
             href = link["href"]
@@ -502,7 +504,6 @@ def fetch_won_lists() -> dict[str, list[int]]:
                 won_count = int(link.get_text(strip=True))
             except ValueError:
                 continue
-            # Get party name from the same row's first <td>
             parent_tr = link.find_parent("tr")
             if parent_tr:
                 tds = parent_tr.find_all("td")
@@ -515,8 +516,7 @@ def fetch_won_lists() -> dict[str, list[int]]:
         if not won_by_party:
             continue
 
-        # Get leading seats for this state from DB (party + ac_no + votes)
-        # Match won counts to specific ACs by vote rank
+        # Match won counts to specific ACs by vote rank from DB
         conn = sqlite3.connect(DB_PATH, timeout=30)
         try:
             rows = conn.execute(
@@ -538,15 +538,13 @@ def fetch_won_lists() -> dict[str, list[int]]:
         finally:
             conn.close()
 
-        # Group by party, sort by votes descending
         party_acs: dict[str, list[tuple[int, int]]] = {}
         for row in rows:
-            party = normalise_party(row["party"])
+            party = normalise_party(row[0])
             if party not in party_acs:
                 party_acs[party] = []
-            party_acs[party].append((row["ac_no"], row["votes"]))
+            party_acs[party].append((row[1], row[2]))
 
-        # For each party, take top N ACs by votes (N = won count from ECI)
         all_won_acs = []
         for party, won_count in won_by_party.items():
             if party in party_acs:
