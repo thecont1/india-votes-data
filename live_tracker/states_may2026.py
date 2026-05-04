@@ -111,6 +111,53 @@ PARTY_COLORS = {
 }
 
 
+# Party short names for chart labels
+PARTY_SHORT = {
+    "Bharatiya Janata Party": "BJP",
+    "Indian National Congress": "INC",
+    "All India Trinamool Congress": "AITC",
+    "Dravida Munnetra Kazhagam": "DMK",
+    "All India Anna Dravida Munnetra Kazhagam": "AIADMK",
+    "Tamilaga Vettri Kazhagam": "TVK",
+    "Communist Party of India (Marxist)": "CPM",
+    "Communist Party of India": "CPI",
+    "Indian Union Muslim League": "IUML",
+    "Bodoland People's Front": "BPF",
+    "Bodoland Peoples Front": "BPF",
+    "Asom Gana Parishad": "AGP",
+    "All India United Democratic Front": "AIUDF",
+    "All India N.R. Congress": "AINRC",
+    "Kerala Congress": "KC",
+    "Kerala Congress (M)": "KC(M)",
+    "Revolutionary Socialist Party": "RSP",
+    "Viduthalai Chiruthaigal Katchi": "VCK",
+    "Pattali Makkal Katchi": "PMK",
+    "Aam Aadmi Party": "AAP",
+    "Aam Janata Unnayan party": "AJUP",
+    "All India Secular Front": "AISF",
+    "NOTA": "NOTA",
+    "Independent": "IND",
+    "Others": "Others",
+}
+
+# Majority thresholds per state (n/2 + 1)
+MAJORITIES = {
+    "S03": 64,   # Assam: 126/2 + 1
+    "S11": 71,   # Kerala: 140/2 + 1
+    "U07": 16,   # Puducherry: 30/2 + 1
+    "S22": 118,  # Tamil Nadu: 234/2 + 1
+    "S25": 148,  # West Bengal: 294/2 + 1
+}
+
+# Status colours for dashboard badges
+STATUS_COLORS = {
+    "DONE": "#16A34A",    # green
+    "LIVE": "#F59E0B",    # amber
+    "PENDING": "#6B7280", # grey
+    "ERROR": "#DC2626",   # red
+}
+
+
 def normalise_party(party_name: str) -> str:
     """Normalise party name from ECI to canonical form."""
     if not party_name:
@@ -142,3 +189,16 @@ def get_all_urls() -> list[dict]:
                 }
             )
     return urls
+
+
+def short(party_name: str) -> str:
+    """Get short abbreviation for a party name."""
+    return PARTY_SHORT.get(party_name, party_name[:20] if len(party_name) > 20 else party_name)
+
+
+def state_code_for(state_name: str) -> str:
+    """Get state code from state name."""
+    for s in STATES:
+        if s["name"] == state_name:
+            return s["code"]
+    return ""
