@@ -135,12 +135,15 @@ def settings_dialog():
     st.subheader("Status")
     ss = get_status_summary(DB_PATH)
     total = sum(ss.values())
-    reporting = ss.get("LIVE", 0) + ss.get("DONE", 0)
+    done = ss.get("DONE", 0)
+    live = ss.get("LIVE", 0)
+    pending = ss.get("PENDING", 0)
+    errors = ss.get("ERROR", 0)
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Total ACs", total)
-    c2.metric("Reporting", f"{reporting}/{total}")
-    c3.metric("Counted", ss.get("DONE", 0))
-    c4.metric("Errors", ss.get("ERROR", 0))
+    c1.metric("Total", total, help="Total constituencies being tracked across all states")
+    c2.metric("Counted", done, help="Counting complete — all rounds scraped (DONE)")
+    c3.metric("Counting", live, help="Counting in progress — rounds still coming in (LIVE)")
+    c4.metric("Pending / Errors", f"{pending} / {errors}", help="Not yet live (Pending) + scraping failed (Errors)")
 
     st.divider()
     st.subheader("Update Cycles")
@@ -173,7 +176,17 @@ def settings_dialog():
             if not sd.empty:
                 c = dict(zip(sd["status"], sd["cnt"]))
                 total_s = sum(c.values())
-                st.markdown(f"**{state['name']}**: 🟢{c.get('DONE',0)} 🟡{c.get('LIVE',0)} ⚪{c.get('PENDING',0)} 🔴{c.get('ERROR',0)} ({c.get('DONE',0)+c.get('LIVE',0)}/{total_s})")
+                counted = c.get("DONE", 0)
+                counting = c.get("LIVE", 0)
+                pending = c.get("PENDING", 0)
+                errors = c.get("ERROR", 0)
+                parts = []
+                if counted: parts.append(f"{counted} counted")
+                if counting: parts.append(f"{counting} counting")
+                if pending: parts.append(f"{pending} pending")
+                if errors: parts.append(f"{errors} error{'s' if errors > 1 else ''}")
+                detail = ", ".join(parts) if parts else "no data"
+                st.markdown(f"**{state['name']}** ({counted + counting}/{total_s} reporting): {detail}")
 
 
 # ---------------------------------------------------------------------------
