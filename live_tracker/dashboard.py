@@ -99,6 +99,126 @@ def candidate_display_name(name: str) -> str:
     return name.title()
 
 
+def compute_party_round_series(
+    db_path: str, state_code: str = None, metric: str = "cumulative_votes"
+) -> pd.DataFrame:
+    """
+    Transform raw round snapshots into a round-based series for plotting.
+
+    For each constituency, uses the ECI round_no as the progression axis.
+    For each round r, uses the latest snapshot where round_no <= r.
+    Aggregates across all constituencies by party.
+
+    Returns DataFrame with columns: party, round_num, round_label, value
+    """
+    conn = _connect(db_path)
+    try:
+        where = "WHERE state_code = ?" if state_code else ""
+        params = (state_code,) if state_code else ()
+        query = f"""
+            SELECT state_code, ac_no, round_no, party, votes, scraped_at
+            FROM rounds
+            {where}
+            ORDER BY state_code, ac_no, scraped_at
+        """
+        raw = pd.read_sql_query(query, conn, params=params)
+    finally:
+        conn.close()
+
+    if raw.empty:
+        return pd.DataFrame(columns=["party", "round_num", "round_label", "value"])
+
+    # Convert votes to numeric
+    raw["votes"] = pd.to_numeric(raw["votes"], errors="coerce").fillna(0).astype(int)
+    raw["scraped_at"] = pd.to_datetime(raw["scraped_at"])
+
+    # Get max round across all constituencies
+    max_round = int(raw["round_no"].max())
+
+    # For each constituency, get the latest snapshot per round
+    # First, rank snapshots within each (state_code, ac_no) by scraped_at
+    raw = raw.sort_values(["state_code", "ac_no", "scraped_at"])
+    raw["snap_rank"] = raw.groupby(["state_code", "ac_no"]).cumcount() + 1
+
+    # For each round r, find the latest snapshot where round_no <= r
+    # We'll build a mapping: for each (state_code, ac_no, round_no), keep only the latest scraped_at
+    latest_per_round = (
+        raw.groupby(["state_code", "ac_no", "round_no"])["scraped_at"]
+        .max()
+        .reset_index()
+    )
+    # Merge back to get only the latest snapshot per (ac, round)
+    raw_latest = raw.merge(
+        latest_per_round,
+        on=["state_code", "ac_no", "round_no", "scraped_at"],
+        how="inner",
+    )
+
+    # Now for each round r, for each constituency, use the latest snapshot where round_no <= r
+    # This means forward-filling: if an AC has data at R4 and R7, then R5 and R6 use R4's data
+    results = []
+    for r in range(1, max_round + 1):
+        # For each constituency, get the latest snapshot with round_no <= r
+        mask = raw_latest["round_no"] <= r
+        eligible = raw_latest[mask]
+        if eligible.empty:
+            continue
+
+        # For each constituency, keep only the latest snapshot (highest round_no <= r)
+        latest_ac = (
+            eligible.groupby(["state_code", "ac_no"])["round_no"]
+            .max()
+            .reset_index()
+        )
+        snapshot = eligible.merge(latest_ac, on=["state_code", "ac_no", "round_no"], how="inner")
+
+        # Aggregate by party
+        party_totals = snapshot.groupby("party")["votes"].sum().reset_index()
+        party_totals["round_num"] = r
+        party_totals["round_label"] = f"R{r}"
+        results.append(party_totals)
+
+    if not results:
+        return pd.DataFrame(columns=["party", "round_num", "round_label", "value"])
+
+    series_df = pd.concat(results, ignore_index=True)
+    series_df.rename(columns={"votes": "value"}, inplace=True)
+
+    # Add R0 baseline for all parties
+    all_parties = series_df["party"].unique()
+    r0_rows = pd.DataFrame({
+        "party": all_parties,
+        "round_num": 0,
+        "round_label": "R0",
+        "value": 0,
+    })
+    series_df = pd.concat([r0_rows, series_df], ignore_index=True)
+
+    # Forward-fill: for each party, ensure all rounds from 0 to max are present
+    full_index = pd.MultiIndex.from_product(
+        [all_parties, range(0, max_round + 1)],
+        names=["party", "round_num"],
+    )
+    series_df = (
+        series_df.set_index(["party", "round_num"])
+        .reindex(full_index)
+        .reset_index()
+    )
+    series_df["round_label"] = series_df["round_num"].apply(lambda x: f"R{x}")
+    series_df["value"] = series_df.groupby("party")["value"].ffill().fillna(0)
+
+    # Compute vote share % if requested
+    if metric == "vote_share_pct":
+        totals_per_round = series_df.groupby("round_num")["value"].sum()
+        series_df = series_df.merge(totals_per_round, on="round_num", suffixes=("", "_total"))
+        series_df["value"] = series_df.apply(
+            lambda r: (r["value"] / r["value_total"] * 100) if r["value_total"] > 0 else 0,
+            axis=1,
+        )
+
+    return series_df
+
+
 # ---------------------------------------------------------------------------
 # Page config
 # ---------------------------------------------------------------------------
@@ -327,10 +447,10 @@ with tab1:
 
 
 # ===========================================================================
-# TAB 2: PARTY TRENDS
+# TAB 2: PARTY FORTUNES BY ROUND
 # ===========================================================================
 with tab2:
-    st.header("Party Vote Trends")
+    st.header("Party Fortunes by Counting Round")
 
     trend_mode = st.radio(
         "Display mode",
@@ -338,105 +458,70 @@ with tab2:
         horizontal=True,
     )
 
-    trends_df = get_party_totals_over_time(DB_PATH, state_code_filter)
+    metric = "vote_share_pct" if trend_mode == "Vote Share %" else "cumulative_votes"
+    series_df = compute_party_round_series(DB_PATH, state_code_filter, metric=metric)
 
-    if trends_df.empty:
-        st.info("No trend data yet.")
+    if series_df.empty:
+        st.info("No data yet.")
     else:
-        trends_df["scraped_at"] = pd.to_datetime(trends_df["scraped_at"])
-        trends_df["time_ist"] = trends_df["scraped_at"].dt.tz_convert(IST)
-
-        n_cycles = trends_df["scraped_at"].nunique()
-
-        # Get top parties by latest totals
-        latest_time = trends_df["scraped_at"].max()
-        latest_totals = (
-            trends_df[trends_df["scraped_at"] == latest_time]
-            .nlargest(10, "total_votes")
-        )
-        top_parties = latest_totals["party"].tolist()
-
-        trends_df["party_group"] = trends_df["party"].apply(
-            lambda p: p if p in top_parties else "Others"
-        )
-
-        if trend_mode == "Vote Share %":
-            totals_per_time = trends_df.groupby("scraped_at")["total_votes"].sum()
-            trends_df = trends_df.merge(totals_per_time, on="scraped_at", suffixes=("", "_total"))
-            trends_df["vote_pct"] = trends_df["total_votes"] / trends_df["total_votes_total"] * 100
-            y_col = "vote_pct"
-            y_label = "Vote Share (% of counted votes)"
+        max_round = int(series_df["round_num"].max())
+        if max_round < 1:
+            st.info("Waiting for counting data to appear...")
         else:
-            y_col = "total_votes"
-            y_label = "Cumulative Votes"
+            # Get top parties by latest round value
+            latest_round = series_df[series_df["round_num"] == max_round]
+            top_parties = latest_round.nlargest(10, "value")["party"].tolist()
 
-        if n_cycles == 1:
-            st.caption(
-                f"Snapshot from {trends_df['time_ist'].iloc[0].strftime('%H:%M IST')} — "
-                "trend lines will appear after the 2nd update cycle (~5 min)"
+            # Group others
+            series_df["party_group"] = series_df["party"].apply(
+                lambda p: p if p in top_parties else "Others"
             )
-            # Show bar chart (vote share view)
-            bar_df = (
-                trends_df.groupby("party_group")[y_col]
-                .sum()
-                .reset_index()
-                .sort_values(y_col, ascending=True)
-            )
-            bar_df["short"] = bar_df["party_group"].apply(short)
-            colors = [get_party_color(p) for p in bar_df["party_group"]]
-
-            fig = go.Figure(go.Bar(
-                y=bar_df["short"],
-                x=bar_df[y_col],
-                orientation="h",
-                marker_color=colors,
-                text=bar_df[y_col].apply(lambda x: f"{x:,.0f}"),
-                textposition="auto",
-                hovertext=bar_df["party_group"],
-            ))
-            fig.update_layout(
-                xaxis_title=y_label,
-                yaxis_title="",
-                height=max(400, len(bar_df) * 32),
-                margin=dict(l=0, r=0, t=10, b=0),
-            )
-            st.plotly_chart(fig, width="stretch")
-
-            st.caption("Vote share = % of total votes counted so far across all reporting constituencies")
-        else:
-            # Multiple cycles — trend line chart
+            # Re-aggregate with party_group
             plot_df = (
-                trends_df.groupby(["time_ist", "party_group"])[y_col]
+                series_df.groupby(["party_group", "round_num", "round_label"])["value"]
                 .sum()
                 .reset_index()
             )
+
+            # Build ordered round labels
+            round_labels = [f"R{i}" for i in range(0, max_round + 1)]
 
             fig = go.Figure()
             for party in top_parties + ["Others"]:
-                party_df = plot_df[plot_df["party_group"] == party]
+                party_df = plot_df[plot_df["party_group"] == party].sort_values("round_num")
                 if party_df.empty:
                     continue
                 fig.add_trace(go.Scatter(
-                    x=party_df["time_ist"],
-                    y=party_df[y_col],
+                    x=party_df["round_label"],
+                    y=party_df["value"],
                     mode="lines+markers",
                     name=short(party),
                     line=dict(color=get_party_color(party), width=2),
-                    marker=dict(size=4),
-                    hovertext=party,
+                    marker=dict(size=5),
+                    hovertemplate=(
+                        f"<b>{short(party)}</b><br>"
+                        "Round: %{x}<br>"
+                        f"{trend_mode}: " + "%{y:,.0f}<extra></extra>"
+                    ),
                 ))
 
+            y_label = "Vote Share (%)" if metric == "vote_share_pct" else "Cumulative Votes"
             fig.update_layout(
-                xaxis_title="Time (IST)",
+                xaxis_title="Counting Round",
                 yaxis_title=y_label,
                 height=500,
                 hovermode="x unified",
+                xaxis=dict(categoryorder="array", categoryarray=round_labels),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
                 margin=dict(l=0, r=0, t=40, b=0),
             )
             st.plotly_chart(fig, width="stretch")
 
-            st.caption("Vote share = % of total votes counted so far across all reporting constituencies")
+            st.caption(
+                "Each line shows how a party's fortunes change as counting rounds progress. "
+                "Flat segments mean no new votes in that round. "
+                "Vote share = % of total votes counted so far across all reporting constituencies."
+            )
 
 
 # ===========================================================================
