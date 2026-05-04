@@ -111,7 +111,9 @@ def compute_party_round_series(
 
     Returns DataFrame with columns: party, round_num, round_label, value
     """
-    conn = _connect(db_path)
+    import sqlite3
+    conn = sqlite3.connect(db_path, timeout=30)
+    conn.row_factory = sqlite3.Row
     try:
         where = "WHERE state_code = ?" if state_code else ""
         params = (state_code,) if state_code else ()
