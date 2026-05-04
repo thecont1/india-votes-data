@@ -109,7 +109,7 @@ st.markdown("""
         border-radius: 10px; color: white;
     }
     .header-bar h2 { margin: 0; font-size: 1.15rem; color: white; }
-    .header-bar .ts { font-size: 0.82rem; opacity: 0.85; }
+    .header-bar .ts { font-size: 1.0rem; font-weight: 600; letter-spacing: 0.03em; opacity: 1; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -253,9 +253,9 @@ with st.container(border=True):
         if state_code_filter and state_code_filter in MAJORITIES:
             maj = MAJORITIES[state_code_filter]
             fig.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
-            fig.add_annotation(x=maj, y=len(wl) + 1, text=f"Majority ({maj})",
-                               showarrow=False, font=dict(color="red", size=11),
-                               xanchor="right", yanchor="bottom")
+            fig.add_annotation(x=maj, y=len(wl) - 2, text=f"Majority ({maj})",
+                               showarrow=False, font=dict(color="red", size=14),
+                               xanchor="left", xshift=8, yanchor="middle")
         fig.update_layout(
             barmode="stack", height=max(300, len(wl) * 40),
             xaxis_title="Seats", yaxis_title="",
@@ -290,9 +290,9 @@ with st.container(border=True):
                     text=sd.apply(lambda r: str(int(r["leading"])) if r["leading"]>0 else "", axis=1),
                     textposition="outside", textfont=dict(size=11)))
                 f2.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
-                f2.add_annotation(x=maj, y=len(sd) + 1, text=f"Majority ({maj})",
-                    showarrow=False, font=dict(color="red", size=11),
-                    xanchor="right", yanchor="bottom")
+                f2.add_annotation(x=maj, y=len(sd) - 2, text=f"Majority ({maj})",
+                    showarrow=False, font=dict(color="red", size=13),
+                    xanchor="left", xshift=8, yanchor="middle")
                 f2.update_layout(barmode="stack", height=max(250, len(sd)*35),
                     yaxis=dict(autorange="reversed"), margin=dict(l=0,r=50,t=20,b=30), showlegend=False)
                 st.plotly_chart(f2, width="stretch", config=CHART_CFG)
