@@ -21,6 +21,7 @@ from db_utils import (
     get_last_scrape_time,
     get_leading_seats,
     get_party_seat_tally,
+    get_party_seat_tally_won_leading,
     get_party_totals_over_time,
     get_scrape_cycles,
     get_state_status_summary,
@@ -188,37 +189,51 @@ with tab1:
     with col4:
         st.metric("Errors", status_summary.get("ERROR", 0))
 
-    # Progress bar
-    reporting_pct = reporting / max(total_acs, 1)
-    st.progress(reporting_pct, text=f"Reporting: {reporting_pct:.0%} ACs")
+    # Progress bar — % of fully declared constituencies
+    done_pct = status_summary.get("DONE", 0) / max(total_acs, 1)
+    st.progress(done_pct, text=f"Declared: {done_pct:.0%} ACs")
 
     st.divider()
 
-    # --- Combined seat tally ---
-    st.subheader("Seat Tally (Leading/Won)")
+    # --- Combined seat tally: Won (solid) + Leading (hatched) ---
+    st.subheader("Seat Tally")
 
-    seat_tally = get_party_seat_tally(DB_PATH, state_code_filter)
-    if seat_tally.empty:
+    wl_tally = get_party_seat_tally_won_leading(DB_PATH, state_code_filter)
+    if wl_tally.empty:
         st.info("No data yet.")
     else:
-        # Collapse minor parties
-        seat_tally_display = collapse_others(seat_tally, "party", "seats_leading", top_n=10)
-        # Add short names
-        seat_tally_display["short"] = seat_tally_display["party"].apply(short)
-        colors = [get_party_color(p) for p in seat_tally_display["party"]]
+        # Collapse minor parties (by total)
+        wl_display = collapse_others(wl_tally, "party", "total", top_n=10)
+        wl_display["short"] = wl_display["party"].apply(short)
 
         fig = go.Figure()
+
+        # Won seats — solid blocks
         fig.add_trace(go.Bar(
-            y=seat_tally_display["short"],
-            x=seat_tally_display["seats_leading"],
+            y=wl_display["short"],
+            x=wl_display["won"],
             orientation="h",
-            marker_color=colors,
-            text=seat_tally_display["seats_leading"],
-            textposition="auto",
-            hovertext=seat_tally_display["party"],
+            name="Won",
+            marker_color=[get_party_color(p) for p in wl_display["party"]],
+            text=wl_display.apply(lambda r: f"{r['won']}" if r["won"] > 0 else "", axis=1),
+            textposition="inside",
+            hovertext=wl_display.apply(lambda r: f"{r['party']}: {r['won']} won", axis=1),
         ))
 
-        # Majority line (for filtered state)
+        # Leading seats — same colour but hatched/striped
+        fig.add_trace(go.Bar(
+            y=wl_display["short"],
+            x=wl_display["leading"],
+            orientation="h",
+            name="Leading",
+            marker_color=[get_party_color(p) for p in wl_display["party"]],
+            marker_pattern=dict(shape="/", solidity=0.6),
+            text=wl_display.apply(lambda r: f"{r['leading']}" if r["leading"] > 0 else "", axis=1),
+            textposition="inside",
+            hovertext=wl_display.apply(lambda r: f"{r['party']}: {r['leading']} leading", axis=1),
+        ))
+
+        # Majority line
         if state_code_filter and state_code_filter in MAJORITIES:
             maj = MAJORITIES[state_code_filter]
             fig.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
@@ -226,23 +241,21 @@ with tab1:
                                showarrow=False, font=dict(color="red", size=11))
 
         fig.update_layout(
-            height=max(300, len(seat_tally_display) * 35),
-            xaxis_title="Seats Leading",
+            barmode="stack",
+            height=max(300, len(wl_display) * 40),
+            xaxis_title="Seats",
             yaxis_title="",
             yaxis=dict(autorange="reversed"),
             margin=dict(l=0, r=0, t=20, b=0),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         )
         st.plotly_chart(fig, width="stretch")
 
         # Show all parties expander
         with st.expander("Show all parties"):
-            st.dataframe(
-                seat_tally.rename(columns={"party": "Party", "seats_leading": "Seats"})
-                .sort_values("Seats", ascending=False)
-                .reset_index(drop=True),
-                width="stretch",
-                height=400,
-            )
+            all_tally = get_party_seat_tally_won_leading(DB_PATH, state_code_filter)
+            all_tally_display = all_tally.rename(columns={"party": "Party", "won": "Won", "leading": "Leading", "total": "Total"})
+            st.dataframe(all_tally_display, width="stretch", height=400)
 
     # --- Per-state breakdowns (only when "All States" selected) ---
     if selected_state == "All States":
@@ -253,29 +266,41 @@ with tab1:
             sc = state["code"]
             maj = MAJORITIES.get(sc, 0)
             with st.expander(f"{state['name']}  (majority: {maj} seats)", expanded=False):
-                state_tally = get_party_seat_tally(DB_PATH, sc)
-                if state_tally.empty:
+                st_wl = get_party_seat_tally_won_leading(DB_PATH, sc)
+                if st_wl.empty:
                     st.info("No data yet.")
                     continue
-                state_tally_display = collapse_others(state_tally, "party", "seats_leading", top_n=8)
-                state_tally_display["short"] = state_tally_display["party"].apply(short)
-                colors = [get_party_color(p) for p in state_tally_display["party"]]
+                st_display = collapse_others(st_wl, "party", "total", top_n=8)
+                st_display["short"] = st_display["party"].apply(short)
 
                 fig = go.Figure()
+                # Won — solid
                 fig.add_trace(go.Bar(
-                    y=state_tally_display["short"],
-                    x=state_tally_display["seats_leading"],
+                    y=st_display["short"],
+                    x=st_display["won"],
                     orientation="h",
-                    marker_color=colors,
-                    text=state_tally_display["seats_leading"],
-                    textposition="auto",
-                    hovertext=state_tally_display["party"],
+                    name="Won",
+                    marker_color=[get_party_color(p) for p in st_display["party"]],
+                    text=st_display.apply(lambda r: f"{r['won']}" if r["won"] > 0 else "", axis=1),
+                    textposition="inside",
+                ))
+                # Leading — hatched
+                fig.add_trace(go.Bar(
+                    y=st_display["short"],
+                    x=st_display["leading"],
+                    orientation="h",
+                    name="Leading",
+                    marker_color=[get_party_color(p) for p in st_display["party"]],
+                    marker_pattern=dict(shape="/", solidity=0.6),
+                    text=st_display.apply(lambda r: f"{r['leading']}" if r["leading"] > 0 else "", axis=1),
+                    textposition="inside",
                 ))
                 fig.add_vline(x=maj, line_dash="dash", line_color="red", line_width=1.5)
                 fig.add_annotation(x=maj, y=1.05, text=f"Majority ({maj})",
                                    showarrow=False, font=dict(color="red", size=11))
                 fig.update_layout(
-                    height=max(250, len(state_tally_display) * 30),
+                    barmode="stack",
+                    height=max(250, len(st_display) * 35),
                     yaxis=dict(autorange="reversed"),
                     margin=dict(l=0, r=0, t=20, b=0),
                     showlegend=False,

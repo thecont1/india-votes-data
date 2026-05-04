@@ -370,6 +370,74 @@ def get_party_seat_tally(db_path: str, state_code: Optional[str] = None) -> pd.D
     return tally
 
 
+def get_party_seat_tally_won_leading(db_path: str, state_code: Optional[str] = None) -> pd.DataFrame:
+    """
+    Count won (DONE) vs leading (LIVE) seats per party.
+    Returns DataFrame: party, won, leading, total.
+    """
+    df = get_leading_seats(db_path, state_code)
+    if df.empty:
+        return pd.DataFrame(columns=["party", "won", "leading", "total"])
+
+    # Join with constituency_status to get DONE vs LIVE
+    conn = _connect(db_path)
+    try:
+        where = "AND cs.state_code = ?" if state_code else ""
+        params = (state_code,) if state_code else ()
+        query = f"""
+            SELECT r.party,
+                   SUM(CASE WHEN cs.status = 'DONE' THEN 1 ELSE 0 END) as won,
+                   SUM(CASE WHEN cs.status != 'DONE' THEN 1 ELSE 0 END) as leading
+            FROM rounds r
+            INNER JOIN (
+                SELECT state_code, ac_no, MAX(scraped_at) as latest
+                FROM rounds GROUP BY state_code, ac_no
+            ) latest ON r.state_code = latest.state_code
+                AND r.ac_no = latest.ac_no
+                AND r.scraped_at = latest.latest
+            INNER JOIN constituency_status cs
+                ON r.state_code = cs.state_code AND r.ac_no = cs.ac_no
+            WHERE r.votes = (
+                SELECT MAX(r2.votes) FROM rounds r2
+                WHERE r2.state_code = r.state_code
+                  AND r2.ac_no = r.ac_no
+                  AND r2.scraped_at = r.scraped_at
+            )
+            {where}
+            GROUP BY r.state_code, r.ac_no, r.party
+        """
+        # We need to group by party after getting per-AC data
+        # Simpler: use the leading_seats df and join with status
+        pass
+    finally:
+        conn.close()
+
+    # Build from leading_seats + constituency_status
+    conn = _connect(db_path)
+    try:
+        ac_status_rows = conn.execute(
+            "SELECT state_code, ac_no, status FROM constituency_status"
+        ).fetchall()
+        status_map = {(r["state_code"], r["ac_no"]): r["status"] for r in ac_status_rows}
+    finally:
+        conn.close()
+
+    df["status"] = df.apply(
+        lambda r: status_map.get((r["state_code"], r["ac_no"]), "LIVE"), axis=1
+    )
+    df["is_won"] = (df["status"] == "DONE").astype(int)
+    df["is_leading"] = (df["status"] != "DONE").astype(int)
+
+    result = df.groupby("leading_party").agg(
+        won=("is_won", "sum"),
+        leading=("is_leading", "sum"),
+    ).reset_index()
+    result["total"] = result["won"] + result["leading"]
+    result = result.sort_values("total", ascending=False).reset_index(drop=True)
+    result.rename(columns={"leading_party": "party"}, inplace=True)
+    return result
+
+
 def get_party_totals_over_time(
     db_path: str, state_code: Optional[str] = None
 ) -> pd.DataFrame:
