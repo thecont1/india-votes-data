@@ -142,6 +142,8 @@ st.markdown("""
     /* Right-align numeric columns in State Overview table */
     [data-testid="stDataFrame"] thead th:not(:first-child) { text-align: right !important; }
     [data-testid="stDataFrame"] tbody td:not(:first-child) { text-align: right !important; }
+    /* Reduce State Overview table width */
+    [data-testid="stDialog"] [data-testid="stDataFrame"] { max-width: 90% !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -173,7 +175,7 @@ def settings_dialog():
     live = ss.get("LIVE", 0)
     pending = ss.get("PENDING", 0)
     errors = ss.get("ERROR", 0)
-    c1, c2, c3, c4, c5 = st.columns(5)
+    c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1, 1])
     c1.metric("Counted", done, help="Counting complete — all rounds scraped (DONE)")
     c2.metric("Counting", live, help="Counting in progress — rounds still coming in (LIVE)")
     c3.metric("Pending", pending, help="Page not yet live on ECI — counting hasn't started (PENDING)")
