@@ -244,25 +244,6 @@ if not os.path.exists(DB_PATH):
 st.sidebar.title("🗳️ ECI Live Tracker")
 st.sidebar.caption("General Assembly Elections — May 2026")
 
-# State filter — persisted via query params (survives meta-refresh)
-state_options = [s["name"] for s in STATES] + ["All States"]
-params = st.query_params
-default_state = params.get("state", "All States")
-if default_state not in state_options:
-    default_state = "All States"
-
-selected_state = st.sidebar.selectbox(
-    "Filter by State",
-    state_options,
-    index=state_options.index(default_state),
-    key="sidebar_state_select",
-)
-st.query_params["state"] = selected_state
-
-state_code_filter = None
-if selected_state != "All States":
-    state_code_filter = state_code_for(selected_state)
-
 # Refresh
 last_update = get_last_scrape_time(DB_PATH)
 if last_update:
@@ -273,8 +254,30 @@ refresh_interval = st.sidebar.slider("Auto-refresh (seconds)", 30, 300, 120)
 if st.sidebar.button("🔄 Refresh Now"):
     st.rerun()
 
+# ---------------------------------------------------------------------------
+# State selector — one-click pills at top of page
+# ---------------------------------------------------------------------------
+
+params = st.query_params
+state_options = ["Overall"] + [s["name"] for s in STATES]
+default_state = params.get("state", "Overall")
+if default_state not in state_options:
+    default_state = "Overall"
+
+selected_state = st.pills(
+    "State",
+    state_options,
+    default=default_state,
+    selection_mode="single",
+)
+st.query_params["state"] = selected_state
+
+state_code_filter = None
+if selected_state != "Overall":
+    state_code_filter = state_code_for(selected_state)
+
 # Majority info in sidebar
-if selected_state != "All States":
+if selected_state != "Overall":
     maj = MAJORITIES.get(state_code_filter, 0)
     st.sidebar.info(f"Majority in {selected_state}: **{maj}** seats")
 
@@ -381,8 +384,8 @@ with tab1:
             all_tally_display = all_tally.rename(columns={"party": "Party", "won": "Won", "leading": "Leading", "total": "Total"})
             st.dataframe(all_tally_display, width="stretch", height=400)
 
-    # --- Per-state breakdowns (only when "All States" selected) ---
-    if selected_state == "All States":
+    # --- Per-state breakdowns (only when "Overall" selected) ---
+    if selected_state == "Overall":
         st.divider()
         st.subheader("State-by-State Breakdown")
 
