@@ -131,8 +131,10 @@ with tab1:
         st.metric("Errors", status_summary.get("ERROR", 0))
 
     # Progress bar
+    reporting = status_summary.get("LIVE", 0) + status_summary.get("DONE", 0)
     done_pct = status_summary.get("DONE", 0) / max(total_acs, 1)
-    st.progress(done_pct, text=f"Counting progress: {done_pct:.0%}")
+    reporting_pct = reporting / max(total_acs, 1)
+    st.progress(reporting_pct, text=f"Reporting: {reporting}/{total_acs} ACs ({reporting_pct:.0%}) | Fully counted: {status_summary.get('DONE', 0)}")
 
     st.divider()
 
@@ -181,7 +183,7 @@ with tab1:
 # TAB 2: PARTY TRENDS
 # ===========================================================================
 with tab2:
-    st.header("Party Trends Over Time")
+    st.header("Party Vote Trends")
 
     trend_mode = st.radio(
         "Display mode",
@@ -196,73 +198,88 @@ with tab2:
     else:
         # Parse timestamps
         trends_df["scraped_at"] = pd.to_datetime(trends_df["scraped_at"])
-        # Convert to IST
-        trends_df["time_ist"] = trends_df["scraped_at"] + pd.Timedelta(
-            hours=5, minutes=30
-        )
+        trends_df["time_ist"] = trends_df["scraped_at"] + pd.Timedelta(hours=5, minutes=30)
 
-        # Get top N parties by latest total
+        n_cycles = trends_df["scraped_at"].nunique()
+
+        # Get top parties by latest totals
         latest_time = trends_df["scraped_at"].max()
         latest_totals = (
             trends_df[trends_df["scraped_at"] == latest_time]
-            .nlargest(8, "total_votes")
+            .nlargest(10, "total_votes")
         )
         top_parties = latest_totals["party"].tolist()
 
-        # Filter to top parties + "Others"
         trends_df["party_group"] = trends_df["party"].apply(
             lambda p: p if p in top_parties else "Others"
         )
-        if trend_mode == "Vote Share %":
-            # Calculate percentage per timestamp
-            totals_per_time = trends_df.groupby("scraped_at")["total_votes"].sum()
-            trends_df = trends_df.merge(
-                totals_per_time, on="scraped_at", suffixes=("", "_total")
+
+        if n_cycles == 1:
+            # Single snapshot — show horizontal bar chart of current vote totals
+            st.caption(f"Snapshot from {trends_df['time_ist'].iloc[0].strftime('%H:%M IST')} — trend lines appear after 2nd scrape cycle")
+            bar_df = (
+                trends_df.groupby("party_group")["total_votes"]
+                .sum()
+                .reset_index()
+                .sort_values("total_votes", ascending=True)
             )
-            trends_df["vote_pct"] = (
-                trends_df["total_votes"] / trends_df["total_votes_total"] * 100
+            colors = [get_party_color(p) for p in bar_df["party_group"]]
+            fig = go.Figure(go.Bar(
+                y=bar_df["party_group"],
+                x=bar_df["total_votes"],
+                orientation="h",
+                marker_color=colors,
+                text=bar_df["total_votes"].apply(lambda x: f"{x:,.0f}"),
+                textposition="auto",
+            ))
+            fig.update_layout(
+                xaxis_title="Total Votes" if trend_mode == "Cumulative Votes" else "Vote Share (%)",
+                yaxis_title="",
+                height=max(400, len(bar_df) * 32),
+                margin=dict(l=0, r=0, t=10, b=0),
             )
-            y_col = "vote_pct"
-            y_label = "Vote Share (%)"
+            st.plotly_chart(fig, use_container_width=True)
         else:
-            y_col = "total_votes"
-            y_label = "Cumulative Votes"
+            # Multiple cycles — show trend line chart
+            if trend_mode == "Vote Share %":
+                totals_per_time = trends_df.groupby("scraped_at")["total_votes"].sum()
+                trends_df = trends_df.merge(totals_per_time, on="scraped_at", suffixes=("", "_total"))
+                trends_df["vote_pct"] = trends_df["total_votes"] / trends_df["total_votes_total"] * 100
+                y_col = "vote_pct"
+                y_label = "Vote Share (%)"
+            else:
+                y_col = "total_votes"
+                y_label = "Cumulative Votes"
 
-        # Aggregate Others
-        plot_df = (
-            trends_df.groupby(["time_ist", "party_group"])[y_col]
-            .sum()
-            .reset_index()
-        )
+            plot_df = (
+                trends_df.groupby(["time_ist", "party_group"])[y_col]
+                .sum()
+                .reset_index()
+            )
 
-        # Build line chart
-        fig = go.Figure()
-        for party in top_parties + ["Others"]:
-            party_df = plot_df[plot_df["party_group"] == party]
-            if party_df.empty:
-                continue
-            fig.add_trace(
-                go.Scatter(
+            fig = go.Figure()
+            for party in top_parties + ["Others"]:
+                party_df = plot_df[plot_df["party_group"] == party]
+                if party_df.empty:
+                    continue
+                fig.add_trace(go.Scatter(
                     x=party_df["time_ist"],
                     y=party_df[y_col],
                     mode="lines+markers",
                     name=party,
                     line=dict(color=get_party_color(party), width=2),
                     marker=dict(size=4),
-                )
-            )
+                ))
 
-        fig.update_layout(
-            xaxis_title="Time (IST)",
-            yaxis_title=y_label,
-            height=500,
-            hovermode="x unified",
-            legend=dict(
-                orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1
-            ),
-            margin=dict(l=0, r=0, t=40, b=0),
-        )
-        st.plotly_chart(fig, use_container_width=True)
+            fig.update_layout(
+                xaxis_title="Time (IST)",
+                yaxis_title=y_label,
+                height=500,
+                hovermode="x unified",
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                margin=dict(l=0, r=0, t=40, b=0),
+            )
+            st.plotly_chart(fig, use_container_width=True)
 
 
 # ===========================================================================
@@ -426,7 +443,7 @@ with tab4:
             }
             return colors.get(val, "")
 
-        styled = all_statuses.style.applymap(
+        styled = all_statuses.style.map(
             color_status, subset=["status"]
         )
         st.dataframe(styled, use_container_width=True, height=400)
@@ -462,6 +479,8 @@ st.sidebar.caption(
     "[GitHub](https://github.com/thecont1/india-votes-data)"
 )
 
-# Auto-refresh using time.sleep + st.rerun
-time.sleep(refresh_interval)
-st.rerun()
+# Auto-refresh via browser meta tag (reliable, no blocking)
+st.markdown(
+    f"<meta http-equiv='refresh' content='{refresh_interval}'>",
+    unsafe_allow_html=True,
+)
