@@ -156,6 +156,11 @@ def _parse_page_bs4(html: str, task: dict) -> dict:
     result["current_round"] = current_round
     result["total_rounds"] = total_rounds
 
+    # Round 0 means counting hasn't started yet — no data to extract
+    if current_round == 0:
+        result["status"] = "NOT_YET_LIVE"
+        return result
+
     # Extract candidates from the CURRENT round's table.
     # Each round is in <div id="tab{N}"> with a <table> inside.
     candidates = _extract_candidates_bs4(soup, current_round)
