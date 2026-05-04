@@ -485,7 +485,7 @@ def fetch_won_lists() -> dict[str, list[int]]:
         party_url = f"https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-{state_code}.htm"
         try:
             result = subprocess.run(
-                ["curl", "-s", "-A", "Mozilla/5.0", party_url],
+                ["curl", "-s", "-H", "Accept: text/html", "-H", "Referer: https://results.eci.gov.in/ResultAcGenMay2026/index.htm", party_url],
                 capture_output=True, text=True, timeout=15,
             )
             if result.returncode != 0:
