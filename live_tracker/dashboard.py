@@ -334,7 +334,7 @@ with tab1:
         wl_display["short"] = wl_display["party"].apply(short)
         # Ensure integers
         for col in ["won", "leading", "total"]:
-            wl_display[col] = wl_display[col].astype(int)
+            wl_display[col] = wl_display[col].fillna(0).astype(int)
 
         fig = go.Figure()
 
@@ -405,7 +405,7 @@ with tab1:
                 st_display = collapse_others(st_wl, "party", "total", top_n=8)
                 st_display["short"] = st_display["party"].apply(short)
                 for col in ["won", "leading", "total"]:
-                    st_display[col] = st_display[col].astype(int)
+                    st_display[col] = st_display[col].fillna(0).astype(int)
 
                 fig = go.Figure()
                 # Won — solid, text inside
