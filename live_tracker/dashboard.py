@@ -110,6 +110,20 @@ st.markdown("""
     }
     .header-bar h2 { margin: 0; font-size: 1.15rem; color: white; }
     .header-bar .ts { font-size: 1.0rem; font-weight: 600; letter-spacing: 0.03em; opacity: 1; }
+    /* Gear button: no border, scaled up */
+    [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) [data-testid="stButton"] button {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        font-size: 1.8rem !important;
+        padding: 0 !important;
+        min-height: 0 !important;
+        line-height: 1 !important;
+    }
+    [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) [data-testid="stButton"] button:hover {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
