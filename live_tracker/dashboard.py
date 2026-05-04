@@ -111,20 +111,20 @@ st.markdown("""
     .header-bar h2 { margin: 0; font-size: 1.15rem; color: white; }
     .header-bar .ts { font-size: 1.0rem; font-weight: 600; letter-spacing: 0.03em; opacity: 1; }
     /* Gear button: no border, scaled up */
-    [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-of-type(2) button {
+    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) button[data-testid="stBaseButton-secondary"] {
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
         font-size: 1.8rem !important;
-        padding: 0 !important;
+        padding: 0.2rem 0.5rem !important;
         min-height: 0 !important;
         line-height: 1 !important;
     }
-    [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-of-type(2) button:hover {
+    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) button[data-testid="stBaseButton-secondary"]:hover {
         background: transparent !important;
         box-shadow: none !important;
     }
-    [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-of-type(2) button:active {
+    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) button[data-testid="stBaseButton-secondary"]:active {
         background: transparent !important;
         box-shadow: none !important;
     }
@@ -160,31 +160,32 @@ def settings_dialog():
     pending = ss.get("PENDING", 0)
     errors = ss.get("ERROR", 0)
     c1, c2, c3, c4, c5 = st.columns(5)
-    c1.metric("Total", total, help="All constituencies being tracked across all states")
-    c2.metric("Counted", done, help="Counting complete — all rounds scraped (DONE)")
-    c3.metric("Counting", live, help="Counting in progress — rounds still coming in (LIVE)")
-    c4.metric("Pending", pending, help="Page not yet live on ECI — counting hasn't started (PENDING)")
-    c5.metric("Errors", errors, help="Scraping failed after multiple retries (ERROR)")
+    c1.metric("Counted", done, help="Counting complete — all rounds scraped (DONE)")
+    c2.metric("Counting", live, help="Counting in progress — rounds still coming in (LIVE)")
+    c3.metric("Pending", pending, help="Page not yet live on ECI — counting hasn't started (PENDING)")
+    c4.metric("Errors", errors, help="Scraping failed after multiple retries (ERROR)")
+    c5.metric("Total", total, help="All constituencies being tracked across all states")
 
     st.divider()
     st.subheader("State Overview")
     summary = get_state_status_summary(DB_PATH)
     if summary:
         df_sum = pd.DataFrame(summary)
+        so_rows = []
         for state in STATES:
             sd = df_sum[df_sum["state_name"] == state["name"]]
             if not sd.empty:
                 c = dict(zip(sd["status"], sd["cnt"]))
-                total_s = sum(c.values())
-                counted = c.get("DONE", 0)
-                counting = c.get("LIVE", 0)
-                pending_s = c.get("PENDING", 0)
-                errors_s = c.get("ERROR", 0)
-                st.markdown(
-                    f"**{state['name']}**: "
-                    f"🟢{counted} 🟡{counting} ⚪{pending_s} 🔴{errors_s} "
-                    f"({counted + counting}/{total_s})"
-                )
+                so_rows.append({
+                    "State": state["name"],
+                    "🟢 Counted": c.get("DONE", 0),
+                    "🟡 Counting": c.get("LIVE", 0),
+                    "⚪ Pending": c.get("PENDING", 0),
+                    "🔴 Errors": c.get("ERROR", 0),
+                    "Reporting": f"{c.get('DONE', 0) + c.get('LIVE', 0)}/{sum(c.values())}",
+                })
+        if so_rows:
+            st.dataframe(pd.DataFrame(so_rows), width="stretch", hide_index=True)
 
     st.divider()
     st.subheader("Update Cycles")
@@ -195,7 +196,7 @@ def settings_dialog():
             if col in dc.columns:
                 dc[col] = dc[col].apply(lambda x: fmt_ist(x, "%H:%M:%S IST") if pd.notna(x) else "")
         show_cols = [c for c in ["started_at","finished_at","pages_attempted","pages_success","pages_skipped","pages_error","cycle_duration_sec"] if c in dc.columns]
-        st.dataframe(dc[show_cols].head(10), width="stretch", hide_index=True)
+        st.dataframe(dc[show_cols], width="stretch", hide_index=True, height=300)
 
     st.divider()
     ac_statuses = get_all_constituency_statuses(DB_PATH)
@@ -226,7 +227,7 @@ with col_pills:
         st.query_params["state"] = selected_state
         st.rerun()
 with col_gear:
-    if st.button("⚙️", help="Settings & System Monitor", key="gear_top"):
+    if st.button("⚙️", key="gear_top"):
         settings_dialog()
 
 state_code_filter = None
