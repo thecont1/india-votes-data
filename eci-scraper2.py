@@ -1,6 +1,7 @@
 import argparse
 import csv
 import json
+import re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -10,9 +11,61 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from datetime import datetime
 from time import perf_counter
 
-def source_url(seq_no) -> str:
-    base_url = "https://results.eci.gov.in/ResultAcGenNov2025/ConstituencywiseS04"  # Bihar
-    return base_url + str(seq_no) + ".htm"
+
+def parse_partywise_url(url: str) -> tuple[str, str]:
+    """
+    Parse a party-wise results URL to extract election identifier and state code.
+    
+    Expected format: https://results.eci.gov.in/<election_identifier>/partywiseresult-<state_code>.htm
+    Example: https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm
+    
+    Returns:
+        tuple of (election_identifier, state_code)
+    
+    Raises:
+        ValueError: If the URL doesn't match the expected format
+    """
+    pattern = r'^https://results\.eci\.gov\.in/([^/]+)/partywiseresult-([A-Z]\d+)\.htm$'
+    match = re.match(pattern, url)
+    if not match:
+        raise ValueError(
+            f"Invalid URL format. Expected: https://results.eci.gov.in/<election_identifier>/partywiseresult-<state_code>.htm\n"
+            f"Example: https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
+        )
+    return match.group(1), match.group(2)
+
+
+def build_constituency_url(election_identifier: str, state_code: str, constituency_code: int) -> str:
+    """
+    Build the constituency results URL.
+    
+    Format: https://results.eci.gov.in/<election_identifier>/Constituencywise<state_code><constituency_code>.htm
+    """
+    return f"https://results.eci.gov.in/{election_identifier}/Constituencywise{state_code}{constituency_code}.htm"
+
+
+def show_usage():
+    """Display friendly usage guide."""
+    print("""
+Usage: python eci-scraper2.py --url <partywise_results_url> [limit]
+
+Description:
+    Scrapes ECI election results from constituency-wise pages.
+
+Required Arguments:
+    --url       Party-wise results page URL (mandatory)
+                Format: https://results.eci.gov.in/<election_identifier>/partywiseresult-<state_code>.htm
+                Example: https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm
+                Note: State codes use 'S##' for states and 'U##' for Union Territories
+
+Optional Arguments:
+    limit       Number of constituencies to scrape (default: 3)
+                Set to a high number to scrape all constituencies until end of results
+
+Examples:
+    python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
+    python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" 50
+""")
 
 def get_state_code(state_name):
     import pandas as pd
@@ -34,7 +87,6 @@ def extract_results(driver) -> dict:
         constituency_no = parts[0].strip()
         
         # Extract constituency name and state using regex
-        import re
         state_name = ''
         match = re.match(r'(.+?) \((.+?)\)', parts[1])
         if match:
@@ -62,7 +114,11 @@ def main():
     seq_no = 1
 
     parser = argparse.ArgumentParser(description="Scrape selected constituencies from ECI results")
-    # Optional parameter lets the caller cap how many constituency pages to scrape
+    parser.add_argument(
+        "--url",
+        required=True,
+        help="Party-wise results page URL (e.g., https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm)",
+    )
     parser.add_argument(
         "limit",
         nargs="?",
@@ -70,7 +126,18 @@ def main():
         default=3,
         help="Number of constituencies to scrape (default: 3)",
     )
-    seq_limit = max(1, parser.parse_args().limit)
+    
+    args = parser.parse_args()
+    
+    # Parse the input URL to extract election identifier and state code
+    try:
+        election_identifier, state_code = parse_partywise_url(args.url)
+    except ValueError as e:
+        print(f"Error: {e}")
+        show_usage()
+        return
+    
+    seq_limit = max(1, args.limit)
 
     # Chrome browser setup with performance and headless mode enabled
     options = Options()
@@ -88,7 +155,8 @@ def main():
 
     try:
         # Get initial state/UT information to create output filenames
-        driver.get(source_url(seq_no))
+        url = build_constituency_url(election_identifier, state_code, seq_no)
+        driver.get(url)
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
 
         # Initialize results dictionary with page title and other details
@@ -114,13 +182,12 @@ def main():
         end_of_results = False
         start_time = perf_counter()
         while seq_no <= seq_limit:
-            url = source_url(seq_no)
+            url = build_constituency_url(election_identifier, state_code, seq_no)
             print(f"Loading {url}...", end='')
 
             driver.get(url)
             if "404" in driver.title:
                 print(" Stop.")
-                print(f"\n404 Not Found at {url}.")
                 end_of_results = True
                 break
 
