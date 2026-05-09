@@ -155,14 +155,12 @@ def scrape_constituency_worker(election_identifier: str, state_code: str,
                 url_counter['current'] += 1
             
             url = build_constituency_url(election_identifier, state_code, seq_no)
-            with lock:
-                print(f"Loading {url}...", end='')
-
+            
             driver.get(url)
             if "404" in driver.title:
                 with lock:
                     url_counter['end_of_results'] = True
-                    print(" Stop.")
+                    print(f" {seq_no:03d}-STOP.")
                 break
 
             result = extract_results(driver)
@@ -316,6 +314,18 @@ def main():
         driver.quit()
 
         if results:
+            # Sort results by constituency_no (ascending)
+            results["constituencywise_results"].sort(
+                key=lambda x: int(x["voting_data"]["constituency_no"])
+            )
+            
+            # Sort each constituency's voting_tally by evm_votes (descending)
+            for constituency in results["constituencywise_results"]:
+                constituency["voting_data"]["voting_tally"].sort(
+                    key=lambda x: int(x["evm_votes"]) if x["evm_votes"].isdigit() else 0,
+                    reverse=True
+                )
+            
             # Write results to JSON file
             with open(json_file, "w") as file:
                 json.dump(results, file, indent=4)
