@@ -2,3 +2,22 @@ eci-karnataka.html
 /archive
 .DS_Store
 WARP.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+results/
+
+# Live tracker
+live_tracker/live_results.db
+live_tracker/scraper.log
+live_tracker/scheduler_stdout.log
+live_tracker/scheduler.pid
+live_tracker/__pycache__/
+live_tracker/*.pyc
+live_tracker/.venv/
+live_tracker/uv.lock
+live_tracker/live_results.db-shm
+live_tracker/live_results.db-wal
