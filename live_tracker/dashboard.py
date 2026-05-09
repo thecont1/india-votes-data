@@ -83,78 +83,300 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------------------------
-# Global CSS: hide sidebar, hide anchors, hide Plotly toolbars, 65% width
+# Global CSS
 # ---------------------------------------------------------------------------
 
-st.markdown("""
+is_dark = st.session_state.get("dark_mode", False)
+
+_dark_css = ""
+_light_css = ""
+if is_dark:
+    _dark_css = """
+    body, .stApp, [data-testid="stAppViewContainer"], .main, .block-container {
+        background: #0e1117 !important; color: #fafafa !important;
+    }
+    [data-testid="stHeader"] { background: #0e1117 !important; }
+    .stMarkdown p, .stMarkdown li, .stCaption, span { color: #fafafa !important; }
+    h1, h2, h3, h4, h5, h6 { color: #fafafa !important; }
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        border-color: #333 !important; background: #1a1a2e !important;
+    }
+    [data-testid="stPlotlyChart"], [data-testid="stPlotlyChart"] > div {
+        background: #0e1117 !important;
+    }
+    [data-testid="stBaseButton-pills"], [data-testid="stBaseButton-pillsActive"] {
+        background: #1e293b !important; color: #fafafa !important;
+        border-color: #475569 !important;
+    }
+    input, select, textarea {
+        background: #1a1a2e !important; color: #fafafa !important; border-color: #444 !important;
+    }
+    """
+else:
+    _light_css = """
+    body, .stApp, [data-testid="stAppViewContainer"], .main, .block-container {
+        background: #ffffff !important; color: #262730 !important;
+    }
+    [data-testid="stHeader"] { background: #ffffff !important; }
+    .stMarkdown p, .stMarkdown li, .stCaption, span { color: #262730 !important; }
+    h1, h2, h3, h4, h5, h6 { color: #262730 !important; }
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        border-color: #e0e0e0 !important; background: #ffffff !important;
+    }
+    [data-testid="stPlotlyChart"], [data-testid="stPlotlyChart"] > div {
+        background: #ffffff !important;
+    }
+    [data-testid="stBaseButton-pills"], [data-testid="stBaseButton-pillsActive"] {
+        background: #f0f2f6 !important; color: #262730 !important;
+        border-color: #d0d5dd !important;
+    }
+    [data-testid="stBaseButton-pillsActive"] {
+        background: #e8eaf0 !important; border-color: #6c757d !important;
+    }
+    input, select, textarea {
+        background: #ffffff !important; color: #262730 !important; border-color: #cccccc !important;
+    }
+    [data-testid="stCheckbox"] label, [data-testid="stToggle"] label {
+        color: #262730 !important;
+    }
+    [data-testid="stMetric"] [data-testid="stMarkdownContainer"] p {
+        color: #262730 !important;
+    }
+    [data-testid="stSlider"] label, [data-testid="stSelectbox"] label {
+        color: #262730 !important;
+    }
+    """
+
+st.markdown(f"""
 <style>
-    [data-testid="stSidebar"] {display: none !important;}
-    [data-testid="collapsedControl"] {display: none !important;}
+    [data-testid="stSidebar"] {{display: none !important;}}
+    [data-testid="collapsedControl"] {{display: none !important;}}
     /* Hide Streamlit header and heading anchors */
-    header[data-testid="stHeader"] {display: none !important;}
-    [data-testid="stHeaderActionElements"] {display: none !important;}
-    h1 a, h2 a, h3 a {display: none !important;}
-    /* Constrain width and tighter top padding */
-    .block-container {
+    header[data-testid="stHeader"] {{display: none !important;}}
+    [data-testid="stHeaderActionElements"] {{display: none !important;}}
+    h1 a, h2 a, h3 a {{display: none !important;}}
+    /* Constrain width */
+    .block-container {{
         padding-top: 0.2rem !important;
         padding-bottom: 1rem !important;
-        max-width: 65%;
+        max-width: 72rem;
         margin: 0 auto;
-    }
+    }}
+    @media (max-width: 900px) {{
+        .block-container {{
+            max-width: 100%;
+        }}
+    }}
     /* Header bar */
-    .header-bar {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 0.6rem 1rem; margin-bottom: 1rem;
+    .header-bar {{
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.6rem 1rem;
+        margin-bottom: 1rem;
         background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        border-radius: 10px; color: white;
-    }
-    .header-bar h2 { margin: 0; font-size: 1.15rem; color: white; }
-    .header-bar .ts { font-size: 1.0rem; font-weight: 600; letter-spacing: 0.03em; opacity: 1; }
-    /* Gear button: no border, scaled up */
-    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stElementContainer"] {
-        width: auto !important;
-        display: flex !important;
-        justify-content: flex-end !important;
-    }
-    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stButton"] {
-        width: auto !important;
-    }
-    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stButton"] button {
+        border-radius: 10px;
+        color: white;
+    }}
+    .header-brand {{
+        white-space: nowrap;
+        flex-shrink: 1;
+        margin: 0;
+        font-size: 1.15rem;
+        color: white;
+    }}
+    .header-bar .ts {{
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        opacity: 1;
+        flex-shrink: 0;
+    }}
+    @media (max-width: 600px) {{
+        .header-brand {{
+            font-size: 1rem;
+        }}
+        .header-bar .ts {{
+            font-size: 0.85rem;
+        }}
+    }}
+    /* State pills and gear button */
+    [data-testid="stHorizontalBlock"]:has([data-testid="stButtonGroup"]) {{
+        display: flex;
+        align-items: center;
+    }}
+    [data-testid="stHorizontalBlock"]:has([data-testid="stButtonGroup"]) > [data-testid="stColumn"]:first-child {{
+        flex: 1 1 0%;
+        overflow-x: auto;
+    }}
+    [data-testid="stHorizontalBlock"]:has([data-testid="stButtonGroup"]) > [data-testid="stColumn"]:last-child {{
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: flex-end;
+    }}
+    [data-testid="stButtonGroup"] {{
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 0.25rem;
+    }}
+    [data-testid="stButtonGroup"]::-webkit-scrollbar {{
+        display: none;
+    }}
+    [data-testid="stButtonGroup"] {{
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }}
+    @media (min-width: 601px) {{
+        [data-testid="stBaseButton-pills"],
+        [data-testid="stBaseButton-pillsActive"] {{
+            padding: 0.25rem 0.6rem !important;
+            font-size: 0.8rem !important;
+            flex-shrink: 0 !important;
+        }}
+    }}
+    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:last-child [data-testid="stButton"] button {{
         border: none !important;
+        border-radius: 0 !important;
         background: transparent !important;
         box-shadow: none !important;
-        font-size: 1rem !important;
-        padding: 0.2rem 0.4rem !important;
-        min-height: 0 !important;
-        line-height: 1 !important;
-        width: auto !important;
-        height: auto !important;
-        zoom: 2.0 !important;
-    }
-    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stButton"] button:hover {
-        background: transparent !important;
-        box-shadow: none !important;
-    }
-    [data-testid="stHorizontalBlock"] [data-testid="stColumn"]:nth-of-type(2) [data-testid="stButton"] button:active {
-        background: transparent !important;
-        box-shadow: none !important;
-    }
-    /* Right-align ALL headers and numeric data in tables */
-    [data-testid="stDataFrame"] thead th { text-align: right !important; }
-    [data-testid="stDataFrame"] tbody td:not(:first-child) { text-align: right !important; }
-    /* Reduce State Overview table width */
-    [data-testid="stDialog"] [data-testid="stDataFrame"] { max-width: 90% !important; }
-    /* Equal-width metric cells in Status (dialog only) */
-    [data-testid="stDialog"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {
+        outline: none !important;
+        min-height: 44px !important;
+        min-width: 44px !important;
+        font-size: 2rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }}
+    /* Two-column grid */
+    .main-grid {{
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.75rem;
+    }}
+    @media (min-width: 1024px) {{
+        .main-grid {{
+            grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+        }}
+    }}
+    .main-grid > * {{
+        min-width: 0;
+        width: 100%;
+    }}
+    /* Metric cells — scoped to metrics row only */
+    [data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) > [data-testid="stColumn"] {{
         flex: 1 1 0% !important;
         min-width: 0 !important;
-        max-width: none !important;
-    }
-    /* Metric labels right-aligned in dialog */
-    [data-testid="stDialog"] [data-testid="stMetric"] [data-testid="stMetricLabel"] {
+    }}
+    [data-testid="stMetricLabel"] {{
+        justify-content: end !important;
+        justify-items: end !important;
+    }}
+    [data-testid="stMetricLabel"] > * {{
         text-align: right !important;
-    }
+    }}
+    [data-testid="stMetricValue"] {{
+        text-align: left !important;
+        justify-content: start !important;
+        justify-items: start !important;
+    }}
+    [data-testid="stMetricValue"] > * {{
+        text-align: left !important;
+    }}
+    @media (max-width: 600px) {{
+        [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {{
+            flex: 1 1 45% !important;
+        }}
+    }}
+    /* Tables */
+    [data-testid="stDataFrame"] thead th,
+    [data-testid="stDataFrame"] [role="columnheader"] {{
+        text-align: right !important;
+    }}
+    [data-testid="stDataFrame"] tbody td:not(:first-child),
+    [data-testid="stDataFrame"] [role="gridcell"]:not(:first-child) {{
+        text-align: right !important;
+    }}
+    /* Dialog-specific table overrides */
+    [data-testid="stDialog"] [data-testid="stDataFrame"] thead th,
+    [data-testid="stDialog"] [data-testid="stDataFrame"] [role="columnheader"] {{
+        text-align: right !important;
+    }}
+    [data-testid="stDialog"] [data-testid="stDataFrame"] tbody td,
+    [data-testid="stDialog"] [data-testid="stDataFrame"] [role="gridcell"] {{
+        text-align: right !important;
+    }}
+    /* Overflow protection — charts & bordered containers only */
+    [data-testid="stVerticalBlockBorderWrapper"] {{
+        min-width: 0;
+        width: 100%;
+    }}
+    /* WCAG touch targets — exclude pill buttons */
+    [data-testid="stButton"] button,
+    [data-testid="stDialog"] button {{
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }}
+    select,
+    [data-testid="stSelectbox"] select {{
+        min-height: 44px !important;
+    }}
+    /* WCAG focus-visible */
+    [data-testid="stButton"] button:focus-visible,
+    [data-testid="stSelectbox"] select:focus-visible,
+    [data-testid="stBaseButton-pills"]:focus-visible,
+    [data-testid="stBaseButton-pillsActive"]:focus-visible {{
+        outline: 2px solid #1f77d2 !important;
+        outline-offset: 2px !important;
+    }}
+    /* WCAG sr-only utility */
+    .sr-only {{
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }}
+    /* WCAG skip link */
+    .skip-link {{
+        position: absolute;
+        top: -9999px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1f77d2;
+        color: white;
+        padding: 1rem;
+        z-index: 9999;
+        text-decoration: none;
+    }}
+    .skip-link:focus {{
+        top: 0;
+    }}
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {{
+        * {{
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }}
+    }}
+    /* Dark mode */
+    {_dark_css}
+    /* Light mode — overrides Streamlit's OS-driven dark theme */
+    {_light_css}
 </style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<div aria-live="polite" aria-atomic="true" class="sr-only" id="data-status"></div>
+<div id="main-content" tabindex="-1" style="outline:none;"></div>
 """, unsafe_allow_html=True)
 
 if not os.path.exists(DB_PATH):
@@ -167,6 +389,10 @@ if not os.path.exists(DB_PATH):
 
 @st.dialog("⚙️ Settings & System Monitor", width="large")
 def settings_dialog():
+    # Dark mode toggle at the start
+    dark_mode = st.toggle("🌙 Dark mode", value=st.session_state.get("dark_mode", False), key="dark_toggle")
+    st.session_state["dark_mode"] = dark_mode
+    
     st.subheader("Refresh")
     col_refresh, _ = st.columns([1, 3])
     with col_refresh:
@@ -212,26 +438,22 @@ def settings_dialog():
                 })
         if so_rows:
             so_df = pd.DataFrame(so_rows)
-            st.dataframe(so_df, width="stretch", hide_index=True,
-                column_config={
-                    "State": st.column_config.TextColumn("State", width="small"),
-                    "🟢 Counted": st.column_config.NumberColumn("🟢 Counted", width="small"),
-                    "🟡 Counting": st.column_config.NumberColumn("🟡 Counting", width="small"),
-                    "⚪ Pending": st.column_config.NumberColumn("⚪ Pending", width="small"),
-                    "🔴 Errors": st.column_config.NumberColumn("🔴 Errors", width="small"),
-                    "Reporting": st.column_config.TextColumn("Reporting", width="small"),
-                })
-
-    st.divider()
-    st.subheader("Update Cycles")
-    cycles_df = get_scrape_cycles(DB_PATH)
-    if not cycles_df.empty:
-        dc = cycles_df.copy()
-        for col in ["started_at", "finished_at"]:
-            if col in dc.columns:
-                dc[col] = dc[col].apply(lambda x: fmt_ist(x, "%H:%M:%S IST") if pd.notna(x) else "")
-        show_cols = [c for c in ["started_at","finished_at","pages_attempted","pages_success","pages_skipped","pages_error","cycle_duration_sec"] if c in dc.columns]
-        st.dataframe(dc[show_cols], width="stretch", hide_index=True, height=300)
+            # Generate HTML table with right-aligned columns
+            html_table = '<table style="width:100%; border-collapse: collapse;">'
+            html_table += '<thead><tr>'
+            for col in so_df.columns:
+                html_table += f'<th style="text-align: right; padding: 8px; border-bottom: 1px solid #ddd;">{col}</th>'
+            html_table += '</tr></thead><tbody>'
+            for _, row in so_df.iterrows():
+                html_table += '<tr>'
+                for col in so_df.columns:
+                    val = row[col]
+                    if isinstance(val, (int, float)):
+                        val = f'{val:,}'
+                    html_table += f'<td style="text-align: right; padding: 8px; border-bottom: 1px solid #ddd;">{val}</td>'
+                html_table += '</tr>'
+            html_table += '</tbody></table>'
+            st.markdown(html_table, unsafe_allow_html=True)
 
     st.divider()
     ac_statuses = get_all_constituency_statuses(DB_PATH)
@@ -242,6 +464,32 @@ def settings_dialog():
             name = row.get("ac_name") or f"AC-{row['ac_no']}"
             url = get_url(row["state_code"], row["ac_no"])
             st.markdown(f"- **{name}** ({row['state_name']}) — [View]({url})")
+
+    st.divider()
+    st.subheader("Update Cycles")
+    cycles_df = get_scrape_cycles(DB_PATH)
+    if not cycles_df.empty:
+        dc = cycles_df.copy()
+        for col in ["started_at", "finished_at"]:
+            if col in dc.columns:
+                dc[col] = dc[col].apply(lambda x: fmt_ist(x, "%H:%M:%S IST") if pd.notna(x) else "")
+        show_cols = [c for c in ["started_at","finished_at","pages_attempted","pages_success","pages_skipped","pages_error","cycle_duration_sec"] if c in dc.columns]
+        # Generate HTML table with right-aligned columns
+        html_table = '<div style="max-height: 300px; overflow-y: auto;"><table style="width:100%; border-collapse: collapse;">'
+        html_table += '<thead><tr>'
+        for col in show_cols:
+            html_table += f'<th style="text-align: right; padding: 8px; border-bottom: 1px solid #ddd;">{col}</th>'
+        html_table += '</tr></thead><tbody>'
+        for _, row in dc[show_cols].iterrows():
+            html_table += '<tr>'
+            for col in show_cols:
+                val = row[col]
+                if isinstance(val, (int, float)):
+                    val = f'{val:,}'
+                html_table += f'<td style="text-align: right; padding: 8px; border-bottom: 1px solid #ddd;">{val}</td>'
+            html_table += '</tr>'
+        html_table += '</tbody></table></div>'
+        st.markdown(html_table, unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------------------------
@@ -281,11 +529,26 @@ default_state = st.session_state.get("selected_state", "Overall")
 if default_state not in state_options:
     default_state = "Overall"
 
+# Define _display_state before header
+_display_state = st.session_state.get("selected_state", "Overall")
+
+# Header bar HTML BEFORE pills row
+last_update = get_last_scrape_time(DB_PATH)
+last_ts = fmt_ist(last_update) if last_update else "No data yet"
+
+st.markdown(
+    f"""<div class="header-bar">
+    <h2 class="header-brand">🗳️ ECI Live Election Tracker — {_display_state}</h2>
+    <span class="ts">📅 {last_ts}</span>
+</div>""",
+    unsafe_allow_html=True,
+)
+
 # Pills + gear button on same row
-col_pills, col_gear = st.columns([8, 1])
+col_pills, col_gear = st.columns([12, 1])
 with col_pills:
     selected_state = st.pills("State", state_options, default=default_state, selection_mode="single", label_visibility="collapsed")
-    # Strip leading dot emoji for state lookup
+    # Strip leading dot emoji for state lookup (use lstrip, not strip)
     _clean_state = selected_state.lstrip("🟢🟡⚪🔴 ") if selected_state else selected_state
     if _clean_state and _clean_state != st.session_state.get("selected_state"):
         st.session_state["selected_state"] = _clean_state
@@ -295,33 +558,44 @@ with col_gear:
         settings_dialog()
 
 state_code_filter = None
-_display_state = st.session_state.get("selected_state", "Overall")
 if _display_state and _display_state != "Overall":
     state_code_filter = state_code_for(_display_state)
 
-# ---------------------------------------------------------------------------
-# Header bar
-# ---------------------------------------------------------------------------
+CHART_CFG = dict(displayModeBar=False, responsive=True)
 
-last_update = get_last_scrape_time(DB_PATH)
-last_ts = fmt_ist(last_update) if last_update else "No data yet"
-
-st.markdown(
-    f"""<div class="header-bar">
-    <h2>🗳️ ECI Live Election Tracker — {_display_state}</h2>
-    <span class="ts">📅 {last_ts}</span>
-</div>""",
-    unsafe_allow_html=True,
+# Set Plotly chart backgrounds to match theme
+_chart_bg = "#0e1117" if is_dark else "#ffffff"
+_chart_paper = "#0e1117" if is_dark else "#ffffff"
+_chart_font = "#fafafa" if is_dark else "#262730"
+CHART_LAYOUT = dict(
+    paper_bgcolor=_chart_paper,
+    plot_bgcolor=_chart_bg,
+    font=dict(color=_chart_font),
+    xaxis=dict(tickfont=dict(color=_chart_font), title_font=dict(color=_chart_font), gridcolor="#e0e0e0" if not is_dark else "#333"),
+    yaxis=dict(tickfont=dict(color=_chart_font), title_font=dict(color=_chart_font)),
 )
 
-CHART_CFG = dict(displayModeBar=False, responsive=True)
+def _apply_chart_theme(fig):
+    """Apply theme-aware layout to a Plotly figure, merging with existing layout."""
+    fig.update_layout(
+        paper_bgcolor=_chart_paper,
+        plot_bgcolor=_chart_bg,
+        font=dict(color=_chart_font),
+    )
+    for ax in ("xaxis", "yaxis"):
+        if ax in fig.layout and fig.layout[ax] is not None:
+            fig.layout[ax].tickfont = dict(color=_chart_font)
+            fig.layout[ax].title = dict(font=dict(color=_chart_font))
+    return fig
 
 # ===========================================================================
 # SECTION 1: SEAT TALLY
 # ===========================================================================
 
+st.markdown('<div class="main-grid">', unsafe_allow_html=True)
+
 with st.container(border=True):
-    st.markdown("**📊 Seat Tally**")
+    st.subheader("📊 Seat Tally")
 
     wl_tally = get_party_seat_tally_won_leading(DB_PATH, state_code_filter)
     if wl_tally.empty:
@@ -339,6 +613,7 @@ with st.container(border=True):
             text=wl.apply(lambda r: str(int(r["won"])) if r["won"] > 0 else "", axis=1),
             textposition="inside", textfont=dict(color="white", size=13),
             hovertext=wl.apply(lambda r: f"{r['party']}: {int(r['won'])} won", axis=1),
+            showlegend=False,
         ))
         fig.add_trace(go.Bar(
             y=wl["short"], x=wl["leading"], orientation="h", name="Leading",
@@ -347,6 +622,7 @@ with st.container(border=True):
             text=wl.apply(lambda r: str(int(r["leading"])) if r["leading"] > 0 else "", axis=1),
             textposition="outside", textfont=dict(size=12),
             hovertext=wl.apply(lambda r: f"{r['party']}: {int(r['leading'])} leading", axis=1),
+            showlegend=False,
         ))
         if state_code_filter and state_code_filter in MAJORITIES:
             maj = MAJORITIES[state_code_filter]
@@ -354,6 +630,7 @@ with st.container(border=True):
             fig.add_annotation(x=maj, y=len(wl) - 2, text=f"Majority ({maj})",
                                showarrow=False, font=dict(color="red", size=14),
                                xanchor="left", xshift=8, yanchor="middle")
+        _apply_chart_theme(fig)
         fig.update_layout(
             barmode="stack", height=max(300, len(wl) * 40),
             xaxis_title="Seats", yaxis_title="",
@@ -362,6 +639,7 @@ with st.container(border=True):
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         )
         st.plotly_chart(fig, width="stretch", config=CHART_CFG)
+        st.markdown('<p class="sr-only">Stacked horizontal bar chart showing won and leading seats by party</p>', unsafe_allow_html=True)
 
 
 # ===========================================================================
@@ -371,7 +649,7 @@ with st.container(border=True):
 with st.container(border=True):
     col_title, col_toggle = st.columns([5, 1])
     with col_title:
-        st.markdown("**📈 Party Fortunes by Counting Round**")
+        st.subheader("📈 Party Fortunes by Counting Round")
     with col_toggle:
         share_pct = st.toggle("Vote Share %", value=False, key="vote_share_toggle")
     metric = "vote_share_pct" if share_pct else "cumulative_votes"
@@ -445,6 +723,7 @@ with st.container(border=True):
                     hovertemplate=f"<b>{short(p)}</b><br>Round: %{{x}}<br>{'Vote Share' if metric == 'vote_share_pct' else 'Votes'}: %{{y:,.1f}}{'%' if metric == 'vote_share_pct' else ''}<extra></extra>",
                 ))
             yl = "Vote Share (%)" if metric == "vote_share_pct" else "Cumulative Votes"
+            _apply_chart_theme(fig)
             fig.update_layout(
                 xaxis_title="Counting Round", yaxis_title=yl, height=500,
                 hovermode="x unified",
@@ -454,6 +733,7 @@ with st.container(border=True):
                 margin=dict(l=0, r=0, t=40, b=0),
             )
             st.plotly_chart(fig, width="stretch", config=CHART_CFG)
+            st.markdown('<p class="sr-only">Line chart showing cumulative votes or vote share by counting round for each party</p>', unsafe_allow_html=True)
             st.caption("Lines converge to the final declared share. Flat = no new votes in that round.")
 
 
@@ -461,165 +741,168 @@ with st.container(border=True):
 # SECTION 3: CONSTITUENCY DRILL-DOWN
 # ===========================================================================
 
-with st.container(border=True):
-    st.markdown("**🔍 Constituency Drill-Down**")
+# Hide from Overall view
+if state_code_filter:
+    with st.container(border=True):
+        st.subheader("🔍 Constituency Drill-Down")
 
-    # When a specific state is selected, drill-down follows it.
-    # When "Overall" is selected, show a state dropdown so user can pick one.
-    if state_code_filter:
+        # Since state_code_filter is always truthy in this block, use directly
         drill_state_name = _display_state
         dsc = state_code_filter
-    else:
-        drill_state_opts = [s["name"] for s in STATES]
-        drill_state_name = st.selectbox("State", drill_state_opts, key="drill_state_select")
-        dsc = state_code_for(drill_state_name)
 
-    ac_statuses = get_all_constituency_statuses(DB_PATH)
-    acl = ac_statuses[ac_statuses["state_code"] == dsc]
-    ac_opts = []
-    margin_map = {}
-    for _, row in acl.iterrows():
-        name = row.get("ac_name") or f"AC-{row['ac_no']}"
-        ac_opts.append(f"{row['ac_no']}. {name}")
-        # Compute margin for default selection
-        rdf_tmp = get_constituency_rounds(DB_PATH, dsc, int(row["ac_no"]))
-        if not rdf_tmp.empty:
-            lt_tmp = rdf_tmp["scraped_at"].max()
-            latest_tmp = rdf_tmp[rdf_tmp["scraped_at"] == lt_tmp]
-            if len(latest_tmp) >= 2:
-                sv = latest_tmp.sort_values("votes", ascending=False)
-                margin_map[f"{row['ac_no']}. {name}"] = int(sv.iloc[0]["votes"]) - int(sv.iloc[1]["votes"])
+        ac_statuses = get_all_constituency_statuses(DB_PATH)
+        acl = ac_statuses[ac_statuses["state_code"] == dsc]
+        ac_opts = []
+        margin_map = {}
+        for _, row in acl.iterrows():
+            name = row.get("ac_name") or f"AC-{row['ac_no']}"
+            ac_opts.append(f"{row['ac_no']}. {name}")
+            # Compute margin for default selection
+            rdf_tmp = get_constituency_rounds(DB_PATH, dsc, int(row["ac_no"]))
+            if not rdf_tmp.empty:
+                lt_tmp = rdf_tmp["scraped_at"].max()
+                latest_tmp = rdf_tmp[rdf_tmp["scraped_at"] == lt_tmp]
+                if len(latest_tmp) >= 2:
+                    sv = latest_tmp.sort_values("votes", ascending=False)
+                    margin_map[f"{row['ac_no']}. {name}"] = int(sv.iloc[0]["votes"]) - int(sv.iloc[1]["votes"])
+                else:
+                    margin_map[f"{row['ac_no']}. {name}"] = 0
             else:
                 margin_map[f"{row['ac_no']}. {name}"] = 0
+
+        if not ac_opts:
+            st.info("No data.")
         else:
-            margin_map[f"{row['ac_no']}. {name}"] = 0
+            da = st.session_state.get("drill_ac", ac_opts[0])
+            if da not in ac_opts:
+                # Default to constituency with largest margin
+                da = max(margin_map, key=margin_map.get) if margin_map else ac_opts[0]
+            # Dynamic key so widget resets when state changes
+            st.markdown('<style>[data-testid="stVerticalBlock"] label:has(+ div [data-testid="stSelectbox"]) { text-align: left !important; }</style>', unsafe_allow_html=True)
+            sel_ac = st.selectbox("Constituency", ac_opts, index=ac_opts.index(da), key=f"drill_ac_{dsc}")
+            if sel_ac and sel_ac != st.session_state.get("drill_ac"):
+                st.session_state["drill_ac"] = sel_ac
+                st.rerun()
 
-    if not ac_opts:
-        st.info("No data.")
-    else:
-        da = st.session_state.get("drill_ac", ac_opts[0])
-        if da not in ac_opts:
-            # Default to constituency with largest margin
-            da = max(margin_map, key=margin_map.get) if margin_map else ac_opts[0]
-        # Dynamic key so widget resets when state changes
-        st.markdown('<style>[data-testid="stVerticalBlock"] label:has(+ div [data-testid="stSelectbox"]) { text-align: left !important; }</style>', unsafe_allow_html=True)
-        sel_ac = st.selectbox("Constituency", ac_opts, index=ac_opts.index(da), key=f"drill_ac_{dsc}")
-        if sel_ac and sel_ac != st.session_state.get("drill_ac"):
-            st.session_state["drill_ac"] = sel_ac
-            st.rerun()
+            ac_no = int(sel_ac.split(".")[0])
+            arow = acl[acl["ac_no"] == ac_no].iloc[0]
+            status = arow["status"]
+            cr = int(arow.get("current_round", 0) or 0)
+            tr = int(arow.get("total_rounds", 0) or 0)
 
-        ac_no = int(sel_ac.split(".")[0])
-        arow = acl[acl["ac_no"] == ac_no].iloc[0]
-        status = arow["status"]
-        cr = int(arow.get("current_round", 0) or 0)
-        tr = int(arow.get("total_rounds", 0) or 0)
+            # Status dot for chart title
+            _status_dot = {"DONE": "🟢", "LIVE": "🟡", "ERROR": "🔴"}.get(status, "⚪")
 
-        # Status dot for chart title
-        _status_dot = {"DONE": "🟢", "LIVE": "🟡", "ERROR": "🔴"}.get(status, "⚪")
+            rdf = get_constituency_rounds(DB_PATH, dsc, ac_no)
+            if not rdf.empty:
+                lt = rdf["scraped_at"].max()
+                latest = rdf[rdf["scraped_at"] == lt].copy().sort_values("votes", ascending=False)
 
-        rdf = get_constituency_rounds(DB_PATH, dsc, ac_no)
-        if not rdf.empty:
-            lt = rdf["scraped_at"].max()
-            latest = rdf[rdf["scraped_at"] == lt].copy().sort_values("votes", ascending=False)
+                latest["dn"] = latest["candidate"].apply(cdn)
+                latest["sp"] = latest["party"].apply(short)
+                latest["ht"] = latest.apply(lambda r: f"{r['candidate']} ({r['party']})", axis=1)
+                colors = ["#374151" if row["party"] == "NOTA" else get_pc(row["party"]) for _, row in latest.iterrows()]
 
-            latest["dn"] = latest["candidate"].apply(cdn)
-            latest["sp"] = latest["party"].apply(short)
-            latest["ht"] = latest.apply(lambda r: f"{r['candidate']} ({r['party']})", axis=1)
-            colors = ["#374151" if row["party"] == "NOTA" else get_pc(row["party"]) for _, row in latest.iterrows()]
+                # Determine winner, runner-up, and deposit-lost
+                total_valid = int(latest["votes"].sum())
+                deposit_threshold = total_valid / 6
 
-            # Determine winner, runner-up, and deposit-lost
-            total_valid = int(latest["votes"].sum())
-            deposit_threshold = total_valid / 6
+                def _badge(row, idx):
+                    if idx == 0:
+                        return "🏆 " + row["dn"]
+                    elif idx == 1:
+                        return "🥈 " + row["dn"]
+                    elif row["votes"] < deposit_threshold and row["party"] != "NOTA":
+                        return "🦆 " + row["dn"]
+                    return row["dn"]
 
-            def _badge(row, idx):
-                if idx == 0:
-                    return "🏆 " + row["dn"]
-                elif idx == 1:
-                    return "🥈 " + row["dn"]
-                elif row["votes"] < deposit_threshold and row["party"] != "NOTA":
-                    return "🦆 " + row["dn"]
-                return row["dn"]
+                latest["label"] = [_badge(r, i) for i, (_, r) in enumerate(latest.iterrows())]
+                # Keep sorted ascending for horizontal bar (highest at top when reversed)
+                chart_data = latest.sort_values("votes", ascending=True)
 
-            latest["label"] = [_badge(r, i) for i, (_, r) in enumerate(latest.iterrows())]
-            # Keep sorted ascending for horizontal bar (highest at top when reversed)
-            chart_data = latest.sort_values("votes", ascending=True)
+                fig = go.Figure()
+                fig.add_trace(go.Bar(y=chart_data["label"], x=chart_data["votes"], orientation="h",
+                    marker_color=[colors[latest.index.get_loc(idx)] for idx in chart_data.index],
+                    text=chart_data.apply(lambda r: f"{r['sp']} ({r['votes']:,})", axis=1),
+                    textposition="auto", hovertext=chart_data["ht"]))
 
-            fig = go.Figure()
-            fig.add_trace(go.Bar(y=chart_data["label"], x=chart_data["votes"], orientation="h",
-                marker_color=[colors[latest.index.get_loc(idx)] for idx in chart_data.index],
-                text=chart_data.apply(lambda r: f"{r['sp']} ({r['votes']:,})", axis=1),
-                textposition="auto", hovertext=chart_data["ht"]))
+                # Margin bar: anchored at runner-up bar end
+                if len(latest) >= 2:
+                    w_votes = int(latest.iloc[0]["votes"])
+                    r_votes = int(latest.iloc[1]["votes"])
+                    margin = w_votes - r_votes
+                    if margin > 0:
+                        r_label = chart_data.loc[chart_data["votes"] == r_votes, "label"].iloc[0]
+                        fig.add_trace(go.Bar(
+                            y=[r_label], x=[margin], base=[r_votes],
+                            orientation="h",
+                            marker=dict(color="#D1D5DB", pattern=dict(shape="/", fillmode="replace", solidity=0.4)),
+                            text=[f"+{margin:,}"], textposition="inside", insidetextanchor="middle",
+                            textfont=dict(color="#374151", size=10),
+                            showlegend=False, hoverinfo="skip"))
+                        _apply_chart_theme(fig)
+                        fig.update_layout(barmode="overlay")
 
-            # Margin line: anchored at runner-up bar end, sitting just beside it
-            if len(latest) >= 2:
-                w_votes = int(latest.iloc[0]["votes"])
-                r_votes = int(latest.iloc[1]["votes"])
-                margin = w_votes - r_votes
-                if margin > 0:
-                    # Position just below runner-up bar (y=1) so it reads as beside the bar
-                    fig.add_trace(go.Scatter(
-                        x=[r_votes, w_votes], y=[0.85, 0.85],
-                        mode="lines+markers+text",
-                        line=dict(color="#9CA3AF", width=1.5),
-                        marker=dict(size=6, color="#9CA3AF", symbol="diamond-open"),
-                        text=["", f"+{margin:,}"], textposition="middle right",
-                        textfont=dict(color="#6B7280", size=10),
-                        showlegend=False, hoverinfo="skip"))
-                    # Thin connector from runner-up bar bottom to margin line
-                    fig.add_shape(type="line",
-                        x0=r_votes, x1=r_votes, y0=0.85, y1=0.95,
-                        line=dict(color="#D1D5DB", width=1), layer="above")
+                rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
+                _legend_text = "  🏆 Winner  ·  🥈 Runner-up  ·  🦆 Lost deposit"
+                _apply_chart_theme(fig)
+                fig.update_layout(
+                    title=dict(text=f"{_status_dot} Round {rnd} Snapshot{_legend_text}",
+                               font=dict(size=16)),
+                    height=max(300, len(latest)*35),
+                    xaxis_title="Votes", yaxis_title="",
+                    margin=dict(l=0,r=0,t=50,b=0))
+                st.plotly_chart(fig, width="stretch", config=CHART_CFG)
+                st.markdown('<p class="sr-only">Horizontal bar chart showing candidate vote counts with winner and runner-up highlighted</p>', unsafe_allow_html=True)
 
-            rnd = latest["round_no"].iloc[0] if "round_no" in latest.columns else cr
-            _legend_text = "  🏆 Winner  ·  🥈 Runner-up  ·  🦆 Lost deposit"
-            fig.update_layout(
-                title=dict(text=f"{_status_dot} Round {rnd} Snapshot{_legend_text}",
-                           font=dict(size=16)),
-                height=max(300, len(latest)*35),
-                xaxis_title="Votes", yaxis_title="",
-                margin=dict(l=0,r=0,t=50,b=0))
-            st.plotly_chart(fig, width="stretch", config=CHART_CFG)
+                if len(rdf["scraped_at"].unique()) > 1:
+                    # Get top candidates and NOTA
+                    tc = rdf[rdf["scraped_at"] == lt].nlargest(4, "votes")["candidate"].tolist()
+                    nc = rdf[rdf["party"] == "NOTA"]["candidate"].unique().tolist()
+                    sc = set(tc + nc)
 
-            if len(rdf["scraped_at"].unique()) > 1:
-                # Get top candidates and NOTA
-                tc = rdf[rdf["scraped_at"] == lt].nlargest(4, "votes")["candidate"].tolist()
-                nc = rdf[rdf["party"] == "NOTA"]["candidate"].unique().tolist()
-                sc = set(tc + nc)
+                    # For each candidate, get the latest vote count per round_no
+                    rdf_sorted = rdf.sort_values("scraped_at")
+                    latest_per_round = rdf_sorted.groupby(["candidate", "round_no"]).tail(1)
 
-                # For each candidate, get the latest vote count per round_no
-                rdf_sorted = rdf.sort_values("scraped_at")
-                latest_per_round = rdf_sorted.groupby(["candidate", "round_no"]).tail(1)
+                    fl = go.Figure()
+                    for c in sc:
+                        cf = latest_per_round[latest_per_round["candidate"] == c].sort_values("round_no")
+                        if cf.empty:
+                            continue
+                        party = cf["party"].iloc[0]
+                        color = "#374151" if party == "NOTA" else get_pc(party)
+                        label = f"{cdn(c)} ({short(party)})"
+                        # Show name only on the last point
+                        text_vals = [""] * (len(cf) - 1) + [label]
+                        fl.add_trace(go.Scatter(
+                            x=cf["round_no"].apply(lambda r: f"R{r}"),
+                            y=cf["votes"], mode="lines+markers+text",
+                            text=text_vals, textposition="middle right",
+                            textfont=dict(size=11, color=color),
+                            name=label, showlegend=False,
+                            line=dict(color=color, width=2),
+                        ))
+                    max_r = int(latest_per_round["round_no"].max()) if not latest_per_round.empty else 1
+                    rl = [f"R{i}" for i in range(1, max_r + 1)]
+                    _apply_chart_theme(fl)
+                    fl.update_layout(
+                        xaxis_title="Counting Round", yaxis_title="Cumulative Votes",
+                        height=400, hovermode="x unified", showlegend=False,
+                        xaxis=dict(categoryorder="array", categoryarray=rl),
+                        margin=dict(l=0, r=80, t=10, b=0),
+                    )
+                    st.plotly_chart(fl, width="stretch", config=CHART_CFG)
+                    st.markdown('<p class="sr-only">Line chart showing vote progression by counting round for top candidates and NOTA</p>', unsafe_allow_html=True)
 
-                fl = go.Figure()
-                for c in sc:
-                    cf = latest_per_round[latest_per_round["candidate"] == c].sort_values("round_no")
-                    if cf.empty:
-                        continue
-                    party = cf["party"].iloc[0]
-                    color = "#374151" if party == "NOTA" else get_pc(party)
-                    label = f"{cdn(c)} ({short(party)})"
-                    # Show name only on the last point
-                    text_vals = [""] * (len(cf) - 1) + [label]
-                    fl.add_trace(go.Scatter(
-                        x=cf["round_no"].apply(lambda r: f"R{r}"),
-                        y=cf["votes"], mode="lines+markers+text",
-                        text=text_vals, textposition="middle right",
-                        textfont=dict(size=11, color=color),
-                        name=label, showlegend=False,
-                        line=dict(color=color, width=2),
-                    ))
-                max_r = int(latest_per_round["round_no"].max()) if not latest_per_round.empty else 1
-                rl = [f"R{i}" for i in range(1, max_r + 1)]
-                fl.update_layout(
-                    xaxis_title="Counting Round", yaxis_title="Cumulative Votes",
-                    height=400, hovermode="x unified", showlegend=False,
-                    xaxis=dict(categoryorder="array", categoryarray=rl),
-                    margin=dict(l=0, r=80, t=10, b=0),
-                )
-                st.plotly_chart(fl, width="stretch", config=CHART_CFG)
-
+st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
-# Auto-refresh
+# Auto-refresh + WCAG Announcement
 # ---------------------------------------------------------------------------
+
 st.markdown("<meta http-equiv='refresh' content='120'>", unsafe_allow_html=True)
+
+_ss = get_status_summary(DB_PATH)
+_status_msg = f"Election tracker loaded. {_ss.get('DONE', 0)} constituencies counted, {_ss.get('LIVE', 0)} counting, {_ss.get('PENDING', 0)} pending, {_ss.get('ERROR', 0)} errors"
+st.markdown(f"<script>var el=document.getElementById('data-status');if(el)el.textContent='{_status_msg}';</script>", unsafe_allow_html=True)
