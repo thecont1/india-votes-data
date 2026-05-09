@@ -319,11 +319,10 @@ def main():
                 key=lambda x: int(x["voting_data"]["constituency_no"])
             )
             
-            # Sort each constituency's voting_tally by evm_votes (descending)
+            # Sort each constituency's voting_tally by serial_no (ascending)
             for constituency in results["constituencywise_results"]:
                 constituency["voting_data"]["voting_tally"].sort(
-                    key=lambda x: int(x["evm_votes"]) if x["evm_votes"].isdigit() else 0,
-                    reverse=True
+                    key=lambda x: int(x["serial_no"]) if x["serial_no"].isdigit() else 0
                 )
             
             # Write results to JSON file
