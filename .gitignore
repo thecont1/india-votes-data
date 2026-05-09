@@ -1,7 +1,9 @@
 eci-karnataka.html
-/archive
-.DS_Store
+
 WARP.md
+.poolside
+
+.DS_Store
 
 # Python
 __pycache__/
