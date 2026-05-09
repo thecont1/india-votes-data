@@ -111,7 +111,13 @@ git clone https://github.com/thecont1/india-votes-data.git
 cd india-votes-data
 ```
 
-2. Create and activate a virtual environment (recommended):
+2. Install dependencies with uv (recommended):
+
+```bash
+uv sync
+```
+
+Alternatively, create and activate a virtual environment:
 
 ```bash
 python -m venv venv
@@ -123,7 +129,7 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-3. Install required packages:
+3. Install required packages (if not using uv):
 
 ```bash
 pip install -r requirements.txt
@@ -139,13 +145,13 @@ Configure and run the program via command line:
 
 ```bash
 # Required: Provide the party-wise results URL
-python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
+uv run eci-ResultsDay.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
 
-# Optional: Specify number of constituencies (default: 3)
-python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" 50
+# Optional: Specify number of constituencies to process (default: 3)
+uv run eci-ResultsDay.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --limit 50
 
 # Optional: Use --respect mode for single-threaded respectful scraping
-python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --respect
+uv run eci-ResultsDay.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --respect
 ```
 
 The program intelligently detects when it has processed all available constituencies and stops automatically.
@@ -154,29 +160,30 @@ The program intelligently detects when it has processed all available constituen
 
 The script will generate two types of files in the `results` directory:
 
-- CSV file: `YYYYAssembly-XX.csv` (e.g., `2024Assembly-HR.csv`)
-
-- JSON file: `YYYYAssembly-XX.json` (e.g., `2024Assembly-HR.json`)
+- CSV file: `YYYY<Type>-<state>.csv` (e.g., `2026Assembly-AS.csv`)
+- JSON file: `YYYY<Type>-<state>.json` (e.g., `2026Assembly-AS.json`)
 
 where:
 
 - `YYYY`: Election year
-
-- `XX`: Two-letter state code
+- `<Type>`: Assembly or Parliamentary  
+- `<state>`: State code (e.g., AS, KL, TN)
 
 ## Data Files
 
 The repository includes processed data files for various states:
 
 - Haryana: `2024Assembly-HR.csv`, `2024Assembly-HR.json`
-
 - Jharkhand: `2024Assembly-JH.csv`, `2024Assembly-JH.json`
-
 - Jammu & Kashmir: `2024Assembly-JK.csv`, `2024Assembly-JK.json`
-
 - Maharashtra: `2024Assembly-MH.csv`, `2024Assembly-MH.json`
-
+- Bihar: `2025Assembly-BR.csv`, `2025Assembly-BR.json`
 - NCT of Delhi: `2025Assembly-DL.csv`, `2025Assembly-DL.json`
+- Assam: `2026Assembly-AS.csv`, `2026Assembly-AS.json`
+- Kerala: `2026Assembly-KL.csv`, `2026Assembly-KL.json`
+- Puducherry: `2026Assembly-PY.csv`, `2026Assembly-PY.json`
+- Tamil Nadu: `2026Assembly-TN.csv`, `2026Assembly-TN.json`
+- West Bengal: `2026Assembly-WB.csv`, `2026Assembly-WB.json`
 
 ## Implementation Details
 
@@ -190,6 +197,7 @@ The scraper uses Selenium WebDriver with the following optimizations and feature
 - Robust error handling and timeouts
 - Automatic detection of end-of-results (404 page)
 - Results sorted by constituency_no (ascending) and serial_no (ascending)
+- Output files include timestamp suffix for multiple runs
 
 ## License
 
