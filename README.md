@@ -18,7 +18,16 @@ This project provides an automated tool to collect, clean, and store Indian parl
 
 - Robust error handling with automatic termination
 
-- Headless browser operation for maximum efficiency. Grab your ☕ before you run the script!
+- Headless browser operation for maximum efficiency. ~~Run the script and go grab a ☕~~
+
+- Superfast multi-threaded scraping (up to 5 workers) - no time for coffee!
+
+<!--
+Throughput comparison:
+- Before multi-threading: ~2.4 constituencies/second (140 in 59s)
+- After multi-threading: ~6.5 constituencies/second (824 in 126s)
+- That's ~2.7x faster throughput!
+-->
 
 ## Data Format
 
@@ -126,20 +135,17 @@ pip install -r requirements.txt
 
 ### Basic Usage
 
-Configure and run the program:
+Configure and run the program via command line:
 
-1. Set the base URL for your target state:
+```bash
+# Required: Provide the party-wise results URL
+python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
 
-```python
-# Example: Delhi Assembly Election results
-base_url = "https://results.eci.gov.in/ResultAcGenFeb2025/ConstituencywiseU05"
-```
+# Optional: Specify number of constituencies (default: 3)
+python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" 50
 
-2. Optionally, adjust the constituency limit:
-
-```python
-# Set a high number - program will auto-stop when done
-seq_limit = 1000  # Will stop automatically when no more constituencies are found
+# Optional: Use --respect mode for single-threaded respectful scraping
+python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --respect
 ```
 
 The program intelligently detects when it has processed all available constituencies and stops automatically.
@@ -157,24 +163,6 @@ where:
 - `YYYY`: Election year
 
 - `XX`: Two-letter state code
-
-### Superfast Pull & Push
-
-To automatically download election results and quickly commit to GitHub, use the provided shell script:
-
-```bash
-./results_updater.sh
-```
-
-This script will:
-
-- Run the scraper for Delhi
-
-- Add new results to git
-
-- Commit with timestamp
-
-- Push to GitHub
 
 ## Data Files
 
@@ -194,21 +182,14 @@ The repository includes processed data files for various states:
 
 The scraper uses Selenium WebDriver with the following optimizations and features:
 
+- Multi-threaded scraping (default: up to 5 concurrent workers)
+- Single-threaded `--respect` mode for server-friendly operation (1s pause every 10 URLs)
 - Headless mode for better performance
-
 - Disabled image loading
-
 - Custom user agent
-
 - Robust error handling and timeouts
-
-- Automatic retry mechanisms
-
-- Pandas-based data processing
-
-- State code validation against master data
-
-- Standardized file naming convention
+- Automatic detection of end-of-results (404 page)
+- Results sorted by constituency_no (ascending) and serial_no (ascending)
 
 ## License
 
