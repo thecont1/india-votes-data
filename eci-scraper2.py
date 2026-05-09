@@ -87,11 +87,14 @@ def extract_results(driver) -> dict:
         constituency_no = parts[0].strip()
         
         # Extract constituency name and state using regex
+        # Format: "constituency_no - constituency_name (suffix) (state)" or "constituency_no - constituency_name (state)"
         state_name = ''
-        match = re.match(r'(.+?) \((.+?)\)', parts[1])
-        if match:
-            constituency_name = match.group(1)
-            state_name = match.group(2)
+        # Extract state from the LAST set of parentheses (greedy match to end)
+        state_match = re.search(r'\(([^)]+)\)\s*$', parts[1])
+        if state_match:
+            state_name = state_match.group(1)
+            # Everything before the last "(state)" is the constituency name
+            constituency_name = parts[1][:state_match.start()].strip()
         else:
             constituency_name = parts[1]
 
