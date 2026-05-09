@@ -2,6 +2,9 @@ import argparse
 import csv
 import json
 import re
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -47,7 +50,7 @@ def build_constituency_url(election_identifier: str, state_code: str, constituen
 def show_usage():
     """Display friendly usage guide."""
     print("""
-Usage: python eci-scraper2.py --url <partywise_results_url> [limit]
+Usage: python eci-scraper2.py --url <partywise_results_url> [limit] [--respect]
 
 Description:
     Scrapes ECI election results from constituency-wise pages.
@@ -61,11 +64,15 @@ Required Arguments:
 Optional Arguments:
     limit       Number of constituencies to scrape (default: 3)
                 Set to a high number to scrape all constituencies until end of results
+    --respect   Enable respectful scraping mode with 1-second pause every 10 URLs
+                Without this flag, uses multi-threaded scraping (up to 5 workers)
 
 Examples:
     python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
     python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" 50
+    python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --respect
 """)
+
 
 def get_state_code(state_name):
     import pandas as pd
@@ -74,6 +81,7 @@ def get_state_code(state_name):
     states['state_name'].str.lower()
     state_code = states[states['state_name'] == state_name]['state_code'].iloc[0]
     return state_code
+
 
 def extract_results(driver) -> dict:
     results = {}
@@ -113,9 +121,74 @@ def extract_results(driver) -> dict:
     
     return results
 
-def main():
-    seq_no = 1
 
+def scrape_constituency_range(election_identifier: str, state_code: str, start_no: int, end_no: int, 
+                                 results_list: list, url_counter: dict, lock: Lock, respect_mode: bool = False):
+    """
+    Scrape a range of constituency pages. Each worker handles a range and exits after 10 URLs or range end.
+    
+    Args:
+        election_identifier: Election identifier from URL
+        state_code: State code from URL
+        start_no: Starting constituency number
+        end_no: Ending constituency number
+        results_list: Shared list to append results (thread-safe)
+        url_counter: Shared counter for respectful mode pause tracking
+        lock: Thread lock for shared resources
+        respect_mode: If True, add 1-second pause every 10 URLs
+    """
+    # Chrome browser setup with performance and headless mode enabled
+    options = Options()
+    options.add_argument("--blink-settings=imagesEnabled=false")
+    options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.77 Safari/537.36")
+
+    driver = webdriver.Chrome(options=options)
+    
+    try:
+        for seq_no in range(start_no, end_no + 1):
+            url = build_constituency_url(election_identifier, state_code, seq_no)
+            with lock:
+                print(f"[Worker {start_no}-{end_no}] Loading {url}...", end='')
+            
+            driver.get(url)
+            if "404" in driver.title:
+                with lock:
+                    print(" Stop.")
+                break
+
+            result = extract_results(driver)
+            if result:
+                with lock:
+                    results_list.append({"source_url": url, "voting_data": result})
+                    constituency_label = result.get("constituency")
+                    suffix = f" {seq_no:03d}-{constituency_label}." if constituency_label else ""
+                    print(f"{suffix} Done.")
+
+            # Respect mode: pause every 10 URLs
+            if respect_mode:
+                with lock:
+                    url_counter['count'] += 1
+                    if url_counter['count'] % 10 == 0:
+                        print("[Respect mode] Taking 1-second pause...")
+                        time.sleep(1)
+                        
+            # Workers die after 10 URLs in non-respect mode
+            if not respect_mode and (seq_no - start_no + 1) >= 10:
+                with lock:
+                    print(f"[Worker {start_no}-{end_no}] Completed 10 URLs, exiting.")
+                break
+                
+    except (NoSuchElementException, TimeoutException, AssertionError) as e:
+        with lock:
+            print(f"Scraping stopped due to error: {e}")
+    finally:
+        driver.quit()
+
+
+def main():
     parser = argparse.ArgumentParser(description="Scrape selected constituencies from ECI results")
     parser.add_argument(
         "--url",
@@ -129,6 +202,11 @@ def main():
         default=3,
         help="Number of constituencies to scrape (default: 3)",
     )
+    parser.add_argument(
+        "--respect",
+        action="store_true",
+        help="Enable respectful scraping mode with 1-second pause every 10 URLs",
+    )
     
     args = parser.parse_args()
     
@@ -141,8 +219,9 @@ def main():
         return
     
     seq_limit = max(1, args.limit)
+    respect_mode = args.respect
 
-    # Chrome browser setup with performance and headless mode enabled
+    # Chrome browser setup for initial page load
     options = Options()
     options.add_argument("--blink-settings=imagesEnabled=false")
     options.add_argument("--headless=new")
@@ -155,16 +234,18 @@ def main():
     results = {}
     json_file = ""
     csv_file = ""
+    url_counter = {'count': 0}
+    thread_lock = Lock()
 
     try:
         # Get initial state/UT information to create output filenames
-        url = build_constituency_url(election_identifier, state_code, seq_no)
+        url = build_constituency_url(election_identifier, state_code, 1)
         driver.get(url)
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
 
         # Initialize results dictionary with page title and other details
         h1 = driver.find_element(By.TAG_NAME, 'h1').text
-        h2 = driver.find_element(By.TAG_NAME, 'h2').text.replace('<span>', '').replace('</span>', '').replace('<strong>', '').replace('</strong>', '').replace('  ', ' ')
+        h2 = driver.find_element(By.TAG_NAME, 'h2').text.replace('<span>', '').replace('</span>', '').replace('<strong>', '').replace('</strong>', '').replace('  ',' ')
         state_name = h2.split('(')[-1].replace(')', '')
         results = {
             "title": h1,
@@ -174,44 +255,83 @@ def main():
             "constituencywise_results": []
         }
 
-        print(f"{results['election_year']} {results['election_type']} Elections, {state_name}\n")
+        print(f"{results['election_year']} {results['election_type']} Elections, {state_name}")
+        print(f"Mode: {'Respectful (1s pause every 10 URLs)' if respect_mode else 'Multi-threaded (up to 5 workers)'}")
 
         # Create dynamic filenames
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         json_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.json"
         csv_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.csv"
 
-        # Start scraping each constituency page and stop early when no more data exists
-        end_of_results = False
         start_time = perf_counter()
-        while seq_no <= seq_limit:
-            url = build_constituency_url(election_identifier, state_code, seq_no)
-            print(f"Loading {url}...", end='')
 
-            driver.get(url)
-            if "404" in driver.title:
-                print(" Stop.")
-                end_of_results = True
-                break
+        if respect_mode:
+            # Single-threaded respectful scraping
+            end_of_results = False
+            seq_no = 1
+            while seq_no <= seq_limit:
+                url = build_constituency_url(election_identifier, state_code, seq_no)
+                print(f"Loading {url}...", end='')
 
-            result = extract_results(driver)
-            if result:
-                results["constituencywise_results"].append({"source_url": url, "voting_data": result})
-                constituency_label = result.get("constituency")
-                suffix = f" {seq_no:03d}-{constituency_label}." if constituency_label else ""
-                print(f"{suffix} Done.")
+                driver.get(url)
+                if "404" in driver.title:
+                    print(" Stop.")
+                    end_of_results = True
+                    break
 
-            seq_no += 1
+                result = extract_results(driver)
+                if result:
+                    results["constituencywise_results"].append({"source_url": url, "voting_data": result})
+                    constituency_label = result.get("constituency")
+                    suffix = f" {seq_no:03d}-{constituency_label}." if constituency_label else ""
+                    print(f"{suffix} Done.")
 
-        total_time = perf_counter() - start_time
-        if end_of_results:
-            print(
-                f"\nReached end of results. Downloaded data for {len(results['constituencywise_results'])} constituencies in {total_time:.3f} seconds."
-            )
+                # Respect mode: pause every 10 URLs
+                if seq_no % 10 == 0:
+                    print("[Respect mode] Taking 1-second pause...")
+                    time.sleep(1)
+
+                seq_no += 1
+
+            total_time = perf_counter() - start_time
+            if end_of_results:
+                print(
+                    f"\nReached end of results. Downloaded data for {len(results['constituencywise_results'])} constituencies in {total_time:.3f} seconds."
+                )
+            else:
+                print(
+                    f"\nJob successful. Downloaded data for {len(results['constituencywise_results'])} constituencies in {total_time:.3f} seconds."
+                )
         else:
+            # Multi-threaded scraping with up to 5 workers
+            # Each worker handles a range of 10 URLs and then exits
+            num_workers = min(5, (seq_limit + 9) // 10)  # At most 5 workers
+            range_size = 10  # Each worker handles up to 10 URLs
+            
+            with ThreadPoolExecutor(max_workers=num_workers) as executor:
+                futures = []
+                for worker_idx in range(num_workers):
+                    start_no = worker_idx * range_size + 1
+                    end_no = min(start_no + range_size - 1, seq_limit)
+                    if start_no <= seq_limit:
+                        futures.append(executor.submit(
+                            scrape_constituency_range,
+                            election_identifier, state_code, start_no, end_no,
+                            results["constituencywise_results"], url_counter, thread_lock, False
+                        ))
+                
+                # Wait for all futures to complete
+                for future in as_completed(futures):
+                    try:
+                        future.result()
+                    except Exception as e:
+                        print(f"Worker error: {e}")
+
+            total_time = perf_counter() - start_time
             print(
                 f"\nJob successful. Downloaded data for {len(results['constituencywise_results'])} constituencies in {total_time:.3f} seconds."
             )
+            
     except (NoSuchElementException, TimeoutException, AssertionError) as e:
         print(f"Scraping stopped due to error: {e}")
 
