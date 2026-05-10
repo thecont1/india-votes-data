@@ -47,13 +47,23 @@ def build_constituency_url(election_identifier: str, state_code: str, constituen
     return f"https://results.eci.gov.in/{election_identifier}/Constituencywise{state_code}{constituency_code}.htm"
 
 
+def build_roundwise_url(election_identifier: str, state_code: str, constituency_code: int) -> str:
+    """
+    Build the round-wise results URL.
+    
+    Format: https://results.eci.gov.in/<election_identifier>/Roundwise<state_code><constituency_code>.htm
+    Example: https://results.eci.gov.in/ResultAcGenMay2026/RoundwiseU071.htm
+    """
+    return f"https://results.eci.gov.in/{election_identifier}/Roundwise{state_code}{constituency_code}.htm"
+
+
 def show_usage():
     """Display friendly usage guide."""
     print("""
-Usage: python eci-scraper2.py --url <partywise_results_url> [limit] [--respect]
+Usage: python eci-scraper2.py --url <partywise_results_url> [limit] [--respect] [--by-round ROUND_NUM]
 
 Description:
-    Scrapes ECI election results from constituency-wise pages.
+    Scrapes ECI election results from constituency-wise pages or round-wise pages.
 
 Required Arguments:
     --url       Party-wise results page URL (mandatory)
@@ -66,11 +76,20 @@ Optional Arguments:
                 Set to a high number to scrape all constituencies until end of results
     --respect   Enable respectful scraping mode with 1-second pause every 10 URLs
                 Without this flag, uses multi-threaded scraping (up to 5 workers)
+    --by-round  Round number to scrape from round-wise pages (integer >= 1)
+                When specified, scrapes only the specified round's Total results
+                by candidate (evm_votes = total votes from that round)
+                Example: --by-round 2
+
+Output Files:
+    Standard mode: YYYYAssembly-XX_YYYYMMDD_HHMMSS.csv
+    Round mode:    YYYYAssembly-XX_YYYYMMDD_HHMMSS-RN.csv
 
 Examples:
     python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
     python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" 50
     python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --respect
+    python eci-scraper2.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-U07.htm" --by-round 1
 """)
 
 
@@ -122,6 +141,187 @@ def extract_results(driver) -> dict:
     return results
 
 
+def extract_roundwise_results(driver, round_num: int) -> dict:
+    """
+    Extract round-wise results from a round-wise page.
+    
+    Validates that Previous Rounds + Current Round = Total.
+    Issues warnings if validation fails.
+    
+    Args:
+        driver: Selenium WebDriver instance
+        round_num: The round number to extract
+        
+    Returns:
+        dict with candidate data including round-specific vote counts
+    """
+    # Initialize results with defaults
+    results = {"constituency_no": "", "constituency": "Unknown", "round_tally": []}
+    try:
+        # Wait for necessary elements to load
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'h2')))
+        full_text = driver.find_element(By.TAG_NAME, 'h2').find_element(By.TAG_NAME, 'span').text
+        
+        # Parse constituency info
+        parts = full_text.split(' - ')
+        constituency_no = parts[0].strip()
+        
+        state_match = re.search(r'\(([^)]+)\)\s*$', parts[1])
+        if state_match:
+            state_name = state_match.group(1)
+            constituency_name = parts[1][:state_match.start()].strip()
+        else:
+            state_name = ''
+            constituency_name = parts[1]
+
+        results["constituency_no"] = constituency_no
+        results["constituency"] = constituency_name
+        results["round_num"] = round_num
+        results["round_tally"] = []  # Initialize as empty - will be populated if round exists
+
+        # Click the round button to make the table visible
+        # Round buttons are typically labeled "R1", "R2", "R3", etc.
+        try:
+            round_button = driver.find_element(By.XPATH, f"//button[contains(text(), 'R{round_num}') or contains(text(), 'Round {round_num}')]")
+            driver.execute_script("arguments[0].click();", round_button)
+            time.sleep(0.5)  # Brief wait for table to render
+        except NoSuchElementException:
+            # Button not found, try direct div access
+            pass
+        
+        # Find the round table by looking for div with id='tabN' where N corresponds to round_num
+        target_div = None
+        try:
+            # Try to find div with id 'tab{round_num}'
+            target_div = driver.find_element(By.ID, f"tab{round_num}")
+        except NoSuchElementException:
+            # Fallback: search for th containing "Round {round_num}"
+            th_elements = driver.find_elements(By.XPATH, f"//th[contains(text(), 'Round {round_num}') or contains(text(), 'Round{round_num}')]")
+            for th in th_elements:
+                # Find the parent table of this th
+                try:
+                    target_div = th.find_element(By.XPATH, "./ancestor::div[contains(@class, 'tabcontent')]")
+                    break
+                except NoSuchElementException:
+                    continue
+        
+        if target_div is not None:
+            tbody = target_div.find_element(By.TAG_NAME, 'tbody')
+            rows = tbody.find_elements(By.TAG_NAME, 'tr')
+            
+            for row in rows:
+                cells = row.find_elements(By.TAG_NAME, 'td')
+                # Skip rows without enough data (footer rows use <th> not <td>)
+                if len(cells) < 4:
+                    continue
+                
+                candidate_name = cells[0].text.strip()
+                # Skip total/empty rows (they use <th> not <td>)
+                if not candidate_name or candidate_name.lower() == "total":
+                    continue
+                
+                candidate_data = {
+                    "serial_no": str(len(results["round_tally"]) + 1),  # Generate serial number
+                    "candidate": candidate_name,
+                    "party": cells[1].text.strip(),
+                    "votes_brought_forward": cells[2].text.strip(),
+                    "current_round": cells[3].text.strip(),
+                    "total": cells[4].text.strip() if len(cells) > 4 else cells[3].text.strip()
+                }
+                
+                # Validate: Previous + Current = Total
+                try:
+                    prev_votes = int(candidate_data["votes_brought_forward"])
+                    curr_votes = int(candidate_data["current_round"])
+                    total_votes = int(candidate_data["total"])
+                    
+                    if prev_votes + curr_votes != total_votes:
+                        print(f"WARNING: Vote mismatch for {candidate_data['candidate']}: "
+                              f"{prev_votes} + {curr_votes} ≠ {total_votes}")
+                except ValueError:
+                    pass  # Skip validation if non-numeric values
+                
+                results["round_tally"].append(candidate_data)
+        else:
+            # Round not found - silently handle
+            pass
+    
+    except (NoSuchElementException, TimeoutException) as e:
+        # Silently handle extraction errors - these indicate round doesn't exist
+        pass
+    
+    return results
+
+
+def scrape_roundwise_worker(election_identifier: str, state_code: str,
+                               result_list: list, url_counter: dict, lock: Lock,
+                               by_round: int, respect_mode: bool = False):
+    """
+    Worker for round-wise scraping that continuously picks up new constituency numbers.
+    
+    Args:
+        election_identifier: Election identifier from URL
+        state_code: State code from URL
+        result_list: Shared list to append results (thread-safe)
+        url_counter: Shared counter and next URL pointer
+        lock: Thread lock for shared resources
+        by_round: Round number to extract
+        respect_mode: If True, add 1-second pause every 10 URLs
+    """
+    options = Options()
+    options.add_argument("--blink-settings=imagesEnabled=false")
+    options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36")
+    options.add_argument("accept-language=en-US,en;q=0.9")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('useAutomationExtension', False)
+
+    driver = webdriver.Chrome(options=options)
+    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+        "source": "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+    })
+    
+    try:
+        while True:
+            with lock:
+                if url_counter.get('end_of_results'):
+                    break
+                seq_no = url_counter['current']
+                url_counter['current'] += 1
+            
+            url = build_roundwise_url(election_identifier, state_code, seq_no)
+            driver.get(url)
+            
+            if "404" in driver.title:
+                with lock:
+                    if not url_counter.get('end_of_results'):
+                        url_counter['end_of_results'] = True
+                break
+            
+            result = extract_roundwise_results(driver, by_round)
+            if result and result.get("round_tally"):
+                with lock:
+                    result_list.append({"source_url": url, "voting_data": result})
+                    print(f" {seq_no:03d}-{result.get('constituency', 'Unknown')}. Done.")
+
+            # Respect mode: pause every 10 URLs
+            if respect_mode:
+                with lock:
+                    url_counter['count'] = url_counter.get('count', 0) + 1
+                    if url_counter['count'] % 10 == 0:
+                        print("[Respect mode] Taking 1-second pause...")
+                        time.sleep(1)
+                    
+    except (NoSuchElementException, TimeoutException, AssertionError) as e:
+        with lock:
+            print(f"Scraping stopped due to error: {e}")
+    finally:
+        driver.quit()
+
+
 def scrape_constituency_worker(election_identifier: str, state_code: str, 
                                result_list: list, url_counter: dict, lock: Lock, 
                                respect_mode: bool = False):
@@ -141,9 +341,21 @@ def scrape_constituency_worker(election_identifier: str, state_code: str,
     options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
-    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.77 Safari/537.36")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36")
+    options.add_argument("accept-language=en-US,en;q=0.9")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('useAutomationExtension', False)
 
     driver = webdriver.Chrome(options=options)
+    # Execute CDP command to make Selenium less detectable
+    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+        "source": """
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => undefined
+            })
+        """
+    })
     
     try:
         while True:
@@ -159,8 +371,9 @@ def scrape_constituency_worker(election_identifier: str, state_code: str,
             driver.get(url)
             if "404" in driver.title:
                 with lock:
-                    url_counter['end_of_results'] = True
-                    print(f" {seq_no:03d}-STOP.")
+                    if not url_counter.get('end_of_results'):
+                        url_counter['end_of_results'] = True
+                        print(f" {seq_no:03d}-STOP.")
                 break
 
             result = extract_results(driver)
@@ -205,8 +418,20 @@ def main():
         action="store_true",
         help="Enable respectful scraping mode with 1-second pause every 10 URLs",
     )
+    parser.add_argument(
+        "--by-round",
+        type=int,
+        metavar="ROUND_NUM",
+        help="Round number to scrape from round-wise pages (integer >= 1)",
+    )
     
     args = parser.parse_args()
+    
+    # Validate round number if provided
+    if args.by_round is not None and args.by_round < 1:
+        print("Error: --by-round must be an integer >= 1")
+        show_usage()
+        return
     
     # Parse the input URL to extract election identifier and state code
     try:
@@ -218,6 +443,7 @@ def main():
     
     seq_limit = max(1, args.limit)
     respect_mode = args.respect
+    by_round = args.by_round
 
     # Chrome browser setup for initial page load
     options = Options()
@@ -225,9 +451,21 @@ def main():
     options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
-    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.77 Safari/537.36")
-
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36")
+    options.add_argument("accept-language=en-US,en;q=0.9")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('useAutomationExtension', False)
+    
     driver = webdriver.Chrome(options=options)
+    # Execute CDP command to make Selenium less detectable
+    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+        "source": """
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => undefined
+            })
+        """
+    })
     
     results = {}
     json_file = ""
@@ -236,7 +474,14 @@ def main():
 
     try:
         # Get initial state/UT information to create output filenames
-        url = build_constituency_url(election_identifier, state_code, 1)
+        # Use roundwise URL for by-round mode, otherwise constituency URL
+        if by_round is not None:
+            url = build_roundwise_url(election_identifier, state_code, 1)
+            mode_label = "Round-wise"
+        else:
+            url = build_constituency_url(election_identifier, state_code, 1)
+            mode_label = "Constituency-wise"
+        
         driver.get(url)
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
 
@@ -249,20 +494,62 @@ def main():
             "election_year": h1.split('-')[-1].strip(),
             "election_type": ''.join(h2.split()[:1]),
             "election_state": get_state_code(state_name),
+            "round_number": by_round if by_round else None,
             "constituencywise_results": []
         }
 
         print(f"{results['election_year']} {results['election_type']} Elections, {state_name}")
-        print(f"Mode: {'Respectful (1s pause every 10 URLs)' if respect_mode else 'Multi-threaded (up to 5 workers)'}")
+        mode_msg = f"{'Respectful (1s pause after every 10 URLs)' if respect_mode else 'High-Speed (multi-threaded workers)'}"
+        print(f"Download Engine: {mode_msg}\n")
 
-        # Create dynamic filenames
+        # Create dynamic filenames - append round number if by-round mode
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        json_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.json"
-        csv_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.csv"
+        round_suffix = f"-R{by_round}" if by_round else ""
+        json_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}{round_suffix}.json"
+        csv_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}{round_suffix}.csv"
 
         start_time = perf_counter()
 
-        if respect_mode:
+        if by_round is not None:
+            # Round-wise scraping mode
+            print(f"Scraping Round {by_round} results...")
+            
+            # Multi-threaded round-wise scraping
+            num_workers = 5
+            
+            # Shared state for workers
+            worker_state = {
+                'current': 1,  # Next constituency number to scrape
+                'end_of_results': False,
+                'count': 0
+            }
+            
+            with ThreadPoolExecutor(max_workers=num_workers) as executor:
+                futures = []
+                for _ in range(num_workers):
+                    futures.append(executor.submit(
+                        scrape_roundwise_worker,
+                        election_identifier, state_code,
+                        results["constituencywise_results"], worker_state, thread_lock,
+                        by_round, respect_mode
+                    ))
+                
+                # Wait for all workers to complete
+                for future in as_completed(futures):
+                    try:
+                        future.result()
+                    except Exception as e:
+                        print(f"Worker error: {e}")
+
+            total_time = perf_counter() - start_time
+            count = len(results['constituencywise_results'])
+            if count == 0:
+                print(f"\nR{by_round} not found in any of the constituencies.")
+            else:
+                print(
+                    f"\nJob successful. Downloaded data for {count} constituencies in {total_time:.3f} seconds."
+                )
+        elif respect_mode:
             # Single-threaded respectful scraping (uses same worker logic with 1 worker)
             worker_state = {
                 'current': 1,
@@ -319,32 +606,68 @@ def main():
                 key=lambda x: int(x["voting_data"]["constituency_no"])
             )
             
-            # Sort each constituency's voting_tally by serial_no (ascending)
-            for constituency in results["constituencywise_results"]:
-                constituency["voting_data"]["voting_tally"].sort(
-                    key=lambda x: int(x["serial_no"]) if x["serial_no"].isdigit() else 0
-                )
-            
-            # Write results to JSON file
-            with open(json_file, "w") as file:
-                json.dump(results, file, indent=4)
-                print(f"\nData stored in: \n{json_file}")
+            # Handle sorting and CSV output based on mode
+            if by_round is not None:
+                # Round-wise mode: sort round_tally by serial_no
+                for constituency in results["constituencywise_results"]:
+                    if "round_tally" in constituency["voting_data"] and constituency["voting_data"]["round_tally"]:
+                        constituency["voting_data"]["round_tally"].sort(
+                            key=lambda x: int(x["serial_no"]) if x["serial_no"].isdigit() else 0
+                        )
+                
+                # Write round-wise results to JSON file
+                with open(json_file, "w") as file:
+                    json.dump(results, file, indent=4)
+                    print(f"\nData stored in: \n{json_file}")
 
-            # Write results to CSV file
-            with open(csv_file, 'w') as f_write:
-                fieldnames = ['election_year', 'election_type', 'election_state', 'constituency', 'constituency_no', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
-                writer = csv.DictWriter(f_write, fieldnames=fieldnames)
-                writer.writeheader()
-                for constituency in results['constituencywise_results']:
-                    for candidate in constituency['voting_data']['voting_tally']:
-                        candidate['election_year'] = results['election_year']
-                        candidate['election_type'] = results['election_type']
-                        candidate['election_state'] = results['election_state']
-                        candidate['constituency'] = constituency['voting_data']['constituency']
-                        candidate['constituency_no'] = constituency['voting_data']['constituency_no']
-                        candidate['serial_no'] = candidate['serial_no']
-                        writer.writerow(candidate)
-                print(f"{csv_file}")
+                # Write round-wise results to CSV file (same format as standard mode)
+                with open(csv_file, 'w') as f_write:
+                    fieldnames = ['election_year', 'election_type', 'election_state', 'constituency', 'constituency_no', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
+                    writer = csv.DictWriter(f_write, fieldnames=fieldnames)
+                    writer.writeheader()
+                    for constituency in results['constituencywise_results']:
+                        for candidate in constituency['voting_data'].get('round_tally', []):
+                            writer.writerow({
+                                'election_year': results['election_year'],
+                                'election_type': results['election_type'],
+                                'election_state': results['election_state'],
+                                'constituency': constituency['voting_data']['constituency'],
+                                'constituency_no': constituency['voting_data']['constituency_no'],
+                                'serial_no': candidate['serial_no'],
+                                'candidate': candidate['candidate'],
+                                'party': candidate['party'],
+                                'evm_votes': candidate['total'],  # Total votes from round = EVM votes
+                                'postal_votes': ''  # Round-wise pages don't have postal votes
+                            })
+                    print(f"{csv_file}")
+            else:
+                # Standard constituency-wise mode
+                # Sort each constituency's voting_tally by serial_no (ascending)
+                for constituency in results["constituencywise_results"]:
+                    constituency["voting_data"]["voting_tally"].sort(
+                        key=lambda x: int(x["serial_no"]) if x["serial_no"].isdigit() else 0
+                    )
+                
+                # Write results to JSON file
+                with open(json_file, "w") as file:
+                    json.dump(results, file, indent=4)
+                    print(f"\nData stored in: \n{json_file}")
+
+                # Write results to CSV file
+                with open(csv_file, 'w') as f_write:
+                    fieldnames = ['election_year', 'election_type', 'election_state', 'constituency', 'constituency_no', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
+                    writer = csv.DictWriter(f_write, fieldnames=fieldnames)
+                    writer.writeheader()
+                    for constituency in results['constituencywise_results']:
+                        for candidate in constituency['voting_data']['voting_tally']:
+                            candidate['election_year'] = results['election_year']
+                            candidate['election_type'] = results['election_type']
+                            candidate['election_state'] = results['election_state']
+                            candidate['constituency'] = constituency['voting_data']['constituency']
+                            candidate['constituency_no'] = constituency['voting_data']['constituency_no']
+                            candidate['serial_no'] = candidate['serial_no']
+                            writer.writerow(candidate)
+                    print(f"{csv_file}")
 
 if __name__ == "__main__":
     main()
