@@ -1,6 +1,7 @@
 import argparse
 import csv
 import json
+import os
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -13,6 +14,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from datetime import datetime
 from time import perf_counter
+
+# FastAPI imports (optional - only needed for API mode)
+try:
+    from fastapi import FastAPI, HTTPException
+    from pydantic import BaseModel
+    FASTAPI_AVAILABLE = True
+except ImportError:
+    FASTAPI_AVAILABLE = False
 
 
 def parse_partywise_url(url: str) -> tuple[str, str]:
@@ -668,6 +677,299 @@ def main():
                             candidate['serial_no'] = candidate['serial_no']
                             writer.writerow(candidate)
                     print(f"{csv_file}")
+
+# ============== API Layer ==============
+
+def create_chrome_driver():
+    """Create and configure Chrome WebDriver instance."""
+    options = Options()
+    options.add_argument("--blink-settings=imagesEnabled=false")
+    options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36")
+    options.add_argument("accept-language=en-US,en;q=0.9")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('useAutomationExtension', False)
+    
+    driver = webdriver.Chrome(options=options)
+    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+        "source": "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+    })
+    return driver
+
+
+def scrape_constituency_sync(election_identifier: str, state_code: str, 
+                                limit: int = None, respect_mode: bool = False) -> dict:
+    """
+    Synchronous single-threaded scrape of constituency results.
+    
+    Returns the results dictionary directly for API use.
+    """
+    driver = create_chrome_driver()
+    results = {
+        "constituencywise_results": [],
+        "election_year": "",
+        "election_type": "",
+        "election_state": ""
+    }
+    
+    try:
+        seq_no = 1
+        while True:
+            url = build_constituency_url(election_identifier, state_code, seq_no)
+            driver.get(url)
+            
+            if "404" in driver.title:
+                break
+            
+            result = extract_results(driver)
+            if result:
+                results["constituencywise_results"].append({
+                    "source_url": url, 
+                    "voting_data": result
+                })
+            
+            # Respect mode: pause every 10 URLs
+            if respect_mode and seq_no % 10 == 0:
+                time.sleep(1)
+            
+            # Check limit
+            if limit and seq_no >= limit:
+                break
+                
+            seq_no += 1
+            
+    except Exception as e:
+        print(f"Scraping error: {e}")
+    finally:
+        driver.quit()
+    
+    return results
+
+
+def scrape_roundwise_sync(election_identifier: str, state_code: str,
+                           round_num: int, respect_mode: bool = False) -> dict:
+    """
+    Synchronous single-threaded scrape of round-wise results.
+    
+    Returns the results dictionary directly for API use.
+    """
+    driver = create_chrome_driver()
+    results = {
+        "constituencywise_results": [],
+        "round_number": round_num
+    }
+    
+    try:
+        seq_no = 1
+        while True:
+            url = build_roundwise_url(election_identifier, state_code, seq_no)
+            driver.get(url)
+            
+            if "404" in driver.title:
+                break
+            
+            result = extract_roundwise_results(driver, round_num)
+            if result and result.get("round_tally"):
+                results["constituencywise_results"].append({
+                    "source_url": url,
+                    "voting_data": result
+                })
+            
+            # Respect mode: pause every 10 URLs
+            if respect_mode and seq_no % 10 == 0:
+                time.sleep(1)
+                
+            seq_no += 1
+            
+    except Exception as e:
+        print(f"Scraping error: {e}")
+    finally:
+        driver.quit()
+    
+    return results
+
+
+def save_results_to_files(results: dict, by_round: int = None) -> tuple:
+    """
+    Save results to JSON and CSV files.
+    
+    Returns: (json_file_path, csv_file_path)
+    """
+    # Ensure results directory exists
+    os.makedirs("./results", exist_ok=True)
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    round_suffix = f"-R{by_round}" if by_round else ""
+    json_file = f"./results/{results.get('election_year', '2026')}{results.get('election_type', 'Assembly')}-{results.get('election_state', 'XX')}_{timestamp}{round_suffix}.json"
+    csv_file = f"./results/{results.get('election_year', '2026')}{results.get('election_type', 'Assembly')}-{results.get('election_state', 'XX')}_{timestamp}{round_suffix}.csv"
+    
+    # Save JSON
+    with open(json_file, "w") as f:
+        json.dump(results, f, indent=4)
+    
+    # Save CSV
+    with open(csv_file, 'w') as f_write:
+        fieldnames = ['election_year', 'election_type', 'election_state', 'constituency', 'constituency_no', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
+        writer = csv.DictWriter(f_write, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for constituency in results.get('constituencywise_results', []):
+            voting_data = constituency.get('voting_data', {})
+            
+            if by_round is not None:
+                # Round-wise mode
+                for candidate in voting_data.get('round_tally', []):
+                    writer.writerow({
+                        'election_year': results.get('election_year', ''),
+                        'election_type': results.get('election_type', ''),
+                        'election_state': results.get('election_state', ''),
+                        'constituency': voting_data.get('constituency', ''),
+                        'constituency_no': voting_data.get('constituency_no', ''),
+                        'serial_no': candidate.get('serial_no', ''),
+                        'candidate': candidate.get('candidate', ''),
+                        'party': candidate.get('party', ''),
+                        'evm_votes': candidate.get('total', ''),
+                        'postal_votes': ''
+                    })
+            else:
+                # Standard mode
+                for candidate in voting_data.get('voting_tally', []):
+                    writer.writerow({
+                        'election_year': results.get('election_year', ''),
+                        'election_type': results.get('election_type', ''),
+                        'election_state': results.get('election_state', ''),
+                        'constituency': voting_data.get('constituency', ''),
+                        'constituency_no': voting_data.get('constituency_no', ''),
+                        'serial_no': candidate.get('serial_no', ''),
+                        'candidate': candidate.get('candidate', ''),
+                        'party': candidate.get('party', ''),
+                        'evm_votes': candidate.get('evm_votes', ''),
+                        'postal_votes': candidate.get('postal_votes', '')
+                    })
+    
+    return json_file, csv_file
+
+
+# FastAPI models (only defined if FastAPI is available)
+if FASTAPI_AVAILABLE:
+    class ScrapeRequest(BaseModel):
+        url: str
+        limit: int = 3
+        respect: bool = False
+    
+    class ScrapeRoundRequest(BaseModel):
+        url: str
+        round: int
+        respect: bool = False
+
+
+# FastAPI app creation
+if FASTAPI_AVAILABLE:
+    app = FastAPI(
+        title="ECI Results Scraper API",
+        description="API for scraping Election Commission of India election results",
+        version="1.0.0"
+    )
+    
+    @app.post("/scrape")
+    async def scrape_endpoint(request: ScrapeRequest):
+        """Scrape constituency results from ECI party-wise URL."""
+        try:
+            election_identifier, state_code = parse_partywise_url(request.url)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        
+        results = scrape_constituency_sync(
+            election_identifier, state_code, 
+            limit=request.limit, 
+            respect_mode=request.respect
+        )
+        
+        # Get metadata from first constituency
+        if results["constituencywise_results"]:
+            driver = create_chrome_driver()
+            try:
+                url = build_constituency_url(election_identifier, state_code, 1)
+                driver.get(url)
+                WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
+                h1 = driver.find_element(By.TAG_NAME, 'h1').text
+                h2 = driver.find_element(By.TAG_NAME, 'h2').text
+                state_name = h2.split('(')[-1].replace(')', '')
+                
+                results["election_year"] = h1.split('-')[-1].strip()
+                results["election_type"] = ''.join(h2.split()[:1])
+                results["election_state"] = get_state_code(state_name)
+            except:
+                pass
+            finally:
+                driver.quit()
+        
+        json_file, csv_file = save_results_to_files(results)
+        
+        return {
+            "status": "success",
+            "data": results,
+            "files": {
+                "json": json_file,
+                "csv": csv_file
+            }
+        }
+    
+    @app.post("/scrape/round")
+    async def scrape_round_endpoint(request: ScrapeRoundRequest):
+        """Scrape round-wise results from ECI party-wise URL."""
+        if request.round < 1:
+            raise HTTPException(status_code=400, detail="Round must be >= 1")
+        
+        try:
+            election_identifier, state_code = parse_partywise_url(request.url)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        
+        results = scrape_roundwise_sync(
+            election_identifier, state_code,
+            round_num=request.round,
+            respect_mode=request.respect
+        )
+        
+        # Get metadata
+        if results["constituencywise_results"]:
+            driver = create_chrome_driver()
+            try:
+                url = build_roundwise_url(election_identifier, state_code, 1)
+                driver.get(url)
+                WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
+                h1 = driver.find_element(By.TAG_NAME, 'h1').text
+                h2 = driver.find_element(By.TAG_NAME, 'h2').text
+                state_name = h2.split('(')[-1].replace(')', '')
+                
+                results["election_year"] = h1.split('-')[-1].strip()
+                results["election_type"] = ''.join(h2.split()[:1])
+                results["election_state"] = get_state_code(state_name)
+            except:
+                pass
+            finally:
+                driver.quit()
+        
+        json_file, csv_file = save_results_to_files(results, by_round=request.round)
+        
+        return {
+            "status": "success",
+            "data": results,
+            "files": {
+                "json": json_file,
+                "csv": csv_file
+            }
+        }
+    
+    @app.get("/health")
+    async def health_check():
+        """Health check endpoint."""
+        return {"status": "healthy"}
+
 
 if __name__ == "__main__":
     main()
