@@ -35,6 +35,27 @@ DB_PATH = Path(__file__).parent / "live_results.db"
 db_lock = threading.Lock()
 
 
+def init_database():
+    """Initialize database schema if not exists."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS rounds (
+            state_code TEXT,
+            ac_no INTEGER,
+            round_no INTEGER,
+            candidate_number INTEGER,
+            ac_name TEXT,
+            candidate TEXT,
+            party TEXT,
+            votes INTEGER,
+            PRIMARY KEY (state_code, ac_no, round_no, candidate_number)
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+
 def get_db_connection():
     """Get SQLite database connection with WAL mode for concurrent access."""
     conn = sqlite3.connect(DB_PATH, timeout=60.0)
@@ -81,13 +102,33 @@ def process_ac(ac_no: int, url: str, state_code: str, start_round: int = 1):
         state_code: State code (e.g., 'S03')
         start_round: Start downloading from this round number (default 1 = all rounds)
     """
+    # Retry logic with increased timeout for slow API responses
+    max_retries = 3
+    response = None
+    
+    for attempt in range(max_retries):
+        try:
+            response = requests.post(
+                f"{API_URL}/scrape/ac-rounds",
+                json={"url": url, "ac_no": ac_no, "start_round": start_round},
+                timeout=120  # Increased from 60 to handle slower responses
+            )
+            break  # Success, exit retry loop
+        except requests.exceptions.Timeout:
+            if attempt < max_retries - 1:
+                print(f"  AC {ac_no}: Timeout, retrying ({attempt + 1}/{max_retries})...")
+                time.sleep(2)
+                continue
+            return {"status": "error", "ac_no": ac_no, "error": "Timeout after 3 attempts"}
+        except requests.exceptions.ConnectionError as e:
+            if attempt < max_retries - 1:
+                print(f"  AC {ac_no}: Connection error, retrying ({attempt + 1}/{max_retries})...")
+                time.sleep(2)
+                continue
+            return {"status": "error", "ac_no": ac_no, "error": str(e)}
+    
+    # Process the response
     try:
-        response = requests.post(
-            f"{API_URL}/scrape/ac-rounds",
-            json={"url": url, "ac_no": ac_no, "start_round": start_round},
-            timeout=60
-        )
-        
         data = response.json()
         
         if data.get("status") == "error" and "404" in data.get("error", ""):
@@ -146,15 +187,24 @@ def process_ac(ac_no: int, url: str, state_code: str, start_round: int = 1):
         return {"status": "error", "ac_no": ac_no, "error": str(e)}
 
 
-def run_cycle(url: str, state_code: str, start_round: int, test_ac: int = 0):
+def run_cycle(url: str, state_code: str, start_round: int, test_ac: int = 0, sequential: bool = False):
     """Run a single processing cycle for all ACs."""
     results = []
-    num_workers = 5
+    num_workers = 2  # Reduced from 5 to prevent resource exhaustion with concurrent Chrome instances
     
     if test_ac > 0:
         result = process_ac(test_ac, url, state_code, start_round)
         results.append(result)
         print(f"  AC {test_ac}: {result}")
+    elif sequential:
+        # Sequential mode: process ACs one at a time (safest for resource-constrained systems)
+        while True:
+            ac_no = len(results) + 1
+            result = process_ac(ac_no, url, state_code, start_round)
+            results.append(result)
+            print(f"  AC {ac_no}: {result.get('ac_name', 'Error')} ({result.get('rounds', 0)}r)" if result["status"] == "success" else f"  AC {ac_no}: FAILED - {result.get('error', 'Unknown error')}")
+            if result["status"] in ("done", "error"):
+                break
     else:
         worker_state = {"current": 1, "end_of_results": False}
         lock = threading.Lock()
@@ -193,7 +243,7 @@ def run_cycle(url: str, state_code: str, start_round: int, test_ac: int = 0):
 
 
 def main(url: str, test_ac: int = 0, flush_db: bool = False, 
-         live: int = 0, interval: int = 30, start_round: int = 1):
+         live: int = 0, interval: int = 30, start_round: int = 1, sequential: bool = False):
     """Main entry point.
     
     Args:
@@ -203,6 +253,9 @@ def main(url: str, test_ac: int = 0, flush_db: bool = False,
     if not url:
         print("Error: --url parameter is required")
         sys.exit(1)
+    
+    # Initialize database schema
+    init_database()
     
     print("Starting download of election results...")
     print("=" * 60)
@@ -264,7 +317,7 @@ def main(url: str, test_ac: int = 0, flush_db: bool = False,
             print(f"Cycle {cycle_num} - {time.strftime('%H:%M:%S')}")
             
             start_time = time.time()
-            results = run_cycle(url, state_code, start_round, test_ac)
+            results = run_cycle(url, state_code, start_round, test_ac, sequential)
             
             elapsed = time.time() - start_time
             successful = sum(1 for r in results if r["status"] == "success")
@@ -293,7 +346,9 @@ if __name__ == "__main__":
     parser.add_argument("--live", type=int, nargs="?", const=300, default=0, 
                         help="Continuous monitoring mode with optional seconds interval (default: 300s)")
     parser.add_argument("--start-round", type=int, default=1, help="Start downloading from this round (incremental mode)")
+    parser.add_argument("--sequential", action="store_true", 
+                        help="Process ACs sequentially instead of concurrently (safer for resource-constrained systems)")
     args = parser.parse_args()
     
     main(url=args.url, test_ac=args.test_ac, flush_db=args.flush,
-         live=args.live, interval=args.live if args.live > 0 else 30, start_round=args.start_round)
+         live=args.live, interval=args.live if args.live > 0 else 30, start_round=args.start_round, sequential=args.sequential)
