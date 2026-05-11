@@ -11,3 +11,6 @@ __pycache__/
 *$py.class
 .venv/
 uv.lock
+
+# Database files
+*.db
