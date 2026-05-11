@@ -156,6 +156,21 @@ uv run eci-ResultsDayServer.py --url "https://results.eci.gov.in/ResultAcGenMay2
 
 The program intelligently detects when it has processed all available constituencies and stops automatically.
 
+### Live Client Mode
+
+For continuous monitoring and database population, use the live client:
+
+```bash
+# Run the live client (uses 2 concurrent workers by default)
+uv run live_tracker/eci-ResultsDayLiveClient.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S11.htm"
+
+# For sequential processing (safest for resource-constrained systems)
+uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --sequential
+
+# Test with a single AC first
+uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --test-ac 1
+```
+
 ### Output
 
 The script will generate two types of files in the `results` directory:
