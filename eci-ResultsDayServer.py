@@ -864,6 +864,17 @@ if FASTAPI_AVAILABLE:
         url: str
         round: int
         respect: bool = False
+    
+    class ScrapeAcRoundsRequest(BaseModel):
+        url: str
+        ac_no: int
+        start_round: int = 1  # Start downloading from this round (default: all rounds)
+    
+    class ScrapeAllRoundsRequest(BaseModel):
+        url: str
+        start_ac: int = 1
+        end_ac: int = 0  # 0 = all ACs
+        respect: bool = False
 
 
 # FastAPI app creation
@@ -969,7 +980,155 @@ if FASTAPI_AVAILABLE:
     async def health_check():
         """Health check endpoint."""
         return {"status": "healthy"}
+    
+    @app.post("/scrape/ac-rounds")
+    async def scrape_ac_rounds_endpoint(request: ScrapeAcRoundsRequest):
+        """
+        Scrape rounds for a single AC, plus postal votes from final results.
+        
+        Args:
+            url: Party-wise results URL
+            ac_no: Constituency number
+            start_round: Start downloading from this round (default 1 = all rounds)
+            
+        Returns:
+            JSON with rounds data for the specified AC
+        """
+        try:
+            election_identifier, state_code = parse_partywise_url(request.url)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        
+        driver = create_chrome_driver()
+        result = {"ac_no": request.ac_no, "rounds": [], "constituency": "", "postal_votes": []}
+        
+        try:
+            # Get roundwise page
+            roundwise_url = build_roundwise_url(election_identifier, state_code, request.ac_no)
+            driver.get(roundwise_url)
+            
+            if "404" in driver.title:
+                return {"status": "error", "error": "AC not found (404)"}
+            
+            # First pass: determine max round number (to know what's available)
+            max_round = 0
+            for round_num in range(1, 50):
+                round_result = extract_roundwise_results(driver, round_num)
+                if not round_result.get("round_tally"):
+                    break
+                max_round = round_num
+            
+            # Second pass: extract only rounds from start_round onwards
+            for round_num in range(max(request.start_round, 1), max_round + 1):
+                round_result = extract_roundwise_results(driver, round_num)
+                if round_result.get("round_tally"):
+                    result["rounds"].append({
+                        "round": round_num,
+                        "tally": round_result.get("round_tally", [])
+                    })
+                    if not result["constituency"]:
+                        result["constituency"] = round_result.get("constituency", "")
+            
+            # Get postal votes from constituency page
+            constituency_url = build_constituency_url(election_identifier, state_code, request.ac_no)
+            driver.get(constituency_url)
+            final_result = extract_results(driver)
+            result["constituency"] = final_result.get("constituency", result["constituency"])
+            result["postal_votes"] = final_result.get("voting_tally", [])
+            
+            return {"status": "success", "data": result}
+            
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+        finally:
+            driver.quit()
+    
+    @app.post("/scrape/all-rounds")
+    async def scrape_all_rounds_endpoint(request: ScrapeAllRoundsRequest):
+        """
+        Scrape all rounds (1-N) for each AC, plus postal votes from final results.
+        Returns list of constituency data with round-by-round tallies.
+        """
+        try:
+            election_identifier, state_code = parse_partywise_url(request.url)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        
+        driver = create_chrome_driver()
+        results = []
+        
+        try:
+            # First, count total ACs if not specified
+            if request.end_ac == 0:
+                print("Counting ACs...")
+                max_ac = 0
+                for i in range(1, 1000):
+                    test_url = build_constituency_url(election_identifier, state_code, i)
+                    driver.get(test_url)
+                    if "404" in driver.title:
+                        break
+                    max_ac = i
+            else:
+                max_ac = request.end_ac
+            
+            print(f"Processing ACs {request.start_ac} to {max_ac}...")
+            
+            # Process each AC
+            for ac_no in range(request.start_ac, max_ac + 1):
+                # Get roundwise page
+                roundwise_url = build_roundwise_url(election_identifier, state_code, ac_no)
+                driver.get(roundwise_url)
+                
+                if "404" in driver.title:
+                    break
+                
+                # Extract all rounds
+                ac_result = {"ac_no": ac_no, "rounds": [], "constituency": ""}
+                
+                for round_num in range(1, 50):
+                    result = extract_roundwise_results(driver, round_num)
+                    if not result.get("round_tally"):
+                        break
+                    
+                    ac_result["rounds"].append({
+                        "round": round_num,
+                        "tally": result.get("round_tally", [])
+                    })
+                    if not ac_result["constituency"]:
+                        ac_result["constituency"] = result.get("constituency", "")
+                
+                # Get postal votes from constituency page
+                constituency_url = build_constituency_url(election_identifier, state_code, ac_no)
+                driver.get(constituency_url)
+                final_result = extract_results(driver)
+                ac_result["constituency"] = final_result.get("constituency", ac_result["constituency"])
+                ac_result["postal_votes"] = final_result.get("voting_tally", [])
+                
+                results.append(ac_result)
+                print(f"  AC {ac_no}: {len(ac_result['rounds'])} rounds")
+                
+                if request.respect and ac_no % 10 == 0:
+                    print("[Respect mode] Pausing 1 second...")
+                    time.sleep(1)
+                    
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+        finally:
+            driver.quit()
+        
+        return {"status": "success", "data": results, "total_acs": len(results)}
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    
+    # Check for --api flag to run FastAPI server
+    if "--api" in sys.argv:
+        import uvicorn
+        if FASTAPI_AVAILABLE:
+            uvicorn.run(app, host="0.0.0.0", port=8000)
+        else:
+            print("FastAPI not available")
+            sys.exit(1)
+    else:
+        main()
