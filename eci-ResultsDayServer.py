@@ -150,7 +150,7 @@ def extract_results(driver) -> dict:
     return results
 
 
-def extract_roundwise_results(driver, round_num: int) -> dict:
+def extract_roundwise_results(driver, round_num: int, constituency_info: dict = None) -> dict:
     """
     Extract round-wise results from a round-wise page.
     
@@ -160,6 +160,7 @@ def extract_roundwise_results(driver, round_num: int) -> dict:
     Args:
         driver: Selenium WebDriver instance
         round_num: The round number to extract
+        constituency_info: Optional pre-extracted constituency info (to avoid re-parsing)
         
     Returns:
         dict with candidate data including round-specific vote counts
@@ -167,25 +168,31 @@ def extract_roundwise_results(driver, round_num: int) -> dict:
     # Initialize results with defaults
     results = {"constituency_no": "", "constituency": "Unknown", "round_tally": []}
     try:
-        # Wait for necessary elements to load
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'h2')))
-        full_text = driver.find_element(By.TAG_NAME, 'h2').find_element(By.TAG_NAME, 'span').text
-        
-        # Parse constituency info
-        parts = full_text.split(' - ')
-        constituency_no = parts[0].strip()
-        
-        state_match = re.search(r'\(([^)]+)\)\s*$', parts[1])
-        if state_match:
-            state_name = state_match.group(1)
-            constituency_name = parts[1][:state_match.start()].strip()
+        # Only parse constituency info once (first round)
+        if constituency_info is None or round_num == 1:
+            # Wait for necessary elements to load (only on first round)
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'h2')))
+            full_text = driver.find_element(By.TAG_NAME, 'h2').find_element(By.TAG_NAME, 'span').text
+            
+            # Parse constituency info
+            parts = full_text.split(' - ')
+            constituency_no = parts[0].strip()
+            
+            state_match = re.search(r'\(([^)]+)\)\s*$', parts[1])
+            if state_match:
+                constituency_name = parts[1][:state_match.start()].strip()
+            else:
+                constituency_name = parts[1]
+            
+            results["constituency_no"] = constituency_no
+            results["constituency"] = constituency_name
+            results["round_num"] = round_num
         else:
-            state_name = ''
-            constituency_name = parts[1]
-
-        results["constituency_no"] = constituency_no
-        results["constituency"] = constituency_name
-        results["round_num"] = round_num
+            # Use cached info for subsequent rounds
+            results["constituency_no"] = constituency_info.get("constituency_no", "")
+            results["constituency"] = constituency_info.get("constituency", "Unknown")
+            results["round_num"] = round_num
+        
         results["round_tally"] = []  # Initialize as empty - will be populated if round exists
 
         # Click the round button to make the table visible
@@ -193,7 +200,8 @@ def extract_roundwise_results(driver, round_num: int) -> dict:
         try:
             round_button = driver.find_element(By.XPATH, f"//button[contains(text(), 'R{round_num}') or contains(text(), 'Round {round_num}')]")
             driver.execute_script("arguments[0].click();", round_button)
-            time.sleep(0.5)  # Brief wait for table to render
+            # Reduced sleep - use shorter wait since page is already loaded
+            time.sleep(0.2)  # Reduced from 0.5
         except NoSuchElementException:
             # Button not found, try direct div access
             pass
@@ -1010,24 +1018,32 @@ if FASTAPI_AVAILABLE:
             if "404" in driver.title:
                 return {"status": "error", "error": "AC not found (404)"}
             
-            # First pass: determine max round number (to know what's available)
-            max_round = 0
-            for round_num in range(1, 50):
-                round_result = extract_roundwise_results(driver, round_num)
+            # First round: get constituency info (will be cached for subsequent rounds)
+            first_round_result = extract_roundwise_results(driver, max(request.start_round, 1))
+            constituency_info = {
+                "constituency_no": first_round_result.get("constituency_no", ""),
+                "constituency": first_round_result.get("constituency", "")
+            }
+            
+            # Single pass: extract rounds from start_round onwards (no need to find max_round first)
+            # First round already extracted
+            if first_round_result.get("round_tally"):
+                result["rounds"].append({
+                    "round": max(request.start_round, 1),
+                    "tally": first_round_result.get("round_tally", [])
+                })
+                result["constituency"] = first_round_result.get("constituency", "")
+            
+            # Remaining rounds with cached constituency info
+            for round_num in range(max(request.start_round, 1) + 1, 50):
+                round_result = extract_roundwise_results(driver, round_num, constituency_info)
                 if not round_result.get("round_tally"):
                     break
-                max_round = round_num
-            
-            # Second pass: extract only rounds from start_round onwards
-            for round_num in range(max(request.start_round, 1), max_round + 1):
-                round_result = extract_roundwise_results(driver, round_num)
-                if round_result.get("round_tally"):
-                    result["rounds"].append({
-                        "round": round_num,
-                        "tally": round_result.get("round_tally", [])
-                    })
-                    if not result["constituency"]:
-                        result["constituency"] = round_result.get("constituency", "")
+                
+                result["rounds"].append({
+                    "round": round_num,
+                    "tally": round_result.get("round_tally", [])
+                })
             
             # Get postal votes from constituency page
             constituency_url = build_constituency_url(election_identifier, state_code, request.ac_no)
@@ -1082,11 +1098,26 @@ if FASTAPI_AVAILABLE:
                 if "404" in driver.title:
                     break
                 
-                # Extract all rounds
+                # Extract all rounds - use cached constituency info
                 ac_result = {"ac_no": ac_no, "rounds": [], "constituency": ""}
                 
-                for round_num in range(1, 50):
-                    result = extract_roundwise_results(driver, round_num)
+                # First round: get constituency info (will be cached for subsequent rounds)
+                first_round_result = extract_roundwise_results(driver, 1)
+                constituency_info = {
+                    "constituency_no": first_round_result.get("constituency_no", ""),
+                    "constituency": first_round_result.get("constituency", "")
+                }
+                
+                if first_round_result.get("round_tally"):
+                    ac_result["rounds"].append({
+                        "round": 1,
+                        "tally": first_round_result.get("round_tally", [])
+                    })
+                    ac_result["constituency"] = first_round_result.get("constituency", "")
+                
+                # Remaining rounds with cached constituency info
+                for round_num in range(2, 50):
+                    result = extract_roundwise_results(driver, round_num, constituency_info)
                     if not result.get("round_tally"):
                         break
                     
@@ -1094,8 +1125,6 @@ if FASTAPI_AVAILABLE:
                         "round": round_num,
                         "tally": result.get("round_tally", [])
                     })
-                    if not ac_result["constituency"]:
-                        ac_result["constituency"] = result.get("constituency", "")
                 
                 # Get postal votes from constituency page
                 constituency_url = build_constituency_url(election_identifier, state_code, ac_no)
