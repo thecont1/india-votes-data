@@ -145,13 +145,13 @@ Configure and run the program via command line:
 
 ```bash
 # Required: Provide the party-wise results URL
-uv run eci-ResultsDay.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
+uv run eci-ResultsDayServer.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
 
 # Optional: Specify number of constituencies to process (default: 3)
-uv run eci-ResultsDay.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --limit 50
+uv run eci-ResultsDayServer.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --limit 50
 
 # Optional: Use --respect mode for single-threaded respectful scraping
-uv run eci-ResultsDay.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --respect
+uv run eci-ResultsDayServer.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --respect
 ```
 
 The program intelligently detects when it has processed all available constituencies and stops automatically.
