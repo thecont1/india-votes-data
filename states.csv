@@ -1,36 +1,37 @@
-state_code,state_name,state_status,population,region,districts,assembly_seats,parliamentary_seats
-AN,Andaman and Nicobar Islands,UT,380581,South,3,0,1
-AP,Andhra Pradesh,State,49577103,South,26,175,25
-AR,Arunachal Pradesh,State,1383727,Northeast,25,60,2
-AS,Assam,State,31205576,Northeast,35,126,14
-BR,Bihar,State,104099452,East,38,243,40
-CH,Chandigarh,UT,1055450,Northwest,1,0,1
-CG,Chhattisgarh,State,25545198,Central,33,90,11
-DN,Dadra and Nagar Haveli and Daman and Diu,UT,586956,West,3,0,2
-DL,NCT of Delhi,UT,16787941,Northwest,11,70,7
-GA,Goa,State,1540000,West,2,40,2
-GJ,Gujarat,State,60439692,West,33,182,26
-HR,Haryana,State,25351462,Northwest,22,90,10
-HP,Himachal Pradesh,State,6864602,North,12,68,4
-JK,"Jammu & Kashmir",UT,12267032,North,20,90,5
-JH,Jharkhand,State,32988134,East,24,81,14
-KA,Karnataka,State,61095297,South,31,224,28
-KL,Kerala,State,33406061,South,14,140,20
-LA,Ladakh,UT,274289,North,2,0,1
-MP,Madhya Pradesh,State,72626809,Central,52,230,29
-MH,Maharashtra,State,112374333,West,36,288,48
-MN,Manipur,State,2855794,Northeast,16,60,2
-ML,Meghalaya,State,2966889,Northeast,11,60,2
-MZ,Mizoram,State,1097206,Northeast,11,40,1
-NL,Nagaland,State,1978502,Northeast,12,60,1
-OD,Odisha,State,41974218,East,30,147,21
-PY,Puducherry,UT,1247953,South,4,30,1
-PB,Punjab,State,27743338,Northwest,22,117,13
-RJ,Rajasthan,State,68548437,Northwest,33,200,25
-SK,Sikkim,State,610577,Northeast,4,32,1
-TN,Tamil Nadu,State,72147030,South,38,234,39
-TG,Telangana,State,35003674,South,33,119,17
-TR,Tripura,State,3673917,Northeast,8,60,2
-UP,Uttar Pradesh,State,199812341,North,75,403,80
-UK,Uttarakhand,State,10086292,North,13,70,5
-WB,West Bengal,State,91276115,East,23,294,42
+state_code,state_code_eci,state_name,state_capital,state_status,population_2011,region,districts,assembly_seats,loksabha_seats,rajyasabha_seats
+AN,U01,Andaman and Nicobar Islands,Port Blair,UT,380581,South,3,0,1,0
+AP,S01,Andhra Pradesh,Amaravati,State,49577103,South,26,175,25,11
+AR,S02,Arunachal Pradesh,Itanagar,State,1383727,Northeast,28,60,2,1
+AS,S03,Assam,Dispur,State,31205576,Northeast,35,126,14,7
+BR,S04,Bihar,Patna,State,104099452,East,38,243,40,16
+CH,U02,Chandigarh,Chandigarh,UT,1055450,Northwest,1,0,1,0
+CG,S26,Chhattisgarh,Raipur,State,25545198,Central,33,90,11,5
+DN,U03,Dadra and Nagar Haveli and Daman and Diu,Daman,UT,585764,West,3,0,2,0
+DL,U05,NCT of Delhi,New Delhi,UT,16787941,Northwest,13,70,7,3
+GA,S05,Goa,Panaji,State,1458545,West,2,40,2,1
+GJ,S06,Gujarat,Gandhinagar,State,60439692,West,33,182,26,11
+HR,S07,Haryana,Chandigarh,State,25351462,Northwest,22,90,10,5
+JK,U08,"Jammu & Kashmir",Srinagar,UT,12267032,North,20,90,5,4
+HP,S08,Himachal Pradesh,Shimla,State,6864602,North,12,68,4,3
+JH,S27,Jharkhand,Ranchi,State,32988134,East,24,81,14,6
+KA,S10,Karnataka,Bengaluru,State,61095297,South,31,224,28,12
+KL,S11,Kerala,Thiruvananthapuram,State,33406061,South,14,140,20,9
+LA,U09,Ladakh,Leh,UT,274289,North,2,0,1,0
+MP,S12,Madhya Pradesh,Bhopal,State,72626809,Central,57,230,29,11
+MH,S13,Maharashtra,Mumbai,State,112374333,West,36,288,48,19
+MN,S14,Manipur,Imphal,State,2855794,Northeast,16,60,2,1
+ML,S15,Meghalaya,Shillong,State,2966889,Northeast,12,60,2,1
+MZ,S16,Mizoram,Aizawl,State,1097206,Northeast,11,40,1,1
+NL,S17,Nagaland,Kohima,State,1978502,Northeast,17,60,1,1
+OD,S18,Odisha,Bhubaneswar,State,41974218,East,30,147,21,10
+PY,U07,Puducherry,Puducherry,UT,1247953,South,4,30,1,1
+PB,S19,Punjab,Chandigarh,State,27743338,Northwest,23,117,13,7
+RJ,S20,Rajasthan,Jaipur,State,68548437,Northwest,50,200,25,10
+SK,S21,Sikkim,Gangtok,State,610577,Northeast,6,32,1,1
+TN,S22,Tamil Nadu,Chennai,State,72147030,South,38,234,39,18
+TG,S29,Telangana,Hyderabad,State,35003674,South,33,119,17,7
+TR,S23,Tripura,Agartala,State,3673917,Northeast,8,60,2,1
+UP,S24,Uttar Pradesh,Lucknow,State,199812341,North,76,403,80,31
+UK,S28,Uttarakhand,Dehradun,State,10086292,North,13,70,5,3
+WB,S25,West Bengal,Kolkata,State,91276115,East,23,294,42,16
+LD,U06,Lakshadweep,Kavaratti,UT,64473,South,1,0,1,0
