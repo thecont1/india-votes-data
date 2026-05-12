@@ -30,6 +30,16 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 API_URL = "http://localhost:8000"
 DB_PATH = Path(__file__).parent / "live_results.db"
+TEST_DB_PATH = Path(__file__).parent / "live_results_test.db"
+
+# Global state for test mode
+USE_TEST_DB = False
+
+
+def get_db_path():
+    """Get database path, using test DB if enabled."""
+    return TEST_DB_PATH if USE_TEST_DB else DB_PATH
+
 
 # Global lock for database access to prevent concurrent write issues
 db_lock = threading.Lock()
@@ -58,7 +68,7 @@ def init_database():
 
 def get_db_connection():
     """Get SQLite database connection with WAL mode for concurrent access."""
-    conn = sqlite3.connect(DB_PATH, timeout=60.0)
+    conn = sqlite3.connect(get_db_path(), timeout=60.0)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA busy_timeout=60000")
@@ -243,7 +253,8 @@ def run_cycle(url: str, state_code: str, start_round: int, test_ac: int = 0, seq
 
 
 def main(url: str, test_ac: int = 0, flush_db: bool = False, 
-         live: int = 0, interval: int = 30, start_round: int = 1, sequential: bool = False):
+         live: int = 0, interval: int = 30, start_round: int = 1, sequential: bool = False,
+         test_db: bool = False):
     """Main entry point.
     
     Args:
@@ -253,6 +264,10 @@ def main(url: str, test_ac: int = 0, flush_db: bool = False,
     if not url:
         print("Error: --url parameter is required")
         sys.exit(1)
+    
+    # Enable test database mode
+    global USE_TEST_DB
+    USE_TEST_DB = test_db
     
     # Initialize database schema
     init_database()
@@ -265,7 +280,7 @@ def main(url: str, test_ac: int = 0, flush_db: bool = False,
     
     # Get the script directory for finding the server
     script_dir = Path(__file__).parent.parent
-    server_path = script_dir / "eci-ResultsDayServer.py"
+    server_path = script_dir / "server.py"
     
     api_process = subprocess.Popen(
         [sys.executable, str(server_path), "--api"],
@@ -348,7 +363,12 @@ if __name__ == "__main__":
     parser.add_argument("--start-round", type=int, default=1, help="Start downloading from this round (incremental mode)")
     parser.add_argument("--sequential", action="store_true", 
                         help="Process ACs sequentially instead of concurrently (safer for resource-constrained systems)")
+    parser.add_argument("--test-db", action="store_true",
+                        help="Use test database (live_results_test.db) instead of main database")
     args = parser.parse_args()
     
+    # Enable test mode if flag is set
+    USE_TEST_DB = args.test_db
+    
     main(url=args.url, test_ac=args.test_ac, flush_db=args.flush,
-         live=args.live, interval=args.live if args.live > 0 else 30, start_round=args.start_round, sequential=args.sequential)
+         live=args.live, interval=args.live if args.live > 0 else 30, start_round=args.start_round, sequential=args.sequential, test_db=args.test_db)
