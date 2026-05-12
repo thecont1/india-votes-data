@@ -145,13 +145,13 @@ Configure and run the program via command line:
 
 ```bash
 # Required: Provide the party-wise results URL
-uv run eci-ResultsDayServer.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
+uv run cli.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm"
 
 # Optional: Specify number of constituencies to process (default: 3)
-uv run eci-ResultsDayServer.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --limit 50
+uv run cli.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" 50
 
 # Optional: Use --respect mode for single-threaded respectful scraping
-uv run eci-ResultsDayServer.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --respect
+uv run cli.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S22.htm" --respect
 ```
 
 The program intelligently detects when it has processed all available constituencies and stops automatically.
@@ -169,7 +169,28 @@ uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --sequential
 
 # Test with a single AC first
 uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --test-ac 1
+
+# Use test database for isolated testing (won't overwrite production data)
+uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --test-db
 ```
+
+### API Server Mode
+
+For API-based scraping, start the FastAPI server:
+
+```bash
+# Start the API server
+uv run server.py --api
+
+# Or with uvicorn directly
+uv run uvicorn server:app --reload
+```
+
+Available endpoints:
+- `GET /health` - Health check
+- `POST /scrape` - Scrape constituency results from party-wise URL
+- `POST /scrape/ac-rounds` - Scrape all rounds for a single AC
+- `POST /scrape/all-rounds` - Scrape all rounds for all ACs
 
 ### Output
 
