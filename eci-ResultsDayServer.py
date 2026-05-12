@@ -18,7 +18,11 @@ from core.scraper import (
 )
 from core.browser import create_chrome_driver
 
+# Export FastAPI app for backward compatibility
+from server import app as app
+
 __all__ = [
+    'app',
     'build_constituency_url',
     'build_roundwise_url',
     'create_chrome_driver',
