@@ -343,21 +343,47 @@ function renderChart(parties, majority) {
       ctx.moveTo(x, yScale.top);
       ctx.lineTo(x, yScale.bottom);
       ctx.stroke();
-      // Label — avoid clipping at right edge
+      // Label — positioned near bottom, avoid clipping at right edge
       ctx.fillStyle = '#f87171';
       ctx.font = '12px -apple-system, system-ui, sans-serif';
       const label = `Majority (${maj})`;
       const labelW = ctx.measureText(label).width;
       ctx.textAlign = (x + labelW / 2 > xScale.right) ? 'right' : 'center';
       const labelX = (x + labelW / 2 > xScale.right) ? x - 4 : x;
-      ctx.fillText(label, labelX, yScale.top - 8);
+      ctx.fillText(label, labelX, yScale.bottom + 18);
+      ctx.restore();
+    }
+  };
+
+  // Seat count labels on bars
+  const dataLabelsPlugin = {
+    id: 'dataLabels',
+    afterDraw(chart) {
+      const ctx = chart.ctx;
+      const meta = chart.getDatasetMeta(1); // Leading dataset (on top in stacked)
+      const wonMeta = chart.getDatasetMeta(0);
+      ctx.save();
+      ctx.font = '12px -apple-system, system-ui, sans-serif';
+      ctx.fillStyle = '#e2e8f0';
+      ctx.textBaseline = 'middle';
+      meta.data.forEach((bar, i) => {
+        const wonVal = wonMeta.data[i] ? chart.data.datasets[0].data[i] : 0;
+        const leadVal = chart.data.datasets[1].data[i];
+        const total = wonVal + leadVal;
+        if (total > 0) {
+          const x = bar.x + 6;
+          const y = bar.y;
+          ctx.textAlign = 'left';
+          ctx.fillText(total, x, y);
+        }
+      });
       ctx.restore();
     }
   };
 
   chart = new Chart(ctx, {
     type: 'bar',
-    plugins: [majorityPlugin],
+    plugins: [majorityPlugin, dataLabelsPlugin],
     data: {
       labels,
       datasets: [
@@ -408,7 +434,7 @@ function renderChart(parties, majority) {
         },
       },
       layout: {
-        padding: { left: 8 },
+        padding: { left: 8, right: 20, bottom: 10 },
       },
       scales: {
         x: {

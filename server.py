@@ -145,13 +145,26 @@ def seat_tally(state: str = Query("", description="State code filter, empty=all"
         cur.execute(query, params)
         rows = cur.fetchall()
 
+        # Check if won status is populated at all (historical data may have won=0 everywhere)
+        check_q = f"SELECT SUM(CASE WHEN won=1 THEN 1 ELSE 0 END) as won_count FROM constituency_status"
+        if state:
+            check_q += f" WHERE state_code={('%s' if IS_PG else '?')}" if IS_PG else " WHERE state_code=?"
+        cur.execute(check_q, [state] if state else [])
+        has_won_data = (cur.fetchone() or {}).get("won_count", 0) > 0
+
         result = []
         for row in rows:
             abv = row["party_abv"]
+            won = row["won_seats"]
+            leading = row["leading_seats"]
+            # If no won status populated anywhere, treat all as won (historical data)
+            if not has_won_data:
+                won += leading
+                leading = 0
             result.append({
                 "party_abv": abv,
-                "won": row["won_seats"],
-                "leading": row["leading_seats"],
+                "won": won,
+                "leading": leading,
                 "total": row["total"],
                 "color": PARTY_COLORS.get(abv, DEFAULT_COLOR),
             })
