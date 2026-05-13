@@ -666,8 +666,8 @@ with st.container(border=True):
         params_q = (state_code,) if state_code else None
         conn = _connect()
         raw = pd.read_sql_query(
-            f"""SELECT r.state_code, r.ac_no, r.round_no, r.party, r.votes
-                FROM rounds r
+            f"""SELECT r.state_code, r.ac_no, r.round_no, r.party_abv AS party, r.votes
+                FROM rounds_ac r
                 {where} ORDER BY r.state_code, r.ac_no, r.round_no""",
             conn, params=params_q,
         )

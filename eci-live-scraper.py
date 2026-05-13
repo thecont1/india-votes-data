@@ -521,16 +521,16 @@ def fetch_won_lists() -> dict[str, list[int]]:
         try:
             cur.execute(
                 """
-                SELECT r.party, r.ac_no, r.votes
-                FROM rounds r
+                SELECT r.party_abv, r.ac_no, r.votes
+                FROM rounds_ac r
                 INNER JOIN (
-                    SELECT state_code, ac_no, MAX(scraped_at) as latest
-                    FROM rounds WHERE state_code=%s
+                    SELECT state_code, ac_no, MAX(round_no) as latest
+                    FROM rounds_ac WHERE state_code=%s
                     GROUP BY state_code, ac_no
-                ) latest ON r.state_code=latest.state_code AND r.ac_no=latest.ac_no AND r.scraped_at=latest.latest
+                ) latest ON r.state_code=latest.state_code AND r.ac_no=latest.ac_no AND r.round_no=latest.latest
                 WHERE r.state_code=%s AND r.votes = (
-                    SELECT MAX(r2.votes) FROM rounds r2
-                    WHERE r2.state_code=r.state_code AND r2.ac_no=r.ac_no AND r2.scraped_at=r.scraped_at
+                    SELECT MAX(r2.votes) FROM rounds_ac r2
+                    WHERE r2.state_code=r.state_code AND r2.ac_no=r.ac_no AND r2.round_no=r.round_no
                 )
                 """,
                 (state_code, state_code),
@@ -541,7 +541,7 @@ def fetch_won_lists() -> dict[str, list[int]]:
 
         party_acs: dict[str, list[tuple[int, int]]] = {}
         for row in rows:
-            party = normalise_party(row["party"])
+            party = normalise_party(row["party_abv"])
             if party not in party_acs:
                 party_acs[party] = []
             party_acs[party].append((row["ac_no"], row["votes"]))

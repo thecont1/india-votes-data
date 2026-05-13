@@ -50,7 +50,7 @@ Optional Arguments:
 """)
 
 
-def write_to_db(results: list, state_code: str, state_name: str, election_type: str):
+def write_to_db(results: list, state_code: str, state_name: str):
     """Write scraped results to the database (round_no=999 for final results)."""
     ac_count = 0
     for constituency in results:
@@ -78,8 +78,7 @@ def write_to_db(results: list, state_code: str, state_name: str, election_type: 
             round_no=999,
             total_rounds=None,
             candidates=candidates,
-            scraped_at=datetime.now(timezone.utc).isoformat(),
-            election_type=election_type,
+            scraped_at="",
         )
         ac_count += 1
 
@@ -166,7 +165,7 @@ def main():
 
     # Always write to database
     state_name_full = get_state_name(state_code)
-    ac_count = write_to_db(results, state_code, state_name_full, election_type)
+    ac_count = write_to_db(results, state_code, state_name_full)
     print(f"Written {ac_count} constituencies to database (round_no=999)")
 
     # Optionally save CSV/JSON

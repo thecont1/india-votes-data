@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Periodically exports PostgreSQL rounds table to compressed Parquet.
+Periodically exports PostgreSQL rounds_ac table to compressed Parquet.
 Runs as a background process or cron job.
 
 Usage:
@@ -28,7 +28,7 @@ def export_snapshot(output_dir: str = EXPORT_DIR) -> str:
     con = duckdb.connect()
     con.execute(f"""
         COPY (
-            SELECT * FROM postgres_scan('{DATABASE_URL}', 'public', 'rounds')
+            SELECT * FROM postgres_scan('{DATABASE_URL}', 'public', 'rounds_ac')
         ) TO '{output_path}' (FORMAT PARQUET, COMPRESSION 'ZSTD')
     """)
     con.close()
