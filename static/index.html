@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECI Live Election Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --red: #f87171;
+    --green: #4ade80;
+    --yellow: #facc15;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .header h1 .emoji { font-size: 32px; margin-right: 8px; }
+  .header .meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .status-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .status-dot.live { background: var(--green); }
+  .status-dot.idle { background: var(--yellow); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* State selector */
+  .state-bar {
+    padding: 12px 32px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+  .state-btn {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .state-btn:hover { border-color: var(--accent); color: var(--text); }
+  .state-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Main content */
+  .content { padding: 24px 32px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .card h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Chart */
+  .chart-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+  }
+
+  /* Status bar */
+  .status-bar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .status-bar .live-count { color: var(--green); font-weight: 600; }
+  .status-bar .declared-count { color: var(--accent); font-weight: 600; }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch {
+    width: 20px; height: 14px;
+    border-radius: 3px;
+  }
+  .legend-swatch.leading {
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--muted),
+      var(--muted) 3px,
+      transparent 3px,
+      transparent 6px
+    );
+    border: 1px solid var(--border);
+  }
+  .legend-swatch.declared {
+    background: var(--muted);
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--muted);
+  }
+  .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-state h3 { font-size: 20px; color: var(--text); margin-bottom: 8px; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header { padding: 16px; }
+    .header h1 { font-size: 20px; }
+    .content { padding: 16px; }
+    .chart-container { height: 400px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span class="emoji">🗳️</span>ECI Live Election Tracker</h1>
+  <div class="meta">
+    <span id="date-display"></span>
+    <span>
+      <span class="status-dot idle" id="status-dot"></span>
+      <span id="status-text">Waiting for data...</span>
+    </span>
+  </div>
+</div>
+
+<div class="state-bar" id="state-bar"></div>
+
+<div class="content">
+  <div class="status-bar" id="status-bar">
+    <span>Loading...</span>
+  </div>
+
+  <div class="card">
+    <h2>📊 Seat Tally</h2>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-swatch declared"></div>
+        <span>Declared (Won)</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch leading"></div>
+        <span>Leading</span>
+      </div>
+    </div>
+    <div class="chart-container">
+      <canvas id="tally-chart"></canvas>
+    </div>
+    <div class="empty-state" id="empty-state" style="display:none;">
+      <div class="icon">📭</div>
+      <h3>No results yet</h3>
+      <p>Results will appear here as counting progresses.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------------------------------------------------------------------------
+// Config
+// ---------------------------------------------------------------------------
+const POLL_INTERVAL = 5000;  // 5 seconds
+const STATES = [
+  { code: '', name: 'Overall' },
+  // Populated from API
+];
+
+let currentState = '';
+let chart = null;
+let pollTimer = null;
+
+// ---------------------------------------------------------------------------
+// Init
+// ---------------------------------------------------------------------------
+document.getElementById('date-display').textContent =
+  new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+async function init() {
+  const statusResp = await fetch('/api/status');
+  const status = await statusResp.json();
+  updateStatusBar(status);
+  fetchData();
+  pollTimer = setInterval(fetchData, POLL_INTERVAL);
+}
+
+// ---------------------------------------------------------------------------
+// Data fetch
+// ---------------------------------------------------------------------------
+async function fetchData() {
+  try {
+    const url = currentState ? `/api/seat-tally?state=${currentState}` : '/api/seat-tally';
+    const resp = await fetch(url);
+    const data = await resp.json();
+    renderChart(data.parties);
+    updateStatusDot(true);
+    document.getElementById('status-text').textContent =
+      `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
+  } catch (e) {
+    updateStatusDot(false);
+    console.error('Fetch failed:', e);
+  }
+}
+
+async function fetchStatus() {
+  try {
+    const resp = await fetch('/api/status');
+    const status = await resp.json();
+    updateStatusBar(status);
+  } catch (e) { /* ignore */ }
+}
+
+// ---------------------------------------------------------------------------
+// Render
+// ---------------------------------------------------------------------------
+function renderChart(parties) {
+  const canvas = document.getElementById('tally-chart');
+  const emptyEl = document.getElementById('empty-state');
+
+  if (!parties || parties.length === 0) {
+    canvas.style.display = 'none';
+    emptyEl.style.display = 'block';
+    return;
+  }
+  canvas.style.display = 'block';
+  emptyEl.style.display = 'none';
+
+  // Sort by total descending, group small parties into "Others"
+  const TOP_N = 15;
+  const sorted = parties.sort((a, b) => b.total - a.total);
+  const main = sorted.slice(0, TOP_N);
+  const others = sorted.slice(TOP_N);
+
+  if (others.length > 0) {
+    main.push({
+      party_abv: `Others (${others.length})`,
+      won: others.reduce((s, p) => s + p.won, 0),
+      leading: others.reduce((s, p) => s + p.leading, 0),
+      total: others.reduce((s, p) => s + p.total, 0),
+      color: '#888888',
+    });
+  }
+
+  // Reverse for horizontal bar (Chart.js draws bottom-up)
+  const labels = main.map(p => p.party_abv).reverse();
+  const wonData = main.map(p => p.won).reverse();
+  const leadData = main.map(p => p.leading).reverse();
+  const colors = main.map(p => p.color).reverse();
+
+  // Create striped pattern for leading bars
+  const ctx = canvas.getContext('2d');
+
+  if (chart) {
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = wonData;
+    chart.data.datasets[0].backgroundColor = colors;
+    chart.data.datasets[1].data = leadData;
+    chart.data.datasets[1].backgroundColor = colors.map(c => {
+      const pat = ctx.createPattern(createStripeCanvas(c), 'repeat');
+      return pat || c;
+    });
+    chart.update('none');  // No animation on subsequent renders for smoothness
+    return;
+  }
+
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Won (Declared)',
+          data: wonData,
+          backgroundColor: colors,
+          borderRadius: 4,
+          borderSkipped: false,
+        },
+        {
+          label: 'Leading',
+          data: leadData,
+          backgroundColor: colors.map(c => {
+            const pat = ctx.createPattern(createStripeCanvas(c), 'repeat');
+            return pat || c;
+          }),
+          borderRadius: 4,
+          borderSkipped: false,
+        },
+      ],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1e293b',
+          titleColor: '#e2e8f0',
+          bodyColor: '#94a3b8',
+          borderColor: '#334155',
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            label: function(ctx) {
+              const idx = ctx.dataIndex;
+              const won = wonData[idx];
+              const lead = leadData[idx];
+              const parts = [];
+              if (won > 0) parts.push(`Won: ${won}`);
+              if (lead > 0) parts.push(`Leading: ${lead}`);
+              return parts;
+            }
+          }
+        },
+      },
+      scales: {
+        x: {
+          stacked: true,
+          grid: { color: '#1e293b' },
+          ticks: { color: '#94a3b8', font: { size: 12 } },
+          title: { display: true, text: 'Seats', color: '#94a3b8' },
+        },
+        y: {
+          stacked: true,
+          grid: { display: false },
+          ticks: {
+            color: '#e2e8f0',
+            font: { size: 13, weight: '600' },
+          },
+        },
+      },
+    },
+  });
+}
+
+// Create a small canvas with diagonal stripes for the leading pattern
+function createStripeCanvas(color) {
+  const c = document.createElement('canvas');
+  c.width = 10;
+  c.height = 10;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = color;
+  ctx.fillRect(0, 0, 10, 10);
+  ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(-2, 10);
+  ctx.lineTo(10, -2);
+  ctx.moveTo(4, 12);
+  ctx.lineTo(12, 4);
+  ctx.stroke();
+  return c;
+}
+
+// ---------------------------------------------------------------------------
+// Status helpers
+// ---------------------------------------------------------------------------
+function updateStatusDot(live) {
+  const dot = document.getElementById('status-dot');
+  dot.className = live ? 'status-dot live' : 'status-dot idle';
+}
+
+function updateStatusBar(status) {
+  const bar = document.getElementById('status-bar');
+  const s = status.statuses || {};
+  const total = Object.values(s).reduce((a, b) => a + b, 0);
+  const done = s.DONE || 0;
+  const live = s.LIVE || 0;
+  const pending = s.PENDING || 0;
+  const errors = s.ERROR || 0;
+
+  bar.innerHTML = `
+    <span>
+      <span class="live-count">${live}</span> counting &nbsp;|&nbsp;
+      <span class="declared-count">${done}</span> declared &nbsp;|&nbsp;
+      ${pending} pending
+      ${errors > 0 ? `&nbsp;|&nbsp; <span style="color:var(--red)">${errors} errors</span>` : ''}
+    </span>
+    <span>${status.total_rounds_stored.toLocaleString()} rounds stored</span>
+  `;
+}
+
+// ---------------------------------------------------------------------------
+// State selector
+// ---------------------------------------------------------------------------
+function buildStateBar() {
+  const bar = document.getElementById('state-bar');
+  // Fetch tracked states from status or use hardcoded from API
+  fetch('/api/status').then(r => r.json()).then(status => {
+    // Build state buttons from config — for now, use overall + known states
+    const states = [
+      { code: '', name: 'Overall' },
+    ];
+    // We'll populate dynamically on first seat-tally fetch
+    renderStateBar(states);
+  });
+}
+
+function renderStateBar(states) {
+  const bar = document.getElementById('state-bar');
+  bar.innerHTML = '';
+  states.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'state-btn' + (s.code === currentState ? ' active' : '');
+    btn.textContent = s.name;
+    btn.onclick = () => {
+      currentState = s.code;
+      renderStateBar(states);  // Re-render to update active
+      fetchData();
+    };
+    bar.appendChild(btn);
+  });
+}
+
+// Discover states from seat-tally data
+async function discoverStates() {
+  try {
+    const resp = await fetch('/api/seat-tally');
+    // The API doesn't return state list yet, so we hardcode for now
+    // TODO: add /api/states endpoint
+    const states = [
+      { code: '', name: 'Overall' },
+      { code: 'S03', name: 'Assam' },
+      { code: 'S11', name: 'Kerala' },
+      { code: 'U07', name: 'Puducherry' },
+      { code: 'S22', name: 'Tamil Nadu' },
+      { code: 'S25', name: 'West Bengal' },
+    ];
+    renderStateBar(states);
+  } catch (e) {
+    renderStateBar([{ code: '', name: 'Overall' }]);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Boot
+// ---------------------------------------------------------------------------
+discoverStates();
+init();
+setInterval(fetchStatus, 10000);  // Status bar refreshes less often
+</script>
+</body>
+</html>
