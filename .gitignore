@@ -18,5 +18,5 @@ uv.lock
 *.db-wal
 
 # Generated output files
-data/*.csv
-data/*.json
+data/csv/
+data/json/
