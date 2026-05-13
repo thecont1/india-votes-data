@@ -20,3 +20,4 @@ uv.lock
 # Generated output files
 data/csv/
 data/json/
+data/parquet/
