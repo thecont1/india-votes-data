@@ -7,12 +7,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
   :root {
-    --bg: #0f172a;
-    --card: #1e293b;
-    --border: #334155;
-    --text: #e2e8f0;
-    --muted: #94a3b8;
-    --accent: #38bdf8;
+    --bg: #2a2a2a;
+    --card: #363636;
+    --border: #4a4a4a;
+    --text: #f0f0f0;
+    --muted: #999999;
+    --accent: #ffffff;
     --red: #f87171;
     --green: #4ade80;
     --yellow: #facc15;
@@ -27,7 +27,7 @@
 
   /* Header */
   .header {
-    background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+    background: #1a1a1a;
     padding: 24px 32px;
     display: flex;
     align-items: center;
@@ -79,11 +79,11 @@
     cursor: pointer;
     transition: all 0.2s;
   }
-  .state-btn:hover { border-color: var(--accent); color: var(--text); }
+  .state-btn:hover { border-color: #ffffff; color: var(--text); }
   .state-btn.active {
-    background: var(--accent);
-    color: var(--bg);
-    border-color: var(--accent);
+    background: #ffffff;
+    color: #1a1a1a;
+    border-color: #ffffff;
     font-weight: 600;
   }
 
@@ -93,7 +93,7 @@
     margin: 0 auto;
   }
   @media (min-width: 769px) {
-    .content { max-width: 75vw; }
+    .content { max-width: 65vw; }
   }
   .card {
     background: var(--card);
@@ -235,7 +235,7 @@
     <h2>🏇 Top Races — Winner vs Runner-up</h2>
     <div style="margin-bottom:12px;">
       <select id="race-select" style="
-        background:#1e293b; color:#e2e8f0; border:1px solid #334155;
+        background:#363636; color:#f0f0f0; border:1px solid #4a4a4a;
         border-radius:8px; padding:8px 12px; font-size:14px; min-width:280px;
       "></select>
     </div>
@@ -422,7 +422,7 @@ function renderChart(parties, majority) {
       const xScale = chart.scales.x;
       ctx.save();
       ctx.font = '13px -apple-system, system-ui, sans-serif';
-      ctx.fillStyle = '#e2e8f0';
+      ctx.fillStyle = '#f0f0f0';
       ctx.textBaseline = 'middle';
       ctx.textAlign = 'left';
       const meta = chart.getDatasetMeta(0);
@@ -473,10 +473,10 @@ function renderChart(parties, majority) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#1e293b',
-          titleColor: '#e2e8f0',
-          bodyColor: '#94a3b8',
-          borderColor: '#334155',
+          backgroundColor: '#2a2a2a',
+          titleColor: '#f0f0f0',
+          bodyColor: '#999999',
+          borderColor: '#4a4a4a',
           borderWidth: 1,
           padding: 12,
           callbacks: {
@@ -511,15 +511,15 @@ function renderChart(parties, majority) {
           suggestedMax: (majority && currentState !== '')
             ? Math.max(...wonData, ...leadData, majority) + 2
             : undefined,
-          grid: { color: '#1e293b' },
-          ticks: { color: '#94a3b8', font: { size: 12 } },
-          title: { display: true, text: 'Seats', color: '#94a3b8' },
+          grid: { color: '#3a3a3a' },
+          ticks: { color: '#999999', font: { size: 12 } },
+          title: { display: true, text: 'Seats', color: '#999999' },
         },
         y: {
           stacked: true,
           grid: { display: false },
           ticks: {
-            color: '#e2e8f0',
+            color: '#f0f0f0',
             font: { size: 13, weight: '600' },
           },
         },
@@ -536,7 +536,7 @@ function createStripeCanvas(color) {
   const ctx = c.getContext('2d');
   ctx.fillStyle = color;
   ctx.fillRect(0, 0, 10, 10);
-  ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+  ctx.strokeStyle = 'rgba(0,0,0,0.45)';
   ctx.lineWidth = 3;
   ctx.beginPath();
   ctx.moveTo(-2, 10);
@@ -610,10 +610,10 @@ function renderVoteShare(parties) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#1e293b',
-          titleColor: '#e2e8f0',
-          bodyColor: '#94a3b8',
-          borderColor: '#334155',
+          backgroundColor: '#2a2a2a',
+          titleColor: '#f0f0f0',
+          bodyColor: '#999999',
+          borderColor: '#4a4a4a',
           borderWidth: 1,
           padding: 12,
           callbacks: {
@@ -628,14 +628,14 @@ function renderVoteShare(parties) {
       layout: { padding: { left: 8, right: 60, bottom: 10 } },
       scales: {
         x: {
-          grid: { color: '#1e293b' },
-          ticks: { color: '#94a3b8', font: { size: 12 }, callback: v => v + '%' },
-          title: { display: true, text: 'Vote Share (%)', color: '#94a3b8' },
+          grid: { color: '#3a3a3a' },
+          ticks: { color: '#999999', font: { size: 12 }, callback: v => v + '%' },
+          title: { display: true, text: 'Vote Share (%)', color: '#999999' },
           max: Math.max(...data) + 5,
         },
         y: {
           grid: { display: false },
-          ticks: { color: '#e2e8f0', font: { size: 13, weight: '600' } },
+          ticks: { color: '#f0f0f0', font: { size: 13, weight: '600' } },
         },
       },
     },
@@ -647,7 +647,7 @@ function renderVoteShare(parties) {
         const ctx = chart.ctx;
         ctx.save();
         ctx.font = '13px -apple-system, system-ui, sans-serif';
-        ctx.fillStyle = '#e2e8f0';
+        ctx.fillStyle = '#f0f0f0';
         ctx.textBaseline = 'middle';
         ctx.textAlign = 'left';
         for (let i = 0; i < meta.data.length; i++) {
@@ -717,7 +717,7 @@ function drawSingleRace(race) {
     const cx = c.getContext('2d');
     cx.fillStyle = color;
     cx.fillRect(0, 0, 10, 10);
-    cx.strokeStyle = 'rgba(0,0,0,0.35)';
+    cx.strokeStyle = 'rgba(0,0,0,0.45)';
     cx.lineWidth = 3;
     cx.beginPath();
     cx.moveTo(-2, 10); cx.lineTo(10, -2);
@@ -776,10 +776,10 @@ function drawSingleRace(race) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#1e293b',
-          titleColor: '#e2e8f0',
-          bodyColor: '#94a3b8',
-          borderColor: '#334155',
+          backgroundColor: '#2a2a2a',
+          titleColor: '#f0f0f0',
+          bodyColor: '#999999',
+          borderColor: '#4a4a4a',
           borderWidth: 1,
           padding: 12,
           filter: function(item) { return item.raw > 0; },
@@ -805,14 +805,14 @@ function drawSingleRace(race) {
         x: {
           stacked: true,
           max: race.winner_votes * 1.15,
-          grid: { color: '#1e293b' },
-          ticks: { color: '#94a3b8', font: { size: 11 }, callback: v => (v / 1000).toFixed(0) + 'k' },
-          title: { display: true, text: 'Votes', color: '#94a3b8' },
+          grid: { color: '#3a3a3a' },
+          ticks: { color: '#999999', font: { size: 11 }, callback: v => (v / 1000).toFixed(0) + 'k' },
+          title: { display: true, text: 'Votes', color: '#999999' },
         },
         y: {
           stacked: true,
           grid: { display: false },
-          ticks: { color: '#e2e8f0', font: { size: 13, weight: '600' } },
+          ticks: { color: '#f0f0f0', font: { size: 13, weight: '600' } },
         },
       },
     },
@@ -826,7 +826,7 @@ function drawSingleRace(race) {
         ctx.save();
         ctx.font = '13px -apple-system, system-ui, sans-serif';
         ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#e2e8f0';
+        ctx.fillStyle = '#f0f0f0';
         // Winner label
         if (meta0.data[0]) {
           const x = xScale.getPixelForValue(race.winner_votes) + 8;
