@@ -61,7 +61,24 @@ STATE_CODES = {
     "Sikkim": "SK", "Tamil Nadu": "TN", "Telangana": "TS", "Tripura": "TR",
     "Uttar Pradesh": "UP", "Uttarakhand": "UK", "West Bengal": "WB",
 }
+# ECI uses S/U codes in URLs (e.g. S25, U07) — map them to full names too.
+ECI_STATE_NAMES = {
+    "S01": "Andhra Pradesh", "S02": "Arunachal Pradesh", "S03": "Assam",
+    "S04": "Bihar", "S05": "Goa", "S06": "Gujarat", "S07": "Haryana",
+    "S08": "Himachal Pradesh", "S10": "Karnataka", "S11": "Kerala",
+    "S12": "Madhya Pradesh", "S13": "Maharashtra", "S14": "Manipur",
+    "S15": "Meghalaya", "S16": "Mizoram", "S17": "Nagaland", "S18": "Odisha",
+    "S19": "Punjab", "S20": "Rajasthan", "S21": "Sikkim", "S22": "Tamil Nadu",
+    "S23": "Tripura", "S24": "Uttar Pradesh", "S25": "West Bengal",
+    "S26": "Chhattisgarh", "S27": "Jharkhand", "S28": "Uttarakhand",
+    "S29": "Telangana",
+    "U01": "Andaman and Nicobar Islands", "U02": "Chandigarh",
+    "U03": "Dadra and Nagar Haveli and Daman and Diu",
+    "U05": "NCT of Delhi", "U06": "Lakshadweep", "U07": "Puducherry",
+    "U08": "Jammu & Kashmir", "U09": "Ladakh",
+}
 STATE_NAMES = {v: k for k, v in STATE_CODES.items()}
+STATE_NAMES.update(ECI_STATE_NAMES)
 
 
 def get_state_code(state_name: str) -> str:
