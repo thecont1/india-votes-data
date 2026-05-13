@@ -1,5 +1,8 @@
 eci-karnataka.html
-/archive
+
+WARP.md
+.poolside
+
 .DS_Store
 
 # Python
@@ -7,7 +10,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 .venv/
-results/
+uv.lock
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
 
 # Live tracker
 live_tracker/live_results.db
@@ -18,5 +26,6 @@ live_tracker/__pycache__/
 live_tracker/*.pyc
 live_tracker/.venv/
 live_tracker/uv.lock
-live_tracker/live_results.db-shm
-live_tracker/live_results.db-wal
+
+# Results (generated)
+results/
