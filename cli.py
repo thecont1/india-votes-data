@@ -173,8 +173,8 @@ def main():
 
         # Create dynamic filenames
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        json_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.json"
-        csv_file = f"./results/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.csv"
+        json_file = f"./data/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.json"
+        csv_file = f"./data/{results['election_year']}{results['election_type']}-{results['election_state']}_{timestamp}.csv"
 
         start_time = perf_counter()
 
@@ -239,7 +239,7 @@ def main():
                 )
             
             # Write results to JSON file
-            os.makedirs("./results", exist_ok=True)
+            os.makedirs("./data", exist_ok=True)
             with open(json_file, "w") as file:
                 json.dump(results, file, indent=4)
                 print(f"\nData stored in: \n{json_file}")

@@ -56,11 +56,11 @@ class ScrapeAllRoundsRequest(BaseModel):
 
 def save_results_to_files(results: dict) -> tuple:
     """Save results to JSON and CSV files. Returns (json_path, csv_path)."""
-    os.makedirs("./results", exist_ok=True)
+    os.makedirs("./data", exist_ok=True)
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    json_file = f"./results/{results.get('election_year', '2026')}{results.get('election_type', 'Assembly')}-{results.get('election_state', 'XX')}_{timestamp}.json"
-    csv_file = f"./results/{results.get('election_year', '2026')}{results.get('election_type', 'Assembly')}-{results.get('election_state', 'XX')}_{timestamp}.csv"
+    json_file = f"./data/{results.get('election_year', '2026')}{results.get('election_type', 'Assembly')}-{results.get('election_state', 'XX')}_{timestamp}.json"
+    csv_file = f"./data/{results.get('election_year', '2026')}{results.get('election_type', 'Assembly')}-{results.get('election_state', 'XX')}_{timestamp}.csv"
     
     with open(json_file, "w") as f:
         json.dump(results, f, indent=4)
