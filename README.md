@@ -114,7 +114,7 @@ india-votes-data/
 ├── server.py                    # FastAPI API server
 ├── eci-ResultsDayLiveClient.py  # Live client (round-by-round)
 ├── eci-live-scraper.py          # Alternative scraper (requests+BS4)
-├── states_may2026.py            # Election config (states, parties, URLs)
+├── config.py                    # Election config (tracked states, URL template)
 ├── dashboard.py                 # Streamlit dashboard
 ├── db_utils.py                  # Database layer (SQLite + PostgreSQL)
 ├── core/
