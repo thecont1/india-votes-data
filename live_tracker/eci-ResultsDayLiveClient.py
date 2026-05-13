@@ -164,29 +164,34 @@ def process_ac(ac_no: int, url: str, state_code: str, start_round: int = 1):
                 round_num = round_info["round"]
                 for c in round_info["tally"]:
                     candidate_name = c.get("candidate", "")
-                    if candidate_name not in candidate_map:
-                        candidate_map[candidate_name] = len(candidate_map) + 1
+                    candidate_party = c.get("party", "")
+                    candidate_key = (candidate_name, candidate_party)
+                    if candidate_key not in candidate_map:
+                        candidate_map[candidate_key] = len(candidate_map) + 1
                     
                     execute_with_retry(cursor, """
                         INSERT OR REPLACE INTO rounds 
                         (state_code, ac_no, round_no, candidate_number, ac_name,
                          candidate, party, votes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                    """, (state_code, ac_no, round_num, candidate_map[candidate_name],
-                          ac_name, candidate_name, c.get("party", ""),
+                    """, (state_code, ac_no, round_num, candidate_map[candidate_key],
+                          ac_name, candidate_name, candidate_party,
                           int(c.get("total", 0))))
             
             # Store postal votes as round 999
+            # Use serial_no as candidate_number — it's guaranteed unique per AC,
+            # unlike name-based keys which collide when multiple candidates share
+            # a name (e.g. two Independents called "SUKUMAR ROY").
             for c in postal_votes:
                 candidate_name = c.get("candidate", "")
-                if candidate_name not in candidate_map:
-                    candidate_map[candidate_name] = len(candidate_map) + 1
-                
+                candidate_party = c.get("party", "")
+                candidate_number = int(c.get("serial_no", 0))
+
                 execute_with_retry(cursor, """
                     INSERT OR REPLACE INTO rounds 
                     (state_code, ac_no, round_no, candidate_number, ac_name,
                      candidate, party, votes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """, (state_code, ac_no, 999, candidate_map[candidate_name],
-                      ac_name, candidate_name, c.get("party", ""),
+                """, (state_code, ac_no, 999, candidate_number,
+                      ac_name, candidate_name, candidate_party,
                       int(c.get("evm_votes", 0)) + int(c.get("postal_votes", 0))))
             
             commit_with_retry(conn)
