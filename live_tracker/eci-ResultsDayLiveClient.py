@@ -325,8 +325,10 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     election_id = match.group(1)
     state_code = match.group(2)
     
+    from core.scraper import get_state_name
+
     print(f"\nProcessing: {url}")
-    print(f"  State: {state_code}")
+    print(f"  State: {get_state_name(state_code)} ({state_code})")
     if start_round > 1:
         print(f"  Start round: {start_round} (incremental mode)")
     

@@ -50,6 +50,20 @@ def build_roundwise_url(election_identifier: str, state_code: str, constituency_
     return f"https://results.eci.gov.in/{election_identifier}/Roundwise{state_code}{constituency_code}.htm"
 
 
+STATE_CODES = {
+    "Andhra Pradesh": "AP", "Arunachal Pradesh": "AR", "Assam": "AS",
+    "Bihar": "BR", "Chhattisgarh": "CG", "Goa": "GA", "Gujarat": "GJ",
+    "Haryana": "HR", "Himachal Pradesh": "HP", "Jammu & Kashmir": "JK",
+    "Jharkhand": "JH", "Karnataka": "KA", "Kerala": "KL", "Ladakh": "LA",
+    "Lakshadweep": "LD", "Madhya Pradesh": "MP", "Maharashtra": "MH",
+    "Manipur": "MN", "Meghalaya": "ML", "Mizoram": "MZ", "Nagaland": "NL",
+    "Odisha": "OD", "Puducherry": "PY", "Punjab": "PB", "Rajasthan": "RJ",
+    "Sikkim": "SK", "Tamil Nadu": "TN", "Telangana": "TS", "Tripura": "TR",
+    "Uttar Pradesh": "UP", "Uttarakhand": "UK", "West Bengal": "WB",
+}
+STATE_NAMES = {v: k for k, v in STATE_CODES.items()}
+
+
 def get_state_code(state_name: str) -> str:
     """
     Convert state name to state code.
@@ -60,18 +74,12 @@ def get_state_code(state_name: str) -> str:
     Returns:
         State code (e.g., "WB", "TN") or empty string if not found
     """
-    state_codes = {
-        "Andhra Pradesh": "AP", "Arunachal Pradesh": "AR", "Assam": "AS",
-        "Bihar": "BR", "Chhattisgarh": "CG", "Goa": "GA", "Gujarat": "GJ",
-        "Haryana": "HR", "Himachal Pradesh": "HP", "Jammu & Kashmir": "JK",
-        "Jharkhand": "JH", "Karnataka": "KA", "Kerala": "KL", "Ladakh": "LA",
-        "Lakshadweep": "LD", "Madhya Pradesh": "MP", "Maharashtra": "MH",
-        "Manipur": "MN", "Meghalaya": "ML", "Mizoram": "MZ", "Nagaland": "NL",
-        "Odisha": "OD", "Puducherry": "PY", "Punjab": "PB", "Rajasthan": "RJ",
-        "Sikkim": "SK", "Tamil Nadu": "TN", "Telangana": "TS", "Tripura": "TR",
-        "Uttar Pradesh": "UP", "Uttarakhand": "UK", "West Bengal": "WB"
-    }
-    return state_codes.get(state_name, "")
+    return STATE_CODES.get(state_name, "")
+
+
+def get_state_name(state_code: str) -> str:
+    """Convert state code to full state name (e.g. 'WB' -> 'West Bengal')."""
+    return STATE_NAMES.get(state_code, state_code)
 
 
 def extract_results(driver) -> dict:
@@ -343,10 +351,9 @@ def scrape_ac_rounds_core(driver, election_identifier: str, state_code: str,
 
     This is the shared logic used by both /scrape/ac-rounds and /scrape/all-rounds.
 
-    Round extraction reads every pre-rendered tab div in a single DOM pass
-    (see :func:`extract_all_roundwise_rounds`).  During a live election the
-    page grows as new rounds appear; each invocation picks up whatever is
-    present at that moment.
+    During a live election the page grows progressively as new rounds are
+    counted.  Each invocation picks up whatever rounds are available;
+    callers can re-invoke periodically to capture newly-appeared rounds.
     """
     result = {"ac_no": ac_no, "rounds": [], "constituency": "", "postal_votes": []}
 
@@ -357,13 +364,30 @@ def scrape_ac_rounds_core(driver, election_identifier: str, state_code: str,
         if "404" in driver.title:
             return {"status": "done"}
 
-        # --- Bulk extract all rounds in one DOM pass ---
-        all_rounds = extract_all_roundwise_rounds(driver)
-        result["constituency"] = all_rounds.get("constituency", "")
+        # --- Round extraction: click through each round button ---
+        # The ECI page loads round data via JS on button click; the tab
+        # divs are not pre-rendered, so a single DOM read won't work.
+        first_round_result = extract_roundwise_results(driver, max(start_round, 1))
+        constituency_info = {
+            "constituency_no": first_round_result.get("constituency_no", ""),
+            "constituency": first_round_result.get("constituency", ""),
+        }
 
-        for rd in all_rounds.get("rounds", []):
-            if rd["round"] >= max(start_round, 1):
-                result["rounds"].append(rd)
+        if first_round_result.get("round_tally"):
+            result["rounds"].append({
+                "round": max(start_round, 1),
+                "tally": first_round_result.get("round_tally", []),
+            })
+            result["constituency"] = first_round_result.get("constituency", "")
+
+        for round_num in range(max(start_round, 1) + 1, 50):
+            round_result = extract_roundwise_results(driver, round_num, constituency_info)
+            if not round_result.get("round_tally"):
+                break
+            result["rounds"].append({
+                "round": round_num,
+                "tally": round_result.get("round_tally", []),
+            })
 
         # --- Postal votes from constituency page ---
         constituency_url = build_constituency_url(election_identifier, state_code, ac_no)

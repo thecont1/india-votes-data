@@ -141,7 +141,7 @@ async def health_check():
 
 
 @app.post("/scrape/ac-rounds")
-async def scrape_ac_rounds_endpoint(request: ScrapeAcRoundsRequest):
+def scrape_ac_rounds_endpoint(request: ScrapeAcRoundsRequest):
     """Scrape rounds for a single AC, plus postal votes from final results."""
     try:
         election_identifier, state_code = parse_partywise_url(request.url)
@@ -164,7 +164,7 @@ async def scrape_ac_rounds_endpoint(request: ScrapeAcRoundsRequest):
 
 
 @app.post("/scrape/all-rounds")
-async def scrape_all_rounds_endpoint(request: ScrapeAllRoundsRequest):
+def scrape_all_rounds_endpoint(request: ScrapeAllRoundsRequest):
     """Scrape all rounds (1-N) for each AC, plus postal votes from final results."""
     try:
         election_identifier, state_code = parse_partywise_url(request.url)
