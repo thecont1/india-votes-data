@@ -18,16 +18,9 @@ This project provides an automated tool to collect, clean, and store Indian parl
 
 - Robust error handling with automatic termination
 
-- Headless browser operation for maximum efficiency. ~~Run the script and go grab a ☕~~
+- Headless browser operation for maximum efficiency
 
-- Superfast multi-threaded scraping (up to 5 workers) - no time for coffee!
-
-<!--
-Throughput comparison:
-- Before multi-threading: ~2.4 constituencies/second (140 in 59s)
-- After multi-threading: ~6.5 constituencies/second (824 in 126s)
-- That's ~2.7x faster throughput!
--->
+- Multi-threaded scraping (3 concurrent workers for CLI, 3 for live client)
 
 ## Data Format
 
@@ -38,7 +31,7 @@ A handy Kaggle notebook to provide for quick data analysis is over here:
 
 ### CSV Format
 
-The data is stored in CSV files (e.g., `2024Assembly-HR.csv`, `2024Assembly-JH.csv`) with the following columns:
+The data is stored in CSV files (e.g., `2026Assembly-WB.csv`) with the following columns:
 
 - `election_year`: Year of the election
 
@@ -46,9 +39,9 @@ The data is stored in CSV files (e.g., `2024Assembly-HR.csv`, `2024Assembly-JH.c
 
 - `election_state`: Full name of the state
 
-- `state_code`: Two-letter state code
-
 - `constituency`: Name of the constituency
+
+- `constituency_no`: Numeric constituency ID
 
 - `serial_no`: Candidate's serial number
 
@@ -62,7 +55,7 @@ The data is stored in CSV files (e.g., `2024Assembly-HR.csv`, `2024Assembly-JH.c
 
 ### JSON Format
 
-The JSON files (e.g., `2024Assembly-HR.json`, `2024Assembly-JH.json`) contain detailed constituency-wise data including:
+The JSON files (e.g., `2026Assembly-WB.json`) contain detailed constituency-wise data including:
 
 - `election_year`: Year of the election
 
@@ -90,17 +83,13 @@ The JSON files (e.g., `2024Assembly-HR.json`, `2024Assembly-JH.json`) contain de
 
 ## Requirements
 
-- Python 3.x
+- Python 3.14+
 
 - Selenium WebDriver
 
 - Chrome Browser
 
-- Required Python packages: (refer `requirements.txt`)
-  - selenium
-  - pandas
-  - csv
-  - json
+- Dependencies managed via `pyproject.toml` (install with `uv sync`)
 
 ## Setup
 
@@ -111,35 +100,17 @@ git clone https://github.com/thecont1/india-votes-data.git
 cd india-votes-data
 ```
 
-2. Install dependencies with uv (recommended):
+2. Install dependencies with uv:
 
 ```bash
 uv sync
 ```
 
-Alternatively, create and activate a virtual environment:
-
-```bash
-python -m venv venv
-
-# On Windows
-venv\Scripts\activate
-
-# On macOS/Linux
-source venv/bin/activate
-```
-
-3. Install required packages (if not using uv):
-
-```bash
-pip install -r requirements.txt
-```
-
-4. If the Chrome browser isn't already installed on your system, Selenium will automatically do the job. Give it a minute or two.
+3. If the Chrome browser isn't already installed on your system, Selenium will automatically do the job. Give it a minute or two.
 
 ## Usage
 
-### Basic Usage
+### CLI Scraper
 
 Configure and run the program via command line:
 
@@ -158,23 +129,23 @@ The program intelligently detects when it has processed all available constituen
 
 ### Live Client Mode
 
-For continuous monitoring and database population, use the live client:
+For continuous monitoring and database population on results day:
 
 ```bash
-# Run the live client (uses 2 concurrent workers by default)
-uv run live_tracker/eci-ResultsDayLiveClient.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S11.htm"
+# Run the live client (3 concurrent workers)
+uv run eci-ResultsDayLiveClient.py --url "https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S11.htm"
 
 # For sequential processing (safest for resource-constrained systems)
-uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --sequential
+uv run eci-ResultsDayLiveClient.py --url "..." --sequential
 
 # Test with a single AC only
-uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --only-ac 15
+uv run eci-ResultsDayLiveClient.py --url "..." --only-ac 15
 
 # Start from a specific AC number onwards
-uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --start-ac 15 --sequential
+uv run eci-ResultsDayLiveClient.py --url "..." --start-ac 15 --sequential
 
 # Use test database for isolated testing (won't overwrite production data)
-uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --test-db
+uv run eci-ResultsDayLiveClient.py --url "..." --test-db
 ```
 
 ### API Server Mode
@@ -197,16 +168,18 @@ Available endpoints:
 
 ### Output
 
-The script will generate two types of files in the `results` directory:
+The script generates CSV and JSON files in the `data` directory:
 
-- CSV file: `YYYY<Type>-<state>.csv` (e.g., `2026Assembly-AS.csv`)
-- JSON file: `YYYY<Type>-<state>.json` (e.g., `2026Assembly-AS.json`)
+- CSV file: `YYYY<Type>-<state>.csv` (e.g., `2026Assembly-WB.csv`)
+- JSON file: `YYYY<Type>-<state>.json` (e.g., `2026Assembly-WB.json`)
 
 where:
 
 - `YYYY`: Election year
-- `<Type>`: Assembly or Parliamentary  
+- `<Type>`: Assembly or Parliamentary
 - `<state>`: State code (e.g., AS, KL, TN)
+
+The live client writes round-by-round data to `data/live_results.db` (SQLite).
 
 ## Data Files
 
@@ -224,19 +197,39 @@ The repository includes processed data files for various states:
 - Tamil Nadu: `2026Assembly-TN.csv`, `2026Assembly-TN.json`
 - West Bengal: `2026Assembly-WB.csv`, `2026Assembly-WB.json`
 
+## Project Structure
+
+```
+india-votes-data/
+├── cli.py                       # CLI scraper (final results → CSV/JSON)
+├── eci-ResultsDayLiveClient.py  # Live client (round-by-round → SQLite)
+├── server.py                    # FastAPI server for API-based scraping
+├── core/
+│   ├── scraper.py               # ECI page extraction logic
+│   ├── browser.py               # Chrome WebDriver factory
+│   └── models.py                # Pydantic data models
+├── data/
+│   ├── live_results.db          # Live scraper database
+│   └── *.csv, *.json            # CLI output files
+├── dashboard.py                 # Streamlit dashboard
+├── pyproject.toml               # Unified uv project
+└── .venv/                       # Virtual environment
+```
+
 ## Implementation Details
 
 The scraper uses Selenium WebDriver with the following optimizations and features:
 
-- Multi-threaded scraping (default: up to 5 concurrent workers)
+- Multi-threaded scraping (3 concurrent workers)
 - Single-threaded `--respect` mode for server-friendly operation (1s pause every 10 URLs)
-- Headless mode for better performance
+- Headless mode with anti-detection measures
 - Disabled image loading
 - Custom user agent
-- Robust error handling and timeouts
+- Robust error handling and retries
 - Automatic detection of end-of-results (404 page)
-- Results sorted by constituency_no (ascending) and serial_no (ascending)
+- Results sorted by constituency_no and serial_no
 - Output files include timestamp suffix for multiple runs
+- Live client stores round-by-round data for time-series analysis
 
 ## License
 
@@ -244,13 +237,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 You are free to:
 - Use this code commercially
-
 - Modify the code
-
 - Distribute the code
-
 - Use it privately
 
 Under the following conditions:
-
 - Include the original license and copyright notice
