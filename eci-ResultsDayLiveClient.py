@@ -342,7 +342,7 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
             print(f"Error: Could not connect to API server")
     
     # Parse URL to get state code
-    match = re.match(r'^https://results\\.eci\\.gov\\.in/([^/]+)/partywiseresult-([A-Z]\\d+)\\.htm$', url)
+    match = re.match(r'^https://results\.eci\.gov\.in/([^/]+)/partywiseresult-([A-Z]\d+)\.htm$', url)
     if not match:
         print("Error: Invalid URL format")
         if we_started_server and api_process is not None:
