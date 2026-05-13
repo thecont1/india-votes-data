@@ -156,7 +156,28 @@ def seat_tally(state: str = Query("", description="State code filter, empty=all"
                 "color": PARTY_COLORS.get(abv, DEFAULT_COLOR),
             })
 
-        return {"parties": result, "updated_at": datetime.now().isoformat()}
+        # Compute majority line from states table
+        majority = None
+        if state:
+            cur.execute(
+                f"SELECT assembly_seats FROM states WHERE state_code={('%s' if IS_PG else '?')}",
+                (state,),
+            )
+            row = cur.fetchone()
+            if row:
+                majority = row["assembly_seats"] // 2 + 1
+        else:
+            # Overall: sum of all tracked states' assembly_seats
+            cur.execute("SELECT SUM(assembly_seats) as total_seats FROM states WHERE state_code IN (SELECT DISTINCT state_code FROM constituency_status)")
+            row = cur.fetchone()
+            if row and row["total_seats"]:
+                majority = row["total_seats"] // 2 + 1
+
+        return {
+            "parties": result,
+            "majority": majority,
+            "updated_at": datetime.now().isoformat(),
+        }
     finally:
         conn.close()
 

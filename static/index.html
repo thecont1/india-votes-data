@@ -226,6 +226,7 @@ const STATES = [
 ];
 
 let currentState = '';
+let currentMajority = null;
 let chart = null;
 let pollTimer = null;
 
@@ -251,7 +252,8 @@ async function fetchData() {
     const url = currentState ? `/api/seat-tally?state=${currentState}` : '/api/seat-tally';
     const resp = await fetch(url);
     const data = await resp.json();
-    renderChart(data.parties);
+    currentMajority = data.majority;
+    renderChart(data.parties, data.majority);
     updateStatusDot(true);
     document.getElementById('status-text').textContent =
       `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
@@ -272,7 +274,7 @@ async function fetchStatus() {
 // ---------------------------------------------------------------------------
 // Render
 // ---------------------------------------------------------------------------
-function renderChart(parties) {
+function renderChart(parties, majority) {
   const canvas = document.getElementById('tally-chart');
   const emptyEl = document.getElementById('empty-state');
 
@@ -322,8 +324,36 @@ function renderChart(parties) {
     return;
   }
 
+  // Majority line plugin
+  const majorityPlugin = {
+    id: 'majorityLine',
+    afterDraw(chart) {
+      const maj = currentMajority;
+      if (maj == null) return;
+      const xScale = chart.scales.x;
+      const yScale = chart.scales.y;
+      const x = xScale.getPixelForValue(maj);
+      const ctx = chart.ctx;
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([6, 4]);
+      ctx.strokeStyle = '#f87171';
+      ctx.lineWidth = 2;
+      ctx.moveTo(x, yScale.top);
+      ctx.lineTo(x, yScale.bottom);
+      ctx.stroke();
+      // Label
+      ctx.fillStyle = '#f87171';
+      ctx.font = '12px -apple-system, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`Majority (${maj})`, x, yScale.top - 8);
+      ctx.restore();
+    }
+  };
+
   chart = new Chart(ctx, {
     type: 'bar',
+    plugins: [majorityPlugin],
     data: {
       labels,
       datasets: [
