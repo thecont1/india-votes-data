@@ -91,22 +91,20 @@ class ScrapeAllRoundsRequest(BaseModel):
 # ---------------------------------------------------------------------------
 @app.get("/api/seat-tally")
 def seat_tally(state: str = Query("", description="State code filter, empty=all")):
-    """Party-wise won + leading seat counts.
+    """Party-wise won + leading seat counts plus deposit-loss breakdown.
 
-    Returns list of {party_abv, party_name, color, won, leading, total}
-    sorted by total descending.
+    Returns list of {party_abv, party_name, color, won, leading, total,
+                      lost_no_deposit, lost_deposit} sorted by won descending.
     """
     conn = _connect()
     cur = _cursor(conn)
     try:
-        # Find the latest round per AC, then pick the top candidate
-        where = ""
+        sf = ""                               # state filter fragment
         params: list = []
         if state:
-            where = "AND r.state_code = %s" if IS_PG else "AND r.state_code = ?"
+            sf = "AND r.state_code = %s" if IS_PG else "AND r.state_code = ?"
             params.append(state)
-
-        p = "%s" if IS_PG else "?"
+            params.append(state)  # appears in 2 CTEs (ac_winners + party_best)
 
         query = f"""
         WITH latest_rounds AS (
@@ -114,41 +112,82 @@ def seat_tally(state: str = Query("", description="State code filter, empty=all"
             FROM rounds_ac
             GROUP BY state_code, ac_no
         ),
-        top_candidates AS (
-            SELECT r.state_code, r.ac_no, p.abv as party_abv, r.votes, cs.won
+        ac_totals AS (
+            SELECT r.state_code, r.ac_no, SUM(r.votes) as total_votes
             FROM rounds_ac r
             JOIN latest_rounds lr
-                ON r.state_code = lr.state_code
-                AND r.ac_no = lr.ac_no
+                ON r.state_code = lr.state_code AND r.ac_no = lr.ac_no
                 AND r.round_no = lr.max_round
-            JOIN constituency_status cs
-                ON r.state_code = cs.state_code
-                AND r.ac_no = cs.ac_no
-            JOIN parties p ON r.party_abv = p.name
-            WHERE r.votes = (
-                SELECT MAX(r2.votes) FROM rounds_ac r2
-                WHERE r2.state_code = r.state_code
-                  AND r2.ac_no = r.ac_no
-                  AND r2.round_no = r.round_no
-            )
-            {where}
+            GROUP BY r.state_code, r.ac_no
+        ),
+        ac_winners AS (
+            SELECT state_code, ac_no, winner_abv
+            FROM (
+                SELECT lr.state_code, lr.ac_no, p.abv as winner_abv,
+                       ROW_NUMBER() OVER (
+                           PARTITION BY lr.state_code, lr.ac_no
+                           ORDER BY r.votes DESC
+                       ) as rn
+                FROM rounds_ac r
+                JOIN latest_rounds lr
+                    ON r.state_code = lr.state_code AND r.ac_no = lr.ac_no
+                    AND r.round_no = lr.max_round
+                JOIN parties p ON r.party_abv = p.name
+                WHERE 1=1 {sf}
+            ) WHERE rn = 1
+        ),
+        party_best AS (
+            SELECT state_code, ac_no, party_abv, party_name,
+                   votes, ac_declared, winner_abv, total_votes
+            FROM (
+                SELECT r.state_code, r.ac_no,
+                       p.abv as party_abv, p.name as party_name,
+                       r.votes, cs.won as ac_declared,
+                       aw.winner_abv, at.total_votes,
+                       ROW_NUMBER() OVER (
+                           PARTITION BY r.state_code, r.ac_no, p.abv
+                           ORDER BY r.votes DESC
+                       ) as rn
+                FROM rounds_ac r
+                JOIN latest_rounds lr
+                    ON r.state_code = lr.state_code AND r.ac_no = lr.ac_no
+                    AND r.round_no = lr.max_round
+                JOIN constituency_status cs
+                    ON r.state_code = cs.state_code AND r.ac_no = cs.ac_no
+                JOIN parties p ON r.party_abv = p.name
+                JOIN ac_totals at
+                    ON r.state_code = at.state_code AND r.ac_no = at.ac_no
+                JOIN ac_winners aw
+                    ON r.state_code = aw.state_code AND r.ac_no = aw.ac_no
+                WHERE 1=1 {sf}
+            ) WHERE rn = 1
         )
         SELECT
             party_abv,
-            SUM(CASE WHEN won = 1 THEN 1 ELSE 0 END) as won_seats,
-            SUM(CASE WHEN won = 0 THEN 1 ELSE 0 END) as leading_seats,
-            COUNT(*) as total
-        FROM top_candidates
+            MAX(party_name) as party_name,
+            SUM(CASE WHEN party_abv = winner_abv AND ac_declared = 1
+                     THEN 1 ELSE 0 END) as won_seats,
+            SUM(CASE WHEN party_abv = winner_abv AND ac_declared = 0
+                     THEN 1 ELSE 0 END) as leading_seats,
+            SUM(CASE WHEN party_abv != winner_abv AND ac_declared = 1
+                     AND votes * 6 >= total_votes
+                     THEN 1 ELSE 0 END) as lost_no_deposit,
+            SUM(CASE WHEN party_abv != winner_abv AND ac_declared = 1
+                     AND votes * 6 < total_votes
+                     THEN 1 ELSE 0 END) as lost_deposit
+            , SUM(votes) as total_votes
+        FROM party_best
         GROUP BY party_abv
-        ORDER BY total DESC
+        ORDER BY won_seats DESC
         """
         cur.execute(query, params)
         rows = cur.fetchall()
 
         # Check if won status is populated at all (historical data may have won=0 everywhere)
-        check_q = f"SELECT SUM(CASE WHEN won=1 THEN 1 ELSE 0 END) as won_count FROM constituency_status"
+        check_q = "SELECT SUM(CASE WHEN won=1 THEN 1 ELSE 0 END) as won_count FROM constituency_status"
         if state:
-            check_q += f" WHERE state_code={('%s' if IS_PG else '?')}" if IS_PG else " WHERE state_code=?"
+            p = "%s" if IS_PG else "?"
+            check_q += f" WHERE state_code={p}"
         cur.execute(check_q, [state] if state else [])
         has_won_data = (cur.fetchone() or {}).get("won_count", 0) > 0
 
@@ -157,15 +196,23 @@ def seat_tally(state: str = Query("", description="State code filter, empty=all"
             abv = row["party_abv"]
             won = row["won_seats"]
             leading = row["leading_seats"]
+            lost_no_dep = row["lost_no_deposit"]
+            lost_dep = row["lost_deposit"]
             # If no won status populated anywhere, treat all as won (historical data)
             if not has_won_data:
                 won += leading
                 leading = 0
+                lost_no_dep = 0
+                lost_dep = 0
             result.append({
                 "party_abv": abv,
+                "party_name": row.get("party_name", abv),
                 "won": won,
                 "leading": leading,
-                "total": row["total"],
+                "total": won + leading,
+                "lost_no_deposit": lost_no_dep,
+                "lost_deposit": lost_dep,
+                "total_votes": row.get("total_votes", 0),
                 "color": PARTY_COLORS.get(abv, DEFAULT_COLOR),
             })
 
@@ -195,29 +242,136 @@ def seat_tally(state: str = Query("", description="State code filter, empty=all"
         conn.close()
 
 
-@app.get("/api/status")
-def status_summary():
-    """Counting progress summary."""
+@app.get("/api/ac-races")
+def ac_races(state: str = Query(..., description="State code (required)")):
+    """Per-AC race data: winner, runner-up, margin, and rest.
+
+    Returns the top 20 ACs by winner vote count.
+    """
     conn = _connect()
     cur = _cursor(conn)
     try:
-        cur.execute("""
-            SELECT status, COUNT(*) as cnt
-            FROM constituency_status
-            GROUP BY status
-        """)
-        statuses = {row["status"]: row["cnt"] for row in cur.fetchall()}
+        p = "%s" if IS_PG else "?"
+        cur.execute(f"""
+            WITH latest_rounds AS (
+                SELECT state_code, ac_no, MAX(round_no) as max_round
+                FROM rounds_ac
+                WHERE state_code = {p}
+                GROUP BY state_code, ac_no
+            ),
+            ranked AS (
+                SELECT r.state_code, r.ac_no, r.ac_name,
+                       p.abv as party_abv, p.name as party_name,
+                       r.votes,
+                       ROW_NUMBER() OVER (
+                           PARTITION BY r.state_code, r.ac_no
+                           ORDER BY r.votes DESC
+                       ) as rank
+                FROM rounds_ac r
+                JOIN latest_rounds lr
+                    ON r.state_code = lr.state_code
+                    AND r.ac_no = lr.ac_no
+                    AND r.round_no = lr.max_round
+                JOIN parties p ON r.party_abv = p.name
+            )
+            SELECT
+                r1.ac_no,
+                r1.ac_name,
+                r1.party_abv  as winner_abv,
+                r1.party_name as winner_name,
+                r1.votes      as winner_votes,
+                r2.party_abv  as runnerup_abv,
+                r2.party_name as runnerup_name,
+                r2.votes      as runnerup_votes,
+                (r1.votes - r2.votes) as margin,
+                COALESCE(
+                    (SELECT SUM(r3.votes) FROM ranked r3
+                     WHERE r3.state_code = r1.state_code
+                       AND r3.ac_no = r1.ac_no AND r3.rank > 2), 0
+                ) as rest_votes
+            FROM ranked r1
+            JOIN ranked r2
+                ON r1.state_code = r2.state_code
+               AND r1.ac_no = r2.ac_no
+               AND r2.rank = 2
+            WHERE r1.rank = 1
+            ORDER BY (r1.votes - r2.votes) DESC
+        """, (state,))
+        rows = cur.fetchall()
+        result = []
+        for row in rows:
+            d = dict(row) if hasattr(row, 'keys') else {
+                'ac_no': row[0], 'ac_name': row[1],
+                'winner_abv': row[2], 'winner_name': row[3],
+                'winner_votes': row[4], 'runnerup_abv': row[5],
+                'runnerup_name': row[6], 'runnerup_votes': row[7],
+                'margin': row[8], 'rest_votes': row[9],
+            }
+            d["winner_color"] = PARTY_COLORS.get(d["winner_abv"], DEFAULT_COLOR)
+            d["runnerup_color"] = PARTY_COLORS.get(d["runnerup_abv"], DEFAULT_COLOR)
+            result.append(d)
+        return {"races": result, "state": state}
+    finally:
+        conn.close()
 
-        cur.execute("SELECT COUNT(*) as cnt FROM rounds_ac")
-        total_rounds = cur.fetchone()["cnt"]
 
-        cur.execute("SELECT COUNT(DISTINCT state_code) as cnt FROM constituency_status WHERE status != 'PENDING'")
-        active_states = cur.fetchone()["cnt"]
+@app.get("/api/status")
+def status_summary(state: str = Query(default=None)):
+    """Counting progress summary — computed from actual rounds data.
 
+    DONE = AC has valid scraped data (votes > 0, not just round-999
+           summary, and latest round has > 1 candidate).
+    LIVE = scraper is actively working on this AC.
+    PENDING = everything else.
+    Only counts ACs belonging to states that appear in rounds_ac
+    (i.e. states tracked by this election cycle via election.conf).
+    """
+    conn = _connect()
+    cur = _cursor(conn)
+    try:
+        p = "%s" if IS_PG else "?"
+        state_filter = ""
+        state_params: list = []
+        if state:
+            state_filter = f"AND cs.state_code = {p}"
+            state_params.append(state)
+
+        cur.execute(f"""
+            SELECT
+                CASE
+                    WHEN cs.status = 'LIVE' THEN 'LIVE'
+                    WHEN r.ac_no IS NOT NULL THEN 'DONE'
+                    ELSE 'PENDING'
+                END as effective_status,
+                COUNT(*) as cnt
+            FROM constituency_status cs
+            LEFT JOIN (
+                -- Only ACs with genuinely valid scraped data qualify as DONE:
+                SELECT r1.state_code, r1.ac_no
+                FROM rounds_ac r1
+                JOIN (
+                    SELECT state_code, ac_no,
+                           MAX(round_no) AS max_round,
+                           COUNT(DISTINCT round_no) AS n_rounds
+                    FROM rounds_ac
+                    GROUP BY state_code, ac_no
+                ) lr ON r1.state_code = lr.state_code
+                    AND r1.ac_no = lr.ac_no
+                    AND r1.round_no = lr.max_round
+                GROUP BY r1.state_code, r1.ac_no, lr.max_round, lr.n_rounds
+                HAVING SUM(r1.votes) > 0                          -- criteria 2: real votes
+                   AND NOT (lr.max_round = 999 AND lr.n_rounds = 1) -- criteria 3: not just summary page
+                   AND COUNT(*) > 1                                -- criteria 4: >1 candidate in latest round
+            ) r ON cs.state_code = r.state_code AND cs.ac_no = r.ac_no
+            -- Only count ACs belonging to tracked states (states with data in rounds_ac)
+            WHERE cs.state_code IN (SELECT DISTINCT state_code FROM rounds_ac)
+              {state_filter}
+            GROUP BY effective_status
+        """, state_params)
+        statuses = {row["effective_status"]: row["cnt"] for row in cur.fetchall()}
         return {
             "statuses": statuses,
-            "total_rounds_stored": total_rounds,
-            "active_states": active_states,
+            "active_states": 1 if state else len(statuses),
             "updated_at": datetime.now().isoformat(),
         }
     finally:
