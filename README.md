@@ -114,6 +114,7 @@ india-votes-data/
 ├── server.py                    # FastAPI API server
 ├── eci-ResultsDayLiveClient.py  # Live client (round-by-round)
 ├── eci-live-scraper.py          # Alternative scraper (requests+BS4)
+├── states_may2026.py            # Election config (states, parties, URLs)
 ├── dashboard.py                 # Streamlit dashboard
 ├── db_utils.py                  # Database layer (SQLite + PostgreSQL)
 ├── core/
@@ -124,10 +125,14 @@ india-votes-data/
 ├── data/
 │   ├── states.csv               # 36 states/UTs reference
 │   ├── parties.csv              # 30 major parties metadata
+│   ├── csv/                     # CLI CSV output
+│   ├── json/                    # CLI JSON output
 │   └── election_results.db      # SQLite database (gitignored)
-├── export_parquet.py            # DuckDB → Parquet export
-├── migrate_to_pg.py             # SQLite → PostgreSQL migration
-└── pyproject.toml               # uv project config
+├── archive/                     # Historical files
+├── analyse-this.ipynb           # Analysis notebook
+├── pyproject.toml               # uv project config
+├── README.md                    # This file
+└── SCHEMA.md                    # Database schema docs
 ```
 
 ## Database
