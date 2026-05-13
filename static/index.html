@@ -88,7 +88,13 @@
   }
 
   /* Main content */
-  .content { padding: 24px 32px; }
+  .content {
+    padding: 24px 32px;
+    margin: 0 auto;
+  }
+  @media (min-width: 769px) {
+    .content { max-width: 75vw; }
+  }
   .card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -96,6 +102,8 @@
     padding: 24px;
     margin-bottom: 24px;
   }
+
+
   .card h2 {
     font-size: 20px;
     font-weight: 600;
@@ -111,6 +119,8 @@
     width: 100%;
     height: 500px;
   }
+
+
 
   /* Status bar */
   .status-bar {
@@ -213,8 +223,27 @@
       <p>Results will appear here as counting progresses.</p>
     </div>
   </div>
-</div>
 
+  <div class="card" id="vote-share-card">
+    <h2>📊 Vote Share by Party</h2>
+    <div class="chart-container" style="height:400px;">
+      <canvas id="vote-share-chart"></canvas>
+    </div>
+  </div>
+
+  <div class="card" id="races-card">
+    <h2>🏇 Top Races — Winner vs Runner-up</h2>
+    <div style="margin-bottom:12px;">
+      <select id="race-select" style="
+        background:#1e293b; color:#e2e8f0; border:1px solid #334155;
+        border-radius:8px; padding:8px 12px; font-size:14px; min-width:280px;
+      "></select>
+    </div>
+    <div class="chart-container" style="height:600px;">
+      <canvas id="races-chart"></canvas>
+    </div>
+  </div>
+</div>
 <script>
 // ---------------------------------------------------------------------------
 // Config
@@ -229,6 +258,11 @@ let currentState = '';
 let currentMajority = null;
 let chart = null;
 let pollTimer = null;
+let partyNames = {};  // abv -> full name
+let partyDepositLoss = {};  // abv -> {lost_no_deposit, lost_deposit}
+let voteShareChart = null;
+let racesChart = null;
+let racesData = [];  // all races for current state
 
 // ---------------------------------------------------------------------------
 // Init
@@ -254,6 +288,8 @@ async function fetchData() {
     const data = await resp.json();
     currentMajority = data.majority;
     renderChart(data.parties, data.majority);
+    renderVoteShare(data.parties);
+    renderRaces(currentState);
     updateStatusDot(true);
     document.getElementById('status-text').textContent =
       `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
@@ -265,7 +301,8 @@ async function fetchData() {
 
 async function fetchStatus() {
   try {
-    const resp = await fetch('/api/status');
+    const url = currentState ? `/api/status?state=${currentState}` : '/api/status';
+    const resp = await fetch(url);
     const status = await resp.json();
     updateStatusBar(status);
   } catch (e) { /* ignore */ }
@@ -288,7 +325,8 @@ function renderChart(parties, majority) {
 
   // Sort by total descending, group small parties into "Others"
   const TOP_N = 15;
-  const sorted = parties.sort((a, b) => b.total - a.total);
+  const active = parties.filter(p => p.total > 0);
+  const sorted = active.sort((a, b) => b.total - a.total);
   const main = sorted.slice(0, TOP_N);
   const others = sorted.slice(TOP_N);
 
@@ -309,10 +347,25 @@ function renderChart(parties, majority) {
   const leadData = main.map(p => p.leading);
   const colors = main.map(p => p.color);
 
+  // Build abv -> full name map for tooltips
+  main.forEach(p => {
+    partyNames[p.party_abv] = p.party_name || p.party_abv;
+    partyDepositLoss[p.party_abv] = {
+      lost_no_deposit: p.lost_no_deposit || 0,
+      lost_deposit: p.lost_deposit || 0,
+    };
+  });
+
   // Create striped pattern for leading bars
   const ctx = canvas.getContext('2d');
 
   if (chart) {
+    // Ensure x-axis always shows the majority line
+    const dataMax = Math.max(...wonData, ...leadData);
+    chart.options.scales.x.suggestedMax =
+      (currentMajority != null && currentState !== '')
+        ? Math.max(dataMax, currentMajority) + 2
+        : dataMax + 2;
     chart.data.labels = labels;
     chart.data.datasets[0].data = wonData;
     chart.data.datasets[0].backgroundColor = colors;
@@ -330,7 +383,7 @@ function renderChart(parties, majority) {
     id: 'majorityLine',
     afterDraw(chart) {
       const maj = currentMajority;
-      if (maj == null) return;
+      if (maj == null || currentState === '') return;
       const xScale = chart.scales.x;
       const yScale = chart.scales.y;
       const x = xScale.getPixelForValue(maj);
@@ -343,40 +396,46 @@ function renderChart(parties, majority) {
       ctx.moveTo(x, yScale.top);
       ctx.lineTo(x, yScale.bottom);
       ctx.stroke();
-      // Label — positioned near bottom, avoid clipping at right edge
+      // Label — 10% up from the bottom of the chart area
       ctx.fillStyle = '#f87171';
       ctx.font = '12px -apple-system, system-ui, sans-serif';
       const label = `Majority (${maj})`;
-      const labelW = ctx.measureText(label).width;
-      ctx.textAlign = (x + labelW / 2 > xScale.right) ? 'right' : 'center';
-      const labelX = (x + labelW / 2 > xScale.right) ? x - 4 : x;
-      ctx.fillText(label, labelX, yScale.bottom + 18);
+      const labelY = yScale.bottom - 0.10 * (yScale.bottom - yScale.top);
+      // Place label left or right of the line based on 75% mark
+      const x75 = xScale.left + 0.75 * (xScale.right - xScale.left);
+      if (x < x75) {
+        ctx.textAlign = 'left';
+        ctx.fillText(label, x + 6, labelY);
+      } else {
+        ctx.textAlign = 'right';
+        ctx.fillText(label, x - 6, labelY);
+      }
       ctx.restore();
     }
   };
 
-  // Seat count labels on bars
+  // Seat count labels on bars — drawn at the end of each bar
   const dataLabelsPlugin = {
     id: 'dataLabels',
     afterDraw(chart) {
       const ctx = chart.ctx;
-      const meta = chart.getDatasetMeta(1); // Leading dataset (on top in stacked)
-      const wonMeta = chart.getDatasetMeta(0);
+      const xScale = chart.scales.x;
       ctx.save();
-      ctx.font = '12px -apple-system, system-ui, sans-serif';
+      ctx.font = '13px -apple-system, system-ui, sans-serif';
       ctx.fillStyle = '#e2e8f0';
       ctx.textBaseline = 'middle';
-      meta.data.forEach((bar, i) => {
-        const wonVal = wonMeta.data[i] ? chart.data.datasets[0].data[i] : 0;
-        const leadVal = chart.data.datasets[1].data[i];
-        const total = wonVal + leadVal;
+      ctx.textAlign = 'left';
+      const meta = chart.getDatasetMeta(0);
+      for (let i = 0; i < meta.data.length; i++) {
+        const won = chart.data.datasets[0].data[i] || 0;
+        const lead = chart.data.datasets[1].data[i] || 0;
+        const total = won + lead;
         if (total > 0) {
-          const x = bar.x + 6;
-          const y = bar.y;
-          ctx.textAlign = 'left';
-          ctx.fillText(total, x, y);
+          const bar = meta.data[i];
+          const x = xScale.getPixelForValue(total) + 6;
+          ctx.fillText(total, x, bar.y);
         }
-      });
+      }
       ctx.restore();
     }
   };
@@ -421,6 +480,12 @@ function renderChart(parties, majority) {
           borderWidth: 1,
           padding: 12,
           callbacks: {
+            title: function(items) {
+              if (!items.length) return '';
+              const idx = items[0].dataIndex;
+              const abv = items[0].chart.data.labels[idx];
+              return partyNames[abv] || abv;
+            },
             label: function(ctx) {
               const idx = ctx.dataIndex;
               const won = ctx.chart.data.datasets[0].data[idx];
@@ -428,17 +493,24 @@ function renderChart(parties, majority) {
               const parts = [];
               if (won > 0) parts.push(`Won: ${won}`);
               if (lead > 0) parts.push(`Leading: ${lead}`);
+              const abv = ctx.chart.data.labels[idx];
+              const dep = partyDepositLoss[abv] || {};
+              if (dep.lost_no_deposit > 0) parts.push(`Lost (deposit safe): ${dep.lost_no_deposit}`);
+              if (dep.lost_deposit > 0) parts.push(`Lost (deposit forfeited): ${dep.lost_deposit}`);
               return parts;
             }
           }
         },
       },
       layout: {
-        padding: { left: 8, right: 20, bottom: 10 },
+        padding: { left: 8, right: 50, bottom: 10 },
       },
       scales: {
         x: {
           stacked: true,
+          suggestedMax: (majority && currentState !== '')
+            ? Math.max(...wonData, ...leadData, majority) + 2
+            : undefined,
           grid: { color: '#1e293b' },
           ticks: { color: '#94a3b8', font: { size: 12 } },
           title: { display: true, text: 'Seats', color: '#94a3b8' },
@@ -476,6 +548,304 @@ function createStripeCanvas(color) {
 }
 
 // ---------------------------------------------------------------------------
+// Vote Share chart
+// ---------------------------------------------------------------------------
+function renderVoteShare(parties) {
+  const card = document.getElementById('vote-share-card');
+  // Only show for a specific state, not Overall
+  if (!currentState) {
+    card.style.display = 'none';
+    if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
+    return;
+  }
+  card.style.display = 'block';
+
+  // Filter parties with votes, take top 10
+  const withVotes = (parties || [])
+    .filter(p => p.total_votes > 0)
+    .sort((a, b) => b.total_votes - a.total_votes);
+  const grandTotal = withVotes.reduce((s, p) => s + p.total_votes, 0);
+  if (grandTotal === 0) { card.style.display = 'none'; return; }
+
+  const TOP = 10;
+  const top = withVotes.slice(0, TOP);
+  const rest = withVotes.slice(TOP);
+
+  const labels = top.map(p => p.party_abv);
+  const data = top.map(p => +(p.total_votes * 100 / grandTotal).toFixed(1));
+  const colors = top.map(p => p.color);
+  if (rest.length > 0) {
+    labels.push(`Others (${rest.length})`);
+    data.push(+(rest.reduce((s, p) => s + p.total_votes, 0) * 100 / grandTotal).toFixed(1));
+    colors.push('#888888');
+  }
+
+  const canvas = document.getElementById('vote-share-chart');
+  const ctx = canvas.getContext('2d');
+
+  if (voteShareChart) {
+    voteShareChart.data.labels = labels;
+    voteShareChart.data.datasets[0].data = data;
+    voteShareChart.data.datasets[0].backgroundColor = colors;
+    voteShareChart.update('none');
+    return;
+  }
+
+  voteShareChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: colors,
+        borderRadius: 4,
+        borderSkipped: false,
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1e293b',
+          titleColor: '#e2e8f0',
+          bodyColor: '#94a3b8',
+          borderColor: '#334155',
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            title: function(items) {
+              if (!items.length) return '';
+              return partyNames[items[0].label] || items[0].label;
+            },
+            label: function(ctx) { return `${ctx.parsed.x}% of total votes`; }
+          }
+        },
+      },
+      layout: { padding: { left: 8, right: 60, bottom: 10 } },
+      scales: {
+        x: {
+          grid: { color: '#1e293b' },
+          ticks: { color: '#94a3b8', font: { size: 12 }, callback: v => v + '%' },
+          title: { display: true, text: 'Vote Share (%)', color: '#94a3b8' },
+          max: Math.max(...data) + 5,
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: '#e2e8f0', font: { size: 13, weight: '600' } },
+        },
+      },
+    },
+    plugins: [{
+      id: 'vsLabels',
+      afterDraw(chart) {
+        const xScale = chart.scales.x;
+        const meta = chart.getDatasetMeta(0);
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.font = '13px -apple-system, system-ui, sans-serif';
+        ctx.fillStyle = '#e2e8f0';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'left';
+        for (let i = 0; i < meta.data.length; i++) {
+          const val = chart.data.datasets[0].data[i];
+          const x = xScale.getPixelForValue(val) + 6;
+          ctx.fillText(val + '%', x, meta.data[i].y);
+        }
+        ctx.restore();
+      }
+    }],
+  });
+}
+
+// ---------------------------------------------------------------------------
+// AC Races chart — winner vs runner-up with margin
+// ---------------------------------------------------------------------------
+function renderRaces(stateCode) {
+  const card = document.getElementById('races-card');
+  if (!stateCode) {
+    card.style.display = 'none';
+    if (racesChart) { racesChart.destroy(); racesChart = null; }
+    racesData = [];
+    return;
+  }
+  card.style.display = 'block';
+
+  fetch(`/api/ac-races?state=${stateCode}`)
+    .then(r => r.json())
+    .then(data => {
+      racesData = data.races || [];
+      if (!racesData.length) { card.style.display = 'none'; return; }
+
+      // Populate dropdown
+      const sel = document.getElementById('race-select');
+      sel.innerHTML = '';
+      racesData.forEach((race, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        const name = (race.ac_name || '').trim();
+        opt.textContent = `${name} (AC ${race.ac_no}) — margin: ${race.margin.toLocaleString()}`;
+        sel.appendChild(opt);
+      });
+      sel.onchange = () => drawSingleRace(racesData[+sel.value]);
+      // Default: first entry (largest margin)
+      drawSingleRace(racesData[0]);
+    })
+    .catch(e => { console.error('Failed to load races:', e); card.style.display = 'none'; });
+}
+
+function drawSingleRace(race) {
+  const label = `${(race.ac_name || '').trim()} (AC ${race.ac_no})`;
+  const labels = [race.winner_abv, race.runnerup_abv];
+  const winnerVotes = [race.winner_votes, 0];
+  const runnerupVotes = [0, race.runnerup_votes];
+  const marginVotes = [0, race.margin];
+  const colors1 = [race.winner_color, race.runnerup_color];
+  const rColor = race.runnerup_color;
+
+  const canvas = document.getElementById('races-chart');
+  // Resize height: 2 bars = 200px minimum
+  canvas.parentElement.style.height = '220px';
+  const ctx = canvas.getContext('2d');
+
+  function makeStripe(color) {
+    const c = document.createElement('canvas');
+    c.width = 10; c.height = 10;
+    const cx = c.getContext('2d');
+    cx.fillStyle = color;
+    cx.fillRect(0, 0, 10, 10);
+    cx.strokeStyle = 'rgba(0,0,0,0.35)';
+    cx.lineWidth = 3;
+    cx.beginPath();
+    cx.moveTo(-2, 10); cx.lineTo(10, -2);
+    cx.moveTo(4, 12); cx.lineTo(12, 4);
+    cx.stroke();
+    return c;
+  }
+
+  if (racesChart) {
+    racesChart.data.labels = labels;
+    racesChart.data.datasets[0].data = winnerVotes;
+    racesChart.data.datasets[0].backgroundColor = colors1;
+    racesChart.data.datasets[1].data = runnerupVotes;
+    racesChart.data.datasets[1].backgroundColor = [colors1[0], rColor];
+    racesChart.data.datasets[2].data = marginVotes;
+    racesChart.data.datasets[2].backgroundColor = ['transparent', ctx.createPattern(makeStripe(rColor), 'repeat')];
+    racesChart.options.scales.x.max = race.winner_votes * 1.15;
+    racesChart.update('none');
+    return;
+  }
+
+  racesChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Winner',
+          data: winnerVotes,
+          backgroundColor: colors1,
+          stack: 'winner',
+          borderRadius: 4,
+          borderSkipped: false,
+        },
+        {
+          label: 'Runner-up',
+          data: runnerupVotes,
+          backgroundColor: [colors1[0], rColor],
+          stack: 'runnerup',
+          borderSkipped: false,
+        },
+        {
+          label: 'Margin',
+          data: marginVotes,
+          backgroundColor: ['transparent', ctx.createPattern(makeStripe(rColor), 'repeat')],
+          stack: 'runnerup',
+          borderSkipped: false,
+        },
+      ],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 600, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1e293b',
+          titleColor: '#e2e8f0',
+          bodyColor: '#94a3b8',
+          borderColor: '#334155',
+          borderWidth: 1,
+          padding: 12,
+          filter: function(item) { return item.raw > 0; },
+          callbacks: {
+            title: function() { return label; },
+            label: function(ctx) {
+              if (ctx.datasetIndex === 0) {
+                return `Winner: ${race.winner_name} — ${race.winner_votes.toLocaleString()} votes`;
+              }
+              if (ctx.datasetIndex === 1 && ctx.raw > 0) {
+                return `Runner-up: ${race.runnerup_name} — ${race.runnerup_votes.toLocaleString()} votes`;
+              }
+              if (ctx.datasetIndex === 2 && ctx.raw > 0) {
+                return `Margin: ${race.margin.toLocaleString()} votes`;
+              }
+              return '';
+            }
+          }
+        },
+      },
+      layout: { padding: { left: 8, right: 80, bottom: 10 } },
+      scales: {
+        x: {
+          stacked: true,
+          max: race.winner_votes * 1.15,
+          grid: { color: '#1e293b' },
+          ticks: { color: '#94a3b8', font: { size: 11 }, callback: v => (v / 1000).toFixed(0) + 'k' },
+          title: { display: true, text: 'Votes', color: '#94a3b8' },
+        },
+        y: {
+          stacked: true,
+          grid: { display: false },
+          ticks: { color: '#e2e8f0', font: { size: 13, weight: '600' } },
+        },
+      },
+    },
+    plugins: [{
+      id: 'raceLabels',
+      afterDraw(chart) {
+        const xScale = chart.scales.x;
+        const meta0 = chart.getDatasetMeta(0);  // winner
+        const meta1 = chart.getDatasetMeta(1);  // runner-up
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.font = '13px -apple-system, system-ui, sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#e2e8f0';
+        // Winner label
+        if (meta0.data[0]) {
+          const x = xScale.getPixelForValue(race.winner_votes) + 8;
+          ctx.textAlign = 'left';
+          ctx.fillText(`${race.winner_name} — ${race.winner_votes.toLocaleString()}`, x, meta0.data[0].y);
+        }
+        // Runner-up label
+        if (meta1.data[1]) {
+          const x = xScale.getPixelForValue(race.runnerup_votes) + 8;
+          ctx.textAlign = 'left';
+          ctx.fillText(`${race.runnerup_name} — ${race.runnerup_votes.toLocaleString()}`, x, meta1.data[1].y);
+        }
+        ctx.restore();
+      }
+    }],
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Status helpers
 // ---------------------------------------------------------------------------
 function updateStatusDot(live) {
@@ -494,12 +864,11 @@ function updateStatusBar(status) {
 
   bar.innerHTML = `
     <span>
-      <span class="live-count">${live}</span> counting &nbsp;|&nbsp;
       <span class="declared-count">${done}</span> declared &nbsp;|&nbsp;
+      <span class="live-count">${live}</span> counting &nbsp;|&nbsp;
       ${pending} pending
       ${errors > 0 ? `&nbsp;|&nbsp; <span style="color:var(--red)">${errors} errors</span>` : ''}
     </span>
-    <span>${status.total_rounds_stored.toLocaleString()} rounds stored</span>
   `;
 }
 
@@ -530,6 +899,7 @@ function renderStateBar(states) {
       currentState = s.code;
       renderStateBar(states);  // Re-render to update active
       fetchData();
+      fetchStatus();
     };
     bar.appendChild(btn);
   });
