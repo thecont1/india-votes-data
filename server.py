@@ -15,18 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
-from core.browser import create_chrome_driver
-from core.scraper import (
-    build_constituency_url,
-    get_state_code,
-    parse_partywise_url,
-    scrape_ac_rounds_core,
-    scrape_constituency_sync,
-)
 from db_utils import _connect, _cursor, IS_PG
 
 app = FastAPI(
@@ -225,6 +214,15 @@ def constituency_rounds(state_code: str, ac_no: int):
 @app.post("/scrape")
 async def scrape_endpoint(request: ScrapeRequest):
     """Scrape constituency results from ECI party-wise URL."""
+    from core.browser import create_chrome_driver
+    from core.scraper import (
+        build_constituency_url, get_state_code,
+        parse_partywise_url, scrape_constituency_sync,
+    )
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.webdriver.support.ui import WebDriverWait
+
     try:
         election_identifier, state_code = parse_partywise_url(request.url)
     except ValueError as e:
@@ -265,6 +263,9 @@ async def health_check():
 
 @app.post("/scrape/ac-rounds")
 def scrape_ac_rounds_endpoint(request: ScrapeAcRoundsRequest):
+    from core.browser import create_chrome_driver
+    from core.scraper import parse_partywise_url, scrape_ac_rounds_core
+
     try:
         election_identifier, state_code = parse_partywise_url(request.url)
     except ValueError as e:
@@ -287,6 +288,9 @@ def scrape_ac_rounds_endpoint(request: ScrapeAcRoundsRequest):
 
 @app.post("/scrape/all-rounds")
 def scrape_all_rounds_endpoint(request: ScrapeAllRoundsRequest):
+    from core.browser import create_chrome_driver
+    from core.scraper import build_constituency_url, parse_partywise_url, scrape_ac_rounds_core
+
     try:
         election_identifier, state_code = parse_partywise_url(request.url)
     except ValueError as e:
