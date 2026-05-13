@@ -4,14 +4,14 @@ A Python tool for scraping, storing, and visualizing Indian election results fro
 
 ## Overview
 
-Scrapes constituency-wise election results — candidate names, party affiliations, vote counts — and stores them in a normalized SQLite or PostgreSQL database. Includes a Streamlit dashboard for live visualization on counting day.
+Scrapes constituency-wise election results — candidate names, party affiliations, vote counts — and stores them in a normalized SQLite or PostgreSQL database. Includes a FastAPI + Chart.js dashboard for live visualization on counting day.
 
 ## Features
 
 - **Multi-threaded scraping** — 5 concurrent workers (CLI), 3 (live client)
 - **Dual database backend** — SQLite (local) or PostgreSQL via `DATABASE_URL`
 - **Normalized schema** — states, parties, rounds_ac, constituency_status ([schema docs](SCHEMA.md))
-- **Live dashboard** — Streamlit app with seat tally, party trends, constituency drill-down
+- **Live dashboard** — FastAPI + Chart.js with seat tally, striped bars (leading) vs solid (declared), auto-refresh
 - **By-election support** — round_no is the time axis; new elections are just new rounds
 - **CSV/JSON export** — optional file output alongside database writes
 
@@ -90,8 +90,8 @@ Endpoints:
 ### Dashboard
 
 ```bash
-uv run dashboard.py
-# Open http://localhost:8501
+DATABASE_URL=data/election_results.db uvicorn server:app --reload
+# Open http://localhost:8000
 ```
 
 ### Database
@@ -100,10 +100,10 @@ Dual-backend via `DATABASE_URL`:
 
 ```bash
 # SQLite (default)
-DATABASE_URL="data/election_results.db" uv run dashboard.py
+DATABASE_URL="data/election_results.db" uvicorn server:app --reload
 
 # PostgreSQL
-DATABASE_URL="postgresql://localhost:5432/election_results" uv run dashboard.py
+DATABASE_URL="postgresql://localhost:5432/election_results" uvicorn server:app --reload
 ```
 
 ## Project Structure
@@ -115,7 +115,7 @@ india-votes-data/
 ├── eci-ResultsDayLiveClient.py  # Live client (round-by-round)
 ├── eci-live-scraper.py          # Alternative scraper (requests+BS4)
 ├── config.py                    # Election config (tracked states, URL template)
-├── dashboard.py                 # Streamlit dashboard
+├── static/index.html            # Live dashboard (Chart.js)
 ├── db_utils.py                  # Database layer (SQLite + PostgreSQL)
 ├── core/
 │   ├── scraper.py               # Selenium-based ECI extraction
