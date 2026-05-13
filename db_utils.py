@@ -185,11 +185,15 @@ def _connect():
         return conn
 
 
+def _dict_factory(cursor, row):
+    return {col[0]: row[i] for i, col in enumerate(cursor.description)}
+
+
 def _cursor(conn):
     if IS_PG:
         return conn.cursor(cursor_factory=RealDictCursor)
     else:
-        conn.row_factory = sqlite3.Row
+        conn.row_factory = _dict_factory
         return conn.cursor()
 
 

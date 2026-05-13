@@ -5,9 +5,9 @@ Reusable across all state pages and Overall.
 """
 
 import os
-from db_utils import DATABASE_URL, _IS_PG
+from db_utils import DATABASE_URL, IS_PG
 
-if _IS_PG:
+if IS_PG:
     import psycopg2
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
