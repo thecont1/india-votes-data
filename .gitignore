@@ -16,3 +16,7 @@ uv.lock
 *.db
 *.db-shm
 *.db-wal
+
+# Generated output files
+data/*.csv
+data/*.json
