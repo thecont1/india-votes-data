@@ -208,7 +208,7 @@ def process_ac(ac_no: int, url: str, state_code: str, start_round: int = 1):
 def run_cycle(url: str, state_code: str, start_round: int, only_ac: int = 0, sequential: bool = False, start_ac: int = 1):
     """Run a single processing cycle for all ACs."""
     results = []
-    num_workers = 2  # Reduced from 5 to prevent resource exhaustion with concurrent Chrome instances
+    num_workers = 3  # Each worker gets its own Chrome instance
     
     if only_ac > 0:
         result = process_ac(only_ac, url, state_code, start_round)
