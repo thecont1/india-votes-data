@@ -2,7 +2,7 @@
 
 import re
 import time
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -196,57 +196,184 @@ def extract_roundwise_results(driver, round_num: int, constituency_info: dict = 
     return results
 
 
+def extract_all_roundwise_rounds(driver) -> dict:
+    """
+    Extract all available rounds from a round-wise page in a single pass.
+
+    Instead of clicking through round buttons one by one (slow), reads every
+    pre-rendered ``tab<N>`` div from the DOM.  This is safe because the ECI
+    page renders all round data up-front; clicking a round button merely
+    toggles CSS visibility.
+
+    During a live election the page grows progressively as new rounds are
+    counted — so this function simply returns whatever rounds are present
+    in the DOM at the moment it runs.  Callers can re-invoke periodically
+    to pick up newly-appeared rounds.
+
+    Returns dict with keys: constituency_no, constituency, rounds.
+    ``rounds`` is a list of ``{"round": int, "tally": [...]}`` sorted by
+    round number.
+    """
+    results = {"constituency_no": "", "constituency": "Unknown", "rounds": []}
+
+    try:
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, "h2"))
+        )
+        full_text = (
+            driver.find_element(By.TAG_NAME, "h2")
+            .find_element(By.TAG_NAME, "span")
+            .text
+        )
+
+        parts = full_text.split(" - ")
+        constituency_no = parts[0].strip()
+
+        state_match = re.search(r"\(([^)]+)\)\s*$", parts[1])
+        if state_match:
+            constituency_name = parts[1][: state_match.start()].strip()
+        else:
+            constituency_name = parts[1]
+
+        results["constituency_no"] = constituency_no
+        results["constituency"] = constituency_name
+
+        # ---- bulk extract: read every tab<N> div present in the DOM ----
+        # Try the primary strategy (tab IDs) first.  If the page uses a
+        # different structure, fall back to scanning <th> headers.
+        tab_divs = driver.find_elements(By.CSS_SELECTOR, 'div[id^="tab"]')
+
+        if tab_divs:
+            for tab_div in tab_divs:
+                tab_id = tab_div.get_attribute("id") or ""
+                match = re.match(r"tab(\d+)$", tab_id)
+                if not match:
+                    continue
+                round_num = int(match.group(1))
+                tally = _extract_tally_from_element(tab_div)
+                if tally:
+                    results["rounds"].append({"round": round_num, "tally": tally})
+        else:
+            # Fallback: find round data via <th> headers (some page variants)
+            th_elements = driver.find_elements(
+                By.XPATH,
+                "//th[contains(text(), 'Round ') or contains(text(), 'Round')]",
+            )
+            seen = set()
+            for th in th_elements:
+                th_match = re.search(r"Round\s*(\d+)", th.text)
+                if not th_match:
+                    continue
+                round_num = int(th_match.group(1))
+                if round_num in seen:
+                    continue
+                seen.add(round_num)
+                try:
+                    tab_div = th.find_element(
+                        By.XPATH,
+                        "./ancestor::div[contains(@class, 'tabcontent')]",
+                    )
+                    tally = _extract_tally_from_element(tab_div)
+                    if tally:
+                        results["rounds"].append(
+                            {"round": round_num, "tally": tally}
+                        )
+                except NoSuchElementException:
+                    continue
+
+        results["rounds"].sort(key=lambda r: r["round"])
+
+    except (NoSuchElementException, TimeoutException):
+        pass
+
+    return results
+
+
+def _extract_tally_from_element(element) -> list:
+    """Extract the candidate tally table from a single DOM element (tab div)."""
+    tally = []
+    try:
+        tbody = element.find_element(By.TAG_NAME, "tbody")
+        rows = tbody.find_elements(By.TAG_NAME, "tr")
+    except NoSuchElementException:
+        return tally
+
+    for row in rows:
+        try:
+            cells = row.find_elements(By.TAG_NAME, "td")
+        except StaleElementReferenceException:
+            continue
+        if len(cells) < 4:
+            continue
+
+        candidate_name = cells[0].text.strip()
+        if not candidate_name or candidate_name.lower() == "total":
+            continue
+
+        candidate_data = {
+            "serial_no": str(len(tally) + 1),
+            "candidate": candidate_name,
+            "party": cells[1].text.strip(),
+            "votes_brought_forward": cells[2].text.strip(),
+            "current_round": cells[3].text.strip(),
+            "total": cells[4].text.strip() if len(cells) > 4 else cells[3].text.strip(),
+        }
+
+        try:
+            prev_votes = int(candidate_data["votes_brought_forward"])
+            curr_votes = int(candidate_data["current_round"])
+            total_votes = int(candidate_data["total"])
+            if prev_votes + curr_votes != total_votes:
+                print(
+                    f"WARNING: Vote mismatch for {candidate_data['candidate']}: "
+                    f"{prev_votes} + {curr_votes} ≠ {total_votes}"
+                )
+        except ValueError:
+            pass
+
+        tally.append(candidate_data)
+
+    return tally
+
+
 def scrape_ac_rounds_core(driver, election_identifier: str, state_code: str,
                           ac_no: int, start_round: int = 1) -> dict:
     """
     Core function to scrape all rounds for a single AC plus postal votes.
-    
+
     This is the shared logic used by both /scrape/ac-rounds and /scrape/all-rounds.
+
+    Round extraction reads every pre-rendered tab div in a single DOM pass
+    (see :func:`extract_all_roundwise_rounds`).  During a live election the
+    page grows as new rounds appear; each invocation picks up whatever is
+    present at that moment.
     """
     result = {"ac_no": ac_no, "rounds": [], "constituency": "", "postal_votes": []}
-    
+
     try:
         roundwise_url = build_roundwise_url(election_identifier, state_code, ac_no)
         driver.get(roundwise_url)
-        
+
         if "404" in driver.title:
             return {"status": "done"}
-        
-        # First round: get constituency info
-        first_round_result = extract_roundwise_results(driver, max(start_round, 1))
-        constituency_info = {
-            "constituency_no": first_round_result.get("constituency_no", ""),
-            "constituency": first_round_result.get("constituency", "")
-        }
-        
-        # First round already extracted
-        if first_round_result.get("round_tally"):
-            result["rounds"].append({
-                "round": max(start_round, 1),
-                "tally": first_round_result.get("round_tally", [])
-            })
-            result["constituency"] = first_round_result.get("constituency", "")
-        
-        # Remaining rounds
-        for round_num in range(max(start_round, 1) + 1, 50):
-            round_result = extract_roundwise_results(driver, round_num, constituency_info)
-            if not round_result.get("round_tally"):
-                break
-            
-            result["rounds"].append({
-                "round": round_num,
-                "tally": round_result.get("round_tally", [])
-            })
-        
-        # Get postal votes from constituency page
+
+        # --- Bulk extract all rounds in one DOM pass ---
+        all_rounds = extract_all_roundwise_rounds(driver)
+        result["constituency"] = all_rounds.get("constituency", "")
+
+        for rd in all_rounds.get("rounds", []):
+            if rd["round"] >= max(start_round, 1):
+                result["rounds"].append(rd)
+
+        # --- Postal votes from constituency page ---
         constituency_url = build_constituency_url(election_identifier, state_code, ac_no)
         driver.get(constituency_url)
         final_result = extract_results(driver)
         result["constituency"] = final_result.get("constituency", result["constituency"])
         result["postal_votes"] = final_result.get("voting_tally", [])
-        
+
         return {"status": "success", "data": result}
-        
+
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
