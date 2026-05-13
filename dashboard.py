@@ -24,9 +24,13 @@ from db_utils import (
     get_status_summary,
     get_state_name,
 )
-from config import TRACKED_STATES, get_url
+from config import get_election_id, get_tracked_states
+from core.scraper import build_roundwise_url
 
 IST = ZoneInfo("Asia/Kolkata")
+
+TRACKED_STATES = get_tracked_states()
+ELECTION_ID = get_election_id()
 
 # ---------------------------------------------------------------------------
 # Dashboard visual config
@@ -530,7 +534,7 @@ def settings_dialog():
         st.subheader(f"⚠️ Failed ({len(errs)})")
         for _, row in errs.iterrows():
             name = row.get("ac_name") or f"AC-{row['ac_no']}"
-            url = get_url(row["state_code"], row["ac_no"])
+            url = build_roundwise_url(ELECTION_ID, row["state_code"], row["ac_no"])
             st.markdown(f"- **{name}** ({row['state_name']}) — [View]({url})")
 
     st.divider()

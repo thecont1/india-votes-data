@@ -53,11 +53,15 @@ from db_utils import (
     update_won_status,
     upsert_constituency_status,
 )
-from config import TRACKED_STATES, get_url
+from config import get_election_id, get_tracked_states
+from core.scraper import build_roundwise_url
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
+
+ELECTION_ID = get_election_id()
+TRACKED_STATES = get_tracked_states()
 
 # DB_PATH removed — all DB access goes through db_utils (PostgreSQL)
 MAX_WORKERS = 8  # requests is lightweight — can run more workers
@@ -586,7 +590,7 @@ def run_cycle() -> None:
             "state_code": item["state_code"],
             "state_name": item["state_name"],
             "ac_no": item["ac_no"],
-            "url": get_url(item["state_code"], item["ac_no"]),
+            "url": build_roundwise_url(ELECTION_ID, item["state_code"], item["ac_no"]),
         }
         for item in queue
     ]
