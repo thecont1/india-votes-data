@@ -289,9 +289,13 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     # Get the script directory for finding the server
     script_dir = Path(__file__).parent.parent
     server_path = script_dir / "server.py"
-    
+
+    # Use the project-root venv's Python so server.py has uvicorn/fastapi.
+    root_python = script_dir / ".venv" / "bin" / "python3"
+    server_python = str(root_python) if root_python.exists() else sys.executable
+
     api_process = subprocess.Popen(
-        [sys.executable, str(server_path), "--api"],
+        [server_python, str(server_path), "--api"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
         cwd=str(script_dir)
