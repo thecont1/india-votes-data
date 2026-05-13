@@ -5,7 +5,10 @@ Reusable across all state pages and Overall.
 """
 
 import os
-import sqlite3 as _sqlite3
+from db_utils import DATABASE_URL, _IS_PG
+
+if _IS_PG:
+    import psycopg2
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
@@ -16,9 +19,7 @@ import streamlit as st
 from db_utils import (
     get_all_constituency_statuses,
     get_constituency_rounds,
-    get_last_scrape_time,
     get_party_seat_tally_won_leading,
-    get_scrape_cycles,
     get_state_status_summary,
     get_status_summary,
 )
@@ -34,7 +35,7 @@ from states_may2026 import (
 )
 
 IST = ZoneInfo("Asia/Kolkata")
-DB_PATH = os.path.join(os.path.dirname(__file__), "data", "live_results.db")
+# DB_PATH removed — all DB access goes through db_utils (PostgreSQL)
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -379,8 +380,12 @@ st.markdown("""
 <div id="main-content" tabindex="-1" style="outline:none;"></div>
 """, unsafe_allow_html=True)
 
-if not os.path.exists(DB_PATH):
-    st.error("Database not found. Run `./scheduler.sh` first.")
+try:
+    from db_utils import _connect as _test_connect
+    _test_conn = _test_connect()
+    _test_conn.close()
+except Exception:
+    st.error(f"Cannot connect to database: {DATABASE_URL}")
     st.stop()
 
 # ---------------------------------------------------------------------------
@@ -399,13 +404,13 @@ def settings_dialog():
         refresh_interval = st.slider("Auto-refresh (seconds)", 30, 300, 120, key="dlg_refresh")
         if st.button("🔄 Refresh Now", key="dlg_refresh_btn"):
             st.rerun()
-    last_update = get_last_scrape_time(DB_PATH)
+    last_update = None
     if last_update:
         st.caption(f"Last update: {fmt_ist(last_update)}")
 
     st.divider()
     st.subheader("Status")
-    ss = get_status_summary(DB_PATH)
+    ss = get_status_summary()
     total = sum(ss.values())
     done = ss.get("DONE", 0)
     live = ss.get("LIVE", 0)
@@ -420,7 +425,7 @@ def settings_dialog():
 
     st.divider()
     st.subheader("State Overview")
-    summary = get_state_status_summary(DB_PATH)
+    summary = get_state_status_summary()
     if summary:
         df_sum = pd.DataFrame(summary)
         so_rows = []
@@ -456,7 +461,7 @@ def settings_dialog():
             st.markdown(html_table, unsafe_allow_html=True)
 
     st.divider()
-    ac_statuses = get_all_constituency_statuses(DB_PATH)
+    ac_statuses = get_all_constituency_statuses()
     errs = ac_statuses[ac_statuses["status"] == "ERROR"] if not ac_statuses.empty else pd.DataFrame()
     if not errs.empty:
         st.subheader(f"⚠️ Failed ({len(errs)})")
@@ -467,8 +472,8 @@ def settings_dialog():
 
     st.divider()
     st.subheader("Update Cycles")
-    cycles_df = get_scrape_cycles(DB_PATH)
-    if not cycles_df.empty:
+    cycles_df = None
+    if cycles_df is not None and not cycles_df.empty:
         dc = cycles_df.copy()
         for col in ["started_at", "finished_at"]:
             if col in dc.columns:
@@ -498,7 +503,7 @@ def settings_dialog():
 
 def _get_state_dots():
     """Return {state_name: dot_emoji} for per-state coloured status dots."""
-    summary = get_state_status_summary(DB_PATH)
+    summary = get_state_status_summary()
     dots = {}
     if not summary:
         return {s["name"]: "⚪" for s in STATES}
@@ -533,7 +538,7 @@ if default_state not in state_options:
 _display_state = st.session_state.get("selected_state", "Overall")
 
 # Header bar HTML BEFORE pills row
-last_update = get_last_scrape_time(DB_PATH)
+last_update = None
 last_ts = fmt_ist(last_update) if last_update else "No data yet"
 
 st.markdown(
@@ -597,7 +602,7 @@ st.markdown('<div class="main-grid">', unsafe_allow_html=True)
 with st.container(border=True):
     st.subheader("📊 Seat Tally")
 
-    wl_tally = get_party_seat_tally_won_leading(DB_PATH, state_code_filter)
+    wl_tally = get_party_seat_tally_won_leading(state_code_filter)
     if wl_tally.empty:
         st.info("No data yet.")
     else:
@@ -654,26 +659,27 @@ with st.container(border=True):
         share_pct = st.toggle("Vote Share %", value=False, key="vote_share_toggle")
     metric = "vote_share_pct" if share_pct else "cumulative_votes"
 
-    def compute_party_round_series(db_path, state_code=None, metric="cumulative_votes"):
-        where = "WHERE state_code = ?" if state_code else ""
-        params_q = (state_code,) if state_code else ()
-        conn = _sqlite3.connect(db_path, timeout=30)
-        conn.row_factory = _sqlite3.Row
+    def compute_party_round_series(state_code=None, metric="cumulative_votes"):
+        from db_utils import _connect, _placeholder
+        p = _placeholder()
+        where = f"WHERE r.state_code = {p}" if state_code else ""
+        params_q = (state_code,) if state_code else None
+        conn = _connect()
         raw = pd.read_sql_query(
-            f"SELECT state_code, ac_no, round_no, party, votes, scraped_at FROM rounds {where} ORDER BY state_code, ac_no, scraped_at",
+            f"""SELECT r.state_code, r.ac_no, r.round_no, r.party, r.votes
+                FROM rounds r
+                {where} ORDER BY r.state_code, r.ac_no, r.round_no""",
             conn, params=params_q,
         )
         conn.close()
         if raw.empty:
             return pd.DataFrame(columns=["party", "round_num", "round_label", "value"])
         raw["votes"] = pd.to_numeric(raw["votes"], errors="coerce").fillna(0).astype(int)
-        raw["scraped_at"] = pd.to_datetime(raw["scraped_at"])
         max_round = int(raw["round_no"].max())
-        lpr = raw.groupby(["state_code", "ac_no", "round_no"])["scraped_at"].max().reset_index()
-        rl = raw.merge(lpr, on=["state_code", "ac_no", "round_no", "scraped_at"], how="inner")
         results = []
         for r in range(1, max_round + 1):
-            el = rl[rl["round_no"] <= r]
+            # For each round, take the latest data per AC (highest round_no <= r)
+            el = raw[raw["round_no"] <= r]
             if el.empty:
                 continue
             la = el.groupby(["state_code", "ac_no"])["round_no"].max().reset_index()
@@ -698,7 +704,7 @@ with st.container(border=True):
             s["value"] = s.apply(lambda r: (r["value"] / ft * 100) if ft > 0 else 0, axis=1)
         return s
 
-    series_df = compute_party_round_series(DB_PATH, state_code_filter, metric)
+    series_df = compute_party_round_series( state_code_filter, metric)
 
     if series_df.empty:
         st.info("No data yet.")
@@ -750,7 +756,7 @@ if state_code_filter:
         drill_state_name = _display_state
         dsc = state_code_filter
 
-        ac_statuses = get_all_constituency_statuses(DB_PATH)
+        ac_statuses = get_all_constituency_statuses()
         acl = ac_statuses[ac_statuses["state_code"] == dsc]
         ac_opts = []
         margin_map = {}
@@ -758,10 +764,10 @@ if state_code_filter:
             name = row.get("ac_name") or f"AC-{row['ac_no']}"
             ac_opts.append(f"{row['ac_no']}. {name}")
             # Compute margin for default selection
-            rdf_tmp = get_constituency_rounds(DB_PATH, dsc, int(row["ac_no"]))
+            rdf_tmp = get_constituency_rounds( dsc, int(row["ac_no"]))
             if not rdf_tmp.empty:
-                lt_tmp = rdf_tmp["scraped_at"].max()
-                latest_tmp = rdf_tmp[rdf_tmp["scraped_at"] == lt_tmp]
+                lt_tmp = rdf_tmp["round_no"].max()
+                latest_tmp = rdf_tmp[rdf_tmp["round_no"] == lt_tmp]
                 if len(latest_tmp) >= 2:
                     sv = latest_tmp.sort_values("votes", ascending=False)
                     margin_map[f"{row['ac_no']}. {name}"] = int(sv.iloc[0]["votes"]) - int(sv.iloc[1]["votes"])
@@ -793,10 +799,10 @@ if state_code_filter:
             # Status dot for chart title
             _status_dot = {"DONE": "🟢", "LIVE": "🟡", "ERROR": "🔴"}.get(status, "⚪")
 
-            rdf = get_constituency_rounds(DB_PATH, dsc, ac_no)
+            rdf = get_constituency_rounds( dsc, ac_no)
             if not rdf.empty:
-                lt = rdf["scraped_at"].max()
-                latest = rdf[rdf["scraped_at"] == lt].copy().sort_values("votes", ascending=False)
+                lt = rdf["round_no"].max()
+                latest = rdf[rdf["round_no"] == lt].copy().sort_values("votes", ascending=False)
 
                 latest["dn"] = latest["candidate"].apply(cdn)
                 latest["sp"] = latest["party"].apply(short)
@@ -855,14 +861,14 @@ if state_code_filter:
                 st.plotly_chart(fig, width="stretch", config=CHART_CFG)
                 st.markdown('<p class="sr-only">Horizontal bar chart showing candidate vote counts with winner and runner-up highlighted</p>', unsafe_allow_html=True)
 
-                if len(rdf["scraped_at"].unique()) > 1:
+                if len(rdf["round_no"].unique()) > 1:
                     # Get top candidates and NOTA
-                    tc = rdf[rdf["scraped_at"] == lt].nlargest(4, "votes")["candidate"].tolist()
+                    tc = rdf[rdf["round_no"] == lt].nlargest(4, "votes")["candidate"].tolist()
                     nc = rdf[rdf["party"] == "NOTA"]["candidate"].unique().tolist()
                     sc = set(tc + nc)
 
                     # For each candidate, get the latest vote count per round_no
-                    rdf_sorted = rdf.sort_values("scraped_at")
+                    rdf_sorted = rdf.sort_values("round_no")
                     latest_per_round = rdf_sorted.groupby(["candidate", "round_no"]).tail(1)
 
                     fl = go.Figure()
@@ -903,6 +909,6 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown("<meta http-equiv='refresh' content='120'>", unsafe_allow_html=True)
 
-_ss = get_status_summary(DB_PATH)
+_ss = get_status_summary()
 _status_msg = f"Election tracker loaded. {_ss.get('DONE', 0)} constituencies counted, {_ss.get('LIVE', 0)} counting, {_ss.get('PENDING', 0)} pending, {_ss.get('ERROR', 0)} errors"
 st.markdown(f"<script>var el=document.getElementById('data-status');if(el)el.textContent='{_status_msg}';</script>", unsafe_allow_html=True)

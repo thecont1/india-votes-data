@@ -19,6 +19,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from core.browser import create_chrome_driver
+from core.output import write_csv, write_json, output_path
 from core.scraper import (
     build_constituency_url,
     get_state_code,
@@ -56,37 +57,25 @@ class ScrapeAllRoundsRequest(BaseModel):
 
 def save_results_to_files(results: dict) -> tuple:
     """Save results to JSON and CSV files. Returns (json_path, csv_path)."""
-    os.makedirs("./data", exist_ok=True)
-    
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    json_file = f"./data/{results.get('election_year', '2026')}{results.get('election_type', 'Assembly')}-{results.get('election_state', 'XX')}_{timestamp}.json"
-    csv_file = f"./data/{results.get('election_year', '2026')}{results.get('election_type', 'Assembly')}-{results.get('election_state', 'XX')}_{timestamp}.csv"
-    
-    with open(json_file, "w") as f:
-        json.dump(results, f, indent=4)
-    
-    with open(csv_file, 'w') as f_write:
-        fieldnames = ['election_year', 'election_type', 'election_state', 'constituency', 'constituency_no', 'serial_no', 'candidate', 'party', 'evm_votes', 'postal_votes']
-        writer = csv.DictWriter(f_write, fieldnames=fieldnames)
-        writer.writeheader()
-        
-        for constituency in results.get('constituencywise_results', []):
-            voting_data = constituency.get('voting_data', {})
-            for candidate in voting_data.get('voting_tally', []):
-                writer.writerow({
-                    'election_year': results.get('election_year', ''),
-                    'election_type': results.get('election_type', ''),
-                    'election_state': results.get('election_state', ''),
-                    'constituency': voting_data.get('constituency', ''),
-                    'constituency_no': voting_data.get('constituency_no', ''),
-                    'serial_no': candidate.get('serial_no', ''),
-                    'candidate': candidate.get('candidate', ''),
-                    'party': candidate.get('party', ''),
-                    'evm_votes': candidate.get('evm_votes', ''),
-                    'postal_votes': candidate.get('postal_votes', '')
-                })
-    
-    return json_file, csv_file
+    meta = {
+        'election_year': results.get('election_year', ''),
+        'election_type': results.get('election_type', ''),
+        'election_state': results.get('election_state', ''),
+    }
+    # Flatten nested structure for core/output.py
+    flat = []
+    for c in results.get('constituencywise_results', []):
+        vd = c.get('voting_data', {})
+        flat.append({
+            'constituency_no': vd.get('constituency_no', ''),
+            'constituency': vd.get('constituency', ''),
+            'voting_tally': vd.get('voting_tally', []),
+        })
+    json_path = output_path('./data/json', meta, 'json')
+    csv_path = output_path('./data/csv', meta, 'csv')
+    write_json(flat, json_path, meta)
+    write_csv(flat, csv_path, meta)
+    return json_path, csv_path
 
 
 @app.post("/scrape")

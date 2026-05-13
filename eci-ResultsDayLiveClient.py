@@ -6,7 +6,7 @@ All heavy lifting (browser management, scraping) is handled by the API server.
 This client only:
 1. Starts the API server if needed
 2. Calls /scrape/ac-rounds endpoint for each AC
-3. Writes results to SQLite database
+3. Writes results to PostgreSQL via db_utils
 
 Modes:
 - One-shot (default): Download all rounds, write to DB, terminate
@@ -20,7 +20,6 @@ Usage:
   python eci-ResultsDayLiveClient.py --url "..." --only-ac 1     # Single AC only
 """
 
-import sqlite3
 import sys
 import time
 import threading
@@ -28,79 +27,13 @@ import subprocess
 import requests
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timezone
+
+from db_utils import insert_round_snapshot
+from core.scraper import get_state_name
 
 DEFAULT_PORT = 8000
 API_URL = f"http://localhost:{DEFAULT_PORT}"
-DB_PATH = Path(__file__).parent / "data" / "live_results.db"
-TEST_DB_PATH = Path(__file__).parent / "data" / "live_results_test.db"
-
-# Global state for test mode
-USE_TEST_DB = False
-
-
-def get_db_path():
-    """Get database path, using test DB if enabled."""
-    return TEST_DB_PATH if USE_TEST_DB else DB_PATH
-
-
-# Global lock for database access to prevent concurrent write issues
-db_lock = threading.Lock()
-
-
-def init_database():
-    """Initialize database schema if not exists."""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS rounds (
-            state_code TEXT,
-            ac_no INTEGER,
-            round_no INTEGER,
-            candidate_number INTEGER,
-            ac_name TEXT,
-            candidate TEXT,
-            party TEXT,
-            votes INTEGER,
-            PRIMARY KEY (state_code, ac_no, round_no, candidate_number)
-        )
-    """)
-    conn.commit()
-    conn.close()
-
-
-def get_db_connection():
-    """Get SQLite database connection with WAL mode for concurrent access."""
-    conn = sqlite3.connect(get_db_path(), timeout=60.0)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode=WAL")
-    conn.execute("PRAGMA busy_timeout=60000")
-    return conn
-
-
-def execute_with_retry(cursor, query, params=(), max_retries=10):
-    """Execute SQL with retry on database lock."""
-    for attempt in range(max_retries):
-        try:
-            cursor.execute(query, params)
-            return True
-        except sqlite3.OperationalError as e:
-            if "locked" in str(e) and attempt < max_retries - 1:
-                time.sleep(0.2 * (attempt + 1))
-                continue
-            raise
-
-
-def commit_with_retry(conn, max_retries=10):
-    """Commit with retry on database lock."""
-    for attempt in range(max_retries):
-        try:
-            conn.commit()
-            return True
-        except sqlite3.OperationalError as e:
-            if "locked" in str(e) and attempt < max_retries - 1:
-                time.sleep(0.2 * (attempt + 1))
-                continue
-            raise
 
 
 def process_ac(ac_no: int, url: str, state_code: str, start_round: int = 1):
@@ -123,9 +56,9 @@ def process_ac(ac_no: int, url: str, state_code: str, start_round: int = 1):
             response = requests.post(
                 f"{API_URL}/scrape/ac-rounds",
                 json={"url": url, "ac_no": ac_no, "start_round": start_round},
-                timeout=120  # Increased from 60 to handle slower responses
+                timeout=120
             )
-            break  # Success, exit retry loop
+            break
         except requests.exceptions.Timeout:
             if attempt < max_retries - 1:
                 print(f"  AC {ac_no}: Timeout, retrying ({attempt + 1}/{max_retries})...")
@@ -144,7 +77,7 @@ def process_ac(ac_no: int, url: str, state_code: str, start_round: int = 1):
         data = response.json()
         
         if data.get("status") == "error" and "404" in data.get("error", ""):
-            return {"status": "done", "ac_no": ac_no}  # AC doesn't exist
+            return {"status": "done", "ac_no": ac_no}
         
         if data.get("status") != "success":
             return {"status": "error", "ac_no": ac_no, "error": data.get("error")}
@@ -154,49 +87,50 @@ def process_ac(ac_no: int, url: str, state_code: str, start_round: int = 1):
         rounds = ac_data.get("rounds", [])
         postal_votes = ac_data.get("postal_votes", [])
         
-        # Store to database (serialized with lock to avoid concurrent access issues)
-        with db_lock:
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            
-            candidate_map = {}
-            
-            for round_info in rounds:
-                round_num = round_info["round"]
-                for c in round_info["tally"]:
-                    candidate_name = c.get("candidate", "")
-                    candidate_party = c.get("party", "")
-                    candidate_key = (candidate_name, candidate_party)
-                    if candidate_key not in candidate_map:
-                        candidate_map[candidate_key] = len(candidate_map) + 1
-                    
-                    execute_with_retry(cursor, """
-                        INSERT OR REPLACE INTO rounds 
-                        (state_code, ac_no, round_no, candidate_number, ac_name,
-                         candidate, party, votes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                    """, (state_code, ac_no, round_num, candidate_map[candidate_key],
-                          ac_name, candidate_name, candidate_party,
-                          int(c.get("total", 0))))
-            
-            # Store postal votes as round 999
-            # Use serial_no as candidate_number — it's guaranteed unique per AC,
-            # unlike name-based keys which collide when multiple candidates share
-            # a name (e.g. two Independents called "SUKUMAR ROY").
-            for c in postal_votes:
-                candidate_name = c.get("candidate", "")
-                candidate_party = c.get("party", "")
-                candidate_number = int(c.get("serial_no", 0))
-
-                execute_with_retry(cursor, """
-                    INSERT OR REPLACE INTO rounds 
-                    (state_code, ac_no, round_no, candidate_number, ac_name,
-                     candidate, party, votes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """, (state_code, ac_no, 999, candidate_number,
-                      ac_name, candidate_name, candidate_party,
-                      int(c.get("evm_votes", 0)) + int(c.get("postal_votes", 0))))
-            
-            commit_with_retry(conn)
-            conn.close()
+        scraped_at = datetime.now(timezone.utc).isoformat()
+        
+        # Store round-by-round data
+        for round_info in rounds:
+            round_num = round_info["round"]
+            candidates = [
+                {
+                    "candidate": c.get("candidate", ""),
+                    "party": c.get("party", ""),
+                    "votes": int(c.get("total", 0)),
+                }
+                for c in round_info["tally"]
+            ]
+            insert_round_snapshot(
+                state_code=state_code,
+                state_name=get_state_name(state_code),
+                ac_no=ac_no,
+                ac_name=ac_name,
+                round_no=round_num,
+                total_rounds=None,
+                candidates=candidates,
+                scraped_at=scraped_at,
+            )
+        
+        # Store postal votes as round 999
+        if postal_votes:
+            postal_candidates = [
+                {
+                    "candidate": c.get("candidate", ""),
+                    "party": c.get("party", ""),
+                    "votes": int(c.get("evm_votes", 0)) + int(c.get("postal_votes", 0)),
+                }
+                for c in postal_votes
+            ]
+            insert_round_snapshot(
+                state_code=state_code,
+                state_name=get_state_name(state_code),
+                ac_no=ac_no,
+                ac_name=ac_name,
+                round_no=999,
+                total_rounds=None,
+                candidates=postal_candidates,
+                scraped_at=scraped_at,
+            )
         
         return {"status": "success", "ac_no": ac_no, "ac_name": ac_name, "rounds": len(rounds)}
         
@@ -214,7 +148,6 @@ def run_cycle(url: str, state_code: str, start_round: int, only_ac: int = 0, seq
         results.append(result)
         print(f"  AC {only_ac}: {result}")
     elif sequential:
-        # Sequential mode: process ACs one at a time (safest for resource-constrained systems)
         ac_no = start_ac
         while True:
             result = process_ac(ac_no, url, state_code, start_round)
@@ -261,7 +194,7 @@ def run_cycle(url: str, state_code: str, start_round: int, only_ac: int = 0, seq
 
 def main(url: str, only_ac: int = 0, flush_db: bool = False, 
          live: int = 0, interval: int = 30, start_round: int = 1, sequential: bool = False,
-         test_db: bool = False, start_ac: int = 1, no_server: bool = False):
+         start_ac: int = 1, no_server: bool = False):
     """Main entry point.
     
     Args:
@@ -275,13 +208,6 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     if not url:
         print("Error: --url parameter is required")
         sys.exit(1)
-    
-    # Enable test database mode
-    global USE_TEST_DB
-    USE_TEST_DB = test_db
-    
-    # Initialize database schema
-    init_database()
     
     print("Starting download of election results...")
     print("=" * 60)
@@ -301,17 +227,14 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     api_process = None
 
     if no_server:
-        # --no-server mode: connect to an existing server, never start/kill one
         if not port_in_use:
             print(f"Error: No server running on port {DEFAULT_PORT}")
             print(f"Start one first:  uv run server.py --api")
             sys.exit(1)
         print(f"Connecting to existing server on port {DEFAULT_PORT}")
     elif port_in_use:
-        # Auto-detect: server already running, reuse it (but don't terminate on exit)
         print(f"API server already running on port {DEFAULT_PORT} (using existing)")
     else:
-        # Start our own server — we own its lifecycle
         script_dir = Path(__file__).parent
         server_path = script_dir / "server.py"
 
@@ -323,7 +246,6 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
         )
         we_started_server = True
 
-        # Wait for server to start
         max_wait = 15
         for i in range(max_wait):
             time.sleep(1)
@@ -351,8 +273,6 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     
     election_id = match.group(1)
     state_code = match.group(2)
-    
-    from core.scraper import get_state_name
 
     print(f"\nProcessing: {url}")
     print(f"  State: {get_state_name(state_code)} ({state_code})")
@@ -384,7 +304,6 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     except KeyboardInterrupt:
         print("\n\nLive monitoring stopped by user")
     
-    # Cleanup — only terminate server if we started it
     if we_started_server and api_process is not None:
         api_process.terminate()
 
@@ -402,18 +321,13 @@ if __name__ == "__main__":
     parser.add_argument("--start-ac", type=int, default=1, help="Start downloading from this AC number (default: 1)")
     parser.add_argument("--sequential", action="store_true", 
                         help="Process ACs sequentially instead of concurrently (safer for resource-constrained systems)")
-    parser.add_argument("--test-db", action="store_true",
-                        help="Use test database (live_results_test.db) instead of main database")
     parser.add_argument("--no-server", action="store_true",
                         help="Connect to an existing server instead of starting one. "
                              "Use for multi-state runs: start server separately, "
                              "then run multiple clients with --no-server")
     args = parser.parse_args()
     
-    # Enable test mode if flag is set
-    USE_TEST_DB = args.test_db
-    
     main(url=args.url, only_ac=args.only_ac, flush_db=args.flush,
          live=args.live, interval=args.live if args.live > 0 else 30, start_round=args.start_round, 
-         sequential=args.sequential, test_db=args.test_db, start_ac=args.start_ac,
+         sequential=args.sequential, start_ac=args.start_ac,
          no_server=args.no_server)
