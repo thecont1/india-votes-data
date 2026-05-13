@@ -29,7 +29,8 @@ import requests
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-API_URL = "http://localhost:8000"
+DEFAULT_PORT = 8000
+API_URL = f"http://localhost:{DEFAULT_PORT}"
 DB_PATH = Path(__file__).parent / "data" / "live_results.db"
 TEST_DB_PATH = Path(__file__).parent / "data" / "live_results_test.db"
 
@@ -281,44 +282,60 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     print("Starting download of election results...")
     print("=" * 60)
     
-    # Start API server
+    import re
+    import socket
+
+    # Check if server is already running on the port (e.g. from another client instance)
+    port_in_use = False
+    try:
+        with socket.create_connection(("localhost", DEFAULT_PORT), timeout=1):
+            port_in_use = True
+    except (ConnectionRefusedError, OSError):
+        pass
+
     print("Starting API server...")
-    
+
     # Get the script directory for finding the server
     script_dir = Path(__file__).parent
     server_path = script_dir / "server.py"
 
-    api_process = subprocess.Popen(
-        [sys.executable, str(server_path), "--api"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        cwd=str(script_dir)
-    )
-    
-    # Wait for server to start (check health incrementally)
-    max_wait = 15
-    for i in range(max_wait):
-        time.sleep(1)
-        try:
-            response = requests.get(f"{API_URL}/health", timeout=2)
-            if response.status_code == 200:
-                print(f"API server: {response.json()}")
-                break
-        except:
-            if i == max_wait - 1:
-                print(f"Error: API server failed to start after {max_wait}s")
-                api_process.terminate()
-                sys.exit(1)
-            continue
+    we_started_server = False
+    api_process = None
+    if port_in_use:
+        print(f"API server already running on port {DEFAULT_PORT} (using existing)")
     else:
-        print(f"Error: Could not connect to API server")
+        api_process = subprocess.Popen(
+            [sys.executable, str(server_path), "--api"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            cwd=str(script_dir)
+        )
+        we_started_server = True
+
+        # Wait for server to start (check health incrementally)
+        max_wait = 15
+        for i in range(max_wait):
+            time.sleep(1)
+            try:
+                response = requests.get(f"{API_URL}/health", timeout=2)
+                if response.status_code == 200:
+                    print(f"API server: {response.json()}")
+                    break
+            except:
+                if i == max_wait - 1:
+                    print(f"Error: API server failed to start after {max_wait}s")
+                    api_process.terminate()
+                    sys.exit(1)
+                continue
+        else:
+            print(f"Error: Could not connect to API server")
     
     # Parse URL to get state code
-    import re
-    match = re.match(r'^https://results\.eci\.gov\.in/([^/]+)/partywiseresult-([A-Z]\d+)\.htm$', url)
+    match = re.match(r'^https://results\\.eci\\.gov\\.in/([^/]+)/partywiseresult-([A-Z]\\d+)\\.htm$', url)
     if not match:
         print("Error: Invalid URL format")
-        api_process.terminate()
+        if we_started_server and api_process is not None:
+            api_process.terminate()
         sys.exit(1)
     
     election_id = match.group(1)
@@ -356,8 +373,9 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     except KeyboardInterrupt:
         print("\n\nLive monitoring stopped by user")
     
-    # Cleanup
-    api_process.terminate()
+    # Cleanup — only terminate server if we started it
+    if we_started_server and api_process is not None:
+        api_process.terminate()
 
 
 if __name__ == "__main__":
