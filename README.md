@@ -160,6 +160,22 @@ YYYY<Type>-<state>.json  (e.g., 2026Assembly-WB.json)
 
 Also available at [Kaggle](https://www.kaggle.com/datasets/maheshshantaram/indian-elections-fresh-data/).
 
+## Analysis
+
+`analyse-this.ipynb` — Jupyter notebook for analyzing election results from CSVs. Includes:
+- Party-wise vote shares and seat counts
+- Victory margins and deposit losses
+- Assembly composition treemaps
+- Multi-state comparison across all available CSVs
+
+Reads CSVs from `data/csv/`.
+
+## Archive
+
+Historical files in `archive/`:
+- `eci-karnataka.html` — Karnataka election results page
+- `2024 Parliamentary Elections India.csv` — 2024 Lok Sabha results
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
