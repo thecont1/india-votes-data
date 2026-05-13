@@ -236,9 +236,7 @@ def run_cycle(url: str, state_code: str, start_round: int, only_ac: int = 0, seq
                     ac_no = worker_state["current"]
                     worker_state["current"] += 1
                 
-                t_start = time.time()
                 result = process_ac(ac_no, url, state_code, start_round)
-                elapsed = time.time() - t_start
                 results.append(result)
                 
                 if result["status"] == "done":
@@ -246,12 +244,10 @@ def run_cycle(url: str, state_code: str, start_round: int, only_ac: int = 0, seq
                         worker_state["end_of_results"] = True
                     break
                 
-                # Show actual error message if there's one
-                tid = threading.current_thread().name
                 if result["status"] == "error":
-                    print(f"  [{tid}] AC {ac_no}: FAILED - {result.get('error', 'Unknown error')} ({elapsed:.1f}s)")
+                    print(f"  AC {ac_no}: FAILED - {result.get('error', 'Unknown error')}")
                 else:
-                    print(f"  [{tid}] AC {ac_no}: {result.get('ac_name', 'Error')} ({result.get('rounds', 0)}r) ({elapsed:.1f}s)")
+                    print(f"  AC {ac_no}: {result.get('ac_name', 'Error')} ({result.get('rounds', 0)}r)")
         
         with ThreadPoolExecutor(max_workers=num_workers) as executor:
             futures = [executor.submit(worker) for _ in range(num_workers)]
