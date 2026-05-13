@@ -167,10 +167,10 @@ uv run live_tracker/eci-ResultsDayLiveClient.py --url "https://results.eci.gov.i
 # For sequential processing (safest for resource-constrained systems)
 uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --sequential
 
-# Test with a single AC first
-uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --test-ac 1
+# Test with a single AC only
+uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --only-ac 15
 
-# Start from a specific AC number (e.g., AC 15 onwards)
+# Start from a specific AC number onwards
 uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --start-ac 15 --sequential
 
 # Use test database for isolated testing (won't overwrite production data)

@@ -17,6 +17,7 @@ Usage:
   python eci-ResultsDayLiveClient.py --url "..." --live          # 300s interval
   python eci-ResultsDayLiveClient.py --url "..." --live 15       # 15s interval
   python eci-ResultsDayLiveClient.py --url "..." --start-round 5
+  python eci-ResultsDayLiveClient.py --url "..." --only-ac 1     # Single AC only
 """
 
 import sqlite3
@@ -197,15 +198,15 @@ def process_ac(ac_no: int, url: str, state_code: str, start_round: int = 1):
         return {"status": "error", "ac_no": ac_no, "error": str(e)}
 
 
-def run_cycle(url: str, state_code: str, start_round: int, test_ac: int = 0, sequential: bool = False, start_ac: int = 1):
+def run_cycle(url: str, state_code: str, start_round: int, only_ac: int = 0, sequential: bool = False, start_ac: int = 1):
     """Run a single processing cycle for all ACs."""
     results = []
     num_workers = 2  # Reduced from 5 to prevent resource exhaustion with concurrent Chrome instances
     
-    if test_ac > 0:
-        result = process_ac(test_ac, url, state_code, start_round)
+    if only_ac > 0:
+        result = process_ac(only_ac, url, state_code, start_round)
         results.append(result)
-        print(f"  AC {test_ac}: {result}")
+        print(f"  AC {only_ac}: {result}")
     elif sequential:
         # Sequential mode: process ACs one at a time (safest for resource-constrained systems)
         ac_no = start_ac
@@ -253,7 +254,7 @@ def run_cycle(url: str, state_code: str, start_round: int, test_ac: int = 0, seq
     return results
 
 
-def main(url: str, test_ac: int = 0, flush_db: bool = False, 
+def main(url: str, only_ac: int = 0, flush_db: bool = False, 
          live: int = 0, interval: int = 30, start_round: int = 1, sequential: bool = False,
          test_db: bool = False, start_ac: int = 1):
     """Main entry point.
@@ -333,7 +334,7 @@ def main(url: str, test_ac: int = 0, flush_db: bool = False,
             print(f"Cycle {cycle_num} - {time.strftime('%H:%M:%S')}")
             
             start_time = time.time()
-            results = run_cycle(url, state_code, start_round, test_ac, sequential, start_ac)
+            results = run_cycle(url, state_code, start_round, only_ac, sequential, start_ac)
             
             elapsed = time.time() - start_time
             successful = sum(1 for r in results if r["status"] == "success")
@@ -362,6 +363,7 @@ if __name__ == "__main__":
     parser.add_argument("--live", type=int, nargs="?", const=300, default=0, 
                         help="Continuous monitoring mode with optional seconds interval (default: 300s)")
     parser.add_argument("--start-round", type=int, default=1, help="Start downloading from this round (incremental mode)")
+    parser.add_argument("--only-ac", type=int, default=0, help="Process only this specific AC number (0 = all ACs)")
     parser.add_argument("--start-ac", type=int, default=1, help="Start downloading from this AC number (default: 1)")
     parser.add_argument("--sequential", action="store_true", 
                         help="Process ACs sequentially instead of concurrently (safer for resource-constrained systems)")
@@ -372,6 +374,6 @@ if __name__ == "__main__":
     # Enable test mode if flag is set
     USE_TEST_DB = args.test_db
     
-    main(url=args.url, test_ac=args.test_ac, flush_db=args.flush,
+    main(url=args.url, only_ac=args.only_ac, flush_db=args.flush,
          live=args.live, interval=args.live if args.live > 0 else 30, start_round=args.start_round, 
          sequential=args.sequential, test_db=args.test_db, start_ac=args.start_ac)
