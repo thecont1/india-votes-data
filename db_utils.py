@@ -7,9 +7,10 @@ Set DATABASE_URL env var:
   - postgres:// or postgresql:// URL → PostgreSQL
 
 Tables:
-  - states: reference (from data/states.csv)
+  - states: reference (ECI code as PK, from data/states.csv)
   - parties: party metadata + aliases (from data/parties.csv)
-  - rounds: vote counts per candidate per round
+  - rounds_ac: AC vote counts per candidate per round
+  - rounds_pc: PC vote counts (reserved for future use)
   - constituency_status: per-AC lifecycle tracking
 """
 
@@ -37,8 +38,8 @@ if IS_PG:
 
 _DDL_PG = """
 CREATE TABLE IF NOT EXISTS states (
-    state_code       TEXT PRIMARY KEY,
-    state_code_eci   TEXT,
+    state_code       TEXT PRIMARY KEY,  -- ECI code: S03, S11, U07
+    state_code_std   TEXT,              -- standard: AS, KL, DL
     state_name       TEXT NOT NULL,
     state_capital    TEXT,
     state_status     TEXT,
@@ -66,20 +67,27 @@ CREATE TABLE IF NOT EXISTS parties (
     alliance         TEXT
 );
 
-CREATE TABLE IF NOT EXISTS rounds (
-    id              SERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS rounds_ac (
     state_code      TEXT    NOT NULL,
     ac_no           INTEGER NOT NULL,
     ac_name         TEXT,
     round_no        INTEGER NOT NULL,
     candidate       TEXT    NOT NULL,
-    party           TEXT    NOT NULL,
+    party_abv       TEXT    NOT NULL,
     votes           INTEGER NOT NULL,
-    election_type   TEXT    NOT NULL DEFAULT 'AC'
+    PRIMARY KEY (state_code, ac_no, round_no, candidate, party_abv)
 );
 
-CREATE INDEX IF NOT EXISTS idx_rounds_ac ON rounds (state_code, ac_no);
-CREATE INDEX IF NOT EXISTS idx_rounds_party ON rounds (party);
+CREATE TABLE IF NOT EXISTS rounds_pc (
+    state_code      TEXT    NOT NULL,
+    pc_no           INTEGER NOT NULL,
+    pc_name         TEXT,
+    round_no        INTEGER NOT NULL,
+    candidate       TEXT    NOT NULL,
+    party_abv       TEXT    NOT NULL,
+    votes           INTEGER NOT NULL,
+    PRIMARY KEY (state_code, pc_no, round_no, candidate, party_abv)
+);
 
 CREATE TABLE IF NOT EXISTS constituency_status (
     state_code      TEXT    NOT NULL,
@@ -96,8 +104,8 @@ CREATE TABLE IF NOT EXISTS constituency_status (
 
 _DDL_SQLITE = """
 CREATE TABLE IF NOT EXISTS states (
-    state_code       TEXT PRIMARY KEY,
-    state_code_eci   TEXT,
+    state_code       TEXT PRIMARY KEY,  -- ECI code: S03, S11, U07
+    state_code_std   TEXT,              -- standard: AS, KL, DL
     state_name       TEXT NOT NULL,
     state_capital    TEXT,
     state_status     TEXT,
@@ -125,20 +133,27 @@ CREATE TABLE IF NOT EXISTS parties (
     alliance         TEXT
 );
 
-CREATE TABLE IF NOT EXISTS rounds (
-    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE IF NOT EXISTS rounds_ac (
     state_code      TEXT    NOT NULL,
     ac_no           INTEGER NOT NULL,
     ac_name         TEXT,
     round_no        INTEGER NOT NULL,
     candidate       TEXT    NOT NULL,
-    party           TEXT    NOT NULL,
+    party_abv       TEXT    NOT NULL,
     votes           INTEGER NOT NULL,
-    election_type   TEXT    NOT NULL DEFAULT 'AC'
+    PRIMARY KEY (state_code, ac_no, round_no, candidate, party_abv)
 );
 
-CREATE INDEX IF NOT EXISTS idx_rounds_ac ON rounds (state_code, ac_no);
-CREATE INDEX IF NOT EXISTS idx_rounds_party ON rounds (party);
+CREATE TABLE IF NOT EXISTS rounds_pc (
+    state_code      TEXT    NOT NULL,
+    pc_no           INTEGER NOT NULL,
+    pc_name         TEXT,
+    round_no        INTEGER NOT NULL,
+    candidate       TEXT    NOT NULL,
+    party_abv       TEXT    NOT NULL,
+    votes           INTEGER NOT NULL,
+    PRIMARY KEY (state_code, pc_no, round_no, candidate, party_abv)
+);
 
 CREATE TABLE IF NOT EXISTS constituency_status (
     state_code      TEXT    NOT NULL,
@@ -254,13 +269,17 @@ def init_db():
         else:
             cur.executescript(ddl)
 
-        # Load states from CSV
+        # Load states from CSV (ECI code as PK)
         with open(STATES_CSV, newline="") as f:
             reader = csv.DictReader(f)
             for s in reader:
                 p = _placeholder()
+                # CSV has state_code (standard) and state_code_eci (ECI)
+                # states table: state_code = ECI (PK), state_code_std = standard
+                eci_code = s.get("state_code_eci") or s["state_code"]
+                std_code = s["state_code"]
                 vals = (
-                    s["state_code"], s.get("state_code_eci"), s["state_name"],
+                    eci_code, std_code, s["state_name"],
                     s.get("state_capital"), s.get("state_status"),
                     int(s["population_2011"]) if s.get("population_2011") else None,
                     s.get("region"),
@@ -271,7 +290,7 @@ def init_db():
                 )
                 if IS_PG:
                     cur.execute(
-                        f"""INSERT INTO states (state_code,state_code_eci,state_name,state_capital,
+                        f"""INSERT INTO states (state_code,state_code_std,state_name,state_capital,
                                state_status,population_2011,region,districts,
                                assembly_seats,loksabha_seats,rajyasabha_seats)
                            VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})
@@ -279,7 +298,7 @@ def init_db():
                     )
                 else:
                     cur.execute(
-                        f"""INSERT OR IGNORE INTO states (state_code,state_code_eci,state_name,state_capital,
+                        f"""INSERT OR IGNORE INTO states (state_code,state_code_std,state_name,state_capital,
                                state_status,population_2011,region,districts,
                                assembly_seats,loksabha_seats,rajyasabha_seats)
                            VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})""", vals,
@@ -315,10 +334,11 @@ def init_db():
                                VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})""", vals,
                         )
 
-        # Seed constituency_status
+        # Seed constituency_status (using ECI codes)
         with open(STATES_CSV, newline="") as f:
             reader = csv.DictReader(f)
             for s in reader:
+                eci_code = s.get("state_code_eci") or s["state_code"]
                 ac_count = int(s["assembly_seats"]) if s.get("assembly_seats") else 0
                 for ac_no in range(1, ac_count + 1):
                     p = _placeholder()
@@ -327,13 +347,13 @@ def init_db():
                             f"""INSERT INTO constituency_status (state_code, ac_no, status)
                                VALUES ({p}, {p}, 'PENDING')
                                ON CONFLICT (state_code, ac_no) DO NOTHING""",
-                            (s["state_code"], ac_no),
+                            (eci_code, ac_no),
                         )
                     else:
                         cur.execute(
                             f"""INSERT OR IGNORE INTO constituency_status (state_code, ac_no, status)
                                VALUES ({p}, {p}, 'PENDING')""",
-                            (s["state_code"], ac_no),
+                            (eci_code, ac_no),
                         )
         conn.commit()
     finally:
@@ -441,7 +461,6 @@ def insert_round_snapshot(
     total_rounds: int,
     candidates: list[dict],
     scraped_at: str,  # ignored, kept for API compat
-    election_type: str = "AC",
 ) -> None:
     """Bulk-insert one round snapshot for all candidates in a constituency."""
     if not candidates:
@@ -452,22 +471,22 @@ def insert_round_snapshot(
     try:
         rows = [
             (state_code, ac_no, ac_name, round_no,
-             c["candidate"], _normalize_party(c["party"]), c["votes"], election_type)
+             c["candidate"], _normalize_party(c["party"]), c["votes"])
             for c in candidates
         ]
         if IS_PG:
             execute_values(
                 cur,
-                f"""INSERT INTO rounds
-                   (state_code, ac_no, ac_name, round_no, candidate, party, votes, election_type)
+                f"""INSERT INTO rounds_ac
+                   (state_code, ac_no, ac_name, round_no, candidate, party_abv, votes)
                    VALUES %s""",
                 rows,
             )
         else:
             cur.executemany(
-                f"""INSERT INTO rounds
-                   (state_code, ac_no, ac_name, round_no, candidate, party, votes, election_type)
-                   VALUES ({p},{p},{p},{p},{p},{p},{p},{p})""",
+                f"""INSERT OR IGNORE INTO rounds_ac
+                   (state_code, ac_no, ac_name, round_no, candidate, party_abv, votes)
+                   VALUES ({p},{p},{p},{p},{p},{p},{p})""",
                 rows,
             )
         conn.commit()
@@ -534,7 +553,7 @@ def get_state_status_summary() -> list[dict]:
         cur.execute("""
             SELECT s.state_name, cs.status, COUNT(*) as cnt
             FROM constituency_status cs
-            JOIN states s ON cs.state_code = s.state_code_eci
+            JOIN states s ON cs.state_code = s.state_code
             GROUP BY s.state_name, cs.status
             ORDER BY s.state_name, cs.status
         """)
@@ -554,28 +573,28 @@ def get_leading_seats(state_code: Optional[str] = None) -> pd.DataFrame:
         query = f"""
             SELECT r.state_code, s.state_name, r.ac_no, r.ac_name,
                    r.candidate AS leading_candidate,
-                   r.party     AS leading_party,
+                   r.party_abv AS leading_party,
                    r.votes     AS leading_votes,
                    r.round_no
-            FROM rounds r
-            JOIN states s ON r.state_code = s.state_code_eci
+            FROM rounds_ac r
+            JOIN states s ON r.state_code = s.state_code
             INNER JOIN (
                 SELECT state_code, ac_no, MAX(round_no) as latest_round
-                FROM rounds
+                FROM rounds_ac
                 GROUP BY state_code, ac_no
             ) lr ON r.state_code = lr.state_code
                 AND r.ac_no = lr.ac_no
                 AND r.round_no = lr.latest_round
             WHERE r.votes = (
                 SELECT MAX(r2.votes)
-                FROM rounds r2
+                FROM rounds_ac r2
                 WHERE r2.state_code = r.state_code
                   AND r2.ac_no = r.ac_no
                   AND r2.round_no = r.round_no
             )
             {where}
             GROUP BY r.state_code, s.state_name, r.ac_no, r.ac_name,
-                     r.candidate, r.party, r.votes, r.round_no
+                     r.candidate, r.party_abv, r.votes, r.round_no
         """
         return pd.read_sql_query(query, conn, params=params)
     finally:
@@ -627,17 +646,17 @@ def get_party_totals_over_time(state_code: Optional[str] = None) -> pd.DataFrame
         where = f"AND r.state_code = {p}" if state_code else ""
         params = (state_code,) if state_code else None
         query = f"""
-            SELECT r.round_no, r.party, SUM(r.votes) as total_votes
-            FROM rounds r
+            SELECT r.round_no, r.party_abv, SUM(r.votes) as total_votes
+            FROM rounds_ac r
             INNER JOIN (
                 SELECT state_code, ac_no, MAX(round_no) as latest_round
-                FROM rounds
+                FROM rounds_ac
                 GROUP BY state_code, ac_no
             ) lr ON r.state_code = lr.state_code
                 AND r.ac_no = lr.ac_no
                 AND r.round_no = lr.latest_round
             WHERE 1=1 {where}
-            GROUP BY r.round_no, r.party
+            GROUP BY r.round_no, r.party_abv
             ORDER BY r.round_no
         """
         return pd.read_sql_query(query, conn, params=params)
@@ -651,10 +670,10 @@ def get_constituency_rounds(state_code: str, ac_no: int) -> pd.DataFrame:
     try:
         return pd.read_sql_query(
             f"""
-            SELECT round_no, candidate, party, votes
-            FROM rounds
+            SELECT round_no, candidate, party_abv, votes
+            FROM rounds_ac
             WHERE state_code = {p} AND ac_no = {p}
-            ORDER BY round_no, party
+            ORDER BY round_no, party_abv
             """,
             conn,
             params=(state_code, ac_no),
@@ -669,7 +688,7 @@ def get_all_constituency_statuses() -> pd.DataFrame:
         return pd.read_sql_query(
             """SELECT cs.*, s.state_name
                FROM constituency_status cs
-               JOIN states s ON cs.state_code = s.state_code_eci
+               JOIN states s ON cs.state_code = s.state_code
                ORDER BY cs.state_code, cs.ac_no""",
             conn,
         )
@@ -684,8 +703,8 @@ def get_state_name(state_code: str) -> str:
     cur = _cursor(conn)
     try:
         cur.execute(
-            f"SELECT state_name FROM states WHERE state_code = {p} OR state_code_eci = {p}",
-            (state_code, state_code),
+            f"SELECT state_name FROM states WHERE state_code = {p}",
+            (state_code,),
         )
         row = cur.fetchone()
         return row["state_name"] if row else state_code
