@@ -1,147 +1,340 @@
 """
-SQLite database layer for ECI Live Election Tracker.
+Database layer for ECI Live Election Tracker.
+
+Supports both SQLite and PostgreSQL backends.
+Set DATABASE_URL env var:
+  - File path (e.g. "data/election_results.db") → SQLite
+  - postgres:// or postgresql:// URL → PostgreSQL
 
 Tables:
-  - rounds: time-series vote snapshots per scrape cycle
-  - constituency_status: per-AC lifecycle tracking (PENDING/LIVE/DONE/ERROR)
-  - scrape_cycles: audit log of each scrape cycle
-
-Uses Python's built-in sqlite3 — no external DB server needed.
+  - states: reference (from data/states.csv)
+  - parties: party metadata + aliases (from data/parties.csv)
+  - rounds: vote counts per candidate per round
+  - constituency_status: per-AC lifecycle tracking
 """
 
+import csv
+import os
 import sqlite3
 from datetime import datetime, timezone
 from typing import Optional
 
 import pandas as pd
 
-from states_may2026 import STATES, TOTAL_ACS
+DATABASE_URL = os.environ.get("DATABASE_URL", "data/election_results.db")
+IS_PG = DATABASE_URL.startswith("postgresql://") or DATABASE_URL.startswith("postgres://")
+STATES_CSV = os.path.join(os.path.dirname(__file__), "data", "states.csv")
+PARTIES_CSV = os.path.join(os.path.dirname(__file__), "data", "parties.csv")
+
+if IS_PG:
+    import psycopg2
+    from psycopg2.extras import RealDictCursor, execute_values
+
 
 # ---------------------------------------------------------------------------
-# Schema DDL
+# Schema DDL (dialect-specific)
 # ---------------------------------------------------------------------------
 
-_CREATE_TABLES = """
+_DDL_PG = """
+CREATE TABLE IF NOT EXISTS states (
+    state_code       TEXT PRIMARY KEY,
+    state_code_eci   TEXT,
+    state_name       TEXT NOT NULL,
+    state_capital    TEXT,
+    state_status     TEXT,
+    population_2011  INTEGER,
+    region           TEXT,
+    districts        INTEGER,
+    assembly_seats   INTEGER,
+    loksabha_seats   INTEGER,
+    rajyasabha_seats INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS parties (
+    abv              TEXT PRIMARY KEY,
+    name             TEXT NOT NULL,
+    aliases          TEXT DEFAULT '',
+    chief            TEXT,
+    colour           TEXT,
+    founded          INTEGER,
+    symbol_name      TEXT,
+    symbol_emoji     TEXT,
+    seats_loksabha   INTEGER DEFAULT 0,
+    seats_rajyasabha INTEGER DEFAULT 0,
+    seats_assembly   INTEGER DEFAULT 0,
+    wikipedia_url    TEXT,
+    alliance         TEXT
+);
+
 CREATE TABLE IF NOT EXISTS rounds (
-    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    id              SERIAL PRIMARY KEY,
     state_code      TEXT    NOT NULL,
-    state_name      TEXT    NOT NULL,
     ac_no           INTEGER NOT NULL,
     ac_name         TEXT,
     round_no        INTEGER NOT NULL,
-    total_rounds    INTEGER,
     candidate       TEXT    NOT NULL,
     party           TEXT    NOT NULL,
     votes           INTEGER NOT NULL,
-    scraped_at      TEXT    NOT NULL   -- ISO-8601 UTC
+    election_type   TEXT    NOT NULL DEFAULT 'AC'
 );
 
-CREATE INDEX IF NOT EXISTS idx_rounds_ac_scraped
-    ON rounds (state_code, ac_no, scraped_at);
-
-CREATE INDEX IF NOT EXISTS idx_rounds_party_scraped
-    ON rounds (party, scraped_at);
-
-CREATE INDEX IF NOT EXISTS idx_rounds_state_scraped
-    ON rounds (state_code, scraped_at);
+CREATE INDEX IF NOT EXISTS idx_rounds_ac ON rounds (state_code, ac_no);
+CREATE INDEX IF NOT EXISTS idx_rounds_party ON rounds (party);
 
 CREATE TABLE IF NOT EXISTS constituency_status (
     state_code      TEXT    NOT NULL,
-    state_name      TEXT    NOT NULL,
     ac_no           INTEGER NOT NULL,
     ac_name         TEXT,
     status          TEXT    NOT NULL DEFAULT 'PENDING',
     current_round   INTEGER DEFAULT 0,
     total_rounds    INTEGER DEFAULT 0,
     error_count     INTEGER DEFAULT 0,
-    last_scraped    TEXT,
     won             INTEGER DEFAULT 0,
     PRIMARY KEY (state_code, ac_no)
 );
+"""
 
-CREATE TABLE IF NOT EXISTS scrape_cycles (
+_DDL_SQLITE = """
+CREATE TABLE IF NOT EXISTS states (
+    state_code       TEXT PRIMARY KEY,
+    state_code_eci   TEXT,
+    state_name       TEXT NOT NULL,
+    state_capital    TEXT,
+    state_status     TEXT,
+    population_2011  INTEGER,
+    region           TEXT,
+    districts        INTEGER,
+    assembly_seats   INTEGER,
+    loksabha_seats   INTEGER,
+    rajyasabha_seats INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS parties (
+    abv              TEXT PRIMARY KEY,
+    name             TEXT NOT NULL,
+    aliases          TEXT DEFAULT '',
+    chief            TEXT,
+    colour           TEXT,
+    founded          INTEGER,
+    symbol_name      TEXT,
+    symbol_emoji     TEXT,
+    seats_loksabha   INTEGER DEFAULT 0,
+    seats_rajyasabha INTEGER DEFAULT 0,
+    seats_assembly   INTEGER DEFAULT 0,
+    wikipedia_url    TEXT,
+    alliance         TEXT
+);
+
+CREATE TABLE IF NOT EXISTS rounds (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    started_at      TEXT    NOT NULL,
-    finished_at     TEXT,
-    pages_attempted INTEGER DEFAULT 0,
-    pages_success   INTEGER DEFAULT 0,
-    pages_skipped   INTEGER DEFAULT 0,
-    pages_error     INTEGER DEFAULT 0,
-    cycle_duration_sec REAL
+    state_code      TEXT    NOT NULL,
+    ac_no           INTEGER NOT NULL,
+    ac_name         TEXT,
+    round_no        INTEGER NOT NULL,
+    candidate       TEXT    NOT NULL,
+    party           TEXT    NOT NULL,
+    votes           INTEGER NOT NULL,
+    election_type   TEXT    NOT NULL DEFAULT 'AC'
+);
+
+CREATE INDEX IF NOT EXISTS idx_rounds_ac ON rounds (state_code, ac_no);
+CREATE INDEX IF NOT EXISTS idx_rounds_party ON rounds (party);
+
+CREATE TABLE IF NOT EXISTS constituency_status (
+    state_code      TEXT    NOT NULL,
+    ac_no           INTEGER NOT NULL,
+    ac_name         TEXT,
+    status          TEXT    NOT NULL DEFAULT 'PENDING',
+    current_round   INTEGER DEFAULT 0,
+    total_rounds    INTEGER DEFAULT 0,
+    error_count     INTEGER DEFAULT 0,
+    won             INTEGER DEFAULT 0,
+    PRIMARY KEY (state_code, ac_no)
 );
 """
 
-_INSERT_CONSTITUENCY_STATUS = """
-INSERT OR IGNORE INTO constituency_status
-    (state_code, state_name, ac_no, status)
-VALUES (?, ?, ?, 'PENDING')
-"""
 
-_UPSERT_CONSTITUENCY_STATUS = """
-INSERT INTO constituency_status
-    (state_code, state_name, ac_no, ac_name, status,
-     current_round, total_rounds, error_count, last_scraped)
-VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?)
-ON CONFLICT(state_code, ac_no) DO UPDATE SET
-    ac_name      = excluded.ac_name,
-    status       = excluded.status,
-    current_round = excluded.current_round,
-    total_rounds  = excluded.total_rounds,
-    error_count   = CASE
-        WHEN excluded.status = 'ERROR'
-        THEN constituency_status.error_count + 1
-        ELSE 0
-    END,
-    last_scraped  = excluded.last_scraped
-"""
+# ---------------------------------------------------------------------------
+# Connection helpers
+# ---------------------------------------------------------------------------
 
-_INSERT_ROUND = """
-INSERT INTO rounds
-    (state_code, state_name, ac_no, ac_name, round_no, total_rounds,
-     candidate, party, votes, scraped_at)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-"""
+def _connect():
+    if IS_PG:
+        conn = psycopg2.connect(DATABASE_URL)
+        conn.autocommit = False
+        return conn
+    else:
+        conn = sqlite3.connect(DATABASE_URL, timeout=30)
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA busy_timeout=5000")
+        return conn
 
-_INSERT_CYCLE = """
-INSERT INTO scrape_cycles
-    (started_at, finished_at, pages_attempted, pages_success,
-     pages_skipped, pages_error, cycle_duration_sec)
-VALUES (?, ?, ?, ?, ?, ?, ?)
-"""
+
+def _cursor(conn):
+    if IS_PG:
+        return conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        conn.row_factory = sqlite3.Row
+        return conn.cursor()
+
+
+def _placeholder():
+    return "?" if not IS_PG else "%s"
 
 
 # ---------------------------------------------------------------------------
-# Connection helper (WAL mode for concurrent read/write)
+# Party name normalization
 # ---------------------------------------------------------------------------
 
-def _connect(db_path: str) -> sqlite3.Connection:
-    conn = sqlite3.connect(db_path, timeout=30)
-    conn.execute("PRAGMA journal_mode=WAL")
-    conn.execute("PRAGMA busy_timeout=5000")
-    conn.row_factory = sqlite3.Row
-    return conn
+_party_alias_map = None
+_party_name_set = None
+
+
+def _load_party_cache():
+    """Load party names and aliases into memory (once).
+
+    Builds two lookups:
+      _party_name_set: set of canonical names (parties.name)
+      _party_alias_map: variant_name → canonical_name (from parties.aliases column)
+    """
+    global _party_alias_map, _party_name_set
+    if _party_alias_map is not None:
+        return
+    conn = _connect()
+    cur = _cursor(conn)
+    try:
+        _party_alias_map = {}
+        _party_name_set = set()
+        cur.execute("SELECT name, aliases FROM parties")
+        for row in cur.fetchall():
+            canonical = row["name"]
+            _party_name_set.add(canonical)
+            aliases_raw = row["aliases"]
+            if aliases_raw:
+                for alias in aliases_raw.split(","):
+                    alias = alias.strip()
+                    if alias and alias != canonical:
+                        _party_alias_map[alias] = canonical
+    except Exception:
+        _party_alias_map = {}
+        _party_name_set = set()
+    finally:
+        conn.close()
+
+
+def _normalize_party(name: str) -> str:
+    """Normalize a party name to its canonical form."""
+    _load_party_cache()
+    if name in _party_name_set:
+        return name
+    if name in _party_alias_map:
+        return _party_alias_map[name]
+    name_lower = name.lower().strip()
+    for canonical in _party_name_set:
+        if canonical.lower() == name_lower:
+            return canonical
+    return name
 
 
 # ---------------------------------------------------------------------------
 # Initialisation
 # ---------------------------------------------------------------------------
 
-def init_db(db_path: str) -> None:
-    """Create tables and seed constituency_status for all ACs (idempotent)."""
-    conn = _connect(db_path)
+def init_db():
+    """Create tables and seed from CSVs (idempotent)."""
+    conn = _connect()
+    cur = _cursor(conn)
     try:
-        conn.executescript(_CREATE_TABLES)
-        # Migration: add 'won' column if missing
-        try:
-            conn.execute("SELECT won FROM constituency_status LIMIT 1")
-        except sqlite3.OperationalError:
-            conn.execute("ALTER TABLE constituency_status ADD COLUMN won INTEGER DEFAULT 0")
-        for state in STATES:
-            for ac_no in range(1, state["ac_count"] + 1):
-                conn.execute(
-                    _INSERT_CONSTITUENCY_STATUS,
-                    (state["code"], state["name"], ac_no),
+        ddl = _DDL_PG if IS_PG else _DDL_SQLITE
+        if IS_PG:
+            for stmt in ddl.strip().split(";"):
+                stmt = stmt.strip()
+                if stmt:
+                    cur.execute(stmt)
+        else:
+            cur.executescript(ddl)
+
+        # Load states from CSV
+        with open(STATES_CSV, newline="") as f:
+            reader = csv.DictReader(f)
+            for s in reader:
+                p = _placeholder()
+                vals = (
+                    s["state_code"], s.get("state_code_eci"), s["state_name"],
+                    s.get("state_capital"), s.get("state_status"),
+                    int(s["population_2011"]) if s.get("population_2011") else None,
+                    s.get("region"),
+                    int(s["districts"]) if s.get("districts") else None,
+                    int(s["assembly_seats"]) if s.get("assembly_seats") else None,
+                    int(s["loksabha_seats"]) if s.get("loksabha_seats") else None,
+                    int(s["rajyasabha_seats"]) if s.get("rajyasabha_seats") else None,
                 )
+                if IS_PG:
+                    cur.execute(
+                        f"""INSERT INTO states (state_code,state_code_eci,state_name,state_capital,
+                               state_status,population_2011,region,districts,
+                               assembly_seats,loksabha_seats,rajyasabha_seats)
+                           VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})
+                           ON CONFLICT (state_code) DO NOTHING""", vals,
+                    )
+                else:
+                    cur.execute(
+                        f"""INSERT OR IGNORE INTO states (state_code,state_code_eci,state_name,state_capital,
+                               state_status,population_2011,region,districts,
+                               assembly_seats,loksabha_seats,rajyasabha_seats)
+                           VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})""", vals,
+                    )
+
+        # Load parties from CSV
+        if os.path.exists(PARTIES_CSV):
+            with open(PARTIES_CSV, newline="") as f:
+                reader = csv.DictReader(f)
+                for s in reader:
+                    p = _placeholder()
+                    vals = (
+                        s["abv"], s["name"], s.get("chief") or None,
+                        s.get("colour") or None,
+                        int(s["founded"]) if s.get("founded") else None,
+                        s.get("symbol_name") or None, s.get("symbol_emoji") or None,
+                        int(s["seats_loksabha"]) if s.get("seats_loksabha") else 0,
+                        int(s["seats_rajyasabha"]) if s.get("seats_rajyasabha") else 0,
+                        int(s["seats_assembly"]) if s.get("seats_assembly") else 0,
+                        s.get("wikipedia_url") or None, s.get("alliance") or None,
+                    )
+                    if IS_PG:
+                        cur.execute(
+                            f"""INSERT INTO parties (abv,name,chief,colour,founded,symbol_name,symbol_emoji,
+                               seats_loksabha,seats_rajyasabha,seats_assembly,wikipedia_url,alliance)
+                               VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})
+                               ON CONFLICT (abv) DO NOTHING""", vals,
+                        )
+                    else:
+                        cur.execute(
+                            f"""INSERT OR IGNORE INTO parties (abv,name,chief,colour,founded,symbol_name,symbol_emoji,
+                               seats_loksabha,seats_rajyasabha,seats_assembly,wikipedia_url,alliance)
+                               VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})""", vals,
+                        )
+
+        # Seed constituency_status
+        with open(STATES_CSV, newline="") as f:
+            reader = csv.DictReader(f)
+            for s in reader:
+                ac_count = int(s["assembly_seats"]) if s.get("assembly_seats") else 0
+                for ac_no in range(1, ac_count + 1):
+                    p = _placeholder()
+                    if IS_PG:
+                        cur.execute(
+                            f"""INSERT INTO constituency_status (state_code, ac_no, status)
+                               VALUES ({p}, {p}, 'PENDING')
+                               ON CONFLICT (state_code, ac_no) DO NOTHING""",
+                            (s["state_code"], ac_no),
+                        )
+                    else:
+                        cur.execute(
+                            f"""INSERT OR IGNORE INTO constituency_status (state_code, ac_no, status)
+                               VALUES ({p}, {p}, 'PENDING')""",
+                            (s["state_code"], ac_no),
+                        )
         conn.commit()
     finally:
         conn.close()
@@ -151,42 +344,34 @@ def init_db(db_path: str) -> None:
 # Work queue
 # ---------------------------------------------------------------------------
 
-def get_work_queue(db_path: str) -> list[dict]:
-    """
-    Return constituencies that still need scraping.
-    LIVE (mid-count) first, then PENDING.
-    Excludes DONE and ERROR (when error_count >= 3).
-    """
-    conn = _connect(db_path)
+def get_work_queue() -> list[dict]:
+    conn = _connect()
+    cur = _cursor(conn)
     try:
-        rows = conn.execute(
-            """
-            SELECT cs.state_code, cs.state_name, cs.ac_no, cs.ac_name,
+        cur.execute("""
+            SELECT cs.state_code, cs.ac_no, cs.ac_name,
                    cs.status, cs.current_round, cs.total_rounds
             FROM constituency_status cs
             WHERE cs.status NOT IN ('DONE', 'ERROR')
             ORDER BY CASE cs.status WHEN 'LIVE' THEN 0 ELSE 1 END,
                      cs.state_code, cs.ac_no
-            """
-        ).fetchall()
-        return [dict(r) for r in rows]
+        """)
+        return cur.fetchall()
     finally:
         conn.close()
 
 
-def get_error_constituencies(db_path: str) -> list[dict]:
-    """Return constituencies marked ERROR for potential retry."""
-    conn = _connect(db_path)
+def get_error_constituencies() -> list[dict]:
+    conn = _connect()
+    cur = _cursor(conn)
     try:
-        rows = conn.execute(
-            """
-            SELECT state_code, state_name, ac_no, ac_name, error_count
+        cur.execute("""
+            SELECT state_code, ac_no, ac_name, error_count
             FROM constituency_status
             WHERE status = 'ERROR'
             ORDER BY state_code, ac_no
-            """
-        ).fetchall()
-        return [dict(r) for r in rows]
+        """)
+        return cur.fetchall()
     finally:
         conn.close()
 
@@ -196,114 +381,123 @@ def get_error_constituencies(db_path: str) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 def upsert_constituency_status(
-    db_path: str,
     state_code: str,
     ac_no: int,
     ac_name: Optional[str],
     status: str,
     current_round: int,
     total_rounds: int,
-    state_name: str = "",
+    state_name: str = "",  # ignored, kept for API compat
 ) -> None:
-    """Update constituency lifecycle status."""
-    now = datetime.now(timezone.utc).isoformat()
-    conn = _connect(db_path)
+    p = _placeholder()
+    conn = _connect()
+    cur = _cursor(conn)
     try:
-        if not state_name:
-            row = conn.execute(
-                "SELECT state_name FROM constituency_status WHERE state_code=? AND ac_no=?",
-                (state_code, ac_no),
-            ).fetchone()
-            state_name = row["state_name"] if row else ""
-        conn.execute(
-            _UPSERT_CONSTITUENCY_STATUS,
-            (state_code, state_name, ac_no, ac_name, status,
-             current_round, total_rounds, now),
-        )
+        if IS_PG:
+            cur.execute(
+                f"""INSERT INTO constituency_status
+                    (state_code, ac_no, ac_name, status, current_round, total_rounds, error_count)
+                   VALUES ({p}, {p}, {p}, {p}, {p}, {p}, 0)
+                   ON CONFLICT (state_code, ac_no) DO UPDATE SET
+                    ac_name      = EXCLUDED.ac_name,
+                    status       = EXCLUDED.status,
+                    current_round = EXCLUDED.current_round,
+                    total_rounds  = EXCLUDED.total_rounds,
+                    error_count   = CASE
+                        WHEN EXCLUDED.status = 'ERROR'
+                        THEN constituency_status.error_count + 1
+                        ELSE 0
+                    END""",
+                (state_code, ac_no, ac_name, status, current_round, total_rounds),
+            )
+        else:
+            cur.execute(
+                f"""INSERT INTO constituency_status
+                    (state_code, ac_no, ac_name, status, current_round, total_rounds, error_count)
+                   VALUES ({p}, {p}, {p}, {p}, {p}, {p}, 0)
+                   ON CONFLICT(state_code, ac_no) DO UPDATE SET
+                    ac_name      = excluded.ac_name,
+                    status       = excluded.status,
+                    current_round = excluded.current_round,
+                    total_rounds  = excluded.total_rounds,
+                    error_count   = CASE
+                        WHEN excluded.status = 'ERROR'
+                        THEN error_count + 1
+                        ELSE 0
+                    END""",
+                (state_code, ac_no, ac_name, status, current_round, total_rounds),
+            )
         conn.commit()
     finally:
         conn.close()
 
 
 def insert_round_snapshot(
-    db_path: str,
     state_code: str,
-    state_name: str,
+    state_name: str,  # ignored, kept for API compat
     ac_no: int,
     ac_name: str,
     round_no: int,
     total_rounds: int,
     candidates: list[dict],
-    scraped_at: str,
+    scraped_at: str,  # ignored, kept for API compat
+    election_type: str = "AC",
 ) -> None:
-    """
-    Bulk-insert one round snapshot for all candidates in a constituency.
-    candidates = [{"candidate": str, "party": str, "votes": int}, ...]
-    """
+    """Bulk-insert one round snapshot for all candidates in a constituency."""
     if not candidates:
         return
-    conn = _connect(db_path)
+    p = _placeholder()
+    conn = _connect()
+    cur = _cursor(conn)
     try:
-        conn.executemany(
-            _INSERT_ROUND,
-            [
-                (
-                    state_code, state_name, ac_no, ac_name,
-                    round_no, total_rounds,
-                    c["candidate"], c["party"], c["votes"],
-                    scraped_at,
-                )
-                for c in candidates
-            ],
-        )
+        rows = [
+            (state_code, ac_no, ac_name, round_no,
+             c["candidate"], _normalize_party(c["party"]), c["votes"], election_type)
+            for c in candidates
+        ]
+        if IS_PG:
+            execute_values(
+                cur,
+                f"""INSERT INTO rounds
+                   (state_code, ac_no, ac_name, round_no, candidate, party, votes, election_type)
+                   VALUES %s""",
+                rows,
+            )
+        else:
+            cur.executemany(
+                f"""INSERT INTO rounds
+                   (state_code, ac_no, ac_name, round_no, candidate, party, votes, election_type)
+                   VALUES ({p},{p},{p},{p},{p},{p},{p},{p})""",
+                rows,
+            )
         conn.commit()
     finally:
         conn.close()
 
 
-def record_cycle(
-    db_path: str,
-    started_at: str,
-    finished_at: str,
-    pages_attempted: int,
-    pages_success: int,
-    pages_skipped: int,
-    pages_error: int,
-    duration_sec: float,
-) -> None:
-    """Record one scrape cycle in the audit log."""
-    conn = _connect(db_path)
+def update_won_status(state_code: str, won_ac_nos: list[int]) -> None:
+    p = _placeholder()
+    conn = _connect()
+    cur = _cursor(conn)
     try:
-        conn.execute(
-            _INSERT_CYCLE,
-            (started_at, finished_at, pages_attempted, pages_success,
-             pages_skipped, pages_error, duration_sec),
-        )
-        conn.commit()
-    finally:
-        conn.close()
-
-
-def update_won_status(db_path: str, state_code: str, won_ac_nos: list[int]) -> None:
-    """
-    Update won status for constituencies based on ECI's official won list.
-    Sets won=1 for ACs in won_ac_nos, won=0 for all others in that state.
-    """
-    conn = _connect(db_path)
-    try:
-        # Reset all to not-won
-        conn.execute(
-            "UPDATE constituency_status SET won=0 WHERE state_code=?",
+        cur.execute(
+            f"UPDATE constituency_status SET won=0 WHERE state_code={p}",
             (state_code,),
         )
-        # Mark won ones
         if won_ac_nos:
-            placeholders = ",".join("?" * len(won_ac_nos))
-            conn.execute(
-                f"UPDATE constituency_status SET won=1 "
-                f"WHERE state_code=? AND ac_no IN ({placeholders})",
-                [state_code] + won_ac_nos,
-            )
+            if IS_PG:
+                cur.execute(
+                    f"UPDATE constituency_status SET won=1 "
+                    f"WHERE state_code={p} AND ac_no = ANY({p})",
+                    (state_code, won_ac_nos),
+                )
+            else:
+                placeholders = ",".join(["?"] * len(won_ac_nos))
+                cur.execute(
+                    f"UPDATE constituency_status SET won=1 "
+                    f"WHERE state_code=? AND ac_no IN ({placeholders})",
+                    [state_code] + list(won_ac_nos),
+                )
         conn.commit()
     finally:
         conn.close()
@@ -313,86 +507,83 @@ def update_won_status(db_path: str, state_code: str, won_ac_nos: list[int]) -> N
 # Reads (for dashboard)
 # ---------------------------------------------------------------------------
 
-def get_status_summary(db_path: str, state_code: str = None) -> dict:
-    """Get counts by status: {'PENDING': N, 'LIVE': N, 'DONE': N, 'ERROR': N}."""
-    conn = _connect(db_path)
+def get_status_summary(state_code: str = None) -> dict:
+    p = _placeholder()
+    conn = _connect()
+    cur = _cursor(conn)
     try:
         if state_code:
-            rows = conn.execute(
-                "SELECT status, COUNT(*) as cnt FROM constituency_status "
-                "WHERE state_code = ? GROUP BY status",
+            cur.execute(
+                f"SELECT status, COUNT(*) as cnt FROM constituency_status "
+                f"WHERE state_code = {p} GROUP BY status",
                 (state_code,),
-            ).fetchall()
+            )
         else:
-            rows = conn.execute(
+            cur.execute(
                 "SELECT status, COUNT(*) as cnt FROM constituency_status GROUP BY status"
-            ).fetchall()
-        return {r["status"]: r["cnt"] for r in rows}
+            )
+        return {r["status"]: r["cnt"] for r in cur.fetchall()}
     finally:
         conn.close()
 
 
-def get_state_status_summary(db_path: str) -> list[dict]:
-    """Get status counts broken down by state."""
-    conn = _connect(db_path)
+def get_state_status_summary() -> list[dict]:
+    conn = _connect()
+    cur = _cursor(conn)
     try:
-        rows = conn.execute(
-            """
-            SELECT state_name, status, COUNT(*) as cnt
-            FROM constituency_status
-            GROUP BY state_name, status
-            ORDER BY state_name, status
-            """
-        ).fetchall()
-        return [dict(r) for r in rows]
+        cur.execute("""
+            SELECT s.state_name, cs.status, COUNT(*) as cnt
+            FROM constituency_status cs
+            JOIN states s ON cs.state_code = s.state_code_eci
+            GROUP BY s.state_name, cs.status
+            ORDER BY s.state_name, cs.status
+        """)
+        return cur.fetchall()
     finally:
         conn.close()
 
 
-def get_leading_seats(db_path: str, state_code: Optional[str] = None) -> pd.DataFrame:
-    """
-    For each AC, find the candidate with highest votes in the latest snapshot.
-    Returns DataFrame with columns: state_code, state_name, ac_no, ac_name,
-    leading_candidate, leading_party, leading_votes.
-    """
-    conn = _connect(db_path)
+def get_leading_seats(state_code: Optional[str] = None) -> pd.DataFrame:
+    """For each AC, find the candidate with highest votes in the latest round.
+    Round_no IS the time axis — once declared, a round's results don't change."""
+    p = _placeholder()
+    conn = _connect()
     try:
-        where = "AND r.state_code = ?" if state_code else ""
-        params = (state_code,) if state_code else ()
+        where = f"AND r.state_code = {p}" if state_code else ""
+        params = (state_code,) if state_code else None
         query = f"""
-            SELECT r.state_code, r.state_name, r.ac_no, r.ac_name,
+            SELECT r.state_code, s.state_name, r.ac_no, r.ac_name,
                    r.candidate AS leading_candidate,
                    r.party     AS leading_party,
-                   r.votes     AS leading_votes
+                   r.votes     AS leading_votes,
+                   r.round_no
             FROM rounds r
+            JOIN states s ON r.state_code = s.state_code_eci
             INNER JOIN (
-                SELECT state_code, ac_no, MAX(scraped_at) as latest
+                SELECT state_code, ac_no, MAX(round_no) as latest_round
                 FROM rounds
                 GROUP BY state_code, ac_no
-            ) latest ON r.state_code = latest.state_code
-                AND r.ac_no = latest.ac_no
-                AND r.scraped_at = latest.latest
+            ) lr ON r.state_code = lr.state_code
+                AND r.ac_no = lr.ac_no
+                AND r.round_no = lr.latest_round
             WHERE r.votes = (
                 SELECT MAX(r2.votes)
                 FROM rounds r2
                 WHERE r2.state_code = r.state_code
                   AND r2.ac_no = r.ac_no
-                  AND r2.scraped_at = r.scraped_at
+                  AND r2.round_no = r.round_no
             )
             {where}
-            GROUP BY r.state_code, r.ac_no
+            GROUP BY r.state_code, s.state_name, r.ac_no, r.ac_name,
+                     r.candidate, r.party, r.votes, r.round_no
         """
         return pd.read_sql_query(query, conn, params=params)
     finally:
         conn.close()
 
 
-def get_party_seat_tally(db_path: str, state_code: Optional[str] = None) -> pd.DataFrame:
-    """
-    Count how many ACs each party is leading in (based on latest scrape).
-    Returns DataFrame: party, seats_leading.
-    """
-    df = get_leading_seats(db_path, state_code)
+def get_party_seat_tally(state_code: Optional[str] = None) -> pd.DataFrame:
+    df = get_leading_seats(state_code)
     if df.empty:
         return pd.DataFrame(columns=["party", "seats_leading"])
     tally = df.groupby("leading_party").size().reset_index(name="seats_leading")
@@ -401,58 +592,20 @@ def get_party_seat_tally(db_path: str, state_code: Optional[str] = None) -> pd.D
     return tally
 
 
-def get_party_seat_tally_won_leading(db_path: str, state_code: Optional[str] = None) -> pd.DataFrame:
-    """
-    Count won (DONE) vs leading (LIVE) seats per party.
-    Returns DataFrame: party, won, leading, total.
-    """
-    df = get_leading_seats(db_path, state_code)
+def get_party_seat_tally_won_leading(state_code: Optional[str] = None) -> pd.DataFrame:
+    df = get_leading_seats(state_code)
     if df.empty:
         return pd.DataFrame(columns=["party", "won", "leading", "total"])
 
-    # Join with constituency_status to get DONE vs LIVE
-    conn = _connect(db_path)
+    conn = _connect()
+    cur = _cursor(conn)
     try:
-        where = "AND cs.state_code = ?" if state_code else ""
-        params = (state_code,) if state_code else ()
-        query = f"""
-            SELECT r.party,
-                   SUM(CASE WHEN cs.status = 'DONE' THEN 1 ELSE 0 END) as won,
-                   SUM(CASE WHEN cs.status != 'DONE' THEN 1 ELSE 0 END) as leading
-            FROM rounds r
-            INNER JOIN (
-                SELECT state_code, ac_no, MAX(scraped_at) as latest
-                FROM rounds GROUP BY state_code, ac_no
-            ) latest ON r.state_code = latest.state_code
-                AND r.ac_no = latest.ac_no
-                AND r.scraped_at = latest.latest
-            INNER JOIN constituency_status cs
-                ON r.state_code = cs.state_code AND r.ac_no = cs.ac_no
-            WHERE r.votes = (
-                SELECT MAX(r2.votes) FROM rounds r2
-                WHERE r2.state_code = r.state_code
-                  AND r2.ac_no = r.ac_no
-                  AND r2.scraped_at = r.scraped_at
-            )
-            {where}
-            GROUP BY r.state_code, r.ac_no, r.party
-        """
-        # We need to group by party after getting per-AC data
-        # Simpler: use the leading_seats df and join with status
-        pass
+        cur.execute("SELECT state_code, ac_no, won FROM constituency_status")
+        rows = cur.fetchall()
     finally:
         conn.close()
 
-    # Build from leading_seats + constituency_status (won column)
-    conn = _connect(db_path)
-    try:
-        ac_status_rows = conn.execute(
-            "SELECT state_code, ac_no, won FROM constituency_status"
-        ).fetchall()
-        won_map = {(r["state_code"], r["ac_no"]): r["won"] for r in ac_status_rows}
-    finally:
-        conn.close()
-
+    won_map = {(r["state_code"], r["ac_no"]): r["won"] for r in rows}
     df["is_won"] = df.apply(lambda r: won_map.get((r["state_code"], r["ac_no"]), 0), axis=1)
     df["is_leading"] = 1 - df["is_won"]
 
@@ -466,51 +619,42 @@ def get_party_seat_tally_won_leading(db_path: str, state_code: Optional[str] = N
     return result
 
 
-def get_party_totals_over_time(
-    db_path: str, state_code: Optional[str] = None
-) -> pd.DataFrame:
-    """
-    Aggregate cumulative votes per party per scrape timestamp.
-    Used by dashboard for trend line chart.
-    """
-    conn = _connect(db_path)
+def get_party_totals_over_time(state_code: Optional[str] = None) -> pd.DataFrame:
+    """Cumulative votes per party by round_no. Round is the time axis."""
+    p = _placeholder()
+    conn = _connect()
     try:
-        where = "AND r.state_code = ?" if state_code else ""
-        params = (state_code,) if state_code else ()
+        where = f"AND r.state_code = {p}" if state_code else ""
+        params = (state_code,) if state_code else None
         query = f"""
-            SELECT r.scraped_at, r.party, SUM(r.votes) as total_votes
+            SELECT r.round_no, r.party, SUM(r.votes) as total_votes
             FROM rounds r
             INNER JOIN (
-                SELECT state_code, ac_no, MAX(scraped_at) as latest
+                SELECT state_code, ac_no, MAX(round_no) as latest_round
                 FROM rounds
                 GROUP BY state_code, ac_no
-            ) latest ON r.state_code = latest.state_code
-                AND r.ac_no = latest.ac_no
-                AND r.scraped_at = latest.latest
+            ) lr ON r.state_code = lr.state_code
+                AND r.ac_no = lr.ac_no
+                AND r.round_no = lr.latest_round
             WHERE 1=1 {where}
-            GROUP BY r.scraped_at, r.party
-            ORDER BY r.scraped_at
+            GROUP BY r.round_no, r.party
+            ORDER BY r.round_no
         """
         return pd.read_sql_query(query, conn, params=params)
     finally:
         conn.close()
 
 
-def get_constituency_rounds(
-    db_path: str, state_code: str, ac_no: int
-) -> pd.DataFrame:
-    """
-    Get all scrape snapshots for a specific constituency.
-    Used for constituency drill-down in dashboard.
-    """
-    conn = _connect(db_path)
+def get_constituency_rounds(state_code: str, ac_no: int) -> pd.DataFrame:
+    p = _placeholder()
+    conn = _connect()
     try:
         return pd.read_sql_query(
-            """
-            SELECT scraped_at, round_no, candidate, party, votes
+            f"""
+            SELECT round_no, candidate, party, votes
             FROM rounds
-            WHERE state_code = ? AND ac_no = ?
-            ORDER BY scraped_at, party
+            WHERE state_code = {p} AND ac_no = {p}
+            ORDER BY round_no, party
             """,
             conn,
             params=(state_code, ac_no),
@@ -519,35 +663,31 @@ def get_constituency_rounds(
         conn.close()
 
 
-def get_all_constituency_statuses(db_path: str) -> pd.DataFrame:
-    """Get all constituency statuses for the system monitor tab."""
-    conn = _connect(db_path)
+def get_all_constituency_statuses() -> pd.DataFrame:
+    conn = _connect()
     try:
         return pd.read_sql_query(
-            "SELECT * FROM constituency_status ORDER BY state_code, ac_no",
+            """SELECT cs.*, s.state_name
+               FROM constituency_status cs
+               JOIN states s ON cs.state_code = s.state_code_eci
+               ORDER BY cs.state_code, cs.ac_no""",
             conn,
         )
     finally:
         conn.close()
 
 
-def get_scrape_cycles(db_path: str) -> pd.DataFrame:
-    """Get scrape cycle audit log."""
-    conn = _connect(db_path)
+def get_state_name(state_code: str) -> str:
+    """Look up state name from ECI code via states table."""
+    p = _placeholder()
+    conn = _connect()
+    cur = _cursor(conn)
     try:
-        return pd.read_sql_query(
-            "SELECT * FROM scrape_cycles ORDER BY id DESC LIMIT 100",
-            conn,
+        cur.execute(
+            f"SELECT state_name FROM states WHERE state_code = {p} OR state_code_eci = {p}",
+            (state_code, state_code),
         )
-    finally:
-        conn.close()
-
-
-def get_last_scrape_time(db_path: str) -> Optional[str]:
-    """Get the most recent scraped_at timestamp across all rounds."""
-    conn = _connect(db_path)
-    try:
-        row = conn.execute("SELECT MAX(scraped_at) as ts FROM rounds").fetchone()
-        return row["ts"] if row else None
+        row = cur.fetchone()
+        return row["state_name"] if row else state_code
     finally:
         conn.close()
