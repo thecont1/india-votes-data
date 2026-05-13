@@ -29,11 +29,9 @@ import requests
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 API_URL = "http://localhost:8000"
-DB_PATH = Path(__file__).parent / "live_results.db"
-TEST_DB_PATH = Path(__file__).parent / "live_results_test.db"
+DB_PATH = Path(__file__).parent / "data" / "live_results.db"
+TEST_DB_PATH = Path(__file__).parent / "data" / "live_results_test.db"
 
 # Global state for test mode
 USE_TEST_DB = False
@@ -287,15 +285,11 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     print("Starting API server...")
     
     # Get the script directory for finding the server
-    script_dir = Path(__file__).parent.parent
+    script_dir = Path(__file__).parent
     server_path = script_dir / "server.py"
 
-    # Use the project-root venv's Python so server.py has uvicorn/fastapi.
-    root_python = script_dir / ".venv" / "bin" / "python3"
-    server_python = str(root_python) if root_python.exists() else sys.executable
-
     api_process = subprocess.Popen(
-        [server_python, str(server_path), "--api"],
+        [sys.executable, str(server_path), "--api"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
         cwd=str(script_dir)

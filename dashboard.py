@@ -34,7 +34,7 @@ from states_may2026 import (
 )
 
 IST = ZoneInfo("Asia/Kolkata")
-DB_PATH = os.path.join(os.path.dirname(__file__), "live_results.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "data", "live_results.db")
 
 # ---------------------------------------------------------------------------
 # Helpers

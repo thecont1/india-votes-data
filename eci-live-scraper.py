@@ -60,7 +60,7 @@ from states_may2026 import STATES, get_url, normalise_party
 # Configuration
 # ---------------------------------------------------------------------------
 
-DB_PATH = "live_results.db"
+DB_PATH = "data/live_results.db"
 MAX_WORKERS = 8  # requests is lightweight — can run more workers
 PAGE_LOAD_TIMEOUT = 15
 MIN_JITTER = 0.2
