@@ -480,3 +480,57 @@ def scrape_constituency_sync(election_identifier: str, state_code: str,
         driver.quit()
     
     return results
+
+def scrape_worker(election_identifier: str, state_code: str,
+                  result_list: list, state: dict, lock: threading.Lock,
+                  respect_mode: bool = False):
+    """Reusable worker that picks up AC numbers until end of results.
+
+    Args:
+        election_identifier: e.g. "ResultAcGenMay2026"
+        state_code: e.g. "S22"
+        result_list: shared list to append results to
+        state: shared dict with keys 'current' (int) and 'end_of_results' (bool)
+        lock: threading.Lock for shared state
+        respect_mode: if True, pause every 10 URLs
+    """
+    from core.browser import create_chrome_driver
+    driver = create_chrome_driver()
+
+    try:
+        while True:
+            with lock:
+                if state.get("end_of_results"):
+                    break
+                seq_no = state["current"]
+                state["current"] += 1
+
+            url = build_constituency_url(election_identifier, state_code, seq_no)
+            driver.get(url)
+
+            if "404" in driver.title:
+                with lock:
+                    if not state.get("end_of_results"):
+                        state["end_of_results"] = True
+                        print(f" {seq_no:03d}-STOP.")
+                break
+
+            result = extract_results(driver)
+            if result:
+                with lock:
+                    result_list.append(result)
+                    label = result.get("constituency")
+                    suffix = f" {seq_no:03d}-{label}." if label else ""
+                    print(f"{suffix} Done.")
+
+            if respect_mode:
+                with lock:
+                    state["_count"] = state.get("_count", 0) + 1
+                    if state["_count"] % 10 == 0:
+                        print("[Respect mode] Pausing 1s...")
+                        time.sleep(1)
+    except (NoSuchElementException, TimeoutException, AssertionError) as e:
+        with lock:
+            print(f"Worker error: {e}")
+    finally:
+        driver.quit()
