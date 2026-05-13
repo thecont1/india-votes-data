@@ -22,20 +22,83 @@ from db_utils import (
     get_party_seat_tally_won_leading,
     get_state_status_summary,
     get_status_summary,
+    get_state_name,
 )
-from states_may2026 import (
-    MAJORITIES,
-    PARTY_COLORS,
-    STATES,
-    STATUS_COLORS,
-    get_url,
-    normalise_party,
-    short,
-    state_code_for,
-)
+from config import TRACKED_STATES, get_url
 
 IST = ZoneInfo("Asia/Kolkata")
-# DB_PATH removed — all DB access goes through db_utils (PostgreSQL)
+
+# ---------------------------------------------------------------------------
+# Dashboard visual config
+# ---------------------------------------------------------------------------
+
+MAJORITIES = {
+    "S03": 64,   # Assam: 126/2 + 1
+    "S11": 71,   # Kerala: 140/2 + 1
+    "U07": 16,   # Puducherry: 30/2 + 1
+    "S22": 118,  # Tamil Nadu: 234/2 + 1
+    "S25": 148,  # West Bengal: 294/2 + 1
+}
+
+PARTY_COLORS = {
+    "Bharatiya Janata Party": "#FF6600",
+    "Indian National Congress": "#00ADEF",
+    "All India Trinamool Congress": "#20C997",
+    "Dravida Munnetra Kazhagam": "#E63946",
+    "All India Anna Dravida Munnetra Kazhagam": "#F4A261",
+    "Communist Party of India (Marxist)": "#DC2626",
+    "Communist Party of India": "#B91C1C",
+    "Indian Union Muslim League": "#2D6A4F",
+    "Kerala Congress (M)": "#F4D03F",
+    "Tamilaga Vettri Kazhagam": "#FFD700",
+    "Aam Aadmi Party": "#0A2463",
+    "Asom Gana Parishad": "#8B5CF6",
+    "All India United Democratic Front": "#059669",
+    "Bodoland People's Front": "#D97706",
+    "Independent": "#6B7280",
+    "NOTA": "#374151",
+    "Others": "#ADB5BD",
+}
+
+PARTY_SHORT = {
+    "Bharatiya Janata Party": "BJP",
+    "Indian National Congress": "INC",
+    "All India Trinamool Congress": "AITC",
+    "Dravida Munnetra Kazhagam": "DMK",
+    "All India Anna Dravida Munnetra Kazhagam": "AIADMK",
+    "Tamilaga Vettri Kazhagam": "TVK",
+    "Communist Party of India (Marxist)": "CPM",
+    "Communist Party of India": "CPI",
+    "Indian Union Muslim League": "IUML",
+    "Bodoland People's Front": "BPF",
+    "Bodoland Peoples Front": "BPF",
+    "Asom Gana Parishad": "AGP",
+    "All India United Democratic Front": "AIUDF",
+    "All India N.R. Congress": "AINRC",
+    "Kerala Congress": "KC",
+    "Kerala Congress (M)": "KC(M)",
+    "Revolutionary Socialist Party": "RSP",
+    "Viduthalai Chiruthaigal Katchi": "VCK",
+    "Pattali Makkal Katchi": "PMK",
+    "Aam Aadmi Party": "AAP",
+    "Aam Janata Unnayan party": "AJUP",
+    "All India Secular Front": "AISF",
+    "NOTA": "NOTA",
+    "Independent": "IND",
+    "Others": "Others",
+}
+
+STATUS_COLORS = {
+    "DONE": "#16A34A",
+    "LIVE": "#F59E0B",
+    "PENDING": "#6B7280",
+    "ERROR": "#DC2626",
+}
+
+
+def short(party_name: str) -> str:
+    """Get short abbreviation for a party name."""
+    return PARTY_SHORT.get(party_name, party_name[:20] if len(party_name) > 20 else party_name)
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -429,7 +492,7 @@ def settings_dialog():
     if summary:
         df_sum = pd.DataFrame(summary)
         so_rows = []
-        for state in STATES:
+        for state in TRACKED_STATES:
             sd = df_sum[df_sum["state_name"] == state["name"]]
             if not sd.empty:
                 c = dict(zip(sd["status"], sd["cnt"]))
@@ -506,9 +569,9 @@ def _get_state_dots():
     summary = get_state_status_summary()
     dots = {}
     if not summary:
-        return {s["name"]: "⚪" for s in STATES}
+        return {s["name"]: "⚪" for s in TRACKED_STATES}
     df_sum = pd.DataFrame(summary)
-    for state in STATES:
+    for state in TRACKED_STATES:
         sd = df_sum[df_sum["state_name"] == state["name"]]
         if sd.empty:
             dots[state["name"]] = "⚪"
@@ -529,7 +592,7 @@ def _get_state_dots():
     return dots
 
 state_dots = _get_state_dots()
-state_options = ["Overall"] + [f"{state_dots.get(s['name'], '⚪')} {s['name']}" for s in STATES]
+state_options = ["Overall"] + [f"{state_dots.get(s['name'], '⚪')} {s['name']}" for s in TRACKED_STATES]
 default_state = st.session_state.get("selected_state", "Overall")
 if default_state not in state_options:
     default_state = "Overall"
@@ -564,7 +627,7 @@ with col_gear:
 
 state_code_filter = None
 if _display_state and _display_state != "Overall":
-    state_code_filter = state_code_for(_display_state)
+    state_code_filter = next((s["code"] for s in TRACKED_STATES if s["name"] == _display_state), "")
 
 CHART_CFG = dict(displayModeBar=False, responsive=True)
 

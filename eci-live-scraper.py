@@ -46,13 +46,14 @@ except ImportError:
     HAS_UC = False
 
 from db_utils import (
+    _normalize_party,
     get_work_queue,
     init_db,
     insert_round_snapshot,
     update_won_status,
     upsert_constituency_status,
 )
-from states_may2026 import STATES, get_url, normalise_party
+from config import TRACKED_STATES, get_url
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -240,7 +241,7 @@ def _extract_candidates_bs4(soup: BeautifulSoup, round_no: int) -> list[dict]:
                 candidates.append(
                     {
                         "candidate": candidate_name,
-                        "party": normalise_party(party_name),
+                        "party": _normalize_party(party_name),
                         "votes": int(total_votes_text),
                     }
                 )
@@ -476,7 +477,7 @@ def fetch_won_lists() -> dict[str, list[int]]:
     """
     won_by_state: dict[str, list[int]] = {}
 
-    for state in STATES:
+    for state in TRACKED_STATES:
         state_code = state["code"]
 
         # Fetch partywise result page via curl
@@ -508,7 +509,7 @@ def fetch_won_lists() -> dict[str, list[int]]:
                 if tds:
                     party_text = tds[0].get_text(strip=True)
                     party_name = party_text.split(" - ")[0].strip() if " - " in party_text else party_text
-                    canonical = normalise_party(party_name)
+                    canonical = _normalize_party(party_name)
                     won_by_party[canonical] = won_count
 
         if not won_by_party:
@@ -541,7 +542,7 @@ def fetch_won_lists() -> dict[str, list[int]]:
 
         party_acs: dict[str, list[tuple[int, int]]] = {}
         for row in rows:
-            party = normalise_party(row["party_abv"])
+            party = _normalize_party(row["party_abv"])
             if party not in party_acs:
                 party_acs[party] = []
             party_acs[party].append((row["ac_no"], row["votes"]))
