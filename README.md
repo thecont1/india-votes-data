@@ -170,6 +170,9 @@ uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --sequential
 # Test with a single AC first
 uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --test-ac 1
 
+# Start from a specific AC number (e.g., AC 15 onwards)
+uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --start-ac 15 --sequential
+
 # Use test database for isolated testing (won't overwrite production data)
 uv run live_tracker/eci-ResultsDayLiveClient.py --url "..." --test-db
 ```

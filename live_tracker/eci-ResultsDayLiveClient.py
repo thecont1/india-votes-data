@@ -197,7 +197,7 @@ def process_ac(ac_no: int, url: str, state_code: str, start_round: int = 1):
         return {"status": "error", "ac_no": ac_no, "error": str(e)}
 
 
-def run_cycle(url: str, state_code: str, start_round: int, test_ac: int = 0, sequential: bool = False):
+def run_cycle(url: str, state_code: str, start_round: int, test_ac: int = 0, sequential: bool = False, start_ac: int = 1):
     """Run a single processing cycle for all ACs."""
     results = []
     num_workers = 2  # Reduced from 5 to prevent resource exhaustion with concurrent Chrome instances
@@ -208,15 +208,16 @@ def run_cycle(url: str, state_code: str, start_round: int, test_ac: int = 0, seq
         print(f"  AC {test_ac}: {result}")
     elif sequential:
         # Sequential mode: process ACs one at a time (safest for resource-constrained systems)
+        ac_no = start_ac
         while True:
-            ac_no = len(results) + 1
             result = process_ac(ac_no, url, state_code, start_round)
             results.append(result)
             print(f"  AC {ac_no}: {result.get('ac_name', 'Error')} ({result.get('rounds', 0)}r)" if result["status"] == "success" else f"  AC {ac_no}: FAILED - {result.get('error', 'Unknown error')}")
             if result["status"] in ("done", "error"):
                 break
+            ac_no += 1
     else:
-        worker_state = {"current": 1, "end_of_results": False}
+        worker_state = {"current": start_ac, "end_of_results": False}
         lock = threading.Lock()
         
         def worker():
@@ -254,7 +255,7 @@ def run_cycle(url: str, state_code: str, start_round: int, test_ac: int = 0, seq
 
 def main(url: str, test_ac: int = 0, flush_db: bool = False, 
          live: int = 0, interval: int = 30, start_round: int = 1, sequential: bool = False,
-         test_db: bool = False):
+         test_db: bool = False, start_ac: int = 1):
     """Main entry point.
     
     Args:
@@ -332,7 +333,7 @@ def main(url: str, test_ac: int = 0, flush_db: bool = False,
             print(f"Cycle {cycle_num} - {time.strftime('%H:%M:%S')}")
             
             start_time = time.time()
-            results = run_cycle(url, state_code, start_round, test_ac, sequential)
+            results = run_cycle(url, state_code, start_round, test_ac, sequential, start_ac)
             
             elapsed = time.time() - start_time
             successful = sum(1 for r in results if r["status"] == "success")
@@ -361,6 +362,7 @@ if __name__ == "__main__":
     parser.add_argument("--live", type=int, nargs="?", const=300, default=0, 
                         help="Continuous monitoring mode with optional seconds interval (default: 300s)")
     parser.add_argument("--start-round", type=int, default=1, help="Start downloading from this round (incremental mode)")
+    parser.add_argument("--start-ac", type=int, default=1, help="Start downloading from this AC number (default: 1)")
     parser.add_argument("--sequential", action="store_true", 
                         help="Process ACs sequentially instead of concurrently (safer for resource-constrained systems)")
     parser.add_argument("--test-db", action="store_true",
@@ -371,4 +373,5 @@ if __name__ == "__main__":
     USE_TEST_DB = args.test_db
     
     main(url=args.url, test_ac=args.test_ac, flush_db=args.flush,
-         live=args.live, interval=args.live if args.live > 0 else 30, start_round=args.start_round, sequential=args.sequential, test_db=args.test_db)
+         live=args.live, interval=args.live if args.live > 0 else 30, start_round=args.start_round, 
+         sequential=args.sequential, test_db=args.test_db, start_ac=args.start_ac)
