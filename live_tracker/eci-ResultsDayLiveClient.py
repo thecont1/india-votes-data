@@ -29,6 +29,8 @@ import requests
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 API_URL = "http://localhost:8000"
 DB_PATH = Path(__file__).parent / "live_results.db"
 TEST_DB_PATH = Path(__file__).parent / "live_results_test.db"
