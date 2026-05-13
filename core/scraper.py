@@ -2,6 +2,7 @@
 
 import re
 import time
+import threading
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -361,6 +362,30 @@ def _extract_tally_from_element(element) -> list:
     return tally
 
 
+def _extract_constituency_info(driver) -> dict:
+    """Extract constituency_no and constituency name from the h2 tag."""
+    info = {"constituency_no": "", "constituency": ""}
+    try:
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, "h2"))
+        )
+        full_text = (
+            driver.find_element(By.TAG_NAME, "h2")
+            .find_element(By.TAG_NAME, "span")
+            .text
+        )
+        parts = full_text.split(" - ")
+        info["constituency_no"] = parts[0].strip()
+        state_match = re.search(r"\(([^)]+)\)\s*$", parts[1])
+        if state_match:
+            info["constituency"] = parts[1][: state_match.start()].strip()
+        else:
+            info["constituency"] = parts[1]
+    except (NoSuchElementException, TimeoutException):
+        pass
+    return info
+
+
 def scrape_ac_rounds_core(driver, election_identifier: str, state_code: str,
                           ac_no: int, start_round: int = 1) -> dict:
     """
@@ -371,6 +396,10 @@ def scrape_ac_rounds_core(driver, election_identifier: str, state_code: str,
     During a live election the page grows progressively as new rounds are
     counted.  Each invocation picks up whatever rounds are available;
     callers can re-invoke periodically to capture newly-appeared rounds.
+
+    Round extraction is sequential within each AC (a second Chrome instance
+    adds ~5s startup overhead that negates any parallel-clicking gain).
+    Concurrency comes from the client running multiple ACs in parallel.
     """
     result = {"ac_no": ac_no, "rounds": [], "constituency": "", "postal_votes": []}
 
@@ -381,29 +410,18 @@ def scrape_ac_rounds_core(driver, election_identifier: str, state_code: str,
         if "404" in driver.title:
             return {"status": "done"}
 
+        # --- Constituency info (from h2) ---
+        constituency_info = _extract_constituency_info(driver)
+        result["constituency"] = constituency_info.get("constituency", "")
+
         # --- Round extraction: click through each round button ---
-        # The ECI page loads round data via JS on button click; the tab
-        # divs are not pre-rendered, so a single DOM read won't work.
-        first_round_result = extract_roundwise_results(driver, max(start_round, 1))
-        constituency_info = {
-            "constituency_no": first_round_result.get("constituency_no", ""),
-            "constituency": first_round_result.get("constituency", ""),
-        }
-
-        if first_round_result.get("round_tally"):
-            result["rounds"].append({
-                "round": max(start_round, 1),
-                "tally": first_round_result.get("round_tally", []),
-            })
-            result["constituency"] = first_round_result.get("constituency", "")
-
-        for round_num in range(max(start_round, 1) + 1, 50):
-            round_result = extract_roundwise_results(driver, round_num, constituency_info)
-            if not round_result.get("round_tally"):
+        for round_num in range(max(start_round, 1), 50):
+            rr = extract_roundwise_results(driver, round_num, constituency_info)
+            if not rr.get("round_tally"):
                 break
             result["rounds"].append({
                 "round": round_num,
-                "tally": round_result.get("round_tally", []),
+                "tally": rr["round_tally"],
             })
 
         # --- Postal votes from constituency page ---
