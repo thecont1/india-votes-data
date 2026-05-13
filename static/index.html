@@ -302,11 +302,12 @@ function renderChart(parties, majority) {
     });
   }
 
-  // Reverse for horizontal bar (Chart.js draws bottom-up)
-  const labels = main.map(p => p.party_abv).reverse();
-  const wonData = main.map(p => p.won).reverse();
-  const leadData = main.map(p => p.leading).reverse();
-  const colors = main.map(p => p.color).reverse();
+  // Chart.js horizontal bar: first label = top of chart
+  // Sort descending puts winner on top
+  const labels = main.map(p => p.party_abv);
+  const wonData = main.map(p => p.won);
+  const leadData = main.map(p => p.leading);
+  const colors = main.map(p => p.color);
 
   // Create striped pattern for leading bars
   const ctx = canvas.getContext('2d');
@@ -342,11 +343,14 @@ function renderChart(parties, majority) {
       ctx.moveTo(x, yScale.top);
       ctx.lineTo(x, yScale.bottom);
       ctx.stroke();
-      // Label
+      // Label — avoid clipping at right edge
       ctx.fillStyle = '#f87171';
       ctx.font = '12px -apple-system, system-ui, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(`Majority (${maj})`, x, yScale.top - 8);
+      const label = `Majority (${maj})`;
+      const labelW = ctx.measureText(label).width;
+      ctx.textAlign = (x + labelW / 2 > xScale.right) ? 'right' : 'center';
+      const labelX = (x + labelW / 2 > xScale.right) ? x - 4 : x;
+      ctx.fillText(label, labelX, yScale.top - 8);
       ctx.restore();
     }
   };
@@ -393,8 +397,8 @@ function renderChart(parties, majority) {
           callbacks: {
             label: function(ctx) {
               const idx = ctx.dataIndex;
-              const won = wonData[idx];
-              const lead = leadData[idx];
+              const won = ctx.chart.data.datasets[0].data[idx];
+              const lead = ctx.chart.data.datasets[1].data[idx];
               const parts = [];
               if (won > 0) parts.push(`Won: ${won}`);
               if (lead > 0) parts.push(`Leading: ${lead}`);
@@ -402,6 +406,9 @@ function renderChart(parties, majority) {
             }
           }
         },
+      },
+      layout: {
+        padding: { left: 8 },
       },
       scales: {
         x: {
