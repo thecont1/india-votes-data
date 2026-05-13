@@ -261,12 +261,16 @@ def run_cycle(url: str, state_code: str, start_round: int, only_ac: int = 0, seq
 
 def main(url: str, only_ac: int = 0, flush_db: bool = False, 
          live: int = 0, interval: int = 30, start_round: int = 1, sequential: bool = False,
-         test_db: bool = False, start_ac: int = 1):
+         test_db: bool = False, start_ac: int = 1, no_server: bool = False):
     """Main entry point.
     
     Args:
         live: If > 0, enables live mode with this as the interval (seconds)
-        interval: Interval for live mode when live=0 (used as fallback)
+        no_server: If True, connect to an existing server instead of starting one.
+                   Use this when running multiple clients against one server:
+                 Terminal 1:  uv run server.py --api
+                 Terminal 2:  uv run eci-ResultsDayLiveClient.py --url ...PY... --no-server
+                 Terminal 3:  uv run eci-ResultsDayLiveClient.py --url ...KL... --no-server
     """
     if not url:
         print("Error: --url parameter is required")
@@ -285,7 +289,7 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     import re
     import socket
 
-    # Check if server is already running on the port (e.g. from another client instance)
+    # Check if server is already running on the port
     port_in_use = False
     try:
         with socket.create_connection(("localhost", DEFAULT_PORT), timeout=1):
@@ -293,17 +297,24 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
     except (ConnectionRefusedError, OSError):
         pass
 
-    print("Starting API server...")
-
-    # Get the script directory for finding the server
-    script_dir = Path(__file__).parent
-    server_path = script_dir / "server.py"
-
     we_started_server = False
     api_process = None
-    if port_in_use:
+
+    if no_server:
+        # --no-server mode: connect to an existing server, never start/kill one
+        if not port_in_use:
+            print(f"Error: No server running on port {DEFAULT_PORT}")
+            print(f"Start one first:  uv run server.py --api")
+            sys.exit(1)
+        print(f"Connecting to existing server on port {DEFAULT_PORT}")
+    elif port_in_use:
+        # Auto-detect: server already running, reuse it (but don't terminate on exit)
         print(f"API server already running on port {DEFAULT_PORT} (using existing)")
     else:
+        # Start our own server — we own its lifecycle
+        script_dir = Path(__file__).parent
+        server_path = script_dir / "server.py"
+
         api_process = subprocess.Popen(
             [sys.executable, str(server_path), "--api"],
             stdout=subprocess.DEVNULL,
@@ -312,7 +323,7 @@ def main(url: str, only_ac: int = 0, flush_db: bool = False,
         )
         we_started_server = True
 
-        # Wait for server to start (check health incrementally)
+        # Wait for server to start
         max_wait = 15
         for i in range(max_wait):
             time.sleep(1)
@@ -393,6 +404,10 @@ if __name__ == "__main__":
                         help="Process ACs sequentially instead of concurrently (safer for resource-constrained systems)")
     parser.add_argument("--test-db", action="store_true",
                         help="Use test database (live_results_test.db) instead of main database")
+    parser.add_argument("--no-server", action="store_true",
+                        help="Connect to an existing server instead of starting one. "
+                             "Use for multi-state runs: start server separately, "
+                             "then run multiple clients with --no-server")
     args = parser.parse_args()
     
     # Enable test mode if flag is set
@@ -400,4 +415,5 @@ if __name__ == "__main__":
     
     main(url=args.url, only_ac=args.only_ac, flush_db=args.flush,
          live=args.live, interval=args.live if args.live > 0 else 30, start_round=args.start_round, 
-         sequential=args.sequential, test_db=args.test_db, start_ac=args.start_ac)
+         sequential=args.sequential, test_db=args.test_db, start_ac=args.start_ac,
+         no_server=args.no_server)
