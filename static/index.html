@@ -238,6 +238,7 @@
       <div class="toggle-group" id="perf-toggle">
         <button class="toggle-btn active" data-view="tally">Seat Tally</button>
         <button class="toggle-btn" data-view="share">Vote Share</button>
+        <button class="toggle-btn" data-view="roundwise">Roundwise</button>
       </div>
     </h2>
     <div class="legend" id="perf-legend-tally" style="margin-bottom:12px;">
@@ -262,6 +263,11 @@
       </div>
       <div id="vote-share-legend" class="legend"></div>
     </div>
+    <div id="perf-chart-area-roundwise" style="visibility:hidden; position:absolute; top:0; left:0; right:0; width:100%;">
+      <div class="chart-container">
+        <canvas id="roundwise-chart"></canvas>
+      </div>
+    </div>
     <div class="empty-state" id="empty-state" style="display:none;">
       <div class="icon">📭</div>
       <h3>No results yet</h3>
@@ -283,15 +289,6 @@
     </div>
   </div>
 
-  <div class="card" id="roundwise-card">
-    <h2>📈 Roundwise Progression</h2>
-    <p style="color:var(--muted); font-size:13px; margin-bottom:12px;">
-      How seats accumulate as counting rounds complete
-    </p>
-    <div class="chart-container" style="height:400px;">
-      <canvas id="roundwise-chart"></canvas>
-    </div>
-  </div>
 </div>
 <script>
 // ---------------------------------------------------------------------------
@@ -319,7 +316,8 @@ let perfParties = [];  // shared party list for both views
 document.getElementById('date-display').textContent =
   new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 
-// Toggle between Seat Tally and Vote Share
+// Toggle between Seat Tally, Vote Share, and Roundwise
+const HIDDEN_STYLE = 'visibility:hidden; position:absolute; top:0; left:0; right:0; width:100%;';
 document.getElementById('perf-toggle').addEventListener('click', (e) => {
   const btn = e.target.closest('.toggle-btn');
   if (!btn) return;
@@ -328,18 +326,16 @@ document.getElementById('perf-toggle').addEventListener('click', (e) => {
   perfView = view;
   document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.view === view));
-  const tallyArea = document.getElementById('perf-chart-area-tally');
-  const shareArea = document.getElementById('perf-chart-area-share');
+  const areas = {
+    tally: document.getElementById('perf-chart-area-tally'),
+    share: document.getElementById('perf-chart-area-share'),
+    roundwise: document.getElementById('perf-chart-area-roundwise'),
+  };
   const tallyLeg = document.getElementById('perf-legend-tally');
-  if (view === 'tally') {
-    tallyArea.style.cssText = '';
-    tallyLeg.style.display = '';
-    shareArea.style.cssText = 'visibility:hidden; position:absolute; top:0; left:0; right:0; width:100%;';
-  } else {
-    tallyArea.style.cssText = 'visibility:hidden; position:absolute; top:0; left:0; right:0; width:100%;';
-    tallyLeg.style.display = 'none';
-    shareArea.style.cssText = '';
-  }
+  Object.keys(areas).forEach(k => {
+    areas[k].style.cssText = k === view ? '' : HIDDEN_STYLE;
+  });
+  tallyLeg.style.display = view === 'tally' ? '' : 'none';
 });
 
 async function init() {
@@ -894,23 +890,23 @@ function drawSingleRace(race) {
 // Roundwise progression — smooth lines, no dots, circle legends
 // ---------------------------------------------------------------------------
 function renderRoundwise(stateCode) {
-  const card = document.getElementById('roundwise-card');
   if (!stateCode) {
-    card.style.display = 'none';
     if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
     return;
   }
-  card.style.display = 'block';
 
   fetch(`/api/roundwise?state=${stateCode}`)
     .then(r => r.json())
     .then(data => {
       const rounds = data.rounds || [];
       const series = data.series || [];
-      if (!rounds.length || !series.length) { card.style.display = 'none'; return; }
+      if (!rounds.length || !series.length) return;
 
       const canvas = document.getElementById('roundwise-chart');
       const ctx = canvas.getContext('2d');
+
+      // Label F round (999) specially
+      const labels = rounds.map(rn => rn === 999 ? 'F' : rn);
 
       const datasets = series.map(s => ({
         label: s.party_abv,
@@ -924,7 +920,7 @@ function renderRoundwise(stateCode) {
       }));
 
       if (roundwiseChart) {
-        roundwiseChart.data.labels = rounds;
+        roundwiseChart.data.labels = labels;
         roundwiseChart.data.datasets = datasets;
         roundwiseChart.update('none');
         return;
@@ -932,7 +928,7 @@ function renderRoundwise(stateCode) {
 
       roundwiseChart = new Chart(ctx, {
         type: 'line',
-        data: { labels: rounds, datasets },
+        data: { labels, datasets },
         options: {
           responsive: true,
           maintainAspectRatio: false,
@@ -958,7 +954,10 @@ function renderRoundwise(stateCode) {
               borderWidth: 1,
               padding: 12,
               callbacks: {
-                title: function(items) { return `Round ${items[0].label}`; },
+                title: function(items) {
+                  const v = items[0].label;
+                  return v === 'F' ? 'F Round (Postal)' : `Round ${v}`;
+                },
                 label: function(ctx) {
                   return `${ctx.dataset.label}: ${ctx.parsed.y} seats`;
                 }
@@ -968,7 +967,13 @@ function renderRoundwise(stateCode) {
           scales: {
             x: {
               grid: { color: '#3a3a3a' },
-              ticks: { color: '#999999', font: { size: 11 } },
+              ticks: {
+                color: '#999999',
+                font: { size: 11 },
+                maxRotation: 0,
+                autoSkip: true,
+                maxTicksLimit: 20,
+              },
               title: { display: true, text: 'Round', color: '#999999' },
             },
             y: {
@@ -981,7 +986,7 @@ function renderRoundwise(stateCode) {
         },
       });
     })
-    .catch(e => { console.error('Failed to load roundwise:', e); card.style.display = 'none'; });
+    .catch(e => console.error('Failed to load roundwise:', e));
 }
 
 // ---------------------------------------------------------------------------
