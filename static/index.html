@@ -954,7 +954,7 @@ function renderRoundwise(stateCode) {
               callbacks: {
                 title: function(items) {
                   const v = items[0].label;
-                  return v === 'F' ? 'F Round (Postal)' : `Round ${v}`;
+                  return v === 'F' ? 'FINAL' : `Round ${v}`;
                 },
                 label: function(ctx) {
                   return `${ctx.dataset.label}: ${ctx.parsed.y} seats`;
