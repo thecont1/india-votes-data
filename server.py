@@ -16,7 +16,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from db_utils import _connect, _cursor, IS_PG
+from db_utils import _connect, _cursor, IS_PG, get_elections, get_current_election, get_election_by_id
 
 app = FastAPI(
     title="ECI Results Scraper API",
@@ -90,7 +90,10 @@ class ScrapeAllRoundsRequest(BaseModel):
 # Dashboard API
 # ---------------------------------------------------------------------------
 @app.get("/api/seat-tally")
-def seat_tally(state: str = Query("", description="State code filter, empty=all")):
+def seat_tally(
+    state: str = Query("", description="State code filter, empty=all"),
+    election_id: str = Query("", description="Election ID to filter states"),
+):
     """Party-wise won + leading seat counts plus deposit-loss breakdown.
 
     Returns list of {party_abv, party_name, color, won, leading, total,
@@ -101,10 +104,25 @@ def seat_tally(state: str = Query("", description="State code filter, empty=all"
     try:
         sf = ""                               # state filter fragment
         params: list = []
-        if state:
-            sf = "AND r.state_code = %s" if IS_PG else "AND r.state_code = ?"
+        if election_id:
+            # Get states for this election and filter by them
+            election = get_election_by_id(election_id)
+            if election:
+                state_list = election["states"]
+                if len(state_list) == 1:
+                    sf = "AND r.state_code = {}".format("%s" if IS_PG else "?")
+                    params.append(state_list[0])
+                    params.append(state_list[0])  # appears in 2 CTEs
+                else:
+                    sf = "AND r.state_code IN ({})".format(
+                        ",".join(["%s"] * len(state_list)) if IS_PG else ",".join(["?"] * len(state_list))
+                    )
+                    params.extend(state_list)
+                    params.extend(state_list)  # appears in 2 CTEs
+        elif state:
+            sf = "AND r.state_code = {}".format("%s" if IS_PG else "?")
             params.append(state)
-            params.append(state)  # appears in 2 CTEs (ac_winners + party_best)
+            params.append(state)  # appears in 2 CTEs
 
         query = f"""
         WITH latest_rounds AS (
@@ -132,7 +150,7 @@ def seat_tally(state: str = Query("", description="State code filter, empty=all"
                 JOIN latest_rounds lr
                     ON r.state_code = lr.state_code AND r.ac_no = lr.ac_no
                     AND r.round_no = lr.max_round
-                JOIN parties p ON r.party_abv = p.name
+                JOIN parties p ON r.party_abv = p.abv
                 WHERE 1=1 {sf}
             ) WHERE rn = 1
         ),
@@ -154,7 +172,7 @@ def seat_tally(state: str = Query("", description="State code filter, empty=all"
                     AND r.round_no = lr.max_round
                 JOIN constituency_status cs
                     ON r.state_code = cs.state_code AND r.ac_no = cs.ac_no
-                JOIN parties p ON r.party_abv = p.name
+                JOIN parties p ON r.party_abv = p.abv
                 JOIN ac_totals at
                     ON r.state_code = at.state_code AND r.ac_no = at.ac_no
                 JOIN ac_winners aw
@@ -281,7 +299,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                 JOIN constituency_status cs
                     ON r.state_code = cs.state_code
                     AND r.ac_no = cs.ac_no
-                JOIN parties p ON r.party_abv = p.name
+                JOIN parties p ON r.party_abv = p.abv
             )
             SELECT ac_no, ac_name, candidate, party_abv, party_name,
                    votes, rank,
@@ -359,7 +377,7 @@ def roundwise(state: str = Query(..., description="State code (required)")):
                            ORDER BY r.votes DESC
                        ) as rank
                 FROM rounds_ac r
-                JOIN parties p ON r.party_abv = p.name
+                JOIN parties p ON r.party_abv = p.abv
                 WHERE r.state_code = {p} AND r.round_no != 999
             ),
             ac_latest AS (
@@ -404,7 +422,7 @@ def roundwise(state: str = Query(..., description="State code (required)")):
                            ORDER BY r.votes DESC
                        ) as rank
                 FROM rounds_ac r
-                JOIN parties p ON r.party_abv = p.name
+                JOIN parties p ON r.party_abv = p.abv
                 WHERE r.state_code = {p} AND r.round_no = 999
             )
             SELECT party_abv, COUNT(*) as seats
@@ -546,6 +564,36 @@ def constituency_rounds(state_code: str, ac_no: int):
         )
         rows = cur.fetchall()
         return {"state_code": state_code, "ac_no": ac_no, "rounds": rows}
+    finally:
+        conn.close()
+
+
+# ---------------------------------------------------------------------------
+# Election management endpoints
+# ---------------------------------------------------------------------------
+@app.get("/api/elections")
+def list_elections():
+    """List all elections ordered by sort_date descending."""
+    return {"elections": get_elections()}
+
+
+@app.get("/api/elections/current")
+def current_election():
+    """Get the current (most recent) election."""
+    election = get_current_election()
+    if not election:
+        return {"election": None}
+    return {"election": election}
+
+
+@app.get("/api/states")
+def list_states():
+    """Return all states with their codes and names."""
+    conn = _connect()
+    cur = _cursor(conn)
+    try:
+        cur.execute("SELECT state_code, state_name FROM states ORDER BY state_code")
+        return {"states": cur.fetchall()}
     finally:
         conn.close()
 
