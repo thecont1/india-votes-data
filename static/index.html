@@ -107,10 +107,28 @@
   .card h2 {
     font-size: 20px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 12px;
+  }
+
+  /* Fixed-height chart area so card never jumps */
+  .perf-chart-area {
+    position: relative;
+    height: 500px;
+  }
+  .perf-chart-area > div {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+  }
+  .perf-chart-area .chart-container {
+    height: 100%;
+  }
+  /* Shared party legend — always present, same position */
+  .perf-party-legend {
+    min-height: 28px;
+    margin-top: 12px;
   }
 
   /* Toggle switch */
@@ -233,41 +251,30 @@
 
   <!-- Party Performance: Seat Tally + Vote Share (toggled) -->
   <div class="card" id="party-perf-card">
-    <h2>
-      <span>📊 Party Performance</span>
-      <div class="toggle-group" id="perf-toggle">
-        <button class="toggle-btn active" data-view="tally">Seat Tally</button>
-        <button class="toggle-btn" data-view="share">Vote Share</button>
-        <button class="toggle-btn" data-view="roundwise">Roundwise</button>
+    <h2>📊 Party Performance</h2>
+    <div class="toggle-group" id="perf-toggle" style="margin-bottom:16px;">
+      <button class="toggle-btn active" data-view="tally">Seat Tally</button>
+      <button class="toggle-btn" data-view="share">Vote Share</button>
+      <button class="toggle-btn" data-view="roundwise">Roundwise</button>
+    </div>
+    <div class="perf-chart-area">
+      <div id="perf-chart-area-tally">
+        <div class="chart-container">
+          <canvas id="tally-chart"></canvas>
+        </div>
       </div>
-    </h2>
-    <div class="legend" id="perf-legend-tally" style="margin-bottom:12px;">
-      <div class="legend-item">
-        <div class="legend-swatch declared"></div>
-        <span>Declared (Won)</span>
+      <div id="perf-chart-area-share" style="visibility:hidden;">
+        <div class="chart-container">
+          <canvas id="vote-share-chart"></canvas>
+        </div>
       </div>
-      <div class="legend-item">
-        <div class="legend-swatch leading"></div>
-        <span>Leading</span>
+      <div id="perf-chart-area-roundwise" style="visibility:hidden;">
+        <div class="chart-container">
+          <canvas id="roundwise-chart"></canvas>
+        </div>
       </div>
     </div>
-    <div id="perf-chart-area-tally">
-      <div class="chart-container">
-        <canvas id="tally-chart"></canvas>
-      </div>
-      <div id="tally-party-legend" class="legend"></div>
-    </div>
-    <div id="perf-chart-area-share" style="visibility:hidden; position:absolute; top:0; left:0; right:0; width:100%;">
-      <div class="chart-container">
-        <canvas id="vote-share-chart"></canvas>
-      </div>
-      <div id="vote-share-legend" class="legend"></div>
-    </div>
-    <div id="perf-chart-area-roundwise" style="visibility:hidden; position:absolute; top:0; left:0; right:0; width:100%;">
-      <div class="chart-container">
-        <canvas id="roundwise-chart"></canvas>
-      </div>
-    </div>
+    <div id="perf-legend-tally" class="legend perf-party-legend" style="margin-bottom:0;"></div>
     <div class="empty-state" id="empty-state" style="display:none;">
       <div class="icon">📭</div>
       <h3>No results yet</h3>
@@ -317,7 +324,6 @@ document.getElementById('date-display').textContent =
   new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 
 // Toggle between Seat Tally, Vote Share, and Roundwise
-const HIDDEN_STYLE = 'visibility:hidden; position:absolute; top:0; left:0; right:0; width:100%;';
 document.getElementById('perf-toggle').addEventListener('click', (e) => {
   const btn = e.target.closest('.toggle-btn');
   if (!btn) return;
@@ -326,16 +332,9 @@ document.getElementById('perf-toggle').addEventListener('click', (e) => {
   perfView = view;
   document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.view === view));
-  const areas = {
-    tally: document.getElementById('perf-chart-area-tally'),
-    share: document.getElementById('perf-chart-area-share'),
-    roundwise: document.getElementById('perf-chart-area-roundwise'),
-  };
-  const tallyLeg = document.getElementById('perf-legend-tally');
-  Object.keys(areas).forEach(k => {
-    areas[k].style.cssText = k === view ? '' : HIDDEN_STYLE;
+  ['tally', 'share', 'roundwise'].forEach(k => {
+    document.getElementById('perf-chart-area-' + k).style.visibility = k === view ? '' : 'hidden';
   });
-  tallyLeg.style.display = view === 'tally' ? '' : 'none';
 });
 
 async function init() {
@@ -444,7 +443,7 @@ function renderChart(parties, majority) {
   const colors = main.map(p => p.color);
 
   // Circle-style legend (no y-axis labels)
-  buildCircleLegend(document.getElementById('tally-party-legend'), labels, colors);
+  buildCircleLegend(document.getElementById('perf-legend-tally'), labels, colors);
 
   main.forEach(p => {
     partyNames[p.party_abv] = p.party_name || p.party_abv;
@@ -647,7 +646,7 @@ function renderVoteShare() {
   const colors = perfParties.map(p => p.color);
 
   // Circle-style legend
-  buildCircleLegend(document.getElementById('vote-share-legend'), labels, colors);
+  buildCircleLegend(document.getElementById('perf-legend-tally'), labels, colors);
 
   const canvas = document.getElementById('vote-share-chart');
   const ctx = canvas.getContext('2d');
@@ -656,9 +655,14 @@ function renderVoteShare() {
     voteShareChart.data.labels = labels;
     voteShareChart.data.datasets[0].data = data;
     voteShareChart.data.datasets[0].backgroundColor = colors;
+    // Recalculate max on data change
+    const niceMax = Math.ceil(Math.max(...data) / 5) * 5;
+    voteShareChart.options.scales.x.max = niceMax;
     voteShareChart.update('none');
     return;
   }
+
+  const niceMax = Math.ceil(Math.max(...data) / 5) * 5;
 
   voteShareChart = new Chart(ctx, {
     type: 'bar',
@@ -698,9 +702,9 @@ function renderVoteShare() {
       scales: {
         x: {
           grid: { color: '#3a3a3a' },
-          ticks: { color: '#999999', font: { size: 12 }, callback: v => v + '%' },
+          ticks: { color: '#999999', font: { size: 12 }, stepSize: 5 },
           title: { display: true, text: 'Vote Share (%)', color: '#999999' },
-          max: Math.max(...data) + 5,
+          max: niceMax,
         },
         y: {
           grid: { display: false },
@@ -902,6 +906,10 @@ function renderRoundwise(stateCode) {
       const series = data.series || [];
       if (!rounds.length || !series.length) return;
 
+      // Update shared HTML legend
+      buildCircleLegend(document.getElementById('perf-legend-tally'),
+        series.map(s => s.party_abv), series.map(s => s.color));
+
       const canvas = document.getElementById('roundwise-chart');
       const ctx = canvas.getContext('2d');
 
@@ -935,17 +943,7 @@ function renderRoundwise(stateCode) {
           animation: { duration: 600, easing: 'easeInOutQuart' },
           interaction: { mode: 'index', intersect: false },
           plugins: {
-            legend: {
-              display: true,
-              position: 'bottom',
-              labels: {
-                color: '#f0f0f0',
-                font: { size: 12 },
-                usePointStyle: true,
-                pointStyle: 'circle',
-                padding: 16,
-              },
-            },
+            legend: { display: false },
             tooltip: {
               backgroundColor: '#2a2a2a',
               titleColor: '#f0f0f0',
