@@ -12,7 +12,6 @@ Called by scheduler.sh every 15 minutes on counting day.
 import logging
 import random
 import re
-import sqlite3
 import subprocess
 import sys
 import threading
@@ -47,20 +46,24 @@ except ImportError:
     HAS_UC = False
 
 from db_utils import (
+    _normalize_party,
     get_work_queue,
     init_db,
     insert_round_snapshot,
-    record_cycle,
     update_won_status,
     upsert_constituency_status,
 )
-from states_may2026 import STATES, get_url, normalise_party
+from config import get_election_id, get_tracked_states
+from core.scraper import build_roundwise_url
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
 
-DB_PATH = "data/live_results.db"
+ELECTION_ID = get_election_id()
+TRACKED_STATES = get_tracked_states()
+
+# DB_PATH removed — all DB access goes through db_utils (PostgreSQL)
 MAX_WORKERS = 8  # requests is lightweight — can run more workers
 PAGE_LOAD_TIMEOUT = 15
 MIN_JITTER = 0.2
@@ -242,7 +245,7 @@ def _extract_candidates_bs4(soup: BeautifulSoup, round_no: int) -> list[dict]:
                 candidates.append(
                     {
                         "candidate": candidate_name,
-                        "party": normalise_party(party_name),
+                        "party": _normalize_party(party_name),
                         "votes": int(total_votes_text),
                     }
                 )
@@ -478,7 +481,7 @@ def fetch_won_lists() -> dict[str, list[int]]:
     """
     won_by_state: dict[str, list[int]] = {}
 
-    for state in STATES:
+    for state in TRACKED_STATES:
         state_code = state["code"]
 
         # Fetch partywise result page via curl
@@ -510,40 +513,43 @@ def fetch_won_lists() -> dict[str, list[int]]:
                 if tds:
                     party_text = tds[0].get_text(strip=True)
                     party_name = party_text.split(" - ")[0].strip() if " - " in party_text else party_text
-                    canonical = normalise_party(party_name)
+                    canonical = _normalize_party(party_name)
                     won_by_party[canonical] = won_count
 
         if not won_by_party:
             continue
 
         # Match won counts to specific ACs by vote rank from DB
-        conn = sqlite3.connect(DB_PATH, timeout=30)
+        from db_utils import _connect, _cursor
+        conn = _connect()
+        cur = _cursor(conn)
         try:
-            rows = conn.execute(
+            cur.execute(
                 """
-                SELECT r.party, r.ac_no, r.votes
-                FROM rounds r
+                SELECT r.party_abv, r.ac_no, r.votes
+                FROM rounds_ac r
                 INNER JOIN (
-                    SELECT state_code, ac_no, MAX(scraped_at) as latest
-                    FROM rounds WHERE state_code=?
+                    SELECT state_code, ac_no, MAX(round_no) as latest
+                    FROM rounds_ac WHERE state_code=%s
                     GROUP BY state_code, ac_no
-                ) latest ON r.state_code=latest.state_code AND r.ac_no=latest.ac_no AND r.scraped_at=latest.latest
-                WHERE r.state_code=? AND r.votes = (
-                    SELECT MAX(r2.votes) FROM rounds r2
-                    WHERE r2.state_code=r.state_code AND r2.ac_no=r.ac_no AND r2.scraped_at=r.scraped_at
+                ) latest ON r.state_code=latest.state_code AND r.ac_no=latest.ac_no AND r.round_no=latest.latest
+                WHERE r.state_code=%s AND r.votes = (
+                    SELECT MAX(r2.votes) FROM rounds_ac r2
+                    WHERE r2.state_code=r.state_code AND r2.ac_no=r.ac_no AND r2.round_no=r.round_no
                 )
                 """,
                 (state_code, state_code),
-            ).fetchall()
+            )
+            rows = cur.fetchall()
         finally:
             conn.close()
 
         party_acs: dict[str, list[tuple[int, int]]] = {}
         for row in rows:
-            party = normalise_party(row[0])
+            party = _normalize_party(row["party_abv"])
             if party not in party_acs:
                 party_acs[party] = []
-            party_acs[party].append((row[1], row[2]))
+            party_acs[party].append((row["ac_no"], row["votes"]))
 
         all_won_acs = []
         for party, won_count in won_by_party.items():
@@ -571,12 +577,11 @@ def run_cycle() -> None:
     logger.info("=== Cycle started at %s ===", cycle_start_iso)
 
     # Get work queue
-    queue = get_work_queue(DB_PATH)
+    queue = get_work_queue()
     logger.info("Work queue: %d constituencies to scrape", len(queue))
 
     if not queue:
         logger.info("All constituencies DONE or no live pages yet.")
-        record_cycle(DB_PATH, cycle_start_iso, cycle_start_iso, 0, 0, 0, 0, 0.0)
         return
 
     # Build task list with URLs
@@ -585,7 +590,7 @@ def run_cycle() -> None:
             "state_code": item["state_code"],
             "state_name": item["state_name"],
             "ac_no": item["ac_no"],
-            "url": get_url(item["state_code"], item["ac_no"]),
+            "url": build_roundwise_url(ELECTION_ID, item["state_code"], item["ac_no"]),
         }
         for item in queue
     ]
@@ -623,7 +628,6 @@ def run_cycle() -> None:
     for r in all_results:
         if r["status"] in ("LIVE", "DONE") and r["candidates"]:
             insert_round_snapshot(
-                DB_PATH,
                 state_code=r["state_code"],
                 state_name=r["state_name"],
                 ac_no=r["ac_no"],
@@ -634,7 +638,6 @@ def run_cycle() -> None:
                 scraped_at=r["scraped_at"],
             )
             upsert_constituency_status(
-                DB_PATH,
                 state_code=r["state_code"],
                 ac_no=r["ac_no"],
                 ac_name=r["ac_name"],
@@ -650,7 +653,6 @@ def run_cycle() -> None:
 
         elif r["status"] == "ERROR":
             upsert_constituency_status(
-                DB_PATH,
                 state_code=r["state_code"],
                 ac_no=r["ac_no"],
                 ac_name=r["ac_name"],
@@ -665,10 +667,6 @@ def run_cycle() -> None:
     cycle_end_iso = cycle_end.isoformat()
     duration = (cycle_end - cycle_start).total_seconds()
 
-    record_cycle(
-        DB_PATH, cycle_start_iso, cycle_end_iso,
-        len(tasks), pages_success, pages_skipped, pages_error, duration,
-    )
 
     logger.info(
         "=== Cycle done in %.1fs | success=%d skipped=%d error=%d ===",
@@ -679,7 +677,7 @@ def run_cycle() -> None:
     try:
         won_lists = fetch_won_lists()
         for state_code, won_acs in won_lists.items():
-            update_won_status(DB_PATH, state_code, won_acs)
+            update_won_status(state_code, won_acs)
         logger.info("Updated won status for %d states", len(won_lists))
     except Exception as e:
         logger.warning("Failed to fetch won lists: %s", e)
@@ -690,5 +688,5 @@ def run_cycle() -> None:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    init_db(DB_PATH)
+    init_db()
     run_cycle()

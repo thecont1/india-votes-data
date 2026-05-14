@@ -1,0 +1,2402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECI Live Election Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Inconsolata:wght@500;600&family=Libre+Franklin:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  :root,
+  :root[data-theme="dark-handsome"] {
+    color-scheme: dark;
+    --font-ui: "IBM Plex Sans", "Segoe UI", sans-serif;
+    --font-heading: "IBM Plex Sans", "Segoe UI", sans-serif;
+    --font-numeric: "IBM Plex Mono", ui-monospace, monospace;
+    --bg: #333333;
+    --header-bg: #262626;
+    --card: #3d3d3d;
+    --card-elevated: #444444;
+    --border: #5f5f5f;
+    --text: #f6f6f6;
+    --muted: #d0d0d0;
+    --accent: #ffffff;
+    --control-bg: #3d3d3d;
+    --control-text: #f6f6f6;
+    --control-border: #767676;
+    --control-active-bg: #f6f6f6;
+    --control-active-text: #222222;
+    --control-hover-border: #ffffff;
+    --focus-ring: #93c5fd;
+    --chart-grid: #565656;
+    --chart-label: #f6f6f6;
+    --chart-muted: #d0d0d0;
+    --tooltip-bg: #262626;
+    --tooltip-text: #f6f6f6;
+    --tooltip-muted: #dddddd;
+    --majority-line: #ff9a9a;
+    --stripe-line: rgba(0, 0, 0, 0.48);
+    --red: #ff9a9a;
+    --green: #6ee7a1;
+    --yellow: #fde047;
+  }
+
+  :root[data-theme="fair-lovely"] {
+    color-scheme: light;
+    --font-ui: "Source Sans 3", "Segoe UI", sans-serif;
+    --font-heading: "Source Sans 3", "Segoe UI", sans-serif;
+    --font-numeric: "IBM Plex Mono", ui-monospace, monospace;
+
+    /* Page + surface palette: paper / stone / mist / slate */
+    --bg: #f3f0e8;
+    --header-bg: #ebe6db;
+    --card: #faf8f3;
+    --card-elevated: #f3eee4;
+    --border: #c6beaf;
+    --text: #1f2832;
+    --muted: #5d6770;
+    --accent: #556475;
+
+    /* Controls */
+    --control-bg: #f7f3eb;
+    --control-text: #22303a;
+    --control-border: #bbb3a5;
+    --control-active-bg: #5f6d7b;
+    --control-active-text: #f8f6f1;
+    --control-hover-border: #8995a1;
+    --focus-ring: #96a8b8;
+
+    /* Charts / overlays */
+    --chart-grid: #ddd7cb;
+    --chart-label: #1f2832;
+    --chart-muted: #5d6770;
+    --tooltip-bg: #fcfaf6;
+    --tooltip-text: #1f2832;
+    --tooltip-muted: #526069;
+    --majority-line: #7d6d5f;
+    --stripe-line: rgba(77, 92, 107, 0.3);
+
+    /* Low-saturation semantic support */
+    --red: #8f6366;
+    --green: #66795f;
+    --yellow: #8c7d63;
+
+    /* Light-mode surface hierarchy */
+    --surface-page: #f3f0e8;
+    --surface-header: #ebe6db;
+    --surface-card: #faf8f3;
+    --surface-panel: #f3eee4;
+    --surface-control: #f7f3eb;
+    --surface-chart: #f6f2e9;
+    --line-soft: #d4ccbd;
+    --line-strong: #b9b0a2;
+    --card-shadow: 0 1px 0 rgba(31, 40, 50, 0.04);
+    --menu-shadow: 0 10px 24px rgba(44, 55, 67, 0.08);
+
+    /* Summary chips */
+    --chip-bg-total: #ece7dd;
+    --chip-border-total: #c7beae;
+    --chip-text-total: #24303a;
+    --chip-bg-declared: #697480;
+    --chip-border-declared: #57616b;
+    --chip-text-declared: #fbfaf6;
+    --chip-bg-counting: #e3eaee;
+    --chip-border-counting: #b5c0c9;
+    --chip-text-counting: #24303a;
+    --chip-bg-pending: #f7f4ec;
+    --chip-border-pending: #d8d0c3;
+    --chip-text-pending: #5f6971;
+    --chip-counting-stripe: repeating-linear-gradient(
+      -45deg,
+      transparent 0 8px,
+      rgba(95, 109, 123, 0.08) 8px 12px
+    );
+
+    /* Winner / margin / runner-up family */
+    --duel-surface: #f4f0e6;
+    --duel-border: #c9c1b3;
+    --candidate-bg: #fbfaf6;
+    --candidate-border: #cdc5b6;
+    --candidate-winner-bg: #edf1ee;
+    --candidate-winner-border: #aeb7ac;
+    --candidate-runner-bg: #f7f4ec;
+    --candidate-runner-border: #d7cfbf;
+    --candidate-status-bg: #edf1f3;
+    --candidate-status-border: #b8c1c7;
+    --candidate-status-text: #32404a;
+    --margin-bg: #f2ede3;
+    --margin-border: #d1c8b9;
+    --margin-text: #24303a;
+  }
+
+  :root[data-theme="black-white"] {
+    color-scheme: light;
+    --font-ui: "Libre Franklin", "Segoe UI", sans-serif;
+    --font-heading: "Libre Franklin", "Segoe UI", sans-serif;
+    --font-numeric: "Inconsolata", ui-monospace, monospace;
+    --bg: #ffffff;
+    --header-bg: #ffffff;
+    --card: #ffffff;
+    --card-elevated: #f7f7f7;
+    --border: #b8b8b8;
+    --text: #000000;
+    --muted: #454545;
+    --accent: #000000;
+    --control-bg: #ffffff;
+    --control-text: #000000;
+    --control-border: #707070;
+    --control-active-bg: #000000;
+    --control-active-text: #ffffff;
+    --control-hover-border: #000000;
+    --focus-ring: #000000;
+    --chart-grid: #d0d0d0;
+    --chart-label: #000000;
+    --chart-muted: #454545;
+    --tooltip-bg: #ffffff;
+    --tooltip-text: #000000;
+    --tooltip-muted: #333333;
+    --majority-line: #000000;
+    --stripe-line: rgba(0, 0, 0, 0.56);
+    --red: #9f1239;
+    --green: #065f46;
+    --yellow: #854d0e;
+  }
+
+  :root {
+    --chip-radius: 14px;
+    --chip-padding-x: clamp(14px, 2vw, 18px);
+    --chip-padding-y: 13px;
+    --chip-gap: 12px;
+    --chip-value-size: clamp(28px, 4.8vw, 40px);
+    --chip-label-size: 12px;
+    --chip-value-weight: 600;
+    --chip-label-weight: 600;
+    --chip-bg-total: color-mix(in srgb, var(--card-elevated) 88%, var(--bg) 12%);
+    --chip-border-total: color-mix(in srgb, var(--border) 86%, var(--text) 14%);
+    --chip-text-total: var(--text);
+    --chip-bg-declared: color-mix(in srgb, var(--text) 10%, var(--card) 90%);
+    --chip-border-declared: color-mix(in srgb, var(--text) 28%, var(--border) 72%);
+    --chip-text-declared: var(--text);
+    --chip-bg-counting: color-mix(in srgb, var(--card-elevated) 90%, var(--bg) 10%);
+    --chip-border-counting: color-mix(in srgb, var(--text) 18%, var(--border) 82%);
+    --chip-text-counting: var(--text);
+    --chip-bg-pending: color-mix(in srgb, var(--bg) 94%, var(--card) 6%);
+    --chip-border-pending: color-mix(in srgb, var(--border) 78%, var(--bg) 22%);
+    --chip-text-pending: var(--muted);
+    --chip-counting-stripe: repeating-linear-gradient(
+      -45deg,
+      transparent 0 7px,
+      color-mix(in srgb, var(--text) 10%, transparent) 7px 12px
+    );
+    --duel-radius: 16px;
+    --duel-gap: 12px;
+    --duel-padding: clamp(14px, 2.4vw, 18px);
+    --duel-surface: color-mix(in srgb, var(--card-elevated) 72%, var(--bg) 28%);
+    --duel-border: color-mix(in srgb, var(--border) 84%, var(--text) 16%);
+    --candidate-bg: var(--card);
+    --candidate-border: color-mix(in srgb, var(--border) 90%, var(--bg) 10%);
+    --candidate-winner-bg: color-mix(in srgb, var(--card-elevated) 78%, var(--bg) 22%);
+    --candidate-winner-border: color-mix(in srgb, var(--text) 22%, var(--border) 78%);
+    --candidate-runner-bg: color-mix(in srgb, var(--card) 86%, var(--bg) 14%);
+    --candidate-runner-border: color-mix(in srgb, var(--border) 94%, var(--bg) 6%);
+    --candidate-status-bg: color-mix(in srgb, var(--bg) 24%, var(--text) 76%);
+    --candidate-status-border: color-mix(in srgb, var(--text) 18%, var(--border) 82%);
+    --candidate-status-text: var(--text);
+    --margin-bg: color-mix(in srgb, var(--card-elevated) 82%, var(--bg) 18%);
+    --margin-border: color-mix(in srgb, var(--border) 88%, var(--text) 12%);
+    --margin-text: var(--text);
+  }
+
+  :root[data-theme="black-white"] {
+    --chip-bg-total: #f3f3f3;
+    --chip-border-total: #8b8b8b;
+    --chip-text-total: #111111;
+    --chip-bg-declared: #dcdcdc;
+    --chip-border-declared: #000000;
+    --chip-text-declared: #000000;
+    --chip-bg-counting: #efefef;
+    --chip-border-counting: #5e5e5e;
+    --chip-text-counting: #000000;
+    --chip-bg-pending: #ffffff;
+    --chip-border-pending: #a1a1a1;
+    --chip-text-pending: #474747;
+    --chip-counting-stripe: repeating-linear-gradient(
+      -45deg,
+      transparent 0 7px,
+      rgba(0, 0, 0, 0.08) 7px 12px
+    );
+    --duel-surface: #f6f6f6;
+    --duel-border: #b8b8b8;
+    --candidate-bg: #ffffff;
+    --candidate-border: #b8b8b8;
+    --candidate-winner-bg: #f2f2f2;
+    --candidate-winner-border: #000000;
+    --candidate-runner-bg: #ffffff;
+    --candidate-runner-border: #c7c7c7;
+    --candidate-status-bg: #ffffff;
+    --candidate-status-border: #000000;
+    --candidate-status-text: #000000;
+    --margin-bg: #f7f7f7;
+    --margin-border: #b8b8b8;
+    --margin-text: #000000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { background: var(--bg); }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-optical-sizing: auto;
+    min-height: 100vh;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  button,
+  select {
+    font: inherit;
+    font-family: var(--font-ui);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  select {
+    min-height: 40px;
+    background: var(--control-bg);
+    color: var(--control-text);
+    border: 1px solid var(--control-border);
+    border-radius: 10px;
+    padding: 8px 36px 8px 12px;
+    cursor: pointer;
+  }
+
+  button:focus-visible,
+  select:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  /* Header */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--header-bg) 92%, transparent);
+    backdrop-filter: blur(12px);
+    padding: clamp(12px, 2.5vw, 20px) clamp(16px, 4vw, 32px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    max-width: 60vw;
+  }
+  .header h1 .emoji { font-size: 1.12em; margin-right: 8px; }
+  .header .meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px 14px;
+    color: var(--muted);
+    font-size: 14px;
+    margin-left: auto;
+  }
+  .theme-picker {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    order: 3;
+  }
+  .theme-trigger {
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--control-bg);
+    color: var(--control-text);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+  }
+  .theme-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 20;
+    min-width: 220px;
+    padding: 6px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+  }
+  .theme-menu[hidden] { display: none; }
+  .theme-option {
+    width: 100%;
+    min-height: 38px;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    font-size: 13px;
+  }
+  .theme-option:hover,
+  .theme-option.active {
+    background: var(--control-active-bg);
+    color: var(--control-active-text);
+  }
+  .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  #date-display,
+  .state-btn,
+  .theme-option,
+  .toggle-btn,
+  .field-label,
+  .legend,
+  select {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .status-dot,
+  .count-dot,
+  .pill-dot {
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    display: inline-block;
+    flex: 0 0 auto;
+    border: none;
+    box-shadow: none;
+  }
+  .status-dot { margin-right: 6px; animation: pulse 2s ease-in-out infinite; }
+  .count-dot { margin-right: 6px; }
+  .pill-dot { width: 10px; height: 10px; margin-right: 6px; }
+  .dot-declared, .status-dot.live { background: #22c55e; }
+  .dot-counting, .status-dot.idle { background: #facc15; }
+  .dot-pending { background: #ef4444; }
+
+  :root[data-theme="black-white"] .status-dot,
+  :root[data-theme="black-white"] .count-dot,
+  :root[data-theme="black-white"] .pill-dot {
+    border: 1px solid #000000;
+  }
+  :root[data-theme="black-white"] .status-dot,
+  :root[data-theme="black-white"] .count-dot {
+    width: 16px;
+    height: 16px;
+  }
+  :root[data-theme="black-white"] .pill-dot {
+    width: 13px;
+    height: 13px;
+  }
+  :root[data-theme="black-white"] .dot-declared,
+  :root[data-theme="black-white"] .status-dot.live,
+  :root[data-theme="black-white"] .dot-counting,
+  :root[data-theme="black-white"] .status-dot.idle,
+  :root[data-theme="black-white"] .dot-total,
+  :root[data-theme="black-white"] .dot-pending {
+    background: #ffffff;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* State selector */
+  .state-bar {
+    position: sticky;
+    top: var(--header-offset, 0px);
+    z-index: 35;
+    padding: 10px clamp(16px, 4vw, 32px);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 94%, transparent);
+    backdrop-filter: blur(10px);
+  }
+  .state-btn {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    background: var(--bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .state-btn:hover { border-color: var(--control-hover-border); color: var(--text); }
+  .state-btn.active {
+    background: var(--control-active-bg);
+    color: var(--control-active-text);
+    border-color: var(--control-active-bg);
+    font-weight: 600;
+  }
+
+  /* Main content */
+  .content {
+    width: min(100%, 1200px);
+    padding: clamp(16px, 3vw, 32px);
+    margin: 0 auto;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: clamp(16px, 3vw, 24px);
+    margin-bottom: clamp(16px, 3vw, 24px);
+    position: relative;
+  }
+
+  .card h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(18px, 3vw, 20px);
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    line-height: 1.3;
+  }
+
+  /* Fixed-height chart area so card never jumps */
+  .perf-chart-area {
+    position: relative;
+    height: clamp(340px, 55vh, 520px);
+  }
+  .perf-chart-area > div {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+  }
+  .perf-chart-area .chart-container {
+    height: 100%;
+  }
+  /* Shared party legend — always present, same position */
+  .perf-party-legend {
+    min-height: 28px;
+    margin-top: 12px;
+  }
+
+  /* Toggle switch */
+  .toggle-group {
+    display: inline-flex;
+    max-width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .toggle-btn {
+    min-height: 40px;
+    background: transparent;
+    color: var(--muted);
+    border: none;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .toggle-btn:not(:last-child) { border-right: 1px solid var(--border); }
+  .toggle-btn:hover { color: var(--text); }
+  .toggle-btn.active {
+    background: var(--control-active-bg);
+    color: var(--control-active-text);
+    font-weight: 600;
+  }
+  #race-toggle {
+    display: flex;
+    width: min(100%, 320px);
+  }
+  #race-toggle .toggle-btn {
+    flex: 1 1 50%;
+    text-align: center;
+  }
+
+  /* Chart */
+  .chart-container {
+    position: relative;
+    width: 100%;
+    height: clamp(320px, 52vh, 520px);
+  }
+  #races-card {
+    min-height: 680px;
+  }
+  #races-chart-container {
+    height: 480px !important;
+  }
+
+  .field-row {
+    margin-bottom: 12px;
+  }
+  .field-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  #race-select {
+    width: min(100%, 420px);
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+
+  /* Summary chips */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--chip-gap);
+    margin-bottom: clamp(16px, 3vw, 24px);
+  }
+  .summary-chip {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 100px;
+    padding: var(--chip-padding-y) var(--chip-padding-x);
+    border-radius: var(--chip-radius);
+    border: 1px solid transparent;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .summary-chip::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: transparent;
+    z-index: -1;
+  }
+  .summary-chip--total {
+    background: var(--chip-bg-total);
+    border-color: var(--chip-border-total);
+    color: var(--chip-text-total);
+  }
+  .summary-chip--declared {
+    background: var(--chip-bg-declared);
+    border-color: var(--chip-border-declared);
+    color: var(--chip-text-declared);
+  }
+  .summary-chip--counting {
+    background: var(--chip-bg-counting);
+    border-color: var(--chip-border-counting);
+    color: var(--chip-text-counting);
+  }
+  .summary-chip--counting::before {
+    opacity: 1;
+    background: var(--chip-counting-stripe);
+  }
+  .summary-chip--pending {
+    background: var(--chip-bg-pending);
+    border-color: var(--chip-border-pending);
+    color: var(--chip-text-pending);
+  }
+  .summary-chip__label {
+    font-family: var(--font-ui);
+    font-size: var(--chip-label-size);
+    font-weight: var(--chip-label-weight);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+  .summary-chip__value {
+    font-family: var(--font-numeric);
+    font-size: var(--chip-value-size);
+    font-weight: var(--chip-value-weight);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums lining-nums slashed-zero;
+    font-feature-settings: "tnum" 1, "lnum" 1, "zero" 1;
+  }
+
+  /* Winner / runner-up duel */
+  .result-duel {
+    display: grid;
+    gap: var(--duel-gap);
+    margin-bottom: 16px;
+  }
+  .result-duel[hidden] { display: none; }
+  .candidate-card,
+  .result-duel__margin {
+    background: var(--candidate-bg);
+    border: 1px solid var(--candidate-border);
+    border-radius: var(--duel-radius);
+  }
+  .candidate-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 6px minmax(0, 1fr);
+    overflow: hidden;
+  }
+  .candidate-card--winner {
+    background: var(--candidate-winner-bg);
+    border-color: var(--candidate-winner-border);
+  }
+  .candidate-card--runnerup {
+    background: var(--candidate-runner-bg);
+    border-color: var(--candidate-runner-border);
+  }
+  .candidate-card__accent {
+    background: var(--party-accent, var(--text));
+  }
+  .candidate-card__body {
+    display: grid;
+    gap: 10px;
+    padding: var(--duel-padding);
+  }
+  .candidate-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .candidate-card__eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .candidate-card__role {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .result-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 9px;
+    border: 1px solid var(--candidate-status-border);
+    border-radius: 999px;
+    background: var(--candidate-status-bg);
+    color: var(--candidate-status-text);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .candidate-card__votes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    text-align: right;
+  }
+  .candidate-card__vote-value,
+  .candidate-card__vote-share,
+  .result-duel__margin-value {
+    font-family: var(--font-numeric);
+    font-variant-numeric: tabular-nums lining-nums slashed-zero;
+    font-feature-settings: "tnum" 1, "lnum" 1, "zero" 1;
+  }
+  .candidate-card__vote-value {
+    font-size: clamp(22px, 3.4vw, 30px);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text);
+  }
+  .candidate-card__vote-share {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .candidate-card__name {
+    font-family: var(--font-heading);
+    font-size: clamp(17px, 2.4vw, 21px);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--text);
+  }
+  .candidate-card__party {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .candidate-card__party-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--party-accent, var(--text));
+    border: 1px solid color-mix(in srgb, var(--party-accent, var(--text)) 60%, var(--border) 40%);
+    flex: 0 0 auto;
+  }
+  .candidate-card__party-name {
+    font-family: var(--font-ui);
+    font-weight: 500;
+  }
+  .candidate-card__party-abv {
+    padding: 2px 7px;
+    border: 1px solid var(--candidate-border);
+    border-radius: 999px;
+    font-family: var(--font-numeric);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    background: color-mix(in srgb, var(--bg) 60%, transparent);
+  }
+  .result-duel__margin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px var(--duel-padding);
+    background: var(--margin-bg);
+    border-color: var(--margin-border);
+    color: var(--margin-text);
+  }
+  .result-duel__margin-label {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .result-duel__margin-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* Fair Lovelly / Editorial Light refinement */
+  :root[data-theme="fair-lovely"] body {
+    background: var(--surface-page);
+  }
+  :root[data-theme="fair-lovely"] .header {
+    background: color-mix(in srgb, var(--surface-header) 95%, transparent);
+    border-bottom-color: var(--line-soft);
+    box-shadow: 0 1px 0 rgba(31, 40, 50, 0.04);
+  }
+  :root[data-theme="fair-lovely"] .header h1 {
+    color: var(--text);
+  }
+  :root[data-theme="fair-lovely"] .theme-trigger,
+  :root[data-theme="fair-lovely"] select {
+    background: var(--surface-control);
+    border-color: var(--control-border);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+  :root[data-theme="fair-lovely"] .theme-trigger:hover,
+  :root[data-theme="fair-lovely"] select:hover {
+    border-color: var(--control-hover-border);
+  }
+  :root[data-theme="fair-lovely"] .theme-menu {
+    background: var(--surface-card);
+    border-color: var(--line-soft);
+    box-shadow: var(--menu-shadow);
+  }
+  :root[data-theme="fair-lovely"] .theme-option {
+    border-radius: 10px;
+    color: var(--text);
+  }
+  :root[data-theme="fair-lovely"] .theme-option:hover {
+    background: var(--surface-panel);
+    color: var(--text);
+  }
+  :root[data-theme="fair-lovely"] .theme-option.active {
+    background: var(--control-active-bg);
+    color: var(--control-active-text);
+  }
+  :root[data-theme="fair-lovely"] .state-bar {
+    background: color-mix(in srgb, var(--surface-header) 96%, transparent);
+    border-bottom-color: var(--line-soft);
+  }
+  :root[data-theme="fair-lovely"] .state-btn {
+    background: var(--surface-control);
+    border-color: var(--line-soft);
+    color: var(--muted);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  }
+  :root[data-theme="fair-lovely"] .state-btn:hover {
+    background: var(--surface-card);
+    border-color: var(--control-hover-border);
+    color: var(--text);
+  }
+  :root[data-theme="fair-lovely"] .state-btn.active {
+    background: var(--control-active-bg);
+    border-color: var(--control-active-bg);
+    color: var(--control-active-text);
+    box-shadow: none;
+  }
+  :root[data-theme="fair-lovely"] .card {
+    background: var(--surface-card);
+    border-color: var(--line-soft);
+    box-shadow: var(--card-shadow);
+  }
+  :root[data-theme="fair-lovely"] .card h2 {
+    color: var(--text);
+  }
+  :root[data-theme="fair-lovely"] .toggle-group {
+    padding: 3px;
+    gap: 3px;
+    background: var(--surface-panel);
+    border-color: var(--line-soft);
+    border-radius: 12px;
+  }
+  :root[data-theme="fair-lovely"] .toggle-btn {
+    border-radius: 9px;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  :root[data-theme="fair-lovely"] .toggle-btn:not(:last-child) {
+    border-right: none;
+  }
+  :root[data-theme="fair-lovely"] .toggle-btn:hover {
+    background: color-mix(in srgb, var(--surface-card) 70%, var(--surface-panel) 30%);
+    color: var(--text);
+  }
+  :root[data-theme="fair-lovely"] .toggle-btn.active {
+    background: var(--control-active-bg);
+    color: var(--control-active-text);
+  }
+  :root[data-theme="fair-lovely"] .chart-container {
+    background: var(--surface-chart);
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  }
+  :root[data-theme="fair-lovely"] .field-label {
+    color: color-mix(in srgb, var(--text) 72%, var(--muted) 28%);
+    letter-spacing: 0.02em;
+  }
+  :root[data-theme="fair-lovely"] #race-select {
+    background: var(--surface-control);
+    border-color: var(--line-soft);
+  }
+  :root[data-theme="fair-lovely"] .summary-chip {
+    box-shadow: 0 1px 0 rgba(31, 40, 50, 0.04);
+  }
+  :root[data-theme="fair-lovely"] .summary-chip--declared .summary-chip__label,
+  :root[data-theme="fair-lovely"] .summary-chip--declared .summary-chip__value {
+    color: var(--chip-text-declared);
+  }
+  :root[data-theme="fair-lovely"] .summary-chip--counting .summary-chip__label,
+  :root[data-theme="fair-lovely"] .summary-chip--counting .summary-chip__value,
+  :root[data-theme="fair-lovely"] .summary-chip--total .summary-chip__label,
+  :root[data-theme="fair-lovely"] .summary-chip--total .summary-chip__value,
+  :root[data-theme="fair-lovely"] .summary-chip--pending .summary-chip__label,
+  :root[data-theme="fair-lovely"] .summary-chip--pending .summary-chip__value {
+    color: inherit;
+  }
+  :root[data-theme="fair-lovely"] .candidate-card,
+  :root[data-theme="fair-lovely"] .result-duel__margin {
+    box-shadow: 0 1px 0 rgba(31, 40, 50, 0.03);
+  }
+  :root[data-theme="fair-lovely"] .candidate-card__party-abv {
+    background: color-mix(in srgb, var(--surface-page) 78%, white 22%);
+    border-color: var(--line-soft);
+  }
+  :root[data-theme="fair-lovely"] .legend {
+    color: var(--chart-muted);
+  }
+
+  /* Legend — circle style: transparent fill, colored border */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--font-ui);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; min-height: 24px; }
+  .legend-swatch {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid;
+    flex-shrink: 0;
+  }
+  /* Seat tally: declared/leading swatches (non-circle) */
+  .legend-swatch.declared {
+    background: var(--muted);
+    border-color: var(--muted);
+  }
+  .legend-swatch.leading {
+    background: repeating-linear-gradient(
+      -45deg, var(--muted), var(--muted) 3px,
+      transparent 3px, transparent 6px
+    );
+    border-color: var(--muted);
+    border-radius: 3px;
+    width: 20px; height: 12px;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: clamp(48px, 10vw, 80px) 20px;
+    color: var(--muted);
+  }
+  .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-state h3 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      row-gap: 8px;
+    }
+    .header h1 {
+      max-width: none;
+      font-size: 22px;
+    }
+    .header .meta {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      align-items: center;
+      gap: 6px 10px;
+      justify-items: end;
+    }
+    .toggle-group { width: 100%; overflow-x: auto; }
+    .toggle-btn { flex: 1 0 auto; }
+  }
+
+  @media (max-width: 640px) {
+    .header {
+      grid-template-columns: minmax(0, 1fr) auto;
+      padding-inline: 16px;
+    }
+    .header h1 {
+      font-size: 19px;
+      line-height: 1.15;
+      max-width: 100%;
+    }
+    .header .meta {
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        'date theme'
+        'status theme';
+      align-items: start;
+      width: 100%;
+      margin-left: 0;
+      justify-items: start;
+    }
+    #date-display { grid-area: date; font-size: 12px; }
+    .status-indicator { grid-area: status; font-size: 12px; }
+    .theme-picker { grid-area: theme; justify-self: end; }
+    .state-bar {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 0;
+      padding-left: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .state-btn {
+      flex: 0 0 auto;
+      padding-inline: 13px;
+      margin-left: -10px;
+      box-shadow: -4px 0 0 var(--bg);
+      font-size: 13px;
+    }
+    .state-btn:first-child { margin-left: 0; }
+    .state-btn.active,
+    .state-btn:hover,
+    .state-btn:focus-visible {
+      position: relative;
+      z-index: 2;
+      transform: translateY(-1px);
+    }
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .summary-chip {
+      min-height: 92px;
+      gap: 8px;
+    }
+    .result-duel__margin,
+    .candidate-card__header {
+      align-items: flex-start;
+    }
+    .candidate-card__header,
+    .result-duel__margin {
+      flex-direction: column;
+    }
+    .candidate-card__votes {
+      align-items: flex-start;
+      text-align: left;
+    }
+    #race-select { width: 100%; }
+    #races-card { min-height: 640px; }
+    #races-chart-container { height: 430px !important; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1><span class="emoji" aria-hidden="true"></span>ECI Live Election Tracker</h1>
+  <div class="meta" aria-label="Dashboard status and preferences">
+    <span id="date-display"></span>
+    <span class="status-indicator" aria-live="polite">
+      <span class="status-dot idle" id="status-dot" aria-hidden="true"></span>
+      <span id="status-text">Waiting for data...</span>
+    </span>
+    <div class="theme-picker" id="theme-picker">
+      <button class="theme-trigger" id="theme-trigger" type="button" aria-label="Choose viewing mode" aria-haspopup="true" aria-expanded="false">☀️</button>
+      <div class="theme-menu" id="theme-menu" role="menu" aria-label="Viewing mode options" hidden>
+        <button class="theme-option" type="button" role="menuitem" data-theme="dark-handsome">Standard / Modern Data</button>
+        <button class="theme-option" type="button" role="menuitem" data-theme="fair-lovely">Editorial Light</button>
+        <button class="theme-option" type="button" role="menuitem" data-theme="black-white">Black &amp; White</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="state-bar" id="state-bar" aria-label="Election state filters"></nav>
+
+<main class="content">
+  <section class="summary-grid" id="status-bar" aria-live="polite" aria-label="Constituency status summary">
+    <span>Loading...</span>
+  </section>
+
+  <!-- Party Performance: Seat Tally + Vote Share (toggled) -->
+  <div class="card" id="party-perf-card">
+    <h2>Party Performance</h2>
+    <div class="toggle-group" id="perf-toggle" style="margin-bottom:16px;" role="group" aria-label="Party performance view">
+      <button class="toggle-btn active" type="button" data-view="tally" aria-pressed="true">Seat Tally</button>
+      <button class="toggle-btn" type="button" data-view="share" aria-pressed="false">Vote Share</button>
+      <button class="toggle-btn" type="button" data-view="roundwise" aria-pressed="false">Roundwise</button>
+    </div>
+    <div class="perf-chart-area">
+      <div id="perf-chart-area-tally">
+        <div class="chart-container">
+          <canvas id="tally-chart"></canvas>
+        </div>
+      </div>
+      <div id="perf-chart-area-share" style="visibility:hidden;">
+        <div class="chart-container">
+          <canvas id="vote-share-chart"></canvas>
+        </div>
+      </div>
+      <div id="perf-chart-area-roundwise" style="visibility:hidden;">
+        <div class="chart-container">
+          <canvas id="roundwise-chart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div id="perf-legend-tally" class="legend perf-party-legend" style="margin-bottom:0;"></div>
+    <div class="empty-state" id="empty-state" style="display:none;">
+      <div class="icon">📭</div>
+      <h3>No results yet</h3>
+      <p>Results will appear here as counting progresses.</p>
+    </div>
+  </div>
+
+  <div class="card" id="races-card">
+    <h2>Results by Constituency</h2>
+    <div class="toggle-group" id="race-toggle" style="margin-bottom:16px;" role="group" aria-label="Constituency result view">
+      <button class="toggle-btn active" type="button" data-race-view="final" aria-pressed="true">Final</button>
+      <button class="toggle-btn" type="button" data-race-view="roundwise" aria-pressed="false">Roundwise</button>
+    </div>
+    <div class="field-row">
+      <label class="field-label" for="race-select">Constituency</label>
+      <select id="race-select" size="1" aria-label="Select constituency"></select>
+    </div>
+    <div class="chart-container" id="races-chart-container" style="height:600px;">
+      <canvas id="races-chart"></canvas>
+    </div>
+    <div id="race-party-legend" class="legend" style="margin-bottom:0;"></div>
+  </div>
+
+</main>
+<script>
+// ---------------------------------------------------------------------------
+// Config
+// ---------------------------------------------------------------------------
+const POLL_INTERVAL = 5000;
+const THEME_STORAGE_KEY = 'eci-dashboard-theme';
+const DEFAULT_THEME = 'black-white';
+const THEME_VALUES = new Set(['dark-handsome', 'fair-lovely', 'black-white']);
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+let currentState = '';
+let currentMajority = null;
+let chart = null;
+let pollTimer = null;
+let partyNames = {};
+let partyDepositLoss = {};
+let voteShareChart = null;
+let racesChart = null;
+let racesData = [];
+let currentRace = null;
+let raceView = 'final';
+let roundwiseChart = null;
+let lastDataFingerprint = '';
+let selectedTheme = DEFAULT_THEME;
+let stateStatuses = {};
+let knownStates = [];
+let perfView = 'tally';  // 'tally', 'share', or 'roundwise'
+let perfParties = [];  // shared party list for both views
+
+// ---------------------------------------------------------------------------
+// Theme helpers
+// ---------------------------------------------------------------------------
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function opaqueColor(color) {
+  if (!color) return color;
+  const rgbaMatch = color.match(/^rgba\(([^,]+),\s*([^,]+),\s*([^,]+),\s*[^)]+\)$/i);
+  if (rgbaMatch) return `rgb(${rgbaMatch[1]}, ${rgbaMatch[2]}, ${rgbaMatch[3]})`;
+  const hslaMatch = color.match(/^hsla\(([^,]+),\s*([^,]+),\s*([^,]+),\s*[^)]+\)$/i);
+  if (hslaMatch) return `hsl(${hslaMatch[1]}, ${hslaMatch[2]}, ${hslaMatch[3]})`;
+  return color;
+}
+
+function chartTheme() {
+  return {
+    grid: cssVar('--chart-grid'),
+    label: cssVar('--chart-label'),
+    muted: cssVar('--chart-muted'),
+    tooltipBg: opaqueColor(cssVar('--tooltip-bg')),
+    tooltipText: cssVar('--tooltip-text'),
+    tooltipMuted: cssVar('--tooltip-muted'),
+    tooltipBorder: cssVar('--border'),
+    majorityLine: cssVar('--majority-line'),
+    stripeLine: cssVar('--stripe-line'),
+    fontUi: cssVar('--font-ui'),
+    fontHeading: cssVar('--font-heading'),
+    fontNumeric: cssVar('--font-numeric'),
+  };
+}
+
+function canvasFont(size, role = 'ui', weight = 500) {
+  const theme = chartTheme();
+  const family = role === 'heading'
+    ? theme.fontHeading
+    : role === 'numeric'
+      ? theme.fontNumeric
+      : theme.fontUi;
+  return `${weight} ${size}px ${family}`;
+}
+
+function getSavedTheme() {
+  const saved = localStorage.getItem(THEME_STORAGE_KEY);
+  return THEME_VALUES.has(saved) ? saved : DEFAULT_THEME;
+}
+
+function getChartAnimation(duration = 800) {
+  return prefersReducedMotion.matches ? { duration: 0 } : { duration, easing: 'easeInOutQuart' };
+}
+
+function setStickyOffsets() {
+  const header = document.querySelector('.header');
+  if (!header) return;
+  document.documentElement.style.setProperty('--header-offset', `${header.offsetHeight}px`);
+}
+
+function setTooltipTheme(chartInstance) {
+  if (!chartInstance?.options?.plugins?.tooltip) return;
+  const colors = chartTheme();
+  chartInstance.options.plugins.tooltip.backgroundColor = colors.tooltipBg;
+  chartInstance.options.plugins.tooltip.titleColor = colors.tooltipText;
+  chartInstance.options.plugins.tooltip.bodyColor = colors.tooltipMuted;
+  chartInstance.options.plugins.tooltip.borderColor = colors.tooltipBorder;
+  chartInstance.options.plugins.tooltip.titleFont = {
+    family: colors.fontUi,
+    size: 12,
+    weight: '600',
+  };
+  chartInstance.options.plugins.tooltip.bodyFont = {
+    family: colors.fontUi,
+    size: 12,
+    weight: '500',
+  };
+}
+
+function setScaleTheme(chartInstance) {
+  if (!chartInstance?.options?.scales) return;
+  const colors = chartTheme();
+  Object.values(chartInstance.options.scales).forEach(scale => {
+    if (scale.grid && scale.grid.display !== false) scale.grid.color = colors.grid;
+    if (scale.ticks) {
+      scale.ticks.color = colors.muted;
+      scale.ticks.font = {
+        ...(scale.ticks.font || {}),
+        family: colors.fontUi,
+      };
+    }
+    if (scale.title) {
+      scale.title.color = colors.muted;
+      scale.title.font = {
+        ...(scale.title.font || {}),
+        family: colors.fontUi,
+        weight: '600',
+      };
+    }
+  });
+}
+
+function refreshChartTheme() {
+  const colors = chartTheme();
+  Chart.defaults.font.family = colors.fontUi;
+  Chart.defaults.color = colors.muted;
+
+  if (chart?.data?.datasets?.[1] && chart?.data?.datasets?.[0]) {
+    const seatColors = chart.data.datasets[0].backgroundColor || [];
+    chart.data.datasets[1].backgroundColor = seatColors.map(c => {
+      const pat = chart.ctx.createPattern(createStripeCanvas(c), 'repeat');
+      return pat || c;
+    });
+  }
+
+  [chart, voteShareChart, racesChart, roundwiseChart].forEach(chartInstance => {
+    if (!chartInstance) return;
+    setTooltipTheme(chartInstance);
+    setScaleTheme(chartInstance);
+    chartInstance.options.animation = getChartAnimation(0);
+    chartInstance.update('none');
+  });
+}
+
+function updateThemeMenu(nextTheme) {
+  document.querySelectorAll('.theme-option').forEach(option => {
+    option.classList.toggle('active', option.dataset.theme === nextTheme);
+  });
+}
+
+function applyTheme(theme, persist = true) {
+  const nextTheme = THEME_VALUES.has(theme) ? theme : DEFAULT_THEME;
+  document.documentElement.dataset.theme = nextTheme;
+  if (persist) {
+    selectedTheme = nextTheme;
+    localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+  }
+  updateThemeMenu(nextTheme);
+  refreshChartTheme();
+}
+
+function setThemeMenuOpen(open) {
+  const menu = document.getElementById('theme-menu');
+  const trigger = document.getElementById('theme-trigger');
+  menu.hidden = !open;
+  trigger.setAttribute('aria-expanded', String(open));
+}
+
+selectedTheme = getSavedTheme();
+applyTheme(selectedTheme, false);
+if (document.fonts?.ready) {
+  document.fonts.ready.then(() => refreshChartTheme());
+}
+window.addEventListener('resize', setStickyOffsets);
+window.addEventListener('load', setStickyOffsets);
+
+// ---------------------------------------------------------------------------
+// Init
+// ---------------------------------------------------------------------------
+document.getElementById('date-display').textContent =
+  new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+setStickyOffsets();
+
+document.getElementById('theme-trigger').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const menu = document.getElementById('theme-menu');
+  setThemeMenuOpen(menu.hidden);
+});
+
+document.getElementById('theme-menu').addEventListener('mouseover', (e) => {
+  const option = e.target.closest('.theme-option');
+  if (option) applyTheme(option.dataset.theme, false);
+});
+
+document.getElementById('theme-menu').addEventListener('mouseleave', () => {
+  applyTheme(selectedTheme, false);
+});
+
+document.getElementById('theme-menu').addEventListener('click', (e) => {
+  const option = e.target.closest('.theme-option');
+  if (!option) return;
+  applyTheme(option.dataset.theme, true);
+  setThemeMenuOpen(false);
+});
+
+document.addEventListener('click', (e) => {
+  if (!document.getElementById('theme-picker').contains(e.target)) {
+    setThemeMenuOpen(false);
+    applyTheme(selectedTheme, false);
+  }
+});
+
+prefersReducedMotion.addEventListener('change', () => refreshChartTheme());
+
+// Toggle between Seat Tally, Vote Share, and Roundwise
+document.getElementById('perf-toggle').addEventListener('click', (e) => {
+  const btn = e.target.closest('.toggle-btn');
+  if (!btn) return;
+  const view = btn.dataset.view;
+  if (view === perfView) return;
+  perfView = view;
+  document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
+    const isActive = b.dataset.view === view;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-pressed', String(isActive));
+  });
+  ['tally', 'share', 'roundwise'].forEach(k => {
+    document.getElementById('perf-chart-area-' + k).style.visibility = k === view ? '' : 'hidden';
+  });
+});
+
+document.getElementById('race-toggle').addEventListener('click', (e) => {
+  const btn = e.target.closest('.toggle-btn');
+  if (!btn) return;
+  const view = btn.dataset.raceView;
+  if (view === raceView) return;
+  raceView = view;
+  document.querySelectorAll('#race-toggle .toggle-btn').forEach(b => {
+    const isActive = b.dataset.raceView === view;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-pressed', String(isActive));
+  });
+  if (currentRace) drawSingleRace(currentRace);
+});
+
+async function init() {
+  const statusResp = await fetch('/api/status');
+  const status = await statusResp.json();
+  updateStatusBar(status);
+  loadStateCharts();
+  fetchData();
+  pollTimer = setInterval(fetchData, POLL_INTERVAL);
+}
+
+// ---------------------------------------------------------------------------
+// Data fetch
+// ---------------------------------------------------------------------------
+async function fetchData() {
+  try {
+    const url = currentState ? `/api/seat-tally?state=${currentState}` : '/api/seat-tally';
+    const resp = await fetch(url);
+    const data = await resp.json();
+
+    const fp = JSON.stringify(data.parties);
+    if (fp === lastDataFingerprint) {
+      document.getElementById('status-text').textContent =
+        `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
+      return;
+    }
+    lastDataFingerprint = fp;
+
+    currentMajority = data.majority;
+    renderChart(data.parties, data.majority);
+    renderVoteShare();
+    document.getElementById('status-text').textContent =
+      `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
+  } catch (e) {
+    console.error('Fetch failed:', e);
+  }
+}
+
+async function fetchStatus() {
+  try {
+    const url = currentState ? `/api/status?state=${currentState}` : '/api/status';
+    const resp = await fetch(url);
+    const status = await resp.json();
+    updateStatusBar(status);
+  } catch (e) { /* ignore */ }
+}
+
+function loadStateCharts() {
+  renderRaces(currentState);
+  renderRoundwise(currentState);
+}
+
+// ---------------------------------------------------------------------------
+// Render — Party Performance legend helper
+// ---------------------------------------------------------------------------
+function buildCircleLegend(el, labels, colors) {
+  if (!el) return;
+  el.innerHTML = labels.map((l, i) =>
+    `<div class="legend-item">
+      <div class="legend-swatch" style="border-color:${colors[i]};"></div>
+      <span>${l}</span>
+    </div>`
+  ).join('');
+}
+
+// ---------------------------------------------------------------------------
+// Render — Seat Tally
+// ---------------------------------------------------------------------------
+function renderChart(parties, majority) {
+  const canvas = document.getElementById('tally-chart');
+  const emptyEl = document.getElementById('empty-state');
+
+  if (!parties || parties.length === 0) {
+    canvas.style.display = 'none';
+    emptyEl.style.display = 'block';
+    return;
+  }
+  canvas.style.display = 'block';
+  emptyEl.style.display = 'none';
+
+  const TOP_N = 15;
+  const active = parties.filter(p => p.total > 0);
+  const sorted = active.sort((a, b) => b.total - a.total);
+  const main = sorted.slice(0, TOP_N);
+  const others = sorted.slice(TOP_N);
+
+  if (others.length > 0) {
+    main.push({
+      party_abv: `Others (${others.length})`,
+      won: others.reduce((s, p) => s + p.won, 0),
+      leading: others.reduce((s, p) => s + p.leading, 0),
+      total: others.reduce((s, p) => s + p.total, 0),
+      total_votes: others.reduce((s, p) => s + (p.total_votes || 0), 0),
+      color: '#888888',
+    });
+  }
+
+  // Store for vote share view (same parties, same order)
+  perfParties = main;
+
+  const labels = main.map(p => p.party_abv);
+  const wonData = main.map(p => p.won);
+  const leadData = main.map(p => p.leading);
+  const colors = main.map(p => p.color);
+
+  // Circle-style legend (no y-axis labels)
+  buildCircleLegend(document.getElementById('perf-legend-tally'), labels, colors);
+
+  main.forEach(p => {
+    partyNames[p.party_abv] = p.party_name || p.party_abv;
+    partyDepositLoss[p.party_abv] = {
+      lost_no_deposit: p.lost_no_deposit || 0,
+      lost_deposit: p.lost_deposit || 0,
+    };
+  });
+
+  const ctx = canvas.getContext('2d');
+  const theme = chartTheme();
+
+  if (chart) {
+    const dataMax = Math.max(...wonData, ...leadData);
+    chart.options.scales.x.suggestedMax =
+      (currentMajority != null && currentState !== '')
+        ? Math.max(dataMax, currentMajority) + 2
+        : dataMax + 2;
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = wonData;
+    chart.data.datasets[0].backgroundColor = colors;
+    chart.data.datasets[1].data = leadData;
+    chart.data.datasets[1].backgroundColor = colors.map(c => {
+      const pat = ctx.createPattern(createStripeCanvas(c), 'repeat');
+      return pat || c;
+    });
+    chart.update('none');
+    return;
+  }
+
+  const majorityPlugin = {
+    id: 'majorityLine',
+    afterDraw(chart) {
+      const maj = currentMajority;
+      if (maj == null || currentState === '') return;
+      const xScale = chart.scales.x;
+      const yScale = chart.scales.y;
+      const x = xScale.getPixelForValue(maj);
+      const ctx = chart.ctx;
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([6, 4]);
+      const theme = chartTheme();
+      ctx.strokeStyle = theme.majorityLine;
+      ctx.lineWidth = 2;
+      ctx.moveTo(x, yScale.top);
+      ctx.lineTo(x, yScale.bottom);
+      ctx.stroke();
+      ctx.fillStyle = theme.majorityLine;
+      ctx.font = canvasFont(12, 'ui', 600);
+      const label = `Majority (${maj})`;
+      const labelY = yScale.bottom - 0.10 * (yScale.bottom - yScale.top);
+      const x75 = xScale.left + 0.75 * (xScale.right - xScale.left);
+      if (x < x75) {
+        ctx.textAlign = 'left';
+        ctx.fillText(label, x + 6, labelY);
+      } else {
+        ctx.textAlign = 'right';
+        ctx.fillText(label, x - 6, labelY);
+      }
+      ctx.restore();
+    }
+  };
+
+  const dataLabelsPlugin = {
+    id: 'dataLabels',
+    afterDraw(chart) {
+      const ctx = chart.ctx;
+      const xScale = chart.scales.x;
+      ctx.save();
+      ctx.font = canvasFont(13, 'ui', 600);
+      ctx.fillStyle = chartTheme().label;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'left';
+      const meta = chart.getDatasetMeta(0);
+      for (let i = 0; i < meta.data.length; i++) {
+        const won = chart.data.datasets[0].data[i] || 0;
+        const lead = chart.data.datasets[1].data[i] || 0;
+        const total = won + lead;
+        if (total > 0) {
+          const bar = meta.data[i];
+          const x = xScale.getPixelForValue(total) + 6;
+          ctx.fillText(total, x, bar.y);
+        }
+      }
+      ctx.restore();
+    }
+  };
+
+  chart = new Chart(ctx, {
+    type: 'bar',
+    plugins: [majorityPlugin, dataLabelsPlugin],
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Won (Declared)',
+          data: wonData,
+          backgroundColor: colors,
+          borderRadius: 4,
+          borderSkipped: false,
+        },
+        {
+          label: 'Leading',
+          data: leadData,
+          backgroundColor: colors.map(c => {
+            const pat = ctx.createPattern(createStripeCanvas(c), 'repeat');
+            return pat || c;
+          }),
+          borderRadius: 4,
+          borderSkipped: false,
+        },
+      ],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: getChartAnimation(800),
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: theme.tooltipBg,
+          titleColor: theme.tooltipText,
+          bodyColor: theme.tooltipMuted,
+          borderColor: theme.tooltipBorder,
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            title: function(items) {
+              if (!items.length) return '';
+              const idx = items[0].dataIndex;
+              const abv = items[0].chart.data.labels[idx];
+              const fullName = partyNames[abv] || abv;
+              return fullName === abv ? abv : `${fullName} (${abv})`;
+            },
+            label: function(ctx) {
+              const idx = ctx.dataIndex;
+              const won = ctx.chart.data.datasets[0].data[idx] || 0;
+              const lead = ctx.chart.data.datasets[1].data[idx] || 0;
+              const abv = ctx.chart.data.labels[idx];
+              const dep = partyDepositLoss[abv] || {};
+              const lostSafe = dep.lost_no_deposit || 0;
+              const lostForfeited = dep.lost_deposit || 0;
+              const lostTotal = lostSafe + lostForfeited;
+              const parts = [
+                `Won: ${won}`,
+                `Leading in: ${lead}`,
+                `Lost: ${lostTotal}`,
+              ];
+              if (lostSafe > 0) parts.push(`Lost (deposit safe): ${lostSafe}`);
+              if (lostForfeited > 0) parts.push(`Lost (deposit forfeited): ${lostForfeited}`);
+              return parts;
+            }
+          }
+        },
+      },
+      layout: {
+        padding: { left: 8, right: 50, bottom: 10 },
+      },
+      scales: {
+        x: {
+          stacked: true,
+          suggestedMax: (majority && currentState !== '')
+            ? Math.max(...wonData, ...leadData, majority) + 2
+            : undefined,
+          grid: { color: theme.grid },
+          ticks: { color: theme.muted, font: { size: 12 } },
+          title: { display: true, text: 'Seats', color: theme.muted },
+        },
+        y: {
+          stacked: true,
+          grid: { display: false },
+          ticks: { display: false },  // labels in legend, not on axis
+        },
+      },
+    },
+  });
+}
+
+function createStripeCanvas(color) {
+  const c = document.createElement('canvas');
+  c.width = 10; c.height = 10;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = color;
+  ctx.fillRect(0, 0, 10, 10);
+  ctx.strokeStyle = chartTheme().stripeLine;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(-2, 10); ctx.lineTo(10, -2);
+  ctx.moveTo(4, 12); ctx.lineTo(12, 4);
+  ctx.stroke();
+  return c;
+}
+
+// ---------------------------------------------------------------------------
+// Render — Vote Share (uses same parties as seat tally for smooth toggle)
+// ---------------------------------------------------------------------------
+function renderVoteShare() {
+  if (!perfParties.length) return;
+
+  // Use the SAME party list as seat tally (same order, same grouping)
+  const grandTotal = perfParties.reduce((s, p) => s + (p.total_votes || 0), 0);
+  if (grandTotal === 0) return;
+
+  const labels = perfParties.map(p => p.party_abv);
+  const data = perfParties.map(p => +((p.total_votes || 0) * 100 / grandTotal).toFixed(1));
+  const colors = perfParties.map(p => p.color);
+
+  // Circle-style legend
+  buildCircleLegend(document.getElementById('perf-legend-tally'), labels, colors);
+
+  const canvas = document.getElementById('vote-share-chart');
+  const ctx = canvas.getContext('2d');
+  const theme = chartTheme();
+
+  if (voteShareChart) {
+    voteShareChart.data.labels = labels;
+    voteShareChart.data.datasets[0].data = data;
+    voteShareChart.data.datasets[0].backgroundColor = colors;
+    // Recalculate max on data change
+    const niceMax = Math.ceil(Math.max(...data) / 5) * 5;
+    voteShareChart.options.scales.x.max = niceMax;
+    voteShareChart.update('none');
+    return;
+  }
+
+  const niceMax = Math.ceil(Math.max(...data) / 5) * 5;
+
+  voteShareChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: colors,
+        borderRadius: 4,
+        borderSkipped: false,
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: getChartAnimation(800),
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: theme.tooltipBg,
+          titleColor: theme.tooltipText,
+          bodyColor: theme.tooltipMuted,
+          borderColor: theme.tooltipBorder,
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            title: function(items) {
+              if (!items.length) return '';
+              return partyNames[items[0].label] || items[0].label;
+            },
+            label: function(ctx) { return `${ctx.parsed.x}% of total votes`; }
+          }
+        },
+      },
+      layout: { padding: { left: 8, right: 60, bottom: 10 } },
+      scales: {
+        x: {
+          grid: { color: theme.grid },
+          ticks: { color: theme.muted, font: { size: 12 }, stepSize: 5 },
+          title: { display: true, text: 'Vote Share (%)', color: theme.muted },
+          max: niceMax,
+        },
+        y: {
+          grid: { display: false },
+          ticks: { display: false },  // labels in legend, not on axis
+        },
+      },
+    },
+    plugins: [{
+      id: 'vsLabels',
+      afterDraw(chart) {
+        const xScale = chart.scales.x;
+        const meta = chart.getDatasetMeta(0);
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.font = canvasFont(13, 'ui', 600);
+        ctx.fillStyle = chartTheme().label;
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'left';
+        for (let i = 0; i < meta.data.length; i++) {
+          const val = chart.data.datasets[0].data[i];
+          const x = xScale.getPixelForValue(val) + 6;
+          ctx.fillText(val + '%', x, meta.data[i].y);
+        }
+        ctx.restore();
+      }
+    }],
+  });
+}
+
+// ---------------------------------------------------------------------------
+// AC Races chart — candidate names inside bars, left-aligned
+// ---------------------------------------------------------------------------
+function truncateCanvasText(ctx, text, maxWidth) {
+  if (ctx.measureText(text).width <= maxWidth) return text;
+  const ellipsis = '…';
+  let next = text;
+  while (next.length > 1 && ctx.measureText(next + ellipsis).width > maxWidth) {
+    next = next.slice(0, -1);
+  }
+  return next + ellipsis;
+}
+
+function renderRaces(stateCode) {
+  const card = document.getElementById('races-card');
+  if (!stateCode) {
+    card.style.display = 'none';
+    if (racesChart) { racesChart.destroy(); racesChart = null; }
+    document.getElementById('race-party-legend').innerHTML = '';
+    racesData = [];
+    return;
+  }
+  card.style.display = 'block';
+
+  fetch(`/api/ac-races?state=${stateCode}`)
+    .then(r => r.json())
+    .then(data => {
+      racesData = data.races || [];
+      if (!racesData.length) {
+        card.style.display = 'none';
+        return;
+      }
+
+      const alphaIndices = racesData.map((r, i) => i)
+        .sort((a, b) => (racesData[a].ac_name || '').localeCompare(racesData[b].ac_name || ''));
+
+      const sel = document.getElementById('race-select');
+      const prevValue = sel.value;
+      sel.innerHTML = '';
+      alphaIndices.forEach(i => {
+        const race = racesData[i];
+        const opt = document.createElement('option');
+        opt.value = i;
+        const name = (race.ac_name || '').trim().toUpperCase();
+        opt.textContent = `${name} (${race.ac_no})`;
+        sel.appendChild(opt);
+      });
+      if (prevValue && sel.querySelector(`option[value="${prevValue}"]`)) {
+        sel.value = prevValue;
+      }
+      sel.onchange = () => drawSingleRace(racesData[+sel.value]);
+      drawSingleRace(racesData[+sel.value]);
+    })
+    .catch(e => {
+      console.error('Failed to load races:', e);
+      card.style.display = 'none';
+    });
+}
+
+function formatVotes(value) {
+  if (value >= 1000000) return `${+(value / 1000000).toFixed(1)}M`;
+  if (value >= 1000) return `${Math.round(value / 1000)}K`;
+  return value;
+}
+
+function niceAxis(maxValue, divisions = 6) {
+  const rawStep = Math.max(1, maxValue / divisions);
+  const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
+  const candidates = [1, 2, 2.5, 3, 4, 5, 10].map(v => v * magnitude);
+  const step = candidates.find(v => v >= rawStep) || candidates[candidates.length - 1];
+  return { max: step * Math.ceil(maxValue / step), step };
+}
+
+function getShownCandidates(race) {
+  const candidates = race.candidates || [];
+  let showCount = candidates.length;
+  for (let i = 0; i < candidates.length; i++) {
+    if (candidates[i].candidate === 'NOTA') { showCount = i + 1; break; }
+  }
+  return candidates.slice(0, showCount);
+}
+
+function updateRaceLegend(candidates) {
+  const seen = new Set();
+  const labels = [];
+  const colors = [];
+  candidates.forEach(c => {
+    const key = c.party_abv || c.party_name || c.candidate;
+    if (seen.has(key)) return;
+    seen.add(key);
+    labels.push(key);
+    colors.push(c.color || '#888888');
+  });
+  buildCircleLegend(document.getElementById('race-party-legend'), labels, colors);
+}
+
+function drawSingleRace(race) {
+  currentRace = race;
+  if (raceView === 'roundwise') {
+    drawRaceRoundwise(race);
+    return;
+  }
+  drawRaceFinal(race);
+}
+
+function drawRaceFinal(race) {
+  const shown = getShownCandidates(race);
+  if (!shown.length) return;
+
+  updateRaceLegend(shown);
+  const labels = shown.map(() => '');
+  const votesData = shown.map(c => c.votes);
+  const colors = shown.map(c => c.color);
+  const winnerVotes = votesData[0] || 1;
+  const runnerUpIndex = votesData.length > 1 ? 1 : -1;
+  const marginDiff = runnerUpIndex >= 0 ? Math.max(0, winnerVotes - votesData[runnerUpIndex]) : 0;
+  const axis = niceAxis(winnerVotes, 6);
+
+  const rowHeight = window.matchMedia('(max-width: 640px)').matches ? 42 : 36;
+  const chartH = Math.max(220, shown.length * rowHeight + 70);
+  document.getElementById('races-chart-container').style.height = chartH + 'px';
+
+  const canvas = document.getElementById('races-chart');
+  const ctx = canvas.getContext('2d');
+  const theme = chartTheme();
+
+  if (racesChart) {
+    racesChart.destroy();
+    racesChart = null;
+  }
+
+  racesChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Votes',
+          data: votesData,
+          backgroundColor: colors,
+          borderRadius: 4,
+          borderSkipped: false,
+          barPercentage: 0.7,
+          categoryPercentage: 0.85,
+        }
+      ],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: getChartAnimation(600),
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          filter: (item) => item.datasetIndex === 0,
+          backgroundColor: theme.tooltipBg,
+          titleColor: theme.tooltipText,
+          bodyColor: theme.tooltipMuted,
+          borderColor: theme.tooltipBorder,
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            title: function(items) {
+              if (!items.length) return '';
+              const c = shown[items[0].dataIndex];
+              return `${c.candidate} (${c.party_abv})`;
+            },
+            label: function(ctx) {
+              const margin = ctx.dataIndex === runnerUpIndex ? marginDiff : 0;
+              return margin
+                ? [`${ctx.parsed.x.toLocaleString()} votes`, `Margin difference: ${margin.toLocaleString()}`]
+                : `${ctx.parsed.x.toLocaleString()} votes`;
+            }
+          }
+        },
+      },
+      layout: { padding: { left: 8, right: 80, bottom: 10 } },
+      scales: {
+        x: {
+          max: axis.max,
+          grid: { color: theme.grid },
+          ticks: {
+            color: theme.muted,
+            font: { size: 11 },
+            stepSize: axis.step,
+            callback: v => formatVotes(v),
+          },
+          title: { display: true, text: 'Votes', color: theme.muted },
+        },
+        y: {
+          grid: { display: false },
+          ticks: { display: false },
+        },
+      },
+    },
+    plugins: [{
+      id: 'candidateLabels',
+      afterDatasetsDraw(chart) {
+        const xScale = chart.scales.x;
+        const meta = chart.getDatasetMeta(0);
+        const ctx = chart.ctx;
+        const theme = chartTheme();
+        const isMobile = window.matchMedia('(max-width: 640px)').matches;
+        ctx.save();
+        ctx.font = canvasFont(isMobile ? 11 : 12, 'ui', 600);
+        ctx.textBaseline = 'middle';
+        for (let i = 0; i < meta.data.length; i++) {
+          const bar = meta.data[i];
+          const votes = votesData[i];
+          const c = shown[i];
+          const barW = xScale.getPixelForValue(votes) - xScale.getPixelForValue(0);
+          const barX = xScale.getPixelForValue(0);
+          ctx.textAlign = 'left';
+          const name = truncateCanvasText(ctx, `${c.candidate} — ${votes.toLocaleString()}`, Math.max(80, chart.chartArea.right - barX - 12));
+          if (barW > 170) {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(name, barX + 8, bar.y);
+          } else {
+            ctx.fillStyle = theme.label;
+            ctx.fillText(name, barX + barW + 6, bar.y);
+          }
+        }
+
+        if (runnerUpIndex >= 0 && marginDiff > 0 && meta?.data?.[runnerUpIndex]) {
+          const runnerBar = meta.data[runnerUpIndex];
+          const gapStart = xScale.getPixelForValue(votesData[runnerUpIndex]);
+          const gapEnd = xScale.getPixelForValue(winnerVotes);
+          const gapWidth = gapEnd - gapStart;
+          const marginLabel = `Margin ${marginDiff.toLocaleString()}`;
+          const lineY = runnerBar.y;
+
+          ctx.strokeStyle = theme.muted;
+          ctx.lineWidth = 2;
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(gapStart, lineY);
+          ctx.lineTo(gapEnd, lineY);
+          ctx.stroke();
+
+          ctx.font = canvasFont(isMobile ? 10 : 11, 'ui', 600);
+          ctx.fillStyle = theme.muted;
+          if (gapWidth > 92) {
+            ctx.textAlign = 'center';
+            ctx.fillText(marginLabel, gapStart + gapWidth / 2, lineY - 12);
+          } else {
+            ctx.textAlign = 'left';
+            ctx.fillText(marginLabel, gapEnd + 8, lineY);
+          }
+        }
+        ctx.restore();
+      }
+    }],
+  });
+}
+
+async function drawRaceRoundwise(race) {
+  const shown = getShownCandidates(race).slice(0, 6);
+  if (!shown.length) return;
+  updateRaceLegend(shown);
+  document.getElementById('races-chart-container').style.height = '420px';
+
+  const canvas = document.getElementById('races-chart');
+  const ctx = canvas.getContext('2d');
+  const theme = chartTheme();
+
+  if (racesChart) {
+    racesChart.destroy();
+    racesChart = null;
+  }
+
+  try {
+    const resp = await fetch(`/api/constituency/${currentState}/${race.ac_no}`);
+    const data = await resp.json();
+    const rows = data.rounds || [];
+    const rounds = [...new Set(rows.map(r => r.round_no))]
+      .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
+    const labels = rounds.map(rn => rn === 999 ? '🏁' : rn);
+    const shownNames = new Set(shown.map(c => c.candidate));
+    const colorsByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.color]));
+    const partyByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.party_abv]));
+    const datasets = shown.map(c => ({
+      label: `${c.candidate} (${c.party_abv})`,
+      data: rounds.map(rn => (rows.find(r => r.round_no === rn && r.candidate === c.candidate) || {}).votes || 0),
+      borderColor: colorsByCandidate[c.candidate] || c.color,
+      backgroundColor: colorsByCandidate[c.candidate] || c.color,
+      borderWidth: 2,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      tension: 0.25,
+      fill: false,
+    })).filter(ds => shownNames.has(ds.label.split(' (')[0]));
+
+    racesChart = new Chart(ctx, {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: getChartAnimation(600),
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: theme.tooltipBg,
+            titleColor: theme.tooltipText,
+            bodyColor: theme.tooltipMuted,
+            borderColor: theme.tooltipBorder,
+            borderWidth: 1,
+            padding: 12,
+            callbacks: {
+              title: items => items[0].label === '🏁' ? 'FINAL' : `Round ${items[0].label}`,
+              label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} votes`,
+            }
+          },
+        },
+        scales: {
+          x: {
+            grid: { color: theme.grid },
+            ticks: { color: theme.muted, font: { size: 11 }, maxRotation: 0 },
+            title: { display: true, text: 'Round', color: theme.muted },
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: theme.grid },
+            ticks: { color: theme.muted, font: { size: 11 }, callback: v => formatVotes(v) },
+            title: { display: true, text: 'Votes', color: theme.muted },
+          },
+        },
+      },
+    });
+  } catch (e) {
+    console.error('Failed to load constituency rounds:', e);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Roundwise progression — smooth lines, no dots, circle legends
+// ---------------------------------------------------------------------------
+async function renderRoundwise(stateCode) {
+  try {
+    let data;
+    if (!stateCode) {
+      const stateCodes = knownStates.map(s => s.code).filter(Boolean);
+      if (!stateCodes.length) {
+        if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+        return;
+      }
+      const payloads = await Promise.all(stateCodes.map(async code => {
+        const resp = await fetch(`/api/roundwise?state=${code}`);
+        return resp.json();
+      }));
+      const roundMap = new Map();
+      const colorMap = new Map();
+      payloads.forEach(payload => {
+        (payload.series || []).forEach(seriesItem => {
+          colorMap.set(seriesItem.party_abv, seriesItem.color);
+          payload.rounds.forEach((rn, index) => {
+            const roundEntry = roundMap.get(rn) || new Map();
+            roundEntry.set(seriesItem.party_abv, (roundEntry.get(seriesItem.party_abv) || 0) + (seriesItem.data[index] || 0));
+            roundMap.set(rn, roundEntry);
+          });
+        });
+      });
+      const rounds = [...roundMap.keys()].sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
+      const parties = [...new Set(payloads.flatMap(p => (p.series || []).map(s => s.party_abv)))];
+      const finalRound = rounds.at(-1);
+      const finalSeats = Object.fromEntries(parties.map(p => [p, (roundMap.get(finalRound)?.get(p) || 0)]));
+      data = {
+        rounds,
+        series: parties
+          .sort((a, b) => (finalSeats[b] || 0) - (finalSeats[a] || 0))
+          .filter(p => (finalSeats[p] || 0) > 0)
+          .map(p => ({
+            party_abv: p,
+            color: colorMap.get(p) || '#888888',
+            data: rounds.map(rn => roundMap.get(rn)?.get(p) || 0),
+          })),
+      };
+    } else {
+      const resp = await fetch(`/api/roundwise?state=${stateCode}`);
+      data = await resp.json();
+    }
+
+    const rounds = data.rounds || [];
+    const series = data.series || [];
+    if (!rounds.length || !series.length) return;
+
+    buildCircleLegend(document.getElementById('perf-legend-tally'),
+      series.map(s => s.party_abv), series.map(s => s.color));
+
+    const canvas = document.getElementById('roundwise-chart');
+    const ctx = canvas.getContext('2d');
+    const theme = chartTheme();
+
+    const firstWinIndex = rounds.findIndex((_, index) =>
+      series.some(s => (s.data[index] || 0) > 0)
+    );
+    const startIndex = firstWinIndex >= 0 ? firstWinIndex : 0;
+    const visibleRounds = rounds.slice(startIndex);
+    const labels = visibleRounds.map(rn => rn === 999 ? '🏁' : rn);
+
+    const datasets = series.map(s => ({
+      label: s.party_abv,
+      data: s.data.slice(startIndex),
+      borderColor: s.color,
+      borderWidth: 2,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      tension: 0.3,
+      fill: false,
+    }));
+
+    if (roundwiseChart) {
+      roundwiseChart.data.labels = labels;
+      roundwiseChart.data.datasets = datasets;
+      roundwiseChart.update('none');
+      return;
+    }
+
+    roundwiseChart = new Chart(ctx, {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: getChartAnimation(600),
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: theme.tooltipBg,
+            titleColor: theme.tooltipText,
+            bodyColor: theme.tooltipMuted,
+            borderColor: theme.tooltipBorder,
+            borderWidth: 1,
+            padding: 12,
+            callbacks: {
+              title: function(items) {
+                const v = items[0].label;
+                return v === '🏁' ? 'FINAL' : `Round ${v}`;
+              },
+              label: function(ctx) {
+                return `${ctx.dataset.label}: ${ctx.parsed.y} seats`;
+              }
+            }
+          },
+        },
+        scales: {
+          x: {
+            grid: { color: theme.grid },
+            ticks: {
+              color: theme.muted,
+              font: { size: 11 },
+              maxRotation: 0,
+              autoSkip: true,
+              maxTicksLimit: 20,
+            },
+            title: { display: true, text: 'Round', color: theme.muted },
+          },
+          y: {
+            grid: { color: theme.grid },
+            ticks: { color: theme.muted, font: { size: 11 } },
+            title: { display: true, text: 'Seats', color: theme.muted },
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  } catch (e) {
+    console.error('Failed to load roundwise:', e);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Status helpers
+// ---------------------------------------------------------------------------
+function statusKind(statuses = {}) {
+  if ((statuses.PENDING || 0) > 0) return 'pending';
+  if ((statuses.LIVE || 0) > 0) return 'counting';
+  if ((statuses.DONE || 0) > 0) return 'declared';
+  return 'pending';
+}
+
+function updateStatusDot(kind) {
+  const dot = document.getElementById('status-dot');
+  const normalized = kind === true ? 'declared' : kind === false ? 'pending' : String(kind || 'pending').toLowerCase();
+  dot.className = `status-dot dot-${normalized}`;
+}
+
+function updateStatusBar(status) {
+  const bar = document.getElementById('status-bar');
+  const s = status.statuses || {};
+  const done = s.DONE || 0;
+  const live = s.LIVE || 0;
+  const pending = s.PENDING || 0;
+  const total = done + live + pending;
+
+  updateStatusDot(statusKind(s));
+
+  const chip = (tone, label, value) => `
+    <article class="summary-chip summary-chip--${tone}" aria-label="${label} ${Number(value).toLocaleString('en-IN')}">
+      <div class="summary-chip__label">${label}</div>
+      <div class="summary-chip__value">${Number(value).toLocaleString('en-IN')}</div>
+    </article>
+  `;
+
+  bar.innerHTML = [
+    chip('total', 'Total', total),
+    chip('declared', 'Declared', done),
+    chip('counting', 'Counting', live),
+    chip('pending', 'Pending', pending),
+  ].join('');
+}
+
+// ---------------------------------------------------------------------------
+// State selector
+// ---------------------------------------------------------------------------
+function renderStateBar(states) {
+  knownStates = states;
+  const bar = document.getElementById('state-bar');
+  bar.innerHTML = '';
+  states.forEach(s => {
+    const btn = document.createElement('button');
+    const isActive = s.code === currentState;
+    const statuses = stateStatuses[s.code] || {};
+    const kind = statusKind(statuses);
+    btn.type = 'button';
+    btn.className = 'state-btn' + (isActive ? ' active' : '');
+    btn.innerHTML = `<span class="pill-dot dot-${kind}" aria-hidden="true"></span><span>${s.name}</span>`;
+    btn.setAttribute('aria-pressed', String(isActive));
+    btn.setAttribute('aria-label', `${s.name}: ${kind}`);
+    btn.onclick = () => {
+      currentState = s.code;
+      lastDataFingerprint = '';
+      renderStateBar(states);
+      fetchData();
+      fetchStatus();
+      loadStateCharts();
+    };
+    bar.appendChild(btn);
+  });
+}
+
+async function loadStateStatuses(states) {
+  const entries = await Promise.all(states.map(async s => {
+    const url = s.code ? `/api/status?state=${s.code}` : '/api/status';
+    try {
+      const resp = await fetch(url);
+      const status = await resp.json();
+      return [s.code, status.statuses || {}];
+    } catch (e) {
+      return [s.code, {}];
+    }
+  }));
+  stateStatuses = Object.fromEntries(entries);
+  renderStateBar(states);
+}
+
+async function discoverStates() {
+  try {
+    await fetch('/api/seat-tally');
+    const states = [
+      { code: '', name: 'Overall' },
+      { code: 'S03', name: 'Assam' },
+      { code: 'S11', name: 'Kerala' },
+      { code: 'U07', name: 'Puducherry' },
+      { code: 'S22', name: 'Tamil Nadu' },
+      { code: 'S25', name: 'West Bengal' },
+    ];
+    renderStateBar(states);
+    loadStateStatuses(states);
+  } catch (e) {
+    const fallbackStates = [{ code: '', name: 'Overall' }];
+    renderStateBar(fallbackStates);
+    loadStateStatuses(fallbackStates);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Boot
+// ---------------------------------------------------------------------------
+discoverStates();
+init();
+setInterval(fetchStatus, 10000);
+setInterval(() => {
+  if (knownStates.length) loadStateStatuses(knownStates);
+}, 30000);
+</script>
+</body>
+</html>
