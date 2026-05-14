@@ -103,7 +103,6 @@
     margin-bottom: 24px;
   }
 
-
   .card h2 {
     font-size: 20px;
     font-weight: 600;
@@ -113,14 +112,38 @@
     gap: 8px;
   }
 
+  /* Toggle switch */
+  .toggle-group {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .toggle-btn {
+    background: transparent;
+    color: var(--muted);
+    border: none;
+    padding: 7px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .toggle-btn:not(:last-child) { border-right: 1px solid var(--border); }
+  .toggle-btn:hover { color: var(--text); }
+  .toggle-btn.active {
+    background: #ffffff;
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
   /* Chart */
   .chart-container {
     position: relative;
     width: 100%;
     height: 500px;
   }
-
-
 
   /* Status bar */
   .status-bar {
@@ -137,31 +160,36 @@
   .status-bar .live-count { color: var(--green); font-weight: 600; }
   .status-bar .declared-count { color: var(--accent); font-weight: 600; }
 
-  /* Legend */
+  /* Legend — circle style: transparent fill, colored border */
   .legend {
     display: flex;
-    gap: 24px;
-    margin-bottom: 16px;
-    font-size: 13px;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 12px;
     color: var(--muted);
   }
-  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
   .legend-swatch {
-    width: 20px; height: 14px;
-    border-radius: 3px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid;
+    flex-shrink: 0;
+  }
+  /* Seat tally: declared/leading swatches (non-circle) */
+  .legend-swatch.declared {
+    background: var(--muted);
+    border-color: var(--muted);
   }
   .legend-swatch.leading {
     background: repeating-linear-gradient(
-      -45deg,
-      var(--muted),
-      var(--muted) 3px,
-      transparent 3px,
-      transparent 6px
+      -45deg, var(--muted), var(--muted) 3px,
+      transparent 3px, transparent 6px
     );
-    border: 1px solid var(--border);
-  }
-  .legend-swatch.declared {
-    background: var(--muted);
+    border-color: var(--muted);
+    border-radius: 3px;
+    width: 20px; height: 12px;
   }
 
   /* Empty state */
@@ -202,9 +230,14 @@
     <span>Loading...</span>
   </div>
 
-  <div class="card">
-    <h2>📊 Seat Tally</h2>
-    <div class="legend">
+  <!-- Party Performance: Seat Tally + Vote Share (toggled) -->
+  <div class="card" id="party-perf-card">
+    <h2>📊 Party Performance</h2>
+    <div class="toggle-group" id="perf-toggle">
+      <button class="toggle-btn active" data-view="tally">Seat Tally</button>
+      <button class="toggle-btn" data-view="share">Vote Share</button>
+    </div>
+    <div class="legend" id="perf-legend-tally" style="margin-bottom:12px;">
       <div class="legend-item">
         <div class="legend-swatch declared"></div>
         <span>Declared (Won)</span>
@@ -214,23 +247,23 @@
         <span>Leading</span>
       </div>
     </div>
-    <div class="chart-container">
-      <canvas id="tally-chart"></canvas>
+    <div id="perf-chart-area-tally">
+      <div class="chart-container">
+        <canvas id="tally-chart"></canvas>
+      </div>
+      <div id="tally-party-legend" class="legend"></div>
     </div>
-    <div id="tally-party-legend" class="legend" style="margin-top:12px;"></div>
+    <div id="perf-chart-area-share" style="display:none;">
+      <div class="chart-container" style="height:400px;">
+        <canvas id="vote-share-chart"></canvas>
+      </div>
+      <div id="vote-share-legend" class="legend"></div>
+    </div>
     <div class="empty-state" id="empty-state" style="display:none;">
       <div class="icon">📭</div>
       <h3>No results yet</h3>
       <p>Results will appear here as counting progresses.</p>
     </div>
-  </div>
-
-  <div class="card" id="vote-share-card">
-    <h2>📊 Vote Share by Party</h2>
-    <div class="chart-container" style="height:400px;">
-      <canvas id="vote-share-chart"></canvas>
-    </div>
-    <div id="vote-share-legend" class="legend" style="margin-top:12px;"></div>
   </div>
 
   <div class="card" id="races-card">
@@ -261,30 +294,40 @@
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-const POLL_INTERVAL = 5000;  // 5 seconds
-const STATES = [
-  { code: '', name: 'Overall' },
-  // Populated from API
-];
+const POLL_INTERVAL = 5000;
 
 let currentState = '';
 let currentMajority = null;
 let chart = null;
 let pollTimer = null;
-let partyNames = {};  // abv -> full name
-let partyDepositLoss = {};  // abv -> {lost_no_deposit, lost_deposit}
+let partyNames = {};
+let partyDepositLoss = {};
 let voteShareChart = null;
 let racesChart = null;
-let racesData = [];  // all races for current state
+let racesData = [];
 let roundwiseChart = null;
-let lastDataFingerprint = '';  // skip re-render when data unchanged
-let racesStateCode = null;  // tracks which state the races data is for
+let lastDataFingerprint = '';
+let perfView = 'tally';  // 'tally' or 'share'
 
 // ---------------------------------------------------------------------------
 // Init
 // ---------------------------------------------------------------------------
 document.getElementById('date-display').textContent =
   new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+// Toggle between Seat Tally and Vote Share
+document.getElementById('perf-toggle').addEventListener('click', (e) => {
+  const btn = e.target.closest('.toggle-btn');
+  if (!btn) return;
+  const view = btn.dataset.view;
+  if (view === perfView) return;
+  perfView = view;
+  document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.view === view));
+  document.getElementById('perf-chart-area-tally').style.display = view === 'tally' ? '' : 'none';
+  document.getElementById('perf-legend-tally').style.display = view === 'tally' ? '' : 'none';
+  document.getElementById('perf-chart-area-share').style.display = view === 'share' ? '' : 'none';
+});
 
 async function init() {
   const statusResp = await fetch('/api/status');
@@ -303,7 +346,6 @@ async function fetchData() {
     const resp = await fetch(url);
     const data = await resp.json();
 
-    // Change detection — skip re-render if data fingerprint unchanged
     const fp = JSON.stringify(data.parties);
     if (fp === lastDataFingerprint) {
       updateStatusDot(true);
@@ -334,14 +376,26 @@ async function fetchStatus() {
   } catch (e) { /* ignore */ }
 }
 
-// State-specific charts (races + roundwise) — only fetched on state change
 function loadStateCharts() {
   renderRaces(currentState);
   renderRoundwise(currentState);
 }
 
 // ---------------------------------------------------------------------------
-// Render
+// Render — Party Performance legend helper
+// ---------------------------------------------------------------------------
+function buildCircleLegend(el, labels, colors) {
+  if (!el) return;
+  el.innerHTML = labels.map((l, i) =>
+    `<div class="legend-item">
+      <div class="legend-swatch" style="border-color:${colors[i]};"></div>
+      <span>${l}</span>
+    </div>`
+  ).join('');
+}
+
+// ---------------------------------------------------------------------------
+// Render — Seat Tally
 // ---------------------------------------------------------------------------
 function renderChart(parties, majority) {
   const canvas = document.getElementById('tally-chart');
@@ -355,7 +409,6 @@ function renderChart(parties, majority) {
   canvas.style.display = 'block';
   emptyEl.style.display = 'none';
 
-  // Sort by total descending, group small parties into "Others"
   const TOP_N = 15;
   const active = parties.filter(p => p.total > 0);
   const sorted = active.sort((a, b) => b.total - a.total);
@@ -372,25 +425,14 @@ function renderChart(parties, majority) {
     });
   }
 
-  // Chart.js horizontal bar: first label = top of chart
-  // Sort descending puts winner on top
   const labels = main.map(p => p.party_abv);
   const wonData = main.map(p => p.won);
   const leadData = main.map(p => p.leading);
   const colors = main.map(p => p.color);
 
-  // Populate party-name legend below chart
-  const tallyLegendEl = document.getElementById('tally-party-legend');
-  if (tallyLegendEl) {
-    tallyLegendEl.innerHTML = labels.map((l, i) =>
-      `<div class="legend-item">
-        <div class="legend-swatch" style="background:${colors[i]};"></div>
-        <span>${l}</span>
-      </div>`
-    ).join('');
-  }
+  // Circle-style legend (no y-axis labels)
+  buildCircleLegend(document.getElementById('tally-party-legend'), labels, colors);
 
-  // Build abv -> full name map for tooltips
   main.forEach(p => {
     partyNames[p.party_abv] = p.party_name || p.party_abv;
     partyDepositLoss[p.party_abv] = {
@@ -399,11 +441,9 @@ function renderChart(parties, majority) {
     };
   });
 
-  // Create striped pattern for leading bars
   const ctx = canvas.getContext('2d');
 
   if (chart) {
-    // Ensure x-axis always shows the majority line
     const dataMax = Math.max(...wonData, ...leadData);
     chart.options.scales.x.suggestedMax =
       (currentMajority != null && currentState !== '')
@@ -417,11 +457,10 @@ function renderChart(parties, majority) {
       const pat = ctx.createPattern(createStripeCanvas(c), 'repeat');
       return pat || c;
     });
-    chart.update('none');  // No animation on subsequent renders for smoothness
+    chart.update('none');
     return;
   }
 
-  // Majority line plugin
   const majorityPlugin = {
     id: 'majorityLine',
     afterDraw(chart) {
@@ -439,12 +478,10 @@ function renderChart(parties, majority) {
       ctx.moveTo(x, yScale.top);
       ctx.lineTo(x, yScale.bottom);
       ctx.stroke();
-      // Label — 10% up from the bottom of the chart area
       ctx.fillStyle = '#f87171';
       ctx.font = '12px -apple-system, system-ui, sans-serif';
       const label = `Majority (${maj})`;
       const labelY = yScale.bottom - 0.10 * (yScale.bottom - yScale.top);
-      // Place label left or right of the line based on 75% mark
       const x75 = xScale.left + 0.75 * (xScale.right - xScale.left);
       if (x < x75) {
         ctx.textAlign = 'left';
@@ -457,7 +494,6 @@ function renderChart(parties, majority) {
     }
   };
 
-  // Seat count labels on bars — drawn at the end of each bar
   const dataLabelsPlugin = {
     id: 'dataLabels',
     afterDraw(chart) {
@@ -561,54 +597,37 @@ function renderChart(parties, majority) {
         y: {
           stacked: true,
           grid: { display: false },
-          ticks: {
-            color: '#f0f0f0',
-            font: { size: 13, weight: '600' },
-          },
+          ticks: { display: false },  // labels in legend, not on axis
         },
       },
     },
   });
 }
 
-// Create a small canvas with diagonal stripes for the leading pattern
 function createStripeCanvas(color) {
   const c = document.createElement('canvas');
-  c.width = 10;
-  c.height = 10;
+  c.width = 10; c.height = 10;
   const ctx = c.getContext('2d');
   ctx.fillStyle = color;
   ctx.fillRect(0, 0, 10, 10);
   ctx.strokeStyle = 'rgba(0,0,0,0.45)';
   ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(-2, 10);
-  ctx.lineTo(10, -2);
-  ctx.moveTo(4, 12);
-  ctx.lineTo(12, 4);
+  ctx.moveTo(-2, 10); ctx.lineTo(10, -2);
+  ctx.moveTo(4, 12); ctx.lineTo(12, 4);
   ctx.stroke();
   return c;
 }
 
 // ---------------------------------------------------------------------------
-// Vote Share chart
+// Render — Vote Share
 // ---------------------------------------------------------------------------
 function renderVoteShare(parties) {
-  const card = document.getElementById('vote-share-card');
-  // Only show for a specific state, not Overall
-  if (!currentState) {
-    card.style.display = 'none';
-    if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
-    return;
-  }
-  card.style.display = 'block';
-
-  // Filter parties with votes, take top 10
   const withVotes = (parties || [])
     .filter(p => p.total_votes > 0)
     .sort((a, b) => b.total_votes - a.total_votes);
   const grandTotal = withVotes.reduce((s, p) => s + p.total_votes, 0);
-  if (grandTotal === 0) { card.style.display = 'none'; return; }
+  if (grandTotal === 0) return;
 
   const TOP = 10;
   const top = withVotes.slice(0, TOP);
@@ -623,16 +642,8 @@ function renderVoteShare(parties) {
     colors.push('#888888');
   }
 
-  // Populate party-name legend below chart
-  const legendEl = document.getElementById('vote-share-legend');
-  if (legendEl) {
-    legendEl.innerHTML = labels.map((l, i) =>
-      `<div class="legend-item">
-        <div class="legend-swatch" style="background:${colors[i]};"></div>
-        <span>${l}</span>
-      </div>`
-    ).join('');
-  }
+  // Circle-style legend
+  buildCircleLegend(document.getElementById('vote-share-legend'), labels, colors);
 
   const canvas = document.getElementById('vote-share-chart');
   const ctx = canvas.getContext('2d');
@@ -689,7 +700,7 @@ function renderVoteShare(parties) {
         },
         y: {
           grid: { display: false },
-          ticks: { color: '#f0f0f0', font: { size: 13, weight: '600' } },
+          ticks: { display: false },  // labels in legend, not on axis
         },
       },
     },
@@ -716,7 +727,7 @@ function renderVoteShare(parties) {
 }
 
 // ---------------------------------------------------------------------------
-// AC Races chart — all candidates, candidate names inside bars
+// AC Races chart — candidate names inside bars, left-aligned
 // ---------------------------------------------------------------------------
 function renderRaces(stateCode) {
   const card = document.getElementById('races-card');
@@ -734,14 +745,11 @@ function renderRaces(stateCode) {
       racesData = data.races || [];
       if (!racesData.length) { card.style.display = 'none'; return; }
 
-      // Build an index map for alphabetical dropdown
-      // racesData is margin-sorted from API; build alpha-sorted index
       const alphaIndices = racesData.map((r, i) => i)
         .sort((a, b) => (racesData[a].ac_name || '').localeCompare(racesData[b].ac_name || ''));
 
-      // Populate dropdown alphabetically: "MALAPPURAM (40)"
       const sel = document.getElementById('race-select');
-      const prevValue = sel.value;  // preserve selection
+      const prevValue = sel.value;
       sel.innerHTML = '';
       alphaIndices.forEach(i => {
         const race = racesData[i];
@@ -751,7 +759,6 @@ function renderRaces(stateCode) {
         opt.textContent = `${name} (${race.ac_no})`;
         sel.appendChild(opt);
       });
-      // Restore previous selection if still valid
       if (prevValue && sel.querySelector(`option[value="${prevValue}"]`)) {
         sel.value = prevValue;
       }
@@ -762,36 +769,28 @@ function renderRaces(stateCode) {
 }
 
 function drawSingleRace(race) {
-  const label = `${(race.ac_name || '').trim()} (AC ${race.ac_no})`;
   const candidates = race.candidates || [];
   if (!candidates.length) return;
 
-  // Stop at NOTA — show all candidates up to and including NOTA
   let showCount = candidates.length;
   for (let i = 0; i < candidates.length; i++) {
-    if (candidates[i].candidate === 'NOTA') {
-      showCount = i + 1;
-      break;
-    }
+    if (candidates[i].candidate === 'NOTA') { showCount = i + 1; break; }
   }
   const shown = candidates.slice(0, showCount);
 
-  // Labels = candidate names, data = votes, colors = party colors
-  const labels = shown.map(c => c.candidate);
+  // Empty labels — names drawn inside bars by plugin
+  const labels = shown.map(() => '');
   const votesData = shown.map(c => c.votes);
   const colors = shown.map(c => c.color);
   const maxVotes = votesData[0] || 1;
 
-  // Dynamic height: ~36px per bar, min 180px
   const chartH = Math.max(180, shown.length * 36 + 60);
-  const container = document.getElementById('races-chart-container');
-  container.style.height = chartH + 'px';
+  document.getElementById('races-chart-container').style.height = chartH + 'px';
 
   const canvas = document.getElementById('races-chart');
   const ctx = canvas.getContext('2d');
 
   if (racesChart) {
-    racesChart.data.labels = labels;
     racesChart.data.datasets[0].data = votesData;
     racesChart.data.datasets[0].backgroundColor = colors;
     racesChart.options.scales.x.max = maxVotes * 1.18;
@@ -829,8 +828,7 @@ function drawSingleRace(race) {
           callbacks: {
             title: function(items) {
               if (!items.length) return '';
-              const idx = items[0].dataIndex;
-              const c = shown[idx];
+              const c = shown[items[0].dataIndex];
               return `${c.candidate} (${c.party_abv})`;
             },
             label: function(ctx) {
@@ -849,11 +847,7 @@ function drawSingleRace(race) {
         },
         y: {
           grid: { display: false },
-          ticks: {
-            color: '#f0f0f0',
-            font: { size: 12, weight: '500' },
-            mirror: false,
-          },
+          ticks: { display: false },  // names drawn inside bars by plugin
         },
       },
     },
@@ -869,17 +863,17 @@ function drawSingleRace(race) {
         for (let i = 0; i < meta.data.length; i++) {
           const bar = meta.data[i];
           const votes = votesData[i];
+          const c = shown[i];
           const barW = xScale.getPixelForValue(votes) - xScale.getPixelForValue(0);
-          const x = xScale.getPixelForValue(0);
-          ctx.fillStyle = barW > 120 ? '#ffffff' : '#f0f0f0';
+          const barX = xScale.getPixelForValue(0);
+          ctx.fillStyle = barW > 160 ? '#ffffff' : '#f0f0f0';
           ctx.textAlign = 'left';
-          // Place inside bar if wide enough, otherwise outside
-          if (barW > 120) {
-            ctx.fillText(`${votes.toLocaleString()}`, x + 8, bar.y);
+          const name = `${c.candidate} — ${votes.toLocaleString()}`;
+          if (barW > 160) {
+            ctx.fillText(name, barX + 8, bar.y);
           } else {
             ctx.fillStyle = '#f0f0f0';
-            ctx.textAlign = 'left';
-            ctx.fillText(`${votes.toLocaleString()}`, x + barW + 6, bar.y);
+            ctx.fillText(name, barX + barW + 6, bar.y);
           }
         }
         ctx.restore();
@@ -889,7 +883,7 @@ function drawSingleRace(race) {
 }
 
 // ---------------------------------------------------------------------------
-// Roundwise progression — line chart of party leads across rounds
+// Roundwise progression — smooth lines, no dots, circle legends
 // ---------------------------------------------------------------------------
 function renderRoundwise(stateCode) {
   const card = document.getElementById('roundwise-card');
@@ -910,16 +904,14 @@ function renderRoundwise(stateCode) {
       const canvas = document.getElementById('roundwise-chart');
       const ctx = canvas.getContext('2d');
 
-      // Build datasets: one line per party
       const datasets = series.map(s => ({
         label: s.party_abv,
         data: s.data,
         borderColor: s.color,
-        backgroundColor: s.color + '20',
         borderWidth: 2,
-        pointRadius: 2,
-        pointHoverRadius: 5,
-        tension: 0.2,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        tension: 0.3,
         fill: false,
       }));
 
@@ -995,7 +987,6 @@ function updateStatusDot(live) {
 function updateStatusBar(status) {
   const bar = document.getElementById('status-bar');
   const s = status.statuses || {};
-  const total = Object.values(s).reduce((a, b) => a + b, 0);
   const done = s.DONE || 0;
   const live = s.LIVE || 0;
   const pending = s.PENDING || 0;
@@ -1014,19 +1005,6 @@ function updateStatusBar(status) {
 // ---------------------------------------------------------------------------
 // State selector
 // ---------------------------------------------------------------------------
-function buildStateBar() {
-  const bar = document.getElementById('state-bar');
-  // Fetch tracked states from status or use hardcoded from API
-  fetch('/api/status').then(r => r.json()).then(status => {
-    // Build state buttons from config — for now, use overall + known states
-    const states = [
-      { code: '', name: 'Overall' },
-    ];
-    // We'll populate dynamically on first seat-tally fetch
-    renderStateBar(states);
-  });
-}
-
 function renderStateBar(states) {
   const bar = document.getElementById('state-bar');
   bar.innerHTML = '';
@@ -1036,22 +1014,19 @@ function renderStateBar(states) {
     btn.textContent = s.name;
     btn.onclick = () => {
       currentState = s.code;
-      lastDataFingerprint = '';  // force re-render on state change
-      renderStateBar(states);  // Re-render to update active
+      lastDataFingerprint = '';
+      renderStateBar(states);
       fetchData();
       fetchStatus();
-      loadStateCharts();  // re-fetch races + roundwise for new state
+      loadStateCharts();
     };
     bar.appendChild(btn);
   });
 }
 
-// Discover states from seat-tally data
 async function discoverStates() {
   try {
-    const resp = await fetch('/api/seat-tally');
-    // The API doesn't return state list yet, so we hardcode for now
-    // TODO: add /api/states endpoint
+    await fetch('/api/seat-tally');
     const states = [
       { code: '', name: 'Overall' },
       { code: 'S03', name: 'Assam' },
@@ -1071,7 +1046,7 @@ async function discoverStates() {
 // ---------------------------------------------------------------------------
 discoverStates();
 init();
-setInterval(fetchStatus, 10000);  // Status bar refreshes less often
+setInterval(fetchStatus, 10000);
 </script>
 </body>
 </html>
