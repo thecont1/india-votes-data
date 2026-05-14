@@ -101,6 +101,7 @@
     border-radius: 12px;
     padding: 24px;
     margin-bottom: 24px;
+    position: relative;
   }
 
   .card h2 {
@@ -109,7 +110,7 @@
     margin-bottom: 16px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
   }
 
   /* Toggle switch */
@@ -232,11 +233,13 @@
 
   <!-- Party Performance: Seat Tally + Vote Share (toggled) -->
   <div class="card" id="party-perf-card">
-    <h2>📊 Party Performance</h2>
-    <div class="toggle-group" id="perf-toggle">
-      <button class="toggle-btn active" data-view="tally">Seat Tally</button>
-      <button class="toggle-btn" data-view="share">Vote Share</button>
-    </div>
+    <h2>
+      <span>📊 Party Performance</span>
+      <div class="toggle-group" id="perf-toggle">
+        <button class="toggle-btn active" data-view="tally">Seat Tally</button>
+        <button class="toggle-btn" data-view="share">Vote Share</button>
+      </div>
+    </h2>
     <div class="legend" id="perf-legend-tally" style="margin-bottom:12px;">
       <div class="legend-item">
         <div class="legend-swatch declared"></div>
@@ -253,8 +256,8 @@
       </div>
       <div id="tally-party-legend" class="legend"></div>
     </div>
-    <div id="perf-chart-area-share" style="display:none;">
-      <div class="chart-container" style="height:400px;">
+    <div id="perf-chart-area-share" style="visibility:hidden; position:absolute; top:0; left:0; right:0; width:100%;">
+      <div class="chart-container">
         <canvas id="vote-share-chart"></canvas>
       </div>
       <div id="vote-share-legend" class="legend"></div>
@@ -308,6 +311,7 @@ let racesData = [];
 let roundwiseChart = null;
 let lastDataFingerprint = '';
 let perfView = 'tally';  // 'tally' or 'share'
+let perfParties = [];  // shared party list for both views
 
 // ---------------------------------------------------------------------------
 // Init
@@ -324,9 +328,18 @@ document.getElementById('perf-toggle').addEventListener('click', (e) => {
   perfView = view;
   document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.view === view));
-  document.getElementById('perf-chart-area-tally').style.display = view === 'tally' ? '' : 'none';
-  document.getElementById('perf-legend-tally').style.display = view === 'tally' ? '' : 'none';
-  document.getElementById('perf-chart-area-share').style.display = view === 'share' ? '' : 'none';
+  const tallyArea = document.getElementById('perf-chart-area-tally');
+  const shareArea = document.getElementById('perf-chart-area-share');
+  const tallyLeg = document.getElementById('perf-legend-tally');
+  if (view === 'tally') {
+    tallyArea.style.cssText = '';
+    tallyLeg.style.display = '';
+    shareArea.style.cssText = 'visibility:hidden; position:absolute; top:0; left:0; right:0; width:100%;';
+  } else {
+    tallyArea.style.cssText = 'visibility:hidden; position:absolute; top:0; left:0; right:0; width:100%;';
+    tallyLeg.style.display = 'none';
+    shareArea.style.cssText = '';
+  }
 });
 
 async function init() {
@@ -357,7 +370,7 @@ async function fetchData() {
 
     currentMajority = data.majority;
     renderChart(data.parties, data.majority);
-    renderVoteShare(data.parties);
+    renderVoteShare();
     updateStatusDot(true);
     document.getElementById('status-text').textContent =
       `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
@@ -421,9 +434,13 @@ function renderChart(parties, majority) {
       won: others.reduce((s, p) => s + p.won, 0),
       leading: others.reduce((s, p) => s + p.leading, 0),
       total: others.reduce((s, p) => s + p.total, 0),
+      total_votes: others.reduce((s, p) => s + (p.total_votes || 0), 0),
       color: '#888888',
     });
   }
+
+  // Store for vote share view (same parties, same order)
+  perfParties = main;
 
   const labels = main.map(p => p.party_abv);
   const wonData = main.map(p => p.won);
@@ -620,27 +637,18 @@ function createStripeCanvas(color) {
 }
 
 // ---------------------------------------------------------------------------
-// Render — Vote Share
+// Render — Vote Share (uses same parties as seat tally for smooth toggle)
 // ---------------------------------------------------------------------------
-function renderVoteShare(parties) {
-  const withVotes = (parties || [])
-    .filter(p => p.total_votes > 0)
-    .sort((a, b) => b.total_votes - a.total_votes);
-  const grandTotal = withVotes.reduce((s, p) => s + p.total_votes, 0);
+function renderVoteShare() {
+  if (!perfParties.length) return;
+
+  // Use the SAME party list as seat tally (same order, same grouping)
+  const grandTotal = perfParties.reduce((s, p) => s + (p.total_votes || 0), 0);
   if (grandTotal === 0) return;
 
-  const TOP = 10;
-  const top = withVotes.slice(0, TOP);
-  const rest = withVotes.slice(TOP);
-
-  const labels = top.map(p => p.party_abv);
-  const data = top.map(p => +(p.total_votes * 100 / grandTotal).toFixed(1));
-  const colors = top.map(p => p.color);
-  if (rest.length > 0) {
-    labels.push(`Others (${rest.length})`);
-    data.push(+(rest.reduce((s, p) => s + p.total_votes, 0) * 100 / grandTotal).toFixed(1));
-    colors.push('#888888');
-  }
+  const labels = perfParties.map(p => p.party_abv);
+  const data = perfParties.map(p => +((p.total_votes || 0) * 100 / grandTotal).toFixed(1));
+  const colors = perfParties.map(p => p.color);
 
   // Circle-style legend
   buildCircleLegend(document.getElementById('vote-share-legend'), labels, colors);
