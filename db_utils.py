@@ -15,6 +15,7 @@ Tables:
 """
 
 import csv
+import json
 import os
 import sqlite3
 from datetime import datetime, timezone
@@ -89,6 +90,14 @@ CREATE TABLE IF NOT EXISTS rounds_pc (
     PRIMARY KEY (state_code, pc_no, round_no, candidate, party_abv)
 );
 
+CREATE TABLE IF NOT EXISTS elections (
+    election_id     TEXT PRIMARY KEY,                     -- eg: "AC-2024-10"
+    name            TEXT NOT NULL,                        -- "AC 2024 Oct - S07, U08"
+    states          TEXT NOT NULL,                        -- JSON array of state codes
+    sort_date       TEXT NOT NULL                         -- "2024-10" for sorting
+);
+
+-- PostgreSQL specific: constituency_status with won column
 CREATE TABLE IF NOT EXISTS constituency_status (
     state_code      TEXT    NOT NULL,
     ac_no           INTEGER NOT NULL,
@@ -155,6 +164,14 @@ CREATE TABLE IF NOT EXISTS rounds_pc (
     PRIMARY KEY (state_code, pc_no, round_no, candidate, party_abv)
 );
 
+CREATE TABLE IF NOT EXISTS elections (
+    election_id     TEXT PRIMARY KEY,                     -- eg: "AC-2024-10"
+    name            TEXT NOT NULL,                        -- "AC 2024 Oct - S07, U08"
+    states          TEXT NOT NULL,                        -- JSON array of state codes
+    sort_date       TEXT NOT NULL                         -- "2024-10" for sorting
+);
+
+-- PostgreSQL specific: constituency_status with won column
 CREATE TABLE IF NOT EXISTS constituency_status (
     state_code      TEXT    NOT NULL,
     ac_no           INTEGER NOT NULL,
@@ -205,53 +222,66 @@ def _placeholder():
 # Party name normalization
 # ---------------------------------------------------------------------------
 
-_party_alias_map = None
-_party_name_set = None
+_party_abv_set = None
+_party_alias_to_abv_map = None
+_party_name_to_abv_map = None
 
 
 def _load_party_cache():
-    """Load party names and aliases into memory (once).
+    """Load party abbreviations and aliases into memory (once).
 
-    Builds two lookups:
-      _party_name_set: set of canonical names (parties.name)
-      _party_alias_map: variant_name → canonical_name (from parties.aliases column)
+    Builds three lookups:
+      _party_abv_set: set of canonical abbreviations (parties.abv)
+      _party_alias_to_abv_map: variant_name → abbreviation (from parties.aliases column)
+      _party_name_to_abv_map: canonical_name → abbreviation
     """
-    global _party_alias_map, _party_name_set
-    if _party_alias_map is not None:
+    global _party_abv_set, _party_alias_to_abv_map, _party_name_to_abv_map
+    if _party_abv_set is not None:
         return
     conn = _connect()
     cur = _cursor(conn)
     try:
-        _party_alias_map = {}
-        _party_name_set = set()
-        cur.execute("SELECT name, aliases FROM parties")
+        _party_abv_set = set()
+        _party_alias_to_abv_map = {}
+        _party_name_to_abv_map = {}
+        cur.execute("SELECT abv, name, aliases FROM parties")
         for row in cur.fetchall():
-            canonical = row["name"]
-            _party_name_set.add(canonical)
+            abv = row["abv"]
+            canonical_name = row["name"]
+            _party_abv_set.add(abv)
+            _party_name_to_abv_map[canonical_name] = abv
             aliases_raw = row["aliases"]
             if aliases_raw:
                 for alias in aliases_raw.split(","):
                     alias = alias.strip()
-                    if alias and alias != canonical:
-                        _party_alias_map[alias] = canonical
+                    if alias and alias != canonical_name:
+                        _party_alias_to_abv_map[alias] = abv
     except Exception:
-        _party_alias_map = {}
-        _party_name_set = set()
+        _party_abv_set = set()
+        _party_alias_to_abv_map = {}
+        _party_name_to_abv_map = {}
     finally:
         conn.close()
 
 
 def _normalize_party(name: str) -> str:
-    """Normalize a party name to its canonical form."""
+    """Normalize a party name to its abbreviation."""
     _load_party_cache()
-    if name in _party_name_set:
+    # Direct match with abbreviation
+    if name in _party_abv_set:
         return name
-    if name in _party_alias_map:
-        return _party_alias_map[name]
+    # Match with canonical name
+    if name in _party_name_to_abv_map:
+        return _party_name_to_abv_map[name]
+    # Match with alias
+    if name in _party_alias_to_abv_map:
+        return _party_alias_to_abv_map[name]
+    # Case-insensitive match with canonical name
     name_lower = name.lower().strip()
-    for canonical in _party_name_set:
-        if canonical.lower() == name_lower:
-            return canonical
+    for canonical_name, abv in _party_name_to_abv_map.items():
+        if canonical_name.lower() == name_lower:
+            return abv
+    # Not found - return the input (should not happen if parties.csv is complete)
     return name
 
 
@@ -712,5 +742,90 @@ def get_state_name(state_code: str) -> str:
         )
         row = cur.fetchone()
         return row["state_name"] if row else state_code
+    finally:
+        conn.close()
+
+
+# ---------------------------------------------------------------------------
+# Election management
+# ---------------------------------------------------------------------------
+
+def get_elections() -> list[dict]:
+    """Return all elections ordered by sort_date DESC."""
+    conn = _connect()
+    cur = _cursor(conn)
+    try:
+        cur.execute(
+            "SELECT election_id, name, states, sort_date FROM elections "
+            "ORDER BY sort_date DESC"
+        )
+        rows = cur.fetchall()
+        for row in rows:
+            row["states"] = json.loads(row["states"])
+        return rows
+    finally:
+        conn.close()
+
+
+def get_election_by_id(election_id: str) -> Optional[dict]:
+    """Return a single election by ID."""
+    p = _placeholder()
+    conn = _connect()
+    cur = _cursor(conn)
+    try:
+        cur.execute(
+            "SELECT election_id, name, states, sort_date FROM elections "
+            f"WHERE election_id = {p}",
+            (election_id,),
+        )
+        row = cur.fetchone()
+        if row:
+            row["states"] = json.loads(row["states"])
+        return row
+    finally:
+        conn.close()
+
+
+def get_current_election() -> Optional[dict]:
+    """Return the most recent election (by sort_date)."""
+    conn = _connect()
+    cur = _cursor(conn)
+    try:
+        cur.execute(
+            "SELECT election_id, name, states, sort_date FROM elections "
+            "ORDER BY sort_date DESC LIMIT 1"
+        )
+        row = cur.fetchone()
+        if row:
+            row["states"] = json.loads(row["states"])
+        return row
+    finally:
+        conn.close()
+
+
+def upsert_election(
+    election_id: str, name: str, states: list[str], sort_date: str
+) -> None:
+    """Insert or update an election record."""
+    p = _placeholder()
+    conn = _connect()
+    cur = _cursor(conn)
+    try:
+        states_json = json.dumps(states)
+        if IS_PG:
+            cur.execute(
+                f"INSERT INTO elections (election_id, name, states, sort_date) "
+                f"VALUES ({p}, {p}, {p}, {p}) "
+                f"ON CONFLICT (election_id) DO UPDATE SET name = EXCLUDED.name, "
+                f"states = EXCLUDED.states, sort_date = EXCLUDED.sort_date",
+                (election_id, name, states_json, sort_date),
+            )
+        else:
+            cur.execute(
+                f"INSERT OR REPLACE INTO elections (election_id, name, states, sort_date) "
+                f"VALUES ({p}, {p}, {p}, {p})",
+                (election_id, name, states_json, sort_date),
+            )
+        conn.commit()
     finally:
         conn.close()
