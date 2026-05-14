@@ -244,9 +244,9 @@ def seat_tally(state: str = Query("", description="State code filter, empty=all"
 
 @app.get("/api/ac-races")
 def ac_races(state: str = Query(..., description="State code (required)")):
-    """Per-AC race data: winner, runner-up, margin, and rest.
+    """Per-AC candidate data: all candidates in each AC's latest round.
 
-    Returns the top 20 ACs by winner vote count.
+    Returns every AC in the state with all candidates ranked by votes.
     """
     conn = _connect()
     cur = _cursor(conn)
@@ -261,6 +261,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
             ),
             ranked AS (
                 SELECT r.state_code, r.ac_no, r.ac_name,
+                       r.candidate,
                        p.abv as party_abv, p.name as party_name,
                        r.votes,
                        ROW_NUMBER() OVER (
@@ -274,43 +275,117 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                     AND r.round_no = lr.max_round
                 JOIN parties p ON r.party_abv = p.name
             )
-            SELECT
-                r1.ac_no,
-                r1.ac_name,
-                r1.party_abv  as winner_abv,
-                r1.party_name as winner_name,
-                r1.votes      as winner_votes,
-                r2.party_abv  as runnerup_abv,
-                r2.party_name as runnerup_name,
-                r2.votes      as runnerup_votes,
-                (r1.votes - r2.votes) as margin,
-                COALESCE(
-                    (SELECT SUM(r3.votes) FROM ranked r3
-                     WHERE r3.state_code = r1.state_code
-                       AND r3.ac_no = r1.ac_no AND r3.rank > 2), 0
-                ) as rest_votes
-            FROM ranked r1
-            JOIN ranked r2
-                ON r1.state_code = r2.state_code
-               AND r1.ac_no = r2.ac_no
-               AND r2.rank = 2
-            WHERE r1.rank = 1
-            ORDER BY (r1.votes - r2.votes) DESC
+            SELECT ac_no, ac_name, candidate, party_abv, party_name,
+                   votes, rank,
+                   SUM(votes) OVER (PARTITION BY ac_no) as total_votes
+            FROM ranked
+            ORDER BY ac_no, rank
         """, (state,))
         rows = cur.fetchall()
-        result = []
+
+        # Group by AC
+        from collections import OrderedDict
+        ac_map = OrderedDict()
         for row in rows:
             d = dict(row) if hasattr(row, 'keys') else {
-                'ac_no': row[0], 'ac_name': row[1],
-                'winner_abv': row[2], 'winner_name': row[3],
-                'winner_votes': row[4], 'runnerup_abv': row[5],
-                'runnerup_name': row[6], 'runnerup_votes': row[7],
-                'margin': row[8], 'rest_votes': row[9],
+                'ac_no': row[0], 'ac_name': row[1], 'candidate': row[2],
+                'party_abv': row[3], 'party_name': row[4],
+                'votes': row[5], 'rank': row[6], 'total_votes': row[7],
             }
-            d["winner_color"] = PARTY_COLORS.get(d["winner_abv"], DEFAULT_COLOR)
-            d["runnerup_color"] = PARTY_COLORS.get(d["runnerup_abv"], DEFAULT_COLOR)
-            result.append(d)
+            ac_no = d['ac_no']
+            if ac_no not in ac_map:
+                ac_map[ac_no] = {
+                    'ac_no': ac_no,
+                    'ac_name': d['ac_name'],
+                    'total_votes': d['total_votes'],
+                    'margin': 0,
+                    'candidates': [],
+                }
+            d['color'] = PARTY_COLORS.get(d['party_abv'], DEFAULT_COLOR)
+            ac_map[ac_no]['candidates'].append(d)
+
+        result = list(ac_map.values())
+        # Set margin = winner votes - runner-up votes
+        for ac in result:
+            cands = ac['candidates']
+            if len(cands) >= 2:
+                ac['margin'] = cands[0]['votes'] - cands[1]['votes']
+            elif len(cands) == 1:
+                ac['margin'] = cands[0]['votes']
+        # Sort by margin descending (largest margin first = default selection)
+        result.sort(key=lambda a: a['margin'], reverse=True)
+
         return {"races": result, "state": state}
+    finally:
+        conn.close()
+
+
+@app.get("/api/roundwise")
+def roundwise(state: str = Query(..., description="State code (required)")):
+    """Roundwise progression: for each round, which party leads in how many ACs.
+
+    Returns series data suitable for a line chart showing how the mandate
+    crystallises as counting progresses.
+    """
+    conn = _connect()
+    cur = _cursor(conn)
+    try:
+        p = "%s" if IS_PG else "?"
+        cur.execute(f"""
+            WITH round_leaders AS (
+                SELECT r.state_code, r.ac_no, r.round_no,
+                       p.abv as party_abv,
+                       ROW_NUMBER() OVER (
+                           PARTITION BY r.state_code, r.ac_no, r.round_no
+                           ORDER BY r.votes DESC
+                       ) as rank
+                FROM rounds_ac r
+                JOIN parties p ON r.party_abv = p.name
+                WHERE r.state_code = {p}
+                  AND r.round_no != 999
+            )
+            SELECT round_no, party_abv, COUNT(*) as seats
+            FROM round_leaders
+            WHERE rank = 1
+            GROUP BY round_no, party_abv
+            ORDER BY round_no, seats DESC
+        """, (state,))
+        rows = cur.fetchall()
+
+        # Build structure: { round_no: { party_abv: seats } }
+        from collections import defaultdict
+        rounds_data = defaultdict(dict)
+        all_parties = set()
+        for row in rows:
+            rd = dict(row) if hasattr(row, 'keys') else {
+                'round_no': row[0], 'party_abv': row[1], 'seats': row[2],
+            }
+            rounds_data[rd['round_no']][rd['party_abv']] = rd['seats']
+            all_parties.add(rd['party_abv'])
+
+        # Sort parties by their peak seats (descending) to determine legend order
+        party_peak = {}
+        for rnd in rounds_data.values():
+            for party, seats in rnd.items():
+                party_peak[party] = max(party_peak.get(party, 0), seats)
+        sorted_parties = sorted(all_parties, key=lambda p: party_peak[p], reverse=True)
+
+        # Build series arrays
+        round_nos = sorted(rounds_data.keys())
+        series = []
+        for party in sorted_parties:
+            series.append({
+                'party_abv': party,
+                'party_name': party,  # abbreviations from parties table
+                'color': PARTY_COLORS.get(party, DEFAULT_COLOR),
+                'data': [rounds_data[rn].get(party, 0) for rn in round_nos],
+            })
+
+        return {
+            "state": state,
+            "rounds": round_nos,
+            "series": series,
+        }
     finally:
         conn.close()
 
