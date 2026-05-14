@@ -217,6 +217,7 @@
     <div class="chart-container">
       <canvas id="tally-chart"></canvas>
     </div>
+    <div id="tally-party-legend" class="legend" style="margin-top:12px;"></div>
     <div class="empty-state" id="empty-state" style="display:none;">
       <div class="icon">📭</div>
       <h3>No results yet</h3>
@@ -229,6 +230,7 @@
     <div class="chart-container" style="height:400px;">
       <canvas id="vote-share-chart"></canvas>
     </div>
+    <div id="vote-share-legend" class="legend" style="margin-top:12px;"></div>
   </div>
 
   <div class="card" id="races-card">
@@ -248,7 +250,7 @@
   <div class="card" id="roundwise-card">
     <h2>📈 Roundwise Progression</h2>
     <p style="color:var(--muted); font-size:13px; margin-bottom:12px;">
-      How many ACs each party leads as counting progresses
+      How seats accumulate as counting rounds complete
     </p>
     <div class="chart-container" style="height:400px;">
       <canvas id="roundwise-chart"></canvas>
@@ -275,6 +277,8 @@ let voteShareChart = null;
 let racesChart = null;
 let racesData = [];  // all races for current state
 let roundwiseChart = null;
+let lastDataFingerprint = '';  // skip re-render when data unchanged
+let racesStateCode = null;  // tracks which state the races data is for
 
 // ---------------------------------------------------------------------------
 // Init
@@ -298,11 +302,20 @@ async function fetchData() {
     const url = currentState ? `/api/seat-tally?state=${currentState}` : '/api/seat-tally';
     const resp = await fetch(url);
     const data = await resp.json();
+
+    // Change detection — skip re-render if data fingerprint unchanged
+    const fp = JSON.stringify(data.parties);
+    if (fp === lastDataFingerprint) {
+      updateStatusDot(true);
+      document.getElementById('status-text').textContent =
+        `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
+      return;
+    }
+    lastDataFingerprint = fp;
+
     currentMajority = data.majority;
     renderChart(data.parties, data.majority);
     renderVoteShare(data.parties);
-    renderRaces(currentState);
-    renderRoundwise(currentState);
     updateStatusDot(true);
     document.getElementById('status-text').textContent =
       `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
@@ -319,6 +332,12 @@ async function fetchStatus() {
     const status = await resp.json();
     updateStatusBar(status);
   } catch (e) { /* ignore */ }
+}
+
+// State-specific charts (races + roundwise) — only fetched on state change
+function loadStateCharts() {
+  renderRaces(currentState);
+  renderRoundwise(currentState);
 }
 
 // ---------------------------------------------------------------------------
@@ -359,6 +378,17 @@ function renderChart(parties, majority) {
   const wonData = main.map(p => p.won);
   const leadData = main.map(p => p.leading);
   const colors = main.map(p => p.color);
+
+  // Populate party-name legend below chart
+  const tallyLegendEl = document.getElementById('tally-party-legend');
+  if (tallyLegendEl) {
+    tallyLegendEl.innerHTML = labels.map((l, i) =>
+      `<div class="legend-item">
+        <div class="legend-swatch" style="background:${colors[i]};"></div>
+        <span>${l}</span>
+      </div>`
+    ).join('');
+  }
 
   // Build abv -> full name map for tooltips
   main.forEach(p => {
@@ -593,6 +623,17 @@ function renderVoteShare(parties) {
     colors.push('#888888');
   }
 
+  // Populate party-name legend below chart
+  const legendEl = document.getElementById('vote-share-legend');
+  if (legendEl) {
+    legendEl.innerHTML = labels.map((l, i) =>
+      `<div class="legend-item">
+        <div class="legend-swatch" style="background:${colors[i]};"></div>
+        <span>${l}</span>
+      </div>`
+    ).join('');
+  }
+
   const canvas = document.getElementById('vote-share-chart');
   const ctx = canvas.getContext('2d');
 
@@ -700,6 +741,7 @@ function renderRaces(stateCode) {
 
       // Populate dropdown alphabetically: "MALAPPURAM (40)"
       const sel = document.getElementById('race-select');
+      const prevValue = sel.value;  // preserve selection
       sel.innerHTML = '';
       alphaIndices.forEach(i => {
         const race = racesData[i];
@@ -709,9 +751,12 @@ function renderRaces(stateCode) {
         opt.textContent = `${name} (${race.ac_no})`;
         sel.appendChild(opt);
       });
+      // Restore previous selection if still valid
+      if (prevValue && sel.querySelector(`option[value="${prevValue}"]`)) {
+        sel.value = prevValue;
+      }
       sel.onchange = () => drawSingleRace(racesData[+sel.value]);
-      // Default: largest margin (first from API)
-      drawSingleRace(racesData[0]);
+      drawSingleRace(racesData[+sel.value]);
     })
     .catch(e => { console.error('Failed to load races:', e); card.style.display = 'none'; });
 }
@@ -915,7 +960,7 @@ function renderRoundwise(stateCode) {
               callbacks: {
                 title: function(items) { return `Round ${items[0].label}`; },
                 label: function(ctx) {
-                  return `${ctx.dataset.label}: ${ctx.parsed.y} ACs`;
+                  return `${ctx.dataset.label}: ${ctx.parsed.y} seats`;
                 }
               }
             },
@@ -929,7 +974,7 @@ function renderRoundwise(stateCode) {
             y: {
               grid: { color: '#3a3a3a' },
               ticks: { color: '#999999', font: { size: 11 } },
-              title: { display: true, text: 'ACs led', color: '#999999' },
+              title: { display: true, text: 'Seats', color: '#999999' },
               beginAtZero: true,
             },
           },
@@ -991,9 +1036,11 @@ function renderStateBar(states) {
     btn.textContent = s.name;
     btn.onclick = () => {
       currentState = s.code;
+      lastDataFingerprint = '';  // force re-render on state change
       renderStateBar(states);  // Re-render to update active
       fetchData();
       fetchStatus();
+      loadStateCharts();  // re-fetch races + roundwise for new state
     };
     bar.appendChild(btn);
   });

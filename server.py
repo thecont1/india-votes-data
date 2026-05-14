@@ -322,17 +322,19 @@ def ac_races(state: str = Query(..., description="State code (required)")):
 
 @app.get("/api/roundwise")
 def roundwise(state: str = Query(..., description="State code (required)")):
-    """Roundwise progression: for each round, which party leads in how many ACs.
+    """Roundwise progression: cumulative seats as ACs complete counting.
 
-    Returns series data suitable for a line chart showing how the mandate
-    crystallises as counting progresses.
+    For each AC, find its final winner and the round when counting completed.
+    Then, for each round threshold N, count how many ACs finished by round N
+    and how many seats each party won among those. This produces rising lines
+    that show the mandate crystallising over time.
     """
     conn = _connect()
     cur = _cursor(conn)
     try:
         p = "%s" if IS_PG else "?"
         cur.execute(f"""
-            WITH round_leaders AS (
+            WITH ranked AS (
                 SELECT r.state_code, r.ac_no, r.round_no,
                        p.abv as party_abv,
                        ROW_NUMBER() OVER (
@@ -343,18 +345,33 @@ def roundwise(state: str = Query(..., description="State code (required)")):
                 JOIN parties p ON r.party_abv = p.name
                 WHERE r.state_code = {p}
                   AND r.round_no != 999
+            ),
+            -- For each AC, find its final winner (rank 1 in the latest round)
+            ac_latest AS (
+                SELECT state_code, ac_no, MAX(round_no) as max_round
+                FROM rounds_ac
+                WHERE state_code = {p} AND round_no != 999
+                GROUP BY state_code, ac_no
+            ),
+            ac_winners AS (
+                SELECT r.ac_no, r.party_abv, a.max_round
+                FROM ranked r
+                JOIN ac_latest a
+                    ON r.state_code = a.state_code
+                    AND r.ac_no = a.ac_no
+                    AND r.round_no = a.max_round
+                WHERE r.rank = 1
             )
-            SELECT round_no, party_abv, COUNT(*) as seats
-            FROM round_leaders
-            WHERE rank = 1
-            GROUP BY round_no, party_abv
-            ORDER BY round_no, seats DESC
-        """, (state,))
+            SELECT max_round as round_no, party_abv, COUNT(*) as seats
+            FROM ac_winners
+            GROUP BY max_round, party_abv
+            ORDER BY max_round
+        """, (state, state))
         rows = cur.fetchall()
 
-        # Build structure: { round_no: { party_abv: seats } }
+        # Build: { round_no: { party_abv: seats } }
         from collections import defaultdict
-        rounds_data = defaultdict(dict)
+        rounds_data = defaultdict(lambda: defaultdict(int))
         all_parties = set()
         for row in rows:
             rd = dict(row) if hasattr(row, 'keys') else {
@@ -363,22 +380,28 @@ def roundwise(state: str = Query(..., description="State code (required)")):
             rounds_data[rd['round_no']][rd['party_abv']] = rd['seats']
             all_parties.add(rd['party_abv'])
 
-        # Sort parties by their peak seats (descending) to determine legend order
-        party_peak = {}
-        for rnd in rounds_data.values():
-            for party, seats in rnd.items():
-                party_peak[party] = max(party_peak.get(party, 0), seats)
-        sorted_parties = sorted(all_parties, key=lambda p: party_peak[p], reverse=True)
-
-        # Build series arrays
+        # Build cumulative series: for each round, accumulate seats
         round_nos = sorted(rounds_data.keys())
+        cumulative = defaultdict(int)
+        cumulative_series = {}
+        for rn in round_nos:
+            for party, seats in rounds_data[rn].items():
+                cumulative[party] += seats
+            cumulative_series[rn] = dict(cumulative)
+
+        # Sort parties by final seat count (descending) for legend order
+        final_seats = {p: cumulative.get(p, 0) for p in all_parties}
+        sorted_parties = sorted(all_parties, key=lambda p: final_seats[p], reverse=True)
+
         series = []
         for party in sorted_parties:
+            if final_seats[party] == 0:
+                continue  # skip parties that never won
             series.append({
                 'party_abv': party,
-                'party_name': party,  # abbreviations from parties table
+                'party_name': party,
                 'color': PARTY_COLORS.get(party, DEFAULT_COLOR),
-                'data': [rounds_data[rn].get(party, 0) for rn in round_nos],
+                'data': [cumulative_series[rn].get(party, 0) for rn in round_nos],
             })
 
         return {
