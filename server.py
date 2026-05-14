@@ -264,6 +264,11 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                        r.candidate,
                        p.abv as party_abv, p.name as party_name,
                        r.votes,
+                       cs.status,
+                       cs.current_round,
+                       cs.total_rounds,
+                       cs.won,
+                       lr.max_round as latest_round,
                        ROW_NUMBER() OVER (
                            PARTITION BY r.state_code, r.ac_no
                            ORDER BY r.votes DESC
@@ -273,10 +278,14 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                     ON r.state_code = lr.state_code
                     AND r.ac_no = lr.ac_no
                     AND r.round_no = lr.max_round
+                JOIN constituency_status cs
+                    ON r.state_code = cs.state_code
+                    AND r.ac_no = cs.ac_no
                 JOIN parties p ON r.party_abv = p.name
             )
             SELECT ac_no, ac_name, candidate, party_abv, party_name,
                    votes, rank,
+                   status, current_round, total_rounds, won, latest_round,
                    SUM(votes) OVER (PARTITION BY ac_no) as total_votes
             FROM ranked
             ORDER BY ac_no, rank
@@ -290,7 +299,9 @@ def ac_races(state: str = Query(..., description="State code (required)")):
             d = dict(row) if hasattr(row, 'keys') else {
                 'ac_no': row[0], 'ac_name': row[1], 'candidate': row[2],
                 'party_abv': row[3], 'party_name': row[4],
-                'votes': row[5], 'rank': row[6], 'total_votes': row[7],
+                'votes': row[5], 'rank': row[6],
+                'status': row[7], 'current_round': row[8], 'total_rounds': row[9],
+                'won': row[10], 'latest_round': row[11], 'total_votes': row[12],
             }
             ac_no = d['ac_no']
             if ac_no not in ac_map:
@@ -298,6 +309,11 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                     'ac_no': ac_no,
                     'ac_name': d['ac_name'],
                     'total_votes': d['total_votes'],
+                    'status': d.get('status', 'PENDING'),
+                    'current_round': d.get('current_round', 0),
+                    'total_rounds': d.get('total_rounds', 0),
+                    'won': d.get('won', 0),
+                    'latest_round': d.get('latest_round', 0),
                     'margin': 0,
                     'candidates': [],
                 }
