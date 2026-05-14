@@ -232,15 +232,26 @@
   </div>
 
   <div class="card" id="races-card">
-    <h2>🏇 Top Races — Winner vs Runner-up</h2>
+    <h2>🏇 Votes by Candidate</h2>
     <div style="margin-bottom:12px;">
-      <select id="race-select" style="
+      <select id="race-select" size="1" style="
         background:#363636; color:#f0f0f0; border:1px solid #4a4a4a;
         border-radius:8px; padding:8px 12px; font-size:14px; min-width:280px;
+        max-height:40vh; overflow-y:auto;
       "></select>
     </div>
-    <div class="chart-container" style="height:600px;">
+    <div class="chart-container" id="races-chart-container" style="height:600px;">
       <canvas id="races-chart"></canvas>
+    </div>
+  </div>
+
+  <div class="card" id="roundwise-card">
+    <h2>📈 Roundwise Progression</h2>
+    <p style="color:var(--muted); font-size:13px; margin-bottom:12px;">
+      How many ACs each party leads as counting progresses
+    </p>
+    <div class="chart-container" style="height:400px;">
+      <canvas id="roundwise-chart"></canvas>
     </div>
   </div>
 </div>
@@ -263,6 +274,7 @@ let partyDepositLoss = {};  // abv -> {lost_no_deposit, lost_deposit}
 let voteShareChart = null;
 let racesChart = null;
 let racesData = [];  // all races for current state
+let roundwiseChart = null;
 
 // ---------------------------------------------------------------------------
 // Init
@@ -290,6 +302,7 @@ async function fetchData() {
     renderChart(data.parties, data.majority);
     renderVoteShare(data.parties);
     renderRaces(currentState);
+    renderRoundwise(currentState);
     updateStatusDot(true);
     document.getElementById('status-text').textContent =
       `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
@@ -662,7 +675,7 @@ function renderVoteShare(parties) {
 }
 
 // ---------------------------------------------------------------------------
-// AC Races chart — winner vs runner-up with margin
+// AC Races chart — all candidates, candidate names inside bars
 // ---------------------------------------------------------------------------
 function renderRaces(stateCode) {
   const card = document.getElementById('races-card');
@@ -680,18 +693,24 @@ function renderRaces(stateCode) {
       racesData = data.races || [];
       if (!racesData.length) { card.style.display = 'none'; return; }
 
-      // Populate dropdown
+      // Build an index map for alphabetical dropdown
+      // racesData is margin-sorted from API; build alpha-sorted index
+      const alphaIndices = racesData.map((r, i) => i)
+        .sort((a, b) => (racesData[a].ac_name || '').localeCompare(racesData[b].ac_name || ''));
+
+      // Populate dropdown alphabetically: "MALAPPURAM (40)"
       const sel = document.getElementById('race-select');
       sel.innerHTML = '';
-      racesData.forEach((race, i) => {
+      alphaIndices.forEach(i => {
+        const race = racesData[i];
         const opt = document.createElement('option');
         opt.value = i;
-        const name = (race.ac_name || '').trim();
-        opt.textContent = `${name} (AC ${race.ac_no}) — margin: ${race.margin.toLocaleString()}`;
+        const name = (race.ac_name || '').trim().toUpperCase();
+        opt.textContent = `${name} (${race.ac_no})`;
         sel.appendChild(opt);
       });
       sel.onchange = () => drawSingleRace(racesData[+sel.value]);
-      // Default: first entry (largest margin)
+      // Default: largest margin (first from API)
       drawSingleRace(racesData[0]);
     })
     .catch(e => { console.error('Failed to load races:', e); card.style.display = 'none'; });
@@ -699,42 +718,38 @@ function renderRaces(stateCode) {
 
 function drawSingleRace(race) {
   const label = `${(race.ac_name || '').trim()} (AC ${race.ac_no})`;
-  const labels = [race.winner_abv, race.runnerup_abv];
-  const winnerVotes = [race.winner_votes, 0];
-  const runnerupVotes = [0, race.runnerup_votes];
-  const marginVotes = [0, race.margin];
-  const colors1 = [race.winner_color, race.runnerup_color];
-  const rColor = race.runnerup_color;
+  const candidates = race.candidates || [];
+  if (!candidates.length) return;
+
+  // Stop at NOTA — show all candidates up to and including NOTA
+  let showCount = candidates.length;
+  for (let i = 0; i < candidates.length; i++) {
+    if (candidates[i].candidate === 'NOTA') {
+      showCount = i + 1;
+      break;
+    }
+  }
+  const shown = candidates.slice(0, showCount);
+
+  // Labels = candidate names, data = votes, colors = party colors
+  const labels = shown.map(c => c.candidate);
+  const votesData = shown.map(c => c.votes);
+  const colors = shown.map(c => c.color);
+  const maxVotes = votesData[0] || 1;
+
+  // Dynamic height: ~36px per bar, min 180px
+  const chartH = Math.max(180, shown.length * 36 + 60);
+  const container = document.getElementById('races-chart-container');
+  container.style.height = chartH + 'px';
 
   const canvas = document.getElementById('races-chart');
-  // Resize height: 2 bars = 200px minimum
-  canvas.parentElement.style.height = '220px';
   const ctx = canvas.getContext('2d');
-
-  function makeStripe(color) {
-    const c = document.createElement('canvas');
-    c.width = 10; c.height = 10;
-    const cx = c.getContext('2d');
-    cx.fillStyle = color;
-    cx.fillRect(0, 0, 10, 10);
-    cx.strokeStyle = 'rgba(0,0,0,0.45)';
-    cx.lineWidth = 3;
-    cx.beginPath();
-    cx.moveTo(-2, 10); cx.lineTo(10, -2);
-    cx.moveTo(4, 12); cx.lineTo(12, 4);
-    cx.stroke();
-    return c;
-  }
 
   if (racesChart) {
     racesChart.data.labels = labels;
-    racesChart.data.datasets[0].data = winnerVotes;
-    racesChart.data.datasets[0].backgroundColor = colors1;
-    racesChart.data.datasets[1].data = runnerupVotes;
-    racesChart.data.datasets[1].backgroundColor = [colors1[0], rColor];
-    racesChart.data.datasets[2].data = marginVotes;
-    racesChart.data.datasets[2].backgroundColor = ['transparent', ctx.createPattern(makeStripe(rColor), 'repeat')];
-    racesChart.options.scales.x.max = race.winner_votes * 1.15;
+    racesChart.data.datasets[0].data = votesData;
+    racesChart.data.datasets[0].backgroundColor = colors;
+    racesChart.options.scales.x.max = maxVotes * 1.18;
     racesChart.update('none');
     return;
   }
@@ -743,30 +758,14 @@ function drawSingleRace(race) {
     type: 'bar',
     data: {
       labels,
-      datasets: [
-        {
-          label: 'Winner',
-          data: winnerVotes,
-          backgroundColor: colors1,
-          stack: 'winner',
-          borderRadius: 4,
-          borderSkipped: false,
-        },
-        {
-          label: 'Runner-up',
-          data: runnerupVotes,
-          backgroundColor: [colors1[0], rColor],
-          stack: 'runnerup',
-          borderSkipped: false,
-        },
-        {
-          label: 'Margin',
-          data: marginVotes,
-          backgroundColor: ['transparent', ctx.createPattern(makeStripe(rColor), 'repeat')],
-          stack: 'runnerup',
-          borderSkipped: false,
-        },
-      ],
+      datasets: [{
+        data: votesData,
+        backgroundColor: colors,
+        borderRadius: 4,
+        borderSkipped: false,
+        barPercentage: 0.7,
+        categoryPercentage: 0.85,
+      }],
     },
     options: {
       indexAxis: 'y',
@@ -782,20 +781,15 @@ function drawSingleRace(race) {
           borderColor: '#4a4a4a',
           borderWidth: 1,
           padding: 12,
-          filter: function(item) { return item.raw > 0; },
           callbacks: {
-            title: function() { return label; },
+            title: function(items) {
+              if (!items.length) return '';
+              const idx = items[0].dataIndex;
+              const c = shown[idx];
+              return `${c.candidate} (${c.party_abv})`;
+            },
             label: function(ctx) {
-              if (ctx.datasetIndex === 0) {
-                return `Winner: ${race.winner_name} — ${race.winner_votes.toLocaleString()} votes`;
-              }
-              if (ctx.datasetIndex === 1 && ctx.raw > 0) {
-                return `Runner-up: ${race.runnerup_name} — ${race.runnerup_votes.toLocaleString()} votes`;
-              }
-              if (ctx.datasetIndex === 2 && ctx.raw > 0) {
-                return `Margin: ${race.margin.toLocaleString()} votes`;
-              }
-              return '';
+              return `${ctx.parsed.x.toLocaleString()} votes`;
             }
           }
         },
@@ -803,46 +797,146 @@ function drawSingleRace(race) {
       layout: { padding: { left: 8, right: 80, bottom: 10 } },
       scales: {
         x: {
-          stacked: true,
-          max: race.winner_votes * 1.15,
+          max: maxVotes * 1.18,
           grid: { color: '#3a3a3a' },
           ticks: { color: '#999999', font: { size: 11 }, callback: v => (v / 1000).toFixed(0) + 'k' },
           title: { display: true, text: 'Votes', color: '#999999' },
         },
         y: {
-          stacked: true,
           grid: { display: false },
-          ticks: { color: '#f0f0f0', font: { size: 13, weight: '600' } },
+          ticks: {
+            color: '#f0f0f0',
+            font: { size: 12, weight: '500' },
+            mirror: false,
+          },
         },
       },
     },
     plugins: [{
-      id: 'raceLabels',
+      id: 'candidateLabels',
       afterDraw(chart) {
         const xScale = chart.scales.x;
-        const meta0 = chart.getDatasetMeta(0);  // winner
-        const meta1 = chart.getDatasetMeta(1);  // runner-up
+        const meta = chart.getDatasetMeta(0);
         const ctx = chart.ctx;
         ctx.save();
-        ctx.font = '13px -apple-system, system-ui, sans-serif';
+        ctx.font = '12px -apple-system, system-ui, sans-serif';
         ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#f0f0f0';
-        // Winner label
-        if (meta0.data[0]) {
-          const x = xScale.getPixelForValue(race.winner_votes) + 8;
+        for (let i = 0; i < meta.data.length; i++) {
+          const bar = meta.data[i];
+          const votes = votesData[i];
+          const barW = xScale.getPixelForValue(votes) - xScale.getPixelForValue(0);
+          const x = xScale.getPixelForValue(0);
+          ctx.fillStyle = barW > 120 ? '#ffffff' : '#f0f0f0';
           ctx.textAlign = 'left';
-          ctx.fillText(`${race.winner_name} — ${race.winner_votes.toLocaleString()}`, x, meta0.data[0].y);
-        }
-        // Runner-up label
-        if (meta1.data[1]) {
-          const x = xScale.getPixelForValue(race.runnerup_votes) + 8;
-          ctx.textAlign = 'left';
-          ctx.fillText(`${race.runnerup_name} — ${race.runnerup_votes.toLocaleString()}`, x, meta1.data[1].y);
+          // Place inside bar if wide enough, otherwise outside
+          if (barW > 120) {
+            ctx.fillText(`${votes.toLocaleString()}`, x + 8, bar.y);
+          } else {
+            ctx.fillStyle = '#f0f0f0';
+            ctx.textAlign = 'left';
+            ctx.fillText(`${votes.toLocaleString()}`, x + barW + 6, bar.y);
+          }
         }
         ctx.restore();
       }
     }],
   });
+}
+
+// ---------------------------------------------------------------------------
+// Roundwise progression — line chart of party leads across rounds
+// ---------------------------------------------------------------------------
+function renderRoundwise(stateCode) {
+  const card = document.getElementById('roundwise-card');
+  if (!stateCode) {
+    card.style.display = 'none';
+    if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+    return;
+  }
+  card.style.display = 'block';
+
+  fetch(`/api/roundwise?state=${stateCode}`)
+    .then(r => r.json())
+    .then(data => {
+      const rounds = data.rounds || [];
+      const series = data.series || [];
+      if (!rounds.length || !series.length) { card.style.display = 'none'; return; }
+
+      const canvas = document.getElementById('roundwise-chart');
+      const ctx = canvas.getContext('2d');
+
+      // Build datasets: one line per party
+      const datasets = series.map(s => ({
+        label: s.party_abv,
+        data: s.data,
+        borderColor: s.color,
+        backgroundColor: s.color + '20',
+        borderWidth: 2,
+        pointRadius: 2,
+        pointHoverRadius: 5,
+        tension: 0.2,
+        fill: false,
+      }));
+
+      if (roundwiseChart) {
+        roundwiseChart.data.labels = rounds;
+        roundwiseChart.data.datasets = datasets;
+        roundwiseChart.update('none');
+        return;
+      }
+
+      roundwiseChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: rounds, datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 600, easing: 'easeInOutQuart' },
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                color: '#f0f0f0',
+                font: { size: 12 },
+                usePointStyle: true,
+                pointStyle: 'circle',
+                padding: 16,
+              },
+            },
+            tooltip: {
+              backgroundColor: '#2a2a2a',
+              titleColor: '#f0f0f0',
+              bodyColor: '#999999',
+              borderColor: '#4a4a4a',
+              borderWidth: 1,
+              padding: 12,
+              callbacks: {
+                title: function(items) { return `Round ${items[0].label}`; },
+                label: function(ctx) {
+                  return `${ctx.dataset.label}: ${ctx.parsed.y} ACs`;
+                }
+              }
+            },
+          },
+          scales: {
+            x: {
+              grid: { color: '#3a3a3a' },
+              ticks: { color: '#999999', font: { size: 11 } },
+              title: { display: true, text: 'Round', color: '#999999' },
+            },
+            y: {
+              grid: { color: '#3a3a3a' },
+              ticks: { color: '#999999', font: { size: 11 } },
+              title: { display: true, text: 'ACs led', color: '#999999' },
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    })
+    .catch(e => { console.error('Failed to load roundwise:', e); card.style.display = 'none'; });
 }
 
 // ---------------------------------------------------------------------------
