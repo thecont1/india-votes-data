@@ -164,6 +164,26 @@
     --yellow: #854d0e;
   }
 
+  :root[data-theme="dark-handsome"] {
+    --chip-bg-total: #474747;
+    --chip-border-total: #6f6f6f;
+    --chip-text-total: #f2f2f2;
+    --chip-bg-declared: #f2f2ef;
+    --chip-border-declared: #ffffff;
+    --chip-text-declared: #202020;
+    --chip-bg-counting: #505963;
+    --chip-border-counting: #72808c;
+    --chip-text-counting: #f5f6f7;
+    --chip-bg-pending: #3c3f42;
+    --chip-border-pending: #5a5f64;
+    --chip-text-pending: #c6cbd0;
+    --chip-counting-stripe: repeating-linear-gradient(
+      -45deg,
+      transparent 0 8px,
+      rgba(255, 255, 255, 0.08) 8px 12px
+    );
+  }
+
   :root {
     --chip-radius: 14px;
     --chip-padding-x: clamp(14px, 2vw, 18px);
@@ -1079,6 +1099,7 @@
 
 <header class="header">
   <h1><span class="emoji" aria-hidden="true"></span>ECI Live Election Tracker</h1>
+  <select id="election-selector" aria-label="Select election period" style="margin-left:12px; min-width:180px; max-width:220px;"></select>
   <div class="meta" aria-label="Dashboard status and preferences">
     <span id="date-display"></span>
     <span class="status-indicator" aria-live="polite">
@@ -1088,8 +1109,8 @@
     <div class="theme-picker" id="theme-picker">
       <button class="theme-trigger" id="theme-trigger" type="button" aria-label="Choose viewing mode" aria-haspopup="true" aria-expanded="false">☀️</button>
       <div class="theme-menu" id="theme-menu" role="menu" aria-label="Viewing mode options" hidden>
-        <button class="theme-option" type="button" role="menuitem" data-theme="dark-handsome">Standard / Modern Data</button>
-        <button class="theme-option" type="button" role="menuitem" data-theme="fair-lovely">Editorial Light</button>
+        <button class="theme-option" type="button" role="menuitem" data-theme="dark-handsome">Dark &amp; Handsome</button>
+        <button class="theme-option" type="button" role="menuitem" data-theme="fair-lovely">Fair &amp; Lovely</button>
         <button class="theme-option" type="button" role="menuitem" data-theme="black-white">Black &amp; White</button>
       </div>
     </div>
@@ -1126,6 +1147,11 @@
         <div class="chart-container">
           <canvas id="roundwise-chart"></canvas>
         </div>
+        <div id="roundwise-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div class="icon">📊</div>
+          <h3>Roundwise progression is single-state only</h3>
+          <p>Pick a state from the buttons above to see how the seat count evolved through each round of counting.</p>
+        </div>
       </div>
     </div>
     <div id="perf-legend-tally" class="legend perf-party-legend" style="margin-bottom:0;"></div>
@@ -1143,7 +1169,6 @@
       <button class="toggle-btn" type="button" data-race-view="roundwise" aria-pressed="false">Roundwise</button>
     </div>
     <div class="field-row">
-      <label class="field-label" for="race-select">Constituency</label>
       <select id="race-select" size="1" aria-label="Select constituency"></select>
     </div>
     <div class="chart-container" id="races-chart-container" style="height:600px;">
@@ -1374,12 +1399,104 @@ document.addEventListener('click', (e) => {
 
 prefersReducedMotion.addEventListener('change', () => refreshChartTheme());
 
+// ---------------------------------------------------------------------------
+// Election selector
+// ---------------------------------------------------------------------------
+let currentElection = null;
+let electionsList = [];
+let stateNameMap = {};
+
+async function loadElections() {
+  try {
+    // Load states for name mapping
+    const statesRes = await fetch('/api/states');
+    const statesData = await statesRes.json();
+    stateNameMap = {};
+    (statesData.states || []).forEach(s => {
+      stateNameMap[s.state_code] = s.state_name;
+    });
+
+    const res = await fetch('/api/elections');
+    const data = await res.json();
+    electionsList = data.elections || [];
+    const selector = document.getElementById('election-selector');
+    selector.innerHTML = electionsList.map(e =>
+      `<option value="${e.election_id}">${e.name}</option>`
+    ).join('');
+    // Select current (most recent) by default
+    if (electionsList.length > 0) {
+      selector.value = electionsList[0].election_id;
+      currentElection = electionsList[0];
+      // Initialize state bar for the current election
+      updateStateBarForElection(currentElection.states);
+    }
+  } catch (err) {
+    console.error('Failed to load elections:', err);
+  }
+}
+
+document.getElementById('election-selector').addEventListener('change', (e) => {
+  const selectedId = e.target.value;
+  const election = electionsList.find(el => el.election_id === selectedId);
+  if (election && election.election_id !== currentElection?.election_id) {
+    currentElection = election;
+    // Reset state when election changes
+    currentState = '';
+    stateStatuses = {};
+    knownStates = [];
+    // Clear UI
+    document.getElementById('state-bar').innerHTML = '';
+    document.getElementById('perf-legend-tally').innerHTML = '';
+    // Reload data for new election
+    if (chart) { chart.destroy(); chart = null; }
+    if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
+    if (racesChart) { racesChart.destroy(); racesChart = null; }
+    if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+    // Update state bar to show only states in this election
+    updateStateBarForElection(election.states);
+    fetchStatus();
+  }
+});
+
+function updateStateBarForElection(stateCodes) {
+  const states = [{ code: '', name: 'Overall' }, ...stateCodes.map(code => ({
+    code,
+    name: stateNameMap[code] || code
+  }))];
+  renderStateBar(states);
+  loadStateStatuses(states);
+}
+
+// Initialize election selector
+loadElections();
+
 // Toggle between Seat Tally, Vote Share, and Roundwise
 document.getElementById('perf-toggle').addEventListener('click', (e) => {
   const btn = e.target.closest('.toggle-btn');
   if (!btn) return;
   const view = btn.dataset.view;
   if (view === perfView) return;
+
+  // Roundwise only works for single state - show overlay in Overall view
+  if (view === 'roundwise' && !currentState) {
+    perfView = 'roundwise';
+    document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
+      const isActive = b.dataset.view === view;
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-pressed', String(isActive));
+    });
+    ['tally', 'share', 'roundwise'].forEach(k => {
+      document.getElementById('perf-chart-area-' + k).style.visibility = k === view ? '' : 'hidden';
+    });
+    document.getElementById('roundwise-overlay').style.display = 'flex';
+    document.getElementById('perf-legend-tally').innerHTML = '';
+    if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+    return;
+  }
+
+  // Hide overlay if switching away from roundwise or entering state view
+  document.getElementById('roundwise-overlay').style.display = 'none';
+
   perfView = view;
   document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
     const isActive = b.dataset.view === view;
@@ -1389,6 +1506,9 @@ document.getElementById('perf-toggle').addEventListener('click', (e) => {
   ['tally', 'share', 'roundwise'].forEach(k => {
     document.getElementById('perf-chart-area-' + k).style.visibility = k === view ? '' : 'hidden';
   });
+  if (view === 'roundwise' && currentState) {
+    renderRoundwise(currentState);
+  }
 });
 
 document.getElementById('race-toggle').addEventListener('click', (e) => {
@@ -1419,7 +1539,13 @@ async function init() {
 // ---------------------------------------------------------------------------
 async function fetchData() {
   try {
-    const url = currentState ? `/api/seat-tally?state=${currentState}` : '/api/seat-tally';
+    // Build URL: election_id filters to states when no specific state selected
+    let url = '/api/seat-tally';
+    if (currentState) {
+      url = `/api/seat-tally?state=${currentState}`;
+    } else if (currentElection) {
+      url = `/api/seat-tally?election_id=${currentElection.election_id}`;
+    }
     const resp = await fetch(url);
     const data = await resp.json();
 
@@ -1451,8 +1577,26 @@ async function fetchStatus() {
 }
 
 function loadStateCharts() {
+  if (perfView === 'roundwise') {
+    if (currentState) {
+      document.getElementById('roundwise-overlay').style.display = 'none';
+    } else {
+      document.getElementById('roundwise-overlay').style.display = 'flex';
+    }
+    document.getElementById('perf-chart-area-roundwise').style.visibility = '';
+  }
   renderRaces(currentState);
-  renderRoundwise(currentState);
+  // Roundwise only makes sense for a single state - skip in Overall view
+  if (currentState) {
+    renderRoundwise(currentState);
+  } else {
+    // Clear legend when entering Overall view (no roundwise data)
+    document.getElementById('perf-legend-tally').innerHTML = '';
+    if (roundwiseChart) {
+      roundwiseChart.destroy();
+      roundwiseChart = null;
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -1523,21 +1667,8 @@ function renderChart(parties, majority) {
   const theme = chartTheme();
 
   if (chart) {
-    const dataMax = Math.max(...wonData, ...leadData);
-    chart.options.scales.x.suggestedMax =
-      (currentMajority != null && currentState !== '')
-        ? Math.max(dataMax, currentMajority) + 2
-        : dataMax + 2;
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = wonData;
-    chart.data.datasets[0].backgroundColor = colors;
-    chart.data.datasets[1].data = leadData;
-    chart.data.datasets[1].backgroundColor = colors.map(c => {
-      const pat = ctx.createPattern(createStripeCanvas(c), 'repeat');
-      return pat || c;
-    });
-    chart.update('none');
-    return;
+    chart.destroy();
+    chart = null;
   }
 
   const majorityPlugin = {
@@ -1727,14 +1858,8 @@ function renderVoteShare() {
   const theme = chartTheme();
 
   if (voteShareChart) {
-    voteShareChart.data.labels = labels;
-    voteShareChart.data.datasets[0].data = data;
-    voteShareChart.data.datasets[0].backgroundColor = colors;
-    // Recalculate max on data change
-    const niceMax = Math.ceil(Math.max(...data) / 5) * 5;
-    voteShareChart.options.scales.x.max = niceMax;
-    voteShareChart.update('none');
-    return;
+    voteShareChart.destroy();
+    voteShareChart = null;
   }
 
   const niceMax = Math.ceil(Math.max(...data) / 5) * 5;
@@ -2223,10 +2348,8 @@ async function renderRoundwise(stateCode) {
     }));
 
     if (roundwiseChart) {
-      roundwiseChart.data.labels = labels;
-      roundwiseChart.data.datasets = datasets;
-      roundwiseChart.update('none');
-      return;
+      roundwiseChart.destroy();
+      roundwiseChart = null;
     }
 
     roundwiseChart = new Chart(ctx, {
@@ -2368,30 +2491,9 @@ async function loadStateStatuses(states) {
   renderStateBar(states);
 }
 
-async function discoverStates() {
-  try {
-    await fetch('/api/seat-tally');
-    const states = [
-      { code: '', name: 'Overall' },
-      { code: 'S03', name: 'Assam' },
-      { code: 'S11', name: 'Kerala' },
-      { code: 'U07', name: 'Puducherry' },
-      { code: 'S22', name: 'Tamil Nadu' },
-      { code: 'S25', name: 'West Bengal' },
-    ];
-    renderStateBar(states);
-    loadStateStatuses(states);
-  } catch (e) {
-    const fallbackStates = [{ code: '', name: 'Overall' }];
-    renderStateBar(fallbackStates);
-    loadStateStatuses(fallbackStates);
-  }
-}
-
 // ---------------------------------------------------------------------------
 // Boot
 // ---------------------------------------------------------------------------
-discoverStates();
 init();
 setInterval(fetchStatus, 10000);
 setInterval(() => {
