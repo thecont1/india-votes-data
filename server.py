@@ -432,7 +432,7 @@ def roundwise(state: str = Query(..., description="State code (required)")):
             FROM ac_first_lead
             GROUP BY completion_round, party_abv
             ORDER BY completion_round
-        """, (state, state, state))
+        """, (state, state))
         rows = cur.fetchall()
 
         from collections import defaultdict

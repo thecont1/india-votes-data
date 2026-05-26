@@ -1561,6 +1561,7 @@ async function fetchData() {
     currentMajority = data.majority;
     renderChart(data.parties, data.majority);
     renderVoteShare();
+    if (currentState) renderRaces(currentState);
     document.getElementById('status-text').textContent =
       `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
   } catch (e) {
