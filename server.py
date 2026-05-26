@@ -386,10 +386,29 @@ def roundwise(state: str = Query(..., description="State code (required)")):
         p = "%s" if IS_PG else "?"
 
         # Phase 1: counting rounds (exclude 999)
+        # For each AC, find the earliest round where the final winner first led.
+        # This gives the "completion round" — when that AC's result was effectively decided.
         cur.execute(f"""
-            WITH ranked AS (
-                SELECT r.state_code, r.ac_no, r.round_no,
-                       p.abv as party_abv,
+            WITH ac_final_winners AS (
+                SELECT r.state_code, r.ac_no, p.abv as party_abv
+                FROM rounds_ac r
+                JOIN parties p ON r.party_abv = p.abv
+                JOIN (
+                    SELECT state_code, ac_no, MAX(round_no) as max_round
+                    FROM rounds_ac
+                    WHERE state_code = {p} AND round_no != 999
+                    GROUP BY state_code, ac_no
+                ) lr ON r.state_code = lr.state_code AND r.ac_no = lr.ac_no
+                    AND r.round_no = lr.max_round
+                WHERE r.votes = (
+                    SELECT MAX(r2.votes) FROM rounds_ac r2
+                    WHERE r2.state_code = r.state_code
+                      AND r2.ac_no = r.ac_no
+                      AND r2.round_no = r.round_no
+                )
+            ),
+            round_leaders AS (
+                SELECT r.state_code, r.ac_no, r.round_no, p.abv as party_abv,
                        ROW_NUMBER() OVER (
                            PARTITION BY r.state_code, r.ac_no, r.round_no
                            ORDER BY r.votes DESC
@@ -398,26 +417,22 @@ def roundwise(state: str = Query(..., description="State code (required)")):
                 JOIN parties p ON r.party_abv = p.abv
                 WHERE r.state_code = {p} AND r.round_no != 999
             ),
-            ac_latest AS (
-                SELECT state_code, ac_no, MAX(round_no) as max_round
-                FROM rounds_ac
-                WHERE state_code = {p} AND round_no != 999
-                GROUP BY state_code, ac_no
-            ),
-            ac_winners AS (
-                SELECT r.ac_no, r.party_abv, a.max_round
-                FROM ranked r
-                JOIN ac_latest a
-                    ON r.state_code = a.state_code
-                    AND r.ac_no = a.ac_no
-                    AND r.round_no = a.max_round
-                WHERE r.rank = 1
+            ac_first_lead AS (
+                SELECT afw.state_code, afw.ac_no, afw.party_abv,
+                       MIN(rl.round_no) as completion_round
+                FROM ac_final_winners afw
+                JOIN round_leaders rl
+                    ON afw.state_code = rl.state_code
+                    AND afw.ac_no = rl.ac_no
+                    AND afw.party_abv = rl.party_abv
+                    AND rl.rank = 1
+                GROUP BY afw.state_code, afw.ac_no, afw.party_abv
             )
-            SELECT max_round as round_no, party_abv, COUNT(*) as seats
-            FROM ac_winners
-            GROUP BY max_round, party_abv
-            ORDER BY max_round
-        """, (state, state))
+            SELECT completion_round as round_no, party_abv, COUNT(*) as seats
+            FROM ac_first_lead
+            GROUP BY completion_round, party_abv
+            ORDER BY completion_round
+        """, (state, state, state))
         rows = cur.fetchall()
 
         from collections import defaultdict

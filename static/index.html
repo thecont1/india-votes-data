@@ -1182,7 +1182,7 @@
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-const POLL_INTERVAL = 5000;
+const POLL_INTERVAL = 10000;
 const THEME_STORAGE_KEY = 'eci-dashboard-theme';
 const DEFAULT_THEME = 'black-white';
 const THEME_VALUES = new Set(['dark-handsome', 'fair-lovely', 'black-white']);
@@ -1543,7 +1543,6 @@ async function init() {
 // ---------------------------------------------------------------------------
 async function fetchData() {
   try {
-    // Build URL: election_id filters to states when no specific state selected
     let url = '/api/seat-tally';
     if (currentState) {
       url = `/api/seat-tally?state=${currentState}`;
@@ -1555,8 +1554,6 @@ async function fetchData() {
 
     const fp = JSON.stringify(data.parties);
     if (fp === lastDataFingerprint) {
-      document.getElementById('status-text').textContent =
-        `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
       return;
     }
     lastDataFingerprint = fp;
