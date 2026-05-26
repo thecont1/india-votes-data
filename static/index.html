@@ -2384,7 +2384,7 @@ async function renderRoundwise(stateCode) {
                 return v === '🏁' ? 'FINAL' : `Round ${v}`;
               },
               label: function(ctx) {
-                return `${ctx.dataset.label}: ${ctx.parsed.y} seats`;
+                return `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} votes`;
               }
             }
           },
@@ -2404,7 +2404,7 @@ async function renderRoundwise(stateCode) {
           y: {
             grid: { color: theme.grid },
             ticks: { color: theme.muted, font: { size: 11 } },
-            title: { display: true, text: 'Seats', color: theme.muted },
+            title: { display: true, text: 'Votes', color: theme.muted },
             beginAtZero: true,
           },
         },

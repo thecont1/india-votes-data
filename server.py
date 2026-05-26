@@ -380,11 +380,13 @@ def ac_races(state: str = Query(..., description="State code (required)")):
 
 @app.get("/api/roundwise")
 def roundwise(state: str = Query(..., description="State code (required)")):
-    """Roundwise progression: cumulative seats as ACs complete counting.
+    """Roundwise progression: cumulative votes as ACs complete counting.
 
     Two phases:
-    - Rounds 0..N: cumulative seats as ACs finish counting (excluding round 999)
-    - Round F (999): final tally including postal ballots (may flip some winners)
+    - Rounds 0..N: each AC contributes its winner's final vote count at
+      the round when that winner first took the lead (excluding round 999)
+    - Round F (999): final tally including postal ballots (may flip some
+      winners)
     """
     conn = _connect()
     cur = _cursor(conn)
@@ -392,11 +394,12 @@ def roundwise(state: str = Query(..., description="State code (required)")):
         p = "%s" if IS_PG else "?"
 
         # Phase 1: counting rounds (exclude 999)
-        # For each AC, find the earliest round where the final winner first led.
-        # This gives the "completion round" — when that AC's result was effectively decided.
+        # For each AC, find the earliest round where the final winner first
+        # led, then attribute that AC's full vote count to that round.
         cur.execute(f"""
             WITH ac_final_winners AS (
-                SELECT r.state_code, r.ac_no, p.abv as party_abv
+                SELECT r.state_code, r.ac_no, p.abv as party_abv,
+                       r.votes as final_votes
                 FROM rounds_ac r
                 JOIN parties p ON r.party_abv = p.abv
                 JOIN (
@@ -425,6 +428,7 @@ def roundwise(state: str = Query(..., description="State code (required)")):
             ),
             ac_first_lead AS (
                 SELECT afw.state_code, afw.ac_no, afw.party_abv,
+                       afw.final_votes,
                        MIN(rl.round_no) as completion_round
                 FROM ac_final_winners afw
                 JOIN round_leaders rl
@@ -432,9 +436,11 @@ def roundwise(state: str = Query(..., description="State code (required)")):
                     AND afw.ac_no = rl.ac_no
                     AND afw.party_abv = rl.party_abv
                     AND rl.rank = 1
-                GROUP BY afw.state_code, afw.ac_no, afw.party_abv
+                GROUP BY afw.state_code, afw.ac_no, afw.party_abv,
+                         afw.final_votes
             )
-            SELECT completion_round as round_no, party_abv, COUNT(*) as seats
+            SELECT completion_round as round_no, party_abv,
+                   SUM(final_votes) as total_votes
             FROM ac_first_lead
             GROUP BY completion_round, party_abv
             ORDER BY completion_round
@@ -446,16 +452,16 @@ def roundwise(state: str = Query(..., description="State code (required)")):
         all_parties = set()
         for row in rows:
             rd = dict(row) if hasattr(row, 'keys') else {
-                'round_no': row[0], 'party_abv': row[1], 'seats': row[2],
+                'round_no': row[0], 'party_abv': row[1], 'total_votes': row[2],
             }
-            counting_data[rd['round_no']][rd['party_abv']] = rd['seats']
+            counting_data[rd['round_no']][rd['party_abv']] = rd['total_votes']
             all_parties.add(rd['party_abv'])
 
-        # Phase 2: F round (999) — winners at round 999
+        # Phase 2: F round (999) — final winners including postal ballots
         cur.execute(f"""
             WITH ranked AS (
                 SELECT r.state_code, r.ac_no,
-                       p.abv as party_abv,
+                       p.abv as party_abv, r.votes,
                        ROW_NUMBER() OVER (
                            PARTITION BY r.state_code, r.ac_no
                            ORDER BY r.votes DESC
@@ -464,7 +470,7 @@ def roundwise(state: str = Query(..., description="State code (required)")):
                 JOIN parties p ON r.party_abv = p.abv
                 WHERE r.state_code = {p} AND r.round_no = 999
             )
-            SELECT party_abv, COUNT(*) as seats
+            SELECT party_abv, SUM(votes) as total_votes
             FROM ranked
             WHERE rank = 1
             GROUP BY party_abv
@@ -473,9 +479,9 @@ def roundwise(state: str = Query(..., description="State code (required)")):
         f_data = defaultdict(int)
         for row in f_rows:
             rd = dict(row) if hasattr(row, 'keys') else {
-                'party_abv': row[0], 'seats': row[1],
+                'party_abv': row[0], 'total_votes': row[1],
             }
-            f_data[rd['party_abv']] = rd['seats']
+            f_data[rd['party_abv']] = rd['total_votes']
             all_parties.add(rd['party_abv'])
 
         # Build continuous rounds: 0, 1, 2, ..., max, F
@@ -486,29 +492,28 @@ def roundwise(state: str = Query(..., description="State code (required)")):
         if has_f:
             all_rounds.append(999)
 
-        # Build cumulative series for counting rounds
+        # Cumulate: each AC's votes are added once at its completion round
         cumulative = defaultdict(int)
         cumulative_series = {}
         for rn in all_rounds:
             if rn == 999:
-                # F round: replace cumulative with F round totals (not incremental)
-                # Postal votes may flip winners, so F round is authoritative
+                # F round: postal ballots may flip winners, so use F totals
                 if has_f:
                     cumulative = defaultdict(int, f_data)
                 cumulative_series[rn] = dict(cumulative)
             else:
-                for party, seats in counting_data.get(rn, {}).items():
-                    cumulative[party] += seats
+                for party, votes in counting_data.get(rn, {}).items():
+                    cumulative[party] += votes
                 cumulative_series[rn] = dict(cumulative)
 
-        # Sort parties by final seat count
+        # Sort parties by final vote count
         final_key = 999 if has_f else all_rounds[-1]
-        final_seats = {p: cumulative_series.get(final_key, {}).get(p, 0) for p in all_parties}
-        sorted_parties = sorted(all_parties, key=lambda p: final_seats[p], reverse=True)
+        final_votes = {p: cumulative_series.get(final_key, {}).get(p, 0) for p in all_parties}
+        sorted_parties = sorted(all_parties, key=lambda p: final_votes[p], reverse=True)
 
         series = []
         for party in sorted_parties:
-            if final_seats[party] == 0:
+            if final_votes[party] == 0:
                 continue
             series.append({
                 'party_abv': party,
