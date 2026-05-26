@@ -1467,8 +1467,14 @@ function updateStateBarForElection(stateCodes) {
   loadStateStatuses(states);
 }
 
-// Initialize election selector
-loadElections();
+// Boot
+loadElections().then(() => {
+  init();
+  setInterval(fetchStatus, 10000);
+  setInterval(() => {
+    if (knownStates.length) loadStateStatuses(knownStates);
+  }, 30000);
+});
 
 // Toggle between Seat Tally, Vote Share, and Roundwise
 document.getElementById('perf-toggle').addEventListener('click', (e) => {
@@ -1526,9 +1532,7 @@ document.getElementById('race-toggle').addEventListener('click', (e) => {
 });
 
 async function init() {
-  const statusResp = await fetch('/api/status');
-  const status = await statusResp.json();
-  updateStatusBar(status);
+  await fetchStatus();
   loadStateCharts();
   fetchData();
   pollTimer = setInterval(fetchData, POLL_INTERVAL);
@@ -1569,7 +1573,14 @@ async function fetchData() {
 
 async function fetchStatus() {
   try {
-    const url = currentState ? `/api/status?state=${currentState}` : '/api/status';
+    let url;
+    if (currentState) {
+      url = `/api/status?state=${currentState}`;
+    } else if (currentElection) {
+      url = `/api/status?election_id=${currentElection.election_id}`;
+    } else {
+      url = '/api/status';
+    }
     const resp = await fetch(url);
     const status = await resp.json();
     updateStatusBar(status);
@@ -2478,7 +2489,14 @@ function renderStateBar(states) {
 
 async function loadStateStatuses(states) {
   const entries = await Promise.all(states.map(async s => {
-    const url = s.code ? `/api/status?state=${s.code}` : '/api/status';
+    let url;
+    if (s.code) {
+      url = `/api/status?state=${s.code}`;
+    } else if (currentElection) {
+      url = `/api/status?election_id=${currentElection.election_id}`;
+    } else {
+      url = '/api/status';
+    }
     try {
       const resp = await fetch(url);
       const status = await resp.json();
@@ -2490,15 +2508,6 @@ async function loadStateStatuses(states) {
   stateStatuses = Object.fromEntries(entries);
   renderStateBar(states);
 }
-
-// ---------------------------------------------------------------------------
-// Boot
-// ---------------------------------------------------------------------------
-init();
-setInterval(fetchStatus, 10000);
-setInterval(() => {
-  if (knownStates.length) loadStateStatuses(knownStates);
-}, 30000);
 </script>
 </body>
 </html>

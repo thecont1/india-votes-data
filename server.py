@@ -265,6 +265,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
     """Per-AC candidate data: all candidates in each AC's latest round.
 
     Returns every AC in the state with all candidates ranked by votes.
+    Status is computed from actual rounds_ac data (not constituency_status).
     """
     conn = _connect()
     cur = _cursor(conn)
@@ -274,7 +275,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
             WITH latest_rounds AS (
                 SELECT state_code, ac_no, MAX(round_no) as max_round
                 FROM rounds_ac
-                WHERE state_code = {p}
+                WHERE state_code = {p} AND round_no != 999
                 GROUP BY state_code, ac_no
             ),
             ranked AS (
@@ -282,7 +283,6 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                        r.candidate,
                        p.abv as party_abv, p.name as party_name,
                        r.votes,
-                       cs.status,
                        cs.current_round,
                        cs.total_rounds,
                        cs.won,
@@ -303,7 +303,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
             )
             SELECT ac_no, ac_name, candidate, party_abv, party_name,
                    votes, rank,
-                   status, current_round, total_rounds, won, latest_round,
+                   current_round, total_rounds, won, latest_round,
                    SUM(votes) OVER (PARTITION BY ac_no) as total_votes
             FROM ranked
             ORDER BY ac_no, rank
@@ -318,8 +318,8 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                 'ac_no': row[0], 'ac_name': row[1], 'candidate': row[2],
                 'party_abv': row[3], 'party_name': row[4],
                 'votes': row[5], 'rank': row[6],
-                'status': row[7], 'current_round': row[8], 'total_rounds': row[9],
-                'won': row[10], 'latest_round': row[11], 'total_votes': row[12],
+                'current_round': row[7], 'total_rounds': row[8],
+                'won': row[9], 'latest_round': row[10], 'total_votes': row[11],
             }
             ac_no = d['ac_no']
             if ac_no not in ac_map:
@@ -327,16 +327,25 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                     'ac_no': ac_no,
                     'ac_name': d['ac_name'],
                     'total_votes': d['total_votes'],
-                    'status': d.get('status', 'PENDING'),
+                    'status': 'PENDING',  # Will be computed after all candidates collected
                     'current_round': d.get('current_round', 0),
                     'total_rounds': d.get('total_rounds', 0),
                     'won': d.get('won', 0),
-                    'latest_round': d.get('latest_round', 0),
+                    'latest_round': d['latest_round'],
                     'margin': 0,
                     'candidates': [],
                 }
             d['color'] = PARTY_COLORS.get(d['party_abv'], DEFAULT_COLOR)
             ac_map[ac_no]['candidates'].append(d)
+
+        # Compute status for each AC based on actual data
+        for ac in ac_map.values():
+            cands = ac['candidates']
+            total_votes = ac['total_votes']
+            n_candidates = len(cands)
+            # DONE criteria: votes > 0 and >1 candidate (counting rounds, not 999)
+            if total_votes > 0 and n_candidates > 1:
+                ac['status'] = 'DONE'
 
         result = list(ac_map.values())
         # Set margin = winner votes - runner-up votes
@@ -488,15 +497,19 @@ def roundwise(state: str = Query(..., description="State code (required)")):
 
 
 @app.get("/api/status")
-def status_summary(state: str = Query(default=None)):
+def status_summary(
+    state: str = Query(default=None),
+    election_id: str = Query(default=None),
+):
     """Counting progress summary — computed from actual rounds data.
 
     DONE = AC has valid scraped data (votes > 0, not just round-999
            summary, and latest round has > 1 candidate).
     LIVE = scraper is actively working on this AC.
     PENDING = everything else.
-    Only counts ACs belonging to states that appear in rounds_ac
-    (i.e. states tracked by this election cycle via election.conf).
+    When election_id is provided (Overall view), only count ACs belonging
+    to states in that election.  Otherwise counts ACs belonging to states
+    that appear in rounds_ac (i.e. states tracked by this election cycle).
     """
     conn = _connect()
     cur = _cursor(conn)
@@ -507,6 +520,19 @@ def status_summary(state: str = Query(default=None)):
         if state:
             state_filter = f"AND cs.state_code = {p}"
             state_params.append(state)
+        elif election_id:
+            election = get_election_by_id(election_id)
+            if election:
+                state_list = election["states"]
+                if len(state_list) == 1:
+                    state_filter = f"AND cs.state_code = {p}"
+                    state_params.append(state_list[0])
+                else:
+                    state_filter = "AND cs.state_code IN ({})".format(
+                        ",".join(["%s"] * len(state_list)) if IS_PG
+                        else ",".join(["?"] * len(state_list))
+                    )
+                    state_params.extend(state_list)
 
         cur.execute(f"""
             SELECT
@@ -535,7 +561,6 @@ def status_summary(state: str = Query(default=None)):
                    AND NOT (lr.max_round = 999 AND lr.n_rounds = 1) -- criteria 3: not just summary page
                    AND COUNT(*) > 1                                -- criteria 4: >1 candidate in latest round
             ) r ON cs.state_code = r.state_code AND cs.ac_no = r.ac_no
-            -- Only count ACs belonging to tracked states (states with data in rounds_ac)
             WHERE cs.state_code IN (SELECT DISTINCT state_code FROM rounds_ac)
               {state_filter}
             GROUP BY effective_status
