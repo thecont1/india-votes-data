@@ -499,15 +499,11 @@ def status_summary(
     state: str = Query(default=None),
     election_id: str = Query(default=None),
 ):
-    """Counting progress summary — computed from actual rounds data.
+    """Counting progress summary — reads directly from constituency_status.
 
-    DONE = AC has valid scraped data (votes > 0, not just round-999
-           summary, and latest round has > 1 candidate).
-    LIVE = scraper is actively working on this AC.
-    PENDING = everything else.
-    When election_id is provided (Overall view), only count ACs belonging
-    to states in that election.  Otherwise counts ACs belonging to states
-    that appear in rounds_ac (i.e. states tracked by this election cycle).
+    Each writer (insert_round_snapshot, upsert_constituency_status)
+    keeps constituency_status in sync, so it's the source of truth.
+    NULL status is treated as PENDING (results not yet scraped).
     """
     conn = _connect()
     cur = _cursor(conn)
@@ -534,31 +530,9 @@ def status_summary(
 
         cur.execute(f"""
             SELECT
-                CASE
-                    WHEN cs.status = 'LIVE' THEN 'LIVE'
-                    WHEN r.ac_no IS NOT NULL THEN 'DONE'
-                    ELSE 'PENDING'
-                END as effective_status,
+                COALESCE(cs.status, 'PENDING') as effective_status,
                 COUNT(*) as cnt
             FROM constituency_status cs
-            LEFT JOIN (
-                -- Only ACs with genuinely valid scraped data qualify as DONE:
-                SELECT r1.state_code, r1.ac_no
-                FROM rounds_ac r1
-                JOIN (
-                    SELECT state_code, ac_no,
-                           MAX(round_no) AS max_round,
-                           COUNT(DISTINCT round_no) AS n_rounds
-                    FROM rounds_ac
-                    GROUP BY state_code, ac_no
-                ) lr ON r1.state_code = lr.state_code
-                    AND r1.ac_no = lr.ac_no
-                    AND r1.round_no = lr.max_round
-                GROUP BY r1.state_code, r1.ac_no, lr.max_round, lr.n_rounds
-                HAVING SUM(r1.votes) > 0                          -- criteria 2: real votes
-                   AND NOT (lr.max_round = 999 AND lr.n_rounds = 1) -- criteria 3: not just summary page
-                   AND COUNT(*) > 1                                -- criteria 4: >1 candidate in latest round
-            ) r ON cs.state_code = r.state_code AND cs.ac_no = r.ac_no
             WHERE cs.state_code IN (SELECT DISTINCT state_code FROM rounds_ac)
               {state_filter}
             GROUP BY effective_status
