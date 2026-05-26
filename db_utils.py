@@ -496,7 +496,11 @@ def insert_round_snapshot(
     candidates: list[dict],
     scraped_at: str,  # ignored, kept for API compat
 ) -> None:
-    """Bulk-insert one round snapshot for all candidates in a constituency."""
+    """Bulk-insert one round snapshot for all candidates in a constituency.
+
+    Also upserts constituency_status so the status table stays in sync
+    regardless of which script writes the data.
+    """
     if not candidates:
         return
     p = _placeholder()
@@ -523,6 +527,69 @@ def insert_round_snapshot(
                    VALUES ({p},{p},{p},{p},{p},{p},{p})""",
                 rows,
             )
+
+        # -- upsert constituency_status --
+        status = "DONE" if round_no == 999 else "LIVE"
+
+        # current_round: use round_no unless it's the postal ballot (999)
+        if round_no != 999:
+            current = round_no
+        else:
+            cur.execute(
+                f"SELECT current_round FROM constituency_status "
+                f"WHERE state_code={p} AND ac_no={p}",
+                (state_code, ac_no),
+            )
+            row = cur.fetchone()
+            current = (row["current_round"] if row and row.get("current_round") else 0)
+
+        # total_rounds: use caller value if provided, else keep existing
+        if total_rounds:
+            total = total_rounds
+        else:
+            cur.execute(
+                f"SELECT total_rounds FROM constituency_status "
+                f"WHERE state_code={p} AND ac_no={p}",
+                (state_code, ac_no),
+            )
+            row = cur.fetchone()
+            total = (row["total_rounds"] if row and row.get("total_rounds") else 0)
+
+        if IS_PG:
+            cur.execute(
+                f"""INSERT INTO constituency_status
+                    (state_code, ac_no, ac_name, status, current_round, total_rounds, error_count)
+                   VALUES ({p}, {p}, {p}, {p}, {p}, {p}, 0)
+                   ON CONFLICT (state_code, ac_no) DO UPDATE SET
+                    ac_name      = EXCLUDED.ac_name,
+                    status       = EXCLUDED.status,
+                    current_round = EXCLUDED.current_round,
+                    total_rounds  = EXCLUDED.total_rounds,
+                    error_count   = CASE
+                        WHEN EXCLUDED.status = 'ERROR'
+                        THEN constituency_status.error_count + 1
+                        ELSE 0
+                    END""",
+                (state_code, ac_no, ac_name, status, current, total),
+            )
+        else:
+            cur.execute(
+                f"""INSERT INTO constituency_status
+                    (state_code, ac_no, ac_name, status, current_round, total_rounds, error_count)
+                   VALUES ({p}, {p}, {p}, {p}, {p}, {p}, 0)
+                   ON CONFLICT(state_code, ac_no) DO UPDATE SET
+                    ac_name      = excluded.ac_name,
+                    status       = excluded.status,
+                    current_round = excluded.current_round,
+                    total_rounds  = excluded.total_rounds,
+                    error_count   = CASE
+                        WHEN excluded.status = 'ERROR'
+                        THEN error_count + 1
+                        ELSE 0
+                    END""",
+                (state_code, ac_no, ac_name, status, current, total),
+            )
+
         conn.commit()
     finally:
         conn.close()

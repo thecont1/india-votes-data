@@ -637,15 +637,6 @@ def run_cycle() -> None:
                 candidates=r["candidates"],
                 scraped_at=r["scraped_at"],
             )
-            upsert_constituency_status(
-                state_code=r["state_code"],
-                ac_no=r["ac_no"],
-                ac_name=r["ac_name"],
-                status=r["status"],
-                current_round=r["current_round"],
-                total_rounds=r["total_rounds"],
-                state_name=r["state_name"],
-            )
             pages_success += 1
 
         elif r["status"] == "NOT_YET_LIVE":
