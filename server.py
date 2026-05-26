@@ -284,7 +284,6 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                        p.abv as party_abv, p.name as party_name,
                        r.votes,
                        cs.current_round,
-                       cs.total_rounds,
                        cs.won,
                        lr.max_round as latest_round,
                        ROW_NUMBER() OVER (
@@ -303,7 +302,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
             )
             SELECT ac_no, ac_name, candidate, party_abv, party_name,
                    votes, rank,
-                   current_round, total_rounds, won, latest_round,
+                   current_round, won, latest_round,
                    SUM(votes) OVER (PARTITION BY ac_no) as total_votes
             FROM ranked
             ORDER BY ac_no, rank
@@ -318,8 +317,8 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                 'ac_no': row[0], 'ac_name': row[1], 'candidate': row[2],
                 'party_abv': row[3], 'party_name': row[4],
                 'votes': row[5], 'rank': row[6],
-                'current_round': row[7], 'total_rounds': row[8],
-                'won': row[9], 'latest_round': row[10], 'total_votes': row[11],
+                'current_round': row[7], 'won': row[8], 'latest_round': row[9],
+                'total_votes': row[10],
             }
             ac_no = d['ac_no']
             if ac_no not in ac_map:
@@ -329,7 +328,6 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                     'total_votes': d['total_votes'],
                     'status': 'PENDING',  # Will be computed after all candidates collected
                     'current_round': d.get('current_round', 0),
-                    'total_rounds': d.get('total_rounds', 0),
                     'won': d.get('won', 0),
                     'latest_round': d['latest_round'],
                     'margin': 0,

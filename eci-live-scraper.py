@@ -130,7 +130,6 @@ def _parse_page_bs4(html: str, task: dict) -> dict:
         "status": "ERROR",
         "ac_name": None,
         "current_round": 0,
-        "total_rounds": 0,
         "candidates": [],
     }
 
@@ -160,7 +159,7 @@ def _parse_page_bs4(html: str, task: dict) -> dict:
 
     current_round, total_rounds = round_info
     result["current_round"] = current_round
-    result["total_rounds"] = total_rounds
+
 
     # Round 0 means counting hasn't started yet — no data to extract
     if current_round == 0:
@@ -316,7 +315,6 @@ def _parse_page_selenium(task: dict) -> dict:
         "status": "ERROR",
         "ac_name": None,
         "current_round": 0,
-        "total_rounds": 0,
         "candidates": [],
     }
 
@@ -350,7 +348,7 @@ def _parse_page_selenium(task: dict) -> dict:
 
         current_round, total_rounds = round_info
         result["current_round"] = current_round
-        result["total_rounds"] = total_rounds
+    
 
         # Use BS4 to extract from the correct round's tab
         candidates = _extract_candidates_bs4(soup, current_round)
@@ -412,7 +410,6 @@ def scrape_constituency(task: dict) -> dict:
         "status": "NOT_YET_LIVE",
         "ac_name": None,
         "current_round": 0,
-        "total_rounds": 0,
         "candidates": [],
     }
 
@@ -466,7 +463,6 @@ def _worker_run(tasks: list[dict], scraped_at: str) -> list[dict]:
                     "status": "ERROR",
                     "ac_name": None,
                     "current_round": 0,
-                    "total_rounds": 0,
                     "candidates": [],
                 }
             )
@@ -633,7 +629,7 @@ def run_cycle() -> None:
                 ac_no=r["ac_no"],
                 ac_name=r["ac_name"],
                 round_no=r["current_round"],
-                total_rounds=r["total_rounds"],
+                total_rounds=0,
                 candidates=r["candidates"],
                 scraped_at=r["scraped_at"],
             )
@@ -649,7 +645,6 @@ def run_cycle() -> None:
                 ac_name=r["ac_name"],
                 status="ERROR",
                 current_round=0,
-                total_rounds=0,
                 state_name=r["state_name"],
             )
             pages_error += 1

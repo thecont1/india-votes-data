@@ -104,7 +104,6 @@ CREATE TABLE IF NOT EXISTS constituency_status (
     ac_name         TEXT,
     status          TEXT    NOT NULL DEFAULT 'PENDING',
     current_round   INTEGER DEFAULT 0,
-    total_rounds    INTEGER DEFAULT 0,
     error_count     INTEGER DEFAULT 0,
     won             INTEGER DEFAULT 0,
     PRIMARY KEY (state_code, ac_no)
@@ -178,7 +177,6 @@ CREATE TABLE IF NOT EXISTS constituency_status (
     ac_name         TEXT,
     status          TEXT    NOT NULL DEFAULT 'PENDING',
     current_round   INTEGER DEFAULT 0,
-    total_rounds    INTEGER DEFAULT 0,
     error_count     INTEGER DEFAULT 0,
     won             INTEGER DEFAULT 0,
     PRIMARY KEY (state_code, ac_no)
@@ -404,7 +402,7 @@ def get_work_queue() -> list[dict]:
     try:
         cur.execute("""
             SELECT cs.state_code, cs.ac_no, cs.ac_name,
-                   cs.status, cs.current_round, cs.total_rounds
+                   cs.status, cs.current_round
             FROM constituency_status cs
             WHERE cs.status NOT IN ('DONE', 'ERROR')
             ORDER BY CASE cs.status WHEN 'LIVE' THEN 0 ELSE 1 END,
@@ -440,7 +438,6 @@ def upsert_constituency_status(
     ac_name: Optional[str],
     status: str,
     current_round: int,
-    total_rounds: int,
     state_name: str = "",  # ignored, kept for API compat
 ) -> None:
     p = _placeholder()
@@ -450,36 +447,34 @@ def upsert_constituency_status(
         if IS_PG:
             cur.execute(
                 f"""INSERT INTO constituency_status
-                    (state_code, ac_no, ac_name, status, current_round, total_rounds, error_count)
-                   VALUES ({p}, {p}, {p}, {p}, {p}, {p}, 0)
+                    (state_code, ac_no, ac_name, status, current_round, error_count)
+                   VALUES ({p}, {p}, {p}, {p}, {p}, 0)
                    ON CONFLICT (state_code, ac_no) DO UPDATE SET
                     ac_name      = EXCLUDED.ac_name,
                     status       = EXCLUDED.status,
                     current_round = EXCLUDED.current_round,
-                    total_rounds  = EXCLUDED.total_rounds,
                     error_count   = CASE
                         WHEN EXCLUDED.status = 'ERROR'
                         THEN constituency_status.error_count + 1
                         ELSE 0
                     END""",
-                (state_code, ac_no, ac_name, status, current_round, total_rounds),
+                (state_code, ac_no, ac_name, status, current_round),
             )
         else:
             cur.execute(
                 f"""INSERT INTO constituency_status
-                    (state_code, ac_no, ac_name, status, current_round, total_rounds, error_count)
-                   VALUES ({p}, {p}, {p}, {p}, {p}, {p}, 0)
+                    (state_code, ac_no, ac_name, status, current_round, error_count)
+                   VALUES ({p}, {p}, {p}, {p}, {p}, 0)
                    ON CONFLICT(state_code, ac_no) DO UPDATE SET
                     ac_name      = excluded.ac_name,
                     status       = excluded.status,
                     current_round = excluded.current_round,
-                    total_rounds  = excluded.total_rounds,
                     error_count   = CASE
                         WHEN excluded.status = 'ERROR'
                         THEN error_count + 1
                         ELSE 0
                     END""",
-                (state_code, ac_no, ac_name, status, current_round, total_rounds),
+                (state_code, ac_no, ac_name, status, current_round),
             )
         conn.commit()
     finally:
@@ -492,7 +487,7 @@ def insert_round_snapshot(
     ac_no: int,
     ac_name: str,
     round_no: int,
-    total_rounds: int,
+    total_rounds: int,  # ignored, kept for API compat
     candidates: list[dict],
     scraped_at: str,  # ignored, kept for API compat
 ) -> None:
@@ -543,51 +538,37 @@ def insert_round_snapshot(
             row = cur.fetchone()
             current = (row["current_round"] if row and row.get("current_round") else 0)
 
-        # total_rounds: use caller value if provided, else keep existing
-        if total_rounds:
-            total = total_rounds
-        else:
-            cur.execute(
-                f"SELECT total_rounds FROM constituency_status "
-                f"WHERE state_code={p} AND ac_no={p}",
-                (state_code, ac_no),
-            )
-            row = cur.fetchone()
-            total = (row["total_rounds"] if row and row.get("total_rounds") else 0)
-
         if IS_PG:
             cur.execute(
                 f"""INSERT INTO constituency_status
-                    (state_code, ac_no, ac_name, status, current_round, total_rounds, error_count)
-                   VALUES ({p}, {p}, {p}, {p}, {p}, {p}, 0)
+                    (state_code, ac_no, ac_name, status, current_round, error_count)
+                   VALUES ({p}, {p}, {p}, {p}, {p}, 0)
                    ON CONFLICT (state_code, ac_no) DO UPDATE SET
                     ac_name      = EXCLUDED.ac_name,
                     status       = EXCLUDED.status,
                     current_round = EXCLUDED.current_round,
-                    total_rounds  = EXCLUDED.total_rounds,
                     error_count   = CASE
                         WHEN EXCLUDED.status = 'ERROR'
                         THEN constituency_status.error_count + 1
                         ELSE 0
                     END""",
-                (state_code, ac_no, ac_name, status, current, total),
+                (state_code, ac_no, ac_name, status, current),
             )
         else:
             cur.execute(
                 f"""INSERT INTO constituency_status
-                    (state_code, ac_no, ac_name, status, current_round, total_rounds, error_count)
-                   VALUES ({p}, {p}, {p}, {p}, {p}, {p}, 0)
+                    (state_code, ac_no, ac_name, status, current_round, error_count)
+                   VALUES ({p}, {p}, {p}, {p}, {p}, 0)
                    ON CONFLICT(state_code, ac_no) DO UPDATE SET
                     ac_name      = excluded.ac_name,
                     status       = excluded.status,
                     current_round = excluded.current_round,
-                    total_rounds  = excluded.total_rounds,
                     error_count   = CASE
                         WHEN excluded.status = 'ERROR'
                         THEN error_count + 1
                         ELSE 0
                     END""",
-                (state_code, ac_no, ac_name, status, current, total),
+                (state_code, ac_no, ac_name, status, current),
             )
 
         conn.commit()
