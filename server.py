@@ -284,10 +284,16 @@ def ac_races(state: str = Query(..., description="State code (required)")):
         p = "%s" if IS_PG else "?"
         cur.execute(f"""
             WITH latest_rounds AS (
-                SELECT state_code, ac_no, MAX(round_no) as max_round
-                FROM rounds_ac
-                WHERE state_code = {p} AND round_no != 999
-                GROUP BY state_code, ac_no
+                SELECT lr.state_code, lr.ac_no, lr.max_round
+                FROM (
+                    SELECT state_code, ac_no, MAX(round_no) as max_round
+                    FROM rounds_ac
+                    WHERE state_code = {p} AND round_no != 999
+                    GROUP BY state_code, ac_no
+                ) lr
+                JOIN constituency_status cs
+                    ON lr.state_code = cs.state_code AND lr.ac_no = cs.ac_no
+                WHERE cs.status = 'DONE'
             ),
             ranked AS (
                 SELECT r.state_code, r.ac_no, r.ac_name,
