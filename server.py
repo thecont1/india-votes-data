@@ -126,9 +126,15 @@ def seat_tally(
 
         query = f"""
         WITH latest_rounds AS (
-            SELECT state_code, ac_no, MAX(round_no) as max_round
-            FROM rounds_ac
-            GROUP BY state_code, ac_no
+            SELECT lr.state_code, lr.ac_no, lr.max_round
+            FROM (
+                SELECT state_code, ac_no, MAX(round_no) as max_round
+                FROM rounds_ac
+                GROUP BY state_code, ac_no
+            ) lr
+            JOIN constituency_status cs
+                ON lr.state_code = cs.state_code AND lr.ac_no = cs.ac_no
+            WHERE cs.status = 'DONE'
         ),
         ac_totals AS (
             SELECT r.state_code, r.ac_no, SUM(r.votes) as total_votes
@@ -234,7 +240,7 @@ def seat_tally(
                 "color": PARTY_COLORS.get(abv, DEFAULT_COLOR),
             })
 
-        # Compute majority line from states table
+        # Compute majority line from states with DONE ACs
         majority = None
         if state:
             cur.execute(
@@ -245,8 +251,13 @@ def seat_tally(
             if row:
                 majority = row["assembly_seats"] // 2 + 1
         else:
-            # Overall: sum of all tracked states' assembly_seats
-            cur.execute("SELECT SUM(assembly_seats) as total_seats FROM states WHERE state_code IN (SELECT DISTINCT state_code FROM constituency_status)")
+            # Overall: sum assembly_seats only for states that have DONE ACs
+            cur.execute(
+                "SELECT SUM(s.assembly_seats) as total_seats "
+                "FROM states s "
+                "JOIN (SELECT DISTINCT state_code FROM constituency_status WHERE status = 'DONE') cs "
+                "ON s.state_code = cs.state_code"
+            )
             row = cur.fetchone()
             if row and row["total_seats"]:
                 majority = row["total_seats"] // 2 + 1
