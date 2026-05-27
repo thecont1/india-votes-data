@@ -1212,7 +1212,7 @@
     opacity: 0;
     transition: opacity 0.12s ease;
     box-shadow: 0 4px 16px color-mix(in srgb, var(--text) 10%, transparent);
-    width: 280px;
+    width: 300px;
     font-family: var(--font-ui, system-ui, sans-serif);
   }
   .roundwise-card.visible { opacity: 1; }
@@ -1226,66 +1226,70 @@
     font-weight: 700;
     color: var(--text);
   }
-  /* Leading / trailing candidate blocks */
-  .rw-leader-label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-  .rw-leader-row {
+  /* Stacked candidate card (leading / trailing) */
+  .rw-candidate-card {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-bottom: 4px;
+    gap: 10px;
+    padding: 8px;
+    margin-bottom: 6px;
+    border: 1px solid var(--border);
+    background: var(--card, #fff);
   }
-  .rw-lc-name {
+  .rw-candidate-card__sym {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    flex-shrink: 0;
+    background: #fff;
+    padding: 2px;
+  }
+  .rw-candidate-card__info {
+    flex: 1;
+    min-width: 0;
+  }
+  .rw-candidate-card__name {
     font-size: 12px;
     font-weight: 700;
     color: var(--text);
-    flex: 1;
-    min-width: 0;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
   }
-  .rw-lc-votes {
+  .rw-candidate-card__party {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .rw-candidate-card__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .rw-candidate-card__votes {
     font-size: 12px;
     font-weight: 700;
     color: var(--text);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
-  .rw-party-row {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 10px;
-  }
-  .rw-party-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .rw-party-sym {
-    width: 14px;
-    height: 14px;
-    object-fit: contain;
-    flex-shrink: 0;
-  }
-  .rw-party-abv {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text);
-  }
-  .rw-party-delta {
+  .rw-candidate-card__delta {
     font-size: 11px;
     font-variant-numeric: tabular-nums;
     color: var(--muted);
     margin-left: auto;
+  }
+  :root[data-theme="dark-handsome"] .rw-candidate-card__sym {
+    background: transparent;
+    padding: 0;
+    filter: invert(1);
+  }
+  :root[data-theme="fair-lovely"] .rw-candidate-card__sym {
+    background: #ffffff;
+    padding: 0;
   }
   /* Candidate rows */
   .rw-candidate {
@@ -2229,35 +2233,41 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
     return url ? `<img src="${url}" alt="" class="${size}">` : '';
   };
 
-  // LEADING block
-  const leaderHTML = `
-    <div class="rw-leader-label">Leading</div>
-    <div class="rw-leader-row">
-      <span class="rw-lc-name">${leader.candidate}</span>
-      <span class="rw-lc-votes">${leader.votes.toLocaleString()}</span>
-    </div>
-    <div class="rw-party-row">
-      <span class="rw-party-dot" style="background:${leader.color};"></span>
-      ${symTag(leader.partyAbv, 'rw-party-sym')}
-      <span class="rw-party-abv">${leader.partyAbv}</span>
+  // Stacked candidate card helper
+  const candidateCard = (c, label, delta) => {
+    const symUrl = partySymbols[c.partyAbv];
+    const symHtml = symUrl
+      ? `<img src="${symUrl}" alt="" class="rw-candidate-card__sym">`
+      : `<span class="rw-party-dot" style="background:${c.color};width:36px;height:36px;border-radius:0;"></span>`;
+    const partyFullName = partyNameMap[c.partyAbv] || c.partyAbv;
+    const deltaHtml = delta
+      ? `<span class="rw-candidate-card__delta">${delta}</span>`
+      : '';
+    return `
+    <div class="rw-candidate-card">
+      ${symHtml}
+      <div class="rw-candidate-card__info">
+        <div class="rw-candidate-card__name">${c.candidate}</div>
+        <div class="rw-candidate-card__party">
+          <span class="rw-candidate-card__dot" style="background:${c.color};"></span>
+          ${partyFullName}
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div class="rw-candidate-card__votes">${c.votes.toLocaleString()}</div>
+        ${deltaHtml}
+      </div>
     </div>`;
+  };
 
-  // TRAILING block
+  // LEADING card
+  const leaderHTML = candidateCard(leader, 'Leading', null);
+
+  // TRAILING card
   let trailingHTML = '';
   if (runnerUp) {
     const delta = margin > 0 ? `\u0394 -${margin.toLocaleString()}` : '';
-    trailingHTML = `
-    <div class="rw-leader-label">Trailing</div>
-    <div class="rw-leader-row">
-      <span class="rw-lc-name">${runnerUp.candidate}</span>
-      <span class="rw-lc-votes">${runnerUp.votes.toLocaleString()}</span>
-    </div>
-    <div class="rw-party-row">
-      <span class="rw-party-dot" style="background:${runnerUp.color};"></span>
-      ${symTag(runnerUp.partyAbv, 'rw-party-sym')}
-      <span class="rw-party-abv">${runnerUp.partyAbv}</span>
-      ${delta ? `<span class="rw-party-delta">${delta}</span>` : ''}
-    </div>`;
+    trailingHTML = candidateCard(runnerUp, 'Trailing', delta);
   }
 
   // Remaining candidates (rank 3 onwards)
