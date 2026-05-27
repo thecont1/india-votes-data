@@ -2842,6 +2842,12 @@ function drawSingleRace(race) {
   // Clean up roundwise state when switching to final view
   _lockedRoundIdx = null;
   _hideRoundwiseCard();
+  // Remove roundwise canvas handlers so they don't leak into final view
+  const cvs = document.getElementById('races-chart');
+  cvs.onclick = null;
+  cvs.onmousemove = null;
+  cvs.onmouseleave = null;
+  cvs.style.cursor = '';
   drawRaceFinal(race);
 }
 
