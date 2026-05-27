@@ -2699,9 +2699,17 @@ function renderVoteShare() {
           callbacks: {
             title: function(items) {
               if (!items.length) return '';
-              return partyNames[items[0].label] || items[0].label;
+              const abv = items[0].label;
+              const fullName = partyNames[abv] || abv;
+              return fullName === abv ? abv : `${fullName} (${abv})`;
             },
-            label: function(ctx) { return `${ctx.parsed.x}% of total votes`; }
+            label: function(ctx) {
+              const pct = ctx.parsed.x;
+              const abv = ctx.chart.data.labels[ctx.dataIndex];
+              const party = perfParties.find(p => p.party_abv === abv);
+              const totalVotes = party ? (party.total_votes || 0) : 0;
+              return [`${pct}% of total votes`, `${totalVotes.toLocaleString()} votes`];
+            }
           }
         },
       },
