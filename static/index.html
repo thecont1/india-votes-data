@@ -1200,6 +1200,159 @@
   :root[data-theme="dark-handsome"] .chartjs-tooltip .tooltip-body {
     color: #cccccc;
   }
+  /* Roundwise card — appears on hover / click in the Results by Constituency chart */
+  .roundwise-card {
+    position: absolute;
+    z-index: 100;
+    background: var(--card-elevated, var(--card, #fff));
+    border: 1px solid var(--border);
+    border-radius: 0;
+    padding: 12px 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+    box-shadow: 0 4px 16px color-mix(in srgb, var(--text) 10%, transparent);
+    width: 260px;
+    font-family: var(--font-ui, system-ui, sans-serif);
+  }
+  .roundwise-card.visible { opacity: 1; }
+  .roundwise-card.locked { pointer-events: auto; }
+  /* Header row: round number left, form20 badge right */
+  .rw-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .rw-round {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .rw-badge {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 6px;
+    border: 1px solid var(--border);
+    background: var(--card, #fff);
+  }
+  .rw-badge--unverified { color: #d97706; border-color: #d97706; }
+  .rw-badge--verified    { color: #059669; border-color: #059669; }
+  .rw-badge--mismatch    { color: #dc2626; border-color: #dc2626; }
+  .rw-badge--unavailable { color: var(--muted); }
+  /* Leader section */
+  .rw-leader-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .rw-leader-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+  .rw-leader-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .rw-leader-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .rw-leader-votes {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .rw-leader-margin {
+    font-size: 11px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 10px;
+  }
+  /* Divider */
+  .rw-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 8px;
+  }
+  /* Candidate rows */
+  .rw-candidate {
+    display: grid;
+    grid-template-columns: 18px 10px 1fr auto;
+    gap: 4px 6px;
+    align-items: baseline;
+    padding: 2px 0;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .rw-rank {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    font-weight: 600;
+  }
+  .rw-cdot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    align-self: center;
+  }
+  .rw-cname {
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+  .rw-cvotes {
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: right;
+  }
+  .rw-cvotes--trailing {
+    color: var(--muted);
+    font-weight: 400;
+  }
+  /* Footer */
+  .rw-footer {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .rw-footer svg { width: 12px; height: 12px; }
+  /* Theme overrides */
+  :root[data-theme="fair-lovely"] .roundwise-card {
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  :root[data-theme="dark-handsome"] .roundwise-card {
+    background: #000000;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  }
   /* Seat tally: declared/leading swatches (non-circle) */
   .legend-swatch.declared {
     background: var(--muted);
@@ -1419,6 +1572,7 @@
     </div>
     <div class="chart-container" id="races-chart-container" style="height:600px;">
       <canvas id="races-chart"></canvas>
+      <div id="roundwise-card" class="roundwise-card"></div>
     </div>
     <div id="race-party-legend" class="legend" style="margin-bottom:0;"></div>
   </div>
@@ -2047,51 +2201,160 @@ function legendTooltip(context) {
 }
 
 // ---------------------------------------------------------------------------
-// Candidate card tooltip — Roundwise constituency chart
-// Shows each candidate as: symbol + name + party + votes, sorted by votes
+// Roundwise card — hover + locked modes for Results by Constituency chart
 // ---------------------------------------------------------------------------
-function candidateCardTooltip(context) {
-  const { chart, tooltip } = context;
-  const el = _getTooltipEl(chart);
+let _lockedRoundIdx = null;
+let _rwRounds = [];
+let _rwLabels = [];
+let _rwForm20Status = 'unavailable';
+let _rwForm20Url = null;
 
-  if (tooltip.opacity === 0) { _hideTooltip(el); return; }
+const FORM20_BADGE_ICONS = {
+  unavailable: '',
+  unverified: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  verified: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>',
+  mismatch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+};
 
-  const titleLines = tooltip.title || [];
-  const titleHtml = titleLines.length
-    ? `<div class="tooltip-title" style="margin-bottom:8px;">${titleLines[0]}</div>`
-    : '';
+function _buildRoundwiseCardHTML(roundIdx, locked) {
+  if (roundIdx < 0 || roundIdx >= _rwRounds.length) return '';
+  const rn = _rwRounds[roundIdx];
+  const roundLabel = rn === 999 ? 'Final (postal)' : `Round ${rn}`;
+  const status = (_rwForm20Status || 'unavailable').toLowerCase();
+  const badgeIcon = FORM20_BADGE_ICONS[status] || '';
+  const badgeClass = 'rw-badge rw-badge--' + status;
+  const statusLabel = FORM20_LABELS[status] || 'Unavailable';
 
-  // Build candidate cards from data points, sorted by votes desc
-  const points = (tooltip.dataPoints || [])
-    .map(dp => ({
-      candidate: dp.dataset._candidate || dp.dataset.label.split(' (')[0],
-      partyAbv: dp.dataset._partyAbv || '',
-      votes: dp.parsed.y,
-      color: dp.dataset.borderColor || '#888',
-    }))
-    .sort((a, b) => b.votes - a.votes);
+  // Collect all candidates for this round
+  const candidates = (typeof currentRace !== 'undefined' && currentRace && currentRace.candidates)
+    ? currentRace.candidates : [];
+  const partyColorMap = {};
+  candidates.forEach(c => { partyColorMap[c.party_abv] = c.color || '#888'; });
 
-  const cards = points.map(p => {
-    const symUrl = partySymbols[p.partyAbv] || null;
-    const partyName = partyNames[p.partyAbv] || p.partyAbv;
-    const symHtml = symUrl
-      ? `<img src="${symUrl}" alt="" class="tooltip-symbol-sm">`
-      : '';
-    return `<div class="legend-item" style="margin-bottom:4px;">
-      <div class="legend-swatch" style="border-color:${p.color};"></div>
-      ${symHtml}<span style="flex:1;min-width:0;">
-        <span style="font-weight:600;">${p.candidate}</span>
-        <span style="color:var(--tooltip-muted, var(--muted));"> — ${partyName}</span>
-      </span>
-      <span style="margin-left:8px;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap;">${p.votes.toLocaleString()}</span>
+  // Build from tooltip data points instead (more reliable for roundwise)
+  const roundVotes = [];
+  if (racesChart && racesChart.data && racesChart.data.datasets) {
+    racesChart.data.datasets.forEach(ds => {
+      const v = ds.data[roundIdx] || 0;
+      roundVotes.push({
+        candidate: ds._candidate || ds.label.split(' (')[0],
+        partyAbv: ds._partyAbv || '',
+        votes: v,
+        color: ds.borderColor || '#888',
+      });
+    });
+  }
+  roundVotes.sort((a, b) => b.votes - a.votes);
+  if (!roundVotes.length) return '';
+
+  const leader = roundVotes[0];
+  const runnerUp = roundVotes.length > 1 ? roundVotes[1] : null;
+  const margin = runnerUp ? leader.votes - runnerUp.votes : 0;
+  const marginStr = margin > 0 ? `+${margin.toLocaleString()} over ${runnerUp.partyAbv}` : '';
+
+  const leaderHTML = `
+    <div class="rw-leader-label">Leading</div>
+    <div class="rw-leader-row">
+      <span class="rw-leader-dot" style="background:${leader.color};"></span>
+      <span class="rw-leader-name">${leader.candidate}</span>
+    </div>
+    <div class="rw-leader-votes">${leader.votes.toLocaleString()} votes</div>
+    ${marginStr ? `<div class="rw-leader-margin">${marginStr}</div>` : '<div style="margin-bottom:10px;"></div>'}`;
+
+  const candidatesHTML = roundVotes.map((c, i) => {
+    const isLeader = i === 0;
+    return `<div class="rw-candidate">
+      <span class="rw-rank">${i + 1}</span>
+      <span class="rw-cdot" style="background:${c.color};"></span>
+      <span class="rw-cname">${c.candidate}</span>
+      <span class="rw-cvotes${isLeader ? '' : ' rw-cvotes--trailing'}">${c.votes.toLocaleString()}</span>
     </div>`;
   }).join('');
 
-  el.innerHTML = titleHtml + cards;
+  const footerHTML = _rwForm20Url
+    ? `<div class="rw-footer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Form 20 source · roundwise tally
+      </div>`
+    : `<div class="rw-footer">Roundwise tally</div>`;
 
-  _showTooltip(el);
-  _positionTooltip(chart, tooltip, el);
+  return `
+    <div class="rw-header">
+      <span class="rw-round">${roundLabel}</span>
+      <span class="${badgeClass}">${badgeIcon} ${statusLabel}</span>
+    </div>
+    ${leaderHTML}
+    <div class="rw-divider"></div>
+    ${candidatesHTML}
+    ${footerHTML}`;
 }
+
+function _showRoundwiseCard(roundIdx, chart, caretX, caretY, locked) {
+  const el = document.getElementById('roundwise-card');
+  const html = _buildRoundwiseCardHTML(roundIdx, locked);
+  if (!html) { _hideRoundwiseCard(); return; }
+  el.innerHTML = html;
+  el.classList.add('visible');
+  if (locked) {
+    el.classList.add('locked');
+  } else {
+    el.classList.remove('locked');
+  }
+
+  // Position relative to chart-container
+  const container = chart.canvas.parentNode;
+  const containerRect = container.getBoundingClientRect();
+  const canvasRect = chart.canvas.getBoundingClientRect();
+  let left = canvasRect.left - containerRect.left + caretX + 14;
+  let top = canvasRect.top - containerRect.top + caretY - 14;
+  const elW = el.offsetWidth || 260;
+  const elH = el.offsetHeight || 200;
+  if (left + elW > containerRect.width) left = left - elW - 28;
+  if (top + elH > containerRect.height) top = containerRect.height - elH - 4;
+  if (top < 0) top = 4;
+  if (left < 0) left = 4;
+  el.style.left = left + 'px';
+  el.style.top = top + 'px';
+}
+
+function _hideRoundwiseCard() {
+  const el = document.getElementById('roundwise-card');
+  el.classList.remove('visible', 'locked');
+}
+
+// Chart.js plugin: vertical highlight line + dimming when round is locked
+const roundwiseHighlightPlugin = {
+  id: 'roundwiseHighlight',
+  beforeDatasetsDraw(chart) {
+    if (_lockedRoundIdx === null) return;
+    const meta0 = chart.getDatasetMeta(0);
+    if (!meta0 || !meta0.data[_lockedRoundIdx]) return;
+    const x = meta0.data[_lockedRoundIdx].x;
+    const area = chart.chartArea;
+
+    // Dim everything except the locked column with side panels
+    const ctx = chart.ctx;
+    ctx.save();
+    const dimColor = chart.config._rwDimColor || 'rgba(0,0,0,0.35)';
+    const colHalfW = 16;
+    // Left panel
+    ctx.fillStyle = dimColor;
+    ctx.fillRect(area.left, area.top, x - colHalfW - area.left, area.bottom - area.top);
+    // Right panel
+    ctx.fillRect(x + colHalfW, area.top, area.right - x - colHalfW, area.bottom - area.top);
+
+    // Vertical line
+    ctx.strokeStyle = chart.config._rwLineColor || 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath();
+    ctx.moveTo(x, area.top);
+    ctx.lineTo(x, area.bottom);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+};
 
 // ---------------------------------------------------------------------------
 // Render — Seat Tally
@@ -2583,6 +2846,9 @@ function drawSingleRace(race) {
     drawRaceRoundwise(race);
     return;
   }
+  // Clean up roundwise state when switching to final view
+  _lockedRoundIdx = null;
+  _hideRoundwiseCard();
   drawRaceFinal(race);
 }
 
@@ -2741,6 +3007,10 @@ function drawRaceFinal(race) {
 }
 
 async function drawRaceRoundwise(race) {
+  // Clear any previously locked round
+  _lockedRoundIdx = null;
+  _hideRoundwiseCard();
+
   const shown = getShownCandidates(race);
   if (!shown.length) return;
   updateRaceLegend(shown);
@@ -2762,6 +3032,12 @@ async function drawRaceRoundwise(race) {
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
 
     const labels = rounds.map(rn => rn === 999 ? 'Final' : `R${rn}`);
+
+    // Store for card builder
+    _rwRounds = rounds;
+    _rwLabels = labels;
+    _rwForm20Status = race.form20_status || 'unavailable';
+    _rwForm20Url = race.form20_url || null;
 
     // Build per-candidate vote map: candidate -> round_no -> votes
     const votesMap = {};
@@ -2792,9 +3068,19 @@ async function drawRaceRoundwise(race) {
     const chartH = Math.max(300, shown.length * rowHeight + 70);
     document.getElementById('races-chart-container').style.height = chartH + 'px';
 
+    // Dim color based on current theme
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark-handsome';
+    const dimColor = currentTheme === 'dark-handsome' ? 'rgba(0,0,0,0.35)'
+                   : currentTheme === 'fair-lovely' ? 'rgba(255,255,255,0.4)'
+                   : 'rgba(240,240,240,0.4)';
+    const lineColor = currentTheme === 'dark-handsome' ? 'rgba(255,255,255,0.25)'
+                    : 'rgba(0,0,0,0.2)';
+
     racesChart = new Chart(ctx, {
       type: 'line',
       data: { labels, datasets },
+      _rwDimColor: dimColor,
+      _rwLineColor: lineColor,
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -2802,22 +3088,7 @@ async function drawRaceRoundwise(race) {
         interaction: { mode: 'index', intersect: false },
         plugins: {
           legend: { display: false },
-          tooltip: {
-            external: candidateCardTooltip,
-            enabled: false,
-            backgroundColor: theme.tooltipBg,
-            titleColor: theme.tooltipText,
-            bodyColor: theme.tooltipMuted,
-            borderColor: theme.tooltipBorder,
-            borderWidth: 1,
-            padding: 12,
-            callbacks: {
-              title: items => {
-                const rn = rounds[items[0].dataIndex];
-                return rn === 999 ? 'Final (postal)' : `Round ${rn}`;
-              },
-            }
-          },
+          tooltip: { enabled: false },
         },
         scales: {
           x: {
@@ -2833,7 +3104,73 @@ async function drawRaceRoundwise(race) {
           },
         },
       },
+      plugins: [roundwiseHighlightPlugin],
     });
+
+    // ---- Canvas click handler for lock/unlock ----
+    canvas.onclick = function(e) {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const area = racesChart.chartArea;
+      if (x < area.left || x > area.right) return;
+
+      // Map pixel x to nearest round index
+      const xScale = racesChart.scales.x;
+      let nearestIdx = 0;
+      let minDist = Infinity;
+      for (let i = 0; i < rounds.length; i++) {
+        const px = xScale.getPixelForValue(i);
+        const d = Math.abs(x - px);
+        if (d < minDist) { minDist = d; nearestIdx = i; }
+      }
+
+      if (_lockedRoundIdx === nearestIdx) {
+        // Unlock
+        _lockedRoundIdx = null;
+        _hideRoundwiseCard();
+        canvas.style.cursor = '';
+        racesChart.update('none');
+      } else {
+        // Lock
+        _lockedRoundIdx = nearestIdx;
+        // Position the card at the data point
+        const meta0 = racesChart.getDatasetMeta(0);
+        const pt = meta0.data[nearestIdx];
+        _showRoundwiseCard(nearestIdx, racesChart, pt.x - rect.left + 14, pt.y - rect.top - 20, true);
+        racesChart.update('none');
+      }
+    };
+
+    // ---- Canvas mousemove — hover card (unless locked) ----
+    canvas.onmousemove = function(e) {
+      if (_lockedRoundIdx !== null) { canvas.style.cursor = ''; return; }
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const area = racesChart.chartArea;
+      if (x < area.left || x > area.right) {
+        _hideRoundwiseCard();
+        canvas.style.cursor = '';
+        return;
+      }
+      const xScale = racesChart.scales.x;
+      let nearestIdx = 0;
+      let minDist = Infinity;
+      for (let i = 0; i < rounds.length; i++) {
+        const px = xScale.getPixelForValue(i);
+        const d = Math.abs(x - px);
+        if (d < minDist) { minDist = d; nearestIdx = i; }
+      }
+      canvas.style.cursor = 'pointer';
+      const caretY = e.clientY - rect.top;
+      _showRoundwiseCard(nearestIdx, racesChart, x, caretY, false);
+    };
+
+    // ---- Canvas mouseleave — hide hover card ----
+    canvas.onmouseleave = function() {
+      if (_lockedRoundIdx !== null) return;
+      _hideRoundwiseCard();
+    };
+
   } catch (e) {
     console.error('Failed to load constituency rounds:', e);
   }
