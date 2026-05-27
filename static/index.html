@@ -596,105 +596,69 @@
   }
   .form20-card {
     flex: 0 0 auto;
-    width: auto;
-    max-width: 300px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--card-elevated);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .form20-card__label {
-    font-family: var(--font-ui);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 2px;
-  }
-  .form20-card__helper {
-    font-family: var(--font-ui);
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 8px;
-    line-height: 1.3;
-  }
-  .form20-card__footer {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    background: var(--card-elevated);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    white-space: nowrap;
   }
-  .form20-badge {
+  .form20-card__label {
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+  .form20-card__status {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    height: 26px;
-    padding: 0 9px;
-    border-radius: 13px;
-    font-family: var(--font-ui);
-    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.01em;
-    white-space: nowrap;
     flex-shrink: 0;
   }
-  .form20-badge svg {
-    width: 13px;
-    height: 13px;
+  .form20-card__status svg {
+    width: 15px;
+    height: 15px;
     flex-shrink: 0;
   }
-  /* Badge status palette */
-  .form20-badge--unavailable {
-    background: var(--chip-bg-pending);
-    color: var(--muted);
-  }
-  .form20-badge--unavailable svg { stroke: var(--muted); }
-  .form20-badge--unverified {
-    background: #fef3cd;
-    color: #92400e;
-  }
-  .form20-badge--unverified svg { stroke: #d97706; }
-  .form20-badge--verified {
-    background: #d1fae5;
-    color: #065f46;
-  }
-  .form20-badge--verified svg { stroke: #059669; }
-  .form20-badge--mismatch {
-    background: #fee2e2;
-    color: #991b1b;
-  }
-  .form20-badge--mismatch svg { stroke: #dc2626; }
-  .form20-btn {
+  .form20-card--unavailable .form20-card__status { color: var(--muted); }
+  .form20-card--unavailable .form20-card__status svg { stroke: var(--muted); }
+  .form20-card--unverified .form20-card__status { color: #d97706; }
+  .form20-card--unverified .form20-card__status svg { stroke: #d97706; }
+  .form20-card--verified .form20-card__status { color: #059669; }
+  .form20-card--verified .form20-card__status svg { stroke: #059669; }
+  .form20-card--mismatch .form20-card__status { color: #dc2626; }
+  .form20-card--mismatch .form20-card__status svg { stroke: #dc2626; }
+  .form20-card__action {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    height: 28px;
-    padding: 0 10px;
-    border-radius: 6px;
+    padding: 4px 8px;
     border: 1px solid var(--control-border);
+    border-radius: 4px;
     background: var(--control-bg);
     color: var(--control-text);
     font-family: var(--font-ui);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
-    cursor: pointer;
     text-decoration: none;
     white-space: nowrap;
     transition: border-color 0.15s, background 0.15s;
+    flex-shrink: 0;
   }
-  .form20-btn:hover {
+  .form20-card__action:hover {
     border-color: var(--control-hover-border);
     background: var(--card);
   }
-  .form20-btn:focus-visible {
+  .form20-card__action:focus-visible {
     outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
   }
-  .form20-btn svg {
+  .form20-card__action svg {
     width: 13px;
     height: 13px;
     flex-shrink: 0;
@@ -707,7 +671,6 @@
     .form20-card {
       flex: none;
       width: 100%;
-      max-width: none;
     }
     #race-select {
       width: 100%;
@@ -1388,16 +1351,13 @@
       <div class="field-row">
         <select id="race-select" size="1" aria-label="Select constituency"></select>
       </div>
-      <div class="form20-card" id="form20-card">
-        <div class="form20-card__label">Form 20</div>
-        <div class="form20-card__helper" id="form20-helper">No PDF found in archive</div>
-        <div class="form20-card__footer">
-          <span class="form20-badge form20-badge--unavailable" id="form20-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span id="form20-badge-text">Unavailable</span>
-          </span>
-          <span id="form20-action"></span>
-        </div>
+      <div class="form20-card form20-card--unavailable" id="form20-card">
+        <span class="form20-card__label">Form 20</span>
+        <span class="form20-card__status" id="form20-status">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span id="form20-status-text">Unavailable</span>
+        </span>
+        <span id="form20-action"></span>
       </div>
     </div>
     <div class="chart-container" id="races-chart-container" style="height:600px;">
@@ -2382,31 +2342,30 @@ const FORM20_ICONS = {
 
 const FORM20_PDF_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
 
-const FORM20_TEXT = {
-  unavailable: { label: 'Unavailable', helper: 'No PDF found in archive' },
-  unverified: { label: 'Unverified', helper: 'PDF found, awaiting verification' },
-  verified:   { label: 'Verified',   helper: 'PDF verified against results' },
-  mismatch:   { label: 'Mismatch',   helper: 'PDF found, result mismatch detected' },
+const FORM20_LABELS = {
+  unavailable: 'Unavailable',
+  unverified: 'Unverified',
+  verified: 'Verified',
+  mismatch: 'Mismatch',
 };
 
 function updateForm20Field(race) {
-  const badge = document.getElementById('form20-badge');
-  const badgeText = document.getElementById('form20-badge-text');
-  const helper = document.getElementById('form20-helper');
+  const card = document.getElementById('form20-card');
+  const statusEl = document.getElementById('form20-status');
+  const statusText = document.getElementById('form20-status-text');
   const action = document.getElementById('form20-action');
   if (!race) return;
 
   const status = (race.form20_status || 'unavailable').toLowerCase();
-  const info = FORM20_TEXT[status] || FORM20_TEXT.unavailable;
+  const label = FORM20_LABELS[status] || FORM20_LABELS.unavailable;
   const icon = FORM20_ICONS[status] || FORM20_ICONS.unavailable;
 
-  badge.className = 'form20-badge form20-badge--' + status;
-  badge.querySelector('svg').outerHTML = icon;
-  badgeText.textContent = info.label;
-  helper.textContent = info.helper;
+  card.className = 'form20-card form20-card--' + status;
+  statusEl.querySelector('svg').outerHTML = icon;
+  statusText.textContent = label;
 
   if (race.form20_url) {
-    action.innerHTML = `<a class="form20-btn" href="${race.form20_url}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} Open PDF</a>`;
+    action.innerHTML = `<a class="form20-card__action" href="${race.form20_url}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} PDF</a>`;
   } else {
     action.innerHTML = '';
   }
