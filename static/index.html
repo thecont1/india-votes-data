@@ -523,7 +523,6 @@
     border: 1px solid var(--border);
     border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 16px;
   }
   .toggle-btn {
     min-height: 40px;
@@ -585,9 +584,14 @@
   }
   .race-controls-row {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .race-controls-row .toggle-group {
     margin-bottom: 0;
+    flex-shrink: 0;
   }
   .race-controls-row .field-row {
     flex: 0 1 auto;
@@ -605,6 +609,15 @@
     font-family: var(--font-ui);
     font-size: 13px;
     white-space: nowrap;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .form20-card--flash {
+    animation: form20-flash 0.6s ease;
+  }
+  @keyframes form20-flash {
+    0%   { background: var(--card-elevated); }
+    25%  { background: var(--control-active-bg); }
+    100% { background: var(--card-elevated); }
   }
   .form20-card__label {
     font-weight: 600;
@@ -666,7 +679,11 @@
   @media (max-width: 640px) {
     .race-controls-row {
       flex-direction: column;
+      align-items: stretch;
       gap: 10px;
+    }
+    .race-controls-row .toggle-group {
+      align-self: flex-start;
     }
     .form20-card {
       flex: none;
@@ -1343,11 +1360,11 @@
 
   <div class="card" id="races-card">
     <h2>Results by Constituency</h2>
-    <div class="toggle-group" id="race-toggle" style="margin-bottom:8px;" role="group" aria-label="Constituency result view">
-      <button class="toggle-btn active" type="button" data-race-view="final" aria-pressed="true">Final</button>
-      <button class="toggle-btn" type="button" data-race-view="roundwise" aria-pressed="false">Roundwise</button>
-    </div>
     <div class="race-controls-row">
+      <div class="toggle-group" id="race-toggle" role="group" aria-label="Constituency result view">
+        <button class="toggle-btn active" type="button" data-race-view="final" aria-pressed="true">Final</button>
+        <button class="toggle-btn" type="button" data-race-view="roundwise" aria-pressed="false">Roundwise</button>
+      </div>
       <div class="field-row">
         <select id="race-select" size="1" aria-label="Select constituency"></select>
       </div>
@@ -2369,6 +2386,11 @@ function updateForm20Field(race) {
   } else {
     action.innerHTML = '';
   }
+
+  // Flash to signal data changed
+  card.classList.remove('form20-card--flash');
+  void card.offsetWidth;
+  card.classList.add('form20-card--flash');
 }
 
 function formatVotes(value) {
