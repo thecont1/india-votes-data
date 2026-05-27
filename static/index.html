@@ -1392,6 +1392,8 @@ const POLL_INTERVAL = 180000;
 const THEME_STORAGE_KEY = 'eci-dashboard-theme';
 const STATE_STORAGE_KEY = 'eci-dashboard-state';
 const ELECTION_STORAGE_KEY = 'eci-dashboard-election';
+const RACE_VIEW_STORAGE_KEY = 'eci-dashboard-race-view';
+const RACE_AC_STORAGE_KEY = 'eci-dashboard-race-ac';
 const DEFAULT_THEME = 'black-white';
 const THEME_VALUES = new Set(['dark-handsome', 'fair-lovely', 'black-white']);
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -1407,7 +1409,7 @@ let voteShareChart = null;
 let racesChart = null;
 let racesData = [];
 let currentRace = null;
-let raceView = 'final';
+let raceView = localStorage.getItem(RACE_VIEW_STORAGE_KEY) || 'final';
 let roundwiseChart = null;
 let lastDataFingerprint = '';
 let selectedTheme = DEFAULT_THEME;
@@ -1744,6 +1746,7 @@ document.getElementById('race-toggle').addEventListener('click', (e) => {
   const view = btn.dataset.raceView;
   if (view === raceView) return;
   raceView = view;
+  localStorage.setItem(RACE_VIEW_STORAGE_KEY, view);
   document.querySelectorAll('#race-toggle .toggle-btn').forEach(b => {
     const isActive = b.dataset.raceView === view;
     b.classList.toggle('active', isActive);
@@ -1753,6 +1756,12 @@ document.getElementById('race-toggle').addEventListener('click', (e) => {
 });
 
 async function init() {
+  // Restore race view toggle state
+  document.querySelectorAll('#race-toggle .toggle-btn').forEach(b => {
+    const isActive = b.dataset.raceView === raceView;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-pressed', String(isActive));
+  });
   await fetchStatus();
   loadStateCharts();
   fetchData();
@@ -2350,10 +2359,18 @@ function renderRaces(stateCode) {
         opt.value = i;
         const name = (race.ac_name || '').trim().toUpperCase();
         opt.textContent = `${name} (${race.ac_no})`;
+        opt.dataset.acNo = race.ac_no;
         sel.appendChild(opt);
       });
+      // Restore previous selection, or pick saved AC on fresh load
       if (prevValue && sel.querySelector(`option[value="${prevValue}"]`)) {
         sel.value = prevValue;
+      } else {
+        const savedAc = localStorage.getItem(RACE_AC_STORAGE_KEY);
+        if (savedAc) {
+          const match = sel.querySelector(`option[data-ac-no="${savedAc}"]`);
+          if (match) sel.value = match.value;
+        }
       }
       sel.onchange = () => drawSingleRace(racesData[+sel.value]);
       drawSingleRace(racesData[+sel.value]);
@@ -2448,6 +2465,7 @@ function updateRaceLegend(candidates) {
 
 function drawSingleRace(race) {
   currentRace = race;
+  if (race) localStorage.setItem(RACE_AC_STORAGE_KEY, race.ac_no);
   updateForm20Field(race);
   if (raceView === 'roundwise') {
     drawRaceRoundwise(race);
