@@ -104,6 +104,7 @@ Lifecycle tracking per Assembly Constituency. Updated by the scraper as counting
 | `total_rounds` | INTEGER | Total rounds expected |
 | `error_count` | INTEGER | Consecutive errors |
 | `won` | INTEGER | 1 if ECI confirms winner |
+| `form20_url` | TEXT | URL to certified Form 20 PDF (when available) |
 
 **Primary key**: `(state_code, ac_no)`
 

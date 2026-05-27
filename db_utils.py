@@ -105,6 +105,7 @@ CREATE TABLE IF NOT EXISTS constituency_status (
     current_round   INTEGER DEFAULT 0,
     error_count     INTEGER DEFAULT 0,
     won             INTEGER DEFAULT 0,
+    form20_url      TEXT,
     PRIMARY KEY (state_code, ac_no)
 );
 """
@@ -177,6 +178,7 @@ CREATE TABLE IF NOT EXISTS constituency_status (
     current_round   INTEGER DEFAULT 0,
     error_count     INTEGER DEFAULT 0,
     won             INTEGER DEFAULT 0,
+    form20_url      TEXT,
     PRIMARY KEY (state_code, ac_no)
 );
 """
