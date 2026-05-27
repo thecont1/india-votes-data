@@ -59,8 +59,7 @@ CREATE TABLE IF NOT EXISTS parties (
     chief            TEXT,
     colour           TEXT,
     founded          INTEGER,
-    symbol_name      TEXT,
-    symbol_emoji     TEXT,
+    symbol_url       TEXT,
     seats_loksabha   INTEGER DEFAULT 0,
     seats_rajyasabha INTEGER DEFAULT 0,
     seats_assembly   INTEGER DEFAULT 0,
@@ -106,6 +105,8 @@ CREATE TABLE IF NOT EXISTS constituency_status (
     current_round   INTEGER DEFAULT 0,
     error_count     INTEGER DEFAULT 0,
     won             INTEGER DEFAULT 0,
+    form20_url      TEXT,
+    form20_status   TEXT    NOT NULL DEFAULT 'UNAVAILABLE',
     PRIMARY KEY (state_code, ac_no)
 );
 """
@@ -132,8 +133,7 @@ CREATE TABLE IF NOT EXISTS parties (
     chief            TEXT,
     colour           TEXT,
     founded          INTEGER,
-    symbol_name      TEXT,
-    symbol_emoji     TEXT,
+    symbol_url       TEXT,
     seats_loksabha   INTEGER DEFAULT 0,
     seats_rajyasabha INTEGER DEFAULT 0,
     seats_assembly   INTEGER DEFAULT 0,
@@ -179,6 +179,8 @@ CREATE TABLE IF NOT EXISTS constituency_status (
     current_round   INTEGER DEFAULT 0,
     error_count     INTEGER DEFAULT 0,
     won             INTEGER DEFAULT 0,
+    form20_url      TEXT,
+    form20_status   TEXT    NOT NULL DEFAULT 'UNAVAILABLE',
     PRIMARY KEY (state_code, ac_no)
 );
 """
@@ -346,7 +348,7 @@ def init_db():
                         s["abv"], s["name"], s.get("chief") or None,
                         s.get("colour") or None,
                         int(s["founded"]) if s.get("founded") else None,
-                        s.get("symbol_name") or None, s.get("symbol_emoji") or None,
+                        s.get("symbol_url") or None,
                         int(s["seats_loksabha"]) if s.get("seats_loksabha") else 0,
                         int(s["seats_rajyasabha"]) if s.get("seats_rajyasabha") else 0,
                         int(s["seats_assembly"]) if s.get("seats_assembly") else 0,
@@ -354,16 +356,16 @@ def init_db():
                     )
                     if IS_PG:
                         cur.execute(
-                            f"""INSERT INTO parties (abv,name,chief,colour,founded,symbol_name,symbol_emoji,
+                            f"""INSERT INTO parties (abv,name,chief,colour,founded,symbol_url,
                                seats_loksabha,seats_rajyasabha,seats_assembly,wikipedia_url,alliance)
-                               VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})
+                               VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})
                                ON CONFLICT (abv) DO NOTHING""", vals,
                         )
                     else:
                         cur.execute(
-                            f"""INSERT OR IGNORE INTO parties (abv,name,chief,colour,founded,symbol_name,symbol_emoji,
+                            f"""INSERT OR IGNORE INTO parties (abv,name,chief,colour,founded,symbol_url,
                                seats_loksabha,seats_rajyasabha,seats_assembly,wikipedia_url,alliance)
-                               VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})""", vals,
+                               VALUES ({p},{p},{p},{p},{p},{p},{p},{p},{p},{p},{p})""", vals,
                         )
 
         # Seed constituency_status (using ECI codes)
