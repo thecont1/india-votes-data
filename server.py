@@ -541,9 +541,15 @@ def roundwise(state: str = Query(..., description="State code (required)")):
             all_parties.add(rd['party_abv'])
 
         # Build continuous rounds: 0, 1, 2, ..., max, F
-        real_rounds = sorted(counting_data.keys())
-        max_round = max(real_rounds) if real_rounds else 0
-        all_rounds = list(range(0, max_round + 1))
+        # Use the actual max round_no from the DB, not just the rounds
+        # where ACs first got leaders — some ACs count beyond that.
+        cur.execute(f"""
+            SELECT MAX(round_no) as max_rn FROM rounds_ac
+            WHERE state_code = {p} AND round_no != 999
+        """, (state,))
+        actual_row = cur.fetchone()
+        actual_max = (dict(actual_row)['max_rn'] if actual_row else 0) or 0
+        all_rounds = list(range(0, actual_max + 1))
         has_f = len(f_data) > 0
         if has_f:
             all_rounds.append(999)

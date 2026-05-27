@@ -3047,7 +3047,7 @@ async function drawRaceRoundwise(race) {
     const rounds = [...new Set(rows.map(r => r.round_no))]
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
 
-    const labels = rounds.map(rn => rn === 999 ? 'Final' : `R${rn}`);
+    const labels = rounds.map(rn => rn === 999 ? '🏁' : `${rn}`);
 
     // Store for card builder
     _rwRounds = rounds;
@@ -3193,6 +3193,45 @@ async function drawRaceRoundwise(race) {
 }
 
 // ---------------------------------------------------------------------------
+// Party Performance Roundwise tooltip — stacked party rows with swatches
+// ---------------------------------------------------------------------------
+function perfRoundwiseTooltip(context) {
+  const { chart, tooltip } = context;
+  const el = _getTooltipEl(chart);
+  if (tooltip.opacity === 0) { _hideTooltip(el); return; }
+  if (!tooltip.dataPoints || !tooltip.dataPoints.length) return;
+
+  const roundLabel = tooltip.title?.[0] || '';
+
+  // Collect all party values at this index, sorted by votes desc
+  const items = tooltip.dataPoints
+    .map(dp => ({
+      partyAbv: dp.dataset._partyAbv || dp.dataset.label,
+      votes: dp.parsed.y,
+      color: dp.dataset.borderColor || '#888',
+    }))
+    .sort((a, b) => b.votes - a.votes);
+
+  const rows = items.filter(i => i.votes > 0).map(i => {
+    const symUrl = partySymbols[i.partyAbv];
+    const symHtml = symUrl
+      ? `<img src="${symUrl}" alt="" style="width:14px;height:14px;object-fit:contain;">`
+      : '';
+    return `<div style="display:flex;align-items:center;gap:6px;padding:2px 0;font-size:11px;">
+      <span style="width:10px;height:10px;border-radius:50%;border:2px solid ${i.color};background:transparent;flex-shrink:0;"></span>
+      ${symHtml}
+      <span style="flex:1;font-weight:600;color:var(--tooltip-text, var(--text));">${i.partyAbv}</span>
+      <span style="font-variant-numeric:tabular-nums;color:var(--tooltip-muted, var(--muted));">${i.votes.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = `<div style="font-size:13px;font-weight:700;color:var(--tooltip-text, var(--text));margin-bottom:6px;">${roundLabel}</div>${rows}`;
+
+  _showTooltip(el);
+  _positionTooltip(chart, tooltip, el);
+}
+
+// ---------------------------------------------------------------------------
 // Roundwise progression — smooth lines, no dots, circle legends
 // ---------------------------------------------------------------------------
 async function renderRoundwise(stateCode) {
@@ -3254,17 +3293,14 @@ async function renderRoundwise(stateCode) {
     const ctx = canvas.getContext('2d');
     const theme = chartTheme();
 
-    const firstWinIndex = rounds.findIndex((_, index) =>
-      series.some(s => (s.data[index] || 0) > 0)
-    );
-    const startIndex = firstWinIndex >= 0 ? firstWinIndex : 0;
-    const visibleRounds = rounds.slice(startIndex);
-    const labels = visibleRounds.map(rn => rn === 999 ? '🏁' : rn);
+    const labels = rounds.map(rn => rn === 999 ? 'Final' : `R${rn}`);
 
     const datasets = series.map(s => ({
       label: s.party_abv,
-      data: s.data.slice(startIndex),
+      _partyAbv: s.party_abv,
+      data: s.data,
       borderColor: s.color,
+      backgroundColor: s.color,
       borderWidth: 2,
       pointRadius: 0,
       pointHoverRadius: 4,
@@ -3288,23 +3324,8 @@ async function renderRoundwise(stateCode) {
         plugins: {
           legend: { display: false },
           tooltip: {
-            external: legendTooltip,
+            external: perfRoundwiseTooltip,
             enabled: false,
-            backgroundColor: theme.tooltipBg,
-            titleColor: theme.tooltipText,
-            bodyColor: theme.tooltipMuted,
-            borderColor: theme.tooltipBorder,
-            borderWidth: 1,
-            padding: 12,
-            callbacks: {
-              title: function(items) {
-                const v = items[0].label;
-                return v === '🏁' ? 'FINAL' : `Round ${v}`;
-              },
-              label: function(ctx) {
-                return `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} votes`;
-              }
-            }
           },
         },
         scales: {
