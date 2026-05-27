@@ -290,6 +290,35 @@ def seat_tally(
         conn.close()
 
 
+@app.get("/api/parties")
+def get_parties():
+    """All party details for legend tooltips."""
+    conn = _connect()
+    cur = _cursor(conn)
+    try:
+        cur.execute("""
+            SELECT abv, name, chief, founded,
+                   seats_loksabha, seats_rajyasabha, seats_assembly,
+                   wikipedia_url, alliance, symbol_url
+            FROM parties
+            ORDER BY abv
+        """)
+        rows = cur.fetchall()
+        result = {}
+        for row in rows:
+            d = dict(row) if hasattr(row, 'keys') else {
+                'abv': row[0], 'name': row[1], 'chief': row[2],
+                'founded': row[3], 'seats_loksabha': row[4],
+                'seats_rajyasabha': row[5], 'seats_assembly': row[6],
+                'wikipedia_url': row[7], 'alliance': row[8],
+                'symbol_url': row[9],
+            }
+            result[d['abv']] = d
+        return {"parties": result}
+    finally:
+        conn.close()
+
+
 @app.get("/api/ac-races")
 def ac_races(state: str = Query(..., description="State code (required)")):
     """Per-AC candidate data: all candidates in each AC's latest round.

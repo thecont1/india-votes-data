@@ -1078,6 +1078,46 @@
     object-fit: contain;
     flex-shrink: 0;
   }
+  .legend-item { position: relative; cursor: default; }
+  .legend-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--tooltip-bg, var(--card));
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 100;
+    width: max-content;
+    max-width: 260px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--text) 12%, transparent);
+  }
+  .legend-item:hover .legend-tooltip { opacity: 1; }
+  .legend-tooltip .lt-header {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+  }
+  .legend-tooltip .lt-symbol {
+    width: 36px; height: 36px; object-fit: contain; border-radius: 4px;
+    background: #fff; padding: 2px; flex-shrink: 0;
+  }
+  .legend-tooltip .lt-title {
+    font-weight: 600; font-size: 12px; color: var(--tooltip-text, var(--text));
+  }
+  .legend-tooltip .lt-body {
+    font-size: 11px; color: var(--tooltip-muted, var(--muted)); line-height: 1.5;
+  }
+  :root[data-theme="fair-lovely"] .legend-tooltip {
+    background: #ffffff; border-color: var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  :root[data-theme="dark-handsome"] .legend-tooltip {
+    background: #000000; border-color: #333;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  }
   .chartjs-tooltip {
     position: absolute;
     background: var(--tooltip-bg, var(--card));
@@ -1404,6 +1444,7 @@ let chart = null;
 let pollTimer = null;
 let partyNames = {};
 let partySymbols = {};
+let partyDetails = {};
 let partyDepositLoss = {};
 let voteShareChart = null;
 let racesChart = null;
@@ -1762,6 +1803,12 @@ async function init() {
     b.classList.toggle('active', isActive);
     b.setAttribute('aria-pressed', String(isActive));
   });
+  // Load party details for legend tooltips
+  try {
+    const res = await fetch('/api/parties');
+    const data = await res.json();
+    partyDetails = data.parties || {};
+  } catch (e) { /* ignore */ }
   await fetchStatus();
   loadStateCharts();
   fetchData();
@@ -1846,9 +1893,27 @@ function buildCircleLegend(el, labels, colors, symbols) {
   el.innerHTML = labels.map((l, i) => {
     const sym = symbols && symbols[i];
     const img = sym ? `<img src="${sym}" alt="" class="legend-symbol">` : '';
-    return `<div class="legend-item">
+    const detail = partyDetails[l];
+    let tooltip = '';
+    if (detail) {
+      const symHtml = detail.symbol_url
+        ? `<img src="${detail.symbol_url}" class="lt-symbol" alt="">`
+        : '';
+      const lines = [];
+      if (detail.name && detail.name !== l) lines.push(detail.name);
+      if (detail.chief) lines.push(`Chief: ${detail.chief}`);
+      if (detail.founded) lines.push(`Founded: ${detail.founded}`);
+      if (detail.alliance) lines.push(`Alliance: ${detail.alliance}`);
+      if (detail.seats_assembly) lines.push(`Assembly seats: ${detail.seats_assembly}`);
+      if (detail.seats_loksabha) lines.push(`Lok Sabha seats: ${detail.seats_loksabha}`);
+      tooltip = `<div class="legend-tooltip">
+        <div class="lt-header">${symHtml}<span class="lt-title">${l}</span></div>
+        ${lines.length ? `<div class="lt-body">${lines.join('<br>')}</div>` : ''}
+      </div>`;
+    }
+    return `<div class="legend-item" data-abv="${l}">
       <div class="legend-swatch" style="border-color:${colors[i]};"></div>
-      ${img}<span>${l}</span>
+      ${img}<span>${l}</span>${tooltip}
     </div>`;
   }).join('');
 }
