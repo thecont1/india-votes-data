@@ -9,6 +9,7 @@ import os
 import sys
 import time
 from datetime import datetime
+from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -64,10 +65,10 @@ PARTY_COLORS = {
 DEFAULT_COLOR = "#888888"
 
 # Lazy-loaded party symbol URLs (abv -> url)
-_party_symbols: dict[str, str] | None = None
+_party_symbols: Optional[dict] = None
 
 
-def _get_party_symbols() -> dict[str, str]:
+def _get_party_symbols() -> dict:
     global _party_symbols
     if _party_symbols is None:
         try:
@@ -332,19 +333,13 @@ def ac_races(state: str = Query(..., description="State code (required)")):
         p = "%s" if IS_PG else "?"
         cur.execute(f"""
             WITH latest_rounds AS (
-                SELECT lr.state_code, lr.ac_no,
-                       CASE WHEN r999.ac_no IS NOT NULL THEN 999 ELSE lr.max_round END as max_round
+                SELECT lr.state_code, lr.ac_no, lr.max_round
                 FROM (
                     SELECT state_code, ac_no, MAX(round_no) as max_round
                     FROM rounds_ac
-                    WHERE state_code = {p} AND round_no != 999
+                    WHERE state_code = {p}
                     GROUP BY state_code, ac_no
                 ) lr
-                LEFT JOIN (
-                    SELECT DISTINCT state_code, ac_no
-                    FROM rounds_ac
-                    WHERE state_code = {p} AND round_no = 999
-                ) r999 ON lr.state_code = r999.state_code AND lr.ac_no = r999.ac_no
                 JOIN constituency_status cs
                     ON lr.state_code = cs.state_code AND lr.ac_no = cs.ac_no
                 WHERE cs.status = 'DONE'
@@ -380,7 +375,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                    SUM(votes) OVER (PARTITION BY ac_no) as total_votes
             FROM ranked
             ORDER BY ac_no, rank
-        """, (state, state))
+        """, (state,))
         rows = cur.fetchall()
 
         # Group by AC
@@ -442,15 +437,8 @@ def ac_races(state: str = Query(..., description="State code (required)")):
 
 @app.get("/api/roundwise")
 def roundwise(state: str = Query(..., description="State code (required)")):
-    """Roundwise progression: every party's cumulative votes as counting progresses.
+    """Roundwise progression: cumulative votes as ACs complete counting.
 
-<<<<<<< Updated upstream
-    At each round R, each AC contributes its votes from the latest round
-    available up to R. Since rounds_ac stores cumulative counts per AC,
-    this shows the running total of counted votes for every party.
-
-    Round 999 (F round) adds postal ballots on top of EVM totals.
-=======
     For each target round R and each AC, pick the effective round as the
     latest available round snapshot where round_no <= R.  The leader's
     vote count at that effective round is the AC's contribution.
@@ -459,7 +447,6 @@ def roundwise(state: str = Query(..., description="State code (required)")):
     - Rounds 1..N: per-AC latest-snapshot leaders (excluding round 999)
     - Round F (999): final tally including postal ballots (may flip some
       winners)
->>>>>>> Stashed changes
     """
     from bisect import bisect_right
 
@@ -467,11 +454,6 @@ def roundwise(state: str = Query(..., description="State code (required)")):
     cur = _cursor(conn)
     try:
         p = "%s" if IS_PG else "?"
-<<<<<<< Updated upstream
-        from collections import defaultdict
-
-        # Step 1: find max round per AC (excluding 999)
-=======
 
         # Phase 1: counting rounds (exclude 999)
         # For each AC and each round, find the party leading at that round.
@@ -528,88 +510,42 @@ def roundwise(state: str = Query(..., description="State code (required)")):
                     counting_data[target_rn][party] += votes
 
         # Phase 2: F round (999) — final winners including postal ballots
->>>>>>> Stashed changes
         cur.execute(f"""
-            SELECT ac_no, MAX(round_no) as max_rnd
-            FROM rounds_ac
-            WHERE state_code = {p} AND round_no != 999
-            GROUP BY ac_no
+            WITH ranked AS (
+                SELECT r.state_code, r.ac_no,
+                       p.abv as party_abv, r.votes,
+                       ROW_NUMBER() OVER (
+                           PARTITION BY r.state_code, r.ac_no
+                           ORDER BY r.votes DESC
+                       ) as rank
+                FROM rounds_ac r
+                JOIN parties p ON r.party_abv = p.abv
+                WHERE r.state_code = {p} AND r.round_no = 999
+            )
+            SELECT party_abv, SUM(votes) as total_votes
+            FROM ranked
+            WHERE rank = 1
+            GROUP BY party_abv
         """, (state,))
-        ac_max_rnd = {}
-        for row in cur.fetchall():
-            rd = dict(row) if hasattr(row, 'keys') else {'ac_no': row[0], 'max_rnd': row[1]}
-            ac_max_rnd[rd['ac_no']] = rd['max_rnd']
-
-        # Step 2: get all counting-round votes (exclude 999)
-        cur.execute(f"""
-            SELECT ac_no, round_no, party_abv, votes
-            FROM rounds_ac
-            WHERE state_code = {p} AND round_no != 999
-        """, (state,))
-        # votes[ac_no][round_no][party_abv] = votes
-        votes = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
-        all_parties = set()
-        for row in cur.fetchall():
+        f_rows = cur.fetchall()
+        f_data = defaultdict(int)
+        for row in f_rows:
             rd = dict(row) if hasattr(row, 'keys') else {
-                'ac_no': row[0], 'round_no': row[1], 'party_abv': row[2], 'votes': row[3],
+                'party_abv': row[0], 'total_votes': row[1],
             }
-            votes[rd['ac_no']][rd['round_no']][rd['party_abv']] = rd['votes']
+            f_data[rd['party_abv']] = rd['total_votes']
             all_parties.add(rd['party_abv'])
 
-<<<<<<< Updated upstream
-        # Step 3: get round 999 (postal) votes
-        cur.execute(f"""
-            SELECT ac_no, party_abv, votes
-            FROM rounds_ac
-            WHERE state_code = {p} AND round_no = 999
-        """, (state,))
-        f_data = defaultdict(lambda: defaultdict(int))
-        for row in cur.fetchall():
-            rd = dict(row) if hasattr(row, 'keys') else {
-                'ac_no': row[0], 'party_abv': row[1], 'votes': row[2],
-            }
-            f_data[rd['ac_no']][rd['party_abv']] = rd['votes']
-            all_parties.add(rd['party_abv'])
-
-        # Step 4: build continuous rounds
-        actual_max = max(ac_max_rnd.values()) if ac_max_rnd else 0
-        all_rounds = list(range(0, actual_max + 1))
-=======
         # Build all_rounds from actual distinct round numbers present
         all_rounds = distinct_rounds[:]
->>>>>>> Stashed changes
         has_f = len(f_data) > 0
         if has_f:
             all_rounds.append(999)
 
-<<<<<<< Updated upstream
-        # Step 5: for each round R, sum each party's votes across all ACs
-        # that have reached at least round R (using their latest available data).
-        # Round 999 uses postal ballot data directly.
-=======
         # Each round's totals are already complete snapshots (not incremental)
->>>>>>> Stashed changes
         cumulative_series = {}
         for rn in all_rounds:
-            round_totals = defaultdict(int)
             if rn == 999:
-<<<<<<< Updated upstream
-                # Postal ballots: use round 999 data for all ACs
-                for ac_no, party_votes in f_data.items():
-                    for party_abv, pv in party_votes.items():
-                        round_totals[party_abv] += pv
-            else:
-                for ac_no, max_rnd in ac_max_rnd.items():
-                    effective_rn = min(rn, max_rnd)
-                    for party_abv, party_votes in votes[ac_no].get(effective_rn, {}).items():
-                        round_totals[party_abv] += party_votes
-            cumulative_series[rn] = dict(round_totals)
-
-        # Step 6: sort parties by final vote count
-        final_key = 999 if has_f else all_rounds[-1]
-        final_votes = {pt: cumulative_series.get(final_key, {}).get(pt, 0) for pt in all_parties}
-        sorted_parties = sorted(all_parties, key=lambda pt: final_votes[pt], reverse=True)
-=======
                 cumulative_series[rn] = dict(f_data) if has_f else {}
             else:
                 cumulative_series[rn] = dict(counting_data.get(rn, {}))
@@ -620,7 +556,6 @@ def roundwise(state: str = Query(..., description="State code (required)")):
                        for p in all_parties} if final_key is not None else {}
         sorted_parties = sorted(all_parties, key=lambda p: final_votes.get(p, 0),
                                 reverse=True)
->>>>>>> Stashed changes
 
         series = []
         symbols = _get_party_symbols()
