@@ -561,6 +561,40 @@
   #races-card {
     min-height: 680px;
   }
+  /* Sort bar — plain-English sort links below card title */
+  .race-sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .race-sort-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 11px;
+    font-family: inherit;
+    color: var(--muted);
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1.4;
+  }
+  .race-sort-link:hover {
+    color: var(--text);
+  }
+  .race-sort-link.active {
+    color: var(--text);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .race-sort-sep {
+    color: var(--muted);
+    font-size: 11px;
+    opacity: 0.5;
+    user-select: none;
+  }
   #races-chart-container {
     height: 480px !important;
   }
@@ -1541,6 +1575,17 @@
 
   <div class="card" id="races-card">
     <h2>Results by Constituency</h2>
+    <div class="race-sort-bar" id="race-sort-bar">
+      <button class="race-sort-link active" data-sort="alpha" type="button">Alphabetic</button>
+      <span class="race-sort-sep">|</span>
+      <button class="race-sort-link" data-sort="acno" type="button">Constituency No.</button>
+      <span class="race-sort-sep">|</span>
+      <button class="race-sort-link" data-sort="margin-desc" type="button">Greatest Win Margin</button>
+      <span class="race-sort-sep">|</span>
+      <button class="race-sort-link" data-sort="margin-asc" type="button">Smallest Win Margin</button>
+      <span class="race-sort-sep">|</span>
+      <button class="race-sort-link" data-sort="nota" type="button">Highest NOTA</button>
+    </div>
     <div class="race-controls-row">
       <div class="toggle-group" id="race-toggle" role="group" aria-label="Constituency result view">
         <button class="toggle-btn active" type="button" data-race-view="final" aria-pressed="true">Final</button>
@@ -1600,6 +1645,7 @@ let stateStatuses = {};
 let knownStates = [];
 let perfView = 'tally';  // 'tally', 'share', or 'roundwise'
 let perfParties = [];  // shared party list for both views
+let raceSortMode = 'alpha';
 
 // ---------------------------------------------------------------------------
 // Theme helpers
@@ -2732,39 +2778,85 @@ function renderRaces(stateCode) {
         if (c.symbol_url) partySymbols[c.party_abv] = c.symbol_url;
       }));
 
-      const alphaIndices = racesData.map((r, i) => i)
-        .sort((a, b) => (racesData[a].ac_name || '').localeCompare(racesData[b].ac_name || ''));
-
-      const sel = document.getElementById('race-select');
-      const prevValue = sel.value;
-      sel.innerHTML = '';
-      alphaIndices.forEach(i => {
-        const race = racesData[i];
-        const opt = document.createElement('option');
-        opt.value = i;
-        const name = (race.ac_name || '').trim().toUpperCase();
-        opt.textContent = `${name} (${race.ac_no})`;
-        opt.dataset.acNo = race.ac_no;
-        sel.appendChild(opt);
-      });
-      // Restore previous selection, or pick saved AC on fresh load
-      if (prevValue && sel.querySelector(`option[value="${prevValue}"]`)) {
-        sel.value = prevValue;
-      } else {
-        const savedAc = localStorage.getItem(RACE_AC_STORAGE_KEY);
-        if (savedAc) {
-          const match = sel.querySelector(`option[data-ac-no="${savedAc}"]`);
-          if (match) sel.value = match.value;
-        }
-      }
-      sel.onchange = () => drawSingleRace(racesData[+sel.value]);
-      drawSingleRace(racesData[+sel.value]);
+      populateRaceDropdown();
     })
     .catch(e => {
       console.error('Failed to load races:', e);
       card.style.display = 'none';
     });
 }
+
+function populateRaceDropdown() {
+  if (!racesData.length) return;
+
+  // Compute NOTA votes for each AC
+  racesData.forEach(race => {
+    const nota = (race.candidates || []).find(c => c.candidate === 'NOTA');
+    race._notaVotes = nota ? nota.votes : 0;
+  });
+
+  // Build sort indices based on current mode
+  let indices = racesData.map((_, i) => i);
+  switch (raceSortMode) {
+    case 'alpha':
+      indices.sort((a, b) => (racesData[a].ac_name || '').localeCompare(racesData[b].ac_name || ''));
+      break;
+    case 'acno':
+      indices.sort((a, b) => racesData[a].ac_no - racesData[b].ac_no);
+      break;
+    case 'margin-desc':
+      indices.sort((a, b) => racesData[b].margin - racesData[a].margin);
+      break;
+    case 'margin-asc':
+      indices.sort((a, b) => racesData[a].margin - racesData[b].margin);
+      break;
+    case 'nota':
+      indices.sort((a, b) => racesData[b]._notaVotes - racesData[a]._notaVotes);
+      break;
+  }
+
+  const sel = document.getElementById('race-select');
+  const prevValue = sel.value;
+  const prevAcNo = prevValue !== null && sel.querySelector(`option[value="${prevValue}"]`)
+    ? sel.querySelector(`option[value="${prevValue}"]`).dataset.acNo
+    : null;
+  sel.innerHTML = '';
+  indices.forEach(i => {
+    const race = racesData[i];
+    const opt = document.createElement('option');
+    opt.value = i;
+    const name = (race.ac_name || '').trim().toUpperCase();
+    opt.textContent = `${name} (${race.ac_no})`;
+    opt.dataset.acNo = race.ac_no;
+    sel.appendChild(opt);
+  });
+  // Restore previous selection by AC number
+  if (prevAcNo) {
+    const match = sel.querySelector(`option[data-ac-no="${prevAcNo}"]`);
+    if (match) sel.value = match.value;
+  } else {
+    const savedAc = localStorage.getItem(RACE_AC_STORAGE_KEY);
+    if (savedAc) {
+      const match = sel.querySelector(`option[data-ac-no="${savedAc}"]`);
+      if (match) sel.value = match.value;
+    }
+  }
+  sel.onchange = () => drawSingleRace(racesData[+sel.value]);
+  drawSingleRace(racesData[+sel.value]);
+}
+
+// Sort bar click handlers
+document.getElementById('race-sort-bar')?.addEventListener('click', (e) => {
+  const btn = e.target.closest('.race-sort-link');
+  if (!btn) return;
+  const mode = btn.dataset.sort;
+  if (mode === raceSortMode) return;
+  raceSortMode = mode;
+  // Update active state
+  document.querySelectorAll('.race-sort-link').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  populateRaceDropdown();
+});
 
 const FORM20_ICONS = {
   unavailable: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
