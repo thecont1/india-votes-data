@@ -2246,7 +2246,7 @@ let _rwForm20Url = null;
 function _buildRoundwiseCardHTML(roundIdx, locked) {
   if (roundIdx < 0 || roundIdx >= _rwRounds.length) return '';
   const rn = _rwRounds[roundIdx];
-  const roundLabel = rn === 999 ? 'Final (postal)' : `Round ${rn}`;
+  const roundLabel = rn === 999 ? 'Final (incl. postal)' : `Round ${rn}`;
 
   // Build from chart datasets — use full candidate names from currentRace
   const raceCandidates = (typeof currentRace !== 'undefined' && currentRace && currentRace.candidates)
