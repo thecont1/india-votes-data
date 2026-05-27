@@ -3358,8 +3358,17 @@ async function renderRoundwise(stateCode) {
     }
 
     const rounds = data.rounds || [];
-    const series = data.series || [];
+    let series = data.series || [];
     if (!rounds.length || !series.length) return;
+
+    // Filter: keep parties up to and including NOTA; drop anyone below NOTA
+    const finalIdx = rounds.length - 1;
+    const notaVotes = (series.find(s => s.party_abv === 'NOTA')?.data[finalIdx]) || 0;
+    series = series.filter(s => {
+      const finalVotes = s.data[finalIdx] || 0;
+      return finalVotes >= notaVotes && finalVotes > 0;
+    });
+    if (!series.length) return;
 
     series.forEach(s => { if (s.symbol_url) partySymbols[s.party_abv] = s.symbol_url; });
 
