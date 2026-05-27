@@ -2816,10 +2816,6 @@ function populateRaceDropdown() {
   }
 
   const sel = document.getElementById('race-select');
-  const prevValue = sel.value;
-  const prevAcNo = prevValue !== null && sel.querySelector(`option[value="${prevValue}"]`)
-    ? sel.querySelector(`option[value="${prevValue}"]`).dataset.acNo
-    : null;
   sel.innerHTML = '';
   indices.forEach(i => {
     const race = racesData[i];
@@ -2830,17 +2826,7 @@ function populateRaceDropdown() {
     opt.dataset.acNo = race.ac_no;
     sel.appendChild(opt);
   });
-  // Restore previous selection by AC number
-  if (prevAcNo) {
-    const match = sel.querySelector(`option[data-ac-no="${prevAcNo}"]`);
-    if (match) sel.value = match.value;
-  } else {
-    const savedAc = localStorage.getItem(RACE_AC_STORAGE_KEY);
-    if (savedAc) {
-      const match = sel.querySelector(`option[data-ac-no="${savedAc}"]`);
-      if (match) sel.value = match.value;
-    }
-  }
+  // Always start at first item in sorted order
   sel.onchange = () => drawSingleRace(racesData[+sel.value]);
   drawSingleRace(racesData[+sel.value]);
 }
