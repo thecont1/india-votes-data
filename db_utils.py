@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS constituency_status (
     error_count     INTEGER DEFAULT 0,
     won             INTEGER DEFAULT 0,
     form20_url      TEXT,
+    form20_status   TEXT    NOT NULL DEFAULT 'UNAVAILABLE',
     PRIMARY KEY (state_code, ac_no)
 );
 """
@@ -179,6 +180,7 @@ CREATE TABLE IF NOT EXISTS constituency_status (
     error_count     INTEGER DEFAULT 0,
     won             INTEGER DEFAULT 0,
     form20_url      TEXT,
+    form20_status   TEXT    NOT NULL DEFAULT 'UNAVAILABLE',
     PRIMARY KEY (state_code, ac_no)
 );
 """
