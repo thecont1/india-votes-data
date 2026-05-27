@@ -332,13 +332,19 @@ def ac_races(state: str = Query(..., description="State code (required)")):
         p = "%s" if IS_PG else "?"
         cur.execute(f"""
             WITH latest_rounds AS (
-                SELECT lr.state_code, lr.ac_no, lr.max_round
+                SELECT lr.state_code, lr.ac_no,
+                       CASE WHEN r999.ac_no IS NOT NULL THEN 999 ELSE lr.max_round END as max_round
                 FROM (
                     SELECT state_code, ac_no, MAX(round_no) as max_round
                     FROM rounds_ac
                     WHERE state_code = {p} AND round_no != 999
                     GROUP BY state_code, ac_no
                 ) lr
+                LEFT JOIN (
+                    SELECT DISTINCT state_code, ac_no
+                    FROM rounds_ac
+                    WHERE state_code = {p} AND round_no = 999
+                ) r999 ON lr.state_code = r999.state_code AND lr.ac_no = r999.ac_no
                 JOIN constituency_status cs
                     ON lr.state_code = cs.state_code AND lr.ac_no = cs.ac_no
                 WHERE cs.status = 'DONE'
@@ -374,7 +380,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                    SUM(votes) OVER (PARTITION BY ac_no) as total_votes
             FROM ranked
             ORDER BY ac_no, rank
-        """, (state,))
+        """, (state, state))
         rows = cur.fetchall()
 
         # Group by AC
