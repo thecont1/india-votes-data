@@ -1212,7 +1212,7 @@
     opacity: 0;
     transition: opacity 0.12s ease;
     box-shadow: 0 4px 16px color-mix(in srgb, var(--text) 10%, transparent);
-    width: 300px;
+    width: 340px;
     font-family: var(--font-ui, system-ui, sans-serif);
   }
   .roundwise-card.visible { opacity: 1; }
@@ -1249,24 +1249,36 @@
     min-width: 0;
   }
   .rw-candidate-card__name {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
-  .rw-candidate-card__party {
+  .rw-card-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .rw-card-party-row {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     font-size: 11px;
     color: var(--muted);
+    margin-top: 1px;
   }
-  .rw-candidate-card__dot {
-    width: 6px;
-    height: 6px;
+  .rw-swatch {
+    width: 10px; height: 10px;
     border-radius: 50%;
+    border: 2px solid;
+    background: transparent;
+    flex-shrink: 0;
+  }
+  .rw-card-sym {
+    width: 14px; height: 14px;
+    object-fit: contain;
     flex-shrink: 0;
   }
   .rw-candidate-card__votes {
@@ -1291,44 +1303,33 @@
     background: #ffffff;
     padding: 0;
   }
-  /* Candidate rows */
+  /* Remaining candidates */
   .rw-candidate {
-    display: grid;
-    grid-template-columns: 16px 8px 12px 1fr auto;
-    gap: 3px 5px;
-    align-items: baseline;
-    padding: 2px 0;
+    padding: 3px 0;
     font-size: 11px;
-    line-height: 1.4;
+    line-height: 1.5;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
   }
-  .rw-rank {
+  .rw-crank {
+    font-weight: 600;
     color: var(--muted);
     font-variant-numeric: tabular-nums;
-    text-align: right;
+  }
+  .rw-cparty {
+    color: var(--muted);
     font-weight: 600;
-  }
-  .rw-cdot { width: 5px; height: 5px;
-    border-radius: 50%;
-    align-self: center;
-  }
-  .rw-csym {
-    width: 12px; height: 12px;
-    object-fit: contain;
-    align-self: center;
-  }
-  .rw-cname {
-    color: var(--text);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
   }
   .rw-cvotes {
-    color: var(--text);
-    font-variant-numeric: tabular-nums;
+    margin-left: auto;
     font-weight: 600;
-    white-space: nowrap;
-    text-align: right;
+    font-variant-numeric: tabular-nums;
   }
 
   /* Theme overrides */
@@ -2201,13 +2202,23 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
   const rn = _rwRounds[roundIdx];
   const roundLabel = rn === 999 ? 'Final (postal)' : `Round ${rn}`;
 
-  // Build from chart datasets
+  // Build from chart datasets — use full candidate names from currentRace
+  const raceCandidates = (typeof currentRace !== 'undefined' && currentRace && currentRace.candidates)
+    ? currentRace.candidates : [];
+  const fullNameMap = {};
+  const partyNameMap = {};
+  raceCandidates.forEach(c => {
+    if (c.candidate) fullNameMap[c.candidate] = c.candidate;
+    if (c.party_abv) partyNameMap[c.party_abv] = c.party_name || c.party_abv;
+  });
+
   const roundVotes = [];
   if (racesChart && racesChart.data && racesChart.data.datasets) {
     racesChart.data.datasets.forEach(ds => {
       const v = ds.data[roundIdx] || 0;
+      const rawName = ds._candidate || ds.label.split(' (')[0];
       roundVotes.push({
-        candidate: ds._candidate || ds.label.split(' (')[0],
+        candidate: fullNameMap[rawName] || rawName,
         partyAbv: ds._partyAbv || '',
         votes: v,
         color: ds.borderColor || '#888',
@@ -2217,20 +2228,17 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
   roundVotes.sort((a, b) => b.votes - a.votes);
   if (!roundVotes.length) return '';
 
-  // Resolve party names from currentRace candidates
-  const raceCandidates = (typeof currentRace !== 'undefined' && currentRace && currentRace.candidates)
-    ? currentRace.candidates : [];
-  const partyNameMap = {};
-  raceCandidates.forEach(c => { if (c.party_abv) partyNameMap[c.party_abv] = c.party_name || c.party_abv; });
-
   const leader = roundVotes[0];
   const runnerUp = roundVotes.length > 1 ? roundVotes[1] : null;
   const margin = runnerUp ? leader.votes - runnerUp.votes : 0;
 
-  // Party symbol helper
-  const symTag = (abv, size) => {
+  // Legend-style colour swatch: transparent fill, coloured 2px border
+  const swatch = (color) => `<span class="rw-swatch" style="border-color:${color};"></span>`;
+
+  // Party symbol tag
+  const partySym = (abv) => {
     const url = partySymbols[abv];
-    return url ? `<img src="${url}" alt="" class="${size}">` : '';
+    return url ? `<img src="${url}" alt="" class="rw-card-sym">` : '';
   };
 
   // Stacked candidate card helper
@@ -2238,7 +2246,7 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
     const symUrl = partySymbols[c.partyAbv];
     const symHtml = symUrl
       ? `<img src="${symUrl}" alt="" class="rw-candidate-card__sym">`
-      : `<span class="rw-party-dot" style="background:${c.color};width:36px;height:36px;border-radius:0;"></span>`;
+      : '';
     const partyFullName = partyNameMap[c.partyAbv] || c.partyAbv;
     const deltaHtml = delta
       ? `<span class="rw-candidate-card__delta">${delta}</span>`
@@ -2247,10 +2255,10 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
     <div class="rw-candidate-card">
       ${symHtml}
       <div class="rw-candidate-card__info">
+        <div class="rw-card-label">${label}</div>
         <div class="rw-candidate-card__name">${c.candidate}</div>
-        <div class="rw-candidate-card__party">
-          <span class="rw-candidate-card__dot" style="background:${c.color};"></span>
-          ${partyFullName}
+        <div class="rw-card-party-row">
+          ${swatch(c.color)} ${partySym(c.partyAbv)} ${partyFullName}
         </div>
       </div>
       <div style="text-align:right;">
@@ -2270,15 +2278,14 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
     trailingHTML = candidateCard(runnerUp, 'Trailing', delta);
   }
 
-  // Remaining candidates (rank 3 onwards)
+  // Remaining candidates (rank 3 onwards) — single-line format
   const remaining = roundVotes.slice(2);
   const remainingHTML = remaining.map((c, i) => {
-    const fullName = partyNameMap[c.partyAbv] || c.partyAbv;
+    const partyFullName = partyNameMap[c.partyAbv] || c.partyAbv;
     return `<div class="rw-candidate">
-      <span class="rw-rank">${i + 3}</span>
-      <span class="rw-cdot" style="background:${c.color};"></span>
-      ${symTag(c.partyAbv, 'rw-csym')}
-      <span class="rw-cname">${c.candidate}</span>
+      <span class="rw-crank">${i + 3}.</span>
+      ${c.candidate}
+      <span class="rw-cparty">(${swatch(c.color)} ${partySym(c.partyAbv)} ${c.partyAbv})</span>
       <span class="rw-cvotes">${c.votes.toLocaleString()}</span>
     </div>`;
   }).join('');
