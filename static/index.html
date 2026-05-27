@@ -1212,16 +1212,13 @@
     opacity: 0;
     transition: opacity 0.12s ease;
     box-shadow: 0 4px 16px color-mix(in srgb, var(--text) 10%, transparent);
-    width: 260px;
+    width: 280px;
     font-family: var(--font-ui, system-ui, sans-serif);
   }
   .roundwise-card.visible { opacity: 1; }
   .roundwise-card.locked { pointer-events: auto; }
-  /* Header row: round number left, form20 badge right */
+  /* Header: round number only */
   .rw-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 8px;
   }
   .rw-round {
@@ -1229,20 +1226,7 @@
     font-weight: 700;
     color: var(--text);
   }
-  .rw-badge {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    padding: 2px 6px;
-    border: 1px solid var(--border);
-    background: var(--card, #fff);
-  }
-  .rw-badge--unverified { color: #d97706; border-color: #d97706; }
-  .rw-badge--verified    { color: #059669; border-color: #059669; }
-  .rw-badge--mismatch    { color: #dc2626; border-color: #dc2626; }
-  .rw-badge--unavailable { color: var(--muted); }
-  /* Leader section */
+  /* Leading / trailing candidate blocks */
   .rw-leader-label {
     font-size: 10px;
     font-weight: 700;
@@ -1254,16 +1238,10 @@
   .rw-leader-row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 2px;
+    gap: 6px;
+    margin-bottom: 4px;
   }
-  .rw-leader-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .rw-leader-name {
+  .rw-lc-name {
     font-size: 12px;
     font-weight: 700;
     color: var(--text);
@@ -1273,30 +1251,47 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .rw-leader-votes {
-    font-size: 13px;
+  .rw-lc-votes {
+    font-size: 12px;
     font-weight: 700;
     color: var(--text);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
-  .rw-leader-margin {
-    font-size: 11px;
-    color: var(--muted);
-    font-variant-numeric: tabular-nums;
+  .rw-party-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
     margin-bottom: 10px;
   }
-  /* Divider */
-  .rw-divider {
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 8px;
+  .rw-party-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .rw-party-sym {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .rw-party-abv {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .rw-party-delta {
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    margin-left: auto;
   }
   /* Candidate rows */
   .rw-candidate {
     display: grid;
-    grid-template-columns: 18px 10px 1fr auto;
-    gap: 4px 6px;
+    grid-template-columns: 16px 8px 12px 1fr auto;
+    gap: 3px 5px;
     align-items: baseline;
     padding: 2px 0;
     font-size: 11px;
@@ -1308,10 +1303,13 @@
     text-align: right;
     font-weight: 600;
   }
-  .rw-cdot {
-    width: 6px;
-    height: 6px;
+  .rw-cdot { width: 5px; height: 5px;
     border-radius: 50%;
+    align-self: center;
+  }
+  .rw-csym {
+    width: 12px; height: 12px;
+    object-fit: contain;
     align-self: center;
   }
   .rw-cname {
@@ -1328,22 +1326,7 @@
     white-space: nowrap;
     text-align: right;
   }
-  .rw-cvotes--trailing {
-    color: var(--muted);
-    font-weight: 400;
-  }
-  /* Footer */
-  .rw-footer {
-    margin-top: 8px;
-    padding-top: 6px;
-    border-top: 1px solid var(--border);
-    font-size: 10px;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .rw-footer svg { width: 12px; height: 12px; }
+
   /* Theme overrides */
   :root[data-theme="fair-lovely"] .roundwise-card {
     background: #ffffff;
@@ -2209,29 +2192,12 @@ let _rwLabels = [];
 let _rwForm20Status = 'unavailable';
 let _rwForm20Url = null;
 
-const FORM20_BADGE_ICONS = {
-  unavailable: '',
-  unverified: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
-  verified: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>',
-  mismatch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
-};
-
 function _buildRoundwiseCardHTML(roundIdx, locked) {
   if (roundIdx < 0 || roundIdx >= _rwRounds.length) return '';
   const rn = _rwRounds[roundIdx];
   const roundLabel = rn === 999 ? 'Final (postal)' : `Round ${rn}`;
-  const status = (_rwForm20Status || 'unavailable').toLowerCase();
-  const badgeIcon = FORM20_BADGE_ICONS[status] || '';
-  const badgeClass = 'rw-badge rw-badge--' + status;
-  const statusLabel = FORM20_LABELS[status] || 'Unavailable';
 
-  // Collect all candidates for this round
-  const candidates = (typeof currentRace !== 'undefined' && currentRace && currentRace.candidates)
-    ? currentRace.candidates : [];
-  const partyColorMap = {};
-  candidates.forEach(c => { partyColorMap[c.party_abv] = c.color || '#888'; });
-
-  // Build from tooltip data points instead (more reliable for roundwise)
+  // Build from chart datasets
   const roundVotes = [];
   if (racesChart && racesChart.data && racesChart.data.datasets) {
     racesChart.data.datasets.forEach(ds => {
@@ -2247,46 +2213,73 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
   roundVotes.sort((a, b) => b.votes - a.votes);
   if (!roundVotes.length) return '';
 
+  // Resolve party names from currentRace candidates
+  const raceCandidates = (typeof currentRace !== 'undefined' && currentRace && currentRace.candidates)
+    ? currentRace.candidates : [];
+  const partyNameMap = {};
+  raceCandidates.forEach(c => { if (c.party_abv) partyNameMap[c.party_abv] = c.party_name || c.party_abv; });
+
   const leader = roundVotes[0];
   const runnerUp = roundVotes.length > 1 ? roundVotes[1] : null;
   const margin = runnerUp ? leader.votes - runnerUp.votes : 0;
-  const marginStr = margin > 0 ? `+${margin.toLocaleString()} over ${runnerUp.partyAbv}` : '';
 
+  // Party symbol helper
+  const symTag = (abv, size) => {
+    const url = partySymbols[abv];
+    return url ? `<img src="${url}" alt="" class="${size}">` : '';
+  };
+
+  // LEADING block
   const leaderHTML = `
     <div class="rw-leader-label">Leading</div>
     <div class="rw-leader-row">
-      <span class="rw-leader-dot" style="background:${leader.color};"></span>
-      <span class="rw-leader-name">${leader.candidate}</span>
+      <span class="rw-lc-name">${leader.candidate}</span>
+      <span class="rw-lc-votes">${leader.votes.toLocaleString()}</span>
     </div>
-    <div class="rw-leader-votes">${leader.votes.toLocaleString()} votes</div>
-    ${marginStr ? `<div class="rw-leader-margin">${marginStr}</div>` : '<div style="margin-bottom:10px;"></div>'}`;
+    <div class="rw-party-row">
+      <span class="rw-party-dot" style="background:${leader.color};"></span>
+      ${symTag(leader.partyAbv, 'rw-party-sym')}
+      <span class="rw-party-abv">${leader.partyAbv}</span>
+    </div>`;
 
-  const candidatesHTML = roundVotes.map((c, i) => {
-    const isLeader = i === 0;
+  // TRAILING block
+  let trailingHTML = '';
+  if (runnerUp) {
+    const delta = margin > 0 ? `\u0394 -${margin.toLocaleString()}` : '';
+    trailingHTML = `
+    <div class="rw-leader-label">Trailing</div>
+    <div class="rw-leader-row">
+      <span class="rw-lc-name">${runnerUp.candidate}</span>
+      <span class="rw-lc-votes">${runnerUp.votes.toLocaleString()}</span>
+    </div>
+    <div class="rw-party-row">
+      <span class="rw-party-dot" style="background:${runnerUp.color};"></span>
+      ${symTag(runnerUp.partyAbv, 'rw-party-sym')}
+      <span class="rw-party-abv">${runnerUp.partyAbv}</span>
+      ${delta ? `<span class="rw-party-delta">${delta}</span>` : ''}
+    </div>`;
+  }
+
+  // Remaining candidates (rank 3 onwards)
+  const remaining = roundVotes.slice(2);
+  const remainingHTML = remaining.map((c, i) => {
+    const fullName = partyNameMap[c.partyAbv] || c.partyAbv;
     return `<div class="rw-candidate">
-      <span class="rw-rank">${i + 1}</span>
+      <span class="rw-rank">${i + 3}</span>
       <span class="rw-cdot" style="background:${c.color};"></span>
+      ${symTag(c.partyAbv, 'rw-csym')}
       <span class="rw-cname">${c.candidate}</span>
-      <span class="rw-cvotes${isLeader ? '' : ' rw-cvotes--trailing'}">${c.votes.toLocaleString()}</span>
+      <span class="rw-cvotes">${c.votes.toLocaleString()}</span>
     </div>`;
   }).join('');
-
-  const footerHTML = _rwForm20Url
-    ? `<div class="rw-footer">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Form 20 source · roundwise tally
-      </div>`
-    : `<div class="rw-footer">Roundwise tally</div>`;
 
   return `
     <div class="rw-header">
       <span class="rw-round">${roundLabel}</span>
-      <span class="${badgeClass}">${badgeIcon} ${statusLabel}</span>
     </div>
     ${leaderHTML}
-    <div class="rw-divider"></div>
-    ${candidatesHTML}
-    ${footerHTML}`;
+    ${trailingHTML}
+    ${remainingHTML}`;
 }
 
 function _showRoundwiseCard(roundIdx, chart, caretX, caretY, locked) {
