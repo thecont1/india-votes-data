@@ -2047,6 +2047,53 @@ function legendTooltip(context) {
 }
 
 // ---------------------------------------------------------------------------
+// Candidate card tooltip — Roundwise constituency chart
+// Shows each candidate as: symbol + name + party + votes, sorted by votes
+// ---------------------------------------------------------------------------
+function candidateCardTooltip(context) {
+  const { chart, tooltip } = context;
+  const el = _getTooltipEl(chart);
+
+  if (tooltip.opacity === 0) { _hideTooltip(el); return; }
+
+  const titleLines = tooltip.title || [];
+  const titleHtml = titleLines.length
+    ? `<div class="tooltip-title" style="margin-bottom:8px;">${titleLines[0]}</div>`
+    : '';
+
+  // Build candidate cards from data points, sorted by votes desc
+  const points = (tooltip.dataPoints || [])
+    .map(dp => ({
+      candidate: dp.dataset._candidate || dp.dataset.label.split(' (')[0],
+      partyAbv: dp.dataset._partyAbv || '',
+      votes: dp.parsed.y,
+      color: dp.dataset.borderColor || '#888',
+    }))
+    .sort((a, b) => b.votes - a.votes);
+
+  const cards = points.map(p => {
+    const symUrl = partySymbols[p.partyAbv] || null;
+    const partyName = partyNames[p.partyAbv] || p.partyAbv;
+    const symHtml = symUrl
+      ? `<img src="${symUrl}" alt="" class="tooltip-symbol-sm">`
+      : '';
+    return `<div class="legend-item" style="margin-bottom:4px;">
+      <div class="legend-swatch" style="border-color:${p.color};"></div>
+      ${symHtml}<span style="flex:1;min-width:0;">
+        <span style="font-weight:600;">${p.candidate}</span>
+        <span style="color:var(--tooltip-muted, var(--muted));"> — ${partyName}</span>
+      </span>
+      <span style="margin-left:8px;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap;">${p.votes.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = titleHtml + cards;
+
+  _showTooltip(el);
+  _positionTooltip(chart, tooltip, el);
+}
+
+// ---------------------------------------------------------------------------
 // Render — Seat Tally
 // ---------------------------------------------------------------------------
 function renderChart(parties, majority) {
@@ -2694,10 +2741,9 @@ function drawRaceFinal(race) {
 }
 
 async function drawRaceRoundwise(race) {
-  const shown = getShownCandidates(race).slice(0, 6);
+  const shown = getShownCandidates(race);
   if (!shown.length) return;
   updateRaceLegend(shown);
-  document.getElementById('races-chart-container').style.height = '420px';
 
   const canvas = document.getElementById('races-chart');
   const ctx = canvas.getContext('2d');
@@ -2714,14 +2760,25 @@ async function drawRaceRoundwise(race) {
     const rows = data.rounds || [];
     const rounds = [...new Set(rows.map(r => r.round_no))]
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
-    const labels = rounds.map(rn => rn === 999 ? '🏁' : rn);
-    const shownNames = new Set(shown.map(c => c.candidate));
+
+    const labels = rounds.map(rn => rn === 999 ? 'Final' : `R${rn}`);
+
+    // Build per-candidate vote map: candidate -> round_no -> votes
+    const votesMap = {};
+    rows.forEach(r => {
+      if (!votesMap[r.candidate]) votesMap[r.candidate] = {};
+      votesMap[r.candidate][r.round_no] = r.votes;
+    });
+
     const colorsByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.color]));
     const partyByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.party_abv]));
+    const symbolByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.symbol_url || null]));
+
     const datasets = shown.map(c => ({
       label: `${c.candidate} (${c.party_abv})`,
       _partyAbv: c.party_abv,
-      data: rounds.map(rn => (rows.find(r => r.round_no === rn && r.candidate === c.candidate) || {}).votes || 0),
+      _candidate: c.candidate,
+      data: rounds.map(rn => (votesMap[c.candidate] || {})[rn] || 0),
       borderColor: colorsByCandidate[c.candidate] || c.color,
       backgroundColor: colorsByCandidate[c.candidate] || c.color,
       borderWidth: 2,
@@ -2729,7 +2786,11 @@ async function drawRaceRoundwise(race) {
       pointHoverRadius: 4,
       tension: 0.25,
       fill: false,
-    })).filter(ds => shownNames.has(ds.label.split(' (')[0]));
+    }));
+
+    const rowHeight = window.matchMedia('(max-width: 640px)').matches ? 52 : 44;
+    const chartH = Math.max(300, shown.length * rowHeight + 70);
+    document.getElementById('races-chart-container').style.height = chartH + 'px';
 
     racesChart = new Chart(ctx, {
       type: 'line',
@@ -2742,7 +2803,7 @@ async function drawRaceRoundwise(race) {
         plugins: {
           legend: { display: false },
           tooltip: {
-            external: legendTooltip,
+            external: candidateCardTooltip,
             enabled: false,
             backgroundColor: theme.tooltipBg,
             titleColor: theme.tooltipText,
@@ -2751,8 +2812,10 @@ async function drawRaceRoundwise(race) {
             borderWidth: 1,
             padding: 12,
             callbacks: {
-              title: items => items[0].label === '🏁' ? 'FINAL' : `Round ${items[0].label}`,
-              label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} votes`,
+              title: items => {
+                const rn = rounds[items[0].dataIndex];
+                return rn === 999 ? 'Final (postal)' : `Round ${rn}`;
+              },
             }
           },
         },
