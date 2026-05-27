@@ -1388,13 +1388,15 @@
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-const POLL_INTERVAL = 10000;
+const POLL_INTERVAL = 180000;
 const THEME_STORAGE_KEY = 'eci-dashboard-theme';
+const STATE_STORAGE_KEY = 'eci-dashboard-state';
+const ELECTION_STORAGE_KEY = 'eci-dashboard-election';
 const DEFAULT_THEME = 'black-white';
 const THEME_VALUES = new Set(['dark-handsome', 'fair-lovely', 'black-white']);
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-let currentState = '';
+let currentState = localStorage.getItem(STATE_STORAGE_KEY) || '';
 let currentMajority = null;
 let chart = null;
 let pollTimer = null;
@@ -1630,10 +1632,20 @@ async function loadElections() {
     selector.innerHTML = electionsList.map(e =>
       `<option value="${e.election_id}">${e.name}</option>`
     ).join('');
-    // Select current (most recent) by default
-    if (electionsList.length > 0) {
+    // Restore saved election or default to most recent
+    const savedElectionId = localStorage.getItem(ELECTION_STORAGE_KEY);
+    const savedElection = savedElectionId
+      ? electionsList.find(e => e.election_id === savedElectionId)
+      : null;
+    if (savedElection) {
+      selector.value = savedElection.election_id;
+      currentElection = savedElection;
+    } else if (electionsList.length > 0) {
       selector.value = electionsList[0].election_id;
       currentElection = electionsList[0];
+    }
+    if (currentElection) {
+      localStorage.setItem(ELECTION_STORAGE_KEY, currentElection.election_id);
       // Initialize state bar for the current election
       updateStateBarForElection(currentElection.states);
     }
@@ -1647,8 +1659,10 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
   const election = electionsList.find(el => el.election_id === selectedId);
   if (election && election.election_id !== currentElection?.election_id) {
     currentElection = election;
+    localStorage.setItem(ELECTION_STORAGE_KEY, election.election_id);
     // Reset state when election changes
     currentState = '';
+    localStorage.removeItem(STATE_STORAGE_KEY);
     stateStatuses = {};
     knownStates = [];
     // Clear UI
@@ -2880,6 +2894,7 @@ function renderStateBar(states) {
     btn.setAttribute('aria-label', `${s.name}: ${kind}`);
     btn.onclick = () => {
       currentState = s.code;
+      localStorage.setItem(STATE_STORAGE_KEY, s.code);
       lastDataFingerprint = '';
       renderStateBar(states);
       fetchData();
