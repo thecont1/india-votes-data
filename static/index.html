@@ -968,6 +968,88 @@
     object-fit: contain;
     flex-shrink: 0;
   }
+  .chartjs-tooltip {
+    position: absolute;
+    background: var(--tooltip-bg, var(--card));
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 100;
+    max-width: 280px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--text) 12%, transparent);
+  }
+  .chartjs-tooltip .tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .chartjs-tooltip .tooltip-symbol {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    flex-shrink: 0;
+    border-radius: 4px;
+    background: #fff;
+    padding: 2px;
+  }
+  .chartjs-tooltip .tooltip-symbol-sm {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+    border-radius: 2px;
+    background: #fff;
+    padding: 1px;
+  }
+  .chartjs-tooltip .tooltip-title {
+    font-weight: 600;
+    color: var(--tooltip-text, var(--text));
+    font-size: 12px;
+  }
+  .chartjs-tooltip .tooltip-body {
+    color: var(--tooltip-muted, var(--muted));
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  /* Fair and Lovely: pure white tooltip, symbol blends with background */
+  :root[data-theme="fair-lovely"] .chartjs-tooltip {
+    background: #ffffff;
+    border-color: var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  :root[data-theme="fair-lovely"] .chartjs-tooltip .tooltip-symbol,
+  :root[data-theme="fair-lovely"] .chartjs-tooltip .tooltip-symbol-sm {
+    background: #ffffff;
+    padding: 0;
+  }
+  :root[data-theme="fair-lovely"] .chartjs-tooltip .tooltip-title {
+    color: var(--text);
+  }
+  :root[data-theme="fair-lovely"] .chartjs-tooltip .tooltip-body {
+    color: var(--muted);
+  }
+  /* Dark and Handsome: black tooltip, invert symbols so dark images show on dark bg */
+  :root[data-theme="dark-handsome"] .chartjs-tooltip {
+    background: #000000;
+    border-color: #333;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  }
+  :root[data-theme="dark-handsome"] .chartjs-tooltip .tooltip-symbol,
+  :root[data-theme="dark-handsome"] .chartjs-tooltip .tooltip-symbol-sm {
+    background: transparent;
+    padding: 0;
+    filter: invert(1);
+  }
+  :root[data-theme="dark-handsome"] .chartjs-tooltip .tooltip-title {
+    color: #ffffff;
+  }
+  :root[data-theme="dark-handsome"] .chartjs-tooltip .tooltip-body {
+    color: #cccccc;
+  }
   /* Seat tally: declared/leading swatches (non-circle) */
   .legend-swatch.declared {
     background: var(--muted);
@@ -1198,6 +1280,7 @@ let currentMajority = null;
 let chart = null;
 let pollTimer = null;
 let partyNames = {};
+let partySymbols = {};
 let partyDepositLoss = {};
 let voteShareChart = null;
 let racesChart = null;
@@ -1629,6 +1712,134 @@ function buildCircleLegend(el, labels, colors, symbols) {
 }
 
 // ---------------------------------------------------------------------------
+// Shared tooltip helpers
+// ---------------------------------------------------------------------------
+function _getTooltipEl(chart) {
+  let el = chart.canvas._tooltipEl;
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'chartjs-tooltip';
+    chart.canvas.parentNode.style.position = 'relative';
+    chart.canvas.parentNode.appendChild(el);
+    chart.canvas._tooltipEl = el;
+  }
+  return el;
+}
+
+function _positionTooltip(chart, tooltip, el) {
+  const wrapRect = chart.canvas.parentNode.getBoundingClientRect();
+  const canvasRect = chart.canvas.getBoundingClientRect();
+  let left = canvasRect.left - wrapRect.left + tooltip.caretX + 12;
+  let top = canvasRect.top - wrapRect.top + tooltip.caretY - 12;
+  const elWidth = el.offsetWidth || 180;
+  const elHeight = el.offsetHeight || 60;
+  if (left + elWidth > wrapRect.width) left = left - elWidth - 24;
+  if (top + elHeight > wrapRect.height) top = wrapRect.height - elHeight - 4;
+  if (top < 0) top = 4;
+  el.style.left = left + 'px';
+  el.style.top = top + 'px';
+}
+
+function _hideTooltip(el) {
+  el.style.opacity = '0';
+  el.style.pointerEvents = 'none';
+}
+
+function _showTooltip(el) {
+  el.style.opacity = '1';
+  el.style.pointerEvents = 'none';
+}
+
+// Extract text lines from Chart.js 4.x tooltip body objects
+// body items are {lines: string[], before: string[], after: string[]}
+function _bodyLines(tooltip) {
+  return (tooltip.body || []).flatMap(b => {
+    if (typeof b === 'string') return [b];
+    return (b.lines || []).concat(b.before || []).concat(b.after || []);
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Party card tooltip — Seat Tally, Vote Share, Races (candidate chart)
+// ---------------------------------------------------------------------------
+function partyCardTooltip(context) {
+  const { chart, tooltip } = context;
+  const el = _getTooltipEl(chart);
+
+  if (tooltip.opacity === 0) { _hideTooltip(el); return; }
+
+  // Determine party abv
+  let partyAbv = null;
+  if (tooltip.dataPoints && tooltip.dataPoints.length) {
+    const dp = tooltip.dataPoints[0];
+    // Line chart: dataset label is the party abv
+    if (dp.dataset && dp.dataset.label && partySymbols[dp.dataset.label]) {
+      partyAbv = dp.dataset.label;
+    }
+    // Per-bar party abv (candidate chart)
+    else if (dp.dataset && dp.dataset._partyAbvs && dp.dataset._partyAbvs[dp.dataIndex]) {
+      partyAbv = dp.dataset._partyAbvs[dp.dataIndex];
+    }
+    // Bar chart: label at index
+    else if (chart.data.labels && chart.data.labels[dp.dataIndex]) {
+      partyAbv = chart.data.labels[dp.dataIndex];
+    }
+  }
+
+  const symbolUrl = partyAbv ? partySymbols[partyAbv] : null;
+  const symHtml = symbolUrl
+    ? `<img src="${symbolUrl}" class="tooltip-symbol" alt="">`
+    : '';
+
+  const titleLines = tooltip.title || [];
+  const bodyLines = _bodyLines(tooltip);
+  const titleHtml = titleLines.map(t => `<div class="tooltip-title">${t}</div>`).join('');
+  const bodyHtml = bodyLines.map(l => `<div class="tooltip-body">${l}</div>`).join('');
+
+  el.innerHTML = `<div class="tooltip-header">${symHtml}<span>${titleHtml}</span></div>${bodyHtml}`;
+
+  _showTooltip(el);
+  _positionTooltip(chart, tooltip, el);
+}
+
+// ---------------------------------------------------------------------------
+// Legend-style tooltip — Roundwise charts (multi-party column)
+// Shows each party as: coloured circle + symbol + abbreviation + value
+// ---------------------------------------------------------------------------
+function legendTooltip(context) {
+  const { chart, tooltip } = context;
+  const el = _getTooltipEl(chart);
+
+  if (tooltip.opacity === 0) { _hideTooltip(el); return; }
+
+  const titleLines = tooltip.title || [];
+  const titleHtml = titleLines.length
+    ? `<div class="tooltip-title" style="margin-bottom:6px;">${titleLines[0]}</div>`
+    : '';
+
+  // Build one row per data point (each is a party line)
+  const rows = (tooltip.dataPoints || []).map(dp => {
+    const partyAbv = dp.dataset._partyAbv || dp.dataset.label;
+    const symbolUrl = partySymbols[partyAbv] || null;
+    const color = dp.dataset.borderColor || '#888';
+    const val = dp.parsed.y;
+    const symHtml = symbolUrl
+      ? `<img src="${symbolUrl}" alt="" class="tooltip-symbol-sm">`
+      : '';
+    return `<div class="legend-item" style="margin-bottom:2px;">
+      <div class="legend-swatch" style="border-color:${color};"></div>
+      ${symHtml}<span>${partyAbv}</span>
+      <span style="margin-left:auto;font-variant-numeric:tabular-nums;">${val.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = titleHtml + rows;
+
+  _showTooltip(el);
+  _positionTooltip(chart, tooltip, el);
+}
+
+// ---------------------------------------------------------------------------
 // Render — Seat Tally
 // ---------------------------------------------------------------------------
 function renderChart(parties, majority) {
@@ -1674,6 +1885,7 @@ function renderChart(parties, majority) {
 
   main.forEach(p => {
     partyNames[p.party_abv] = p.party_name || p.party_abv;
+    if (p.symbol_url) partySymbols[p.party_abv] = p.symbol_url;
     partyDepositLoss[p.party_abv] = {
       lost_no_deposit: p.lost_no_deposit || 0,
       lost_deposit: p.lost_deposit || 0,
@@ -1780,6 +1992,8 @@ function renderChart(parties, majority) {
       plugins: {
         legend: { display: false },
         tooltip: {
+          external: partyCardTooltip,
+          enabled: false,
           backgroundColor: theme.tooltipBg,
           titleColor: theme.tooltipText,
           bodyColor: theme.tooltipMuted,
@@ -1901,6 +2115,8 @@ function renderVoteShare() {
       plugins: {
         legend: { display: false },
         tooltip: {
+          external: partyCardTooltip,
+          enabled: false,
           backgroundColor: theme.tooltipBg,
           titleColor: theme.tooltipText,
           bodyColor: theme.tooltipMuted,
@@ -1984,6 +2200,10 @@ function renderRaces(stateCode) {
         card.style.display = 'none';
         return;
       }
+      // Populate party symbols from race candidates
+      racesData.forEach(race => (race.candidates || []).forEach(c => {
+        if (c.symbol_url) partySymbols[c.party_abv] = c.symbol_url;
+      }));
 
       const alphaIndices = racesData.map((r, i) => i)
         .sort((a, b) => (racesData[a].ac_name || '').localeCompare(racesData[b].ac_name || ''));
@@ -2098,6 +2318,7 @@ function drawRaceFinal(race) {
           borderSkipped: false,
           barPercentage: 0.7,
           categoryPercentage: 0.85,
+          _partyAbvs: shown.map(c => c.party_abv),
         }
       ],
     },
@@ -2109,6 +2330,8 @@ function drawRaceFinal(race) {
       plugins: {
         legend: { display: false },
         tooltip: {
+          external: partyCardTooltip,
+          enabled: false,
           filter: (item) => item.datasetIndex === 0,
           backgroundColor: theme.tooltipBg,
           titleColor: theme.tooltipText,
@@ -2237,6 +2460,7 @@ async function drawRaceRoundwise(race) {
     const partyByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.party_abv]));
     const datasets = shown.map(c => ({
       label: `${c.candidate} (${c.party_abv})`,
+      _partyAbv: c.party_abv,
       data: rounds.map(rn => (rows.find(r => r.round_no === rn && r.candidate === c.candidate) || {}).votes || 0),
       borderColor: colorsByCandidate[c.candidate] || c.color,
       backgroundColor: colorsByCandidate[c.candidate] || c.color,
@@ -2258,6 +2482,8 @@ async function drawRaceRoundwise(race) {
         plugins: {
           legend: { display: false },
           tooltip: {
+            external: legendTooltip,
+            enabled: false,
             backgroundColor: theme.tooltipBg,
             titleColor: theme.tooltipText,
             bodyColor: theme.tooltipMuted,
@@ -2342,6 +2568,8 @@ async function renderRoundwise(stateCode) {
     const series = data.series || [];
     if (!rounds.length || !series.length) return;
 
+    series.forEach(s => { if (s.symbol_url) partySymbols[s.party_abv] = s.symbol_url; });
+
     buildCircleLegend(document.getElementById('perf-legend-tally'),
       series.map(s => s.party_abv), series.map(s => s.color),
       series.map(s => s.symbol_url));
@@ -2384,6 +2612,8 @@ async function renderRoundwise(stateCode) {
         plugins: {
           legend: { display: false },
           tooltip: {
+            external: legendTooltip,
+            enabled: false,
             backgroundColor: theme.tooltipBg,
             titleColor: theme.tooltipText,
             bodyColor: theme.tooltipMuted,
