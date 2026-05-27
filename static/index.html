@@ -963,6 +963,11 @@
     border: 2px solid;
     flex-shrink: 0;
   }
+  .legend-symbol {
+    width: 18px; height: 18px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
   /* Seat tally: declared/leading swatches (non-circle) */
   .legend-swatch.declared {
     background: var(--muted);
@@ -1611,14 +1616,16 @@ function loadStateCharts() {
 // ---------------------------------------------------------------------------
 // Render — Party Performance legend helper
 // ---------------------------------------------------------------------------
-function buildCircleLegend(el, labels, colors) {
+function buildCircleLegend(el, labels, colors, symbols) {
   if (!el) return;
-  el.innerHTML = labels.map((l, i) =>
-    `<div class="legend-item">
+  el.innerHTML = labels.map((l, i) => {
+    const sym = symbols && symbols[i];
+    const img = sym ? `<img src="${sym}" alt="" class="legend-symbol">` : '';
+    return `<div class="legend-item">
       <div class="legend-swatch" style="border-color:${colors[i]};"></div>
-      <span>${l}</span>
-    </div>`
-  ).join('');
+      ${img}<span>${l}</span>
+    </div>`;
+  }).join('');
 }
 
 // ---------------------------------------------------------------------------
@@ -1660,9 +1667,10 @@ function renderChart(parties, majority) {
   const wonData = main.map(p => p.won);
   const leadData = main.map(p => p.leading);
   const colors = main.map(p => p.color);
+  const symbols = main.map(p => p.symbol_url);
 
   // Circle-style legend (no y-axis labels)
-  buildCircleLegend(document.getElementById('perf-legend-tally'), labels, colors);
+  buildCircleLegend(document.getElementById('perf-legend-tally'), labels, colors, symbols);
 
   main.forEach(p => {
     partyNames[p.party_abv] = p.party_name || p.party_abv;
@@ -1858,9 +1866,10 @@ function renderVoteShare() {
   const labels = perfParties.map(p => p.party_abv);
   const data = perfParties.map(p => +((p.total_votes || 0) * 100 / grandTotal).toFixed(1));
   const colors = perfParties.map(p => p.color);
+  const symbols = perfParties.map(p => p.symbol_url);
 
   // Circle-style legend
-  buildCircleLegend(document.getElementById('perf-legend-tally'), labels, colors);
+  buildCircleLegend(document.getElementById('perf-legend-tally'), labels, colors, symbols);
 
   const canvas = document.getElementById('vote-share-chart');
   const ctx = canvas.getContext('2d');
@@ -2029,14 +2038,16 @@ function updateRaceLegend(candidates) {
   const seen = new Set();
   const labels = [];
   const colors = [];
+  const symbols = [];
   candidates.forEach(c => {
     const key = c.party_abv || c.party_name || c.candidate;
     if (seen.has(key)) return;
     seen.add(key);
     labels.push(key);
     colors.push(c.color || '#888888');
+    symbols.push(c.symbol_url || null);
   });
-  buildCircleLegend(document.getElementById('race-party-legend'), labels, colors);
+  buildCircleLegend(document.getElementById('race-party-legend'), labels, colors, symbols);
 }
 
 function drawSingleRace(race) {
@@ -2332,7 +2343,8 @@ async function renderRoundwise(stateCode) {
     if (!rounds.length || !series.length) return;
 
     buildCircleLegend(document.getElementById('perf-legend-tally'),
-      series.map(s => s.party_abv), series.map(s => s.color));
+      series.map(s => s.party_abv), series.map(s => s.color),
+      series.map(s => s.symbol_url));
 
     const canvas = document.getElementById('roundwise-chart');
     const ctx = canvas.getContext('2d');

@@ -63,6 +63,23 @@ PARTY_COLORS = {
 }
 DEFAULT_COLOR = "#888888"
 
+# Lazy-loaded party symbol URLs (abv -> url)
+_party_symbols: dict[str, str] | None = None
+
+
+def _get_party_symbols() -> dict[str, str]:
+    global _party_symbols
+    if _party_symbols is None:
+        try:
+            conn = _connect()
+            cur = _cursor(conn)
+            cur.execute("SELECT abv, symbol_url FROM parties WHERE symbol_url IS NOT NULL")
+            _party_symbols = {row["abv"]: row["symbol_url"] for row in cur.fetchall()}
+            conn.close()
+        except Exception:
+            _party_symbols = {}
+    return _party_symbols
+
 
 # ---------------------------------------------------------------------------
 # Pydantic models (scraping)
@@ -216,6 +233,7 @@ def seat_tally(
         has_won_data = (cur.fetchone() or {}).get("won_count", 0) > 0
 
         result = []
+        symbols = _get_party_symbols()
         for row in rows:
             abv = row["party_abv"]
             won = row["won_seats"]
@@ -238,6 +256,7 @@ def seat_tally(
                 "lost_deposit": lost_dep,
                 "total_votes": row.get("total_votes", 0),
                 "color": PARTY_COLORS.get(abv, DEFAULT_COLOR),
+                "symbol_url": symbols.get(abv),
             })
 
         # Compute majority line from states with DONE ACs
@@ -329,6 +348,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
         # Group by AC
         from collections import OrderedDict
         ac_map = OrderedDict()
+        symbols = _get_party_symbols()
         for row in rows:
             d = dict(row) if hasattr(row, 'keys') else {
                 'ac_no': row[0], 'ac_name': row[1], 'candidate': row[2],
@@ -351,6 +371,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                     'candidates': [],
                 }
             d['color'] = PARTY_COLORS.get(d['party_abv'], DEFAULT_COLOR)
+            d['symbol_url'] = symbols.get(d['party_abv'])
             ac_map[ac_no]['candidates'].append(d)
 
         # Compute status for each AC based on actual data
@@ -512,6 +533,7 @@ def roundwise(state: str = Query(..., description="State code (required)")):
         sorted_parties = sorted(all_parties, key=lambda p: final_votes[p], reverse=True)
 
         series = []
+        symbols = _get_party_symbols()
         for party in sorted_parties:
             if final_votes[party] == 0:
                 continue
@@ -519,6 +541,7 @@ def roundwise(state: str = Query(..., description="State code (required)")):
                 'party_abv': party,
                 'party_name': party,
                 'color': PARTY_COLORS.get(party, DEFAULT_COLOR),
+                'symbol_url': symbols.get(party),
                 'data': [cumulative_series[rn].get(party, 0) for rn in all_rounds],
             })
 
