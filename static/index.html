@@ -3033,12 +3033,8 @@ function updateForm20Field(race) {
   card.className = 'form20-card form20-card--' + status;
   statusEl.querySelector('svg').outerHTML = icon;
 
-  // Show score badge if available
-  const score = race.form20_score;
-  const scoreBadge = score != null
-    ? `<span style="margin-left:4px;font-size:0.75em;opacity:0.8">(${score}/100)</span>`
-    : '';
-  statusText.innerHTML = label + scoreBadge;
+  // Score is used for sorting only — not shown to users
+  statusText.innerHTML = label;
 
   if (race.form20_url) {
     action.innerHTML = `<a class="form20-card__action" href="${race.form20_url}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} PDF</a>`;
