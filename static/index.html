@@ -1693,6 +1693,12 @@
               <div class="status-row"><svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> <strong style="color:#dc2626">Mismatch</strong> — vote counts differ</div>
               <div class="status-row"><svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <strong style="color:#d97706">Error</strong> — couldn't read PDF; retry</div>
               <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> sort to surface ACs needing review.</p>
+              <table style="margin-top:6px;font-size:0.9em;width:100%;border-collapse:collapse">
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:2px 4px;color:#059669">EASY</td><td style="padding:2px 4px">80–100</td><td style="padding:2px 4px;opacity:0.7">Few candidates, clear PDF, all matched</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:2px 4px;color:#2563eb">MODERATE</td><td style="padding:2px 4px">50–79</td><td style="padding:2px 4px;opacity:0.7">Most matched, some ambiguity</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:2px 4px;color:#d97706">HARD</td><td style="padding:2px 4px">20–49</td><td style="padding:2px 4px;opacity:0.7">Dense PDF, low OCR confidence</td></tr>
+                <tr><td style="padding:2px 4px;color:#dc2626">IMPOSSIBLE</td><td style="padding:2px 4px">0–19</td><td style="padding:2px 4px;opacity:0.7">Too dense/blurry to read</td></tr>
+              </table>
             </div>
           </span>
         </span>
@@ -3033,8 +3039,15 @@ function updateForm20Field(race) {
   card.className = 'form20-card form20-card--' + status;
   statusEl.querySelector('svg').outerHTML = icon;
 
-  // Score is used for sorting only — not shown to users
-  statusText.innerHTML = label;
+  // Show score badge with interpretation
+  const score = race.form20_score;
+  const scoreLabel = score != null
+    ? (score >= 80 ? 'EASY' : score >= 50 ? 'MODERATE' : score >= 20 ? 'HARD' : 'IMPOSSIBLE')
+    : '';
+  const scoreBadge = score != null
+    ? `<span style="margin-left:4px;font-size:0.75em;opacity:0.8" title="${scoreLabel}: ${score}/100">(${score})</span>`
+    : '';
+  statusText.innerHTML = label + scoreBadge;
 
   if (race.form20_url) {
     action.innerHTML = `<a class="form20-card__action" href="${race.form20_url}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} PDF</a>`;

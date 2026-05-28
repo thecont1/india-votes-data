@@ -315,7 +315,7 @@ def ocr_vision_confirm(
 
     def _call_vision_api(img_path: Path):
         """Single-page Vision API call with retry. Returns parsed list or error dict."""
-        img_b64 = _image_to_base64(img_path)
+        img_b64 = _image_to_base64(img_path, candidate_count=len(eci_results))
         headers = {"Content-Type": "application/json"}
         if api_key:
             headers["Authorization"] = f"Bearer {api_key}"
@@ -377,16 +377,27 @@ def ocr_vision_confirm(
     return _merge_vision_responses(all_responses, eci_results)
 
 
-def _image_to_base64(img_path: Path, max_width: int = 1024) -> str:
-    """Resize image to fit within max_width and return base64-encoded PNG."""
+def _image_to_base64(img_path: Path, max_width: int = 1024, candidate_count: int = 0) -> str:
+    """Resize image for Vision API and return base64-encoded PNG.
+
+    Dense PDFs (>15 candidates) are upscaled to 2048px to preserve
+    readability of tiny numbers in wide tables.
+    """
     import base64
     from PIL import Image
     import io
 
+    # Upscale dense PDFs so the Vision LLM can read tiny numbers
+    effective_width = 2048 if candidate_count > 15 else max_width
+
     img = Image.open(img_path)
-    if img.width > max_width:
-        ratio = max_width / img.width
-        img = img.resize((max_width, int(img.height * ratio)), Image.LANCZOS)
+    if img.width > effective_width:
+        ratio = effective_width / img.width
+        img = img.resize((effective_width, int(img.height * ratio)), Image.LANCZOS)
+    elif img.width < effective_width and candidate_count > 15:
+        # Upscale small images for dense PDFs
+        ratio = effective_width / img.width
+        img = img.resize((effective_width, int(img.height * ratio)), Image.LANCZOS)
     buf = io.BytesIO()
     img.save(buf, format="PNG", optimize=True)
     return base64.b64encode(buf.getvalue()).decode("utf-8")
