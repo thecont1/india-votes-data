@@ -389,11 +389,9 @@ def run_state_batch(state_code: str, args) -> None:
     counts = {"VERIFIED": 0, "MISMATCH": 0, "ERROR": 0}
     start_time = time.time()
 
-    from rich.text import Text
-
     # Legend
     console.print()
-    console.print(Text("  ■ VERIFIED  ■ MISMATCH  ■ ERROR", style="dim"))
+    console.print("  [green]●[/] VERIFIED  [red]●[/] MISMATCH  [blue]●[/] ERROR")
     console.print()
 
     # Collect reports for summary
@@ -436,11 +434,7 @@ def run_state_batch(state_code: str, args) -> None:
                                       "difficulty": report.get("difficulty"),
                                       "confirmed": report.get("summary", {}).get("confirmed", 0)})
 
-        t = Text()
-        t.append(f"  {symbol} ", style=f"bold {color}")
-        t.append(f"{ac_no:>3} ", style="dim")
-        t.append(ac_name)
-        console.print(t)
+        console.print(f"  [bold {color}]{symbol}[/]  {ac_no:>3} {ac_name}")
 
     elapsed = time.time() - start_time
 
