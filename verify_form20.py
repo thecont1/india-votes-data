@@ -214,7 +214,7 @@ _CHAR = {
     "UNVERIFIED": "·",   # dot — not yet processed
     "PENDING":    "·",   # dot — waiting
 }
-_LINE_WIDTH = 30  # characters per line
+_LINE_WIDTH = 15  # ACs per line (each AC = 2 chars wide = 30 char line)
 
 
 def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
@@ -456,6 +456,8 @@ def run_state_batch(state_code: str, args) -> None:
                                       "confirmed": report.get("summary", {}).get("confirmed", 0)})
 
         line_buf.append(ch)
+        line_buf.append(ch)  # two columns per AC for thicker blocks
+        line_styles.append(status_key)
         line_styles.append(status_key)
 
         # Print every AC with status char
