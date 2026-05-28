@@ -690,7 +690,7 @@
     bottom: calc(100% + 8px);
     right: 0;
     display: block;
-    width: 280px;
+    width: 340px;
     background: var(--tooltip-bg, var(--card));
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -734,6 +734,12 @@
     font-size: 11px;
     color: var(--tooltip-muted, var(--muted));
     margin: 2px 0;
+  }
+  .form20-info-tooltip table td {
+    white-space: nowrap;
+  }
+  .form20-info-tooltip table td:last-child {
+    white-space: normal;
   }
   .form20-info-tooltip .status-icon {
     width: 14px; height: 14px;
@@ -1694,6 +1700,7 @@
               <div class="status-row"><svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <strong style="color:#d97706">Error</strong> — couldn't read PDF; retry</div>
               <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> sort to surface ACs needing review.</p>
               <table style="margin-top:6px;font-size:0.9em;width:100%;border-collapse:collapse">
+                <tr style="border-bottom:2px solid var(--border);font-weight:600"><td style="padding:2px 4px">Label</td><td style="padding:2px 4px">Score</td><td style="padding:2px 4px">Interpretation</td></tr>
                 <tr style="border-bottom:1px solid var(--border)"><td style="padding:2px 4px;color:#059669">EASY</td><td style="padding:2px 4px">80–100</td><td style="padding:2px 4px;opacity:0.7">Few candidates, clear PDF, all matched</td></tr>
                 <tr style="border-bottom:1px solid var(--border)"><td style="padding:2px 4px;color:#2563eb">MODERATE</td><td style="padding:2px 4px">50–79</td><td style="padding:2px 4px;opacity:0.7">Most matched, some ambiguity</td></tr>
                 <tr style="border-bottom:1px solid var(--border)"><td style="padding:2px 4px;color:#d97706">HARD</td><td style="padding:2px 4px">20–49</td><td style="padding:2px 4px;opacity:0.7">Dense PDF, low OCR confidence</td></tr>
