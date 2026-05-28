@@ -398,6 +398,26 @@ def run_state_batch(state_code: str, args) -> None:
     counts = {"VERIFIED": 0, "MISMATCH": 0, "ERROR": 0}
     start_time = time.time()
 
+    from rich.text import Text
+
+    # Grid state — two columns per AC for thick blocks
+    line_buf: list[str] = []
+    line_styles: list[str] = []
+
+    def _print_row(chars: list[str], styles: list[str]):
+        t = Text("  ")
+        for ch, st in zip(chars, styles):
+            t.append(ch, style=f"on {st}")
+        console.print(t)
+
+    # Legend
+    legend = Text("  ")
+    for label, key in [("VERIFIED", "green"), ("MISMATCH", "magenta"), ("ERROR", "cyan")]:
+        legend.append("    ", style=f"on {key}")
+        legend.append(f" {label}   ")
+    console.print(legend)
+    console.print()
+
     # Collect reports for summary
     mismatch_reports: list[dict] = []
     error_acs: list[dict] = []
@@ -410,7 +430,7 @@ def run_state_batch(state_code: str, args) -> None:
 
         # Skip VERIFIED unless --force
         if current_status == "VERIFIED" and not args.force:
-            ch = "✓"
+            ch = "█"
             status_key = "VERIFIED"
             counts["VERIFIED"] += 1
             color = "green"
@@ -418,16 +438,16 @@ def run_state_batch(state_code: str, args) -> None:
             report = _process_one_ac(state_code, ac, args)
 
             if report is None:
-                ch = "✗"
+                ch = "█"
                 status_key = "ERROR"
                 counts["ERROR"] += 1
-                color = "yellow"
+                color = "cyan"
                 error_acs.append({"ac_no": ac_no, "ac_name": ac_name})
             else:
                 status = report["_db_status"]
-                ch = {"VERIFIED": "✓", "MISMATCH": "✗", "ERROR": "✗"}.get(status, "?")
+                ch = "█"
                 status_key = status
-                color = {"VERIFIED": "green", "MISMATCH": "red", "ERROR": "yellow"}.get(status, "dim")
+                color = {"VERIFIED": "green", "MISMATCH": "magenta", "ERROR": "cyan"}.get(status, "dim")
                 counts[status] = counts.get(status, 0) + 1
                 if status == "MISMATCH":
                     mismatch_reports.append(report)
@@ -436,9 +456,20 @@ def run_state_batch(state_code: str, args) -> None:
                                       "difficulty": report.get("difficulty"),
                                       "confirmed": report.get("summary", {}).get("confirmed", 0)})
 
-        # Print one line per AC
-        short_name = (ac_name[:18] + "…") if len(ac_name) > 19 else ac_name
-        console.print(f"  [{color}]{ch}[/{color}] {ac_no:>3} {short_name}")
+        line_buf.append(ch)
+        line_buf.append(ch)  # two columns per AC
+        line_styles.append(color)
+        line_styles.append(color)
+
+        # Print full row of blocks and clear buffer
+        if len(line_buf) == 30:  # 15 ACs × 2 chars = 30
+            _print_row(line_buf, line_styles)
+            line_buf.clear()
+            line_styles.clear()
+
+    # Print any remaining partial line
+    if line_buf:
+        _print_row(line_buf, line_styles)
 
     elapsed = time.time() - start_time
 
