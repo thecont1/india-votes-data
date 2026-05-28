@@ -388,6 +388,7 @@ def run_state_batch(state_code: str, args) -> None:
     console.print()
 
     counts = {"VERIFIED": 0, "MISMATCH": 0, "ERROR": 0}
+    counts_lock = __import__("threading").Lock()
     start_time = time.time()
 
     # Legend
@@ -399,31 +400,69 @@ def run_state_batch(state_code: str, args) -> None:
     mismatch_reports: list[dict] = []
     error_acs: list[dict] = []
     already_verified = 0
+    workers = getattr(args, "workers", 1)
 
-    # Process ALL ACs — one line each, starting from AC 1
-    for i, ac in enumerate(acs):
+    def _process_and_print(ac: dict) -> tuple[int, str, str, dict | None]:
+        """Process one AC and return (ac_no, ac_name, symbol, report_or_None).
+        Returns report=None for ERROR, report={"_db_status": "VERIFIED"} for verified.
+        """
         ac_no = ac["ac_no"]
         ac_name = ac["ac_name"]
         current_status = current.get(ac_no)
 
-        # Skip VERIFIED unless --force
         if current_status == "VERIFIED" and not args.force:
-            status_key = "VERIFIED"
-            counts["VERIFIED"] += 1
-            already_verified += 1
-            symbol = "🟩"
-        else:
-            report = _process_one_ac(state_code, ac, args)
+            return (ac_no, ac_name, "🟩", {"_db_status": "VERIFIED"})
+
+        report = _process_one_ac(state_code, ac, args)
+        if report is None:
+            return (ac_no, ac_name, "🌀", None)
+
+        status = report["_db_status"]
+        symbol = {"VERIFIED": "🟩", "MISMATCH": "🟥", "ERROR": "🌀"}.get(status, "?")
+        return (ac_no, ac_name, symbol, report)
+
+    if workers > 1:
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+
+        console.print(f"  [dim]Processing with {workers} workers…[/]")
+        console.print()
+
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {pool.submit(_process_and_print, ac): ac for ac in acs}
+            for future in as_completed(futures):
+                ac_no, ac_name, symbol, report = future.result()
+
+                with counts_lock:
+                    if report is None:
+                        counts["ERROR"] += 1
+                        error_acs.append({"ac_no": ac_no, "ac_name": ac_name})
+                    elif report["_db_status"] == "VERIFIED":
+                        counts["VERIFIED"] += 1
+                        already_verified += 1
+                    else:
+                        status = report["_db_status"]
+                        counts[status] = counts.get(status, 0) + 1
+                        if status == "MISMATCH":
+                            mismatch_reports.append(report)
+                        elif status == "ERROR":
+                            error_acs.append({"ac_no": ac_no, "ac_name": ac_name,
+                                              "difficulty": report.get("difficulty"),
+                                              "confirmed": report.get("summary", {}).get("confirmed", 0)})
+
+                console.print(f"  {symbol}  {ac_no:>3} {ac_name}")
+    else:
+        # Sequential mode (original behavior)
+        for i, ac in enumerate(acs):
+            ac_no, ac_name, symbol, report = _process_and_print(ac)
 
             if report is None:
-                status_key = "ERROR"
                 counts["ERROR"] += 1
-                symbol = "🌀"
                 error_acs.append({"ac_no": ac_no, "ac_name": ac_name})
+            elif report["_db_status"] == "VERIFIED":
+                counts["VERIFIED"] += 1
+                already_verified += 1
             else:
                 status = report["_db_status"]
-                status_key = status
-                symbol = {"VERIFIED": "🟩", "MISMATCH": "🟥", "ERROR": "🌀"}.get(status, "?")
                 counts[status] = counts.get(status, 0) + 1
                 if status == "MISMATCH":
                     mismatch_reports.append(report)
@@ -432,7 +471,7 @@ def run_state_batch(state_code: str, args) -> None:
                                       "difficulty": report.get("difficulty"),
                                       "confirmed": report.get("summary", {}).get("confirmed", 0)})
 
-        console.print(f"  {symbol}  {ac_no:>3} {ac_name}")
+            console.print(f"  {symbol}  {ac_no:>3} {ac_name}")
 
     elapsed = time.time() - start_time
 
@@ -495,6 +534,12 @@ def main():
         type=Path,
         default=Path("data/form20"),
         help="Output directory for reports",
+    )
+    parser.add_argument(
+        "-j", "--workers",
+        type=int,
+        default=4,
+        help="Number of concurrent AC workers (default: 4)",
     )
     args = parser.parse_args()
 
