@@ -206,15 +206,15 @@ def get_current_statuses(state_code: str) -> dict:
         conn.close()
 
 
-# Unicode Braille status characters
+# Unicode block characters — universally supported, visually distinct
 _CHAR = {
-    "VERIFIED":  "⣿",   # full cell — perfect
-    "MISMATCH":  "⢸",   # vertical bar — something's off
-    "ERROR":     "⣴",   # partial — pipeline failed
-    "UNVERIFIED": "⠀",  # blank — not yet processed
-    "PENDING":   "⠀",   # blank — waiting
+    "VERIFIED":   "█",   # solid block — complete
+    "MISMATCH":   "▄",   # lower half — something's off
+    "ERROR":      "░",   # light shade — failed
+    "UNVERIFIED": "·",   # dot — not yet processed
+    "PENDING":    "·",   # dot — waiting
 }
-_LINE_WIDTH = 20  # characters per line
+_LINE_WIDTH = 30  # characters per line
 
 
 def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
@@ -248,7 +248,7 @@ def run_state_batch(state_code: str, args) -> None:
     Without --force: skips ACs already VERIFIED.
     With --force: re-processes everything.
 
-    Shows a Braille grid — one block per AC, 20 per line.
+    Shows a block-character grid — one block per AC, 30 per line.
     """
     from tools.ocr_engine import get_state_acs_with_form20
 
@@ -294,13 +294,14 @@ def run_state_batch(state_code: str, args) -> None:
     console.print(f"  {legend}")
     console.print()
 
-    # Process each AC — print Braille character as it completes
+    # Process each AC — print block character as it completes
     for i, ac in enumerate(acs):
         ac_no = ac["ac_no"]
         ac_name = ac["ac_name"]
 
-        # Show spinner on current AC
-        sys.stdout.write(f"\r  {''.join(grid_chars)}⠙ {ac_no} {ac_name}…")
+        # Show spinner on its own line (overwritten after completion)
+        short_name = (ac_name[:20] + "…") if len(ac_name) > 21 else ac_name
+        sys.stdout.write(f"\r  ⠙ {ac_no:>3} {short_name:<24}")
         sys.stdout.flush()
 
         report = _process_one_ac(state_code, ac, args)
@@ -310,18 +311,20 @@ def run_state_batch(state_code: str, args) -> None:
             counts["ERROR"] += 1
         else:
             status = report["_db_status"]
-            grid_chars.append(_CHAR.get(status, "⠀"))
+            grid_chars.append(_CHAR.get(status, "·"))
             counts[status] = counts.get(status, 0) + 1
 
-        # Print completed line when we hit a boundary
+        # Overwrite spinner with result, then update grid
         n = len(grid_chars)
         if n % _LINE_WIDTH == 0:
+            # Finished a full line — print it and clear the spinner
             line = "".join(grid_chars[n - _LINE_WIDTH : n])
             sys.stdout.write(f"\r  {line}\n")
             sys.stdout.flush()
         else:
-            # Update current partial line
-            sys.stdout.write(f"\r  {''.join(grid_chars)}")
+            # Redraw: grid so far + faint partial line
+            grid_str = "".join(grid_chars)
+            sys.stdout.write(f"\r  {grid_str}")
             sys.stdout.flush()
 
     # Finish last partial line
