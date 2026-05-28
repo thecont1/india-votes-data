@@ -2,11 +2,11 @@
 """
 Form 20 Verification CLI
 
-Download a Form 20 PDF, run dual OCR (Tesseract + Vision LLM),
+Download a Form 20 PDF, run Vision LLM OCR (Tesseract as fallback),
 compare against ECI results, and present a human-readable report.
 
 Usage:
-    python verify_form20.py <state_code> [ac_no] [--force] [--skip-vision] [--workers N]
+    python verify_form20.py <state_code> [ac_no] [--force] [--skip-vision]
 
 Examples:
     # Verify a single AC:
@@ -15,9 +15,6 @@ Examples:
 
     # Verify ALL ACs in a state (updates DB):
     python verify_form20.py S25
-
-    # With 4 parallel workers:
-    python verify_form20.py S25 --workers 4
 
     # Incremental re-run (skips VERIFIED):
     python verify_form20.py S03
@@ -35,10 +32,6 @@ load_dotenv()
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from rich.progress import (
-    Progress, SpinnerColumn, TextColumn, BarColumn,
-    TaskProgressColumn, MofNCompleteColumn, TimeElapsedColumn,
-)
 
 console = Console()
 
@@ -213,35 +206,28 @@ def get_current_statuses(state_code: str) -> dict:
         conn.close()
 
 
-def _process_one_ac(state_code: str, ac: dict, args, progress, task) -> dict | None:
-    """Process a single AC: run pipeline, update DB, update progress bar.
+# Unicode Braille status characters
+_CHAR = {
+    "VERIFIED":  "⣿",   # full cell — perfect
+    "MISMATCH":  "⢸",   # vertical bar — something's off
+    "ERROR":     "⣴",   # partial — pipeline failed
+    "UNVERIFIED": "⠀",  # blank — not yet processed
+    "PENDING":   "⠀",   # blank — waiting
+}
+_LINE_WIDTH = 20  # characters per line
 
-    Designed to be called from a worker thread. Returns report dict or None.
-    """
+
+def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
+    """Process a single AC: run pipeline, update DB. Returns report dict or None."""
     ac_no = ac["ac_no"]
-    ac_name = ac["ac_name"]
 
     report = run_single(state_code, ac_no, args)
     if report is None:
-        progress.update(task, advance=1, description=f"AC {ac_no} {ac_name} — FAILED")
         return None
 
     # Update DB
     db_status = update_db(report)
     report["_db_status"] = db_status
-
-    # Build progress description
-    s = report["summary"]
-    if db_status == "ERROR":
-        desc = f"AC {ac_no} {ac_name} — ERROR (will retry next run)"
-    elif db_status == "MISMATCH":
-        desc = f"AC {ac_no} {ac_name} — MISMATCH ({s['mismatched']} discrepancies)"
-    elif db_status == "VERIFIED":
-        desc = f"AC {ac_no} {ac_name} — VERIFIED ({s['confirmed']}/{s['total']})"
-    else:
-        desc = f"AC {ac_no} {ac_name} — {db_status}"
-
-    progress.update(task, advance=1, description=desc)
     return report
 
 
@@ -250,9 +236,9 @@ def run_state_batch(state_code: str, args) -> None:
 
     Without --force: skips ACs already VERIFIED.
     With --force: re-processes everything.
-    Uses --workers N for parallel processing (default: 1).
+
+    Shows a Braille grid — one block per AC, 20 per line.
     """
-    from concurrent.futures import ThreadPoolExecutor, as_completed
     from ocr_engine import get_state_acs_with_form20
 
     acs = get_state_acs_with_form20(state_code)
@@ -273,124 +259,89 @@ def run_state_batch(state_code: str, args) -> None:
         already_verified = len(verified_acs)
         acs = [ac for ac in acs if ac["ac_no"] not in verified_acs]
 
-    workers = args.workers
     console.print()
     console.print(
         Panel(
             f"[bold]State: {state_code}[/bold] — {total_acs} ACs total"
             + (f" — [green]{already_verified} already verified[/], {len(acs)} remaining"
-               if already_verified else f" — {len(acs)} ACs to process")
-            + f" — {workers} worker{'s' if workers > 1 else ''}",
+               if already_verified else f" — {len(acs)} ACs to process"),
             title="Form 20 Batch Verification",
             border_style="blue",
         )
     )
     console.print()
 
-    results = []
+    # Build the Braille grid — pre-fill with already-verified blocks
+    grid_chars: list[str] = [_CHAR["VERIFIED"]] * already_verified
+    counts = {"VERIFIED": already_verified, "MISMATCH": 0, "ERROR": 0}
     start_time = time.time()
 
-    with Progress(
-        SpinnerColumn(),
-        TextColumn("[progress.description]{task.description}"),
-        BarColumn(),
-        MofNCompleteColumn(),
-        TimeElapsedColumn(),
-        console=console,
-    ) as progress:
-        task = progress.add_task("Verifying ACs…", total=total_acs)
-        # Pre-fill progress with already-verified ACs
-        if already_verified:
-            progress.update(task, advance=already_verified,
-                          description=f"✓ {already_verified} already verified")
+    # Print legend
+    legend = "  ".join(
+        f"{_CHAR[s]} = {s}" for s in ("VERIFIED", "MISMATCH", "ERROR")
+    )
+    console.print(f"  {legend}")
+    console.print()
 
-        if workers <= 1:
-            # Sequential — original behavior
-            for ac in acs:
-                report = _process_one_ac(state_code, ac, args, progress, task)
-                if report:
-                    results.append(report)
+    # Process each AC — print Braille character as it completes
+    for i, ac in enumerate(acs):
+        ac_no = ac["ac_no"]
+        ac_name = ac["ac_name"]
+
+        # Show spinner on current AC
+        sys.stdout.write(f"\r  {''.join(grid_chars)}⠙ {ac_no} {ac_name}…")
+        sys.stdout.flush()
+
+        report = _process_one_ac(state_code, ac, args)
+
+        if report is None:
+            grid_chars.append(_CHAR["ERROR"])
+            counts["ERROR"] += 1
         else:
-            # Parallel — ThreadPoolExecutor
-            # Use a lock for thread-safe progress + results list
-            import threading
-            lock = threading.Lock()
+            status = report["_db_status"]
+            grid_chars.append(_CHAR.get(status, "⠀"))
+            counts[status] = counts.get(status, 0) + 1
 
-            def worker(ac):
-                report = _process_one_ac(state_code, ac, args, progress, task)
-                if report:
-                    with lock:
-                        results.append(report)
+        # Print completed line when we hit a boundary
+        n = len(grid_chars)
+        if n % _LINE_WIDTH == 0:
+            line = "".join(grid_chars[n - _LINE_WIDTH : n])
+            sys.stdout.write(f"\r  {line}\n")
+            sys.stdout.flush()
+        else:
+            # Update current partial line
+            sys.stdout.write(f"\r  {''.join(grid_chars)}")
+            sys.stdout.flush()
 
-            with ThreadPoolExecutor(max_workers=workers) as executor:
-                futures = {executor.submit(worker, ac): ac for ac in acs}
-                for future in as_completed(futures):
-                    # Surface exceptions from workers
-                    exc = future.exception()
-                    if exc:
-                        ac = futures[future]
-                        console.print(
-                            f"  [red]Worker exception for AC {ac['ac_no']}: {exc}[/]"
-                        )
+    # Finish last partial line
+    n = len(grid_chars)
+    remainder = n % _LINE_WIDTH
+    if remainder:
+        sys.stdout.write("\n")
+        sys.stdout.flush()
 
     elapsed = time.time() - start_time
 
-    # Summary table
+    # Summary
     console.print()
     console.print(
         Panel(
-            f"[bold]{state_code}[/bold] — {already_verified + len(results)}/{total_acs} ACs verified in {elapsed:.0f}s"
-            + (f" ({workers}x speedup)" if workers > 1 else ""),
+            f"[bold]{state_code}[/bold] — {already_verified + len(acs)}/{total_acs} ACs verified in {elapsed:.0f}s"
+            + (f" ({elapsed / max(len(acs), 1):.0f}s/AC)" if acs else ""),
             title="Batch Summary",
             border_style="green",
         )
     )
 
-    if results:
-        # Sort by AC number for stable output
-        results.sort(key=lambda r: r["ac_no"])
-
-        table = Table(show_header=True, header_style="bold", box=None, padding=(0, 1))
-        table.add_column("AC", width=6, justify="right")
-        table.add_column("Name", min_width=20)
-        table.add_column("Score", width=6, justify="right")
-        table.add_column("Status", width=12)
-        table.add_column("Confirmed", width=10, justify="right")
-        table.add_column("Mismatched", width=10, justify="right")
-
-        for r in results:
-            s = r["summary"]
-            db_st = r.get("_db_status", r["difficulty_label"])
-            if db_st == "MISMATCH":
-                status_text = "[red]MISMATCH[/]"
-            elif db_st == "ERROR":
-                status_text = "[yellow]ERROR[/]"
-            elif db_st == "VERIFIED":
-                status_text = "[green]VERIFIED[/]"
-            else:
-                status_text = f"[dim]{db_st}[/]"
-
-            table.add_row(
-                str(r["ac_no"]),
-                r.get("ac_name", "—"),
-                str(r["difficulty"]),
-                status_text,
-                f"[green]{s['confirmed']}[/]",
-                f"[red]{s['mismatched']}[/]" if s["mismatched"] else "[dim]0[/]",
-            )
-
-        console.print(table)
-
     # Aggregate stats
-    total_verified = already_verified + sum(1 for r in results if r.get("_db_status") == "VERIFIED")
-    total_mismatch = sum(1 for r in results if r.get("_db_status") == "MISMATCH")
-    total_error = sum(1 for r in results if r.get("_db_status") == "ERROR")
     console.print()
-    console.print(
-        f"  [green]{total_verified} verified[/] | "
-        f"[red]{total_mismatch} mismatched[/] | "
-        f"[yellow]{total_error} errors[/]"
-    )
+    parts = []
+    for s in ("VERIFIED", "MISMATCH", "ERROR"):
+        c = counts.get(s, 0)
+        if c:
+            style = {"VERIFIED": "green", "MISMATCH": "red", "ERROR": "yellow"}[s]
+            parts.append(f"[{style}]{c} {s.lower()}[/]")
+    console.print("  " + " | ".join(parts))
     console.print()
 
 
@@ -408,11 +359,6 @@ def main():
         "--skip-vision",
         action="store_true",
         help="Skip Vision LLM (Tesseract only)",
-    )
-    parser.add_argument(
-        "--workers", "-j",
-        type=int, default=1,
-        help="Number of parallel workers for batch mode (default: 1)",
     )
     parser.add_argument(
         "--prepare",

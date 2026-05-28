@@ -293,7 +293,7 @@ def ocr_vision_confirm(
         except Exception as exc:
             print(f"  ⚠ Could not read vision file {vision_file}: {exc}")
 
-    # --- Path C: OpenAI-compatible HTTP API -------------------------------
+    # --- Path C: OpenAI-compatible HTTP API (concurrent pages) --------------
     api_url = os.environ.get("FORM20_VISION_API_URL", "").rstrip("/")
     if api_url and not api_url.endswith("/chat/completions"):
         api_url += "/chat/completions"
@@ -314,18 +314,18 @@ def ocr_vision_confirm(
             for r in eci_results
         ]
 
-    # Send each page image to the vision API (with retry on 429/rate-limit)
+    # Send all page images concurrently via ThreadPoolExecutor
+    model = os.environ.get("FORM20_VISION_MODEL", "gpt-4o")
     import random as _rng
-    all_responses = []
-    for img_path in image_paths:
-        img_b64 = _image_to_base64(img_path)
 
+    def _call_vision_api(img_path: Path):
+        """Single-page Vision API call with retry. Returns parsed list or error dict."""
+        img_b64 = _image_to_base64(img_path)
         headers = {"Content-Type": "application/json"}
         if api_key:
             headers["Authorization"] = f"Bearer {api_key}"
-
         payload = {
-            "model": os.environ.get("FORM20_VISION_MODEL", "gpt-4o"),
+            "model": model,
             "messages": [
                 {
                     "role": "user",
@@ -333,16 +333,13 @@ def ocr_vision_confirm(
                         {"type": "text", "text": prompt},
                         {
                             "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/png;base64,{img_b64}",
-                            },
+                            "image_url": {"url": f"data:image/png;base64,{img_b64}"},
                         },
                     ],
                 }
             ],
             "max_tokens": 4096,
         }
-
         max_retries = 4
         for attempt in range(max_retries):
             try:
@@ -356,23 +353,31 @@ def ocr_vision_confirm(
                 resp.raise_for_status()
                 data = resp.json()
                 msg = data["choices"][0]["message"]
-                # Some reasoning models put the answer in reasoning_content
                 content = msg.get("content") or msg.get("reasoning_content") or ""
                 parsed = parse_vision_response(content)
-                if parsed:
-                    all_responses.append(parsed)
-                break  # success — move to next page
+                return parsed if parsed else {"error": f"No candidates in response from {img_path.name}"}
             except httpx.HTTPStatusError as e:
                 if e.response.status_code == 429 and attempt < max_retries - 1:
                     wait = 2 ** attempt + _rng.uniform(0, 1)
                     print(f"  ⏳ Rate limited on {img_path.name}, retrying in {wait:.0f}s…")
                     time.sleep(wait)
                     continue
-                all_responses.append({"error": str(e)})
-                break
+                return {"error": str(e)}
             except Exception as e:
-                all_responses.append({"error": str(e)})
-                break
+                return {"error": str(e)}
+        return {"error": f"Failed after {max_retries} retries: {img_path.name}"}
+
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    all_responses = []  # list of per-page lists (for _merge_vision_responses)
+    with ThreadPoolExecutor(max_workers=min(len(image_paths), 8)) as pool:
+        futures = {pool.submit(_call_vision_api, p): p for p in image_paths}
+        for future in as_completed(futures):
+            result = future.result()
+            if isinstance(result, list):
+                all_responses.append(result)  # keep per-page structure
+            else:
+                all_responses.append([result])  # wrap error in a list
 
     return _merge_vision_responses(all_responses, eci_results)
 
@@ -722,10 +727,14 @@ def run_pipeline(
         vision_pages = image_paths
     vision_page_count = len(vision_pages)
 
-    # Step 6: Path A — Tesseract (blind extraction, all pages)
+    # Step 6: Path A — Tesseract (skip when Vision API is available)
     all_tesseract = []
-    for img_path in image_paths:
-        all_tesseract.extend(ocr_tesseract_extract(img_path))
+    use_vision = not skip_vision and (vision_fn is not None or _has_vision_api())
+    if use_vision:
+        pass  # Vision LLM handles everything — skip 23s of Tesseract
+    else:
+        for img_path in image_paths:
+            all_tesseract.extend(ocr_tesseract_extract(img_path))
 
     # Step 7: Path B — Vision LLM (confirm approach)
     if skip_vision:
@@ -791,6 +800,11 @@ def _validate_pdf(path: Path) -> bool:
         return False
     with open(path, "rb") as f:
         return f.read(5) == b"%PDF-"
+
+
+def _has_vision_api() -> bool:
+    """Check if a Vision LLM API is configured and usable."""
+    return bool(os.environ.get("FORM20_VISION_API_URL", "").strip())
 
 
 def _download_pdf(url: str, dest: Path) -> None:
