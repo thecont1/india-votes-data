@@ -265,19 +265,21 @@ def run_state_batch(state_code: str, args) -> None:
         return
 
     # Determine which ACs need processing
+    total_acs = len(acs)
     current = get_current_statuses(state_code) if not args.force else {}
-    skip_count = 0
+    already_verified = 0
     if not args.force:
-        original_count = len(acs)
-        acs = [ac for ac in acs if current.get(ac["ac_no"]) != "VERIFIED"]
-        skip_count = original_count - len(acs)
+        verified_acs = {ac["ac_no"] for ac in acs if current.get(ac["ac_no"]) == "VERIFIED"}
+        already_verified = len(verified_acs)
+        acs = [ac for ac in acs if ac["ac_no"] not in verified_acs]
 
     workers = args.workers
     console.print()
     console.print(
         Panel(
-            f"[bold]State: {state_code}[/bold] — {len(acs)} ACs to process"
-            + (f" ({skip_count} VERIFIED skipped)" if skip_count else "")
+            f"[bold]State: {state_code}[/bold] — {total_acs} ACs total"
+            + (f" — [green]{already_verified} already verified[/], {len(acs)} remaining"
+               if already_verified else f" — {len(acs)} ACs to process")
             + f" — {workers} worker{'s' if workers > 1 else ''}",
             title="Form 20 Batch Verification",
             border_style="blue",
@@ -296,7 +298,11 @@ def run_state_batch(state_code: str, args) -> None:
         TimeElapsedColumn(),
         console=console,
     ) as progress:
-        task = progress.add_task("Verifying ACs…", total=len(acs))
+        task = progress.add_task("Verifying ACs…", total=total_acs)
+        # Pre-fill progress with already-verified ACs
+        if already_verified:
+            progress.update(task, advance=already_verified,
+                          description=f"✓ {already_verified} already verified")
 
         if workers <= 1:
             # Sequential — original behavior
@@ -333,7 +339,7 @@ def run_state_batch(state_code: str, args) -> None:
     console.print()
     console.print(
         Panel(
-            f"[bold]{state_code}[/bold] — {len(results)}/{len(acs)} ACs verified in {elapsed:.0f}s"
+            f"[bold]{state_code}[/bold] — {already_verified + len(results)}/{total_acs} ACs verified in {elapsed:.0f}s"
             + (f" ({workers}x speedup)" if workers > 1 else ""),
             title="Batch Summary",
             border_style="green",
@@ -376,7 +382,7 @@ def run_state_batch(state_code: str, args) -> None:
         console.print(table)
 
     # Aggregate stats
-    total_verified = sum(1 for r in results if r.get("_db_status") == "VERIFIED")
+    total_verified = already_verified + sum(1 for r in results if r.get("_db_status") == "VERIFIED")
     total_mismatch = sum(1 for r in results if r.get("_db_status") == "MISMATCH")
     total_error = sum(1 for r in results if r.get("_db_status") == "ERROR")
     console.print()
