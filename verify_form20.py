@@ -182,6 +182,7 @@ def update_db(report: dict) -> str:
         difficulty_label=report["difficulty_label"],
         mismatched=s["mismatched"],
         confirmed=s["confirmed"],
+        reconciled=report.get("reconciled"),
     )
 
 

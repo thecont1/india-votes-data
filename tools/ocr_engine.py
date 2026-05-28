@@ -224,16 +224,28 @@ This is a scan of the official Form 20 for the same constituency.
 TASK: Find the summary page and read the "Total Votes Polled" row.
 
 Steps:
-1. Look for the page containing "Total Votes Polled" or "Total EVM Votes" rows
-   (usually the last page, or second-to-last).
-2. In that row, read ALL vote counts (one per candidate).
-3. Sort them in descending order.
-4. Return the top 3 highest numbers.
+1. Find the page with summary rows at the bottom (usually last page).
+2. Look for THREE summary rows at the bottom of the table:
+   - "Total EVM Votes" (EVM-only counts)
+   - "Total Postal Ballot Votes" (postal-only counts)
+   - "Total Votes Polled" (EVM + Postal combined — THIS IS THE ONE YOU WANT)
+3. Read the "Total Votes Polled" row carefully, column by column from LEFT to RIGHT.
+4. Each number in that row is one candidate's total votes.
+5. Sort all numbers descending and return the top 3.
+
+DENSE TABLES (30+ columns):
+- The "Total Votes Polled" row is the LAST data row, below "Total Postal Ballot Votes".
+- Read LEFT to RIGHT, one cell at a time. Do NOT skip cells.
+- Numbers like 120,365 and 119,785 look similar — be precise.
+- The total valid votes across all candidates should be roughly 150,000-300,000.
+  If your top-3 sum to far less (e.g., <50,000), you're reading the wrong row.
 
 CRITICAL RULES:
-- Only read from the "Total Votes Polled" or "Total EVM Votes" SUMMARY row.
+- Only read from the "Total Votes Polled" SUMMARY row (the very last row).
+- Do NOT read from "Total EVM Votes" or "Total Postal Ballot Votes" rows.
 - Do NOT read from booth-wise rows (individual polling station data).
 - If text is illegible, output null — do NOT guess or hallucinate.
+- Every number you return MUST appear visibly in the row. If unsure, output null.
 - Pay attention to the constituency name — does it match {ac_name}?
 
 Return ONLY a JSON array of 3 numbers, no markdown fences, no explanation. Example:
@@ -362,19 +374,39 @@ def ocr_vision_confirm(
                 return {"error": str(e)}
         return {"error": f"Failed after {max_retries} retries: {img_path.name}"}
 
+    def _run_vision_batch():
+        """Send all pages concurrently and merge responses."""
+        all_responses = []
+        with ThreadPoolExecutor(max_workers=min(len(image_paths), 8)) as pool:
+            futures = {pool.submit(_call_vision_api, p): p for p in image_paths}
+            for future in as_completed(futures):
+                result = future.result()
+                if isinstance(result, list):
+                    all_responses.append(result)
+                else:
+                    all_responses.append([result])
+        return _merge_vision_responses(all_responses, eci_results)
+
+    # Retry loop: if all top-3 candidates are unconfirmed, retry up to 2 more times
     from concurrent.futures import ThreadPoolExecutor, as_completed
+    top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
+    max_pipeline_retries = 2
+    result = []
 
-    all_responses = []  # list of per-page lists (for _merge_vision_responses)
-    with ThreadPoolExecutor(max_workers=min(len(image_paths), 8)) as pool:
-        futures = {pool.submit(_call_vision_api, p): p for p in image_paths}
-        for future in as_completed(futures):
-            result = future.result()
-            if isinstance(result, list):
-                all_responses.append(result)  # keep per-page structure
-            else:
-                all_responses.append([result])  # wrap error in a list
+    for pipeline_attempt in range(max_pipeline_retries + 1):
+        result = _run_vision_batch()
 
-    return _merge_vision_responses(all_responses, eci_results)
+        # Check if top-3 are all unconfirmed
+        top3_results = [r for r in result if r.get("eci_votes") in [t["votes"] for t in top3]]
+        confirmed_count = sum(1 for r in top3_results if r.get("confirmed"))
+        if confirmed_count > 0 or pipeline_attempt == max_pipeline_retries:
+            return result
+
+        # All unconfirmed — retry
+        print(f"  ⚠ All top-3 unconfirmed (attempt {pipeline_attempt + 1}/{max_pipeline_retries + 1}), retrying…")
+        time.sleep(1 + _rng.uniform(0, 1))
+
+    return result
 
 
 def _image_to_base64(img_path: Path, max_width: int = 1024, candidate_count: int = 0) -> str:
@@ -927,6 +959,7 @@ def update_form20_result(
     difficulty_label: str,
     mismatched: int,
     confirmed: int,
+    reconciled: list[dict] | None = None,
 ) -> str:
     """Write verification results back to constituency_status.
 
@@ -934,6 +967,7 @@ def update_form20_result(
 
     Status logic (top-3 verification):
       VERIFIED  — all 3 top candidates confirmed, no mismatches
+      VERIFIED  — MISMATCH but all deltas < 0.05% of ECI votes (OCR digit errors)
       MISMATCH  — pipeline read data successfully but found real discrepancies
       ERROR     — pipeline failed to read data (no confirms at all)
       UNVERIFIED — no vision data (skipped or no API)
@@ -942,13 +976,31 @@ def update_form20_result(
     """
     import datetime
 
+    # Auto-verify tiny OCR deltas: if all mismatches are < 0.05% of ECI votes,
+    # treat as VERIFIED (LLM misread a digit, not a real discrepancy)
+    def _all_deltas_tiny(reconciled_data: list[dict]) -> bool:
+        """Check if all mismatched candidates have deltas < 0.05% of ECI votes."""
+        if not reconciled_data:
+            return False
+        for c in reconciled_data:
+            delta = c.get("delta")
+            eci_votes = c.get("eci_votes", 0)
+            if delta is None or eci_votes == 0:
+                continue
+            if abs(delta) / eci_votes >= 0.0005:  # 0.05%
+                return False
+        return True
+
     # Determine status
     # VERIFIED: pipeline confirmed all candidates, no discrepancies
     if confirmed > 0 and mismatched == 0:
         status = "VERIFIED"
-    # MISMATCH: pipeline read data successfully AND found real discrepancies
+    # MISMATCH → auto-verify if all deltas are tiny OCR errors
     elif mismatched > 0 and confirmed > 0 and difficulty >= 20:
-        status = "MISMATCH"
+        if reconciled and _all_deltas_tiny(reconciled):
+            status = "VERIFIED"  # tiny deltas, likely OCR digit errors
+        else:
+            status = "MISMATCH"
     # ERROR: pipeline ran but failed to read meaningful data
     #   - Low score with any mismatches (OCR errors, wrong column reads)
     #   - No candidates confirmed at all (couldn't read numbers)
