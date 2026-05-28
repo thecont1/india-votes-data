@@ -104,11 +104,22 @@ def get_constituency_info(state_code: str, ac_no: int) -> Optional[dict]:
 # ---------------------------------------------------------------------------
 
 def pdf_to_images(pdf_path: Path, output_dir: Path, dpi: int = 300) -> list[Path]:
-    """Convert PDF pages to PNG images. Returns list of image paths."""
+    """Convert PDF pages to PNG images. Returns list of image paths.
+
+    Raises ValueError for corrupted/unreadable PDFs.
+    """
     from pdf2image import convert_from_path
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    images = convert_from_path(str(pdf_path), dpi=dpi)
+    try:
+        images = convert_from_path(str(pdf_path), dpi=dpi)
+    except Exception as e:
+        # pdf2image wraps poppler errors — check for corruption signals
+        msg = str(e).lower()
+        if any(kw in msg for kw in ("xref", "trailer", "endstream", "page count",
+                                     "cannot identify", "broken pdf")):
+            raise ValueError(f"Corrupted PDF: {e}") from e
+        raise
     paths = []
     for i, img in enumerate(images):
         p = output_dir / f"page_{i + 1:03d}.png"
