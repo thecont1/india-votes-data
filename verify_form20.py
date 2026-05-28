@@ -242,6 +242,124 @@ def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
     return report
 
 
+def _print_review_summary(
+    state_code: str,
+    mismatch_reports: list[dict],
+    error_acs: list[dict],
+    counts: dict,
+    already_verified: int,
+    total_acs: int,
+    elapsed: float,
+) -> None:
+    """Print and save a detailed review summary for MISMATCH and ERROR ACs.
+
+    Saves to {project_root}/form20-review-{state_code}.md
+    """
+    import datetime
+    from pathlib import Path
+
+    lines: list[str] = []
+    lines.append(f"# Form 20 Review — {state_code}")
+    lines.append(f"")
+    lines.append(f"Generated: {datetime.datetime.now().isoformat(timespec='seconds')}")
+    lines.append(f"ACs: {already_verified + sum(counts.values()) - already_verified}/{total_acs} processed")
+    lines.append(f"Time: {elapsed:.0f}s")
+    lines.append(f"")
+
+    # Stats
+    parts = []
+    for s in ("VERIFIED", "MISMATCH", "ERROR"):
+        c = counts.get(s, 0)
+        if c:
+            parts.append(f"{c} {s}")
+    lines.append(f"**Results:** {' | '.join(parts)}")
+    lines.append(f"")
+
+    # MISMATCH details
+    if mismatch_reports:
+        lines.append(f"## MISMATCH — Manual Verification Needed ({len(mismatch_reports)})")
+        lines.append(f"")
+        for report in mismatch_reports:
+            ac_no = report["ac_no"]
+            ac_name = report.get("ac_name", "?")
+            difficulty = report.get("difficulty", "?")
+            summary = report.get("summary", {})
+            reconciled = report.get("reconciled", [])
+            url = report.get("form20_url", "")
+
+            lines.append(f"### AC {ac_no} — {ac_name} (difficulty {difficulty})")
+            if url:
+                lines.append(f"PDF: {url}")
+            lines.append(f"")
+
+            # Candidate table
+            lines.append(f"| Candidate | Party | ECI | Form 20 | Delta | Notes |")
+            lines.append(f"|-----------|-------|----:|--------:|------:|-------|")
+            for r in reconciled:
+                candidate = r.get("candidate", "?")
+                party = r.get("party_abv", "?")
+                eci = r.get("eci_votes", "?")
+                f20 = r.get("form20_votes", "—")
+                delta = r.get("delta")
+                delta_str = f"{delta:+d}" if delta is not None else "—"
+                notes = r.get("notes", "") or ""
+                lines.append(f"| {candidate} | {party} | {eci} | {f20} | {delta_str} | {notes} |")
+            lines.append(f"")
+
+        # SQL helper
+        lines.append(f"## SQL — Mark as VERIFIED after manual review")
+        lines.append(f"")
+        lines.append(f"```sql")
+        for report in mismatch_reports:
+            ac_no = report["ac_no"]
+            lines.append(
+                f"UPDATE constituency_status SET form20_status='VERIFIED' "
+                f"WHERE state_code='{state_code}' AND ac_no={ac_no};"
+            )
+        lines.append(f"```")
+        lines.append(f"")
+
+    # ERROR details
+    if error_acs:
+        lines.append(f"## ERROR — Pipeline Failed ({len(error_acs)})")
+        lines.append(f"")
+        lines.append(f"| AC | Name | Difficulty | Confirmed |")
+        lines.append(f"|----|------|-----------|-----------|")
+        for ac in error_acs:
+            d = ac.get("difficulty", "?")
+            c = ac.get("confirmed", "?")
+            lines.append(f"| {ac['ac_no']} | {ac['ac_name']} | {d} | {c} |")
+        lines.append(f"")
+
+    # Write file
+    content = "\n".join(lines)
+    review_path = Path(__file__).resolve().parent / f"form20-review-{state_code}.md"
+    review_path.write_text(content)
+
+    # Print to terminal
+    console.print()
+    console.print(f"  [bold]Review summary saved to:[/] {review_path.name}")
+    console.print()
+    if mismatch_reports:
+        console.print(f"  [red]MISMATCH ACs requiring manual review:[/]")
+        for report in mismatch_reports:
+            ac_no = report["ac_no"]
+            ac_name = report.get("ac_name", "?")
+            reconciled = report.get("reconciled", [])
+            mismatches = [r for r in reconciled if r.get("delta") and r["delta"] != 0]
+            top = sorted(mismatches, key=lambda r: abs(r.get("delta", 0)), reverse=True)[:3]
+            detail = ", ".join(
+                f"{r['party_abv']} {r.get('delta', 0):+d}" for r in top
+            )
+            console.print(f"    [red]AC {ac_no:>3}[/] {ac_name}  →  {detail}")
+        console.print()
+    if error_acs:
+        console.print(f"  [yellow]ERROR ACs (pipeline failed):[/]")
+        for ac in error_acs:
+            console.print(f"    [yellow]AC {ac['ac_no']:>3}[/] {ac['ac_name']}")
+        console.print()
+
+
 def run_state_batch(state_code: str, args) -> None:
     """Process all ACs in a state that have form20_urls.
 
@@ -310,6 +428,10 @@ def run_state_batch(state_code: str, args) -> None:
     for _ in range(already_verified // _LINE_WIDTH):
         _print_row(pre_row, pre_styles)
 
+    # Collect reports for summary
+    mismatch_reports: list[dict] = []
+    error_acs: list[dict] = []
+
     # Process each AC — accumulate blocks, print full rows of 30
     for i, ac in enumerate(acs):
         ac_no = ac["ac_no"]
@@ -321,11 +443,18 @@ def run_state_batch(state_code: str, args) -> None:
             ch = _CHAR["ERROR"]
             status_key = "ERROR"
             counts["ERROR"] += 1
+            error_acs.append({"ac_no": ac_no, "ac_name": ac_name})
         else:
             status = report["_db_status"]
             ch = _CHAR.get(status, "·")
             status_key = status
             counts[status] = counts.get(status, 0) + 1
+            if status == "MISMATCH":
+                mismatch_reports.append(report)
+            elif status == "ERROR":
+                error_acs.append({"ac_no": ac_no, "ac_name": ac_name,
+                                  "difficulty": report.get("difficulty"),
+                                  "confirmed": report.get("summary", {}).get("confirmed", 0)})
 
         line_buf.append(ch)
         line_styles.append(status_key)
@@ -368,6 +497,11 @@ def run_state_batch(state_code: str, args) -> None:
             parts.append(f"[{style}]{c} {s.lower()}[/]")
     console.print("  " + " | ".join(parts))
     console.print()
+
+    # --- Detailed summary for manual review ---
+    if mismatch_reports or error_acs:
+        _print_review_summary(state_code, mismatch_reports, error_acs, counts,
+                              already_verified, total_acs, elapsed)
 
 
 def main():

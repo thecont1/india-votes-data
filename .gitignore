@@ -27,3 +27,6 @@ data/parquet/
 
 archive/
 data/
+
+# Form 20 review summaries
+form20-review-*.md
