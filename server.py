@@ -354,6 +354,8 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                        lr.max_round as latest_round,
                        cs.form20_url,
                        cs.form20_status,
+                       cs.form20_score,
+                       cs.form20_checked_at,
                        ROW_NUMBER() OVER (
                            PARTITION BY r.state_code, r.ac_no
                            ORDER BY r.votes DESC
@@ -372,6 +374,7 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                    votes, rank,
                    current_round, won, latest_round,
                    form20_url, form20_status,
+                   form20_score, form20_checked_at,
                    SUM(votes) OVER (PARTITION BY ac_no) as total_votes
             FROM ranked
             ORDER BY ac_no, rank
@@ -389,7 +392,8 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                 'votes': row[5], 'rank': row[6],
                 'current_round': row[7], 'won': row[8], 'latest_round': row[9],
                 'form20_url': row[10], 'form20_status': row[11],
-                'total_votes': row[12],
+                'form20_score': row[12], 'form20_checked_at': row[13],
+                'total_votes': row[14],
             }
             ac_no = d['ac_no']
             if ac_no not in ac_map:
@@ -403,6 +407,8 @@ def ac_races(state: str = Query(..., description="State code (required)")):
                     'latest_round': d['latest_round'],
                     'form20_url': d.get('form20_url'),
                     'form20_status': d.get('form20_status', 'UNAVAILABLE'),
+                    'form20_score': d.get('form20_score'),
+                    'form20_checked_at': d.get('form20_checked_at'),
                     'margin': 0,
                     'candidates': [],
                 }

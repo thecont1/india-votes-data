@@ -680,6 +680,8 @@
   .form20-card--verified .form20-card__status svg { stroke: #059669; }
   .form20-card--mismatch .form20-card__status { color: #dc2626; }
   .form20-card--mismatch .form20-card__status svg { stroke: #dc2626; }
+  .form20-card--error .form20-card__status { color: #d97706; }
+  .form20-card--error .form20-card__status svg { stroke: #d97706; }
   .form20-card__action {
     display: inline-flex;
     align-items: center;
@@ -1585,6 +1587,8 @@
       <button class="race-sort-link" data-sort="margin-asc" type="button">Smallest Win Margin</button>
       <span class="race-sort-sep">|</span>
       <button class="race-sort-link" data-sort="nota" type="button">Highest NOTA</button>
+      <span class="race-sort-sep">|</span>
+      <button class="race-sort-link" data-sort="form20" type="button">Form 20 Priority</button>
     </div>
     <div class="race-controls-row">
       <div class="toggle-group" id="race-toggle" role="group" aria-label="Constituency result view">
@@ -2843,6 +2847,33 @@ function populateRaceDropdown() {
     case 'nota':
       indices.sort((a, b) => racesData[b]._notaVotes - racesData[a]._notaVotes);
       break;
+    case 'form20':
+      // Sort by Form 20 review priority:
+      // 1. MISMATCH (highest priority — discrepancies found)
+      // 2. ERROR (pipeline failure — needs retry with improved pipeline)
+      // 3. UNVERIFIED (checked but inconclusive)
+      // 4. UNAVAILABLE (no Form 20 URL at all)
+      // 5. VERIFIED (sorted by score ascending — harder to verify = higher priority)
+      indices.sort((a, b) => {
+        const sa = racesData[a];
+        const sb = racesData[b];
+        const prioA = sa.form20_status === 'MISMATCH' ? 100 :
+                      sa.form20_status === 'ERROR' ? 90 :
+                      sa.form20_status === 'UNVERIFIED' ? 80 :
+                      sa.form20_status === 'UNAVAILABLE' ? 60 :
+                      sa.form20_status === 'VERIFIED' ? 20 : 0;
+        const prioB = sb.form20_status === 'MISMATCH' ? 100 :
+                      sb.form20_status === 'ERROR' ? 90 :
+                      sb.form20_status === 'UNVERIFIED' ? 80 :
+                      sb.form20_status === 'UNAVAILABLE' ? 60 :
+                      sb.form20_status === 'VERIFIED' ? 20 : 0;
+        if (prioA !== prioB) return prioB - prioA;
+        // Within same status: lower score = harder = higher priority
+        const scoreA = sa.form20_score ?? 999;
+        const scoreB = sb.form20_score ?? 999;
+        return scoreA - scoreB;
+      });
+      break;
   }
 
   const sel = document.getElementById('race-select');
@@ -2879,6 +2910,7 @@ const FORM20_ICONS = {
   unverified: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
   verified: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>',
   mismatch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+  error: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
 };
 
 const FORM20_PDF_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
@@ -2888,6 +2920,7 @@ const FORM20_LABELS = {
   unverified: 'Unverified',
   verified: 'Verified',
   mismatch: 'Mismatch',
+  error: 'Error',
 };
 
 function updateForm20Field(race) {
@@ -2903,7 +2936,13 @@ function updateForm20Field(race) {
 
   card.className = 'form20-card form20-card--' + status;
   statusEl.querySelector('svg').outerHTML = icon;
-  statusText.textContent = label;
+
+  // Show score badge if available
+  const score = race.form20_score;
+  const scoreBadge = score != null
+    ? `<span style="margin-left:4px;font-size:0.75em;opacity:0.8">(${score}/100)</span>`
+    : '';
+  statusText.innerHTML = label + scoreBadge;
 
   if (race.form20_url) {
     action.innerHTML = `<a class="form20-card__action" href="${race.form20_url}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} PDF</a>`;
