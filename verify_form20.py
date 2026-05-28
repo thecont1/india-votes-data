@@ -365,10 +365,9 @@ def _print_review_summary(
 def run_state_batch(state_code: str, args) -> None:
     """Process all ACs in a state that have form20_urls.
 
-    Without --force: skips ACs already VERIFIED.
-    With --force: re-processes everything.
-
-    Shows a block-character grid — one block per AC, 30 per line.
+    Shows status for EVERY AC as it processes. VERIFIED ACs are skipped
+    instantly (read from DB), giving a speed impression. UNVERIFIED/MISMATCH/ERROR
+    ACs go through the full Vision pipeline.
     """
     from tools.ocr_engine import get_state_acs_with_form20
 
@@ -381,21 +380,15 @@ def run_state_batch(state_code: str, args) -> None:
         )
         return
 
-    # Determine which ACs need processing
+    # Get current statuses for all ACs
     total_acs = len(acs)
     current = get_current_statuses(state_code) if not args.force else {}
-    already_verified = 0
-    if not args.force:
-        verified_acs = {ac["ac_no"] for ac in acs if current.get(ac["ac_no"]) == "VERIFIED"}
-        already_verified = len(verified_acs)
-        acs = [ac for ac in acs if ac["ac_no"] not in verified_acs]
 
     console.print()
     console.print(
         Panel(
             f"[bold]State: {state_code}[/bold] — {total_acs} ACs total"
-            + (f" — [green]{already_verified} already verified[/], {len(acs)} remaining"
-               if already_verified else f" — {len(acs)} ACs to process"),
+            + (" — processing all ACs" if args.force else ""),
             title="Form 20 Batch Verification",
             border_style="blue",
         )
@@ -414,7 +407,7 @@ def run_state_batch(state_code: str, args) -> None:
     # Grid state
     line_buf: list[str] = []
     line_styles: list[str] = []
-    counts = {"VERIFIED": already_verified, "MISMATCH": 0, "ERROR": 0}
+    counts = {"VERIFIED": 0, "MISMATCH": 0, "ERROR": 0}
     start_time = time.time()
 
     def _print_row(chars: list[str], styles: list[str]):
@@ -424,45 +417,48 @@ def run_state_batch(state_code: str, args) -> None:
             t.append(ch, style=f"on {st}")
         console.print(t)
 
-    # Print pre-filled rows from already-verified
-    pre_row = [_CHAR["VERIFIED"]] * _LINE_WIDTH
-    pre_styles = ["green"] * _LINE_WIDTH
-    for _ in range(already_verified // _LINE_WIDTH):
-        _print_row(pre_row, pre_styles)
-
     # Collect reports for summary
     mismatch_reports: list[dict] = []
     error_acs: list[dict] = []
 
-    # Process each AC — accumulate blocks, print full rows of 30
+    # Process ALL ACs — VERIFIED ones fly by, others go through pipeline
     for i, ac in enumerate(acs):
         ac_no = ac["ac_no"]
         ac_name = ac["ac_name"]
+        current_status = current.get(ac_no)
 
-        report = _process_one_ac(state_code, ac, args)
-
-        if report is None:
-            ch = _CHAR["ERROR"]
-            status_key = "ERROR"
-            counts["ERROR"] += 1
-            error_acs.append({"ac_no": ac_no, "ac_name": ac_name})
+        # Skip VERIFIED unless --force
+        if current_status == "VERIFIED" and not args.force:
+            ch = _CHAR["VERIFIED"]
+            status_key = "VERIFIED"
+            counts["VERIFIED"] += 1
+            color = "green"
         else:
-            status = report["_db_status"]
-            ch = _CHAR.get(status, "·")
-            status_key = status
-            counts[status] = counts.get(status, 0) + 1
-            if status == "MISMATCH":
-                mismatch_reports.append(report)
-            elif status == "ERROR":
-                error_acs.append({"ac_no": ac_no, "ac_name": ac_name,
-                                  "difficulty": report.get("difficulty"),
-                                  "confirmed": report.get("summary", {}).get("confirmed", 0)})
+            report = _process_one_ac(state_code, ac, args)
+
+            if report is None:
+                ch = _CHAR["ERROR"]
+                status_key = "ERROR"
+                counts["ERROR"] += 1
+                color = "yellow"
+                error_acs.append({"ac_no": ac_no, "ac_name": ac_name})
+            else:
+                status = report["_db_status"]
+                ch = _CHAR.get(status, "·")
+                status_key = status
+                color = {"VERIFIED": "green", "MISMATCH": "red", "ERROR": "yellow"}.get(status, "dim")
+                counts[status] = counts.get(status, 0) + 1
+                if status == "MISMATCH":
+                    mismatch_reports.append(report)
+                elif status == "ERROR":
+                    error_acs.append({"ac_no": ac_no, "ac_name": ac_name,
+                                      "difficulty": report.get("difficulty"),
+                                      "confirmed": report.get("summary", {}).get("confirmed", 0)})
 
         line_buf.append(ch)
         line_styles.append(status_key)
 
-        # Print every AC with status char (compact single-line feedback)
-        color = {"VERIFIED": "green", "MISMATCH": "red", "ERROR": "yellow"}.get(status_key, "dim")
+        # Print every AC with status char
         short_name = (ac_name[:18] + "…") if len(ac_name) > 19 else ac_name
         console.print(f"  [{color}]{ch}[/{color}] {ac_no:>3} {short_name}")
 
@@ -482,8 +478,8 @@ def run_state_batch(state_code: str, args) -> None:
     console.print()
     console.print(
         Panel(
-            f"[bold]{state_code}[/bold] — {already_verified + len(acs)}/{total_acs} ACs verified in {elapsed:.0f}s"
-            + (f" ({elapsed / max(len(acs), 1):.0f}s/AC)" if acs else ""),
+            f"[bold]{state_code}[/bold] — {sum(counts.values())}/{total_acs} ACs in {elapsed:.0f}s"
+            + (f" ({elapsed / max(total_acs, 1):.1f}s/AC avg)" if total_acs else ""),
             title="Batch Summary",
             border_style="green",
         )
