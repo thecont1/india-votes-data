@@ -22,6 +22,12 @@ dependencies = [
     "webdriver-manager>=4.0.0",
     "psycopg2-binary>=2.9.9",
     "duckdb>=1.0.0",
+    "pdf2image>=1.16.0",
+    "pytesseract>=0.3.10",
+    "Pillow>=10.0.0",
+    "httpx>=0.25.0",
+    "thefuzz[speedup]>=0.20.0",
+    "rich>=13.0.0",
 ]
 
 [dependency-groups]
