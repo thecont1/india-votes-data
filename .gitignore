@@ -1,10 +1,10 @@
-eci-karnataka.html
-
 WARP.md
 .poolside
 .invoke
 .hermes
 .vscode
+
+.env
 
 .DS_Store
 
@@ -24,4 +24,5 @@ uv.lock
 data/csv/
 data/json/
 data/parquet/
-.env
+
+archive/
