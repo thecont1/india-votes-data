@@ -697,13 +697,15 @@
     opacity: 0;
     transition: opacity 0.15s ease;
     z-index: 200;
-    width: 300px;
+    width: 280px;
     box-shadow: 0 4px 12px color-mix(in srgb, var(--text) 12%, transparent);
     font-style: normal;
     font-weight: 400;
     text-transform: none;
     letter-spacing: normal;
     line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   .form20-info:hover .form20-info-tooltip { opacity: 1; }
   .form20-info-tooltip h4 {
@@ -1680,11 +1682,11 @@
           <span class="form20-info" tabindex="0">i
             <span class="form20-info-tooltip">
               <h4>Form 20 Verification</h4>
-              <p>Each constituency's official booth-wise result PDF is cross-checked against our scraped ECI data using a Vision AI model.</p>
-              <div class="status-row"><span class="status-dot" style="background:#059669"></span> <strong>Verified</strong> — all candidates confirmed</div>
-              <div class="status-row"><span class="status-dot" style="background:#dc2626"></span> <strong>Mismatch</strong> — vote counts differ; needs investigation</div>
-              <div class="status-row"><span class="status-dot" style="background:#d97706"></span> <strong>Error</strong> — pipeline couldn't read the PDF; re-run to retry</div>
-              <p>Click <strong>Form 20 Priority</strong> in Results by Constituency to sort ACs by review urgency.</p>
+              <p>Each AC's official result PDF is cross-checked against our scraped data using a Vision AI model.</p>
+              <div class="status-row"><span class="status-dot" style="background:#059669"></span> <strong>Verified</strong> — data confirmed</div>
+              <div class="status-row"><span class="status-dot" style="background:#dc2626"></span> <strong>Mismatch</strong> — vote counts differ</div>
+              <div class="status-row"><span class="status-dot" style="background:#d97706"></span> <strong>Error</strong> — couldn't read PDF; retry</div>
+              <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> sort to surface ACs needing review.</p>
             </span>
           </span>
         </span>
