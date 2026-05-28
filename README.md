@@ -10,7 +10,7 @@ Scrapes constituency-wise election results — candidate names, party affiliatio
 
 - **Multi-threaded scraping** — 5 concurrent workers (CLI), 3 (live client)
 - **Dual database backend** — SQLite (local) or PostgreSQL via `DATABASE_URL`
-- **Normalized schema** — states, parties, rounds_ac, constituency_status ([schema docs](SCHEMA.md))
+- **Normalized schema** — states, parties, rounds_ac, constituency_status ([schema docs](docs/SCHEMA.md))
 - **Live dashboard** — FastAPI + Chart.js with seat tally, striped bars (leading) vs solid (declared), auto-refresh
 - **By-election support** — round_no is the time axis; new elections are just new rounds
 - **CSV/JSON export** — optional file output alongside database writes
@@ -115,6 +115,7 @@ india-votes-data/
 ├── eci-ResultsDayLiveClient.py  # Live client (round-by-round)
 ├── eci-live-scraper.py          # Alternative scraper (requests+BS4)
 ├── config.py                    # Election config (tracked states, URL template)
+├── election.conf                # Party-wise URLs for current cycle
 ├── static/index.html            # Live dashboard (Chart.js)
 ├── db_utils.py                  # Database layer (SQLite + PostgreSQL)
 ├── core/
@@ -122,22 +123,28 @@ india-votes-data/
 │   ├── browser.py               # Chrome WebDriver setup
 │   ├── output.py                # CSV/JSON writing (shared)
 │   └── models.py                # Pydantic data models
+├── tools/                       # Administrative utilities
+│   ├── normalize_parties.py     # Normalize party names in DB
+│   ├── fetch_symbols.py         # Fetch party symbols from ECI
+│   └── fetch_party_data.py      # Fetch party metadata
 ├── data/
 │   ├── states.csv               # 36 states/UTs reference
 │   ├── parties.csv              # 30 major parties metadata
 │   ├── csv/                     # CLI CSV output
 │   ├── json/                    # CLI JSON output
 │   └── election_results.db      # SQLite database (gitignored)
+├── docs/
+│   └── SCHEMA.md                # Database schema docs
+├── notebooks/
+│   └── analyse-this.ipynb       # Analysis notebook
 ├── archive/                     # Historical files
-├── analyse-this.ipynb           # Analysis notebook
 ├── pyproject.toml               # uv project config
-├── README.md                    # This file
-└── SCHEMA.md                    # Database schema docs
+└── README.md                    # This file
 ```
 
 ## Database
 
-See [SCHEMA.md](SCHEMA.md) for full schema documentation.
+See [docs/SCHEMA.md](docs/SCHEMA.md) for full schema documentation.
 
 Quick reference — 4 tables:
 

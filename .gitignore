@@ -24,3 +24,4 @@ uv.lock
 data/csv/
 data/json/
 data/parquet/
+.env
