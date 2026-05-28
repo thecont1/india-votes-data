@@ -659,6 +659,83 @@
     text-transform: uppercase;
     color: var(--muted);
     flex-shrink: 0;
+    position: relative;
+  }
+  .form20-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--control-bg);
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    font-style: italic;
+    font-family: var(--font-ui);
+    cursor: help;
+    vertical-align: middle;
+    margin-left: 4px;
+    transition: border-color 0.15s, color 0.15s;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .form20-info:hover {
+    border-color: var(--control-hover-border);
+    color: var(--text);
+  }
+  .form20-info-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    background: var(--tooltip-bg, var(--card));
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 200;
+    width: 300px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--text) 12%, transparent);
+    font-style: normal;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
+    line-height: 1.5;
+  }
+  .form20-info:hover .form20-info-tooltip { opacity: 1; }
+  .form20-info-tooltip h4 {
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--tooltip-text, var(--text));
+  }
+  .form20-info-tooltip p {
+    margin: 0 0 6px;
+    font-size: 11px;
+    color: var(--tooltip-muted, var(--muted));
+  }
+  .form20-info-tooltip p:last-child { margin-bottom: 0; }
+  .form20-info-tooltip .status-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--tooltip-muted, var(--muted));
+    margin: 2px 0;
+  }
+  .form20-info-tooltip .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .form20-info-tooltip code {
+    font-size: 10px;
+    background: var(--control-bg);
+    padding: 1px 4px;
+    border-radius: 3px;
   }
   .form20-card__status {
     display: inline-flex;
@@ -1599,7 +1676,18 @@
         <select id="race-select" size="1" aria-label="Select constituency"></select>
       </div>
       <div class="form20-card form20-card--unavailable" id="form20-card">
-        <span class="form20-card__label">Form 20</span>
+        <span class="form20-card__label">Form 20
+          <span class="form20-info" tabindex="0">i
+            <span class="form20-info-tooltip">
+              <h4>Form 20 Verification</h4>
+              <p>Each constituency's official booth-wise result PDF is cross-checked against our scraped ECI data using a Vision AI model.</p>
+              <div class="status-row"><span class="status-dot" style="background:#059669"></span> <strong>Verified</strong> — all candidates confirmed</div>
+              <div class="status-row"><span class="status-dot" style="background:#dc2626"></span> <strong>Mismatch</strong> — vote counts differ; needs investigation</div>
+              <div class="status-row"><span class="status-dot" style="background:#d97706"></span> <strong>Error</strong> — pipeline couldn't read the PDF; re-run to retry</div>
+              <p>Click <strong>Form 20 Priority</strong> in Results by Constituency to sort ACs by review urgency.</p>
+            </span>
+          </span>
+        </span>
         <span class="form20-card__status" id="form20-status">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <span id="form20-status-text">Unavailable</span>
