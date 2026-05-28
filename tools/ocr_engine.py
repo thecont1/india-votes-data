@@ -925,11 +925,15 @@ def _download_pdf(url: str, dest: Path) -> None:
     renegotiation (e.g. ceowestbengal.wb.gov.in). Python 3.14's SSL
     rejects these connections, but curl handles them fine.
 
-    Validates the downloaded file — retries once if truncated/corrupt.
+    Validates the downloaded file — retries up to 3 times with backoff
+    for rate-limited or transiently failing servers.
     """
     import subprocess
+    import time as _time
+    import random as _rand
 
-    for attempt in range(2):
+    max_attempts = 3
+    for attempt in range(max_attempts):
         # Remove any previous incomplete file
         if dest.exists():
             dest.unlink()
@@ -938,13 +942,16 @@ def _download_pdf(url: str, dest: Path) -> None:
             capture_output=True, text=True, timeout=120,
         )
         if result.returncode != 0:
+            if attempt < max_attempts - 1:
+                wait = (2 ** attempt) + _rand.uniform(0, 1)
+                _time.sleep(wait)
+                continue
             raise RuntimeError(f"curl failed: {result.stderr}")
         if _validate_pdf(dest):
             return
-        # Truncated/corrupt — retry once
-        if attempt == 0:
-            import time
-            time.sleep(1)
+        # Truncated/corrupt — retry
+        if attempt < max_attempts - 1:
+            _time.sleep(1)
     raise ValueError(f"Downloaded PDF is corrupt or truncated ({dest.stat().st_size} bytes): {url}")
 
 
