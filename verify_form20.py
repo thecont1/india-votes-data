@@ -206,15 +206,6 @@ def get_current_statuses(state_code: str) -> dict:
         conn.close()
 
 
-# Unicode block characters — universally supported, visually distinct
-_CHAR = {
-    "VERIFIED":   "█",   # solid block — complete
-    "MISMATCH":   "█",   # solid block — something's off
-    "ERROR":      "█",   # solid block — failed
-    "UNVERIFIED": "·",   # dot — not yet processed
-    "PENDING":    "·",   # dot — waiting
-}
-_LINE_WIDTH = 15  # ACs per line (each AC = 2 chars wide = 30 char line)
 
 
 def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
@@ -400,29 +391,17 @@ def run_state_batch(state_code: str, args) -> None:
 
     from rich.text import Text
 
-    # Grid state — two columns per AC for thick blocks
-    line_buf: list[str] = []
-    line_styles: list[str] = []
-
-    def _print_row(chars: list[str], styles: list[str]):
-        t = Text("  ")
-        for ch, st in zip(chars, styles):
-            t.append(ch, style=f"on {st}")
-        console.print(t)
-
     # Legend
-    legend = Text("  ")
-    for label, key in [("VERIFIED", "green"), ("MISMATCH", "magenta"), ("ERROR", "cyan")]:
-        legend.append("    ", style=f"on {key}")
-        legend.append(f" {label}   ")
-    console.print(legend)
+    console.print()
+    console.print(Text("  ■ VERIFIED  ■ MISMATCH  ■ ERROR", style="dim"))
     console.print()
 
     # Collect reports for summary
     mismatch_reports: list[dict] = []
     error_acs: list[dict] = []
+    already_verified = 0
 
-    # Process ALL ACs — VERIFIED ones fly by, others go through pipeline
+    # Process ALL ACs — one line each, starting from AC 1
     for i, ac in enumerate(acs):
         ac_no = ac["ac_no"]
         ac_name = ac["ac_name"]
@@ -430,24 +409,25 @@ def run_state_batch(state_code: str, args) -> None:
 
         # Skip VERIFIED unless --force
         if current_status == "VERIFIED" and not args.force:
-            ch = "█"
             status_key = "VERIFIED"
             counts["VERIFIED"] += 1
+            already_verified += 1
             color = "green"
+            symbol = "●"
         else:
             report = _process_one_ac(state_code, ac, args)
 
             if report is None:
-                ch = "█"
                 status_key = "ERROR"
                 counts["ERROR"] += 1
-                color = "cyan"
+                color = "red"
+                symbol = "✖"
                 error_acs.append({"ac_no": ac_no, "ac_name": ac_name})
             else:
                 status = report["_db_status"]
-                ch = "█"
                 status_key = status
-                color = {"VERIFIED": "green", "MISMATCH": "magenta", "ERROR": "cyan"}.get(status, "dim")
+                color = {"VERIFIED": "green", "MISMATCH": "red", "ERROR": "blue"}.get(status, "dim")
+                symbol = {"VERIFIED": "●", "MISMATCH": "!", "ERROR": "✖"}.get(status, "?")
                 counts[status] = counts.get(status, 0) + 1
                 if status == "MISMATCH":
                     mismatch_reports.append(report)
@@ -456,20 +436,11 @@ def run_state_batch(state_code: str, args) -> None:
                                       "difficulty": report.get("difficulty"),
                                       "confirmed": report.get("summary", {}).get("confirmed", 0)})
 
-        line_buf.append(ch)
-        line_buf.append(ch)  # two columns per AC
-        line_styles.append(color)
-        line_styles.append(color)
-
-        # Print full row of blocks and clear buffer
-        if len(line_buf) == 30:  # 15 ACs × 2 chars = 30
-            _print_row(line_buf, line_styles)
-            line_buf.clear()
-            line_styles.clear()
-
-    # Print any remaining partial line
-    if line_buf:
-        _print_row(line_buf, line_styles)
+        t = Text()
+        t.append(f"  {symbol} ", style=f"bold {color}")
+        t.append(f"{ac_no:>3} ", style="dim")
+        t.append(ac_name)
+        console.print(t)
 
     elapsed = time.time() - start_time
 
