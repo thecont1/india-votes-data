@@ -391,7 +391,7 @@ def run_state_batch(state_code: str, args) -> None:
 
     # Legend
     console.print()
-    console.print("  [green]●[/] VERIFIED  [red]●[/] MISMATCH  [blue]●[/] ERROR")
+    console.print("  🟩 VERIFIED  🟥 MISMATCH  🌀 ERROR")
     console.print()
 
     # Collect reports for summary
@@ -410,22 +410,19 @@ def run_state_batch(state_code: str, args) -> None:
             status_key = "VERIFIED"
             counts["VERIFIED"] += 1
             already_verified += 1
-            color = "green"
-            symbol = "●"
+            symbol = "🟩"
         else:
             report = _process_one_ac(state_code, ac, args)
 
             if report is None:
                 status_key = "ERROR"
                 counts["ERROR"] += 1
-                color = "red"
-                symbol = "✖"
+                symbol = "🌀"
                 error_acs.append({"ac_no": ac_no, "ac_name": ac_name})
             else:
                 status = report["_db_status"]
                 status_key = status
-                color = {"VERIFIED": "green", "MISMATCH": "red", "ERROR": "blue"}.get(status, "dim")
-                symbol = {"VERIFIED": "●", "MISMATCH": "!", "ERROR": "✖"}.get(status, "?")
+                symbol = {"VERIFIED": "🟩", "MISMATCH": "🟥", "ERROR": "🌀"}.get(status, "?")
                 counts[status] = counts.get(status, 0) + 1
                 if status == "MISMATCH":
                     mismatch_reports.append(report)
@@ -434,7 +431,7 @@ def run_state_batch(state_code: str, args) -> None:
                                       "difficulty": report.get("difficulty"),
                                       "confirmed": report.get("summary", {}).get("confirmed", 0)})
 
-        console.print(f"  [bold {color}]{symbol}[/]  {ac_no:>3} {ac_name}")
+        console.print(f"  {symbol}  {ac_no:>3} {ac_name}")
 
     elapsed = time.time() - start_time
 
