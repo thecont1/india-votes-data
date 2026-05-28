@@ -215,13 +215,6 @@ _CHAR = {
     "PENDING":    "·",   # dot — waiting
 }
 _LINE_WIDTH = 30  # characters per line
-# ANSI background colors for grid blocks
-_BG = {
-    "VERIFIED": "\033[42m",   # green background
-    "MISMATCH": "\033[41m",   # red background
-    "ERROR":    "\033[43m",   # yellow background
-}
-_BG_RESET = "\033[0m"
 
 
 def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
@@ -289,39 +282,38 @@ def run_state_batch(state_code: str, args) -> None:
     )
     console.print()
 
-    # Print legend with background-colored blocks
-    legend = "    ".join([
-        f"{_BG['VERIFIED']} {_BG_RESET} = VERIFIED",
-        f"{_BG['MISMATCH']} {_BG_RESET} = MISMATCH",
-        f"{_BG['ERROR']} {_BG_RESET} = ERROR",
-    ])
-    console.print(f"  {legend}")
+    # Print legend using Rich Text for colored blocks
+    from rich.text import Text
+    legend = Text("  ")
+    for label, key in [("VERIFIED", "green"), ("MISMATCH", "red"), ("ERROR", "yellow")]:
+        legend.append("  ", style=f"on {key}")
+        legend.append(f" = {label}    ")
+    console.print(legend)
     console.print()
 
     # Grid state
-    grid_chars: list[str] = [_CHAR["VERIFIED"]] * already_verified
-    grid_colors: list[str] = ["VERIFIED"] * already_verified
     line_buf: list[str] = []
-    line_colors: list[str] = []
+    line_styles: list[str] = []
     counts = {"VERIFIED": already_verified, "MISMATCH": 0, "ERROR": 0}
     start_time = time.time()
 
-    # Print pre-filled rows from already-verified
-    if already_verified >= _LINE_WIDTH:
-        for row in range(already_verified // _LINE_WIDTH):
-            chunk = "".join(_BG["VERIFIED"] + _CHAR["VERIFIED"] for _ in range(_LINE_WIDTH)) + _BG_RESET
-            sys.stdout.write(f"  {chunk}\n")
-        sys.stdout.flush()
+    def _print_row(chars: list[str], styles: list[str]):
+        """Print one complete row of 30 colored blocks."""
+        t = Text("  ")
+        for ch, st in zip(chars, styles):
+            t.append(ch, style=f"on {st}")
+        console.print(t)
 
-    # Process each AC — one block character per completion, 30 per line
+    # Print pre-filled rows from already-verified
+    pre_row = [_CHAR["VERIFIED"]] * _LINE_WIDTH
+    pre_styles = ["green"] * _LINE_WIDTH
+    for _ in range(already_verified // _LINE_WIDTH):
+        _print_row(pre_row, pre_styles)
+
+    # Process each AC — accumulate blocks, print full rows of 30
     for i, ac in enumerate(acs):
         ac_no = ac["ac_no"]
         ac_name = ac["ac_name"]
-
-        # Show what's processing (single line, overwritten)
-        short_name = (ac_name[:20] + "…") if len(ac_name) > 21 else ac_name
-        sys.stdout.write(f"\033[2K\033[1G  ⠋ {ac_no:>3} {short_name}  ")
-        sys.stdout.flush()
 
         report = _process_one_ac(state_code, ac, args)
 
@@ -335,28 +327,23 @@ def run_state_batch(state_code: str, args) -> None:
             status_key = status
             counts[status] = counts.get(status, 0) + 1
 
-        grid_chars.append(ch)
-        grid_colors.append(status_key)
         line_buf.append(ch)
-        line_colors.append(status_key)
-        n = len(grid_chars)
+        line_styles.append(status_key)
 
-        # Erase spinner, then print growing grid line with background colors
-        grid_cells = "".join(_BG.get(c, "") + ch for ch, c in zip(line_buf, line_colors)) + _BG_RESET
-        sys.stdout.write(f"\033[2K\033[1G  {grid_cells}")
-        sys.stdout.flush()
+        # Print every AC with status char (compact single-line feedback)
+        color = {"VERIFIED": "green", "MISMATCH": "red", "ERROR": "yellow"}.get(status_key, "dim")
+        short_name = (ac_name[:18] + "…") if len(ac_name) > 19 else ac_name
+        console.print(f"  [{color}]{ch}[/{color}] {ac_no:>3} {short_name}")
 
-        # If line is full, commit it
-        if n % _LINE_WIDTH == 0:
-            sys.stdout.write(f"\033[2K\033[1G  {grid_cells}\n")
-            sys.stdout.flush()
+        # Print full row of blocks and clear buffer
+        if len(line_buf) == _LINE_WIDTH:
+            _print_row(line_buf, line_styles)
             line_buf.clear()
-            line_colors.clear()
+            line_styles.clear()
 
-    # Commit any remaining partial line
+    # Print any remaining partial line
     if line_buf:
-        sys.stdout.write("\n")
-        sys.stdout.flush()
+        _print_row(line_buf, line_styles)
 
     elapsed = time.time() - start_time
 
