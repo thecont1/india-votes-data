@@ -481,7 +481,9 @@ def _merge_vision_responses(
     deduped = []
     top3_names = {r["candidate"].upper() for r in top3}
     for item in best:
-        name = item.get("candidate", "").strip().upper()
+        if not isinstance(item, dict):
+            continue  # skip None or non-dict items from LLM response
+        name = (item.get("candidate") or "").strip().upper()
         if name and name not in seen and name in top3_names:
             seen.add(name)
             deduped.append(item)
@@ -522,7 +524,8 @@ def parse_vision_response(response_text: str) -> list[dict]:
     try:
         parsed = json.loads(text)
         if isinstance(parsed, list):
-            return parsed
+            # Filter out None/null entries that LLMs sometimes emit
+            return [x for x in parsed if x is not None]
         return []
     except json.JSONDecodeError:
         return []

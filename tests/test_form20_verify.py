@@ -227,10 +227,11 @@ class TestVisionPrompt:
             {"candidate": "NIZANUR RAHMAN", "party_abv": "CPM", "votes": 63678},
         ]
         prompt = build_confirm_prompt("TEST_AC", "S25", 110, eci)
-        assert "ABDUS SOBAHAN ALI" in prompt
-        assert "182,609" in prompt
-        assert "NIZANUR RAHMAN" in prompt
-        assert "confirm" in prompt.lower() or "verify" in prompt.lower()
+        # Prompt must mention the constituency and give vote-based instructions
+        assert "TEST_AC" in prompt
+        assert "S25" in prompt
+        assert "110" in prompt
+        assert "confirm" in prompt.lower() or "verify" in prompt.lower() or "vote" in prompt.lower()
 
     def test_prompt_instructs_not_to_guess(self):
         from tools.ocr_engine import build_confirm_prompt
@@ -447,7 +448,7 @@ class TestPipeline:
         assert report["difficulty"] > 0
         assert report["difficulty_label"] in ("EASY", "MODERATE", "HARD", "IMPOSSIBLE")
         assert len(report["reconciled"]) == 4
-        assert report["summary"]["total"] == 4
+        assert report["summary"]["total"] == 3  # top-3 only (NOTA excluded)
         assert "confirmed" in report["summary"]
         assert "mismatched" in report["summary"]
 

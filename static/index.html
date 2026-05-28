@@ -745,6 +745,11 @@
     width: 14px; height: 14px;
     flex-shrink: 0;
   }
+  #form20-status-icon {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+  }
   .form20-info-tooltip code {
     font-size: 10px;
     background: var(--control-bg);
@@ -1695,9 +1700,9 @@
             <div class="form20-info-tooltip">
               <h4>Form 20 Verification</h4>
               <p>Each AC's official result PDF is cross-checked against our scraped data using a Vision AI model.</p>
-              <div class="status-row"><svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg> <strong style="color:#059669">Verified</strong> — data confirmed</div>
-              <div class="status-row"><svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> <strong style="color:#dc2626">Mismatch</strong> — vote counts differ</div>
-              <div class="status-row"><svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <strong style="color:#d97706">Error</strong> — couldn't read PDF; retry</div>
+              <div class="status-row"><span aria-hidden="true">🟩</span> <strong style="color:#059669">Verified</strong> — data confirmed</div>
+              <div class="status-row"><span aria-hidden="true">🟥</span> <strong style="color:#dc2626">Mismatch</strong> — vote counts differ</div>
+              <div class="status-row"><span aria-hidden="true">🌀</span> <strong style="color:#d97706">Error</strong> — couldn't read PDF; retry</div>
               <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> sort to surface ACs needing review.</p>
               <table style="margin-top:6px;font-size:0.9em;width:100%;border-collapse:collapse">
                 <tr style="border-bottom:2px solid var(--border);font-weight:600"><td style="padding:2px 4px">Label</td><td style="padding:2px 4px">Score</td><td style="padding:2px 4px">Interpretation</td></tr>
@@ -1710,7 +1715,7 @@
           </span>
         </span>
         <span class="form20-card__status" id="form20-status">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span id="form20-status-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
           <span id="form20-status-text">Unavailable</span>
         </span>
         <span id="form20-action"></span>
@@ -3017,9 +3022,9 @@ document.getElementById('race-sort-bar')?.addEventListener('click', (e) => {
 const FORM20_ICONS = {
   unavailable: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
   unverified: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
-  verified: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>',
-  mismatch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
-  error: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+  verified: '🟩',
+  mismatch: '🟥',
+  error: '🌀',
 };
 
 const FORM20_PDF_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
@@ -3044,7 +3049,7 @@ function updateForm20Field(race) {
   const icon = FORM20_ICONS[status] || FORM20_ICONS.unavailable;
 
   card.className = 'form20-card form20-card--' + status;
-  statusEl.querySelector('svg').outerHTML = icon;
+  document.getElementById('form20-status-icon').innerHTML = icon;
 
   // Show score badge with interpretation
   const score = race.form20_score;
