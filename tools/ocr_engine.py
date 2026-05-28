@@ -208,25 +208,16 @@ def build_confirm_prompt(
 ) -> str:
     """Build the prompt for the Vision LLM confirm approach.
 
-    Simplified: only sends top 3 candidates and asks the LLM to read
-    the 'Total Votes Polled' row by position. This avoids name-collision
-    issues (e.g. two candidates named 'D. JAYAKUMAR') and reduces OCR
-    complexity.
+    Simplified: only asks the LLM to find the summary row and return the
+    top 3 vote counts. No candidate names — the LLM doesn't need to know
+    them. We sort both sides descending and compare.
     """
-    # Top 3 by votes
-    top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
-    top3_lines = []
-    for i, r in enumerate(top3, 1):
-        top3_lines.append(
-            f"  Position {i}: {r['candidate']}  — {r['party_abv']} — {r['votes']:,} votes"
-        )
-    top3_text = "\n".join(top3_lines)
+    # Top 3 ECI vote counts for the expected answer
+    top3_votes = sorted([r["votes"] for r in eci_results], reverse=True)[:3]
 
     return f"""You are verifying election results against a scanned Form 20 (Final Result Sheet).
 
-The ECI website shows these results for {ac_name} (AC {ac_no}):
-TOP 3 CANDIDATES (by vote count):
-{top3_text}
+Constituency: {ac_name} (AC {ac_no}, {state_code})
 
 This is a scan of the official Form 20 for the same constituency.
 
@@ -235,9 +226,9 @@ TASK: Find the summary page and read the "Total Votes Polled" row.
 Steps:
 1. Look for the page containing "Total Votes Polled" or "Total EVM Votes" rows
    (usually the last page, or second-to-last).
-2. In that row, read the vote count for EACH of the 3 candidates above.
-3. Match by POSITION (1st, 2nd, 3rd) — NOT by name. The Form 20 may list
-   candidates in a different order than our list.
+2. In that row, read ALL vote counts (one per candidate).
+3. Sort them in descending order.
+4. Return the top 3 highest numbers.
 
 CRITICAL RULES:
 - Only read from the "Total Votes Polled" or "Total EVM Votes" SUMMARY row.
@@ -245,10 +236,8 @@ CRITICAL RULES:
 - If text is illegible, output null — do NOT guess or hallucinate.
 - Pay attention to the constituency name — does it match {ac_name}?
 
-Return ONLY a JSON array, no markdown fences, no explanation. Example:
-[{{"position": 1, "eci_votes": 12345, "form20_votes": 12345, "confirmed": true}},
- {{"position": 2, "eci_votes": 10000, "form20_votes": 10000, "confirmed": true}},
- {{"position": 3, "eci_votes": 5000, "form20_votes": 5000, "confirmed": true}}]"""
+Return ONLY a JSON array of 3 numbers, no markdown fences, no explanation. Example:
+[59091, 44842, 18420]"""
 
 
 def ocr_vision_confirm(
@@ -406,58 +395,60 @@ def _image_to_base64(img_path: Path, max_width: int = 1024) -> str:
 def _merge_vision_responses(
     all_responses: list, eci_results: list[dict]
 ) -> list[dict]:
-    """Pick the best Vision LLM response across pages, then map to candidates.
+    """Merge LLM responses and map to top-3 ECI candidates.
 
-    Each element of *all_responses* is either a list of position-based dicts
-    (from the new prompt: {position, eci_votes, form20_votes, confirmed})
-    or a list of name-based dicts (legacy format), or an error dict.
+    The LLM now returns a simple JSON array of vote counts sorted descending:
+        [59091, 44842, 18420]
 
-    We pick the page response that confirmed the most candidates, then
-    map positions back to candidate names using eci_results (sorted by votes).
+    We sort ECI top-3 descending and compare element-by-element.
+    Legacy formats (dict-based) are also handled for backward compatibility.
     """
-    if not all_responses:
-        # No responses at all — return unconfirmed for all candidates
-        top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
-        return [
-            {
-                "candidate": r["candidate"],
-                "party_abv": r["party_abv"],
-                "eci_votes": r["votes"],
-                "form20_votes": None,
-                "name_visible": "unknown",
-                "confirmed": None,
-                "notes": "Vision API returned no usable response",
-            }
-            for r in top3
-        ]
+    top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
+    empty = [
+        {
+            "candidate": r["candidate"],
+            "party_abv": r["party_abv"],
+            "eci_votes": r["votes"],
+            "form20_votes": None,
+            "name_visible": "unknown",
+            "confirmed": None,
+            "notes": "Vision API returned no usable response",
+        }
+        for r in top3
+    ]
 
-    # Pick the best response (most non-null form20_votes)
+    if not all_responses:
+        return empty
+
+    # Find the best page response
     best = max(
-        (r for r in all_responses if isinstance(r, list)),
-        key=lambda r: sum(1 for x in r if x.get("form20_votes") is not None),
+        (r for r in all_responses if isinstance(r, list) and r),
+        key=lambda r: len(r),
         default=[],
     )
 
     if not best:
-        top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
-        return [
-            {
-                "candidate": r["candidate"],
-                "party_abv": r["party_abv"],
-                "eci_votes": r["votes"],
-                "form20_votes": None,
-                "name_visible": "unknown",
-                "confirmed": None,
-                "notes": "Vision API returned no usable response",
-            }
-            for r in top3
-        ]
+        return empty
 
-    # Check if this is position-based (new format) or name-based (legacy)
-    first = best[0] if best else {}
-    if "position" in first:
-        # Position-based: map positions to candidates
-        top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
+    # --- New format: plain array of numbers [59091, 44842, 18420] ---
+    if best and isinstance(best[0], (int, float)):
+        f20_sorted = sorted([int(x) for x in best if x is not None], reverse=True)
+        result = []
+        for i, eci in enumerate(top3):
+            f20_votes = f20_sorted[i] if i < len(f20_sorted) else None
+            result.append({
+                "candidate": eci["candidate"],
+                "party_abv": eci["party_abv"],
+                "eci_votes": eci["votes"],
+                "form20_votes": f20_votes,
+                "name_visible": "yes" if f20_votes is not None else "unknown",
+                "confirmed": f20_votes == eci["votes"] if f20_votes is not None else None,
+                "notes": None,
+            })
+        return result
+
+    # --- Position-based format: [{position, eci_votes, form20_votes}, ...] ---
+    if best and isinstance(best[0], dict) and "position" in best[0]:
         result = []
         for item in best:
             pos = item.get("position", 0)
@@ -474,24 +465,22 @@ def _merge_vision_responses(
                 })
         return result
 
-    # Legacy name-based format — convert to top-3 position-based
-    # Deduplicate by name (keep first occurrence) and take top 3 by eci_votes
-    top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
-    top3_names = {r["candidate"].upper() for r in top3}
-
-    seen_names = set()
+    # --- Legacy name-based format: [{candidate, form20_votes, ...}, ...] ---
+    seen = set()
     deduped = []
+    top3_names = {r["candidate"].upper() for r in top3}
     for item in best:
         name = item.get("candidate", "").strip().upper()
-        if name and name not in seen_names and name in top3_names:
-            seen_names.add(name)
+        if name and name not in seen and name in top3_names:
+            seen.add(name)
             deduped.append(item)
 
-    # Map back to candidates
     result = []
     for eci in top3:
-        name_upper = eci["candidate"].upper()
-        match = next((d for d in deduped if d.get("candidate", "").strip().upper() == name_upper), None)
+        match = next(
+            (d for d in deduped if d.get("candidate", "").strip().upper() == eci["candidate"].upper()),
+            None,
+        )
         result.append({
             "candidate": eci["candidate"],
             "party_abv": eci["party_abv"],
