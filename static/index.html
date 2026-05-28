@@ -689,6 +689,8 @@
     position: absolute;
     bottom: calc(100% + 8px);
     right: 0;
+    display: block;
+    width: 280px;
     background: var(--tooltip-bg, var(--card));
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -697,15 +699,20 @@
     opacity: 0;
     transition: opacity 0.15s ease;
     z-index: 200;
-    width: 280px;
+    box-sizing: border-box;
     box-shadow: 0 4px 12px color-mix(in srgb, var(--text) 12%, transparent);
     font-style: normal;
     font-weight: 400;
     text-transform: none;
     letter-spacing: normal;
     line-height: 1.5;
-    word-wrap: break-word;
+  }
+  .form20-info-tooltip * {
+    box-sizing: border-box;
+    max-width: 100%;
     overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
   }
   .form20-info:hover .form20-info-tooltip { opacity: 1; }
   .form20-info-tooltip h4 {
@@ -1679,14 +1686,14 @@
       <div class="form20-card form20-card--unavailable" id="form20-card">
         <span class="form20-card__label">Form 20
           <span class="form20-info" tabindex="0">i
-            <span class="form20-info-tooltip">
+            <div class="form20-info-tooltip">
               <h4>Form 20 Verification</h4>
               <p>Each AC's official result PDF is cross-checked against our scraped data using a Vision AI model.</p>
               <div class="status-row"><svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg> <strong style="color:#059669">Verified</strong> — data confirmed</div>
               <div class="status-row"><svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> <strong style="color:#dc2626">Mismatch</strong> — vote counts differ</div>
               <div class="status-row"><svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <strong style="color:#d97706">Error</strong> — couldn't read PDF; retry</div>
               <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> sort to surface ACs needing review.</p>
-            </span>
+            </div>
           </span>
         </span>
         <span class="form20-card__status" id="form20-status">
