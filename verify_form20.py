@@ -395,27 +395,8 @@ def run_state_batch(state_code: str, args) -> None:
     )
     console.print()
 
-    # Print legend using Rich Text for colored blocks
-    from rich.text import Text
-    legend = Text("  ")
-    for label, key in [("VERIFIED", "green"), ("MISMATCH", "red"), ("ERROR", "yellow")]:
-        legend.append("  ", style=f"on {key}")
-        legend.append(f" = {label}    ")
-    console.print(legend)
-    console.print()
-
-    # Grid state
-    line_buf: list[str] = []
-    line_styles: list[str] = []
     counts = {"VERIFIED": 0, "MISMATCH": 0, "ERROR": 0}
     start_time = time.time()
-
-    def _print_row(chars: list[str], styles: list[str]):
-        """Print one complete row of 30 colored blocks."""
-        t = Text("  ")
-        for ch, st in zip(chars, styles):
-            t.append(ch, style=f"on {st}")
-        console.print(t)
 
     # Collect reports for summary
     mismatch_reports: list[dict] = []
@@ -429,7 +410,7 @@ def run_state_batch(state_code: str, args) -> None:
 
         # Skip VERIFIED unless --force
         if current_status == "VERIFIED" and not args.force:
-            ch = _CHAR["VERIFIED"]
+            ch = "✓"
             status_key = "VERIFIED"
             counts["VERIFIED"] += 1
             color = "green"
@@ -437,14 +418,14 @@ def run_state_batch(state_code: str, args) -> None:
             report = _process_one_ac(state_code, ac, args)
 
             if report is None:
-                ch = _CHAR["ERROR"]
+                ch = "✗"
                 status_key = "ERROR"
                 counts["ERROR"] += 1
                 color = "yellow"
                 error_acs.append({"ac_no": ac_no, "ac_name": ac_name})
             else:
                 status = report["_db_status"]
-                ch = _CHAR.get(status, "·")
+                ch = {"VERIFIED": "✓", "MISMATCH": "✗", "ERROR": "✗"}.get(status, "?")
                 status_key = status
                 color = {"VERIFIED": "green", "MISMATCH": "red", "ERROR": "yellow"}.get(status, "dim")
                 counts[status] = counts.get(status, 0) + 1
@@ -455,24 +436,9 @@ def run_state_batch(state_code: str, args) -> None:
                                       "difficulty": report.get("difficulty"),
                                       "confirmed": report.get("summary", {}).get("confirmed", 0)})
 
-        line_buf.append(ch)
-        line_buf.append(ch)  # two columns per AC for thicker blocks
-        line_styles.append(status_key)
-        line_styles.append(status_key)
-
-        # Print every AC with status char
+        # Print one line per AC
         short_name = (ac_name[:18] + "…") if len(ac_name) > 19 else ac_name
         console.print(f"  [{color}]{ch}[/{color}] {ac_no:>3} {short_name}")
-
-        # Print full row of blocks and clear buffer
-        if len(line_buf) == _LINE_WIDTH:
-            _print_row(line_buf, line_styles)
-            line_buf.clear()
-            line_styles.clear()
-
-    # Print any remaining partial line
-    if line_buf:
-        _print_row(line_buf, line_styles)
 
     elapsed = time.time() - start_time
 
