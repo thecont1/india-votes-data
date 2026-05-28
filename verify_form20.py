@@ -151,7 +151,7 @@ def render_report(report: dict) -> None:
 
 def run_single(state_code: str, ac_no: int, args) -> dict | None:
     """Run verification for a single AC. Returns report dict or None on error."""
-    from ocr_engine import run_pipeline
+    from tools.ocr_engine import run_pipeline
 
     try:
         report = run_pipeline(
@@ -172,7 +172,7 @@ def run_single(state_code: str, ac_no: int, args) -> dict | None:
 
 def update_db(report: dict) -> str:
     """Write verification results back to constituency_status. Returns the status."""
-    from ocr_engine import update_form20_result
+    from tools.ocr_engine import update_form20_result
 
     s = report["summary"]
     return update_form20_result(
@@ -250,7 +250,7 @@ def run_state_batch(state_code: str, args) -> None:
 
     Shows a Braille grid — one block per AC, 20 per line.
     """
-    from ocr_engine import get_state_acs_with_form20
+    from tools.ocr_engine import get_state_acs_with_form20
 
     acs = get_state_acs_with_form20(state_code)
     if not acs:
@@ -395,7 +395,7 @@ def main():
         if args.ac_no is None:
             console.print("  [red]ERROR: --prepare requires an AC number[/]")
             sys.exit(1)
-        from ocr_engine import get_form20_url, get_eci_results, get_constituency_info, pdf_to_images, build_confirm_prompt
+        from tools.ocr_engine import get_form20_url, get_eci_results, get_constituency_info, pdf_to_images, build_confirm_prompt
 
         console.print()
         console.print(f"  [bold]Form 20 Verification[/] — {args.state_code} AC {args.ac_no}")
@@ -415,7 +415,7 @@ def main():
         report_dir.mkdir(parents=True, exist_ok=True)
         pdf_path = report_dir / "source.pdf"
         if not pdf_path.exists():
-            from ocr_engine import _download_pdf
+            from tools.ocr_engine import _download_pdf
             _download_pdf(form20_url, pdf_path)
 
         image_dir = report_dir / "pages"

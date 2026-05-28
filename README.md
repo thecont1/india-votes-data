@@ -123,10 +123,12 @@ india-votes-data/
 │   ├── browser.py               # Chrome WebDriver setup
 │   ├── output.py                # CSV/JSON writing (shared)
 │   └── models.py                # Pydantic data models
-├── tools/                       # Administrative utilities
+├── tools/                       # Utilities and verification pipeline
+│   ├── ocr_engine.py            # Vision LLM + Tesseract OCR engine
 │   ├── normalize_parties.py     # Normalize party names in DB
 │   ├── fetch_symbols.py         # Fetch party symbols from ECI
 │   └── fetch_party_data.py      # Fetch party metadata
+├── verify_form20.py             # Form 20 batch verification CLI
 ├── data/
 │   ├── states.csv               # 36 states/UTs reference
 │   ├── parties.csv              # 30 major parties metadata
@@ -160,6 +162,55 @@ Quick reference — 4 tables:
 1. **Primary**: `curl` subprocess + BeautifulSoup — bypasses ECI's Akamai TLS fingerprint blocking
 2. **Fallback**: Selenium headless Chrome — for pages requiring JavaScript rendering
 3. **Rate limiting**: 0.2-0.8s jitter between requests per thread
+
+## Form 20 Verification
+
+### What is Form 20?
+
+Form 20 is the official election result document published by the Chief Electoral Officer of each state under Section 64 of the Representation of the People Act, 1951. It contains the complete, booth-wise breakdown of votes polled for every candidate in a constituency — the most granular official record of an election. This is the source document that returning officers sign before declaring results.
+
+Our scraper captures aggregate vote totals from ECI's party-wise summary pages. Form 20 lets us verify those numbers against the original signed document.
+
+### How it works
+
+The verification pipeline (`verify_form20.py` + `tools/ocr_engine.py`) downloads each constituency's Form 20 PDF, converts pages to images, and sends them to a Vision LLM (currently MiMo 2.5). The model reads candidate names and vote counts directly from the scanned document, then cross-checks them against our database.
+
+Tesseract OCR runs as a fallback when no Vision API is configured. When Vision is available, Tesseract is skipped entirely — it takes 23 seconds per AC and the Vision LLM is more accurate on these tabular documents.
+
+Page selection: the summary page (typically the last page) plus 20% random booth pages are sent to the Vision model. This balances thoroughness against API cost.
+
+### Verification statuses
+
+| Status | Meaning | Action |
+|--------|---------|--------|
+| **Verified** | All candidates confirmed, vote counts match | None — data is trustworthy |
+| **Mismatch** | Vision LLM read different vote counts than our DB | Investigate — could be our data or LLM error |
+| **Error** | Pipeline couldn't read the PDF (corrupt download, API failure) | Re-run — usually recovers on retry |
+| **Unavailable** | No Form 20 URL set for this AC | Source the PDF from the CEO website |
+
+### Running verification
+
+```bash
+# Verify all ACs in a state (skips already-verified, retries errors)
+uv run verify_form20.py S03
+
+# Re-run everything from scratch
+uv run verify_form20.py S03 --force
+
+# Single AC
+uv run verify_form20.py S25 110
+
+# Tesseract only (no Vision API)
+uv run verify_form20.py S03 --skip-vision
+```
+
+The terminal shows a Braille grid — one block per AC, 20 per line. Pre-existing verified ACs appear as filled blocks from the start. Each new result appends to the grid in real time.
+
+### Human in the loop
+
+Automation catches gross errors (wrong totals, missing candidates) but cannot judge everything. Mismatched ACs need a human to decide: did the LLM misread a smudged scan, or does our scraped data have the wrong number? The dashboard sorts ACs by verification priority (Mismatch → Error → Unavailable → Verified) so the most suspicious constituencies surface first.
+
+The goal is not zero mismatches — it's knowing exactly which constituencies to trust and which to double-check. That's what makes this data publishable.
 
 ## Output Files
 
