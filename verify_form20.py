@@ -292,10 +292,12 @@ def _print_review_summary(
                 lines.append(f"PDF: {url}")
             lines.append(f"")
 
-            # Candidate table
+            # Candidate table (only verified candidates — top 3)
             lines.append(f"| Candidate | Party | ECI | Form 20 | Delta | Notes |")
             lines.append(f"|-----------|-------|----:|--------:|------:|-------|")
             for r in reconciled:
+                if r.get("form20_votes") is None:
+                    continue  # skip unverified candidates
                 candidate = r.get("candidate", "?")
                 party = r.get("party_abv", "?")
                 eci = r.get("eci_votes", "?")

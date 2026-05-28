@@ -206,43 +206,49 @@ def ocr_tesseract_extract(image_path: Path) -> list[dict]:
 def build_confirm_prompt(
     ac_name: str, state_code: str, ac_no: int, eci_results: list[dict]
 ) -> str:
-    """Build the prompt for the Vision LLM confirm approach."""
-    candidate_lines = []
-    for i, r in enumerate(eci_results, 1):
-        candidate_lines.append(
-            f"  {i}. {r['candidate']}  — {r['party_abv']} — {r['votes']:,}"
+    """Build the prompt for the Vision LLM confirm approach.
+
+    Simplified: only sends top 3 candidates and asks the LLM to read
+    the 'Total Votes Polled' row by position. This avoids name-collision
+    issues (e.g. two candidates named 'D. JAYAKUMAR') and reduces OCR
+    complexity.
+    """
+    # Top 3 by votes
+    top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
+    top3_lines = []
+    for i, r in enumerate(top3, 1):
+        top3_lines.append(
+            f"  Position {i}: {r['candidate']}  — {r['party_abv']} — {r['votes']:,} votes"
         )
-    candidates_text = "\n".join(candidate_lines)
+    top3_text = "\n".join(top3_lines)
 
     return f"""You are verifying election results against a scanned Form 20 (Final Result Sheet).
 
 The ECI website shows these results for {ac_name} (AC {ac_no}):
-
-{candidates_text}
+TOP 3 CANDIDATES (by vote count):
+{top3_text}
 
 This is a scan of the official Form 20 for the same constituency.
-You will receive MULTIPLE pages. The summary/totals may NOT be on the last page
-(sometimes it is on the second-to-last or third-to-last page, followed by a header page).
 
-LOOK for the page containing "Total Votes Polled" or "Total EVM Votes" rows — that is
-the summary page. Read the aggregate vote counts from that row for each candidate.
+TASK: Find the summary page and read the "Total Votes Polled" row.
 
-For EACH candidate above, examine the form carefully and report:
-- form20_votes: the exact vote count you see on the form (use null if illegible)
-- name_visible: can you see this candidate's name on the form? (yes / no / partial)
-- confirmed: do the votes match the ECI count exactly? (true / false / null if illegible)
-
-Also report any ADDITIONAL candidates on the form that are NOT in our list above.
+Steps:
+1. Look for the page containing "Total Votes Polled" or "Total EVM Votes" rows
+   (usually the last page, or second-to-last).
+2. In that row, read the vote count for EACH of the 3 candidates above.
+3. Match by POSITION (1st, 2nd, 3rd) — NOT by name. The Form 20 may list
+   candidates in a different order than our list.
 
 CRITICAL RULES:
-- If text is illegible or unreadable, output null — do NOT guess or hallucinate.
-- If the scan quality makes the entire document unreadable, say so explicitly.
-- Pay attention to the constituency name and state on the form — does it match?
-- Do NOT read from booth-wise rows (individual polling station data). Only read from
-  the TOTALS row (Total EVM Votes, Total Postal Ballot Votes, or Total Votes Polled).
+- Only read from the "Total Votes Polled" or "Total EVM Votes" SUMMARY row.
+- Do NOT read from booth-wise rows (individual polling station data).
+- If text is illegible, output null — do NOT guess or hallucinate.
+- Pay attention to the constituency name — does it match {ac_name}?
 
 Return ONLY a JSON array, no markdown fences, no explanation. Example:
-[{{"candidate": "NAME", "party_abv": "PTY", "eci_votes": 12345, "form20_votes": 12345, "name_visible": "yes", "confirmed": true}}]"""
+[{{"position": 1, "eci_votes": 12345, "form20_votes": 12345, "confirmed": true}},
+ {{"position": 2, "eci_votes": 10000, "form20_votes": 10000, "confirmed": true}},
+ {{"position": 3, "eci_votes": 5000, "form20_votes": 5000, "confirmed": true}}]"""
 
 
 def ocr_vision_confirm(
@@ -400,13 +406,18 @@ def _image_to_base64(img_path: Path, max_width: int = 1024) -> str:
 def _merge_vision_responses(
     all_responses: list, eci_results: list[dict]
 ) -> list[dict]:
-    """Pick the best Vision LLM response across pages.
+    """Pick the best Vision LLM response across pages, then map to candidates.
 
-    Each element of *all_responses* is either a list of candidate dicts
-    (from ``parse_vision_response``) or an error dict.  We pick the page
-    response that confirmed the most candidates.
+    Each element of *all_responses* is either a list of position-based dicts
+    (from the new prompt: {position, eci_votes, form20_votes, confirmed})
+    or a list of name-based dicts (legacy format), or an error dict.
+
+    We pick the page response that confirmed the most candidates, then
+    map positions back to candidate names using eci_results (sorted by votes).
     """
     if not all_responses:
+        # No responses at all — return unconfirmed for all candidates
+        top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
         return [
             {
                 "candidate": r["candidate"],
@@ -417,7 +428,7 @@ def _merge_vision_responses(
                 "confirmed": None,
                 "notes": "Vision API returned no usable response",
             }
-            for r in eci_results
+            for r in top3
         ]
 
     # Pick the best response (most non-null form20_votes)
@@ -426,7 +437,71 @@ def _merge_vision_responses(
         key=lambda r: sum(1 for x in r if x.get("form20_votes") is not None),
         default=[],
     )
-    return best
+
+    if not best:
+        top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
+        return [
+            {
+                "candidate": r["candidate"],
+                "party_abv": r["party_abv"],
+                "eci_votes": r["votes"],
+                "form20_votes": None,
+                "name_visible": "unknown",
+                "confirmed": None,
+                "notes": "Vision API returned no usable response",
+            }
+            for r in top3
+        ]
+
+    # Check if this is position-based (new format) or name-based (legacy)
+    first = best[0] if best else {}
+    if "position" in first:
+        # Position-based: map positions to candidates
+        top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
+        result = []
+        for item in best:
+            pos = item.get("position", 0)
+            if 1 <= pos <= len(top3):
+                eci = top3[pos - 1]
+                result.append({
+                    "candidate": eci["candidate"],
+                    "party_abv": eci["party_abv"],
+                    "eci_votes": eci["votes"],
+                    "form20_votes": item.get("form20_votes"),
+                    "name_visible": "yes" if item.get("form20_votes") is not None else "unknown",
+                    "confirmed": item.get("confirmed"),
+                    "notes": None,
+                })
+        return result
+
+    # Legacy name-based format — convert to top-3 position-based
+    # Deduplicate by name (keep first occurrence) and take top 3 by eci_votes
+    top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
+    top3_names = {r["candidate"].upper() for r in top3}
+
+    seen_names = set()
+    deduped = []
+    for item in best:
+        name = item.get("candidate", "").strip().upper()
+        if name and name not in seen_names and name in top3_names:
+            seen_names.add(name)
+            deduped.append(item)
+
+    # Map back to candidates
+    result = []
+    for eci in top3:
+        name_upper = eci["candidate"].upper()
+        match = next((d for d in deduped if d.get("candidate", "").strip().upper() == name_upper), None)
+        result.append({
+            "candidate": eci["candidate"],
+            "party_abv": eci["party_abv"],
+            "eci_votes": eci["votes"],
+            "form20_votes": match.get("form20_votes") if match else None,
+            "name_visible": "yes" if match and match.get("form20_votes") is not None else "unknown",
+            "confirmed": match.get("confirmed") if match else None,
+            "notes": None,
+        })
+    return result
 
 
 def parse_vision_response(response_text: str) -> list[dict]:
@@ -534,17 +609,23 @@ def reconcile(
     llm_confirmed: list[dict],
     eci_results: list[dict],
 ) -> list[dict]:
-    """Reconcile both OCR paths against ECI results.
+    """Reconcile LLM-verified top-3 against full ECI results.
+
+    llm_confirmed contains exactly 3 entries (top vote-getters), matched
+    by position. Non-top-3 candidates are marked as unverified.
 
     Returns list of {candidate, party_abv, eci_votes, form20_votes,
                      delta, confidence, name_visible, notes}.
     """
-    # Build lookup from LLM results
+    # Sort ECI by votes to get the top 3 positions
+    sorted_eci = sorted(eci_results, key=lambda r: r["votes"], reverse=True)
+    top3_set = {(r["candidate"], r["party_abv"]) for r in sorted_eci[:3]}
+
+    # Build lookup from LLM results by (candidate, party) tuple
     llm_map = {}
     for r in llm_confirmed:
-        key = r.get("candidate", "").strip().upper()
-        if key:
-            llm_map[key] = r
+        key = (r.get("candidate", "").strip(), r.get("party_abv", ""))
+        llm_map[key] = r
 
     # Build lookup from Tesseract (fuzzy match by votes)
     tess_by_votes = {}
@@ -555,21 +636,10 @@ def reconcile(
     for eci in eci_results:
         candidate = eci["candidate"]
         eci_votes = eci["votes"]
+        is_top3 = (candidate, eci["party_abv"]) in top3_set
 
-        # Find LLM result (exact name match first, then fuzzy)
-        llm = llm_map.get(candidate.upper())
-        if not llm:
-            # Try fuzzy match
-            from thefuzz import fuzz
-
-            best_match = None
-            best_score = 0
-            for key, val in llm_map.items():
-                score = fuzz.ratio(candidate.upper(), key)
-                if score > best_score and score > 70:
-                    best_score = score
-                    best_match = val
-            llm = best_match
+        # Find LLM result — exact (candidate, party) match, top-3 only
+        llm = llm_map.get((candidate, eci["party_abv"])) if is_top3 else None
 
         llm_votes = llm.get("form20_votes") if llm else None
         llm_confirmed_flag = llm.get("confirmed") if llm else None
@@ -613,14 +683,19 @@ def compute_difficulty(reconciled: list[dict], page_count: int) -> tuple[int, st
     - % of candidates where name was visible
     - % of candidates where votes matched
     - Page count penalty
+
+    Only counts candidates that were actually verified (form20_votes != None).
+    With the simplified top-3 approach, this means only the top 3 are scored.
     """
-    if not reconciled:
+    # Only count candidates that were actually verified by the LLM
+    verified = [r for r in reconciled if r.get("form20_votes") is not None]
+    if not verified:
         return 0, "IMPOSSIBLE"
 
-    total = len(reconciled)
-    high_count = sum(1 for r in reconciled if r["confidence"] == "high")
-    name_visible = sum(1 for r in reconciled if r.get("name_visible") == "yes")
-    votes_match = sum(1 for r in reconciled
+    total = len(verified)
+    high_count = sum(1 for r in verified if r["confidence"] == "high")
+    name_visible = sum(1 for r in verified if r.get("name_visible") == "yes")
+    votes_match = sum(1 for r in verified
                       if r.get("form20_votes") is not None
                       and (r.get("delta") == 0
                            or r.get("form20_votes") == r.get("eci_votes")))
@@ -762,10 +837,11 @@ def run_pipeline(
     # Step 9: Difficulty score
     difficulty, difficulty_label = compute_difficulty(reconciled, page_count)
 
-    # Step 10: Summary
-    confirmed_count = sum(1 for r in reconciled if r["confidence"] == "high" and r.get("delta") == 0)
-    mismatched_count = sum(1 for r in reconciled if r.get("delta") is not None and r.get("delta") != 0)
-    low_conf_count = sum(1 for r in reconciled if r["confidence"] == "low")
+    # Step 10: Summary (only count verified candidates — top 3)
+    verified = [r for r in reconciled if r.get("form20_votes") is not None]
+    confirmed_count = sum(1 for r in verified if r["confidence"] == "high" and r.get("delta") == 0)
+    mismatched_count = sum(1 for r in verified if r.get("delta") is not None and r.get("delta") != 0)
+    low_conf_count = sum(1 for r in verified if r["confidence"] == "low")
 
     report = {
         "state_code": state_code,
@@ -780,7 +856,7 @@ def run_pipeline(
         "page_count": page_count,
         "vision_page_count": vision_page_count,
         "summary": {
-            "total": len(reconciled),
+            "total": len(verified),
             "confirmed": confirmed_count,
             "mismatched": mismatched_count,
             "low_confidence": low_conf_count,
@@ -853,10 +929,10 @@ def update_form20_result(
 
     Sets form20_score, form20_status, and form20_checked_at.
 
-    Status logic:
-      VERIFIED  — all candidates confirmed, no mismatches
+    Status logic (top-3 verification):
+      VERIFIED  — all 3 top candidates confirmed, no mismatches
       MISMATCH  — pipeline read data successfully but found real discrepancies
-      ERROR     — pipeline failed to read data (IMPOSSIBLE/HARD, no confirms)
+      ERROR     — pipeline failed to read data (no confirms at all)
       UNVERIFIED — no vision data (skipped or no API)
 
     Returns the status string.
