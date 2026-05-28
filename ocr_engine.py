@@ -698,7 +698,7 @@ def run_pipeline(
     # Step 4: Download PDF
     report_dir.mkdir(parents=True, exist_ok=True)
     pdf_path = report_dir / "source.pdf"
-    if not pdf_path.exists() or force:
+    if force or not pdf_path.exists() or not _validate_pdf(pdf_path):
         _download_pdf(form20_url, pdf_path)
 
     # Step 5: Convert to images
@@ -785,20 +785,42 @@ def run_pipeline(
     return report
 
 
+def _validate_pdf(path: Path) -> bool:
+    """Quick sanity-check: file starts with %PDF and has >10 KB."""
+    if not path.exists() or path.stat().st_size < 10_240:
+        return False
+    with open(path, "rb") as f:
+        return f.read(5) == b"%PDF-"
+
+
 def _download_pdf(url: str, dest: Path) -> None:
     """Download a PDF to the given path.
 
     Uses curl for Indian government sites that require legacy TLS
     renegotiation (e.g. ceowestbengal.wb.gov.in). Python 3.14's SSL
     rejects these connections, but curl handles them fine.
+
+    Validates the downloaded file — retries once if truncated/corrupt.
     """
     import subprocess
-    result = subprocess.run(
-        ["curl", "-sL", "-o", str(dest), "-k", url],
-        capture_output=True, text=True, timeout=120,
-    )
-    if result.returncode != 0:
-        raise RuntimeError(f"curl failed: {result.stderr}")
+
+    for attempt in range(2):
+        # Remove any previous incomplete file
+        if dest.exists():
+            dest.unlink()
+        result = subprocess.run(
+            ["curl", "-sL", "-o", str(dest), "-k", url],
+            capture_output=True, text=True, timeout=120,
+        )
+        if result.returncode != 0:
+            raise RuntimeError(f"curl failed: {result.stderr}")
+        if _validate_pdf(dest):
+            return
+        # Truncated/corrupt — retry once
+        if attempt == 0:
+            import time
+            time.sleep(1)
+    raise ValueError(f"Downloaded PDF is corrupt or truncated ({dest.stat().st_size} bytes): {url}")
 
 
 # ---------------------------------------------------------------------------
