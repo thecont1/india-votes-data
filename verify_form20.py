@@ -209,12 +209,19 @@ def get_current_statuses(state_code: str) -> dict:
 # Unicode block characters — universally supported, visually distinct
 _CHAR = {
     "VERIFIED":   "█",   # solid block — complete
-    "MISMATCH":   "▄",   # lower half — something's off
-    "ERROR":      "░",   # light shade — failed
+    "MISMATCH":   "█",   # solid block — something's off
+    "ERROR":      "█",   # solid block — failed
     "UNVERIFIED": "·",   # dot — not yet processed
     "PENDING":    "·",   # dot — waiting
 }
 _LINE_WIDTH = 30  # characters per line
+# ANSI background colors for grid blocks
+_BG = {
+    "VERIFIED": "\033[42m",   # green background
+    "MISMATCH": "\033[41m",   # red background
+    "ERROR":    "\033[43m",   # yellow background
+}
+_BG_RESET = "\033[0m"
 
 
 def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
@@ -282,55 +289,72 @@ def run_state_batch(state_code: str, args) -> None:
     )
     console.print()
 
-    # Build the Braille grid — pre-fill with already-verified blocks
-    grid_chars: list[str] = [_CHAR["VERIFIED"]] * already_verified
-    counts = {"VERIFIED": already_verified, "MISMATCH": 0, "ERROR": 0}
-    start_time = time.time()
-
-    # Print legend
-    legend = "  ".join(
-        f"{_CHAR[s]} = {s}" for s in ("VERIFIED", "MISMATCH", "ERROR")
-    )
+    # Print legend with background-colored blocks
+    legend = "    ".join([
+        f"{_BG['VERIFIED']} {_BG_RESET} = VERIFIED",
+        f"{_BG['MISMATCH']} {_BG_RESET} = MISMATCH",
+        f"{_BG['ERROR']} {_BG_RESET} = ERROR",
+    ])
     console.print(f"  {legend}")
     console.print()
 
-    # Process each AC — print block character as it completes
+    # Grid state
+    grid_chars: list[str] = [_CHAR["VERIFIED"]] * already_verified
+    grid_colors: list[str] = ["VERIFIED"] * already_verified
+    line_buf: list[str] = []
+    line_colors: list[str] = []
+    counts = {"VERIFIED": already_verified, "MISMATCH": 0, "ERROR": 0}
+    start_time = time.time()
+
+    # Print pre-filled rows from already-verified
+    if already_verified >= _LINE_WIDTH:
+        for row in range(already_verified // _LINE_WIDTH):
+            chunk = "".join(_BG["VERIFIED"] + _CHAR["VERIFIED"] for _ in range(_LINE_WIDTH)) + _BG_RESET
+            sys.stdout.write(f"  {chunk}\n")
+        sys.stdout.flush()
+
+    # Process each AC — one block character per completion, 30 per line
     for i, ac in enumerate(acs):
         ac_no = ac["ac_no"]
         ac_name = ac["ac_name"]
 
-        # Show spinner on its own line (overwritten after completion)
+        # Show what's processing (single line, overwritten)
         short_name = (ac_name[:20] + "…") if len(ac_name) > 21 else ac_name
-        sys.stdout.write(f"\r  ⠙ {ac_no:>3} {short_name:<24}")
+        sys.stdout.write(f"\033[2K\033[1G  ⠋ {ac_no:>3} {short_name}  ")
         sys.stdout.flush()
 
         report = _process_one_ac(state_code, ac, args)
 
         if report is None:
-            grid_chars.append(_CHAR["ERROR"])
+            ch = _CHAR["ERROR"]
+            status_key = "ERROR"
             counts["ERROR"] += 1
         else:
             status = report["_db_status"]
-            grid_chars.append(_CHAR.get(status, "·"))
+            ch = _CHAR.get(status, "·")
+            status_key = status
             counts[status] = counts.get(status, 0) + 1
 
-        # Overwrite spinner with result, then update grid
+        grid_chars.append(ch)
+        grid_colors.append(status_key)
+        line_buf.append(ch)
+        line_colors.append(status_key)
         n = len(grid_chars)
-        if n % _LINE_WIDTH == 0:
-            # Finished a full line — print it and clear the spinner
-            line = "".join(grid_chars[n - _LINE_WIDTH : n])
-            sys.stdout.write(f"\r  {line}\n")
-            sys.stdout.flush()
-        else:
-            # Redraw: grid so far + faint partial line
-            grid_str = "".join(grid_chars)
-            sys.stdout.write(f"\r  {grid_str}")
-            sys.stdout.flush()
 
-    # Finish last partial line
-    n = len(grid_chars)
-    remainder = n % _LINE_WIDTH
-    if remainder:
+        # Erase spinner, then print growing grid line with background colors
+        grid_cells = "".join(_BG.get(c, "") + ch for ch, c in zip(line_buf, line_colors)) + _BG_RESET
+        sys.stdout.write(f"\033[2K\033[1G  {grid_cells}")
+        sys.stdout.flush()
+
+        # If line is full, commit it
+        if n % _LINE_WIDTH == 0:
+            sys.stdout.write(f"\033[2K\033[1G  {grid_cells}\n")
+            sys.stdout.flush()
+            line_buf.clear()
+            line_colors.clear()
+
+    # Commit any remaining partial line
+    if line_buf:
         sys.stdout.write("\n")
         sys.stdout.flush()
 
