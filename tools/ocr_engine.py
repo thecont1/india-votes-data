@@ -946,7 +946,7 @@ def _download_pdf(url: str, dest: Path) -> None:
                 wait = (2 ** attempt) + _rand.uniform(0, 1)
                 _time.sleep(wait)
                 continue
-            raise RuntimeError(f"curl failed: {result.stderr}")
+            raise RuntimeError(f"curl failed (exit {result.returncode}): {url}")
         if _validate_pdf(dest):
             return
         # Truncated/corrupt — retry
