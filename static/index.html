@@ -1738,6 +1738,7 @@ const THEME_STORAGE_KEY = 'eci-dashboard-theme';
 const STATE_STORAGE_KEY = 'eci-dashboard-state';
 const ELECTION_STORAGE_KEY = 'eci-dashboard-election';
 const RACE_VIEW_STORAGE_KEY = 'eci-dashboard-race-view';
+const RACE_SORT_STORAGE_KEY = 'eci-dashboard-race-sort';
 const RACE_AC_STORAGE_KEY = 'eci-dashboard-race-ac';
 const DEFAULT_THEME = 'black-white';
 const THEME_VALUES = new Set(['dark-handsome', 'fair-lovely', 'black-white']);
@@ -1763,7 +1764,12 @@ let stateStatuses = {};
 let knownStates = [];
 let perfView = 'tally';  // 'tally', 'share', or 'roundwise'
 let perfParties = [];  // shared party list for both views
-let raceSortMode = 'alpha';
+let raceSortMode = localStorage.getItem(RACE_SORT_STORAGE_KEY) || 'alpha';
+
+// Restore active sort button from saved state
+document.querySelectorAll('.race-sort-link').forEach(b => {
+  b.classList.toggle('active', b.dataset.sort === raceSortMode);
+});
 
 // ---------------------------------------------------------------------------
 // Theme helpers
@@ -3001,8 +3007,16 @@ function populateRaceDropdown() {
     opt.dataset.acNo = race.ac_no;
     sel.appendChild(opt);
   });
-  // Always start at first item in sorted order
-  sel.onchange = () => drawSingleRace(racesData[+sel.value]);
+  // Restore previously selected AC, or fall back to first item
+  const savedAcNo = localStorage.getItem(RACE_AC_STORAGE_KEY);
+  if (savedAcNo) {
+    const matchIdx = indices.findIndex(i => String(racesData[i].ac_no) === savedAcNo);
+    if (matchIdx >= 0) sel.selectedIndex = matchIdx;
+  }
+  sel.onchange = () => {
+    drawSingleRace(racesData[+sel.value]);
+    localStorage.setItem(RACE_AC_STORAGE_KEY, racesData[+sel.value].ac_no);
+  };
   drawSingleRace(racesData[+sel.value]);
 }
 
@@ -3013,6 +3027,7 @@ document.getElementById('race-sort-bar')?.addEventListener('click', (e) => {
   const mode = btn.dataset.sort;
   if (mode === raceSortMode) return;
   raceSortMode = mode;
+  localStorage.setItem(RACE_SORT_STORAGE_KEY, mode);
   // Update active state
   document.querySelectorAll('.race-sort-link').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
