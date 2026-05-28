@@ -218,10 +218,21 @@ _LINE_WIDTH = 20  # characters per line
 
 
 def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
-    """Process a single AC: run pipeline, update DB. Returns report dict or None."""
+    """Process a single AC: run pipeline, update DB. Returns report dict or None.
+
+    Always re-processes — the batch runner already filters out VERIFIED,
+    so every AC here needs a fresh run (skip stale report.json cache).
+    """
     ac_no = ac["ac_no"]
 
-    report = run_single(state_code, ac_no, args)
+    # Force re-run: batch runner already excluded VERIFIED ACs
+    saved_force = args.force
+    args.force = True
+    try:
+        report = run_single(state_code, ac_no, args)
+    finally:
+        args.force = saved_force
+
     if report is None:
         return None
 
