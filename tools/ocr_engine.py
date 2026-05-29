@@ -24,6 +24,13 @@ import db_utils
 
 
 # ---------------------------------------------------------------------------
+# Rate limiter for Vision API calls (MiMo rate-limits ~2 concurrent calls)
+# ---------------------------------------------------------------------------
+import threading
+_vision_semaphore = threading.Semaphore(2)
+
+
+# ---------------------------------------------------------------------------
 # DB helpers
 # ---------------------------------------------------------------------------
 
@@ -350,7 +357,8 @@ def ocr_vision_confirm(
         max_retries = 4
         for attempt in range(max_retries):
             try:
-                resp = httpx.post(api_url, json=payload, headers=headers, timeout=180)
+                with _vision_semaphore:
+                    resp = httpx.post(api_url, json=payload, headers=headers, timeout=180)
                 if resp.status_code == 429:
                     retry_after = int(resp.headers.get("Retry-After", 5))
                     wait = max(retry_after, 2 ** attempt) + _rng.uniform(0, 1)
@@ -362,7 +370,14 @@ def ocr_vision_confirm(
                 msg = data["choices"][0]["message"]
                 content = msg.get("content") or msg.get("reasoning_content") or ""
                 parsed = parse_vision_response(content)
-                return parsed if parsed else {"error": f"No candidates in response from {img_path.name}"}
+                if parsed:
+                    return parsed
+                # Empty response - treat as transient failure, retry
+                if attempt < max_retries - 1:
+                    wait = 2 ** attempt + _rng.uniform(0, 1)
+                    time.sleep(wait)
+                    continue
+                return {"error": f"No candidates in response from {img_path.name}"}
             except httpx.HTTPStatusError as e:
                 if e.response.status_code == 429 and attempt < max_retries - 1:
                     wait = 2 ** attempt + _rng.uniform(0, 1)
@@ -375,20 +390,37 @@ def ocr_vision_confirm(
         return {"error": f"Failed after {max_retries} retries: {img_path.name}"}
 
     def _run_vision_batch():
-        """Send all pages concurrently and merge responses."""
+        """Analyze pages sequentially, starting from last (summary likely there).
+
+        Early exit when we confirm all top-3 candidates.
+        """
         all_responses = []
-        with ThreadPoolExecutor(max_workers=min(len(image_paths), 8)) as pool:
-            futures = {pool.submit(_call_vision_api, p): p for p in image_paths}
-            for future in as_completed(futures):
-                result = future.result()
-                if isinstance(result, list):
-                    all_responses.append(result)
-                else:
-                    all_responses.append([result])
+
+        # Sort pages: last page first, then second-to-last, etc.
+        # Summary row is almost always on last page.
+        sorted_pages = sorted(
+            image_paths,
+            key=lambda p: int(p.stem.split("_")[1]),
+            reverse=True,
+        )
+
+        for img_path in sorted_pages:
+            result = _call_vision_api(img_path)
+
+            if isinstance(result, list):
+                all_responses.append(result)
+            elif isinstance(result, dict):
+                all_responses.append([result])
+
+            # Early exit: check if we have confirmed all top-3
+            merged = _merge_vision_responses(all_responses, eci_results)
+            top3_confirmed = sum(1 for r in merged if r.get("confirmed"))
+            if top3_confirmed >= 3:
+                return merged
+
         return _merge_vision_responses(all_responses, eci_results)
 
     # Retry loop: if all top-3 candidates are unconfirmed, retry up to 2 more times
-    from concurrent.futures import ThreadPoolExecutor, as_completed
     top3 = sorted(eci_results, key=lambda r: r["votes"], reverse=True)[:3]
     max_pipeline_retries = 2
     result = []

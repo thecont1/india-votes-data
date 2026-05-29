@@ -153,11 +153,13 @@ def render_report(report: dict) -> None:
     console.print()
 
 
-def run_single(state_code: str, ac_no: int, args, quiet: bool = False) -> dict | None:
+def run_single(state_code: str, ac_no: int, args, quiet: bool = False,
+               force: bool | None = None, skip_download: bool | None = None) -> dict | None:
     """Run verification for a single AC. Returns report dict or None on error.
 
     When quiet=True, suppress error output (for batch mode where the
     batch runner handles display).
+    force/skip_download override args values when provided.
     """
     from tools.ocr_engine import run_pipeline
 
@@ -166,9 +168,10 @@ def run_single(state_code: str, ac_no: int, args, quiet: bool = False) -> dict |
             state_code,
             ac_no,
             output_dir=args.output_dir,
-            force=args.force,
+            force=force if force is not None else args.force,
             skip_vision=args.skip_vision,
-            skip_download=getattr(args, "skip_download", False),
+            skip_download=skip_download if skip_download is not None
+                          else getattr(args, "skip_download", False),
         )
     except SystemExit:
         return None
@@ -224,19 +227,12 @@ def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
 
     Forces pipeline re-run (skip report.json cache) but does NOT force
     re-download — if source.pdf already exists locally, use it.
+    Thread-safe: does NOT mutate shared args object.
     """
     ac_no = ac["ac_no"]
 
-    # Bypass report.json cache (re-run vision) but reuse existing PDFs
-    saved_force = args.force
-    args.force = True
-    saved_skip = getattr(args, "skip_download", False)
-    args.skip_download = True  # don't hit the server — PDFs already downloaded
-    try:
-        report = run_single(state_code, ac_no, args, quiet=True)
-    finally:
-        args.force = saved_force
-        args.skip_download = saved_skip
+    report = run_single(state_code, ac_no, args, quiet=True,
+                        force=True, skip_download=True)
 
     if report is None:
         return None
@@ -681,8 +677,8 @@ def main():
     parser.add_argument(
         "-j", "--workers",
         type=int,
-        default=8,
-        help="Number of concurrent AC workers (default: 8)",
+        default=3,
+        help="Number of concurrent AC workers (default: 3, MiMo rate-limits ~2-3)"
     )
     args = parser.parse_args()
 
