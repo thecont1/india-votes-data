@@ -119,6 +119,8 @@ def render_report(report: dict) -> None:
             conf_text = "[green]HIGH[/]"
         elif conf == "medium":
             conf_text = "[yellow]MED[/]"
+        elif conf == "unverified":
+            conf_text = "[dim]SKIP[/]"
         else:
             conf_text = "[red]LOW[/]"
 
