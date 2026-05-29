@@ -2934,7 +2934,7 @@ function renderRaces(stateCode) {
     });
 }
 
-function populateRaceDropdown() {
+function populateRaceDropdown(restoreSelection = true) {
   if (!racesData.length) return;
 
   // Compute NOTA votes for each AC
@@ -3003,11 +3003,13 @@ function populateRaceDropdown() {
     opt.dataset.acNo = race.ac_no;
     sel.appendChild(opt);
   });
-  // Restore previously selected AC, or fall back to first item
-  const savedAcNo = localStorage.getItem(RACE_AC_STORAGE_KEY);
-  if (savedAcNo) {
-    const matchIdx = indices.findIndex(i => String(racesData[i].ac_no) === savedAcNo);
-    if (matchIdx >= 0) sel.selectedIndex = matchIdx;
+  // Restore previously selected AC only if restoreSelection is true, otherwise show first item
+  if (restoreSelection) {
+    const savedAcNo = localStorage.getItem(RACE_AC_STORAGE_KEY);
+    if (savedAcNo) {
+      const matchIdx = indices.findIndex(i => String(racesData[i].ac_no) === savedAcNo);
+      if (matchIdx >= 0) sel.selectedIndex = matchIdx;
+    }
   }
   sel.onchange = () => {
     drawSingleRace(racesData[+sel.value]);
@@ -3027,7 +3029,7 @@ document.getElementById('race-sort-bar')?.addEventListener('click', (e) => {
   // Update active state
   document.querySelectorAll('.race-sort-link').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  populateRaceDropdown();
+  populateRaceDropdown(false); // false = don't restore saved selection, show first item
 });
 
 const FORM20_ICONS = {
