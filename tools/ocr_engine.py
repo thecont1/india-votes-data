@@ -604,14 +604,26 @@ def reconcile_row(
     llm_votes: Optional[int],
     llm_confirmed: Optional[bool],
     llm_name_visible: str,
+    is_in_top3: bool = False,
 ) -> dict:
     """Reconcile a single candidate row across both OCR paths.
 
     Returns {confidence, delta, form20_votes, notes}.
+    is_in_top3: True if this candidate was verified by Vision LLM.
     """
     votes_to_use = None
     confidence = "low"
     notes = []
+
+    # Case 0: Not in top-3 - never tested (skip verification)
+    if not is_in_top3:
+        return {
+            "confidence": "unverified",
+            "delta": None,
+            "form20_votes": None,
+            "name_visible": "unknown",
+            "notes": "not in top 3 - not verified",
+        }
 
     # Case 1: LLM confirmed and votes match
     if llm_confirmed is True and llm_votes is not None and llm_votes == eci_votes:
@@ -721,6 +733,7 @@ def reconcile(
             llm_votes=llm_votes,
             llm_confirmed=llm_confirmed_flag,
             llm_name_visible=llm_name_visible,
+            is_in_top3=is_top3,
         )
 
         reconciled.append({
