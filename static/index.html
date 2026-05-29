@@ -1719,13 +1719,6 @@
               <div class="status-row"><span aria-hidden="true">🟥</span> <strong style="color:#dc2626">Mismatch</strong> — vote counts differ</div>
               <div class="status-row"><span aria-hidden="true">🌀</span> <strong style="color:#d97706">Error</strong> — couldn't read PDF; retry</div>
               <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> sort to surface ACs needing review.</p>
-              <table style="margin-top:6px;font-size:0.9em;width:100%;border-collapse:collapse">
-                <tr style="border-bottom:2px solid var(--border);font-weight:600"><td style="padding:2px 4px">Label</td><td style="padding:2px 4px">Score</td><td style="padding:2px 4px">Interpretation</td></tr>
-                <tr style="border-bottom:1px solid var(--border)"><td style="padding:2px 4px;color:#059669">EASY</td><td style="padding:2px 4px">80–100</td><td style="padding:2px 4px;opacity:0.7">Few candidates, clear PDF, all matched</td></tr>
-                <tr style="border-bottom:1px solid var(--border)"><td style="padding:2px 4px;color:#2563eb">MODERATE</td><td style="padding:2px 4px">50–79</td><td style="padding:2px 4px;opacity:0.7">Most matched, some ambiguity</td></tr>
-                <tr style="border-bottom:1px solid var(--border)"><td style="padding:2px 4px;color:#d97706">HARD</td><td style="padding:2px 4px">20–49</td><td style="padding:2px 4px;opacity:0.7">Dense PDF, low OCR confidence</td></tr>
-                <tr><td style="padding:2px 4px;color:#dc2626">IMPOSSIBLE</td><td style="padding:2px 4px">0–19</td><td style="padding:2px 4px;opacity:0.7">Too dense/blurry to read</td></tr>
-              </table>
             </div>
           </span>
         </span>
@@ -2984,29 +2977,31 @@ function populateRaceDropdown() {
       break;
     case 'form20':
       // Sort by Form 20 review priority:
-      // 1. MISMATCH (highest priority — discrepancies found)
-      // 2. ERROR (pipeline failure — needs retry with improved pipeline)
-      // 3. UNVERIFIED (checked but inconclusive)
-      // 4. UNAVAILABLE (no Form 20 URL at all)
-      // 5. VERIFIED (sorted by score ascending — harder to verify = higher priority)
+      // Mismatch > Error > Unverified > Verified
+      // Within same status: Impossible > Hard > Moderate > Easy (harder = more urgent)
+      // Within same difficulty: lower victory margin first
+      // Score mapping: 0-19=Impossible, 20-49=Hard, 50-79=Moderate, 80-100=Easy
+      const getDifficultyRank = (score) => {
+        if (score == null) return 0;
+        if (score < 20) return 4;   // IMPOSSIBLE = highest priority within status
+        if (score < 50) return 3;   // HARD
+        if (score < 80) return 2;   // MODERATE
+        return 1;                    // EASY = lowest priority within status
+      };
       indices.sort((a, b) => {
         const sa = racesData[a];
         const sb = racesData[b];
-        const prioA = sa.form20_status === 'MISMATCH' ? 100 :
-                      sa.form20_status === 'ERROR' ? 90 :
-                      sa.form20_status === 'UNVERIFIED' ? 80 :
-                      sa.form20_status === 'UNAVAILABLE' ? 60 :
-                      sa.form20_status === 'VERIFIED' ? 20 : 0;
-        const prioB = sb.form20_status === 'MISMATCH' ? 100 :
-                      sb.form20_status === 'ERROR' ? 90 :
-                      sb.form20_status === 'UNVERIFIED' ? 80 :
-                      sb.form20_status === 'UNAVAILABLE' ? 60 :
-                      sb.form20_status === 'VERIFIED' ? 20 : 0;
+        // Priority: Mismatch(4) > Error(3) > Unverified(2) > Verified(1)
+        const statusPriority = { 'MISMATCH': 4, 'ERROR': 3, 'UNVERIFIED': 2, 'VERIFIED': 1, 'UNAVAILABLE': 0 };
+        const prioA = statusPriority[sa.form20_status] ?? 0;
+        const prioB = statusPriority[sb.form20_status] ?? 0;
         if (prioA !== prioB) return prioB - prioA;
-        // Within same status: lower score = harder = higher priority
-        const scoreA = sa.form20_score ?? 999;
-        const scoreB = sb.form20_score ?? 999;
-        return scoreA - scoreB;
+        // Within same status: harder difficulty = higher priority
+        const diffA = getDifficultyRank(sa.form20_score);
+        const diffB = getDifficultyRank(sb.form20_score);
+        if (diffA !== diffB) return diffB - diffA;
+        // Within same difficulty: lower margin first
+        return (sa.margin ?? 999999) - (sb.margin ?? 999999);
       });
       break;
   }
@@ -3081,22 +3076,8 @@ function updateForm20Field(race) {
   card.className = 'form20-card form20-card--' + status;
   document.getElementById('form20-status-icon').innerHTML = icon;
 
-  // Show difficulty label only for MISMATCH or ERROR
-  const score = race.form20_score;
-  const scoreLabel = score != null
-    ? (score >= 80 ? 'EASY' : score >= 50 ? 'MODERATE' : score >= 20 ? 'HARD' : 'IMPOSSIBLE')
-    : '';
-  // Color based on difficulty (black-white mode: use text color with lighter weight)
-  const isBlackWhite = document.documentElement.getAttribute('data-theme') === 'black-white';
-  const scoreColor = score >= 80 ? 'var(--color-easy)' :
-                   score >= 50 ? 'var(--color-moderate)' :
-                   score >= 20 ? 'var(--color-hard)' :
-                   score >= 0 ? 'var(--color-impossible)' : '';
-  // Only show score label for MISMATCH or ERROR (not VERIFIED)
-  const scoreBadge = (status === 'mismatch' || status === 'error') && score != null
-    ? `<span style="margin-left:4px;font-size:0.75em;font-weight:${isBlackWhite ? '300' : '400'};${scoreColor ? 'color:' + scoreColor : ''}">(${scoreLabel})</span>`
-    : '';
-  statusText.innerHTML = label + scoreBadge;
+  // No score shown in box - score only used for priority sorting
+  statusText.innerHTML = label;
 
   if (race.form20_url) {
     action.innerHTML = `<a class="form20-card__action" href="${race.form20_url}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} PDF</a>`;
