@@ -8,6 +8,10 @@ compare against ECI results, and present a human-readable report.
 Usage:
     python verify_form20.py <state_code> [ac_no] [--force] [--skip-vision]
 
+    # Two-phase approach (recommended for batch runs):
+    python verify_form20.py S22 --download-only   # Phase 1: download all missing PDFs
+    python verify_form20.py S22 -j 4              # Phase 2: process locally (no server hits)
+
 Examples:
     # Verify a single AC:
     python verify_form20.py S25 110
@@ -149,8 +153,12 @@ def render_report(report: dict) -> None:
     console.print()
 
 
-def run_single(state_code: str, ac_no: int, args) -> dict | None:
-    """Run verification for a single AC. Returns report dict or None on error."""
+def run_single(state_code: str, ac_no: int, args, quiet: bool = False) -> dict | None:
+    """Run verification for a single AC. Returns report dict or None on error.
+
+    When quiet=True, suppress error output (for batch mode where the
+    batch runner handles display).
+    """
     from tools.ocr_engine import run_pipeline
 
     try:
@@ -160,11 +168,13 @@ def run_single(state_code: str, ac_no: int, args) -> dict | None:
             output_dir=args.output_dir,
             force=args.force,
             skip_vision=args.skip_vision,
+            skip_download=getattr(args, "skip_download", False),
         )
     except SystemExit:
         return None
     except Exception as e:
-        console.print(f"  [red]AC {ac_no} ERROR: {e}[/]")
+        if not quiet:
+            console.print(f"  [red]AC {ac_no} ERROR: {e}[/]")
         return None
 
     return report
@@ -212,18 +222,21 @@ def get_current_statuses(state_code: str) -> dict:
 def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
     """Process a single AC: run pipeline, update DB. Returns report dict or None.
 
-    Always re-processes — the batch runner already filters out VERIFIED,
-    so every AC here needs a fresh run (skip stale report.json cache).
+    Forces pipeline re-run (skip report.json cache) but does NOT force
+    re-download — if source.pdf already exists locally, use it.
     """
     ac_no = ac["ac_no"]
 
-    # Force re-run: batch runner already excluded VERIFIED ACs
+    # Bypass report.json cache (re-run vision) but reuse existing PDFs
     saved_force = args.force
     args.force = True
+    saved_skip = getattr(args, "skip_download", False)
+    args.skip_download = True  # don't hit the server — PDFs already downloaded
     try:
-        report = run_single(state_code, ac_no, args)
+        report = run_single(state_code, ac_no, args, quiet=True)
     finally:
         args.force = saved_force
+        args.skip_download = saved_skip
 
     if report is None:
         return None
@@ -232,6 +245,131 @@ def _process_one_ac(state_code: str, ac: dict, args) -> dict | None:
     db_status = update_db(report)
     report["_db_status"] = db_status
     return report
+
+
+def run_download_phase(state_code: str, args) -> None:
+    """Phase 1: Download all missing Form 20 PDFs for non-VERIFIED ACs.
+
+    Sequential downloads, per-domain locked, 2s gap between requests.
+    Zero server stress — one PDF at a time with proper pacing.
+    """
+    from tools.ocr_engine import get_state_acs_with_form20, get_form20_url, _validate_pdf
+    from urllib.parse import urlparse
+
+    acs = get_state_acs_with_form20(state_code)
+    if not acs:
+        console.print(f"  [red]No ACs with form20_url found for {state_code}[/]")
+        return
+
+    total_acs = len(acs)
+    current = get_current_statuses(state_code) if not args.force else {}
+    output_dir = getattr(args, "output_dir", Path("data/form20"))
+
+    # Filter: skip VERIFIED ACs (unless --force), skip ACs that already have PDFs
+    to_download = []
+    already_present = 0
+    already_verified = 0
+    for ac in acs:
+        ac_no = ac["ac_no"]
+        status = current.get(ac_no)
+        if status == "VERIFIED" and not args.force:
+            already_verified += 1
+            continue
+        pdf_path = output_dir / state_code / str(ac_no) / "source.pdf"
+        if pdf_path.exists() and _validate_pdf(pdf_path):
+            already_present += 1
+            continue
+        to_download.append(ac)
+
+    console.print()
+    console.print(
+        Panel(
+            f"[bold]State: {state_code}[/bold] — {total_acs} ACs total\n"
+            f"Already verified: {already_verified} | "
+            f"PDFs on disk: {already_present} | "
+            f"To download: [bold]{len(to_download)}[/]",
+            title="Phase 1: Download Form 20 PDFs",
+            border_style="blue",
+        )
+    )
+    console.print()
+
+    if not to_download:
+        console.print("  [green]All PDFs already downloaded. Ready for Phase 2 (processing).[/]")
+        console.print()
+        return
+
+    # Group by domain for display
+    from collections import Counter
+    domains = Counter()
+    for ac in to_download:
+        url = ac.get("form20_url", "")
+        domain = urlparse(url).hostname or "unknown"
+        domains[domain] += 1
+    for domain, count in domains.most_common():
+        console.print(f"  [dim]{domain}: {count} PDFs[/]")
+    console.print()
+
+    console.print("  🟩 DOWNLOADED  🌀 FAILED  ⏭️  SKIPPED")
+    console.print()
+
+    from tools.ocr_engine import _download_pdf
+    start_time = time.time()
+    downloaded = 0
+    failed = 0
+    consecutive_fails = 0
+    lock = __import__("threading").Lock()
+
+    for i, ac in enumerate(to_download, 1):
+        ac_no = ac["ac_no"]
+        ac_name = ac["ac_name"]
+        form20_url = ac.get("form20_url")
+        if not form20_url:
+            console.print(f"  ⏭️  {ac_no:>3} {ac_name}  (no URL)")
+            continue
+
+        pdf_dir = output_dir / state_code / str(ac_no)
+        pdf_dir.mkdir(parents=True, exist_ok=True)
+        pdf_path = pdf_dir / "source.pdf"
+
+        try:
+            _download_pdf(form20_url, pdf_path)
+            size_kb = pdf_path.stat().st_size / 1024 if pdf_path.exists() else 0
+            with lock:
+                downloaded += 1
+                consecutive_fails = 0
+            console.print(f"  🟩 {ac_no:>3} {ac_name}  ({size_kb:.0f} KB)")
+        except Exception as e:
+            with lock:
+                failed += 1
+                consecutive_fails += 1
+            console.print(f"  🌀 {ac_no:>3} {ac_name}  {e}")
+            if consecutive_fails >= 3:
+                console.print()
+                console.print(
+                    "  [red]3 consecutive download failures — server appears "
+                    "down or banning this IP. Aborting.[/]"
+                )
+                console.print(
+                    "  [dim]Try again later, or check if the server is "
+                    "accessible from a browser.[/]"
+                )
+                break
+
+    elapsed = time.time() - start_time
+    console.print()
+    console.print(
+        Panel(
+            f"[bold]{state_code}[/bold] — {downloaded}/{len(to_download)} downloaded "
+            f"in {elapsed:.0f}s ({elapsed / max(len(to_download), 1):.1f}s/AC avg)\n"
+            f"Failed: {failed} | On disk: {already_present + downloaded}",
+            title="Download Complete",
+            border_style="green" if failed == 0 else "yellow",
+        )
+    )
+    console.print()
+    console.print(f"  [dim]Next: python verify_form20.py {state_code} -j 4[/]")
+    console.print()
 
 
 def _print_review_summary(
@@ -514,6 +652,11 @@ def main():
         "--force", action="store_true", help="Re-run even if report exists"
     )
     parser.add_argument(
+        "--download-only",
+        action="store_true",
+        help="Phase 1: download all missing PDFs, then exit (no processing)",
+    )
+    parser.add_argument(
         "--skip-vision",
         action="store_true",
         help="Skip Vision LLM (Tesseract only)",
@@ -538,10 +681,15 @@ def main():
     parser.add_argument(
         "-j", "--workers",
         type=int,
-        default=4,
-        help="Number of concurrent AC workers (default: 4)",
+        default=8,
+        help="Number of concurrent AC workers (default: 8)",
     )
     args = parser.parse_args()
+
+    # --download-only mode: download all missing PDFs, then exit
+    if args.download_only:
+        run_download_phase(args.state_code, args)
+        return
 
     # --prepare mode: single AC only
     if args.prepare:

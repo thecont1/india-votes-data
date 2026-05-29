@@ -354,7 +354,7 @@ def ocr_vision_confirm(
                 if resp.status_code == 429:
                     retry_after = int(resp.headers.get("Retry-After", 5))
                     wait = max(retry_after, 2 ** attempt) + _rng.uniform(0, 1)
-                    print(f"  ⏳ Rate limited on {img_path.name}, waiting {wait:.0f}s…")
+                    # Silently retry on rate limit
                     time.sleep(wait)
                     continue
                 resp.raise_for_status()
@@ -366,7 +366,7 @@ def ocr_vision_confirm(
             except httpx.HTTPStatusError as e:
                 if e.response.status_code == 429 and attempt < max_retries - 1:
                     wait = 2 ** attempt + _rng.uniform(0, 1)
-                    print(f"  ⏳ Rate limited on {img_path.name}, retrying in {wait:.0f}s…")
+                    # Silently retry on rate limit
                     time.sleep(wait)
                     continue
                 return {"error": str(e)}
@@ -402,8 +402,7 @@ def ocr_vision_confirm(
         if confirmed_count > 0 or pipeline_attempt == max_pipeline_retries:
             return result
 
-        # All unconfirmed — retry
-        print(f"  ⚠ All top-3 unconfirmed (attempt {pipeline_attempt + 1}/{max_pipeline_retries + 1}), retrying…")
+        # All unconfirmed — silently retry
         time.sleep(1 + _rng.uniform(0, 1))
 
     return result
@@ -768,6 +767,7 @@ def run_pipeline(
     output_dir: Optional[Path] = None,
     force: bool = False,
     skip_vision: bool = False,
+    skip_download: bool = False,
     vision_fn=None,
 ) -> dict:
     """Run the full Form 20 verification pipeline.
@@ -775,6 +775,7 @@ def run_pipeline(
     Args:
         vision_fn: Optional callable(image_path, prompt) -> str for Vision LLM.
                    When None, falls back to FORM20_VISION_* env vars / HTTP API.
+        skip_download: If True, skip PDF download — use existing source.pdf only.
 
     Returns the report dict.
     """
@@ -813,7 +814,12 @@ def run_pipeline(
     # Step 4: Download PDF
     report_dir.mkdir(parents=True, exist_ok=True)
     pdf_path = report_dir / "source.pdf"
-    if force or not pdf_path.exists() or not _validate_pdf(pdf_path):
+    if skip_download:
+        if not pdf_path.exists() or not _validate_pdf(pdf_path):
+            raise RuntimeError(
+                f"PDF not found or invalid (run --download-first first): {pdf_path}"
+            )
+    elif force or not pdf_path.exists() or not _validate_pdf(pdf_path):
         _download_pdf(form20_url, pdf_path)
 
     # Step 5: Convert to images
@@ -918,6 +924,24 @@ def _has_vision_api() -> bool:
     return bool(os.environ.get("FORM20_VISION_API_URL", "").strip())
 
 
+# Per-domain download lock + timing — serializes requests to the same server
+# and enforces a minimum gap between consecutive requests to avoid IP bans.
+import threading as _threading
+_domain_locks: dict[str, _threading.Lock] = {}
+_domain_last_hit: dict[str, float] = {}
+_domain_lock_lock = _threading.Lock()
+_MIN_DOMAIN_GAP = 2.0  # seconds between requests to same domain
+
+def _get_domain_lock(url: str) -> tuple[_threading.Lock, str]:
+    """Return a per-domain lock and the domain key."""
+    from urllib.parse import urlparse
+    domain = urlparse(url).hostname or url
+    with _domain_lock_lock:
+        if domain not in _domain_locks:
+            _domain_locks[domain] = _threading.Lock()
+        return _domain_locks[domain], domain
+
+
 def _download_pdf(url: str, dest: Path) -> None:
     """Download a PDF to the given path.
 
@@ -925,34 +949,66 @@ def _download_pdf(url: str, dest: Path) -> None:
     renegotiation (e.g. ceowestbengal.wb.gov.in). Python 3.14's SSL
     rejects these connections, but curl handles them fine.
 
-    Validates the downloaded file — retries up to 3 times with backoff
-    for rate-limited or transiently failing servers.
+    Serialized per domain: a threading lock ensures only one download
+    runs at a time per domain. A minimum gap of _MIN_DOMAIN_GAP seconds
+    is enforced between consecutive requests to avoid IP bans.
+
+    Retries up to 5 times with adaptive backoff:
+      - Connection reset (exit 35): 30s backoff (server is rate-limiting)
+      - Other failures: exponential backoff 4→8→16→32→64s
+      - Truncated/corrupt PDF: 5s backoff
     """
     import subprocess
     import time as _time
     import random as _rand
 
-    max_attempts = 3
-    for attempt in range(max_attempts):
-        # Remove any previous incomplete file
-        if dest.exists():
-            dest.unlink()
-        result = subprocess.run(
-            ["curl", "-sL", "-o", str(dest), "-k", url],
-            capture_output=True, text=True, timeout=120,
-        )
-        if result.returncode != 0:
+    domain_lock, domain = _get_domain_lock(url)
+    max_attempts = 5
+
+    with domain_lock:  # serialize per domain
+        for attempt in range(max_attempts):
+            # Enforce minimum gap between requests to same domain
+            with _domain_lock_lock:
+                last = _domain_last_hit.get(domain, 0)
+            elapsed = _time.time() - last
+            if elapsed < _MIN_DOMAIN_GAP:
+                _time.sleep(_MIN_DOMAIN_GAP - elapsed)
+
+            # Remove any previous incomplete file
+            if dest.exists():
+                dest.unlink()
+            result = subprocess.run(
+                ["curl", "-sL", "-o", str(dest), "-k",
+                 "--connect-timeout", "10", "--max-time", "30", url],
+                capture_output=True, text=True, timeout=45,
+            )
+
+            # Record this request timestamp
+            with _domain_lock_lock:
+                _domain_last_hit[domain] = _time.time()
+
+            if result.returncode != 0:
+                # Fast-fail: connection timeout (28) or reset (35) = server down
+                # Don't waste time retrying — abort after 2 consecutive connection errors
+                if result.returncode in (28, 35) and attempt >= 1:
+                    raise RuntimeError(
+                        f"curl failed (exit {result.returncode}, server unreachable): {url}"
+                    )
+                if attempt < max_attempts - 1:
+                    # Connection reset (35) = server banning us → long backoff
+                    if result.returncode == 35:
+                        wait = 30 + _rand.uniform(0, 10)
+                    else:
+                        wait = (4 * (2 ** attempt)) + _rand.uniform(0, 2)
+                    _time.sleep(wait)
+                    continue
+                raise RuntimeError(f"curl failed (exit {result.returncode}): {url}")
+            if _validate_pdf(dest):
+                return
+            # Truncated/corrupt — retry
             if attempt < max_attempts - 1:
-                wait = (2 ** attempt) + _rand.uniform(0, 1)
-                _time.sleep(wait)
-                continue
-            raise RuntimeError(f"curl failed (exit {result.returncode}): {url}")
-        if _validate_pdf(dest):
-            return
-        # Truncated/corrupt — retry
-        if attempt < max_attempts - 1:
-            _time.sleep(1)
-    raise ValueError(f"Downloaded PDF is corrupt or truncated ({dest.stat().st_size} bytes): {url}")
+                _time.sleep(5)
+        raise ValueError(f"Downloaded PDF is corrupt or truncated ({dest.stat().st_size} bytes): {url}")
 
 
 # ---------------------------------------------------------------------------
