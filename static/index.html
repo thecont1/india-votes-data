@@ -659,6 +659,102 @@
     text-transform: uppercase;
     color: var(--muted);
     flex-shrink: 0;
+    position: relative;
+  }
+  .form20-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--control-bg);
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    font-style: italic;
+    font-family: var(--font-ui);
+    cursor: help;
+    vertical-align: middle;
+    margin-left: 4px;
+    transition: border-color 0.15s, color 0.15s;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .form20-info:hover {
+    border-color: var(--control-hover-border);
+    color: var(--text);
+  }
+  .form20-info-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    display: block;
+    width: 340px;
+    background: var(--tooltip-bg, var(--card));
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 200;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--text) 12%, transparent);
+    font-style: normal;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
+    line-height: 1.5;
+  }
+  .form20-info-tooltip * {
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+  }
+  .form20-info:hover .form20-info-tooltip { opacity: 1; }
+  .form20-info-tooltip h4 {
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--tooltip-text, var(--text));
+  }
+  .form20-info-tooltip p {
+    margin: 0 0 6px;
+    font-size: 11px;
+    color: var(--tooltip-muted, var(--muted));
+  }
+  .form20-info-tooltip p:last-child { margin-bottom: 0; }
+  .form20-info-tooltip .status-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--tooltip-muted, var(--muted));
+    margin: 2px 0;
+  }
+  .form20-info-tooltip table td {
+    white-space: nowrap;
+  }
+  .form20-info-tooltip table td:last-child {
+    white-space: normal;
+  }
+  .form20-info-tooltip .status-icon {
+    width: 14px; height: 14px;
+    flex-shrink: 0;
+  }
+  #form20-status-icon {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+  }
+  .form20-info-tooltip code {
+    font-size: 10px;
+    background: var(--control-bg);
+    padding: 1px 4px;
+    border-radius: 3px;
   }
   .form20-card__status {
     display: inline-flex;
@@ -680,6 +776,8 @@
   .form20-card--verified .form20-card__status svg { stroke: #059669; }
   .form20-card--mismatch .form20-card__status { color: #dc2626; }
   .form20-card--mismatch .form20-card__status svg { stroke: #dc2626; }
+  .form20-card--error .form20-card__status { color: #d97706; }
+  .form20-card--error .form20-card__status svg { stroke: #d97706; }
   .form20-card__action {
     display: inline-flex;
     align-items: center;
@@ -1585,6 +1683,8 @@
       <button class="race-sort-link" data-sort="margin-asc" type="button">Smallest Win Margin</button>
       <span class="race-sort-sep">|</span>
       <button class="race-sort-link" data-sort="nota" type="button">Highest NOTA</button>
+      <span class="race-sort-sep">|</span>
+      <button class="race-sort-link" data-sort="form20" type="button">Form 20 Priority</button>
     </div>
     <div class="race-controls-row">
       <div class="toggle-group" id="race-toggle" role="group" aria-label="Constituency result view">
@@ -1595,9 +1695,21 @@
         <select id="race-select" size="1" aria-label="Select constituency"></select>
       </div>
       <div class="form20-card form20-card--unavailable" id="form20-card">
-        <span class="form20-card__label">Form 20</span>
+        <span class="form20-card__label">Form 20
+          <span class="form20-info" tabindex="0">i
+            <div class="form20-info-tooltip">
+              <h4>Form 20 Verification</h4>
+              <p>Each AC's official result PDF is cross-checked against our scraped data using a Vision AI model.</p>
+              <div class="status-row"><span aria-hidden="true">🟩</span> <strong style="color:#059669">Verified</strong> — data confirmed</div>
+              <div class="status-row"><span aria-hidden="true">🟥</span> <strong style="color:#dc2626">Mismatch</strong> — vote counts differ</div>
+              <div class="status-row"><span aria-hidden="true">🌀</span> <strong style="color:#d97706">Error</strong> — couldn't read PDF; retry</div>
+              <div class="status-row"><span aria-hidden="true">⚠️</span> <strong>Unverified</strong> — checked but inconclusive</div>
+              <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> sort to surface ACs needing review.</p>
+            </div>
+          </span>
+        </span>
         <span class="form20-card__status" id="form20-status">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span id="form20-status-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
           <span id="form20-status-text">Unavailable</span>
         </span>
         <span id="form20-action"></span>
@@ -1620,6 +1732,7 @@ const THEME_STORAGE_KEY = 'eci-dashboard-theme';
 const STATE_STORAGE_KEY = 'eci-dashboard-state';
 const ELECTION_STORAGE_KEY = 'eci-dashboard-election';
 const RACE_VIEW_STORAGE_KEY = 'eci-dashboard-race-view';
+const RACE_SORT_STORAGE_KEY = 'eci-dashboard-race-sort';
 const RACE_AC_STORAGE_KEY = 'eci-dashboard-race-ac';
 const DEFAULT_THEME = 'black-white';
 const THEME_VALUES = new Set(['dark-handsome', 'fair-lovely', 'black-white']);
@@ -1645,7 +1758,12 @@ let stateStatuses = {};
 let knownStates = [];
 let perfView = 'tally';  // 'tally', 'share', or 'roundwise'
 let perfParties = [];  // shared party list for both views
-let raceSortMode = 'alpha';
+let raceSortMode = localStorage.getItem(RACE_SORT_STORAGE_KEY) || 'alpha';
+
+// Restore active sort button from saved state
+document.querySelectorAll('.race-sort-link').forEach(b => {
+  b.classList.toggle('active', b.dataset.sort === raceSortMode);
+});
 
 // ---------------------------------------------------------------------------
 // Theme helpers
@@ -2816,7 +2934,7 @@ function renderRaces(stateCode) {
     });
 }
 
-function populateRaceDropdown() {
+function populateRaceDropdown(restoreSelection = true) {
   if (!racesData.length) return;
 
   // Compute NOTA votes for each AC
@@ -2843,6 +2961,35 @@ function populateRaceDropdown() {
     case 'nota':
       indices.sort((a, b) => racesData[b]._notaVotes - racesData[a]._notaVotes);
       break;
+    case 'form20':
+      // Sort by Form 20 review priority:
+      // Mismatch > Error > Unverified > Verified
+      // Within same status: Impossible > Hard > Moderate > Easy (harder = more urgent)
+      // Within same difficulty: lower victory margin first
+      // Score mapping: 0-19=Impossible, 20-49=Hard, 50-79=Moderate, 80-100=Easy
+      const getDifficultyRank = (score) => {
+        if (score == null) return 0;
+        if (score < 20) return 4;   // IMPOSSIBLE = highest priority within status
+        if (score < 50) return 3;   // HARD
+        if (score < 80) return 2;   // MODERATE
+        return 1;                    // EASY = lowest priority within status
+      };
+      indices.sort((a, b) => {
+        const sa = racesData[a];
+        const sb = racesData[b];
+        // Priority: Mismatch(4) > Error(3) > Unverified(2) > Verified(1)
+        const statusPriority = { 'MISMATCH': 4, 'ERROR': 3, 'UNVERIFIED': 2, 'VERIFIED': 1, 'UNAVAILABLE': 0 };
+        const prioA = statusPriority[sa.form20_status] ?? 0;
+        const prioB = statusPriority[sb.form20_status] ?? 0;
+        if (prioA !== prioB) return prioB - prioA;
+        // Within same status: harder difficulty = higher priority
+        const diffA = getDifficultyRank(sa.form20_score);
+        const diffB = getDifficultyRank(sb.form20_score);
+        if (diffA !== diffB) return diffB - diffA;
+        // Within same difficulty: lower margin first
+        return (sa.margin ?? 999999) - (sb.margin ?? 999999);
+      });
+      break;
   }
 
   const sel = document.getElementById('race-select');
@@ -2856,8 +3003,18 @@ function populateRaceDropdown() {
     opt.dataset.acNo = race.ac_no;
     sel.appendChild(opt);
   });
-  // Always start at first item in sorted order
-  sel.onchange = () => drawSingleRace(racesData[+sel.value]);
+  // Restore previously selected AC only if restoreSelection is true, otherwise show first item
+  if (restoreSelection) {
+    const savedAcNo = localStorage.getItem(RACE_AC_STORAGE_KEY);
+    if (savedAcNo) {
+      const matchIdx = indices.findIndex(i => String(racesData[i].ac_no) === savedAcNo);
+      if (matchIdx >= 0) sel.selectedIndex = matchIdx;
+    }
+  }
+  sel.onchange = () => {
+    drawSingleRace(racesData[+sel.value]);
+    localStorage.setItem(RACE_AC_STORAGE_KEY, racesData[+sel.value].ac_no);
+  };
   drawSingleRace(racesData[+sel.value]);
 }
 
@@ -2868,17 +3025,19 @@ document.getElementById('race-sort-bar')?.addEventListener('click', (e) => {
   const mode = btn.dataset.sort;
   if (mode === raceSortMode) return;
   raceSortMode = mode;
+  localStorage.setItem(RACE_SORT_STORAGE_KEY, mode);
   // Update active state
   document.querySelectorAll('.race-sort-link').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  populateRaceDropdown();
+  populateRaceDropdown(false); // false = don't restore saved selection, show first item
 });
 
 const FORM20_ICONS = {
   unavailable: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
   unverified: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
-  verified: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>',
-  mismatch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+  verified: '🟩',
+  mismatch: '🟥',
+  error: '🌀',
 };
 
 const FORM20_PDF_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
@@ -2888,6 +3047,7 @@ const FORM20_LABELS = {
   unverified: 'Unverified',
   verified: 'Verified',
   mismatch: 'Mismatch',
+  error: 'Error',
 };
 
 function updateForm20Field(race) {
@@ -2902,8 +3062,10 @@ function updateForm20Field(race) {
   const icon = FORM20_ICONS[status] || FORM20_ICONS.unavailable;
 
   card.className = 'form20-card form20-card--' + status;
-  statusEl.querySelector('svg').outerHTML = icon;
-  statusText.textContent = label;
+  document.getElementById('form20-status-icon').innerHTML = icon;
+
+  // No score shown in box - score only used for priority sorting
+  statusText.innerHTML = label;
 
   if (race.form20_url) {
     action.innerHTML = `<a class="form20-card__action" href="${race.form20_url}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} PDF</a>`;
