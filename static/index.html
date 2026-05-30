@@ -690,7 +690,7 @@
     bottom: calc(100% + 8px);
     right: 0;
     display: block;
-    width: 340px;
+    width: 440px;
     background: var(--tooltip-bg, var(--card));
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -710,6 +710,8 @@
   .form20-info-tooltip * {
     box-sizing: border-box;
     max-width: 100%;
+  }
+  .form20-info-tooltip p {
     overflow-wrap: break-word;
     word-break: break-word;
     white-space: normal;
@@ -727,16 +729,13 @@
     color: var(--tooltip-muted, var(--muted));
   }
   .form20-info-tooltip p:last-child { margin-bottom: 0; }
-  .form20-info-tooltip .status-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--tooltip-muted, var(--muted));
-    margin: 2px 0;
-  }
+
   .form20-info-tooltip table td {
     white-space: nowrap;
+    padding: 2px 6px 2px 0;
+    font-size: 11px;
+    color: var(--tooltip-muted, var(--muted));
+    vertical-align: top;
   }
   .form20-info-tooltip table td:last-child {
     white-space: normal;
@@ -1699,11 +1698,14 @@
           <span class="form20-info" tabindex="0">i
             <div class="form20-info-tooltip">
               <h4>Form 20 Verification</h4>
-              <p>Each AC's official result PDF is cross-checked against our scraped data using a Vision AI model.</p>
-              <div class="status-row"><span aria-hidden="true">🟩</span> <strong style="color:#059669">Verified</strong> — data confirmed</div>
-              <div class="status-row"><span aria-hidden="true">🟥</span> <strong style="color:#dc2626">Mismatch</strong> — vote counts differ</div>
-              <div class="status-row"><span aria-hidden="true">🌀</span> <strong style="color:#2563eb">Error</strong> — couldn't read PDF; retry</div>
-              <div class="status-row"><span aria-hidden="true">⚠️</span> <strong>Unverified</strong> — checked but inconclusive</div>
+              <p>Each AC's top 3 candidates' results are cross-checked against the final result sheet (Form 20) after sign off by the Returning Officer.</p>
+              <table style="width:100%;border-collapse:collapse;margin:4px 0;">
+                <tr><td>🟩</td><td><strong style="color:#059669">Verified</strong></td><td>Data confirmed either by computer or manually.</td></tr>
+                <tr><td>🟥</td><td><strong style="color:#dc2626">Mismatch</strong></td><td>Discrepancy in online results (EVM <strong>and</strong> postal) and that seen in Form 20. Needs manual verification.</td></tr>
+                <tr><td>🌀</td><td><strong style="color:#2563eb">Error</strong></td><td>Could not read Form 20. Retry.</td></tr>
+                <tr><td>⚠️</td><td><strong style="color:#d97706">Unverified</strong></td><td>Verification not attempted yet.</td></tr>
+                <tr><td>❓</td><td><strong>Unavailable</strong></td><td>Form 20 not detected on State CEO website.</td></tr>
+              </table>
               <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> sort to surface ACs needing review.</p>
             </div>
           </span>
