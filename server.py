@@ -702,15 +702,15 @@ def download_dataset(
     from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
     from openpyxl.utils import get_column_letter
 
-    # Brand palette — mirrors the dashboard CSS variables exactly
-    C_BG     = "1A1A1A"   # --bg
-    C_HEADER = "141414"   # --header-bg
-    C_CARD   = "222222"   # --card
-    C_CARD2  = "1E1E1E"   # zebra stripe
-    C_TEXT   = "F6F6F6"   # --text
-    C_MUTED  = "B8B8B8"   # --muted
-    C_GOLD   = "FFD700"   # LET Live accent / TVK gold
-    C_BORDER = "333333"   # subtle cell border
+    # Brand palette — light theme for print-friendly spreadsheets
+    C_BG     = "FFFFFF"   # white background
+    C_HEADER = "FFFFFF"   # white header
+    C_CARD   = "FFFFFF"   # data rows (odd)
+    C_CARD2  = "F8F9FA"   # zebra stripe (even)
+    C_TEXT   = "1A1A1A"   # near-black text
+    C_MUTED  = "6C757D"   # grey muted
+    C_GOLD   = "B8860B"   # dark gold for light bg
+    C_BORDER = "DEE2E6"   # light border
 
     conn = _connect()
     cur  = _cursor(conn)
@@ -819,14 +819,29 @@ def download_dataset(
     ]
     num_cols = len(headers)
 
-    # Row 1 — title banner
-    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=num_cols)
-    t = ws.cell(row=1, column=1)
-    t.value     = "🗳  LET Live — The Live & Loaded Elections Tracker of India"
-    t.font      = Font(name="Calibri", bold=True, size=16, color=C_GOLD)
+    # Row 1 — title banner with logo
+    ws.row_dimensions[1].height = 42
+
+    # Logo image (favicon)
+    logo_path = os.path.join(os.path.dirname(__file__), 'static', 'favicon.png')
+    if os.path.exists(logo_path):
+        try:
+            from openpyxl.drawing.image import Image as XLImage
+            img = XLImage(logo_path)
+            img.width = 32
+            img.height = 32
+            ws.add_image(img, 'A1')
+        except Exception:
+            pass  # logo not available, text-only header is fine
+
+    # Title text (merged B1:H1, leaving A1 for the logo)
+    ws.merge_cells(start_row=1, start_column=2, end_row=1, end_column=num_cols)
+    t = ws.cell(row=1, column=2)
+    t.value     = "LET Live!  —  The Live & Loaded Elections Tracker of India"
+    t.font      = Font(name="Calibri", bold=True, size=18, color=C_GOLD)
     t.fill      = PatternFill("solid", fgColor=C_HEADER)
-    t.alignment = Alignment(horizontal="center", vertical="center")
-    ws.row_dimensions[1].height = 34
+    t.alignment = Alignment(horizontal="left", vertical="center")
+    ws.cell(row=1, column=1).fill = PatternFill("solid", fgColor=C_HEADER)
 
     # Row 2 — subtitle / datestamp
     ws.merge_cells(start_row=2, start_column=1, end_row=2, end_column=num_cols)
@@ -917,7 +932,7 @@ def download_dataset(
 
     about.merge_cells("A1:B1")
     ah = about["A1"]
-    ah.value     = "🗳  LET Live — Dataset Provenance"
+    ah.value     = "LET Live!  —  Dataset Provenance"
     ah.font      = Font(name="Calibri", bold=True, size=13, color=C_GOLD)
     ah.fill      = PatternFill("solid", fgColor=C_HEADER)
     ah.alignment = Alignment(horizontal="left", vertical="center")
