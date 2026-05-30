@@ -337,7 +337,8 @@
     align-items: center;
     order: 3;
   }
-  .theme-trigger {
+  .theme-trigger,
+  .download-btn {
     min-width: 40px;
     min-height: 40px;
     border-radius: 999px;
@@ -347,6 +348,20 @@
     cursor: pointer;
     font-size: 18px;
     line-height: 1;
+  }
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .download-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+  .download-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
   }
   .theme-menu {
     position: absolute;
@@ -1609,11 +1624,17 @@
   <h1><span class="emoji" aria-hidden="true"></span>ECI Live Election Tracker</h1>
   <select id="election-selector" aria-label="Select election period" style="margin-left:12px; min-width:180px; max-width:220px;"></select>
   <div class="meta" aria-label="Dashboard status and preferences">
-    <span id="date-display"></span>
     <span class="status-indicator" aria-live="polite">
       <span class="status-dot idle" id="status-dot" aria-hidden="true"></span>
       <span id="status-text">Waiting for data...</span>
     </span>
+    <button class="download-btn" id="download-btn" type="button" aria-label="Download dataset as Excel" title="Download dataset">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 15V3"/>
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <path d="m7 10 5 5 5-5"/>
+      </svg>
+    </button>
     <div class="theme-picker" id="theme-picker">
       <button class="theme-trigger" id="theme-trigger" type="button" aria-label="Choose viewing mode" aria-haspopup="true" aria-expanded="false">☀️</button>
       <div class="theme-menu" id="theme-menu" role="menu" aria-label="Viewing mode options" hidden>
@@ -1924,8 +1945,6 @@ window.addEventListener('load', setStickyOffsets);
 // ---------------------------------------------------------------------------
 // Init
 // ---------------------------------------------------------------------------
-document.getElementById('date-display').textContent =
-  new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 setStickyOffsets();
 
 document.getElementById('theme-trigger').addEventListener('click', (e) => {
@@ -2147,8 +2166,17 @@ async function fetchData() {
     renderChart(data.parties, data.majority);
     renderVoteShare();
     if (currentState) renderRaces(currentState);
+    const dt = new Date(data.updated_at);
+    const day = dt.getDate();
+    const month = dt.toLocaleString('en-IN', { month: 'long' });
+    const year = dt.getFullYear();
+    let hours = dt.getHours();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12 || 12;
+    const mins = String(dt.getMinutes()).padStart(2, '0');
+    const secs = String(dt.getSeconds()).padStart(2, '0');
     document.getElementById('status-text').textContent =
-      `Updated ${new Date(data.updated_at).toLocaleTimeString('en-IN')}`;
+      `Updated ${day} ${month} ${year} ${hours}:${mins}:${secs} ${ampm}`;
   } catch (e) {
     console.error('Fetch failed:', e);
   }
@@ -3697,6 +3725,7 @@ function renderStateBar(states) {
     btn.onclick = () => {
       currentState = s.code;
       localStorage.setItem(STATE_STORAGE_KEY, s.code);
+      localStorage.removeItem(RACE_AC_STORAGE_KEY);
       lastDataFingerprint = '';
       renderStateBar(states);
       fetchData();
@@ -3728,6 +3757,40 @@ async function loadStateStatuses(states) {
   stateStatuses = Object.fromEntries(entries);
   renderStateBar(states);
 }
+
+// ---------------------------------------------------------------------------
+// Download dataset
+// ---------------------------------------------------------------------------
+document.getElementById('download-btn').addEventListener('click', () => {
+  const btn = document.getElementById('download-btn');
+  if (btn.disabled) return;
+  btn.disabled = true;
+  const prevTitle = btn.title;
+  btn.title = 'Preparing download…';
+  try {
+    let url = '/api/download';
+    const params = [];
+    if (currentState) {
+      params.push(`state=${currentState}`);
+    } else if (currentElection) {
+      params.push(`election_id=${currentElection.election_id}`);
+    }
+    if (params.length) url += '?' + params.join('&');
+    // Use a hidden anchor to trigger the browser download dialog
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } finally {
+    // Re-enable after a short delay (download starts async)
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.title = prevTitle;
+    }, 2000);
+  }
+});
 </script>
 </body>
 </html>
