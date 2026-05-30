@@ -1401,6 +1401,27 @@
     font-size: 11px;
     line-height: 1.5;
   }
+  .chartjs-tooltip .tooltip-table {
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+  .chartjs-tooltip .tooltip-table td {
+    padding: 2px 0;
+  }
+  .chartjs-tooltip .tooltip-table .td-label {
+    color: var(--tooltip-text, var(--text));
+    font-weight: 500;
+    padding-right: 8px;
+    white-space: nowrap;
+  }
+  .chartjs-tooltip .tooltip-table .td-value {
+    text-align: right;
+    font-weight: 500;
+  }
+  .chartjs-tooltip .tooltip-table .td-label[style*="padding-left"],
+  .chartjs-tooltip .tooltip-table .td-value[style*="opacity"] {
+    font-weight: 400;
+  }
   /* Fair and Lovely: pure white tooltip, symbol blends with background */
   :root[data-theme="fair-lovely"] .chartjs-tooltip {
     background: #ffffff;
@@ -2486,7 +2507,26 @@ function partyCardTooltip(context) {
   const titleLines = tooltip.title || [];
   const bodyLines = _bodyLines(tooltip);
   const titleHtml = titleLines.map(t => `<div class="tooltip-title">${t}</div>`).join('');
-  const bodyHtml = bodyLines.map(l => `<div class="tooltip-body">${l}</div>`).join('');
+
+  // Render body as table for seat tally / vote share / deposit data
+  // Body lines follow pattern: "Label: value" or indented "  label: value" (child rows)
+  let bodyHtml;
+  const tableRows = bodyLines.map(l => {
+    const m = l.match(/^(?:\s{2})?(.+?):\s*(.+)$/);
+    if (m) {
+      const isChild = !!m[1]; // Has leading spaces
+      const indentStyle = isChild ? 'padding-left:12px;color:var(--tooltip-muted,var(--muted));' : '';
+      const valueStyle = isChild ? 'opacity:0.6;font-weight:400;' : 'font-weight:500;';
+      return `<tr><td class="td-label" style="${indentStyle}">${m[2]}</td><td class="td-value" style="${valueStyle}">${m[3]}</td></tr>`;
+    }
+    return null;
+  });
+  if (tableRows.some(r => r !== null)) {
+    const rows = tableRows.filter(Boolean).join('');
+    bodyHtml = `<table class="tooltip-table">${rows}</table>`;
+  } else {
+    bodyHtml = bodyLines.map(l => `<div class="tooltip-body">${l}</div>`).join('');
+  }
 
   el.innerHTML = `<div class="tooltip-header">${symHtml}<span>${titleHtml}</span></div>${bodyHtml}`;
 
@@ -2911,11 +2951,11 @@ function renderChart(parties, majority) {
               const lostTotal = lostSafe + lostForfeited;
               const parts = [
                 `Won: ${won}`,
-                `Leading in: ${lead}`,
-                `Lost: ${lostTotal}`,
               ];
-              if (lostSafe > 0) parts.push(`Lost (deposit safe): ${lostSafe}`);
-              if (lostForfeited > 0) parts.push(`Lost (deposit forfeited): ${lostForfeited}`);
+              if (lead > 0) parts.push(`  (leading in): ${lead}`);
+              parts.push(`Lost: ${lostTotal}`);
+              if (lostSafe > 0) parts.push(`  (deposit safe): ${lostSafe}`);
+              if (lostForfeited > 0) parts.push(`  (deposit lost): ${lostForfeited}`);
               return parts;
             }
           }
