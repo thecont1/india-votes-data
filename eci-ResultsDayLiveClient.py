@@ -29,7 +29,11 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 
-from db_utils import insert_round_snapshot
+import os
+if os.environ.get("D1_INGEST_URL"):
+    from db_d1 import insert_round_snapshot
+else:
+    from db_utils import insert_round_snapshot
 from core.scraper import get_state_name
 
 DEFAULT_PORT = 8000

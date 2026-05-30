@@ -45,14 +45,18 @@ try:
 except ImportError:
     HAS_UC = False
 
+import os
 from db_utils import (
     _normalize_party,
     get_work_queue,
     init_db,
-    insert_round_snapshot,
     update_won_status,
     upsert_constituency_status,
 )
+if os.environ.get("D1_INGEST_URL"):
+    from db_d1 import insert_round_snapshot
+else:
+    from db_utils import insert_round_snapshot
 from config import get_election_id, get_tracked_states
 from core.scraper import build_roundwise_url
 
