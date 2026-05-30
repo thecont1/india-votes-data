@@ -2,6 +2,7 @@ export const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Expose-Headers': 'Content-Disposition',
 };
 
 export function jsonResponse(data, status = 200) {

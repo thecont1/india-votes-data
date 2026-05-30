@@ -1,3 +1,4 @@
+import { CORS } from '../shared/cors.js';
 import { getElectionById } from './elections.js';
 
 export async function handleDownload(request, env) {
@@ -86,7 +87,7 @@ export async function handleDownload(request, env) {
     headers: {
       'Content-Type': 'text/csv',
       'Content-Disposition': 'attachment; filename="election-results.csv"',
-      'Access-Control-Allow-Origin': '*',
+      ...CORS,
     },
   });
 }
