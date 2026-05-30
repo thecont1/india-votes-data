@@ -3840,7 +3840,7 @@ async function loadStateStatuses(states) {
 // ---------------------------------------------------------------------------
 // Download dataset
 // ---------------------------------------------------------------------------
-document.getElementById('download-btn').addEventListener('click', () => {
+document.getElementById('download-btn').addEventListener('click', async () => {
   const btn = document.getElementById('download-btn');
   if (btn.disabled) return;
   btn.disabled = true;
@@ -3856,19 +3856,30 @@ document.getElementById('download-btn').addEventListener('click', () => {
       params.push(`state=${currentState}`);
     }
     if (params.length) url += '?' + params.join('&');
-    // Use a hidden anchor to trigger the browser download dialog
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`Download failed (${resp.status})`);
+    const blob = await resp.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    // Extract filename from Content-Disposition header
+    const cd = resp.headers.get('content-disposition') || '';
+    const match = cd.match(/filename="?([^"]+)"?/);
+    const filename = match ? match[1] : 'LETLive.xlsx';
     const a = document.createElement('a');
-    a.href = url;
-    a.download = '';
+    a.href = blobUrl;
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    URL.revokeObjectURL(blobUrl);
+  } catch (e) {
+    console.error('Download failed:', e);
+    alert('Download failed. Please try again.');
   } finally {
-    // Re-enable after a short delay (download starts async)
+    // Re-enable after a short delay
     setTimeout(() => {
       btn.disabled = false;
       btn.title = prevTitle;
-    }, 2000);
+    }, 1500);
   }
 });
 </script>
