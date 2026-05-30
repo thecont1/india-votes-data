@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ECI Live Election Tracker</title>
+<title>LET Live - The Live and Loaded Elections Tracker of India</title>
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Inconsolata:wght@500;600&family=Libre+Franklin:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -313,15 +315,33 @@
     gap: 10px 18px;
     border-bottom: 1px solid var(--border);
   }
-  .header h1 {
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-brand .logo {
+    display: block;
+    flex-shrink: 0;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  .wordmark {
     font-family: var(--font-heading);
     font-size: clamp(20px, 4vw, 28px);
     font-weight: 700;
     letter-spacing: -0.015em;
-    line-height: 1.1;
-    max-width: 60vw;
+    color: var(--text);
   }
-  .header h1 .emoji { font-size: 1.12em; margin-right: 8px; }
+  .subtitle {
+    font-family: var(--font-ui);
+    font-size: clamp(11px, 2vw, 13px);
+    color: var(--muted);
+    font-weight: 400;
+  }
   .header .meta {
     display: flex;
     align-items: center;
@@ -1075,7 +1095,8 @@
     border-bottom-color: var(--line-soft);
     box-shadow: 0 1px 0 rgba(31, 40, 50, 0.04);
   }
-  :root[data-theme="fair-lovely"] .header h1 {
+  :root[data-theme="fair-lovely"] .header h1,
+  :root[data-theme="fair-lovely"] .wordmark {
     color: var(--text);
   }
   :root[data-theme="fair-lovely"] .theme-trigger,
@@ -1524,9 +1545,15 @@
       align-items: start;
       row-gap: 8px;
     }
-    .header h1 {
+    .header-brand {
+      flex-direction: row;
+    }
+    .wordmark {
       max-width: none;
       font-size: 22px;
+    }
+    .subtitle {
+      font-size: 11px;
     }
     .header .meta {
       display: grid;
@@ -1544,10 +1571,15 @@
       grid-template-columns: minmax(0, 1fr) auto;
       padding-inline: 16px;
     }
-    .header h1 {
+    .header-brand {
+      flex-direction: row;
+    }
+    .wordmark {
       font-size: 19px;
       line-height: 1.15;
-      max-width: 100%;
+    }
+    .subtitle {
+      font-size: 10px;
     }
     .header .meta {
       grid-template-columns: 1fr auto;
@@ -1621,7 +1653,13 @@
 <body>
 
 <header class="header">
-  <h1><span class="emoji" aria-hidden="true"></span>ECI Live Election Tracker</h1>
+  <div class="header-brand">
+    <img src="/static/favicon.png" alt="LET Live logo" class="logo" width="64" height="64">
+    <div class="brand-text">
+      <span class="wordmark">LET Live!</span>
+      <span class="subtitle">The Live and Loaded Elections Tracker of India</span>
+    </div>
+  </div>
   <select id="election-selector" aria-label="Select election period" style="margin-left:12px; min-width:180px; max-width:220px;"></select>
   <div class="meta" aria-label="Dashboard status and preferences">
     <span class="status-indicator" aria-live="polite">
