@@ -1,0 +1,13 @@
+# Public API Worker — reads only, serves dashboard
+# Run: wrangler d1 create election-results
+# Then paste the database_id below
+
+name = "election-api"
+main = "index.js"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "election-results"
+database_id = "3b88bba3-e1ef-430b-80b3-2f648a733d98"
