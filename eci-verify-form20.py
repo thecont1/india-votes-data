@@ -6,23 +6,23 @@ Download a Form 20 PDF, run Vision LLM OCR (Tesseract as fallback),
 compare against ECI results, and present a human-readable report.
 
 Usage:
-    python verify_form20.py <state_code> [ac_no] [--force] [--skip-vision]
+    python eci-verify-form20.py <state_code> [ac_no] [--force] [--skip-vision]
 
     # Two-phase approach (recommended for batch runs):
-    python verify_form20.py S22 --download-only   # Phase 1: download all missing PDFs
-    python verify_form20.py S22 -j 4              # Phase 2: process locally (no server hits)
+    python eci-verify-form20.py S22 --download-only   # Phase 1: download all missing PDFs
+    python eci-verify-form20.py S22 -j 4              # Phase 2: process locally (no server hits)
 
 Examples:
     # Verify a single AC:
-    python verify_form20.py S25 110
-    python verify_form20.py S25 275 --force
+    python eci-verify-form20.py S25 110
+    python eci-verify-form20.py S25 275 --force
 
     # Verify ALL ACs in a state (updates DB):
-    python verify_form20.py S25
+    python eci-verify-form20.py S25
 
     # Incremental re-run (skips VERIFIED):
-    python verify_form20.py S03
-    python verify_form20.py S03 --force  # re-run everything
+    python eci-verify-form20.py S03
+    python eci-verify-form20.py S03 --force  # re-run everything
 """
 
 import argparse
@@ -366,7 +366,7 @@ def run_download_phase(state_code: str, args) -> None:
         )
     )
     console.print()
-    console.print(f"  [dim]Next: python verify_form20.py {state_code} -j 4[/]")
+    console.print(f"  [dim]Next: python eci-verify-form20.py {state_code} -j 4[/]")
     console.print()
 
 
@@ -741,7 +741,7 @@ def main():
         console.print(f"  Prompt + ECI data: {out_path}")
         console.print()
         console.print("  Next: run vision_analyze on each page, save responses to vision_results.json")
-        console.print(f"  Then: python verify_form20.py {args.state_code} {args.ac_no} --vision-file {report_dir}/vision_results.json")
+        console.print(f"  Then: python eci-verify-form20.py {args.state_code} {args.ac_no} --vision-file {report_dir}/vision_results.json")
         console.print()
         return
 
