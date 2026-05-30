@@ -128,7 +128,7 @@ india-votes-data/
 │   ├── normalize_parties.py     # Normalize party names in DB
 │   ├── fetch_symbols.py         # Fetch party symbols from ECI
 │   └── fetch_party_data.py      # Fetch party metadata
-├── verify_form20.py             # Form 20 batch verification CLI
+├── eci-verify-form20.py         # Form 20 batch verification CLI
 ├── data/
 │   ├── states.csv               # 36 states/UTs reference
 │   ├── parties.csv              # 30 major parties metadata
@@ -173,7 +173,7 @@ Our scraper captures aggregate vote totals from ECI's party-wise summary pages. 
 
 ### How it works
 
-The verification pipeline (`verify_form20.py` + `tools/ocr_engine.py`) downloads each constituency's Form 20 PDF, converts pages to images, and sends them to a Vision LLM (currently MiMo 2.5). The model reads candidate names and vote counts directly from the scanned document, then cross-checks them against our database.
+The verification pipeline (`eci-verify-form20.py` + `tools/ocr_engine.py`) downloads each constituency's Form 20 PDF, converts pages to images, and sends them to a Vision LLM (currently MiMo 2.5). The model reads candidate names and vote counts directly from the scanned document, then cross-checks them against our database.
 
 Tesseract OCR runs as a fallback when no Vision API is configured. When Vision is available, Tesseract is skipped entirely — it takes 23 seconds per AC and the Vision LLM is more accurate on these tabular documents.
 
@@ -192,16 +192,16 @@ Page selection: the summary page (typically the last page) plus 20% random booth
 
 ```bash
 # Verify all ACs in a state (skips already-verified, retries errors)
-uv run verify_form20.py S03
+uv run eci-verify-form20.py S03
 
 # Re-run everything from scratch
-uv run verify_form20.py S03 --force
+uv run eci-verify-form20.py S03 --force
 
 # Single AC
-uv run verify_form20.py S25 110
+uv run eci-verify-form20.py S25 110
 
 # Tesseract only (no Vision API)
-uv run verify_form20.py S03 --skip-vision
+uv run eci-verify-form20.py S03 --skip-vision
 ```
 
 The terminal shows a Braille grid — one block per AC, 20 per line. Pre-existing verified ACs appear as filled blocks from the start. Each new result appends to the grid in real time.
