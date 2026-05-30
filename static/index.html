@@ -2468,6 +2468,8 @@ function _showTooltip(el) {
 function _bodyLines(tooltip) {
   return (tooltip.body || []).flatMap(b => {
     if (typeof b === 'string') return [b];
+    // Chart.js 3.x+ uses b.lines, but some versions use b.text
+    if (b.text) return [b.text];
     return (b.lines || []).concat(b.before || []).concat(b.after || []);
   });
 }
@@ -2505,28 +2507,36 @@ function partyCardTooltip(context) {
     : '';
 
   const titleLines = tooltip.title || [];
-  const bodyLines = _bodyLines(tooltip);
   const titleHtml = titleLines.map(t => `<div class="tooltip-title">${t}</div>`).join('');
 
-  // Render body as table for seat tally / vote share / deposit data
-  // Body lines follow pattern: "Label: value" or indented "  label: value" (child rows)
+  // Build body directly from chart data for seat tally (avoids enabled:false body format issues)
   let bodyHtml;
+  const partyDep = partyAbv ? partyDepositLoss[partyAbv] || {} : {};
+  const won = chart.data.datasets[0].data[dp.dataIndex] || 0;
+  const lead = chart.data.datasets[1].data[dp.dataIndex] || 0;
+  const lostSafe = partyDep.lost_no_deposit || 0;
+  const lostForfeited = partyDep.lost_deposit || 0;
+  const lostTotal = lostSafe + lostForfeited;
+
+  const bodyLines = [
+    `Won: ${won}`,
+  ];
+  if (lead > 0) bodyLines.push(`  (leading in): ${lead}`);
+  bodyLines.push(`Lost: ${lostTotal}`);
+  if (lostSafe > 0) bodyLines.push(`  (deposit safe): ${lostSafe}`);
+  if (lostForfeited > 0) bodyLines.push(`  (deposit lost): ${lostForfeited}`);
+
   const tableRows = bodyLines.map(l => {
     const m = l.match(/^(?:\s{2})?(.+?):\s*(.+)$/);
     if (m) {
-      const isChild = !!m[1]; // Has leading spaces
+      const isChild = l.startsWith('  ');
       const indentStyle = isChild ? 'padding-left:12px;color:var(--tooltip-muted,var(--muted));' : '';
       const valueStyle = isChild ? 'opacity:0.6;font-weight:400;' : 'font-weight:500;';
-      return `<tr><td class="td-label" style="${indentStyle}">${m[2]}</td><td class="td-value" style="${valueStyle}">${m[3]}</td></tr>`;
+      return `<tr><td class="td-label" style="${indentStyle}">${m[1]}</td><td class="td-value" style="${valueStyle}">${m[2]}</td></tr>`;
     }
     return null;
   });
-  if (tableRows.some(r => r !== null)) {
-    const rows = tableRows.filter(Boolean).join('');
-    bodyHtml = `<table class="tooltip-table">${rows}</table>`;
-  } else {
-    bodyHtml = bodyLines.map(l => `<div class="tooltip-body">${l}</div>`).join('');
-  }
+  bodyHtml = `<table class="tooltip-table">${tableRows.filter(Boolean).join('')}</table>`;
 
   el.innerHTML = `<div class="tooltip-header">${symHtml}<span>${titleHtml}</span></div>${bodyHtml}`;
 
