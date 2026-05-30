@@ -1053,6 +1053,20 @@ def serve_dashboard():
     return {"message": "Dashboard not found. Place index.html in static/"}
 
 
+@app.get("/favicon.png")
+def serve_favicon_png():
+    f = os.path.join(STATIC_DIR, "favicon.png")
+    if os.path.exists(f):
+        return FileResponse(f, media_type="image/png")
+
+
+@app.get("/favicon.ico")
+def serve_favicon_ico():
+    f = os.path.join(STATIC_DIR, "favicon.ico")
+    if os.path.exists(f):
+        return FileResponse(f, media_type="image/x-icon")
+
+
 if __name__ == "__main__":
     if "--api" in sys.argv:
         import uvicorn
