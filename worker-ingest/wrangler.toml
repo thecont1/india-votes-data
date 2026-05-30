@@ -1,0 +1,13 @@
+# Ingestion Worker — writes only, scraper auth required
+# Shares the same D1 database as the public API Worker
+# Run: wrangler deploy (separate from public API Worker)
+
+name = "election-ingest"
+main = "index.js"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "election-results"
+database_id = "3b88bba3-e1ef-430b-80b3-2f648a733d98"
