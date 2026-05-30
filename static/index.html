@@ -351,6 +351,81 @@
     font-size: 14px;
     margin-left: auto;
   }
+  .search-box {
+    position: relative;
+    flex: 0 1 260px;
+    min-width: 160px;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 6px 10px 6px 30px;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    background: var(--control-bg);
+    color: var(--text);
+    font: 14px var(--font-ui);
+    outline: none;
+    box-sizing: border-box;
+  }
+  .search-box input:focus {
+    border-color: var(--accent);
+  }
+  .search-box .search-icon {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: none;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .search-results.active { display: block; }
+  .search-group-label {
+    padding: 6px 10px 2px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+  }
+  .search-result-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+  }
+  .search-result-item:hover {
+    background: var(--card-elevated);
+  }
+  .search-result-item .sr-name {
+    font-weight: 500;
+    color: var(--text);
+  }
+  .search-result-item .sr-name mark {
+    background: rgba(255,255,0,0.3);
+    color: inherit;
+    padding: 0;
+  }
+  .search-result-item .sr-context {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 1px;
+  }
   .theme-picker {
     position: relative;
     display: inline-flex;
@@ -1654,6 +1729,11 @@
     </div>
   </div>
   <select id="election-selector" aria-label="Select election period" style="margin-left:12px; min-width:180px; max-width:220px;"></select>
+  <div class="search-box">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" id="search-input" placeholder="Search candidates, constituencies, parties..." autocomplete="off" />
+    <div class="search-results" id="search-results"></div>
+  </div>
   <div class="meta" aria-label="Dashboard status and preferences">
     <span class="status-indicator" aria-live="polite">
       <span class="status-dot idle" id="status-dot" aria-hidden="true"></span>
@@ -1804,6 +1884,8 @@ const RACE_AC_STORAGE_KEY = 'eci-dashboard-race-ac';
 const DEFAULT_THEME = 'black-white';
 const THEME_VALUES = new Set(['dark-handsome', 'fair-lovely', 'black-white']);
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const API_BASE = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+  ? '' : 'https://election-api.thecontrarian.workers.dev';
 
 let currentState = localStorage.getItem(STATE_STORAGE_KEY) || '';
 let currentMajority = null;
@@ -2032,14 +2114,14 @@ let stateNameMap = {};
 async function loadElections() {
   try {
     // Load states for name mapping
-    const statesRes = await fetch('/api/states');
+    const statesRes = await fetch(API_BASE + '/api/states');
     const statesData = await statesRes.json();
     stateNameMap = {};
     (statesData.states || []).forEach(s => {
       stateNameMap[s.state_code] = s.state_name;
     });
 
-    const res = await fetch('/api/elections');
+    const res = await fetch(API_BASE + '/api/elections');
     const data = await res.json();
     electionsList = data.elections || [];
     const selector = document.getElementById('election-selector');
@@ -2189,7 +2271,7 @@ async function init() {
   });
   // Load party details for legend tooltips
   try {
-    const res = await fetch('/api/parties');
+    const res = await fetch(API_BASE + '/api/parties');
     const data = await res.json();
     partyDetails = data.parties || {};
   } catch (e) { /* ignore */ }
@@ -2204,11 +2286,11 @@ async function init() {
 // ---------------------------------------------------------------------------
 async function fetchData() {
   try {
-    let url = '/api/seat-tally';
+    let url = API_BASE + '/api/seat-tally';
     if (currentState) {
-      url = `/api/seat-tally?state=${currentState}`;
+      url = `${API_BASE}/api/seat-tally?state=${currentState}`;
     } else if (currentElection) {
-      url = `/api/seat-tally?election_id=${currentElection.election_id}`;
+      url = `${API_BASE}/api/seat-tally?election_id=${currentElection.election_id}`;
     }
     const resp = await fetch(url);
     const data = await resp.json();
@@ -2243,11 +2325,11 @@ async function fetchStatus() {
   try {
     let url;
     if (currentState) {
-      url = `/api/status?state=${currentState}`;
+      url = `${API_BASE}/api/status?state=${currentState}`;
     } else if (currentElection) {
-      url = `/api/status?election_id=${currentElection.election_id}`;
+      url = `${API_BASE}/api/status?election_id=${currentElection.election_id}`;
     } else {
-      url = '/api/status';
+      url = API_BASE + '/api/status';
     }
     const resp = await fetch(url);
     const status = await resp.json();
@@ -3018,7 +3100,7 @@ function renderRaces(stateCode) {
   document.getElementById('races-chart').style.display = 'block';
   card.style.display = 'block';
 
-  fetch(`/api/ac-races?state=${stateCode}`)
+  fetch(`${API_BASE}/api/ac-races?state=${stateCode}`)
     .then(r => r.json())
     .then(data => {
       racesData = data.races || [];
@@ -3420,7 +3502,7 @@ async function drawRaceRoundwise(race) {
   }
 
   try {
-    const resp = await fetch(`/api/constituency/${currentState}/${race.ac_no}`);
+    const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}`);
     const data = await resp.json();
     const rows = data.rounds || [];
     const rounds = [...new Set(rows.map(r => r.round_no))]
@@ -3624,7 +3706,7 @@ async function renderRoundwise(stateCode) {
         return;
       }
       const payloads = await Promise.all(stateCodes.map(async code => {
-        const resp = await fetch(`/api/roundwise?state=${code}`);
+        const resp = await fetch(`${API_BASE}/api/roundwise?state=${code}`);
         return resp.json();
       }));
       const roundMap = new Map();
@@ -3655,7 +3737,7 @@ async function renderRoundwise(stateCode) {
           })),
       };
     } else {
-      const resp = await fetch(`/api/roundwise?state=${stateCode}`);
+      const resp = await fetch(`${API_BASE}/api/roundwise?state=${stateCode}`);
       data = await resp.json();
     }
 
@@ -3819,11 +3901,11 @@ async function loadStateStatuses(states) {
   const entries = await Promise.all(states.map(async s => {
     let url;
     if (s.code) {
-      url = `/api/status?state=${s.code}`;
+      url = `${API_BASE}/api/status?state=${s.code}`;
     } else if (currentElection) {
-      url = `/api/status?election_id=${currentElection.election_id}`;
+      url = `${API_BASE}/api/status?election_id=${currentElection.election_id}`;
     } else {
-      url = '/api/status';
+      url = API_BASE + '/api/status';
     }
     try {
       const resp = await fetch(url);
@@ -3847,7 +3929,7 @@ document.getElementById('download-btn').addEventListener('click', async () => {
   const prevTitle = btn.title;
   btn.title = 'Preparing download…';
   try {
-    let url = '/api/download';
+    let url = API_BASE + '/api/download';
     const params = [];
     if (currentElection) {
       params.push(`election_id=${currentElection.election_id}`);
@@ -3882,6 +3964,122 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     }, 1500);
   }
 });
+
+// ---------------------------------------------------------------------------
+// Search (FTS5 trigram via D1 Worker)
+// ---------------------------------------------------------------------------
+(() => {
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+  let searchTimer = null;
+
+  searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    const q = searchInput.value.trim();
+    if (q.length < 2) { hideResults(); return; }
+    searchTimer = setTimeout(() => doSearch(q), 250);
+  });
+
+  searchInput.addEventListener('focus', () => {
+    if (searchInput.value.trim().length >= 2) {
+      searchResults.classList.add('active');
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-box')) hideResults();
+  });
+
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { hideResults(); searchInput.blur(); }
+  });
+
+  function hideResults() {
+    searchResults.classList.remove('active');
+  }
+
+  async function doSearch(q) {
+    try {
+      const resp = await fetch(`${API_BASE}/api/search?q=${encodeURIComponent(q)}`);
+      const data = await resp.json();
+      renderResults(data.results, q);
+    } catch (e) {
+      console.error('Search failed:', e);
+    }
+  }
+
+  function renderResults(grouped, query) {
+    const order = ['party', 'constituency', 'candidate'];
+    const labels = { party: 'Parties', constituency: 'Constituencies', candidate: 'Candidates' };
+    let html = '';
+    let total = 0;
+
+    for (const type of order) {
+      const items = grouped[type] || [];
+      if (!items.length) continue;
+      html += `<div class="search-group-label">${labels[type]}</div>`;
+      for (const item of items.slice(0, 5)) {
+        total++;
+        const name = item.highlighted_name || escapeHtml(item.name);
+        const ctx = escapeHtml(item.context || '');
+        html += `<div class="search-result-item" data-type="${type}" data-id="${item.entity_id}" data-name="${escapeAttr(item.name)}">
+          <div class="sr-name">${name}</div>
+          ${ctx ? `<div class="sr-context">${ctx}</div>` : ''}
+        </div>`;
+      }
+    }
+
+    if (!total) {
+      html = '<div class="search-result-item" style="color:var(--muted);cursor:default;">No results</div>';
+    }
+
+    searchResults.innerHTML = html;
+    searchResults.classList.add('active');
+
+    // Click handlers
+    searchResults.querySelectorAll('.search-result-item[data-type]').forEach(el => {
+      el.addEventListener('click', () => handleResultClick(el.dataset));
+    });
+  }
+
+  function handleResultClick(dataset) {
+    const { type, id, name } = dataset;
+    hideResults();
+    searchInput.value = '';
+
+    if (type === 'constituency') {
+      // Navigate to constituency: id is "state_code-ac_no"
+      const [stateCode, acNo] = id.split('-');
+      // Set state filter
+      currentState = stateCode;
+      localStorage.setItem(STATE_STORAGE_KEY, currentState);
+      // Trigger race view
+      document.querySelector('[data-view="races"]')?.click();
+      // Scroll to races section
+      document.getElementById('races-section')?.scrollIntoView({ behavior: 'smooth' });
+    } else if (type === 'party') {
+      // Could scroll to seat tally or highlight party
+      // For now, just scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (type === 'candidate') {
+      // id is "state_code-ac_no-party_abv"
+      const parts = id.split('-');
+      const stateCode = parts[0];
+      const acNo = parts[1];
+      currentState = stateCode;
+      localStorage.setItem(STATE_STORAGE_KEY, currentState);
+      document.querySelector('[data-view="races"]')?.click();
+      document.getElementById('races-section')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function escapeAttr(s) {
+    return s.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+})();
 </script>
 
 <div id="tv-overlay" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); cursor:pointer;">
