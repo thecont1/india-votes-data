@@ -692,24 +692,33 @@ def download_dataset(
     state: str = Query(default=None, description="State code filter"),
     election_id: str = Query(default=None, description="Election ID filter"),
 ):
-    """Return an Excel (.xlsx) file with joined EVM + postal vote data.
+    """Return a branded Excel (.xlsx) file with joined EVM + postal vote data.
 
-    Sheet 1 ("Data"): per-candidate EVM and postal votes for each AC's
-    latest non-999 round and round 999 (final tally).
+    Sheet 1 ("Data"):  per-candidate EVM and postal votes, styled to match
+                       the LET Live dashboard palette.
     Sheet 2 ("About"): source / website / author / provenance metadata.
     """
     import openpyxl
-    from openpyxl.styles import Font, Alignment, PatternFill
+    from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
+    from openpyxl.utils import get_column_letter
+
+    # Brand palette — mirrors the dashboard CSS variables exactly
+    C_BG     = "1A1A1A"   # --bg
+    C_HEADER = "141414"   # --header-bg
+    C_CARD   = "222222"   # --card
+    C_CARD2  = "1E1E1E"   # zebra stripe
+    C_TEXT   = "F6F6F6"   # --text
+    C_MUTED  = "B8B8B8"   # --muted
+    C_GOLD   = "FFD700"   # LET Live accent / TVK gold
+    C_BORDER = "333333"   # subtle cell border
 
     conn = _connect()
-    cur = _cursor(conn)
+    cur  = _cursor(conn)
     try:
         p = "%s" if IS_PG else "?"
 
-        # --- resolve state codes to include ---
         state_codes: list[str] = []
         state_names: dict[str, str] = {}
-        state_code_map: dict[str, str] = {}   # code -> std (e.g. S25 -> WB)
         election_name = ""
         if state:
             state_codes = [state]
@@ -720,7 +729,6 @@ def download_dataset(
                 if not state:
                     state_codes = election["states"]
 
-        # look up state names
         if state_codes:
             q = (
                 f"SELECT state_code, state_name, state_code_std FROM states "
@@ -728,23 +736,15 @@ def download_dataset(
             )
             for row in cur.execute(q, state_codes).fetchall():
                 state_names[row["state_code"]] = row["state_name"]
-                state_code_map[row["state_code"]] = row["state_code_std"] or row["state_code"]
 
-        # --- build state filter ---
-        sf_plain = ""       # for CTEs without table alias
-        sf = ""             # for queries using alias r.
+        sf_plain = ""
+        sf       = ""
         params: list = []
         if state_codes:
             sf_plain = f"AND state_code IN ({','.join([p]*len(state_codes))})"
-            sf = f"AND r.state_code IN ({','.join([p]*len(state_codes))})"
-            params = list(state_codes)
+            sf       = f"AND r.state_code IN ({','.join([p]*len(state_codes))})"
+            params   = list(state_codes)
 
-        # --- main query ---
-        # 1) Find latest non-999 round per AC
-        # 2) Get EVM votes from that round
-        # 3) Get total votes from round 999
-        # 4) Postal = total − EVM
-        # 5) Keep only candidates present in either round
         cur.execute(f"""
             WITH latest_non999 AS (
                 SELECT state_code, ac_no, MAX(round_no) as max_round
@@ -753,75 +753,49 @@ def download_dataset(
                 GROUP BY state_code, ac_no
             ),
             all_candidates AS (
-                SELECT DISTINCT r.state_code, r.ac_no, r.ac_name,
-                       r.candidate, r.party_abv
+                SELECT DISTINCT r.state_code, r.ac_no, r.ac_name, r.candidate, r.party_abv
                 FROM rounds_ac r
                 JOIN latest_non999 lr
-                    ON r.state_code = lr.state_code
-                    AND r.ac_no = lr.ac_no
-                    AND r.round_no = lr.max_round
+                  ON r.state_code = lr.state_code AND r.ac_no = lr.ac_no AND r.round_no = lr.max_round
                 UNION
-                SELECT DISTINCT r.state_code, r.ac_no, r.ac_name,
-                       r.candidate, r.party_abv
+                SELECT DISTINCT r.state_code, r.ac_no, r.ac_name, r.candidate, r.party_abv
                 FROM rounds_ac r
                 WHERE r.round_no = 999 {sf}
             ),
             evm AS (
-                SELECT r.state_code, r.ac_no, r.candidate,
-                       r.party_abv, r.votes as evm_votes
+                SELECT r.state_code, r.ac_no, r.candidate, r.party_abv, r.votes as evm_votes
                 FROM rounds_ac r
                 JOIN latest_non999 lr
-                    ON r.state_code = lr.state_code
-                    AND r.ac_no = lr.ac_no
-                    AND r.round_no = lr.max_round
+                  ON r.state_code = lr.state_code AND r.ac_no = lr.ac_no AND r.round_no = lr.max_round
             ),
             total AS (
-                SELECT r.state_code, r.ac_no, r.candidate,
-                       r.party_abv, r.votes as total_votes
+                SELECT r.state_code, r.ac_no, r.candidate, r.party_abv, r.votes as total_votes
                 FROM rounds_ac r
                 WHERE r.round_no = 999 {sf}
             )
             SELECT
                 ac.state_code, ac.ac_no, ac.ac_name, ac.candidate,
-                p.abv as party_abv, p.name as party_name,
-                COALESCE(e.evm_votes, 0) as evm_votes,
+                p.abv  as party_abv,
+                p.name as party_name,
+                COALESCE(e.evm_votes, 0)                                as evm_votes,
                 COALESCE(t.total_votes, 0) - COALESCE(e.evm_votes, 0) as postal_votes,
-                COALESCE(t.total_votes, 0) as total_votes
+                COALESCE(t.total_votes, 0)                             as total_votes
             FROM all_candidates ac
             JOIN parties p ON ac.party_abv = p.abv
             LEFT JOIN evm e
-                ON ac.state_code = e.state_code AND ac.ac_no = e.ac_no
-                AND ac.candidate = e.candidate AND ac.party_abv = e.party_abv
+              ON ac.state_code = e.state_code AND ac.ac_no = e.ac_no
+             AND ac.candidate  = e.candidate  AND ac.party_abv = e.party_abv
             LEFT JOIN total t
-                ON ac.state_code = t.state_code AND ac.ac_no = t.ac_no
-                AND ac.candidate = t.candidate AND ac.party_abv = t.party_abv
+              ON ac.state_code = t.state_code AND ac.ac_no = t.ac_no
+             AND ac.candidate  = t.candidate  AND ac.party_abv = t.party_abv
             ORDER BY ac.state_code, ac.ac_no,
-                     (COALESCE(e.evm_votes, 0) + COALESCE(t.total_votes, 0) - COALESCE(e.evm_votes, 0)) DESC
+                (COALESCE(e.evm_votes,0) + COALESCE(t.total_votes,0) - COALESCE(e.evm_votes,0)) DESC
         """, params + params + params)
         rows = cur.fetchall()
     finally:
         conn.close()
 
-    # --- build workbook ---
-    wb = openpyxl.Workbook()
-    ws = wb.active
-    ws.title = "Data"
-
-    headers = [
-        "AC No.", "AC Name", "Candidate",
-        "Party Abbr.", "Party Name", "EVM Votes", "Postal Votes", "Total Votes",
-    ]
-    header_font = Font(bold=True, color="FFFFFF")
-    header_fill = PatternFill(start_color="333333", end_color="333333", fill_type="solid")
-    for col_idx, h in enumerate(headers, 1):
-        cell = ws.cell(row=1, column=col_idx, value=h)
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.alignment = Alignment(horizontal="center")
-    ws.freeze_panes = "A2"
-
-    # --- compute rank per AC by total votes (EVM + postal) ---
-    ac_votes: dict[tuple, list] = {}  # (state_code, ac_no) -> [(total, row_idx)]
+    # Normalise to dicts
     row_data: list[dict] = []
     for r in rows:
         d = dict(r) if hasattr(r, "keys") else {
@@ -830,53 +804,133 @@ def download_dataset(
             "evm_votes": r[6], "postal_votes": r[7], "total_votes": r[8],
         }
         row_data.append(d)
-        key = (d["state_code"], d["ac_no"])
-        total = d["total_votes"]
-        if key not in ac_votes:
-            ac_votes[key] = []
-        ac_votes[key].append((total, len(row_data) - 1))
 
-    # assign ranks
-    ranks: dict[int, int] = {}
-    for key, entries in ac_votes.items():
-        entries.sort(key=lambda x: x[0], reverse=True)
-        for rank, (_, idx) in enumerate(entries, 1):
-            ranks[idx] = rank
+    # ── Workbook ────────────────────────────────────────────────────────
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Data"
+    ws.sheet_view.showGridLines = False
+    ws.sheet_properties.tabColor = C_GOLD
 
+    headers = [
+        "AC No.", "AC Name", "Candidate",
+        "Party Abbr.", "Party Name",
+        "EVM Votes", "Postal Votes", "Total Votes",
+    ]
+    num_cols = len(headers)
+
+    # Row 1 — title banner
+    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=num_cols)
+    t = ws.cell(row=1, column=1)
+    t.value     = "🗳  LET Live — The Live & Loaded Elections Tracker of India"
+    t.font      = Font(name="Calibri", bold=True, size=16, color=C_GOLD)
+    t.fill      = PatternFill("solid", fgColor=C_HEADER)
+    t.alignment = Alignment(horizontal="center", vertical="center")
+    ws.row_dimensions[1].height = 34
+
+    # Row 2 — subtitle / datestamp
+    ws.merge_cells(start_row=2, start_column=1, end_row=2, end_column=num_cols)
+    sub_parts = []
+    if election_name:
+        sub_parts.append(election_name)
+    if len(state_names) == 1:
+        sub_parts.append(list(state_names.values())[0])
+    elif len(state_names) > 1:
+        sub_parts.append(", ".join(state_names.values()))
+    sub_parts.append(f"Downloaded {datetime.now().strftime('%d %b %Y, %H:%M')} IST")
+    sub_parts.append("results.eci.gov.in")
+    s = ws.cell(row=2, column=1)
+    s.value     = "  ·  ".join(sub_parts)
+    s.font      = Font(name="Calibri", italic=True, size=9, color=C_MUTED)
+    s.fill      = PatternFill("solid", fgColor=C_BG)
+    s.alignment = Alignment(horizontal="center", vertical="center")
+    ws.row_dimensions[2].height = 16
+
+    # Row 3 — spacer
+    for col in range(1, num_cols + 1):
+        ws.cell(row=3, column=col).fill = PatternFill("solid", fgColor=C_BG)
+    ws.row_dimensions[3].height = 5
+
+    # Row 4 — column headers
+    HEADER_ROW  = 4
+    gold_border = Border(bottom=Side(style="medium", color=C_GOLD))
+    for col_idx, h in enumerate(headers, 1):
+        cell = ws.cell(row=HEADER_ROW, column=col_idx, value=h.upper())
+        cell.font      = Font(name="Calibri", bold=True, size=9, color=C_TEXT)
+        cell.fill      = PatternFill("solid", fgColor=C_CARD)
+        cell.alignment = Alignment(horizontal="center", vertical="center")
+        cell.border    = gold_border
+    ws.row_dimensions[HEADER_ROW].height = 20
+    ws.freeze_panes = f"A{HEADER_ROW + 1}"
+
+    # Rows 5+ — data
+    subtle_border = Border(bottom=Side(style="hair", color=C_BORDER))
     for row_idx, d in enumerate(row_data):
-        r = row_idx + 2  # Excel row (1-indexed, header is row 1)
-        ws.cell(row=r, column=1, value=d["ac_no"])
-        ws.cell(row=r, column=2, value=d["ac_name"])
-        ws.cell(row=r, column=3, value=d["candidate"])
-        ws.cell(row=r, column=4, value=d["party_abv"])
-        ws.cell(row=r, column=5, value=d["party_name"])
-        ws.cell(row=r, column=6, value=d["evm_votes"])
-        ws.cell(row=r, column=7, value=d["postal_votes"])
-        ws.cell(row=r, column=8, value=d["total_votes"])
+        excel_row  = HEADER_ROW + 1 + row_idx
+        bg         = C_CARD if row_idx % 2 == 0 else C_CARD2
+        party_hex  = PARTY_COLORS.get(d["party_abv"], DEFAULT_COLOR).lstrip("#")
+        party_left = Border(
+            left=Side(style="medium", color=party_hex),
+            bottom=Side(style="hair", color=C_BORDER),
+        )
+        values = [
+            d["ac_no"], d["ac_name"], d["candidate"],
+            d["party_abv"], d["party_name"],
+            d["evm_votes"], d["postal_votes"], d["total_votes"],
+        ]
+        for col_idx, val in enumerate(values, 1):
+            cell        = ws.cell(row=excel_row, column=col_idx, value=val)
+            cell.fill   = PatternFill("solid", fgColor=bg)
+            cell.font   = Font(name="Calibri", size=9, color=C_TEXT)
+            cell.border = party_left if col_idx == 1 else subtle_border
+            if col_idx >= 6:
+                cell.alignment     = Alignment(horizontal="right")
+                cell.number_format = "#,##0"
+            elif col_idx == 1:
+                cell.alignment = Alignment(horizontal="center")
 
-    # auto-size columns (approximate)
+    # Column widths
+    sample_end = min(len(row_data) + HEADER_ROW + 1, HEADER_ROW + 501)
     for col_idx, h in enumerate(headers, 1):
         max_len = len(h)
-        for row_idx in range(2, min(len(row_data) + 2, 200)):
-            val = ws.cell(row=row_idx, column=col_idx).value
+        for r in range(HEADER_ROW, sample_end):
+            val = ws.cell(row=r, column=col_idx).value
             if val is not None:
                 max_len = max(max_len, min(len(str(val)), 60))
-        ws.column_dimensions[openpyxl.utils.get_column_letter(col_idx)].width = max_len + 3
+        ws.column_dimensions[get_column_letter(col_idx)].width = max_len + 3
 
-    # --- About sheet ---
+    # Print setup
+    ws.page_setup.orientation = "landscape"
+    ws.page_setup.fitToWidth  = 1
+    ws.print_title_rows       = f"1:{HEADER_ROW}"
+    ws.oddHeader.center.text  = "LET Live — India Elections Data"
+    ws.oddFooter.left.text    = "Source: results.eci.gov.in"
+    ws.oddFooter.center.text  = "&P of &N"
+    ws.oddFooter.right.text   = "&D"
+
+    # ── About sheet ─────────────────────────────────────────────────────
     about = wb.create_sheet("About")
-    about.column_dimensions["A"].width = 18
+    about.sheet_view.showGridLines   = False
+    about.sheet_properties.tabColor  = "888888"
+    about.column_dimensions["A"].width = 20
     about.column_dimensions["B"].width = 72
-    bold = Font(bold=True)
+
+    about.merge_cells("A1:B1")
+    ah = about["A1"]
+    ah.value     = "🗳  LET Live — Dataset Provenance"
+    ah.font      = Font(name="Calibri", bold=True, size=13, color=C_GOLD)
+    ah.fill      = PatternFill("solid", fgColor=C_HEADER)
+    ah.alignment = Alignment(horizontal="left", vertical="center")
+    about.row_dimensions[1].height = 28
 
     meta = [
-        ("Source", "Election Commission of India (ECI)"),
-        ("Website", "https://results.eci.gov.in"),
-        ("Author", "Mahesh Shantaram"),
-        ("Author Email", "ms@thecontrarian.in"),
+        ("Source",         "Election Commission of India (ECI)"),
+        ("Website",        "https://results.eci.gov.in"),
+        ("Author",         "Mahesh Shantaram"),
+        ("Author Email",   "ms@thecontrarian.in"),
         ("Author Website", "https://thecontrarian.in/"),
-        ("Generated", datetime.now().strftime("%Y-%m-%d %H:%M:%S IST")),
-        ("Rows", str(len(row_data))),
+        ("Generated",      datetime.now().strftime("%Y-%m-%d %H:%M:%S IST")),
+        ("Rows",           str(len(row_data))),
     ]
     if election_name:
         meta.append(("Election", election_name))
@@ -885,21 +939,26 @@ def download_dataset(
     elif len(state_names) > 1:
         meta.append(("States", ", ".join(state_names.values())))
 
-    for i, (key, val) in enumerate(meta, 1):
-        about.cell(row=i, column=1, value=key).font = bold
-        about.cell(row=i, column=2, value=val)
+    for i, (key, val) in enumerate(meta, 2):
+        bg  = C_BG if i % 2 == 0 else C_CARD2
+        kc  = about.cell(row=i, column=1, value=key)
+        kc.font      = Font(name="Calibri", bold=True, size=9, color=C_GOLD)
+        kc.fill      = PatternFill("solid", fgColor=bg)
+        kc.alignment = Alignment(horizontal="left")
+        vc           = about.cell(row=i, column=2, value=val)
+        vc.font      = Font(name="Calibri", size=9, color=C_TEXT)
+        vc.fill      = PatternFill("solid", fgColor=bg)
+        vc.alignment = Alignment(horizontal="left")
 
-    # --- serialise to bytes ---
+    # ── Serialise & stream ──────────────────────────────────────────────
     buf = BytesIO()
     wb.save(buf)
     buf.seek(0)
 
-    # --- build filename ---
-    # Format: LETLive_<election>_<statecode><statename>.xlsx
+    # Build filename: LETLive_<Election>_<StateCode><StateName>.xlsx
     name_parts = ["LETLive"]
     if election_name:
-        election_clean = election_name.replace(" ", "").replace("-", "")
-        name_parts.append(election_clean)
+        name_parts.append(election_name.replace(" ", "").replace("-", ""))
     if len(state_codes) == 1:
         code = state_codes[0]
         state_name_clean = state_names.get(code, "").replace(" ", "")
