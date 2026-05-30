@@ -1,5 +1,6 @@
 import { CORS } from '../shared/cors.js';
 import { getElectionById } from './elections.js';
+import * as XLSX from 'xlsx';
 
 export async function handleDownload(request, env) {
   const url = new URL(request.url);
@@ -60,12 +61,13 @@ export async function handleDownload(request, env) {
       FROM rounds_ac
       WHERE round_no = 999 ${sfPlain}
     )
-    SELECT ac.state_code, ac.ac_no, ac.ac_name,
+    SELECT ac.state_code, st.state_name, ac.ac_no, ac.ac_name,
            ac.candidate, ac.party_abv,
            COALESCE(evm.evm_votes, 0) as evm_votes,
            COALESCE(postal.postal_votes, 0) as postal_votes,
            COALESCE(evm.evm_votes, 0) + COALESCE(postal.postal_votes, 0) as total_votes
     FROM all_candidates ac
+    LEFT JOIN states st ON ac.state_code = st.state_code
     LEFT JOIN evm ON ac.state_code = evm.state_code AND ac.ac_no = evm.ac_no
       AND ac.candidate = evm.candidate AND ac.party_abv = evm.party_abv
     LEFT JOIN postal ON ac.state_code = postal.state_code AND ac.ac_no = postal.ac_no
@@ -73,20 +75,30 @@ export async function handleDownload(request, env) {
     ORDER BY ac.state_code, ac.ac_no, total_votes DESC
   `).bind(...allParams).all();
 
-  // Build CSV
-  const header = 'State,AC No,AC Name,Candidate,Party,EVM Votes,Postal Votes,Total Votes';
-  const escCsv = (s) => `"${(s || '').replace(/"/g, '""')}"`;
-  const csvRows = rows.results.map(r =>
-    [r.state_code, r.ac_no, escCsv(r.ac_name), escCsv(r.candidate),
-     r.party_abv, r.evm_votes, r.postal_votes, r.total_votes].join(',')
-  );
+  // Build XLSX
+  const headers = [
+    'State Code', 'State Name', 'AC No', 'AC Name', 'Candidate',
+    'Party', 'EVM Votes', 'Postal Votes', 'Total Votes',
+  ];
+  const data = rows.results.map(r => [
+    r.state_code, r.state_name || '', r.ac_no, r.ac_name,
+    r.candidate, r.party_abv, r.evm_votes, r.postal_votes, r.total_votes,
+  ]);
 
-  const csv = [header, ...csvRows].join('\n');
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+  XLSX.utils.book_append_sheet(wb, ws, 'Data');
 
-  return new Response(csv, {
+  const buf = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
+
+  // Filename
+  const statePart = stateCodes.length === 1 ? `_${stateCodes[0]}` : '';
+  const filename = `election-results${statePart}.xlsx`;
+
+  return new Response(buf, {
     headers: {
-      'Content-Type': 'text/csv',
-      'Content-Disposition': 'attachment; filename="election-results.csv"',
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="${filename}"`,
       ...CORS,
     },
   });

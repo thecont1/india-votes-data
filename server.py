@@ -774,13 +774,14 @@ def download_dataset(
                 WHERE r.round_no = 999 {sf}
             )
             SELECT
-                ac.state_code, ac.ac_no, ac.ac_name, ac.candidate,
+                ac.state_code, st.state_name, ac.ac_no, ac.ac_name, ac.candidate,
                 p.abv  as party_abv,
                 p.name as party_name,
                 COALESCE(e.evm_votes, 0)                                as evm_votes,
                 COALESCE(t.total_votes, 0) - COALESCE(e.evm_votes, 0) as postal_votes,
                 COALESCE(t.total_votes, 0)                             as total_votes
             FROM all_candidates ac
+            LEFT JOIN states st ON ac.state_code = st.state_code
             JOIN parties p ON ac.party_abv = p.abv
             LEFT JOIN evm e
               ON ac.state_code = e.state_code AND ac.ac_no = e.ac_no
@@ -799,9 +800,10 @@ def download_dataset(
     row_data: list[dict] = []
     for r in rows:
         d = dict(r) if hasattr(r, "keys") else {
-            "state_code": r[0], "ac_no": r[1], "ac_name": r[2],
-            "candidate": r[3], "party_abv": r[4], "party_name": r[5],
-            "evm_votes": r[6], "postal_votes": r[7], "total_votes": r[8],
+            "state_code": r[0], "state_name": r[1], "ac_no": r[2],
+            "ac_name": r[3], "candidate": r[4], "party_abv": r[5],
+            "party_name": r[6], "evm_votes": r[7],
+            "postal_votes": r[8], "total_votes": r[9],
         }
         row_data.append(d)
 
@@ -813,7 +815,7 @@ def download_dataset(
     ws.sheet_properties.tabColor = C_GOLD
 
     headers = [
-        "AC No.", "AC Name", "Candidate",
+        "State Code", "State Name", "AC No.", "AC Name", "Candidate",
         "Party Abbr.", "Party Name",
         "EVM Votes", "Postal Votes", "Total Votes",
     ]
@@ -889,8 +891,8 @@ def download_dataset(
             bottom=Side(style="hair", color=C_BORDER),
         )
         values = [
-            d["ac_no"], d["ac_name"], d["candidate"],
-            d["party_abv"], d["party_name"],
+            d["state_code"], d["state_name"], d["ac_no"], d["ac_name"],
+            d["candidate"], d["party_abv"], d["party_name"],
             d["evm_votes"], d["postal_votes"], d["total_votes"],
         ]
         for col_idx, val in enumerate(values, 1):
@@ -898,10 +900,10 @@ def download_dataset(
             cell.fill   = PatternFill("solid", fgColor=bg)
             cell.font   = Font(name="Calibri", size=9, color=C_TEXT)
             cell.border = party_left if col_idx == 1 else subtle_border
-            if col_idx >= 6:
+            if col_idx >= 8:
                 cell.alignment     = Alignment(horizontal="right")
                 cell.number_format = "#,##0"
-            elif col_idx == 1:
+            elif col_idx in (1, 3):
                 cell.alignment = Alignment(horizontal="center")
 
     # Column widths
