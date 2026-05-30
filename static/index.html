@@ -308,7 +308,7 @@
     z-index: 40;
     background: color-mix(in srgb, var(--header-bg) 92%, transparent);
     backdrop-filter: blur(12px);
-    padding: clamp(12px, 2.5vw, 20px) clamp(16px, 4vw, 32px);
+    padding: 10px clamp(16px, 4vw, 32px);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -459,14 +459,6 @@
   :root[data-theme="black-white"] .pill-dot {
     width: 13px;
     height: 13px;
-  }
-  :root[data-theme="black-white"] .dot-declared,
-  :root[data-theme="black-white"] .status-dot.live,
-  :root[data-theme="black-white"] .dot-counting,
-  :root[data-theme="black-white"] .status-dot.idle,
-  :root[data-theme="black-white"] .dot-total,
-  :root[data-theme="black-white"] .dot-pending {
-    background: #ffffff;
   }
   @keyframes pulse {
     0%, 100% { opacity: 1; }
@@ -648,6 +640,7 @@
   }
   #race-select {
     width: min(100%, 320px);
+    min-width: 200px;
     max-height: 40vh;
     overflow-y: auto;
   }
@@ -1765,7 +1758,7 @@
                 <tr><td>⚠️</td><td><strong style="color:#d97706">Unverified</strong></td><td>Verification not attempted yet.</td></tr>
                 <tr><td>❓</td><td><strong>Unavailable</strong></td><td>Form 20 not detected on State CEO website.</td></tr>
               </table>
-              <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> sort to surface ACs needing review.</p>
+              <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> to show only constituencies needing review (Mismatch, Error, Unverified, Unavailable).</p>
             </div>
           </span>
         </span>
@@ -3070,12 +3063,15 @@ function populateRaceDropdown(restoreSelection = true) {
     case 'nota':
       indices.sort((a, b) => racesData[b]._notaVotes - racesData[a]._notaVotes);
       break;
-    case 'form20':
+    case 'form20': {
+      // FILTER to only show constituencies needing review:
+      // Mismatch, Error, Unverified, Unavailable
+      const form20FilterStatuses = new Set(['MISMATCH', 'ERROR', 'UNVERIFIED', 'UNAVAILABLE']);
+      indices = indices.filter(i => form20FilterStatuses.has(racesData[i].form20_status));
       // Sort by Form 20 review priority:
-      // Mismatch > Error > Unverified > Verified
-      // Within same status: Impossible > Hard > Moderate > Easy (harder = more urgent)
+      // Mismatch > Error > Unverified > Unavailable
+      // Within same status: harder difficulty = higher priority
       // Within same difficulty: lower victory margin first
-      // Score mapping: 0-19=Impossible, 20-49=Hard, 50-79=Moderate, 80-100=Easy
       const getDifficultyRank = (score) => {
         if (score == null) return 0;
         if (score < 20) return 4;   // IMPOSSIBLE = highest priority within status
@@ -3086,8 +3082,8 @@ function populateRaceDropdown(restoreSelection = true) {
       indices.sort((a, b) => {
         const sa = racesData[a];
         const sb = racesData[b];
-        // Priority: Mismatch(4) > Error(3) > Unverified(2) > Verified(1)
-        const statusPriority = { 'MISMATCH': 4, 'ERROR': 3, 'UNVERIFIED': 2, 'VERIFIED': 1, 'UNAVAILABLE': 0 };
+        // Priority: Mismatch(4) > Error(3) > Unverified(2) > Unavailable(1)
+        const statusPriority = { 'MISMATCH': 4, 'ERROR': 3, 'UNVERIFIED': 2, 'UNAVAILABLE': 1 };
         const prioA = statusPriority[sa.form20_status] ?? 0;
         const prioB = statusPriority[sb.form20_status] ?? 0;
         if (prioA !== prioB) return prioB - prioA;
@@ -3099,6 +3095,7 @@ function populateRaceDropdown(restoreSelection = true) {
         return (sa.margin ?? 999999) - (sb.margin ?? 999999);
       });
       break;
+    }
   }
 
   const sel = document.getElementById('race-select');
