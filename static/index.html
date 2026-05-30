@@ -1779,6 +1779,16 @@
     <div class="chart-container" id="races-chart-container" style="height:600px;">
       <canvas id="races-chart"></canvas>
       <div id="roundwise-card" class="roundwise-card"></div>
+      <div id="race-overall-overlay" class="empty-state" style="display:flex; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
+        <div class="icon">📊</div>
+        <h3>This view is available in single-state mode only</h3>
+        <p>Pick a state from the buttons above to see constituency-level results.</p>
+      </div>
+      <div id="race-roundwise-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
+        <div class="icon">📊</div>
+        <h3>Roundwise progression is single-state only</h3>
+        <p>Pick a state from the buttons above to see how the seat count evolved through each round of counting.</p>
+      </div>
     </div>
     <div id="race-party-legend" class="legend" style="margin-bottom:0;"></div>
   </div>
@@ -2153,11 +2163,24 @@ document.getElementById('race-toggle').addEventListener('click', (e) => {
   if (view === raceView) return;
   raceView = view;
   localStorage.setItem(RACE_VIEW_STORAGE_KEY, view);
+  const overallOverlay = document.getElementById('race-overall-overlay');
+  const roundwiseOverlay = document.getElementById('race-roundwise-overlay');
   document.querySelectorAll('#race-toggle .toggle-btn').forEach(b => {
     const isActive = b.dataset.raceView === view;
     b.classList.toggle('active', isActive);
     b.setAttribute('aria-pressed', String(isActive));
   });
+  // Handle overlays for Overall view
+  if (!currentState) {
+    overallOverlay.style.display = view === 'roundwise' ? 'none' : 'flex';
+    roundwiseOverlay.style.display = view === 'roundwise' ? 'flex' : 'none';
+    document.getElementById('races-chart').style.display = 'none';
+    return;
+  }
+  // Show chart in single-state mode
+  overallOverlay.style.display = 'none';
+  roundwiseOverlay.style.display = 'none';
+  document.getElementById('races-chart').style.display = 'block';
   if (currentRace) drawSingleRace(currentRace);
 });
 
@@ -2972,13 +2995,31 @@ function truncateCanvasText(ctx, text, maxWidth) {
 
 function renderRaces(stateCode) {
   const card = document.getElementById('races-card');
+  const overallOverlay = document.getElementById('race-overall-overlay');
+  const roundwiseOverlay = document.getElementById('race-roundwise-overlay');
+
   if (!stateCode) {
-    card.style.display = 'none';
-    if (racesChart) { racesChart.destroy(); racesChart = null; }
+    // Show card with appropriate overlay based on current view
+    card.style.display = 'block';
+    // Hide chart since it won't have data in Overall mode
+    document.getElementById('races-chart').style.display = 'none';
+    // Show roundwise-overlay if in roundwise view, overall-overlay otherwise
+    if (raceView === 'roundwise') {
+      overallOverlay.style.display = 'none';
+      roundwiseOverlay.style.display = 'flex';
+    } else {
+      overallOverlay.style.display = 'flex';
+      roundwiseOverlay.style.display = 'none';
+    }
     document.getElementById('race-party-legend').innerHTML = '';
     racesData = [];
     return;
   }
+
+  // Hide both overlays and show chart for single-state mode
+  overallOverlay.style.display = 'none';
+  roundwiseOverlay.style.display = 'none';
+  document.getElementById('races-chart').style.display = 'block';
   card.style.display = 'block';
 
   fetch(`/api/ac-races?state=${stateCode}`)
