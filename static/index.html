@@ -2510,6 +2510,24 @@ let lastDataFingerprint = '';
 let selectedTheme = DEFAULT_THEME;
 let stateStatuses = {};
 let knownStates = [];
+
+// ---------------------------------------------------------------------------
+// Sanitization helpers (global scope — used by mobile detail flips)
+// ---------------------------------------------------------------------------
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function escapeAttr(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function safeImgSrc(url) {
+  if (!url) return '';
+  try {
+    const u = new URL(url, location.href);
+    if (u.protocol === 'https:' || u.protocol === 'http:') return u.href;
+  } catch (_) { /* relative URL — allow */ return url; }
+  return '';
+}
 let perfView = 'tally';  // 'tally', 'share', or 'roundwise'
 let perfParties = [];  // shared party list for both views
 let raceSortMode = localStorage.getItem(RACE_SORT_STORAGE_KEY) || 'alpha';
@@ -3221,7 +3239,7 @@ function partyCardTooltip(context) {
 
   const symbolUrl = partyAbv ? partySymbols[partyAbv] : null;
   const symHtml = symbolUrl
-    ? `<img src="${symbolUrl}" class="tooltip-symbol" alt="">`
+    ? `<img src="${safeImgSrc(symbolUrl)}" class="tooltip-symbol" alt="">`
     : '';
 
   const titleLines = tooltip.title || [];
@@ -3253,7 +3271,7 @@ function partyCardTooltip(context) {
         const isChild = l.startsWith('  ');
         const indentStyle = isChild ? 'padding-left:12px;color:var(--tooltip-muted,var(--muted));' : '';
         const valueStyle = isChild ? 'opacity:0.6;font-weight:400;' : 'font-weight:500;';
-        return `<tr><td class="td-label" style="${indentStyle}">${m[1]}</td><td class="td-value" style="${valueStyle}">${m[2]}</td></tr>`;
+        return `<tr><td class="td-label" style="${indentStyle}">${escapeHtml(m[1])}</td><td class="td-value" style="${valueStyle}">${escapeHtml(m[2])}</td></tr>`;
       }
       return null;
     });
@@ -3281,7 +3299,7 @@ function legendTooltip(context) {
 
   const titleLines = tooltip.title || [];
   const titleHtml = titleLines.length
-    ? `<div class="tooltip-title" style="margin-bottom:6px;">${titleLines[0]}</div>`
+    ? `<div class="tooltip-title" style="margin-bottom:6px;">${escapeHtml(titleLines[0])}</div>`
     : '';
 
   // Build one row per data point (each is a party line)
@@ -3291,11 +3309,11 @@ function legendTooltip(context) {
     const color = dp.dataset.borderColor || '#888';
     const val = dp.parsed.y;
     const symHtml = symbolUrl
-      ? `<img src="${symbolUrl}" alt="" class="tooltip-symbol-sm">`
+      ? `<img src="${safeImgSrc(symbolUrl)}" alt="" class="tooltip-symbol-sm">`
       : '';
     return `<div class="legend-item" style="margin-bottom:2px;">
       <div class="legend-swatch" style="border-color:${color};"></div>
-      ${symHtml}<span>${partyAbv}</span>
+      ${symHtml}<span>${escapeHtml(partyAbv)}</span>
       <span style="margin-left:auto;font-variant-numeric:tabular-nums;">${val.toLocaleString()}</span>
     </div>`;
   }).join('');
@@ -3356,14 +3374,14 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
   // Party symbol tag
   const partySym = (abv) => {
     const url = partySymbols[abv];
-    return url ? `<img src="${url}" alt="" class="rw-card-sym">` : '';
+    return url ? `<img src="${safeImgSrc(url)}" alt="" class="rw-card-sym">` : '';
   };
 
   // Stacked candidate card helper
   const candidateCard = (c, label, delta) => {
     const symUrl = partySymbols[c.partyAbv];
     const symHtml = symUrl
-      ? `<img src="${symUrl}" alt="" class="rw-candidate-card__sym">`
+      ? `<img src="${safeImgSrc(symUrl)}" alt="" class="rw-candidate-card__sym">`
       : '';
     const partyFullName = partyNameMap[c.partyAbv] || c.partyAbv;
     const deltaHtml = delta
@@ -3374,9 +3392,9 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
       ${symHtml}
       <div class="rw-candidate-card__info">
         <div class="rw-card-label">${label}</div>
-        <div class="rw-candidate-card__name">${c.candidate}</div>
+        <div class="rw-candidate-card__name">${escapeHtml(c.candidate)}</div>
         <div class="rw-card-party-row">
-          ${swatch(c.color)} ${partySym(c.partyAbv)} ${partyFullName}
+          ${swatch(c.color)} ${partySym(c.partyAbv)} ${escapeHtml(partyFullName)}
         </div>
       </div>
       <div style="text-align:right;">
@@ -3404,8 +3422,8 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
     const partyFullName = partyNameMap[c.partyAbv] || c.partyAbv;
     return `<div class="rw-candidate">
       <span class="rw-crank">${i + 3}.</span>
-      ${c.candidate}
-      <span class="rw-cparty">(${swatch(c.color)} ${partySym(c.partyAbv)} ${c.partyAbv})</span>
+      ${escapeHtml(c.candidate)}
+      <span class="rw-cparty">(${swatch(c.color)} ${partySym(c.partyAbv)} ${escapeHtml(c.partyAbv)})</span>
       <span class="rw-cvotes">${c.votes.toLocaleString()}</span>
     </div>`;
   }).join('');
@@ -4052,7 +4070,7 @@ function updateForm20Field(race) {
   statusText.innerHTML = label;
 
   if (race.form20_url) {
-    action.innerHTML = `<a class="form20-card__action" href="${race.form20_url}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} PDF</a>`;
+    action.innerHTML = `<a class="form20-card__action" href="${escapeAttr(race.form20_url)}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} PDF</a>`;
   } else {
     action.innerHTML = '';
   }
@@ -4480,7 +4498,7 @@ function perfRoundwiseTooltip(context) {
   const rows = items.filter(i => i.votes > 0).map(i => {
     const symUrl = partySymbols[i.partyAbv];
     const symHtml = symUrl
-      ? `<img src="${symUrl}" alt="" style="width:14px;height:14px;object-fit:contain;">`
+      ? `<img src="${safeImgSrc(symUrl)}" alt="" style="width:14px;height:14px;object-fit:contain;">`
       : '';
     return `<div style="display:flex;align-items:center;gap:6px;padding:2px 0;font-size:11px;">
       <span style="width:10px;height:10px;border-radius:50%;border:2px solid ${i.color};background:transparent;flex-shrink:0;"></span>
@@ -4490,7 +4508,7 @@ function perfRoundwiseTooltip(context) {
     </div>`;
   }).join('');
 
-  el.innerHTML = `<div style="font-size:13px;font-weight:700;color:var(--tooltip-text, var(--text));margin-bottom:6px;">${roundLabel}</div>${rows}`;
+  el.innerHTML = `<div style="font-size:13px;font-weight:700;color:var(--tooltip-text, var(--text));margin-bottom:6px;">${escapeHtml(roundLabel)}</div>${rows}`;
 
   _showTooltip(el);
   _positionTooltip(chart, tooltip, el);
@@ -4690,7 +4708,7 @@ function renderStateBar(states) {
     const kind = statusKind(statuses);
     btn.type = 'button';
     btn.className = 'state-btn' + (isActive ? ' active' : '');
-    btn.innerHTML = `<span class="pill-dot dot-${kind}" aria-hidden="true"></span><span>${s.name}</span>`;
+    btn.innerHTML = `<span class="pill-dot dot-${kind}" aria-hidden="true"></span><span>${escapeHtml(s.name)}</span>`;
     btn.setAttribute('aria-pressed', String(isActive));
     btn.setAttribute('aria-label', `${s.name}: ${kind}`);
     btn.onclick = () => {
@@ -4854,12 +4872,12 @@ function showPartyDetail(abv) {
 
   content.innerHTML = `
     <div class="flip-back__header">
-      ${symbolUrl ? `<img src="${symbolUrl}" alt="">` : '<div style="width:52px;height:52px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;">🏛️</div>'}
+      ${symbolUrl ? `<img src="${safeImgSrc(symbolUrl)}" alt="">` : '<div style="width:52px;height:52px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;">🏛️</div>'}
       <div>
-        <div class="flip-back__title">${fullName}</div>
-        <div class="flip-back__subtitle">${abv}</div>
-        ${detail.founded ? `<div class="flip-back__subtitle">Founded ${detail.founded}</div>` : ''}
-        ${detail.chief ? `<div class="flip-back__subtitle">Chief ${detail.chief}</div>` : ''}
+        <div class="flip-back__title">${escapeHtml(fullName)}</div>
+        <div class="flip-back__subtitle">${escapeHtml(abv)}</div>
+        ${detail.founded ? `<div class="flip-back__subtitle">Founded ${escapeHtml(detail.founded)}</div>` : ''}
+        ${detail.chief ? `<div class="flip-back__subtitle">Chief ${escapeHtml(detail.chief)}</div>` : ''}
       </div>
     </div>
     <div class="flip-back__spacer"></div>
@@ -4872,7 +4890,7 @@ function showPartyDetail(abv) {
       <tr><td class="td-label td-label--dark">Total Seats</td><td class="td-value td-value--dark">${fmt(totalSeats)}</td></tr>
       <tr><td class="td-label td-label--light">Total Votes</td><td class="td-value td-value--light">${fmt(totalVotes)}</td></tr>
     </table>
-    ${detail.alliance ? `<div class="flip-back__divider"></div><div class="flip-back__meta"><div><strong>Alliance</strong> ${detail.alliance}</div></div>` : ''}
+    ${detail.alliance ? `<div class="flip-back__divider"></div><div class="flip-back__meta"><div><strong>Alliance</strong> ${escapeHtml(detail.alliance)}</div></div>` : ''}
   `;
 
   card.classList.add('flipped');
@@ -4932,19 +4950,19 @@ function showCandidateDetail(candidateIndex) {
 
   content.innerHTML = `
     <div class="flip-back__header">
-      ${symbolUrl ? `<img src="${symbolUrl}" alt="">` : '<div style="width:52px;height:52px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;">🏛️</div>'}
+      ${symbolUrl ? `<img src="${safeImgSrc(symbolUrl)}" alt="">` : '<div style="width:52px;height:52px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;">🏛️</div>'}
       <div>
-        <div class="flip-back__title">${c.candidate}</div>
-        <div class="flip-back__subtitle">${c.party_abv}</div>
-        <div class="flip-back__subtitle">${partyFullName}</div>
+        <div class="flip-back__title">${escapeHtml(c.candidate)}</div>
+        <div class="flip-back__subtitle">${escapeHtml(c.party_abv)}</div>
+        <div class="flip-back__subtitle">${escapeHtml(partyFullName)}</div>
       </div>
     </div>
     <div class="flip-back__spacer"></div>
     <table class="flip-back__table">
-      <tr><td class="td-label td-label--dark">Constituency</td><td class="td-value td-value--dark">${constituency}</td></tr>
-      <tr><td class="td-label td-label--dark">Position</td><td class="td-value td-value--dark">${position}</td></tr>
+      <tr><td class="td-label td-label--dark">Constituency</td><td class="td-value td-value--dark">${escapeHtml(constituency)}</td></tr>
+      <tr><td class="td-label td-label--dark">Position</td><td class="td-value td-value--dark">${escapeHtml(position)}</td></tr>
       <tr><td class="td-label td-label--dark">Votes</td><td class="td-value td-value--dark">${fmt(c.votes)}</td></tr>
-      <tr><td class="td-label td-label--light">Vote share</td><td class="td-value td-value--light">${voteShare}</td></tr>
+      <tr><td class="td-label td-label--light">Vote share</td><td class="td-value td-value--light">${escapeHtml(voteShare)}</td></tr>
     </table>
   `;
 
