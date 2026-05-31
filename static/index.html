@@ -1816,43 +1816,41 @@
   @media (max-width: 640px) {
     .header {
       display: flex;
-      flex-direction: column;
-      align-items: stretch;
+      flex-wrap: wrap;
+      align-items: center;
       gap: 10px;
       padding-inline: 16px;
     }
     .header-brand {
+      flex: 1 1 auto;
+      min-width: 0;
       flex-direction: row;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+      justify-content: flex-start;
+      gap: 8px;
     }
-    .wordmark {
-      font-size: clamp(16px, 5vw, 19px);
-      line-height: 1.15;
-    }
-    .subtitle {
-      font-size: 10px;
-    }
-    #election-selector { display: none; }
-    .header .meta { display: none; }
-    .hamburger-btn { display: inline-flex; margin-left: auto; }
-    .header-brand { justify-content: flex-start; }
     .header-brand .logo {
-      width: 32px;
-      height: 32px;
+      width: 44px;
+      height: 44px;
+    }
+    .brand-text {
+      gap: 1px;
+      justify-content: center;
     }
     .wordmark {
       font-size: 20px;
-      line-height: 1;
+      line-height: 1.1;
     }
     .subtitle { display: none; }
     .mobile-timestamp {
       display: block;
       font-size: 10px;
       color: var(--muted);
-      margin-top: 2px;
+      margin-top: 0;
     }
+    #election-selector { display: none; }
+    .header .meta { display: none; }
+    .hamburger-btn { display: inline-flex; margin-left: auto; }
     .mobile-menu #election-selector-mobile {
       width: 100%;
       max-width: none;
