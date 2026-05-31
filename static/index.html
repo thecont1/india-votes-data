@@ -1784,82 +1784,6 @@
     margin-bottom: 8px;
   }
 
-  /* Download modal */
-  .download-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9998;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(3px);
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-  }
-  .download-modal[aria-hidden="false"] {
-    display: flex;
-  }
-  .download-modal__box {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    max-width: 380px;
-    width: 100%;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-    font-family: var(--font-ui);
-  }
-  .download-modal__title {
-    font-family: var(--font-heading);
-    font-size: 20px;
-    font-weight: 700;
-    margin: 0 0 8px;
-    color: var(--text);
-  }
-  .download-modal__desc {
-    font-size: 14px;
-    color: var(--muted);
-    margin: 0 0 20px;
-    line-height: 1.5;
-  }
-  .download-modal__options {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .download-modal__btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--control-border);
-    border-radius: 10px;
-    background: var(--control-bg);
-    color: var(--control-text);
-    font: 14px var(--font-ui);
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .download-modal__btn:hover {
-    background: var(--control-hover-bg);
-    border-color: var(--border);
-  }
-  .download-modal__btn--primary {
-    background: var(--text);
-    color: var(--bg);
-    border-color: var(--text);
-  }
-  .download-modal__btn--primary:hover {
-    opacity: 0.9;
-  }
-  .download-modal__btn:disabled {
-    opacity: 0.4;
-    cursor: default;
-  }
   /* Footer */
   .site-footer {
     text-align: center;
@@ -4602,18 +4526,23 @@ function showDownloadModal() {
     desc.textContent = `Download results for all states in ${currentElection?.name || 'this election'}.`;
   }
 
-  modal.setAttribute('aria-hidden', 'false');
+  modal.style.display = 'flex';
+  modal.style.opacity = '0';
+  requestAnimationFrame(() => { modal.style.opacity = '1'; });
   // Focus the first non-disabled button
   (stateBtn.disabled ? document.getElementById('download-modal-all') : stateBtn).focus();
 }
 
 function closeDownloadModal() {
   const modal = document.getElementById('download-modal');
-  modal.setAttribute('aria-hidden', 'true');
-  if (_downloadModalTrigger && _downloadModalTrigger.focus) {
-    _downloadModalTrigger.focus();
-    _downloadModalTrigger = null;
-  }
+  modal.style.opacity = '0';
+  setTimeout(() => {
+    modal.style.display = 'none';
+    if (_downloadModalTrigger && _downloadModalTrigger.focus) {
+      _downloadModalTrigger.focus();
+      _downloadModalTrigger = null;
+    }
+  }, 300);
 }
 
 document.getElementById('download-btn').addEventListener('click', () => {
@@ -4845,16 +4774,16 @@ document.getElementById('download-modal').addEventListener('keydown', (e) => {
 </div>
 
 <!-- Download scope modal -->
-<div id="download-modal" class="download-modal" role="dialog" aria-modal="true" aria-labelledby="download-modal-title" aria-hidden="true">
-  <div class="download-modal__box">
-    <h2 id="download-modal-title" class="download-modal__title">Download Dataset</h2>
-    <p id="download-modal-desc" class="download-modal__desc">Choose what you want to download.</p>
-    <div class="download-modal__options">
-      <button type="button" class="download-modal__btn download-modal__btn--primary" id="download-modal-state">
+<div id="download-modal" role="dialog" aria-modal="true" aria-labelledby="download-modal-title" style="display:none; position:fixed; inset:0; z-index:9998; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); cursor:pointer; opacity:0; transition:opacity 0.3s ease;">
+  <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-family:var(--font-ui); text-align:center; padding:24px; pointer-events:none;">
+    <h2 id="download-modal-title" style="font-family:var(--font-heading); font-size:clamp(22px,5vw,32px); margin:0 0 12px; font-weight:700;">Download Dataset</h2>
+    <p id="download-modal-desc" style="font-size:15px; margin:0 0 28px; opacity:0.85; max-width:380px; line-height:1.5;">Choose what you want to download.</p>
+    <div style="display:flex; flex-direction:column; gap:10px; width:min(100%,320px); pointer-events:auto;">
+      <button type="button" id="download-modal-state" style="display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:14px 18px; border:1px solid rgba(255,255,255,0.25); border-radius:10px; background:rgba(255,255,255,0.12); color:#fff; font:14px var(--font-ui); font-weight:600; cursor:pointer; transition:background 0.15s;">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
         <span id="download-modal-state-label">Download state only</span>
       </button>
-      <button type="button" class="download-modal__btn" id="download-modal-all">
+      <button type="button" id="download-modal-all" style="display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:14px 18px; border:1px solid rgba(255,255,255,0.25); border-radius:10px; background:rgba(255,255,255,0.12); color:#fff; font:14px var(--font-ui); font-weight:600; cursor:pointer; transition:background 0.15s;">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
         <span>Download all states</span>
       </button>
