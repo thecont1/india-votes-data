@@ -3452,7 +3452,7 @@ function renderChart(parties, majority) {
         },
       },
       layout: {
-        padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 50, bottom: 10 },
+        padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 50, top: 10, bottom: 10 },
       },
       scales: {
         x: {
@@ -3460,7 +3460,7 @@ function renderChart(parties, majority) {
           suggestedMax: (majority && currentState !== '')
             ? Math.max(...wonData, ...leadData, majority) + 2
             : undefined,
-          grid: { color: theme.grid },
+          grid: { color: theme.grid, borderColor: 'transparent' },
           ticks: { color: theme.muted, font: { size: 12 } },
           title: { display: true, text: 'Seats', color: theme.muted },
         },
@@ -3562,10 +3562,10 @@ function renderVoteShare() {
           }
         },
       },
-      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 60, bottom: 10 } },
+      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 60, top: 10, bottom: 10 } },
       scales: {
         x: {
-          grid: { color: theme.grid },
+          grid: { color: theme.grid, borderColor: 'transparent' },
           ticks: { color: theme.muted, font: { size: 12 }, stepSize: 5 },
           title: { display: true, text: 'Vote Share (%)', color: theme.muted },
           max: niceMax,
@@ -3944,11 +3944,11 @@ function drawRaceFinal(race) {
           }
         },
       },
-      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 80, bottom: 10 } },
+      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 80, top: 10, bottom: 10 } },
       scales: {
         x: {
           max: axis.max,
-          grid: { color: theme.grid },
+          grid: { color: theme.grid, borderColor: 'transparent' },
           ticks: {
             color: theme.muted,
             font: { size: 11 },
@@ -4110,16 +4110,16 @@ async function drawRaceRoundwise(race) {
           legend: { display: false },
           tooltip: { enabled: false },
         },
-        layout: { padding: { right: 14 } },
+        layout: { padding: { top: 10, right: 14, bottom: 10 } },
         scales: {
           x: {
-            grid: { color: theme.grid },
+            grid: { color: theme.grid, borderColor: 'transparent' },
             ticks: { color: theme.muted, font: { size: 11 }, maxRotation: 0 },
             title: { display: true, text: 'Round', color: theme.muted },
           },
           y: {
             beginAtZero: true,
-            grid: { color: theme.grid },
+            grid: { color: theme.grid, borderColor: 'transparent' },
             ticks: { color: theme.muted, font: { size: 11 }, callback: v => formatVotes(v) },
             title: { display: true, text: 'Votes', color: theme.muted },
           },
@@ -4342,9 +4342,10 @@ async function renderRoundwise(stateCode) {
             enabled: false,
           },
         },
+        layout: { padding: { top: 10, bottom: 10 } },
         scales: {
           x: {
-            grid: { color: theme.grid },
+            grid: { color: theme.grid, borderColor: 'transparent' },
             ticks: {
               color: theme.muted,
               font: { size: 11 },
@@ -4355,7 +4356,7 @@ async function renderRoundwise(stateCode) {
             title: { display: true, text: 'Round', color: theme.muted },
           },
           y: {
-            grid: { color: theme.grid },
+            grid: { color: theme.grid, borderColor: 'transparent' },
             ticks: { color: theme.muted, font: { size: 11 } },
             title: { display: true, text: 'Votes', color: theme.muted },
             beginAtZero: true,
