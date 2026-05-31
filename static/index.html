@@ -472,17 +472,17 @@
   }
   .mobile-theme-options {
     display: flex;
+    flex-direction: column;
     gap: 6px;
   }
   .theme-option-mobile {
-    flex: 1;
     min-height: 36px;
-    padding: 6px 8px;
+    padding: 8px 12px;
     background: var(--control-bg);
     color: var(--control-text);
     border: 1px solid var(--control-border);
     border-radius: 8px;
-    font-size: 12px;
+    font-size: 13px;
     font-family: var(--font-ui);
     cursor: pointer;
   }
@@ -1792,7 +1792,7 @@
   .site-footer {
     text-align: center;
     padding: 20px 16px;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--muted);
     font-family: var(--font-ui);
     border-top: 1px solid var(--border);
@@ -1973,9 +1973,10 @@
       flex: 1 1 0;
       text-align: center;
       border-radius: 10px;
+      border: 1px solid var(--border);
     }
     #perf-toggle .toggle-btn:not(:last-child) {
-      border-right: none;
+      border-right: 1px solid var(--border);
       margin-right: 4px;
     }
     #perf-toggle .toggle-btn.active {
@@ -2029,6 +2030,7 @@
     .chart-container {
       border-radius: 0 !important;
       border: none !important;
+      box-shadow: none !important;
     }
 
     /* Party Performance card flip */
@@ -2223,7 +2225,7 @@
     .form20-info-tooltip { display: none; }
     .site-footer {
       padding: 12px 10px;
-      font-size: 11px;
+      font-size: 13px;
     }
   }
 
@@ -2302,9 +2304,9 @@
     <div class="mobile-menu__section">
       <label class="mobile-menu__label">Theme</label>
       <div class="mobile-theme-options" role="group" aria-label="Viewing mode options">
-        <button class="theme-option-mobile" type="button" data-theme="dark-handsome">Dark</button>
-        <button class="theme-option-mobile" type="button" data-theme="fair-lovely">Light</button>
-        <button class="theme-option-mobile" type="button" data-theme="black-white">B&amp;W</button>
+        <button class="theme-option-mobile" type="button" data-theme="dark-handsome">Dark &amp; Handsome</button>
+        <button class="theme-option-mobile" type="button" data-theme="fair-lovely">Fair &amp; Lovely</button>
+        <button class="theme-option-mobile" type="button" data-theme="black-white">Black &amp; White</button>
       </div>
     </div>
     <div class="mobile-menu__section mobile-menu__status">
