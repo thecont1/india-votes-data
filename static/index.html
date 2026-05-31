@@ -1966,6 +1966,12 @@
     }
 
     /* 5. Form 20 inline with dropdown, hide tooltip + action */
+    select {
+      height: 31px;
+      min-height: 31px;
+      padding: 0 36px 0 12px;
+      box-sizing: border-box;
+    }
     .race-controls-row {
       flex-direction: row;
       flex-wrap: wrap;
@@ -1984,10 +1990,12 @@
     .race-controls-row .form20-card {
       flex: 0 0 auto;
       width: auto;
-      padding: 4px 8px;
+      height: 31px;
+      min-height: 31px;
+      padding: 0 8px;
       font-size: 12px;
+      box-sizing: border-box;
     }
-    .form20-card__label { display: none; }
     .form20-card__action { display: none; }
     .form20-info-tooltip { display: none; }
   }
