@@ -1784,6 +1784,21 @@
     margin-bottom: 8px;
   }
 
+  /* Footer */
+  .site-footer {
+    text-align: center;
+    padding: 20px 16px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--font-ui);
+    border-top: 1px solid var(--border);
+    margin-top: 16px;
+  }
+  .site-footer a {
+    color: var(--muted);
+    text-decoration: underline;
+  }
+
   /* Responsive */
   @media (max-width: 768px) {
     .header {
@@ -1956,13 +1971,22 @@
       height: 40vh;
     }
 
-    /* 4. Card padding shrink */
+    /* 4. Card padding shrink — edge-to-edge charts, text keeps inline padding */
     .card {
-      padding: 10px;
+      padding: 10px 0;
       margin-bottom: 10px;
+    }
+    .card > :not(.perf-chart-area):not(.chart-container) {
+      padding-inline: 10px;
     }
     :root {
       --duel-padding: 10px;
+    }
+
+    /* Party Performance legend: max 2 rows */
+    .legend {
+      max-height: 64px;
+      overflow: hidden;
     }
 
     /* 5. Form 20 inline with dropdown, hide tooltip + action */
@@ -1983,9 +2007,12 @@
       align-self: flex-start;
     }
     .race-controls-row .field-row {
-      flex: 1 1 auto;
+      flex: 1 1 0;
       min-width: 0;
       margin-bottom: 0;
+    }
+    .race-controls-row #race-select {
+      width: 100%;
     }
     .race-controls-row .form20-card {
       flex: 0 0 auto;
@@ -1998,6 +2025,10 @@
     }
     .form20-card__action { display: none; }
     .form20-info-tooltip { display: none; }
+    .site-footer {
+      padding: 12px 10px;
+      font-size: 11px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -4691,5 +4722,9 @@ document.getElementById('tv-overlay').addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { e.preventDefault(); closeTvOverlay(); }
 });
 </script>
+<footer class="site-footer">
+  <p>LET Live! — Election data from <a href="https://thecontrarian.in" target="_blank" rel="noopener">The Contrarian</a></p>
+  <p>Data sourced from the Election Commission of India</p>
+</footer>
 </body>
 </html>
