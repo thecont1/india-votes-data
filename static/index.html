@@ -2011,6 +2011,7 @@
     }
     .chart-container {
       border-radius: 0 !important;
+      border: none !important;
     }
     .race-controls-row .field-row {
       flex: 1 1 0;
@@ -3451,7 +3452,7 @@ function renderChart(parties, majority) {
         },
       },
       layout: {
-        padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: 50, bottom: 10 },
+        padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 50, bottom: 10 },
       },
       scales: {
         x: {
@@ -3561,7 +3562,7 @@ function renderVoteShare() {
           }
         },
       },
-      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: 60, bottom: 10 } },
+      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 60, bottom: 10 } },
       scales: {
         x: {
           grid: { color: theme.grid },
@@ -3943,7 +3944,7 @@ function drawRaceFinal(race) {
           }
         },
       },
-      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: 80, bottom: 10 } },
+      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 80, bottom: 10 } },
       scales: {
         x: {
           max: axis.max,
