@@ -2075,6 +2075,45 @@
     #party-perf-card.flipped .flip-back {
       pointer-events: auto;
     }
+
+    /* Results by Constituency card flip */
+    #races-card { perspective: 1200px; }
+    #race-flip-wrap {
+      position: relative;
+    }
+    #race-flipper {
+      transition: transform 0.5s ease;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+    #races-card.flipped #race-flipper {
+      transform: rotateY(180deg);
+    }
+    #races-card .flip-back {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      cursor: pointer;
+      pointer-events: none;
+    }
+    #races-card.flipped .flip-front {
+      pointer-events: none;
+    }
+    #races-card.flipped .flip-back {
+      pointer-events: auto;
+    }
+
     .flip-back__header {
       display: flex;
       align-items: center;
@@ -2383,21 +2422,30 @@
         <span id="form20-action"></span>
       </div>
     </div>
-    <div class="chart-container" id="races-chart-container" style="height:600px;">
-      <canvas id="races-chart"></canvas>
-      <div id="roundwise-card" class="roundwise-card"></div>
-      <div id="race-overall-overlay" class="empty-state" style="display:flex; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
-        <div class="icon">📊</div>
-        <h3>This view is available in single-state mode only</h3>
-        <p>Pick a state from the buttons above to see constituency-level results.</p>
-      </div>
-      <div id="race-roundwise-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
-        <div class="icon">📊</div>
-        <h3>This view is available in single-state mode only</h3>
-        <p>Pick a state from the buttons above to see constituency-level results.</p>
+    <div class="flip-wrap" id="race-flip-wrap">
+      <div class="flipper" id="race-flipper">
+        <div class="flip-front">
+          <div class="chart-container" id="races-chart-container" style="height:600px;">
+            <canvas id="races-chart"></canvas>
+            <div id="roundwise-card" class="roundwise-card"></div>
+            <div id="race-overall-overlay" class="empty-state" style="display:flex; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
+              <div class="icon">📊</div>
+              <h3>This view is available in single-state mode only</h3>
+              <p>Pick a state from the buttons above to see constituency-level results.</p>
+            </div>
+            <div id="race-roundwise-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
+              <div class="icon">📊</div>
+              <h3>This view is available in single-state mode only</h3>
+              <p>Pick a state from the buttons above to see constituency-level results.</p>
+            </div>
+          </div>
+          <div id="race-party-legend" class="legend" style="margin-bottom:0;"></div>
+        </div>
+        <div class="flip-back" id="race-detail-back">
+          <div class="flip-back__content" id="race-detail-content"></div>
+        </div>
       </div>
     </div>
-    <div id="race-party-legend" class="legend" style="margin-bottom:0;"></div>
   </div>
 
 </main>
@@ -3055,6 +3103,20 @@ function buildCircleLegend(el, labels, colors, symbols) {
         e.stopPropagation();
         const abv = item.dataset.abv;
         if (abv) showPartyDetail(abv);
+      });
+    });
+  }
+
+  // Tap a legend item on mobile to flip to candidate detail (Races card only)
+  if (el.id === 'race-party-legend') {
+    el.querySelectorAll('.legend-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const abv = item.dataset.abv;
+        if (!abv || !currentRace || !currentRace.candidates) return;
+        const shown = getShownCandidates(currentRace);
+        const idx = shown.findIndex(c => (c.party_abv || c.party_name || c.candidate) === abv);
+        if (idx >= 0) showCandidateDetail(idx);
       });
     });
   }
@@ -4025,6 +4087,7 @@ function updateRaceLegend(candidates) {
 
 function drawSingleRace(race) {
   currentRace = race;
+  hideCandidateDetail();
   if (race) localStorage.setItem(RACE_AC_STORAGE_KEY, race.ac_no);
   updateForm20Field(race);
   if (raceView === 'roundwise') {
@@ -4091,6 +4154,11 @@ function drawRaceFinal(race) {
       responsive: true,
       maintainAspectRatio: false,
       animation: getChartAnimation(600),
+      onClick: (e, elements) => {
+        if (!elements.length) return;
+        const idx = elements[0].index;
+        showCandidateDetail(idx);
+      },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -4833,6 +4901,77 @@ document.addEventListener('touchend', (e) => {
   if (back.contains(e.target)) {
     e.preventDefault();
     hidePartyDetail();
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Mobile candidate detail flip (Results by Constituency)
+// ---------------------------------------------------------------------------
+function showCandidateDetail(candidateIndex) {
+  if (!window.matchMedia('(max-width: 640px)').matches) return;
+  const card = document.getElementById('races-card');
+  const content = document.getElementById('race-detail-content');
+  if (!card || !content) return;
+
+  const race = currentRace;
+  if (!race || !race.candidates) return;
+  const shown = getShownCandidates(race);
+  const c = shown[candidateIndex];
+  if (!c) return;
+
+  const totalVotes = race.candidates.reduce((sum, cand) => sum + (cand.votes || 0), 0);
+  const voteShare = totalVotes > 0 ? ((c.votes / totalVotes) * 100).toFixed(2) + '%' : '0%';
+  const position = candidateIndex === 0 ? 'Winner' : candidateIndex === 1 ? 'Runner-up' : `Rank ${candidateIndex + 1}`;
+  const symbolUrl = c.symbol_url || partySymbols[c.party_abv] || '';
+  const partyDetail = partyDetails[c.party_abv] || {};
+  const partyFullName = partyDetail.name || c.party_name || c.party_abv;
+  const constituency = race.ac_name || race.constituency_name || `AC ${race.ac_no}`;
+
+  const fmt = (n) => n.toLocaleString('en-IN');
+
+  content.innerHTML = `
+    <div class="flip-back__header">
+      ${symbolUrl ? `<img src="${symbolUrl}" alt="">` : '<div style="width:52px;height:52px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;">🏛️</div>'}
+      <div>
+        <div class="flip-back__title">${c.candidate}</div>
+        <div class="flip-back__subtitle">${c.party_abv}</div>
+        <div class="flip-back__subtitle">${partyFullName}</div>
+      </div>
+    </div>
+    <div class="flip-back__spacer"></div>
+    <table class="flip-back__table">
+      <tr><td class="td-label td-label--dark">Constituency</td><td class="td-value td-value--dark">${constituency}</td></tr>
+      <tr><td class="td-label td-label--dark">Position</td><td class="td-value td-value--dark">${position}</td></tr>
+      <tr><td class="td-label td-label--dark">Votes</td><td class="td-value td-value--dark">${fmt(c.votes)}</td></tr>
+      <tr><td class="td-label td-label--light">Vote share</td><td class="td-value td-value--light">${voteShare}</td></tr>
+    </table>
+  `;
+
+  card.classList.add('flipped');
+}
+
+function hideCandidateDetail() {
+  document.getElementById('races-card')?.classList.remove('flipped');
+}
+
+// Click anywhere on the flipped-back race card to return to chart
+document.addEventListener('click', (e) => {
+  const back = document.getElementById('race-detail-back');
+  const card = document.getElementById('races-card');
+  if (!back || !card) return;
+  if (!card.classList.contains('flipped')) return;
+  if (back.contains(e.target)) {
+    hideCandidateDetail();
+  }
+});
+document.addEventListener('touchend', (e) => {
+  const back = document.getElementById('race-detail-back');
+  const card = document.getElementById('races-card');
+  if (!back || !card) return;
+  if (!card.classList.contains('flipped')) return;
+  if (back.contains(e.target)) {
+    e.preventDefault();
+    hideCandidateDetail();
   }
 });
 
