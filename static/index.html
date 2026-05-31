@@ -1926,6 +1926,70 @@
     }
     #races-card { min-height: 640px; }
     #races-chart-container { height: 430px !important; }
+
+    /* 1. Shrink state bar */
+    .state-bar {
+      padding: 6px 10px;
+      gap: 6px;
+    }
+    .state-btn {
+      min-height: 28px;
+      padding: 3px 10px;
+      font-size: 12px;
+    }
+
+    /* 2. Party Performance h2 + toggle on same row */
+    #party-perf-card h2 {
+      display: inline-flex;
+      margin-bottom: 0;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    #party-perf-card .toggle-group {
+      display: inline-flex;
+      margin-bottom: 0;
+      vertical-align: middle;
+    }
+
+    /* 3. Chart area to 40vh */
+    .perf-chart-area {
+      height: 40vh;
+    }
+
+    /* 4. Card padding shrink */
+    .card {
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    :root {
+      --duel-padding: 10px;
+    }
+
+    /* 5. Form 20 inline with dropdown, hide tooltip + action */
+    .race-controls-row {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .race-controls-row .toggle-group {
+      width: 100%;
+      align-self: flex-start;
+    }
+    .race-controls-row .field-row {
+      flex: 1 1 auto;
+      min-width: 0;
+      margin-bottom: 0;
+    }
+    .race-controls-row .form20-card {
+      flex: 0 0 auto;
+      width: auto;
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+    .form20-card__label { display: none; }
+    .form20-card__action { display: none; }
+    .form20-info-tooltip { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
