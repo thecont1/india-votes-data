@@ -2796,7 +2796,10 @@ document.getElementById('election-selector-mobile')?.addEventListener('change', 
   }
 });
 
-document.getElementById('tv-btn-mobile')?.addEventListener('click', () => {
+let _tvOverlayTrigger = null;
+
+document.getElementById('tv-btn-mobile')?.addEventListener('click', (e) => {
+  _tvOverlayTrigger = e.currentTarget;
   const overlay = document.getElementById('tv-overlay');
   overlay.style.opacity = '0';
   overlay.style.display = 'flex';
@@ -3243,7 +3246,7 @@ function partyCardTooltip(context) {
     : '';
 
   const titleLines = tooltip.title || [];
-  const titleHtml = titleLines.map(t => `<div class="tooltip-title">${t}</div>`).join('');
+  const titleHtml = titleLines.map(t => `<div class="tooltip-title">${escapeHtml(t)}</div>`).join('');
 
   // Build body: direct from chart data for seat tally (2 datasets), _bodyLines for others
   let bodyHtml;
@@ -3278,7 +3281,7 @@ function partyCardTooltip(context) {
     bodyHtml = `<table class="tooltip-table">${tableRows.filter(Boolean).join('')}</table>`;
   } else {
     const bodyLines = _bodyLines(tooltip);
-    bodyHtml = bodyLines.map(l => `<div class="tooltip-body">${l}</div>`).join('');
+    bodyHtml = bodyLines.map(l => `<div class="tooltip-body">${escapeHtml(l)}</div>`).join('');
   }
 
   el.innerHTML = `<div class="tooltip-header">${symHtml}<span>${titleHtml}</span></div>${bodyHtml}`;
@@ -5229,7 +5232,8 @@ function getClickedPartyAbv(chart, elements) {
 </div>
 
 <script>
-document.getElementById('tv-btn').addEventListener('click', () => {
+document.getElementById('tv-btn').addEventListener('click', (e) => {
+  _tvOverlayTrigger = e.currentTarget;
   const overlay = document.getElementById('tv-overlay');
   overlay.style.opacity = '0';
   overlay.style.display = 'flex';
@@ -5241,7 +5245,13 @@ function closeTvOverlay() {
   overlay.style.opacity = '0';
   setTimeout(() => {
     overlay.style.display = 'none';
-    document.getElementById('tv-btn').focus();
+    const trigger = _tvOverlayTrigger;
+    if (trigger && trigger.isConnected) {
+      trigger.focus();
+    } else {
+      document.getElementById('tv-btn')?.focus();
+    }
+    _tvOverlayTrigger = null;
   }, 300);
 }
 document.getElementById('tv-overlay').addEventListener('click', closeTvOverlay);
