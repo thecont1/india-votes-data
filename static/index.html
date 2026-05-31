@@ -2048,12 +2048,16 @@
     .flip-front {
       position: relative;
       z-index: 1;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
     #party-perf-card .flip-back {
       position: absolute;
       inset: 0;
       z-index: 2;
       transform: rotateY(180deg);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -2063,10 +2067,13 @@
       flex-direction: column;
       gap: 12px;
       cursor: pointer;
-      pointer-events: auto;
+      pointer-events: none;
     }
     #party-perf-card.flipped .flip-front {
       pointer-events: none;
+    }
+    #party-perf-card.flipped .flip-back {
+      pointer-events: auto;
     }
     .flip-back__header {
       display: flex;
@@ -2120,9 +2127,23 @@
       color: var(--text);
       font-variant-numeric: tabular-nums;
     }
-    .flip-back__table .td-value--win { color: var(--success, #22c55e); }
-    .flip-back__table .td-value--lead { color: var(--warning, #f59e0b); }
-    .flip-back__table .td-value--total { font-size: 15px; }
+    .flip-back__table .td-label--dark,
+    .flip-back__table .td-value--dark {
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .flip-back__table .td-label--light,
+    .flip-back__table .td-value--light {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 400;
+    }
+    .flip-back__table .td-value--light {
+      font-weight: 500;
+    }
+    .flip-back__table .td-indent { padding-left: 16px; }
+    .flip-back__spacer { height: 12px; }
     .flip-back__meta {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -3026,6 +3047,17 @@ function buildCircleLegend(el, labels, colors, symbols) {
       ${img}<span>${l}</span>${tooltip}
     </div>`;
   }).join('');
+
+  // Tap a legend item on mobile to flip to party detail (Party Performance only)
+  if (el.id === 'perf-legend-tally') {
+    el.querySelectorAll('.legend-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const abv = item.dataset.abv;
+        if (abv) showPartyDetail(abv);
+      });
+    });
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -4749,10 +4781,7 @@ function showPartyDetail(abv) {
   const lostTotal = lostSafe + lostForfeited;
 
   const fmt = (n) => n.toLocaleString('en-IN');
-
-  const headerMeta = [];
-  if (detail.founded) headerMeta.push(`Founded ${detail.founded}`);
-  if (detail.chief) headerMeta.push(`Chief ${detail.chief}`);
+  const totalSeats = won + leading + lostTotal;
 
   content.innerHTML = `
     <div class="flip-back__header">
@@ -4760,16 +4789,19 @@ function showPartyDetail(abv) {
       <div>
         <div class="flip-back__title">${fullName}</div>
         <div class="flip-back__subtitle">${abv}</div>
-        ${headerMeta.length ? `<div class="flip-back__subtitle" style="margin-top:4px;font-size:12px;opacity:0.8;">${headerMeta.join('  ·  ')}</div>` : ''}
+        ${detail.founded ? `<div class="flip-back__subtitle">Founded ${detail.founded}</div>` : ''}
+        ${detail.chief ? `<div class="flip-back__subtitle">Chief ${detail.chief}</div>` : ''}
       </div>
     </div>
-    <div class="flip-back__divider"></div>
+    <div class="flip-back__spacer"></div>
     <table class="flip-back__table">
-      <tr><td class="td-label">Won</td><td class="td-value td-value--win">${fmt(won)}</td></tr>
-      <tr><td class="td-label">Leading</td><td class="td-value td-value--lead">${fmt(leading)}</td></tr>
-      <tr><td class="td-label">Lost (deposit safe)</td><td class="td-value">${fmt(lostSafe)}</td></tr>
-      <tr><td class="td-label">Lost (deposit forfeited)</td><td class="td-value">${fmt(lostForfeited)}</td></tr>
-      <tr><td class="td-label"><strong>Total votes</strong></td><td class="td-value td-value--total">${fmt(totalVotes)}</td></tr>
+      <tr><td class="td-label td-label--dark">Won</td><td class="td-value td-value--dark">${fmt(won)}</td></tr>
+      <tr><td class="td-label td-indent td-label--light">leading</td><td class="td-value td-indent td-value--light">${fmt(leading)}</td></tr>
+      <tr><td class="td-label td-label--dark">Lost</td><td class="td-value td-value--dark">${fmt(lostTotal)}</td></tr>
+      <tr><td class="td-label td-indent td-label--light">deposit safe</td><td class="td-value td-indent td-value--light">${fmt(lostSafe)}</td></tr>
+      <tr><td class="td-label td-indent td-label--light">deposit lost</td><td class="td-value td-indent td-value--light">${fmt(lostForfeited)}</td></tr>
+      <tr><td class="td-label td-label--dark">Total Seats</td><td class="td-value td-value--dark">${fmt(totalSeats)}</td></tr>
+      <tr><td class="td-label td-label--light">Total Votes</td><td class="td-value td-value--light">${fmt(totalVotes)}</td></tr>
     </table>
     ${detail.alliance ? `<div class="flip-back__divider"></div><div class="flip-back__meta"><div><strong>Alliance</strong> ${detail.alliance}</div></div>` : ''}
   `;
@@ -4782,13 +4814,26 @@ function hidePartyDetail() {
 }
 
 // Click anywhere on the flipped-back card to return to chart
-document.getElementById('party-detail-back').addEventListener('click', (e) => {
-  hidePartyDetail();
+// Use document delegation so we never miss the element even if script runs before DOM
+document.addEventListener('click', (e) => {
+  const back = document.getElementById('party-detail-back');
+  const card = document.getElementById('party-perf-card');
+  if (!back || !card) return;
+  if (!card.classList.contains('flipped')) return;
+  if (back.contains(e.target)) {
+    hidePartyDetail();
+  }
 });
 // Backup for touch devices
-document.getElementById('party-detail-back').addEventListener('touchend', (e) => {
-  e.preventDefault();
-  hidePartyDetail();
+document.addEventListener('touchend', (e) => {
+  const back = document.getElementById('party-detail-back');
+  const card = document.getElementById('party-perf-card');
+  if (!back || !card) return;
+  if (!card.classList.contains('flipped')) return;
+  if (back.contains(e.target)) {
+    e.preventDefault();
+    hidePartyDetail();
+  }
 });
 
 // Helper for chart onClick — returns party abv or null
