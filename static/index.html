@@ -1860,21 +1860,6 @@
     opacity: 0.4;
     cursor: default;
   }
-  .download-modal__cancel {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    font: 13px var(--font-ui);
-    cursor: pointer;
-    text-align: center;
-  }
-  .download-modal__cancel:hover {
-    color: var(--text);
-  }
-
   /* Footer */
   .site-footer {
     text-align: center;
@@ -4650,10 +4635,6 @@ document.getElementById('download-modal-all').addEventListener('click', () => {
   performDownload(false);
 });
 
-document.getElementById('download-modal-cancel').addEventListener('click', () => {
-  closeDownloadModal();
-});
-
 document.getElementById('download-modal').addEventListener('click', (e) => {
   if (e.target === e.currentTarget) closeDownloadModal();
 });
@@ -4878,7 +4859,6 @@ document.getElementById('download-modal').addEventListener('keydown', (e) => {
         <span>Download all states</span>
       </button>
     </div>
-    <button type="button" class="download-modal__cancel" id="download-modal-cancel">Cancel</button>
   </div>
 </div>
 
