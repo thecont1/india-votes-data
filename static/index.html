@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-adsense-account" content="ca-pub-3564536130489009">
+<meta name="description" content="LET Live! — The Live and Loaded Elections Tracker of India. Real-time election results, constituency-level data, vote share analytics and live TV coverage.">
 <title>LET Live - The Live and Loaded Elections Tracker of India</title>
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
@@ -268,7 +269,31 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { background: var(--bg); }
+  html {
+    background: var(--bg);
+    scroll-padding-top: var(--header-offset, 70px);
+  }
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    z-index: 100;
+    padding: 8px 14px;
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus {
+    top: 12px;
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
 
   body {
     background: var(--bg);
@@ -368,8 +393,9 @@
     outline: none;
     box-sizing: border-box;
   }
-  .search-box input:focus {
-    border-color: var(--accent);
+  .search-box input:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
   }
   .search-box .search-icon {
     position: absolute;
@@ -410,8 +436,13 @@
     font-size: 13px;
     border-bottom: 1px solid var(--border);
   }
-  .search-result-item:hover {
+  .search-result-item:hover,
+  .search-result-item.active {
     background: var(--card-elevated);
+  }
+  .search-result-item.active {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: -2px;
   }
   .search-result-item .sr-name {
     font-weight: 500;
@@ -488,6 +519,10 @@
   .theme-option.active {
     background: var(--control-active-bg);
     color: var(--control-active-text);
+  }
+  .theme-option:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
   }
   .status-indicator {
     display: inline-flex;
@@ -821,7 +856,7 @@
     white-space: normal;
   }
   .form20-info:hover .form20-info-tooltip { opacity: 1; }
-  .form20-info-tooltip h4 {
+  .form20-info-tooltip .form20-tooltip-heading {
     margin: 0 0 6px;
     font-size: 12px;
     font-weight: 600;
@@ -834,12 +869,14 @@
   }
   .form20-info-tooltip p:last-child { margin-bottom: 0; }
 
+  .form20-info-tooltip table th,
   .form20-info-tooltip table td {
     white-space: nowrap;
     padding: 2px 6px 2px 0;
     font-size: 11px;
     color: var(--tooltip-muted, var(--muted));
     vertical-align: top;
+    font-weight: 400;
   }
   .form20-info-tooltip table td:last-child {
     white-space: normal;
@@ -1658,32 +1695,53 @@
 
   @media (max-width: 640px) {
     .header {
-      grid-template-columns: minmax(0, 1fr) auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
       padding-inline: 16px;
     }
     .header-brand {
       flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
     .wordmark {
-      font-size: 19px;
+      font-size: clamp(16px, 5vw, 19px);
       line-height: 1.15;
     }
     .subtitle {
       font-size: 10px;
     }
+    #election-selector {
+      width: 100% !important;
+      max-width: none !important;
+      margin-left: 0 !important;
+    }
+    .search-box {
+      flex: none;
+      width: 100%;
+      min-width: 0;
+    }
     .header .meta {
-      grid-template-columns: 1fr auto;
-      grid-template-areas:
-        'date theme'
-        'status theme';
-      align-items: start;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
       width: 100%;
       margin-left: 0;
-      justify-items: start;
+      justify-content: space-between;
     }
-    #date-display { grid-area: date; font-size: 12px; }
-    .status-indicator { grid-area: status; font-size: 12px; }
-    .theme-picker { grid-area: theme; justify-self: end; }
+    .status-indicator { font-size: 12px; }
+    .theme-picker { margin-left: auto; }
+    .search-result-item {
+      min-height: 24px;
+      padding: 10px 12px;
+    }
+    @media (max-width: 400px) {
+      .subtitle { display: none; }
+    }
     .state-bar {
       flex-wrap: nowrap;
       overflow-x: auto;
@@ -1700,11 +1758,16 @@
     }
     .state-btn:first-child { margin-left: 0; }
     .state-btn.active,
-    .state-btn:hover,
-    .state-btn:focus-visible {
+    .state-btn:hover {
       position: relative;
       z-index: 2;
       transform: translateY(-1px);
+    }
+    .state-btn:focus-visible {
+      position: relative;
+      z-index: 2;
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 2px;
     }
     .summary-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1741,6 +1804,7 @@
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
 <header class="header">
   <div class="header-brand">
@@ -1753,8 +1817,8 @@
   <select id="election-selector" aria-label="Select election period" style="margin-left:12px; min-width:180px; max-width:220px;"></select>
   <div class="search-box">
     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-    <input type="text" id="search-input" placeholder="Search candidates, constituencies, parties..." autocomplete="off" />
-    <div class="search-results" id="search-results"></div>
+    <input type="text" id="search-input" placeholder="Search candidates, constituencies, parties..." autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-results" />
+    <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
   </div>
   <div class="meta" aria-label="Dashboard status and preferences">
     <span class="status-indicator" aria-live="polite">
@@ -1784,7 +1848,7 @@
 
 <nav class="state-bar" id="state-bar" aria-label="Election state filters"></nav>
 
-<main class="content">
+<main class="content" id="main-content">
   <section class="summary-grid" id="status-bar" aria-live="polite" aria-label="Constituency status summary">
     <span>Loading...</span>
   </section>
@@ -1854,14 +1918,19 @@
         <span class="form20-card__label">Form 20
           <span class="form20-info" tabindex="0">i
             <div class="form20-info-tooltip">
-              <h4>Form 20 Verification</h4>
+              <p class="form20-tooltip-heading">Form 20 Verification</p>
               <p>Each AC's top 3 candidates' results are cross-checked against the final result sheet (Form 20) after sign off by the Returning Officer.</p>
               <table style="width:100%;border-collapse:collapse;margin:4px 0;">
-                <tr><td>🟩</td><td><strong style="color:#059669">Verified</strong></td><td>Data confirmed either by computer or manually.</td></tr>
-                <tr><td>🟥</td><td><strong style="color:#dc2626">Mismatch</strong></td><td>Discrepancy in online results (EVM <strong>and</strong> postal) and that seen in Form 20. Needs manual verification.</td></tr>
-                <tr><td>🌀</td><td><strong style="color:#2563eb">Error</strong></td><td>Could not read Form 20. Retry.</td></tr>
-                <tr><td>⚠️</td><td><strong style="color:#d97706">Unverified</strong></td><td>Verification not attempted yet.</td></tr>
-                <tr><td>❓</td><td><strong>Unavailable</strong></td><td>Form 20 not detected on State CEO website.</td></tr>
+                <thead style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+                  <tr><th scope="col">Icon</th><th scope="col">Status</th><th scope="col">Description</th></tr>
+                </thead>
+                <tbody>
+                <tr><th scope="row">🟩</th><td><strong style="color:#059669">Verified</strong></td><td>Data confirmed either by computer or manually.</td></tr>
+                <tr><th scope="row">🟥</th><td><strong style="color:#dc2626">Mismatch</strong></td><td>Discrepancy in online results (EVM <strong>and</strong> postal) and that seen in Form 20. Needs manual verification.</td></tr>
+                <tr><th scope="row">🌀</th><td><strong style="color:#2563eb">Error</strong></td><td>Could not read Form 20. Retry.</td></tr>
+                <tr><th scope="row">⚠️</th><td><strong style="color:#d97706">Unverified</strong></td><td>Verification not attempted yet.</td></tr>
+                <tr><th scope="row">❓</th><td><strong>Unavailable</strong></td><td>Form 20 not detected on State CEO website.</td></tr>
+                </tbody>
               </table>
               <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> to show only constituencies needing review (Mismatch, Error, Unverified, Unavailable).</p>
             </div>
@@ -2126,6 +2195,48 @@ document.getElementById('theme-menu').addEventListener('click', (e) => {
   setThemeMenuOpen(false);
 });
 
+// Theme menu keyboard navigation
+const themeOptions = () => Array.from(document.querySelectorAll('.theme-option'));
+function focusThemeOption(dir) {
+  const opts = themeOptions();
+  const active = document.activeElement;
+  let idx = opts.indexOf(active);
+  if (idx < 0) idx = dir > 0 ? -1 : 0;
+  const next = opts[(idx + dir + opts.length) % opts.length];
+  if (next) { next.focus(); applyTheme(next.dataset.theme, false); }
+}
+document.getElementById('theme-trigger').addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    setThemeMenuOpen(true);
+    const opts = themeOptions();
+    if (opts.length) { opts[0].focus(); applyTheme(opts[0].dataset.theme, false); }
+  }
+});
+document.getElementById('theme-menu').addEventListener('keydown', (e) => {
+  const opt = e.target.closest('.theme-option');
+  if (!opt) return;
+  switch (e.key) {
+    case 'ArrowDown': e.preventDefault(); focusThemeOption(1); break;
+    case 'ArrowUp': e.preventDefault(); focusThemeOption(-1); break;
+    case 'Home': e.preventDefault(); focusThemeOption(1 - themeOptions().indexOf(opt)); break;
+    case 'End': e.preventDefault(); focusThemeOption(themeOptions().length - 1 - themeOptions().indexOf(opt)); break;
+    case 'Enter':
+    case ' ':
+      e.preventDefault();
+      applyTheme(opt.dataset.theme, true);
+      setThemeMenuOpen(false);
+      document.getElementById('theme-trigger').focus();
+      break;
+    case 'Escape':
+      e.preventDefault();
+      setThemeMenuOpen(false);
+      applyTheme(selectedTheme, false);
+      document.getElementById('theme-trigger').focus();
+      break;
+  }
+});
+
 document.addEventListener('click', (e) => {
   if (!document.getElementById('theme-picker').contains(e.target)) {
     setThemeMenuOpen(false);
@@ -2177,7 +2288,7 @@ async function loadElections() {
       updateStateBarForElection(currentElection.states);
     }
   } catch (err) {
-    console.error('Failed to load elections:', err);
+    console.warn('Failed to load elections:', err);
   }
 }
 
@@ -2348,7 +2459,7 @@ async function fetchData() {
     document.getElementById('status-text').textContent =
       `Updated ${day} ${month} ${year} ${hours}:${mins}:${secs} ${ampm}`;
   } catch (e) {
-    console.error('Fetch failed:', e);
+    console.warn('Fetch failed:', e);
   }
 }
 
@@ -3184,7 +3295,7 @@ function renderRaces(stateCode) {
       populateRaceDropdown();
     })
     .catch(e => {
-      console.error('Failed to load races:', e);
+      console.warn('Failed to load races:', e);
       card.style.display = 'none';
     });
 }
@@ -3718,7 +3829,7 @@ async function drawRaceRoundwise(race) {
     };
 
   } catch (e) {
-    console.error('Failed to load constituency rounds:', e);
+    console.warn('Failed to load constituency rounds:', e);
   }
 }
 
@@ -3889,7 +4000,7 @@ async function renderRoundwise(stateCode) {
       },
     });
   } catch (e) {
-    console.error('Failed to load roundwise:', e);
+    console.warn('Failed to load roundwise:', e);
   }
 }
 
@@ -4022,7 +4133,7 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(blobUrl);
   } catch (e) {
-    console.error('Download failed:', e);
+    console.warn('Download failed:', e);
     alert('Download failed. Please try again.');
   } finally {
     // Re-enable after a short delay
@@ -4040,9 +4151,55 @@ document.getElementById('download-btn').addEventListener('click', async () => {
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
   let searchTimer = null;
+  let activeIdx = -1;
+  let resultEls = [];
+
+  function setExpanded(open) {
+    searchInput.setAttribute('aria-expanded', String(open));
+  }
+
+  function setActiveDescendant() {
+    const active = resultEls[activeIdx];
+    if (active) {
+      searchInput.setAttribute('aria-activedescendant', active.id);
+      active.setAttribute('aria-selected', 'true');
+      active.classList.add('active');
+    } else {
+      searchInput.removeAttribute('aria-activedescendant');
+    }
+  }
+
+  function clearActive() {
+    resultEls.forEach((el, i) => {
+      if (i !== activeIdx) {
+        el.removeAttribute('aria-selected');
+        el.classList.remove('active');
+      }
+    });
+  }
+
+  function moveActive(delta) {
+    if (!resultEls.length) return;
+    if (activeIdx >= 0) {
+      resultEls[activeIdx].removeAttribute('aria-selected');
+      resultEls[activeIdx].classList.remove('active');
+    }
+    activeIdx = (activeIdx + delta + resultEls.length) % resultEls.length;
+    setActiveDescendant();
+    clearActive();
+    resultEls[activeIdx].scrollIntoView({ block: 'nearest' });
+  }
+
+  function activateItem() {
+    const active = resultEls[activeIdx];
+    if (active && active.dataset.type) {
+      handleResultClick(active.dataset);
+    }
+  }
 
   searchInput.addEventListener('input', () => {
     clearTimeout(searchTimer);
+    activeIdx = -1;
     const q = searchInput.value.trim();
     if (q.length < 2) { hideResults(); return; }
     searchTimer = setTimeout(() => doSearch(q), 250);
@@ -4051,6 +4208,7 @@ document.getElementById('download-btn').addEventListener('click', async () => {
   searchInput.addEventListener('focus', () => {
     if (searchInput.value.trim().length >= 2) {
       searchResults.classList.add('active');
+      setExpanded(true);
     }
   });
 
@@ -4059,11 +4217,38 @@ document.getElementById('download-btn').addEventListener('click', async () => {
   });
 
   searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { hideResults(); searchInput.blur(); }
+    switch (e.key) {
+      case 'Escape':
+        hideResults(); searchInput.blur(); break;
+      case 'ArrowDown':
+        e.preventDefault();
+        if (!searchResults.classList.contains('active')) {
+          if (searchInput.value.trim().length >= 2) doSearch(searchInput.value.trim());
+        } else {
+          moveActive(1);
+        }
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (searchResults.classList.contains('active')) moveActive(-1);
+        break;
+      case 'Enter':
+        if (activeIdx >= 0) {
+          e.preventDefault();
+          activateItem();
+        }
+        break;
+      case 'Tab':
+        hideResults();
+        break;
+    }
   });
 
   function hideResults() {
     searchResults.classList.remove('active');
+    setExpanded(false);
+    activeIdx = -1;
+    searchInput.removeAttribute('aria-activedescendant');
   }
 
   async function doSearch(q) {
@@ -4072,7 +4257,7 @@ document.getElementById('download-btn').addEventListener('click', async () => {
       const data = await resp.json();
       renderResults(data.results, q);
     } catch (e) {
-      console.error('Search failed:', e);
+      console.warn('Search failed:', e);
     }
   }
 
@@ -4081,32 +4266,39 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     const labels = { party: 'Parties', constituency: 'Constituencies', candidate: 'Candidates' };
     let html = '';
     let total = 0;
+    let idx = 0;
 
     for (const type of order) {
       const items = grouped[type] || [];
       if (!items.length) continue;
-      html += `<div class="search-group-label">${labels[type]}</div>`;
+      html += `<div class="search-group-label" role="presentation">${labels[type]}</div>`;
       for (const item of items.slice(0, 5)) {
         total++;
         const name = item.highlighted_name || escapeHtml(item.name);
         const ctx = escapeHtml(item.context || '');
-        html += `<div class="search-result-item" data-type="${type}" data-id="${item.entity_id}" data-name="${escapeAttr(item.name)}">
+        const id = `sr-opt-${idx}`;
+        html += `<div class="search-result-item" id="${id}" role="option" tabindex="-1" data-type="${type}" data-id="${item.entity_id}" data-name="${escapeAttr(item.name)}">
           <div class="sr-name">${name}</div>
           ${ctx ? `<div class="sr-context">${ctx}</div>` : ''}
         </div>`;
+        idx++;
       }
     }
 
     if (!total) {
-      html = '<div class="search-result-item" style="color:var(--muted);cursor:default;">No results</div>';
+      html = '<div class="search-result-item" role="option" tabindex="-1" style="color:var(--muted);cursor:default;">No results</div>';
     }
 
     searchResults.innerHTML = html;
     searchResults.classList.add('active');
+    setExpanded(true);
+    activeIdx = -1;
+    resultEls = Array.from(searchResults.querySelectorAll('[role="option"]'));
 
-    // Click handlers
-    searchResults.querySelectorAll('.search-result-item[data-type]').forEach(el => {
-      el.addEventListener('click', () => handleResultClick(el.dataset));
+    resultEls.forEach(el => {
+      if (el.dataset.type) {
+        el.addEventListener('click', () => handleResultClick(el.dataset));
+      }
     });
   }
 
@@ -4116,21 +4308,14 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     searchInput.value = '';
 
     if (type === 'constituency') {
-      // Navigate to constituency: id is "state_code-ac_no"
       const [stateCode, acNo] = id.split('-');
-      // Set state filter
       currentState = stateCode;
       localStorage.setItem(STATE_STORAGE_KEY, currentState);
-      // Trigger race view
       document.querySelector('[data-view="races"]')?.click();
-      // Scroll to races section
       document.getElementById('races-section')?.scrollIntoView({ behavior: 'smooth' });
     } else if (type === 'party') {
-      // Could scroll to seat tally or highlight party
-      // For now, just scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (type === 'candidate') {
-      // id is "state_code-ac_no-party_abv"
       const parts = id.split('-');
       const stateCode = parts[0];
       const acNo = parts[1];
@@ -4150,10 +4335,10 @@ document.getElementById('download-btn').addEventListener('click', async () => {
 })();
 </script>
 
-<div id="tv-overlay" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); cursor:pointer;">
+<div id="tv-overlay" role="dialog" aria-modal="true" aria-labelledby="tv-overlay-title" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); cursor:pointer;">
   <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-family:var(--font-heading); text-align:center; padding:24px;">
     <div style="font-size:48px; margin-bottom:16px;">📺</div>
-    <h2 style="font-size:clamp(24px,4vw,36px); margin:0 0 8px; font-weight:700;">Coming soon!</h2>
+    <h2 id="tv-overlay-title" style="font-size:clamp(24px,4vw,36px); margin:0 0 8px; font-weight:700;">Coming soon!</h2>
     <p style="font-size:16px; margin:0; opacity:0.8;">TV mode is under construction. 😉
 
 </p>
@@ -4168,10 +4353,17 @@ document.getElementById('tv-btn').addEventListener('click', () => {
   overlay.style.transition = 'opacity 0.3s ease';
   requestAnimationFrame(() => { overlay.style.opacity = '1'; });
 });
-document.getElementById('tv-overlay').addEventListener('click', () => {
+function closeTvOverlay() {
   const overlay = document.getElementById('tv-overlay');
   overlay.style.opacity = '0';
-  setTimeout(() => { overlay.style.display = 'none'; }, 300);
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    document.getElementById('tv-btn').focus();
+  }, 300);
+}
+document.getElementById('tv-overlay').addEventListener('click', closeTvOverlay);
+document.getElementById('tv-overlay').addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { e.preventDefault(); closeTvOverlay(); }
 });
 </script>
 </body>
