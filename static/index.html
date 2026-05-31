@@ -1784,6 +1784,97 @@
     margin-bottom: 8px;
   }
 
+  /* Download modal */
+  .download-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(3px);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .download-modal[aria-hidden="false"] {
+    display: flex;
+  }
+  .download-modal__box {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    max-width: 380px;
+    width: 100%;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    font-family: var(--font-ui);
+  }
+  .download-modal__title {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: var(--text);
+  }
+  .download-modal__desc {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0 0 20px;
+    line-height: 1.5;
+  }
+  .download-modal__options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .download-modal__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--control-border);
+    border-radius: 10px;
+    background: var(--control-bg);
+    color: var(--control-text);
+    font: 14px var(--font-ui);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .download-modal__btn:hover {
+    background: var(--control-hover-bg);
+    border-color: var(--border);
+  }
+  .download-modal__btn--primary {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+  .download-modal__btn--primary:hover {
+    opacity: 0.9;
+  }
+  .download-modal__btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  .download-modal__cancel {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font: 13px var(--font-ui);
+    cursor: pointer;
+    text-align: center;
+  }
+  .download-modal__cancel:hover {
+    color: var(--text);
+  }
+
   /* Footer */
   .site-footer {
     text-align: center;
@@ -2560,12 +2651,6 @@ document.getElementById('tv-btn-mobile')?.addEventListener('click', () => {
   overlay.style.display = 'flex';
   overlay.style.transition = 'opacity 0.3s ease';
   requestAnimationFrame(() => { overlay.style.opacity = '1'; });
-  setMobileMenuOpen(false);
-});
-
-document.getElementById('download-btn-mobile')?.addEventListener('click', () => {
-  const desktopBtn = document.getElementById('download-btn');
-  if (desktopBtn) desktopBtn.click();
   setMobileMenuOpen(false);
 });
 
@@ -4468,19 +4553,20 @@ async function loadStateStatuses(states) {
 // ---------------------------------------------------------------------------
 // Download dataset
 // ---------------------------------------------------------------------------
-document.getElementById('download-btn').addEventListener('click', async () => {
+async function performDownload(includeState) {
   const btn = document.getElementById('download-btn');
-  if (btn.disabled) return;
-  btn.disabled = true;
-  const prevTitle = btn.title;
-  btn.title = 'Preparing download…';
+  if (btn) {
+    btn.disabled = true;
+    const prevTitle = btn.title;
+    btn.title = 'Preparing download…';
+  }
   try {
     let url = API_BASE + '/api/download';
     const params = [];
     if (currentElection) {
       params.push(`election_id=${currentElection.election_id}`);
     }
-    if (currentState) {
+    if (includeState && currentState) {
       params.push(`state=${currentState}`);
     }
     if (params.length) url += '?' + params.join('&');
@@ -4488,7 +4574,6 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     if (!resp.ok) throw new Error(`Download failed (${resp.status})`);
     const blob = await resp.blob();
     const blobUrl = URL.createObjectURL(blob);
-    // Extract filename from Content-Disposition header
     const cd = resp.headers.get('content-disposition') || '';
     const match = cd.match(/filename="?([^"]+)"?/);
     const filename = match ? match[1] : 'LETLive.xlsx';
@@ -4503,12 +4588,78 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     console.warn('Download failed:', e);
     alert('Download failed. Please try again.');
   } finally {
-    // Re-enable after a short delay
-    setTimeout(() => {
-      btn.disabled = false;
-      btn.title = prevTitle;
-    }, 1500);
+    if (btn) {
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.title = 'Download dataset';
+      }, 1500);
+    }
   }
+}
+
+let _downloadModalTrigger = null;
+
+function showDownloadModal() {
+  _downloadModalTrigger = document.activeElement;
+  const modal = document.getElementById('download-modal');
+  const stateBtn = document.getElementById('download-modal-state');
+  const stateLabel = document.getElementById('download-modal-state-label');
+  const desc = document.getElementById('download-modal-desc');
+  const stateName = currentState ? (stateNameMap[currentState] || currentState) : '';
+
+  if (currentState && stateName) {
+    stateLabel.textContent = `Download ${stateName} only`;
+    stateBtn.disabled = false;
+    desc.textContent = `You currently have ${stateName} selected. Download results for this state or all states in ${currentElection?.name || 'this election'}.`;
+  } else {
+    stateLabel.textContent = 'Download current state only';
+    stateBtn.disabled = true;
+    desc.textContent = `Download results for all states in ${currentElection?.name || 'this election'}.`;
+  }
+
+  modal.setAttribute('aria-hidden', 'false');
+  // Focus the first non-disabled button
+  (stateBtn.disabled ? document.getElementById('download-modal-all') : stateBtn).focus();
+}
+
+function closeDownloadModal() {
+  const modal = document.getElementById('download-modal');
+  modal.setAttribute('aria-hidden', 'true');
+  if (_downloadModalTrigger && _downloadModalTrigger.focus) {
+    _downloadModalTrigger.focus();
+    _downloadModalTrigger = null;
+  }
+}
+
+document.getElementById('download-btn').addEventListener('click', () => {
+  showDownloadModal();
+});
+
+document.getElementById('download-btn-mobile')?.addEventListener('click', () => {
+  setMobileMenuOpen(false);
+  showDownloadModal();
+});
+
+document.getElementById('download-modal-state').addEventListener('click', () => {
+  closeDownloadModal();
+  performDownload(true);
+});
+
+document.getElementById('download-modal-all').addEventListener('click', () => {
+  closeDownloadModal();
+  performDownload(false);
+});
+
+document.getElementById('download-modal-cancel').addEventListener('click', () => {
+  closeDownloadModal();
+});
+
+document.getElementById('download-modal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeDownloadModal();
+});
+
+document.getElementById('download-modal').addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { e.preventDefault(); closeDownloadModal(); }
 });
 
 // ---------------------------------------------------------------------------
@@ -4709,6 +4860,25 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     <p style="font-size:16px; margin:0; opacity:0.8;">TV mode is under construction. 😉
 
 </p>
+  </div>
+</div>
+
+<!-- Download scope modal -->
+<div id="download-modal" class="download-modal" role="dialog" aria-modal="true" aria-labelledby="download-modal-title" aria-hidden="true">
+  <div class="download-modal__box">
+    <h2 id="download-modal-title" class="download-modal__title">Download Dataset</h2>
+    <p id="download-modal-desc" class="download-modal__desc">Choose what you want to download.</p>
+    <div class="download-modal__options">
+      <button type="button" class="download-modal__btn download-modal__btn--primary" id="download-modal-state">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+        <span id="download-modal-state-label">Download state only</span>
+      </button>
+      <button type="button" class="download-modal__btn" id="download-modal-all">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+        <span>Download all states</span>
+      </button>
+    </div>
+    <button type="button" class="download-modal__cancel" id="download-modal-cancel">Cancel</button>
   </div>
 </div>
 
