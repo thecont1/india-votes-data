@@ -15,8 +15,11 @@
 <meta name="twitter:description" content="Real-time election results, constituency-level data, vote share analytics and live TV coverage.">
 <meta name="twitter:image" content="https://letlive.thecontrarian.in/android-chrome-512x512.png">
 <title>LET Live! - The Live and Loaded Elections Tracker of India</title>
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="manifest" href="/static/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Inconsolata:wght@500;600&family=Libre+Franklin:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -2179,7 +2182,7 @@
 
 <header class="header">
   <div class="header-brand">
-    <img src="/favicon.png" alt="LET Live logo" class="logo" width="64" height="64">
+    <img src="/static/favicon.png" alt="LET Live logo" class="logo" width="64" height="64">
     <div class="brand-text">
       <span class="wordmark">LET Live!</span>
       <span class="subtitle">The Live and Loaded Elections Tracker of India</span>
@@ -2393,8 +2396,8 @@ const THEME_VALUES = new Set(['dark-handsome', 'fair-lovely', 'black-white']);
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const API_BASE = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
   ? '' : 'https://election-api.thecontrarian.workers.dev';
-const STATIC_BASE = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-  ? '/static' : '';
+const STATIC_BASE = location.hostname === 'letlive.thecontrarian.in'
+  ? '' : '/static';
 // Fix static asset paths for Cloudflare Pages (serves at root, not /static)
 if (!STATIC_BASE) {
   document.querySelectorAll('link[href^="/static/"], img[src^="/static/"]').forEach(el => {
