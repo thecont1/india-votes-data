@@ -749,7 +749,7 @@
     font-family: var(--font-heading);
     font-size: clamp(20px, 3.5vw, 26px);
     font-weight: 600;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -1954,17 +1954,29 @@
       font-size: 12px;
     }
 
-    /* 2. Party Performance h2 + toggle on same row */
+    /* 2. Party Performance title + toggle stacked with breathing room */
     #party-perf-card h2 {
-      display: inline-flex;
-      margin-bottom: 0;
-      margin-right: 10px;
-      vertical-align: middle;
+      margin-bottom: 16px;
     }
     #party-perf-card .toggle-group {
-      display: inline-flex;
+      display: flex;
+      width: 100%;
       margin-bottom: 0;
-      vertical-align: middle;
+      border: none;
+      background: transparent;
+      border-radius: 0;
+    }
+    #perf-toggle .toggle-btn {
+      flex: 1 1 0;
+      text-align: center;
+      border-radius: 10px;
+    }
+    #perf-toggle .toggle-btn:not(:last-child) {
+      border-right: none;
+      margin-right: 4px;
+    }
+    #perf-toggle .toggle-btn.active {
+      border: 1px solid var(--control-active-bg);
     }
 
     /* 3. Chart area to 46vh */
@@ -2030,14 +2042,14 @@
     #party-perf-card.flipped #perf-flipper {
       transform: rotateY(180deg);
     }
-    #party-perf-card .flip-front,
-    #party-perf-card .flip-back {
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
+    .flip-front {
+      position: relative;
+      z-index: 1;
     }
     #party-perf-card .flip-back {
       position: absolute;
       inset: 0;
+      z-index: 2;
       transform: rotateY(180deg);
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -2048,6 +2060,10 @@
       flex-direction: column;
       gap: 12px;
       cursor: pointer;
+      pointer-events: auto;
+    }
+    #party-perf-card.flipped .flip-front {
+      pointer-events: none;
     }
     .flip-back__header {
       display: flex;
@@ -2060,7 +2076,6 @@
       border-radius: 8px;
       background: var(--surface);
       padding: 4px;
-      border: 1px solid var(--border);
     }
     .flip-back__title {
       font-family: var(--font-heading);
@@ -2080,53 +2095,31 @@
       background: var(--border);
       margin: 2px 0;
     }
-    .flip-back__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+    .flip-back__table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      font-family: var(--font-ui);
     }
-    .flip-back__stat {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 10px;
-      text-align: center;
+    .flip-back__table tr:not(:last-child) {
+      border-bottom: 1px solid var(--border);
     }
-    .flip-back__stat-value {
-      font-size: 20px;
+    .flip-back__table td {
+      padding: 10px 0;
+    }
+    .flip-back__table .td-label {
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .flip-back__table .td-value {
+      text-align: right;
       font-weight: 700;
       color: var(--text);
       font-variant-numeric: tabular-nums;
-      line-height: 1.2;
     }
-    .flip-back__stat-label {
-      font-size: 11px;
-      color: var(--muted);
-      font-family: var(--font-ui);
-      margin-top: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
-    .flip-back__highlight {
-      background: linear-gradient(135deg, var(--surface) 0%, var(--card-bg) 100%);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 12px;
-      text-align: center;
-    }
-    .flip-back__highlight-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--text);
-      font-variant-numeric: tabular-nums;
-      line-height: 1.2;
-    }
-    .flip-back__highlight-label {
-      font-size: 12px;
-      color: var(--muted);
-      font-family: var(--font-ui);
-      margin-top: 4px;
-    }
+    .flip-back__table .td-value--win { color: var(--success, #22c55e); }
+    .flip-back__table .td-value--lead { color: var(--warning, #f59e0b); }
+    .flip-back__table .td-value--total { font-size: 15px; }
     .flip-back__meta {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -2270,7 +2263,7 @@
   <!-- Party Performance: Seat Tally + Vote Share (toggled) -->
   <div class="card" id="party-perf-card">
     <h2>Party Performance</h2>
-    <div class="toggle-group" id="perf-toggle" style="margin-bottom:16px;" role="group" aria-label="Party performance view">
+    <div class="toggle-group" id="perf-toggle" role="group" aria-label="Party performance view">
       <button class="toggle-btn active" type="button" data-view="tally" aria-pressed="true">Seat Tally</button>
       <button class="toggle-btn" type="button" data-view="share" aria-pressed="false">Vote Share</button>
       <button class="toggle-btn" type="button" data-view="roundwise" aria-pressed="false">Roundwise</button>
@@ -4754,33 +4747,28 @@ function showPartyDetail(abv) {
 
   const fmt = (n) => n.toLocaleString('en-IN');
 
-  const metaLines = [];
-  if (detail.founded) metaLines.push(`<div><strong>Founded</strong> ${detail.founded}</div>`);
-  if (detail.chief) metaLines.push(`<div><strong>Chief</strong> ${detail.chief}</div>`);
-  if (detail.alliance) metaLines.push(`<div><strong>Alliance</strong> ${detail.alliance}</div>`);
+  const headerMeta = [];
+  if (detail.founded) headerMeta.push(`Founded ${detail.founded}`);
+  if (detail.chief) headerMeta.push(`Chief ${detail.chief}`);
 
   content.innerHTML = `
     <div class="flip-back__header">
-      ${symbolUrl ? `<img src="${symbolUrl}" alt="">` : '<div style="width:48px;height:48px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;">🏛️</div>'}
+      ${symbolUrl ? `<img src="${symbolUrl}" alt="">` : '<div style="width:52px;height:52px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;">🏛️</div>'}
       <div>
         <div class="flip-back__title">${fullName}</div>
         <div class="flip-back__subtitle">${abv}</div>
+        ${headerMeta.length ? `<div class="flip-back__subtitle" style="margin-top:4px;font-size:12px;opacity:0.8;">${headerMeta.join('  ·  ')}</div>` : ''}
       </div>
     </div>
     <div class="flip-back__divider"></div>
-    <div class="flip-back__grid">
-      <div class="flip-back__stat"><div class="flip-back__stat-value" style="color:var(--success,#22c55e);">${fmt(won)}</div><div class="flip-back__stat-label">Won</div></div>
-      <div class="flip-back__stat"><div class="flip-back__stat-value" style="color:var(--warning,#f59e0b);">${fmt(leading)}</div><div class="flip-back__stat-label">Leading</div></div>
-    </div>
-    <div class="flip-back__grid">
-      <div class="flip-back__stat"><div class="flip-back__stat-value">${fmt(lostSafe)}</div><div class="flip-back__stat-label">Lost (safe)</div></div>
-      <div class="flip-back__stat"><div class="flip-back__stat-value">${fmt(lostForfeited)}</div><div class="flip-back__stat-label">Lost (forfeited)</div></div>
-    </div>
-    <div class="flip-back__highlight">
-      <div class="flip-back__highlight-value">${fmt(totalVotes)}</div>
-      <div class="flip-back__highlight-label">Total votes polled</div>
-    </div>
-    ${metaLines.length ? `<div class="flip-back__divider"></div><div class="flip-back__meta">${metaLines.join('')}</div>` : ''}
+    <table class="flip-back__table">
+      <tr><td class="td-label">Won</td><td class="td-value td-value--win">${fmt(won)}</td></tr>
+      <tr><td class="td-label">Leading</td><td class="td-value td-value--lead">${fmt(leading)}</td></tr>
+      <tr><td class="td-label">Lost (deposit safe)</td><td class="td-value">${fmt(lostSafe)}</td></tr>
+      <tr><td class="td-label">Lost (deposit forfeited)</td><td class="td-value">${fmt(lostForfeited)}</td></tr>
+      <tr><td class="td-label"><strong>Total votes</strong></td><td class="td-value td-value--total">${fmt(totalVotes)}</td></tr>
+    </table>
+    ${detail.alliance ? `<div class="flip-back__divider"></div><div class="flip-back__meta"><div><strong>Alliance</strong> ${detail.alliance}</div></div>` : ''}
   `;
 
   card.classList.add('flipped');
@@ -4792,6 +4780,11 @@ function hidePartyDetail() {
 
 // Click anywhere on the flipped-back card to return to chart
 document.getElementById('party-detail-back').addEventListener('click', (e) => {
+  hidePartyDetail();
+});
+// Backup for touch devices
+document.getElementById('party-detail-back').addEventListener('touchend', (e) => {
+  e.preventDefault();
   hidePartyDetail();
 });
 
