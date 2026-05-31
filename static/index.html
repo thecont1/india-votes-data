@@ -2482,9 +2482,9 @@ const THEME_VALUES = new Set(['dark-handsome', 'fair-lovely', 'black-white']);
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const API_BASE = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
   ? '' : 'https://election-api.thecontrarian.workers.dev';
-const STATIC_BASE = location.hostname === 'letlive.thecontrarian.in'
-  ? '' : '/static';
-// Fix static asset paths for Cloudflare Pages (serves at root, not /static)
+const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const STATIC_BASE = isLocal ? '/static' : '';
+// Fix static asset paths for non-local deployments (serves at root, not /static)
 if (!STATIC_BASE) {
   document.querySelectorAll('link[href^="/static/"], img[src^="/static/"]').forEach(el => {
     const attr = el.tagName === 'LINK' ? 'href' : 'src';
