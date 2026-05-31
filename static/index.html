@@ -747,9 +747,9 @@
 
   .card h2 {
     font-family: var(--font-heading);
-    font-size: clamp(18px, 3vw, 20px);
+    font-size: clamp(20px, 3.5vw, 26px);
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 14px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -780,7 +780,6 @@
     max-width: 100%;
     border: 1px solid var(--border);
     border-radius: 10px;
-    overflow: hidden;
   }
   .toggle-btn {
     min-height: 40px;
@@ -795,6 +794,8 @@
     white-space: nowrap;
   }
   .toggle-btn:not(:last-child) { border-right: 1px solid var(--border); }
+  .toggle-btn:first-child { border-radius: 9px 0 0 9px; }
+  .toggle-btn:last-child  { border-radius: 0 9px 9px 0; }
   .toggle-btn:hover { color: var(--text); }
   .toggle-btn.active {
     background: var(--control-active-bg);
@@ -825,7 +826,7 @@
     align-items: center;
     gap: 6px;
     flex-wrap: wrap;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
   }
   .race-sort-link {
     background: none;
@@ -879,7 +880,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
   }
   .race-controls-row .toggle-group {
@@ -1999,8 +2000,9 @@
     .race-controls-row {
       flex-direction: row;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
+      margin-bottom: 16px;
     }
     .race-controls-row .toggle-group {
       flex-basis: 100%;
@@ -4301,7 +4303,7 @@ async function renderRoundwise(stateCode) {
     const ctx = canvas.getContext('2d');
     const theme = chartTheme();
 
-    const labels = rounds.map(rn => rn === 999 ? 'Final' : `R${rn}`);
+    const labels = rounds.map(rn => rn === 999 ? 'Final' : `${rn}`);
 
     const datasets = series.map(s => ({
       label: s.party_abv,
@@ -4351,7 +4353,7 @@ async function renderRoundwise(stateCode) {
           },
           y: {
             grid: { color: theme.grid, borderColor: 'transparent' },
-            ticks: { color: theme.muted, font: { size: 11 } },
+            ticks: { color: theme.muted, font: { size: 11 }, callback: v => formatVotes(v) },
             title: { display: true, text: 'Votes', color: theme.muted },
             beginAtZero: true,
           },
