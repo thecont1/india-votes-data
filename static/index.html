@@ -3542,10 +3542,6 @@ function renderChart(parties, majority) {
       responsive: true,
       maintainAspectRatio: false,
       animation: getChartAnimation(800),
-      onClick: (e, elements, ch) => {
-        const abv = getClickedPartyAbv(ch, elements);
-        if (abv) showPartyDetail(abv);
-      },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -3607,6 +3603,7 @@ function renderChart(parties, majority) {
       },
     },
   });
+  attachCanvasTap(canvas, chart);
 }
 
 function createStripeCanvas(color) {
@@ -3669,10 +3666,6 @@ function renderVoteShare() {
       responsive: true,
       maintainAspectRatio: false,
       animation: getChartAnimation(800),
-      onClick: (e, elements, ch) => {
-        const abv = getClickedPartyAbv(ch, elements);
-        if (abv) showPartyDetail(abv);
-      },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -3735,6 +3728,7 @@ function renderVoteShare() {
       }
     }],
   });
+  attachCanvasTap(canvas, voteShareChart);
 }
 
 // ---------------------------------------------------------------------------
@@ -4474,10 +4468,6 @@ async function renderRoundwise(stateCode) {
         responsive: true,
         maintainAspectRatio: false,
         animation: getChartAnimation(600),
-        onClick: (e, elements, ch) => {
-          const abv = getClickedPartyAbv(ch, elements);
-          if (abv) showPartyDetail(abv);
-        },
         interaction: { mode: 'index', intersect: false },
         plugins: {
           legend: { display: false },
@@ -4508,6 +4498,7 @@ async function renderRoundwise(stateCode) {
         },
       },
     });
+    attachCanvasTap(canvas, roundwiseChart);
   } catch (e) {
     console.warn('Failed to load roundwise:', e);
   }
@@ -4787,6 +4778,22 @@ document.getElementById('party-detail-back').addEventListener('touchend', (e) =>
   e.preventDefault();
   hidePartyDetail();
 });
+
+// Direct canvas tap handler (more reliable than Chart.js onClick on touch)
+function attachCanvasTap(canvas, chartInstance) {
+  if (!canvas || !chartInstance || canvas._tapAttached) return;
+  canvas._tapAttached = true;
+  canvas.addEventListener('click', (event) => {
+    if (!window.matchMedia('(max-width: 640px)').matches) return;
+    const elements = chartInstance.getElementsAtEventForMode(
+      event, 'nearest', { intersect: true }, true
+    );
+    if (elements.length > 0) {
+      const abv = getClickedPartyAbv(chartInstance, elements);
+      if (abv) showPartyDetail(abv);
+    }
+  });
+}
 
 // Helper for chart onClick — returns party abv or null
 function getClickedPartyAbv(chart, elements) {
