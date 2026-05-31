@@ -4,9 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-adsense-account" content="ca-pub-3564536130489009">
-<title>LET Live - The Live and Loaded Elections Tracker of India</title>
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<meta name="description" content="LET Live! — The Live and Loaded Elections Tracker of India. Real-time election results, constituency-level data, vote share analytics and live TV coverage.">
+<meta property="og:title" content="LET Live! — The Live and Loaded Elections Tracker of India">
+<meta property="og:description" content="Real-time election results, constituency-level data, vote share analytics and live TV coverage.">
+<meta property="og:image" content="https://letlive.thecontrarian.in/android-chrome-512x512.png">
+<meta property="og:url" content="https://letlive.thecontrarian.in/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LET Live! — The Live and Loaded Elections Tracker of India">
+<meta name="twitter:description" content="Real-time election results, constituency-level data, vote share analytics and live TV coverage.">
+<meta name="twitter:image" content="https://letlive.thecontrarian.in/android-chrome-512x512.png">
+<title>LET Live! - The Live and Loaded Elections Tracker of India</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="manifest" href="/static/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Inconsolata:wght@500;600&family=Libre+Franklin:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -268,7 +281,31 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { background: var(--bg); }
+  html {
+    background: var(--bg);
+    scroll-padding-top: var(--header-offset, 70px);
+  }
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    z-index: 100;
+    padding: 8px 14px;
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus {
+    top: 12px;
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
 
   body {
     background: var(--bg);
@@ -352,6 +389,117 @@
     font-size: 14px;
     margin-left: auto;
   }
+  .mobile-timestamp {
+    display: none;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--font-ui);
+  }
+  .hamburger-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    background: var(--control-bg);
+    color: var(--control-text);
+    border: 1px solid var(--control-border);
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 0;
+  }
+  .hamburger-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  .hamburger-btn:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+  .mobile-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 16px;
+    width: min(280px, calc(100vw - 32px));
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.24);
+    z-index: 50;
+  }
+  .mobile-menu[hidden] { display: none; }
+  .mobile-menu__section { display: flex; flex-direction: column; gap: 6px; }
+  .mobile-menu__label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .mobile-menu__actions {
+    flex-direction: row;
+    gap: 8px;
+  }
+  .mobile-menu__actions .download-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 8px 12px;
+    background: var(--control-bg);
+    color: var(--control-text);
+    border: 1px solid var(--control-border);
+    border-radius: 10px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .mobile-menu__actions .download-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .mobile-menu__actions .download-btn:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+  .mobile-theme-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .theme-option-mobile {
+    min-height: 36px;
+    padding: 8px 12px;
+    background: var(--control-bg);
+    color: var(--control-text);
+    border: 1px solid var(--control-border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: var(--font-ui);
+    cursor: pointer;
+  }
+  .theme-option-mobile.active {
+    background: var(--control-active-bg);
+    color: var(--control-active-text);
+    border-color: var(--control-active-bg);
+    font-weight: 600;
+  }
+  .theme-option-mobile:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+  .mobile-menu__status .status-indicator {
+    font-size: 12px;
+    color: var(--muted);
+  }
   .search-box {
     position: relative;
     flex: 0 1 260px;
@@ -368,8 +516,9 @@
     outline: none;
     box-sizing: border-box;
   }
-  .search-box input:focus {
-    border-color: var(--accent);
+  .search-box input:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
   }
   .search-box .search-icon {
     position: absolute;
@@ -410,8 +559,13 @@
     font-size: 13px;
     border-bottom: 1px solid var(--border);
   }
-  .search-result-item:hover {
+  .search-result-item:hover,
+  .search-result-item.active {
     background: var(--card-elevated);
+  }
+  .search-result-item.active {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: -2px;
   }
   .search-result-item .sr-name {
     font-weight: 500;
@@ -488,6 +642,10 @@
   .theme-option.active {
     background: var(--control-active-bg);
     color: var(--control-active-text);
+  }
+  .theme-option:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
   }
   .status-indicator {
     display: inline-flex;
@@ -592,9 +750,9 @@
 
   .card h2 {
     font-family: var(--font-heading);
-    font-size: clamp(18px, 3vw, 20px);
+    font-size: clamp(20px, 3.5vw, 26px);
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 18px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -604,7 +762,7 @@
   /* Fixed-height chart area so card never jumps */
   .perf-chart-area {
     position: relative;
-    height: clamp(340px, 55vh, 520px);
+    height: clamp(390px, 63vh, 600px);
   }
   .perf-chart-area > div {
     position: absolute;
@@ -625,7 +783,6 @@
     max-width: 100%;
     border: 1px solid var(--border);
     border-radius: 10px;
-    overflow: hidden;
   }
   .toggle-btn {
     min-height: 40px;
@@ -640,6 +797,8 @@
     white-space: nowrap;
   }
   .toggle-btn:not(:last-child) { border-right: 1px solid var(--border); }
+  .toggle-btn:first-child { border-radius: 9px 0 0 9px; }
+  .toggle-btn:last-child  { border-radius: 0 9px 9px 0; }
   .toggle-btn:hover { color: var(--text); }
   .toggle-btn.active {
     background: var(--control-active-bg);
@@ -659,7 +818,7 @@
   .chart-container {
     position: relative;
     width: 100%;
-    height: clamp(320px, 52vh, 520px);
+    height: clamp(370px, 60vh, 600px);
   }
   #races-card {
     min-height: 680px;
@@ -670,7 +829,7 @@
     align-items: center;
     gap: 6px;
     flex-wrap: wrap;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
   }
   .race-sort-link {
     background: none;
@@ -699,7 +858,7 @@
     user-select: none;
   }
   #races-chart-container {
-    height: 480px !important;
+    height: 552px !important;
   }
 
   .field-row {
@@ -724,7 +883,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
   }
   .race-controls-row .toggle-group {
@@ -821,7 +980,7 @@
     white-space: normal;
   }
   .form20-info:hover .form20-info-tooltip { opacity: 1; }
-  .form20-info-tooltip h4 {
+  .form20-info-tooltip .form20-tooltip-heading {
     margin: 0 0 6px;
     font-size: 12px;
     font-weight: 600;
@@ -834,12 +993,14 @@
   }
   .form20-info-tooltip p:last-child { margin-bottom: 0; }
 
+  .form20-info-tooltip table th,
   .form20-info-tooltip table td {
     white-space: nowrap;
     padding: 2px 6px 2px 0;
     font-size: 11px;
     color: var(--tooltip-muted, var(--muted));
     vertical-align: top;
+    font-weight: 400;
   }
   .form20-info-tooltip table td:last-child {
     white-space: normal;
@@ -1250,7 +1411,7 @@
   }
   :root[data-theme="fair-lovely"] .chart-container {
     background: var(--surface-chart);
-    border: 1px solid var(--line-soft);
+    border: none;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
@@ -1627,6 +1788,21 @@
     margin-bottom: 8px;
   }
 
+  /* Footer */
+  .site-footer {
+    text-align: center;
+    padding: 20px 16px;
+    font-size: 14px;
+    color: var(--muted);
+    font-family: var(--font-ui);
+    border-top: 1px solid var(--border);
+    margin-top: 16px;
+  }
+  .site-footer a {
+    color: var(--muted);
+    text-decoration: underline;
+  }
+
   /* Responsive */
   @media (max-width: 768px) {
     .header {
@@ -1658,32 +1834,59 @@
 
   @media (max-width: 640px) {
     .header {
-      grid-template-columns: minmax(0, 1fr) auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
       padding-inline: 16px;
     }
     .header-brand {
+      flex: 1 1 auto;
+      min-width: 0;
       flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+    .header-brand .logo {
+      width: 44px;
+      height: 44px;
+    }
+    .brand-text {
+      gap: 1px;
+      justify-content: center;
     }
     .wordmark {
-      font-size: 19px;
-      line-height: 1.15;
+      font-size: 44px;
+      line-height: 1;
     }
-    .subtitle {
-      font-size: 10px;
+    .subtitle { display: none; }
+    .mobile-timestamp { display: none; }
+    #election-selector { display: none; }
+    .header .meta { display: none; }
+    .hamburger-btn { display: inline-flex; margin-left: auto; }
+    .mobile-menu #election-selector-mobile {
+      width: 100%;
+      max-width: none;
+      margin-left: 0;
+    }
+    .search-box {
+      flex: none;
+      width: 100%;
+      min-width: 0;
     }
     .header .meta {
-      grid-template-columns: 1fr auto;
-      grid-template-areas:
-        'date theme'
-        'status theme';
-      align-items: start;
-      width: 100%;
-      margin-left: 0;
-      justify-items: start;
+      display: none;
     }
-    #date-display { grid-area: date; font-size: 12px; }
-    .status-indicator { grid-area: status; font-size: 12px; }
-    .theme-picker { grid-area: theme; justify-self: end; }
+    .status-indicator { font-size: 12px; }
+    .theme-picker { margin-left: auto; }
+    .search-result-item {
+      min-height: 24px;
+      padding: 10px 12px;
+    }
+    @media (max-width: 400px) {
+      .subtitle { display: none; }
+    }
     .state-bar {
       flex-wrap: nowrap;
       overflow-x: auto;
@@ -1700,19 +1903,33 @@
     }
     .state-btn:first-child { margin-left: 0; }
     .state-btn.active,
-    .state-btn:hover,
-    .state-btn:focus-visible {
+    .state-btn:hover {
       position: relative;
       z-index: 2;
       transform: translateY(-1px);
     }
+    .state-btn:focus-visible {
+      position: relative;
+      z-index: 2;
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
     .summary-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
     }
     .summary-chip {
-      min-height: 92px;
-      gap: 8px;
+      min-height: 52px;
+      gap: 2px;
+      padding: 6px 4px;
+      border-radius: 10px;
+    }
+    .summary-chip__label {
+      font-size: 9px;
+      letter-spacing: 0;
+    }
+    .summary-chip__value {
+      font-size: 16px;
     }
     .result-duel__margin,
     .candidate-card__header {
@@ -1727,7 +1944,304 @@
       text-align: left;
     }
     #races-card { min-height: 640px; }
-    #races-chart-container { height: 430px !important; }
+    #races-chart-container { height: 495px !important; }
+
+    /* 1. Shrink state bar */
+    .state-bar {
+      padding: 6px 10px;
+      gap: 6px;
+    }
+    .state-btn {
+      min-height: 28px;
+      padding: 3px 10px;
+      font-size: 12px;
+    }
+
+    /* 2. Party Performance title + toggle stacked with breathing room */
+    #party-perf-card h2 {
+      margin-bottom: 16px;
+    }
+    #party-perf-card .toggle-group {
+      display: flex;
+      width: 100%;
+      margin-bottom: 16px;
+      border: none;
+      background: transparent;
+      border-radius: 0;
+    }
+    #perf-toggle .toggle-btn {
+      flex: 1 1 0;
+      text-align: center;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    #perf-toggle .toggle-btn:not(:last-child) {
+      border-right: 1px solid var(--border);
+      margin-right: 4px;
+    }
+    #perf-toggle .toggle-btn.active {
+      border: 1px solid var(--control-active-bg);
+    }
+
+    /* 3. Chart area to 46vh */
+    .perf-chart-area {
+      height: 46vh;
+    }
+
+    /* 4. Card padding shrink — edge-to-edge charts, text keeps inline padding */
+    .card {
+      padding: 10px 0;
+      margin-bottom: 10px;
+    }
+    .card > :not(.perf-chart-area):not(.chart-container) {
+      padding-inline: 10px;
+    }
+    :root {
+      --duel-padding: 10px;
+    }
+
+    /* Party Performance legend: max 2 rows */
+    .legend {
+      max-height: 64px;
+      overflow: hidden;
+    }
+
+    /* 5. Form 20 inline with dropdown, hide tooltip + action */
+    select {
+      height: 31px;
+      min-height: 31px;
+      padding: 0 36px 0 12px;
+      box-sizing: border-box;
+    }
+    .race-controls-row {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .race-controls-row .toggle-group {
+      flex-basis: 100%;
+      align-self: flex-start;
+    }
+    .toggle-btn {
+      font-size: 13px;
+    }
+    .chart-container {
+      border-radius: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Party Performance card flip */
+    #party-perf-card { perspective: 1200px; }
+    #perf-flip-wrap {
+      position: relative;
+      padding-inline: 10px;
+    }
+    #perf-flipper {
+      transition: transform 0.5s ease;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+    #party-perf-card.flipped #perf-flipper {
+      transform: rotateY(180deg);
+    }
+    .flip-front {
+      position: relative;
+      z-index: 1;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    #party-perf-card .flip-back {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      cursor: pointer;
+      pointer-events: none;
+    }
+    #party-perf-card.flipped .flip-front {
+      pointer-events: none;
+    }
+    #party-perf-card.flipped .flip-back {
+      pointer-events: auto;
+    }
+
+    /* Results by Constituency card flip */
+    #races-card { perspective: 1200px; }
+    #race-flip-wrap {
+      position: relative;
+    }
+    #race-flipper {
+      transition: transform 0.5s ease;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+    #races-card.flipped #race-flipper {
+      transform: rotateY(180deg);
+    }
+    #races-card .flip-back {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      cursor: pointer;
+      pointer-events: none;
+    }
+    #races-card.flipped .flip-front {
+      pointer-events: none;
+    }
+    #races-card.flipped .flip-back {
+      pointer-events: auto;
+    }
+
+    .flip-back__header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .flip-back__header img {
+      width: 52px; height: 52px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 4px;
+    }
+    .flip-back__title {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    .flip-back__subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      font-family: var(--font-ui);
+      margin-top: 2px;
+    }
+    .flip-back__divider {
+      height: 1px;
+      background: var(--border);
+      margin: 2px 0;
+    }
+    .flip-back__table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      font-family: var(--font-ui);
+    }
+    .flip-back__table tr:not(:last-child) {
+      border-bottom: 1px solid var(--border);
+    }
+    .flip-back__table td {
+      padding: 10px 0;
+    }
+    .flip-back__table .td-label {
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .flip-back__table .td-value {
+      text-align: right;
+      font-weight: 700;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .flip-back__table .td-label--dark,
+    .flip-back__table .td-value--dark {
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .flip-back__table .td-label--light,
+    .flip-back__table .td-value--light {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 400;
+    }
+    .flip-back__table .td-value--light {
+      font-weight: 500;
+    }
+    .flip-back__table .td-indent { padding-left: 16px; }
+    .flip-back__spacer { height: 12px; }
+    .flip-back__meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+      font-size: 13px;
+      color: var(--muted);
+      font-family: var(--font-ui);
+      line-height: 1.5;
+    }
+    .flip-back__meta strong {
+      color: var(--text);
+      font-weight: 600;
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 1px;
+    }
+
+    .race-controls-row .field-row {
+      flex: 1 1 0;
+      min-width: 0;
+      margin-bottom: 0;
+    }
+    .race-controls-row #race-select {
+      width: 100%;
+    }
+    .race-controls-row .form20-card {
+      flex: 0 0 auto;
+      width: auto;
+      height: 31px;
+      min-height: 31px;
+      padding: 0 8px;
+      font-size: 12px;
+      box-sizing: border-box;
+    }
+    .form20-card__action { display: none; }
+    .form20-info.active .form20-info-tooltip { opacity: 1; pointer-events: auto; }
+    .form20-info-tooltip {
+      position: fixed;
+      top: 50%;
+      left: 12px;
+      right: 12px;
+      bottom: auto;
+      width: auto;
+      max-width: none;
+      max-height: 60vh;
+      overflow-y: auto;
+      z-index: 300;
+      pointer-events: none;
+      transform: translateY(-50%);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .site-footer {
+      padding: 12px 10px;
+      font-size: 13px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1741,20 +2255,25 @@
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
 <header class="header">
   <div class="header-brand">
-    <img src="/favicon.png" alt="LET Live logo" class="logo" width="64" height="64">
+    <img src="/static/favicon.png" alt="LET Live logo" class="logo" width="64" height="64">
     <div class="brand-text">
       <span class="wordmark">LET Live!</span>
       <span class="subtitle">The Live and Loaded Elections Tracker of India</span>
+      <span class="mobile-timestamp" id="mobile-timestamp"></span>
     </div>
   </div>
+  <button class="hamburger-btn" id="hamburger-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
   <select id="election-selector" aria-label="Select election period" style="margin-left:12px; min-width:180px; max-width:220px;"></select>
   <div class="search-box">
     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-    <input type="text" id="search-input" placeholder="Search candidates, constituencies, parties..." autocomplete="off" />
-    <div class="search-results" id="search-results"></div>
+    <input type="text" id="search-input" placeholder="Search candidates, constituencies, parties..." autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-results" />
+    <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
   </div>
   <div class="meta" aria-label="Dashboard status and preferences">
     <span class="status-indicator" aria-live="polite">
@@ -1780,11 +2299,43 @@
       </div>
     </div>
   </div>
+
+  <!-- Mobile hamburger menu -->
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <div class="mobile-menu__section">
+      <label class="mobile-menu__label" for="election-selector-mobile">Election</label>
+      <select id="election-selector-mobile" aria-label="Select election period"></select>
+    </div>
+    <div class="mobile-menu__section mobile-menu__actions">
+      <button class="download-btn" id="tv-btn-mobile" type="button" aria-label="TV mode coming soon" title="Coming soon — TV mode">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M15.331 4.502a49.408 49.408 0 0 0-4.407-.425L13.5 1.501l-1-1L8.991 4.01A54.24 54.24 0 0 0 8 4.001l-4-4-1 1 3.034 3.034a50.304 50.304 0 0 0-5.365.467C.239 6.185 0 8.045 0 10s.239 3.815.669 5.498C2.913 15.821 5.393 16 8 16s5.087-.179 7.331-.502c.43-1.683.669-3.543.669-5.498s-.239-3.815-.669-5.498zm-1.833 9.164C11.815 13.881 9.955 14 8 14s-3.815-.119-5.498-.334C2.179 12.544 2 11.304 2 10s.179-2.543.502-3.666C4.185 6.119 6.045 6 8 6s3.815.119 5.498.334C13.821 7.456 14 8.696 14 10s-.179 2.543-.502 3.666z"/></svg>
+        <span>TV Mode</span>
+      </button>
+      <button class="download-btn" id="download-btn-mobile" type="button" aria-label="Download dataset as Excel" title="Download dataset">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+        <span>Download</span>
+      </button>
+    </div>
+    <div class="mobile-menu__section">
+      <label class="mobile-menu__label">Theme</label>
+      <div class="mobile-theme-options" role="group" aria-label="Viewing mode options">
+        <button class="theme-option-mobile" type="button" data-theme="dark-handsome">Dark &amp; Handsome</button>
+        <button class="theme-option-mobile" type="button" data-theme="fair-lovely">Fair &amp; Lovely</button>
+        <button class="theme-option-mobile" type="button" data-theme="black-white">Black &amp; White</button>
+      </div>
+    </div>
+    <div class="mobile-menu__section mobile-menu__status">
+      <span class="status-indicator" aria-live="polite">
+        <span class="status-dot idle" id="status-dot-mobile" aria-hidden="true"></span>
+        <span id="status-text-mobile">Waiting for data...</span>
+      </span>
+    </div>
+  </div>
 </header>
 
 <nav class="state-bar" id="state-bar" aria-label="Election state filters"></nav>
 
-<main class="content">
+<main class="content" id="main-content">
   <section class="summary-grid" id="status-bar" aria-live="polite" aria-label="Constituency status summary">
     <span>Loading...</span>
   </section>
@@ -1792,34 +2343,43 @@
   <!-- Party Performance: Seat Tally + Vote Share (toggled) -->
   <div class="card" id="party-perf-card">
     <h2>Party Performance</h2>
-    <div class="toggle-group" id="perf-toggle" style="margin-bottom:16px;" role="group" aria-label="Party performance view">
+    <div class="toggle-group" id="perf-toggle" role="group" aria-label="Party performance view">
       <button class="toggle-btn active" type="button" data-view="tally" aria-pressed="true">Seat Tally</button>
       <button class="toggle-btn" type="button" data-view="share" aria-pressed="false">Vote Share</button>
       <button class="toggle-btn" type="button" data-view="roundwise" aria-pressed="false">Roundwise</button>
     </div>
-    <div class="perf-chart-area">
-      <div id="perf-chart-area-tally">
-        <div class="chart-container">
-          <canvas id="tally-chart"></canvas>
+    <div class="flip-wrap" id="perf-flip-wrap">
+      <div class="flipper" id="perf-flipper">
+        <div class="flip-front">
+          <div class="perf-chart-area">
+            <div id="perf-chart-area-tally">
+              <div class="chart-container">
+                <canvas id="tally-chart"></canvas>
+              </div>
+            </div>
+            <div id="perf-chart-area-share" style="visibility:hidden;">
+              <div class="chart-container">
+                <canvas id="vote-share-chart"></canvas>
+              </div>
+            </div>
+            <div id="perf-chart-area-roundwise" style="visibility:hidden;">
+              <div class="chart-container">
+                <canvas id="roundwise-chart"></canvas>
+              </div>
+              <div id="roundwise-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <div class="icon">📊</div>
+                    <h3>This view is available in single-state mode only</h3>
+                    <p>Pick a state from the buttons above to see constituency-level results.</p>
+              </div>
+            </div>
+          </div>
+          <div id="perf-legend-tally" class="legend perf-party-legend" style="margin-bottom:0;"></div>
         </div>
-      </div>
-      <div id="perf-chart-area-share" style="visibility:hidden;">
-        <div class="chart-container">
-          <canvas id="vote-share-chart"></canvas>
-        </div>
-      </div>
-      <div id="perf-chart-area-roundwise" style="visibility:hidden;">
-        <div class="chart-container">
-          <canvas id="roundwise-chart"></canvas>
-        </div>
-        <div id="roundwise-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-          <div class="icon">📊</div>
-              <h3>This view is available in single-state mode only</h3>
-              <p>Pick a state from the buttons above to see constituency-level results.</p>
+        <div class="flip-back" id="party-detail-back">
+          <div class="flip-back__content" id="party-detail-content"></div>
         </div>
       </div>
     </div>
-    <div id="perf-legend-tally" class="legend perf-party-legend" style="margin-bottom:0;"></div>
     <div class="empty-state" id="empty-state" style="display:none;">
       <div class="icon">📭</div>
       <h3>No results yet</h3>
@@ -1854,14 +2414,19 @@
         <span class="form20-card__label">Form 20
           <span class="form20-info" tabindex="0">i
             <div class="form20-info-tooltip">
-              <h4>Form 20 Verification</h4>
+              <p class="form20-tooltip-heading">Form 20 Verification</p>
               <p>Each AC's top 3 candidates' results are cross-checked against the final result sheet (Form 20) after sign off by the Returning Officer.</p>
               <table style="width:100%;border-collapse:collapse;margin:4px 0;">
-                <tr><td>🟩</td><td><strong style="color:#059669">Verified</strong></td><td>Data confirmed either by computer or manually.</td></tr>
-                <tr><td>🟥</td><td><strong style="color:#dc2626">Mismatch</strong></td><td>Discrepancy in online results (EVM <strong>and</strong> postal) and that seen in Form 20. Needs manual verification.</td></tr>
-                <tr><td>🌀</td><td><strong style="color:#2563eb">Error</strong></td><td>Could not read Form 20. Retry.</td></tr>
-                <tr><td>⚠️</td><td><strong style="color:#d97706">Unverified</strong></td><td>Verification not attempted yet.</td></tr>
-                <tr><td>❓</td><td><strong>Unavailable</strong></td><td>Form 20 not detected on State CEO website.</td></tr>
+                <thead style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+                  <tr><th scope="col">Icon</th><th scope="col">Status</th><th scope="col">Description</th></tr>
+                </thead>
+                <tbody>
+                <tr><th scope="row">🟩</th><td><strong style="color:#059669">Verified</strong></td><td>Data confirmed either by computer or manually.</td></tr>
+                <tr><th scope="row">🟥</th><td><strong style="color:#dc2626">Mismatch</strong></td><td>Discrepancy in online results (EVM <strong>and</strong> postal) and that seen in Form 20. Needs manual verification.</td></tr>
+                <tr><th scope="row">🌀</th><td><strong style="color:#2563eb">Error</strong></td><td>Could not read Form 20. Retry.</td></tr>
+                <tr><th scope="row">⚠️</th><td><strong style="color:#d97706">Unverified</strong></td><td>Verification not attempted yet.</td></tr>
+                <tr><th scope="row">❓</th><td><strong>Unavailable</strong></td><td>Form 20 not detected on State CEO website.</td></tr>
+                </tbody>
               </table>
               <p style="margin-top:6px">Use <strong>Form 20 Priority</strong> to show only constituencies needing review (Mismatch, Error, Unverified, Unavailable).</p>
             </div>
@@ -1874,21 +2439,30 @@
         <span id="form20-action"></span>
       </div>
     </div>
-    <div class="chart-container" id="races-chart-container" style="height:600px;">
-      <canvas id="races-chart"></canvas>
-      <div id="roundwise-card" class="roundwise-card"></div>
-      <div id="race-overall-overlay" class="empty-state" style="display:flex; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
-        <div class="icon">📊</div>
-        <h3>This view is available in single-state mode only</h3>
-        <p>Pick a state from the buttons above to see constituency-level results.</p>
-      </div>
-      <div id="race-roundwise-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
-        <div class="icon">📊</div>
-        <h3>This view is available in single-state mode only</h3>
-        <p>Pick a state from the buttons above to see constituency-level results.</p>
+    <div class="flip-wrap" id="race-flip-wrap">
+      <div class="flipper" id="race-flipper">
+        <div class="flip-front">
+          <div class="chart-container" id="races-chart-container" style="height:600px;">
+            <canvas id="races-chart"></canvas>
+            <div id="roundwise-card" class="roundwise-card"></div>
+            <div id="race-overall-overlay" class="empty-state" style="display:flex; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
+              <div class="icon">📊</div>
+              <h3>This view is available in single-state mode only</h3>
+              <p>Pick a state from the buttons above to see constituency-level results.</p>
+            </div>
+            <div id="race-roundwise-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
+              <div class="icon">📊</div>
+              <h3>This view is available in single-state mode only</h3>
+              <p>Pick a state from the buttons above to see constituency-level results.</p>
+            </div>
+          </div>
+          <div id="race-party-legend" class="legend" style="margin-bottom:0;"></div>
+        </div>
+        <div class="flip-back" id="race-detail-back">
+          <div class="flip-back__content" id="race-detail-content"></div>
+        </div>
       </div>
     </div>
-    <div id="race-party-legend" class="legend" style="margin-bottom:0;"></div>
   </div>
 
 </main>
@@ -1908,9 +2482,9 @@ const THEME_VALUES = new Set(['dark-handsome', 'fair-lovely', 'black-white']);
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const API_BASE = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
   ? '' : 'https://election-api.thecontrarian.workers.dev';
-const STATIC_BASE = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-  ? '/static' : '';
-// Fix static asset paths for Cloudflare Pages (serves at root, not /static)
+const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const STATIC_BASE = isLocal ? '/static' : '';
+// Fix static asset paths for non-local deployments (serves at root, not /static)
 if (!STATIC_BASE) {
   document.querySelectorAll('link[href^="/static/"], img[src^="/static/"]').forEach(el => {
     const attr = el.tagName === 'LINK' ? 'href' : 'src';
@@ -1936,6 +2510,24 @@ let lastDataFingerprint = '';
 let selectedTheme = DEFAULT_THEME;
 let stateStatuses = {};
 let knownStates = [];
+
+// ---------------------------------------------------------------------------
+// Sanitization helpers (global scope — used by mobile detail flips)
+// ---------------------------------------------------------------------------
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function escapeAttr(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function safeImgSrc(url) {
+  if (!url) return '';
+  try {
+    const u = new URL(url, location.href);
+    if (u.protocol === 'https:' || u.protocol === 'http:') return u.href;
+  } catch (_) { /* relative URL — allow */ return url; }
+  return '';
+}
 let perfView = 'tally';  // 'tally', 'share', or 'roundwise'
 let perfParties = [];  // shared party list for both views
 let raceSortMode = localStorage.getItem(RACE_SORT_STORAGE_KEY) || 'alpha';
@@ -2071,6 +2663,9 @@ function updateThemeMenu(nextTheme) {
   document.querySelectorAll('.theme-option').forEach(option => {
     option.classList.toggle('active', option.dataset.theme === nextTheme);
   });
+  document.querySelectorAll('.theme-option-mobile').forEach(option => {
+    option.classList.toggle('active', option.dataset.theme === nextTheme);
+  });
 }
 
 function applyTheme(theme, persist = true) {
@@ -2126,6 +2721,48 @@ document.getElementById('theme-menu').addEventListener('click', (e) => {
   setThemeMenuOpen(false);
 });
 
+// Theme menu keyboard navigation
+const themeOptions = () => Array.from(document.querySelectorAll('.theme-option'));
+function focusThemeOption(dir) {
+  const opts = themeOptions();
+  const active = document.activeElement;
+  let idx = opts.indexOf(active);
+  if (idx < 0) idx = dir > 0 ? -1 : 0;
+  const next = opts[(idx + dir + opts.length) % opts.length];
+  if (next) { next.focus(); applyTheme(next.dataset.theme, false); }
+}
+document.getElementById('theme-trigger').addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    setThemeMenuOpen(true);
+    const opts = themeOptions();
+    if (opts.length) { opts[0].focus(); applyTheme(opts[0].dataset.theme, false); }
+  }
+});
+document.getElementById('theme-menu').addEventListener('keydown', (e) => {
+  const opt = e.target.closest('.theme-option');
+  if (!opt) return;
+  switch (e.key) {
+    case 'ArrowDown': e.preventDefault(); focusThemeOption(1); break;
+    case 'ArrowUp': e.preventDefault(); focusThemeOption(-1); break;
+    case 'Home': e.preventDefault(); focusThemeOption(1 - themeOptions().indexOf(opt)); break;
+    case 'End': e.preventDefault(); focusThemeOption(themeOptions().length - 1 - themeOptions().indexOf(opt)); break;
+    case 'Enter':
+    case ' ':
+      e.preventDefault();
+      applyTheme(opt.dataset.theme, true);
+      setThemeMenuOpen(false);
+      document.getElementById('theme-trigger').focus();
+      break;
+    case 'Escape':
+      e.preventDefault();
+      setThemeMenuOpen(false);
+      applyTheme(selectedTheme, false);
+      document.getElementById('theme-trigger').focus();
+      break;
+  }
+});
+
 document.addEventListener('click', (e) => {
   if (!document.getElementById('theme-picker').contains(e.target)) {
     setThemeMenuOpen(false);
@@ -2134,6 +2771,71 @@ document.addEventListener('click', (e) => {
 });
 
 prefersReducedMotion.addEventListener('change', () => refreshChartTheme());
+
+// ---------------------------------------------------------------------------
+// Mobile hamburger menu
+// ---------------------------------------------------------------------------
+function setMobileMenuOpen(open) {
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('hamburger-btn');
+  menu.hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+}
+
+document.getElementById('hamburger-btn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const menu = document.getElementById('mobile-menu');
+  setMobileMenuOpen(menu.hidden);
+});
+
+document.getElementById('election-selector-mobile')?.addEventListener('change', (e) => {
+  const desktop = document.getElementById('election-selector');
+  if (desktop && desktop.value !== e.target.value) {
+    desktop.value = e.target.value;
+    desktop.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+});
+
+let _tvOverlayTrigger = null;
+
+document.getElementById('tv-btn-mobile')?.addEventListener('click', (e) => {
+  _tvOverlayTrigger = e.currentTarget;
+  const overlay = document.getElementById('tv-overlay');
+  overlay.style.opacity = '0';
+  overlay.style.display = 'flex';
+  overlay.style.transition = 'opacity 0.3s ease';
+  requestAnimationFrame(() => { overlay.style.opacity = '1'; });
+  setMobileMenuOpen(false);
+});
+
+document.querySelectorAll('.theme-option-mobile').forEach(btn => {
+  btn.addEventListener('click', () => {
+    applyTheme(btn.dataset.theme, true);
+    setMobileMenuOpen(false);
+  });
+});
+
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('hamburger-btn');
+  if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) {
+    setMobileMenuOpen(false);
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  const menu = document.getElementById('mobile-menu');
+  if (e.key === 'Escape' && !menu.hidden) {
+    setMobileMenuOpen(false);
+    document.getElementById('hamburger-btn').focus();
+  }
+});
+
+// Sync mobile election select when desktop changes
+document.getElementById('election-selector').addEventListener('change', (e) => {
+  const mobile = document.getElementById('election-selector-mobile');
+  if (mobile && mobile.value !== e.target.value) mobile.value = e.target.value;
+});
 
 // ---------------------------------------------------------------------------
 // Election selector
@@ -2156,9 +2858,12 @@ async function loadElections() {
     const data = await res.json();
     electionsList = data.elections || [];
     const selector = document.getElementById('election-selector');
-    selector.innerHTML = electionsList.map(e =>
+    const electionOptions = electionsList.map(e =>
       `<option value="${e.election_id}">${e.name}</option>`
     ).join('');
+    selector.innerHTML = electionOptions;
+    const mobileSelector = document.getElementById('election-selector-mobile');
+    if (mobileSelector) mobileSelector.innerHTML = electionOptions;
     // Restore saved election or default to most recent
     const savedElectionId = localStorage.getItem(ELECTION_STORAGE_KEY);
     const savedElection = savedElectionId
@@ -2166,9 +2871,13 @@ async function loadElections() {
       : null;
     if (savedElection) {
       selector.value = savedElection.election_id;
+      const mobileSelector = document.getElementById('election-selector-mobile');
+      if (mobileSelector) mobileSelector.value = savedElection.election_id;
       currentElection = savedElection;
     } else if (electionsList.length > 0) {
       selector.value = electionsList[0].election_id;
+      const mobileSelector = document.getElementById('election-selector-mobile');
+      if (mobileSelector) mobileSelector.value = electionsList[0].election_id;
       currentElection = electionsList[0];
     }
     if (currentElection) {
@@ -2177,7 +2886,7 @@ async function loadElections() {
       updateStateBarForElection(currentElection.states);
     }
   } catch (err) {
-    console.error('Failed to load elections:', err);
+    console.warn('Failed to load elections:', err);
   }
 }
 
@@ -2345,10 +3054,12 @@ async function fetchData() {
     hours = hours % 12 || 12;
     const mins = String(dt.getMinutes()).padStart(2, '0');
     const secs = String(dt.getSeconds()).padStart(2, '0');
-    document.getElementById('status-text').textContent =
-      `Updated ${day} ${month} ${year} ${hours}:${mins}:${secs} ${ampm}`;
+    const timestamp = `Updated ${day} ${month} ${year} ${hours}:${mins}:${secs} ${ampm}`;
+    document.getElementById('status-text').textContent = timestamp;
+    const mobileStatus = document.getElementById('status-text-mobile');
+    if (mobileStatus) mobileStatus.textContent = timestamp;
   } catch (e) {
-    console.error('Fetch failed:', e);
+    console.warn('Fetch failed:', e);
   }
 }
 
@@ -2422,6 +3133,31 @@ function buildCircleLegend(el, labels, colors, symbols) {
       ${img}<span>${l}</span>${tooltip}
     </div>`;
   }).join('');
+
+  // Tap a legend item on mobile to flip to party detail (Party Performance only)
+  if (el.id === 'perf-legend-tally') {
+    el.querySelectorAll('.legend-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const abv = item.dataset.abv;
+        if (abv) showPartyDetail(abv);
+      });
+    });
+  }
+
+  // Tap a legend item on mobile to flip to candidate detail (Races card only)
+  if (el.id === 'race-party-legend') {
+    el.querySelectorAll('.legend-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const abv = item.dataset.abv;
+        if (!abv || !currentRace || !currentRace.candidates) return;
+        const shown = getShownCandidates(currentRace);
+        const idx = shown.findIndex(c => (c.party_abv || c.party_name || c.candidate) === abv);
+        if (idx >= 0) showCandidateDetail(idx);
+      });
+    });
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -2481,6 +3217,8 @@ function partyCardTooltip(context) {
   const { chart, tooltip } = context;
   const el = _getTooltipEl(chart);
 
+  // No hover tooltips on mobile — tap flips the card instead
+  if (window.matchMedia('(max-width: 640px)').matches) { _hideTooltip(el); return; }
   if (tooltip.opacity === 0) { _hideTooltip(el); return; }
 
   // Determine party abv
@@ -2504,11 +3242,11 @@ function partyCardTooltip(context) {
 
   const symbolUrl = partyAbv ? partySymbols[partyAbv] : null;
   const symHtml = symbolUrl
-    ? `<img src="${symbolUrl}" class="tooltip-symbol" alt="">`
+    ? `<img src="${safeImgSrc(symbolUrl)}" class="tooltip-symbol" alt="">`
     : '';
 
   const titleLines = tooltip.title || [];
-  const titleHtml = titleLines.map(t => `<div class="tooltip-title">${t}</div>`).join('');
+  const titleHtml = titleLines.map(t => `<div class="tooltip-title">${escapeHtml(t)}</div>`).join('');
 
   // Build body: direct from chart data for seat tally (2 datasets), _bodyLines for others
   let bodyHtml;
@@ -2536,14 +3274,14 @@ function partyCardTooltip(context) {
         const isChild = l.startsWith('  ');
         const indentStyle = isChild ? 'padding-left:12px;color:var(--tooltip-muted,var(--muted));' : '';
         const valueStyle = isChild ? 'opacity:0.6;font-weight:400;' : 'font-weight:500;';
-        return `<tr><td class="td-label" style="${indentStyle}">${m[1]}</td><td class="td-value" style="${valueStyle}">${m[2]}</td></tr>`;
+        return `<tr><td class="td-label" style="${indentStyle}">${escapeHtml(m[1])}</td><td class="td-value" style="${valueStyle}">${escapeHtml(m[2])}</td></tr>`;
       }
       return null;
     });
     bodyHtml = `<table class="tooltip-table">${tableRows.filter(Boolean).join('')}</table>`;
   } else {
     const bodyLines = _bodyLines(tooltip);
-    bodyHtml = bodyLines.map(l => `<div class="tooltip-body">${l}</div>`).join('');
+    bodyHtml = bodyLines.map(l => `<div class="tooltip-body">${escapeHtml(l)}</div>`).join('');
   }
 
   el.innerHTML = `<div class="tooltip-header">${symHtml}<span>${titleHtml}</span></div>${bodyHtml}`;
@@ -2564,7 +3302,7 @@ function legendTooltip(context) {
 
   const titleLines = tooltip.title || [];
   const titleHtml = titleLines.length
-    ? `<div class="tooltip-title" style="margin-bottom:6px;">${titleLines[0]}</div>`
+    ? `<div class="tooltip-title" style="margin-bottom:6px;">${escapeHtml(titleLines[0])}</div>`
     : '';
 
   // Build one row per data point (each is a party line)
@@ -2574,11 +3312,11 @@ function legendTooltip(context) {
     const color = dp.dataset.borderColor || '#888';
     const val = dp.parsed.y;
     const symHtml = symbolUrl
-      ? `<img src="${symbolUrl}" alt="" class="tooltip-symbol-sm">`
+      ? `<img src="${safeImgSrc(symbolUrl)}" alt="" class="tooltip-symbol-sm">`
       : '';
     return `<div class="legend-item" style="margin-bottom:2px;">
       <div class="legend-swatch" style="border-color:${color};"></div>
-      ${symHtml}<span>${partyAbv}</span>
+      ${symHtml}<span>${escapeHtml(partyAbv)}</span>
       <span style="margin-left:auto;font-variant-numeric:tabular-nums;">${val.toLocaleString()}</span>
     </div>`;
   }).join('');
@@ -2639,14 +3377,14 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
   // Party symbol tag
   const partySym = (abv) => {
     const url = partySymbols[abv];
-    return url ? `<img src="${url}" alt="" class="rw-card-sym">` : '';
+    return url ? `<img src="${safeImgSrc(url)}" alt="" class="rw-card-sym">` : '';
   };
 
   // Stacked candidate card helper
   const candidateCard = (c, label, delta) => {
     const symUrl = partySymbols[c.partyAbv];
     const symHtml = symUrl
-      ? `<img src="${symUrl}" alt="" class="rw-candidate-card__sym">`
+      ? `<img src="${safeImgSrc(symUrl)}" alt="" class="rw-candidate-card__sym">`
       : '';
     const partyFullName = partyNameMap[c.partyAbv] || c.partyAbv;
     const deltaHtml = delta
@@ -2657,9 +3395,9 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
       ${symHtml}
       <div class="rw-candidate-card__info">
         <div class="rw-card-label">${label}</div>
-        <div class="rw-candidate-card__name">${c.candidate}</div>
+        <div class="rw-candidate-card__name">${escapeHtml(c.candidate)}</div>
         <div class="rw-card-party-row">
-          ${swatch(c.color)} ${partySym(c.partyAbv)} ${partyFullName}
+          ${swatch(c.color)} ${partySym(c.partyAbv)} ${escapeHtml(partyFullName)}
         </div>
       </div>
       <div style="text-align:right;">
@@ -2687,8 +3425,8 @@ function _buildRoundwiseCardHTML(roundIdx, locked) {
     const partyFullName = partyNameMap[c.partyAbv] || c.partyAbv;
     return `<div class="rw-candidate">
       <span class="rw-crank">${i + 3}.</span>
-      ${c.candidate}
-      <span class="rw-cparty">(${swatch(c.color)} ${partySym(c.partyAbv)} ${c.partyAbv})</span>
+      ${escapeHtml(c.candidate)}
+      <span class="rw-cparty">(${swatch(c.color)} ${partySym(c.partyAbv)} ${escapeHtml(c.partyAbv)})</span>
       <span class="rw-cvotes">${c.votes.toLocaleString()}</span>
     </div>`;
   }).join('');
@@ -2939,6 +3677,10 @@ function renderChart(parties, majority) {
       responsive: true,
       maintainAspectRatio: false,
       animation: getChartAnimation(800),
+      onClick: (e, elements, ch) => {
+        const abv = getClickedPartyAbv(ch, elements);
+        if (abv) showPartyDetail(abv);
+      },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -2980,7 +3722,7 @@ function renderChart(parties, majority) {
         },
       },
       layout: {
-        padding: { left: 8, right: 50, bottom: 10 },
+        padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 50, top: 10, bottom: 10 },
       },
       scales: {
         x: {
@@ -2988,7 +3730,7 @@ function renderChart(parties, majority) {
           suggestedMax: (majority && currentState !== '')
             ? Math.max(...wonData, ...leadData, majority) + 2
             : undefined,
-          grid: { color: theme.grid },
+          grid: { color: theme.grid, borderColor: 'transparent' },
           ticks: { color: theme.muted, font: { size: 12 } },
           title: { display: true, text: 'Seats', color: theme.muted },
         },
@@ -3062,6 +3804,10 @@ function renderVoteShare() {
       responsive: true,
       maintainAspectRatio: false,
       animation: getChartAnimation(800),
+      onClick: (e, elements, ch) => {
+        const abv = getClickedPartyAbv(ch, elements);
+        if (abv) showPartyDetail(abv);
+      },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -3090,10 +3836,10 @@ function renderVoteShare() {
           }
         },
       },
-      layout: { padding: { left: 8, right: 60, bottom: 10 } },
+      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 60, top: 10, bottom: 10 } },
       scales: {
         x: {
-          grid: { color: theme.grid },
+          grid: { color: theme.grid, borderColor: 'transparent' },
           ticks: { color: theme.muted, font: { size: 12 }, stepSize: 5 },
           title: { display: true, text: 'Vote Share (%)', color: theme.muted },
           max: niceMax,
@@ -3184,7 +3930,7 @@ function renderRaces(stateCode) {
       populateRaceDropdown();
     })
     .catch(e => {
-      console.error('Failed to load races:', e);
+      console.warn('Failed to load races:', e);
       card.style.display = 'none';
     });
 }
@@ -3327,7 +4073,7 @@ function updateForm20Field(race) {
   statusText.innerHTML = label;
 
   if (race.form20_url) {
-    action.innerHTML = `<a class="form20-card__action" href="${race.form20_url}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} PDF</a>`;
+    action.innerHTML = `<a class="form20-card__action" href="${escapeAttr(race.form20_url)}" target="_blank" rel="noopener noreferrer">${FORM20_PDF_ICON} PDF</a>`;
   } else {
     action.innerHTML = '';
   }
@@ -3379,6 +4125,7 @@ function updateRaceLegend(candidates) {
 
 function drawSingleRace(race) {
   currentRace = race;
+  hideCandidateDetail();
   if (race) localStorage.setItem(RACE_AC_STORAGE_KEY, race.ac_no);
   updateForm20Field(race);
   if (raceView === 'roundwise') {
@@ -3445,6 +4192,11 @@ function drawRaceFinal(race) {
       responsive: true,
       maintainAspectRatio: false,
       animation: getChartAnimation(600),
+      onClick: (e, elements) => {
+        if (!elements.length) return;
+        const idx = elements[0].index;
+        showCandidateDetail(idx);
+      },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -3472,11 +4224,11 @@ function drawRaceFinal(race) {
           }
         },
       },
-      layout: { padding: { left: 8, right: 80, bottom: 10 } },
+      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 80, top: 10, bottom: 10 } },
       scales: {
         x: {
           max: axis.max,
-          grid: { color: theme.grid },
+          grid: { color: theme.grid, borderColor: 'transparent' },
           ticks: {
             color: theme.muted,
             font: { size: 11 },
@@ -3535,11 +4287,14 @@ function drawRaceFinal(race) {
           ctx.lineTo(gapEnd, lineY);
           ctx.stroke();
 
-          ctx.font = canvasFont(isMobile ? 10 : 11, 'ui', 600);
+          ctx.font = canvasFont(isMobile ? 9 : 11, 'ui', 600);
           ctx.fillStyle = theme.muted;
-          if (gapWidth > 92) {
+          if (gapWidth > (isMobile ? 50 : 92)) {
             ctx.textAlign = 'center';
             ctx.fillText(marginLabel, gapStart + gapWidth / 2, lineY - 12);
+          } else if (isMobile) {
+            ctx.textAlign = 'left';
+            ctx.fillText(marginLabel, gapStart + 4, lineY - 14);
           } else {
             ctx.textAlign = 'left';
             ctx.fillText(marginLabel, gapEnd + 8, lineY);
@@ -3635,16 +4390,16 @@ async function drawRaceRoundwise(race) {
           legend: { display: false },
           tooltip: { enabled: false },
         },
-        layout: { padding: { right: 14 } },
+        layout: { padding: { top: 10, right: 14, bottom: 10 } },
         scales: {
           x: {
-            grid: { color: theme.grid },
+            grid: { color: theme.grid, borderColor: 'transparent' },
             ticks: { color: theme.muted, font: { size: 11 }, maxRotation: 0 },
             title: { display: true, text: 'Round', color: theme.muted },
           },
           y: {
             beginAtZero: true,
-            grid: { color: theme.grid },
+            grid: { color: theme.grid, borderColor: 'transparent' },
             ticks: { color: theme.muted, font: { size: 11 }, callback: v => formatVotes(v) },
             title: { display: true, text: 'Votes', color: theme.muted },
           },
@@ -3718,7 +4473,7 @@ async function drawRaceRoundwise(race) {
     };
 
   } catch (e) {
-    console.error('Failed to load constituency rounds:', e);
+    console.warn('Failed to load constituency rounds:', e);
   }
 }
 
@@ -3728,6 +4483,7 @@ async function drawRaceRoundwise(race) {
 function perfRoundwiseTooltip(context) {
   const { chart, tooltip } = context;
   const el = _getTooltipEl(chart);
+  if (window.matchMedia('(max-width: 640px)').matches) { _hideTooltip(el); return; }
   if (tooltip.opacity === 0) { _hideTooltip(el); return; }
   if (!tooltip.dataPoints || !tooltip.dataPoints.length) return;
 
@@ -3745,7 +4501,7 @@ function perfRoundwiseTooltip(context) {
   const rows = items.filter(i => i.votes > 0).map(i => {
     const symUrl = partySymbols[i.partyAbv];
     const symHtml = symUrl
-      ? `<img src="${symUrl}" alt="" style="width:14px;height:14px;object-fit:contain;">`
+      ? `<img src="${safeImgSrc(symUrl)}" alt="" style="width:14px;height:14px;object-fit:contain;">`
       : '';
     return `<div style="display:flex;align-items:center;gap:6px;padding:2px 0;font-size:11px;">
       <span style="width:10px;height:10px;border-radius:50%;border:2px solid ${i.color};background:transparent;flex-shrink:0;"></span>
@@ -3755,7 +4511,7 @@ function perfRoundwiseTooltip(context) {
     </div>`;
   }).join('');
 
-  el.innerHTML = `<div style="font-size:13px;font-weight:700;color:var(--tooltip-text, var(--text));margin-bottom:6px;">${roundLabel}</div>${rows}`;
+  el.innerHTML = `<div style="font-size:13px;font-weight:700;color:var(--tooltip-text, var(--text));margin-bottom:6px;">${escapeHtml(roundLabel)}</div>${rows}`;
 
   _showTooltip(el);
   _positionTooltip(chart, tooltip, el);
@@ -3832,7 +4588,7 @@ async function renderRoundwise(stateCode) {
     const ctx = canvas.getContext('2d');
     const theme = chartTheme();
 
-    const labels = rounds.map(rn => rn === 999 ? 'Final' : `R${rn}`);
+    const labels = rounds.map(rn => rn === 999 ? 'Final' : `${rn}`);
 
     const datasets = series.map(s => ({
       label: s.party_abv,
@@ -3859,6 +4615,10 @@ async function renderRoundwise(stateCode) {
         responsive: true,
         maintainAspectRatio: false,
         animation: getChartAnimation(600),
+        onClick: (e, elements, ch) => {
+          const abv = getClickedPartyAbv(ch, elements);
+          if (abv) showPartyDetail(abv);
+        },
         interaction: { mode: 'index', intersect: false },
         plugins: {
           legend: { display: false },
@@ -3867,9 +4627,10 @@ async function renderRoundwise(stateCode) {
             enabled: false,
           },
         },
+        layout: { padding: { top: 10, bottom: 10 } },
         scales: {
           x: {
-            grid: { color: theme.grid },
+            grid: { color: theme.grid, borderColor: 'transparent' },
             ticks: {
               color: theme.muted,
               font: { size: 11 },
@@ -3880,8 +4641,8 @@ async function renderRoundwise(stateCode) {
             title: { display: true, text: 'Round', color: theme.muted },
           },
           y: {
-            grid: { color: theme.grid },
-            ticks: { color: theme.muted, font: { size: 11 } },
+            grid: { color: theme.grid, borderColor: 'transparent' },
+            ticks: { color: theme.muted, font: { size: 11 }, callback: v => formatVotes(v) },
             title: { display: true, text: 'Votes', color: theme.muted },
             beginAtZero: true,
           },
@@ -3889,7 +4650,7 @@ async function renderRoundwise(stateCode) {
       },
     });
   } catch (e) {
-    console.error('Failed to load roundwise:', e);
+    console.warn('Failed to load roundwise:', e);
   }
 }
 
@@ -3904,9 +4665,11 @@ function statusKind(statuses = {}) {
 }
 
 function updateStatusDot(kind) {
-  const dot = document.getElementById('status-dot');
   const normalized = kind === true ? 'declared' : kind === false ? 'pending' : String(kind || 'pending').toLowerCase();
-  dot.className = `status-dot dot-${normalized}`;
+  const dot = document.getElementById('status-dot');
+  if (dot) dot.className = `status-dot dot-${normalized}`;
+  const mobileDot = document.getElementById('status-dot-mobile');
+  if (mobileDot) mobileDot.className = `status-dot dot-${normalized}`;
 }
 
 function updateStatusBar(status) {
@@ -3948,7 +4711,7 @@ function renderStateBar(states) {
     const kind = statusKind(statuses);
     btn.type = 'button';
     btn.className = 'state-btn' + (isActive ? ' active' : '');
-    btn.innerHTML = `<span class="pill-dot dot-${kind}" aria-hidden="true"></span><span>${s.name}</span>`;
+    btn.innerHTML = `<span class="pill-dot dot-${kind}" aria-hidden="true"></span><span>${escapeHtml(s.name)}</span>`;
     btn.setAttribute('aria-pressed', String(isActive));
     btn.setAttribute('aria-label', `${s.name}: ${kind}`);
     btn.onclick = () => {
@@ -3990,19 +4753,20 @@ async function loadStateStatuses(states) {
 // ---------------------------------------------------------------------------
 // Download dataset
 // ---------------------------------------------------------------------------
-document.getElementById('download-btn').addEventListener('click', async () => {
+async function performDownload(includeState) {
   const btn = document.getElementById('download-btn');
-  if (btn.disabled) return;
-  btn.disabled = true;
-  const prevTitle = btn.title;
-  btn.title = 'Preparing download…';
+  if (btn) {
+    btn.disabled = true;
+    const prevTitle = btn.title;
+    btn.title = 'Preparing download…';
+  }
   try {
     let url = API_BASE + '/api/download';
     const params = [];
     if (currentElection) {
       params.push(`election_id=${currentElection.election_id}`);
     }
-    if (currentState) {
+    if (includeState && currentState) {
       params.push(`state=${currentState}`);
     }
     if (params.length) url += '?' + params.join('&');
@@ -4010,7 +4774,6 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     if (!resp.ok) throw new Error(`Download failed (${resp.status})`);
     const blob = await resp.blob();
     const blobUrl = URL.createObjectURL(blob);
-    // Extract filename from Content-Disposition header
     const cd = resp.headers.get('content-disposition') || '';
     const match = cd.match(/filename="?([^"]+)"?/);
     const filename = match ? match[1] : 'LETLive.xlsx';
@@ -4022,16 +4785,232 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(blobUrl);
   } catch (e) {
-    console.error('Download failed:', e);
+    console.warn('Download failed:', e);
     alert('Download failed. Please try again.');
   } finally {
-    // Re-enable after a short delay
-    setTimeout(() => {
-      btn.disabled = false;
-      btn.title = prevTitle;
-    }, 1500);
+    if (btn) {
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.title = 'Download dataset';
+      }, 1500);
+    }
+  }
+}
+
+let _downloadModalTrigger = null;
+
+function showDownloadModal() {
+  _downloadModalTrigger = document.activeElement;
+  const modal = document.getElementById('download-modal');
+  const stateBtn = document.getElementById('download-modal-state');
+  const stateLabel = document.getElementById('download-modal-state-label');
+  const desc = document.getElementById('download-modal-desc');
+  const stateName = currentState ? (stateNameMap[currentState] || currentState) : '';
+
+  if (currentState && stateName) {
+    stateLabel.textContent = `Download ${stateName} only`;
+    stateBtn.disabled = false;
+    desc.textContent = `You currently have ${stateName} selected. Download results for this state or all states in ${currentElection?.name || 'this election'}.`;
+  } else {
+    stateLabel.textContent = 'Download current state only';
+    stateBtn.disabled = true;
+    desc.textContent = `Download results for all states in ${currentElection?.name || 'this election'}.`;
+  }
+
+  modal.style.display = 'flex';
+  modal.style.opacity = '0';
+  requestAnimationFrame(() => { modal.style.opacity = '1'; });
+  // Focus the first non-disabled button
+  (stateBtn.disabled ? document.getElementById('download-modal-all') : stateBtn).focus();
+}
+
+function closeDownloadModal() {
+  const modal = document.getElementById('download-modal');
+  modal.style.opacity = '0';
+  setTimeout(() => {
+    modal.style.display = 'none';
+    if (_downloadModalTrigger && _downloadModalTrigger.focus) {
+      _downloadModalTrigger.focus();
+      _downloadModalTrigger = null;
+    }
+  }, 300);
+}
+
+document.getElementById('download-btn')?.addEventListener('click', () => {
+  showDownloadModal();
+});
+
+document.getElementById('download-btn-mobile')?.addEventListener('click', () => {
+  setMobileMenuOpen(false);
+  showDownloadModal();
+});
+
+// (Download modal listeners registered after DOM — see second <script> block)
+
+// ---------------------------------------------------------------------------
+// Mobile party detail flip
+// ---------------------------------------------------------------------------
+function showPartyDetail(abv) {
+  if (!window.matchMedia('(max-width: 640px)').matches) return;
+  const card = document.getElementById('party-perf-card');
+  const content = document.getElementById('party-detail-content');
+  if (!card || !content) return;
+
+  // Find party data
+  const party = perfParties.find(p => p.party_abv === abv);
+  const detail = partyDetails[abv] || {};
+  const symbolUrl = partySymbols[abv] || detail.symbol_url || '';
+  const fullName = partyNames[abv] || detail.name || abv;
+  const dep = partyDepositLoss[abv] || {};
+
+  const won = party ? party.won : 0;
+  const leading = party ? party.leading : 0;
+  const totalVotes = party ? (party.total_votes || 0) : 0;
+  const lostSafe = dep.lost_no_deposit || 0;
+  const lostForfeited = dep.lost_deposit || 0;
+  const lostTotal = lostSafe + lostForfeited;
+
+  const fmt = (n) => n.toLocaleString('en-IN');
+  const totalSeats = won + leading + lostTotal;
+
+  content.innerHTML = `
+    <div class="flip-back__header">
+      ${symbolUrl ? `<img src="${safeImgSrc(symbolUrl)}" alt="">` : '<div style="width:52px;height:52px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;">🏛️</div>'}
+      <div>
+        <div class="flip-back__title">${escapeHtml(fullName)}</div>
+        <div class="flip-back__subtitle">${escapeHtml(abv)}</div>
+        ${detail.founded ? `<div class="flip-back__subtitle">Founded ${escapeHtml(detail.founded)}</div>` : ''}
+        ${detail.chief ? `<div class="flip-back__subtitle">Chief ${escapeHtml(detail.chief)}</div>` : ''}
+      </div>
+    </div>
+    <div class="flip-back__spacer"></div>
+    <table class="flip-back__table">
+      <tr><td class="td-label td-label--dark">Won</td><td class="td-value td-value--dark">${fmt(won)}</td></tr>
+      <tr><td class="td-label td-indent td-label--light">leading</td><td class="td-value td-indent td-value--light">${fmt(leading)}</td></tr>
+      <tr><td class="td-label td-label--dark">Lost</td><td class="td-value td-value--dark">${fmt(lostTotal)}</td></tr>
+      <tr><td class="td-label td-indent td-label--light">deposit safe</td><td class="td-value td-indent td-value--light">${fmt(lostSafe)}</td></tr>
+      <tr><td class="td-label td-indent td-label--light">deposit lost</td><td class="td-value td-indent td-value--light">${fmt(lostForfeited)}</td></tr>
+      <tr><td class="td-label td-label--dark">Total Seats</td><td class="td-value td-value--dark">${fmt(totalSeats)}</td></tr>
+      <tr><td class="td-label td-label--light">Total Votes</td><td class="td-value td-value--light">${fmt(totalVotes)}</td></tr>
+    </table>
+    ${detail.alliance ? `<div class="flip-back__divider"></div><div class="flip-back__meta"><div><strong>Alliance</strong> ${escapeHtml(detail.alliance)}</div></div>` : ''}
+  `;
+
+  card.classList.add('flipped');
+}
+
+function hidePartyDetail() {
+  document.getElementById('party-perf-card')?.classList.remove('flipped');
+}
+
+// Click anywhere on the flipped-back card to return to chart
+// Use document delegation so we never miss the element even if script runs before DOM
+document.addEventListener('click', (e) => {
+  const back = document.getElementById('party-detail-back');
+  const card = document.getElementById('party-perf-card');
+  if (!back || !card) return;
+  if (!card.classList.contains('flipped')) return;
+  if (back.contains(e.target)) {
+    hidePartyDetail();
   }
 });
+// Backup for touch devices
+document.addEventListener('touchend', (e) => {
+  const back = document.getElementById('party-detail-back');
+  const card = document.getElementById('party-perf-card');
+  if (!back || !card) return;
+  if (!card.classList.contains('flipped')) return;
+  if (back.contains(e.target)) {
+    e.preventDefault();
+    hidePartyDetail();
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Mobile candidate detail flip (Results by Constituency)
+// ---------------------------------------------------------------------------
+function showCandidateDetail(candidateIndex) {
+  if (!window.matchMedia('(max-width: 640px)').matches) return;
+  const card = document.getElementById('races-card');
+  const content = document.getElementById('race-detail-content');
+  if (!card || !content) return;
+
+  const race = currentRace;
+  if (!race || !race.candidates) return;
+  const shown = getShownCandidates(race);
+  const c = shown[candidateIndex];
+  if (!c) return;
+
+  const totalVotes = race.candidates.reduce((sum, cand) => sum + (cand.votes || 0), 0);
+  const voteShare = totalVotes > 0 ? ((c.votes / totalVotes) * 100).toFixed(2) + '%' : '0%';
+  const position = candidateIndex === 0 ? 'Winner' : candidateIndex === 1 ? 'Runner-up' : `Rank ${candidateIndex + 1}`;
+  const symbolUrl = c.symbol_url || partySymbols[c.party_abv] || '';
+  const partyDetail = partyDetails[c.party_abv] || {};
+  const partyFullName = partyDetail.name || c.party_name || c.party_abv;
+  const constituency = race.ac_name || race.constituency_name || `AC ${race.ac_no}`;
+
+  const fmt = (n) => n.toLocaleString('en-IN');
+
+  content.innerHTML = `
+    <div class="flip-back__header">
+      ${symbolUrl ? `<img src="${safeImgSrc(symbolUrl)}" alt="">` : '<div style="width:52px;height:52px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;">🏛️</div>'}
+      <div>
+        <div class="flip-back__title">${escapeHtml(c.candidate)}</div>
+        <div class="flip-back__subtitle">${escapeHtml(c.party_abv)}</div>
+        <div class="flip-back__subtitle">${escapeHtml(partyFullName)}</div>
+      </div>
+    </div>
+    <div class="flip-back__spacer"></div>
+    <table class="flip-back__table">
+      <tr><td class="td-label td-label--dark">Constituency</td><td class="td-value td-value--dark">${escapeHtml(constituency)}</td></tr>
+      <tr><td class="td-label td-label--dark">Position</td><td class="td-value td-value--dark">${escapeHtml(position)}</td></tr>
+      <tr><td class="td-label td-label--dark">Votes</td><td class="td-value td-value--dark">${fmt(c.votes)}</td></tr>
+      <tr><td class="td-label td-label--light">Vote share</td><td class="td-value td-value--light">${escapeHtml(voteShare)}</td></tr>
+    </table>
+  `;
+
+  card.classList.add('flipped');
+}
+
+function hideCandidateDetail() {
+  document.getElementById('races-card')?.classList.remove('flipped');
+}
+
+// Click anywhere on the flipped-back race card to return to chart
+document.addEventListener('click', (e) => {
+  const back = document.getElementById('race-detail-back');
+  const card = document.getElementById('races-card');
+  if (!back || !card) return;
+  if (!card.classList.contains('flipped')) return;
+  if (back.contains(e.target)) {
+    hideCandidateDetail();
+  }
+});
+document.addEventListener('touchend', (e) => {
+  const back = document.getElementById('race-detail-back');
+  const card = document.getElementById('races-card');
+  if (!back || !card) return;
+  if (!card.classList.contains('flipped')) return;
+  if (back.contains(e.target)) {
+    e.preventDefault();
+    hideCandidateDetail();
+  }
+});
+
+// Helper for chart onClick — returns party abv or null
+function getClickedPartyAbv(chart, elements) {
+  if (!elements.length) return null;
+  const el = elements[0];
+  // Bar charts (tally, vote share): label at data index
+  if (chart.data.labels && chart.data.labels[el.index]) {
+    return chart.data.labels[el.index];
+  }
+  // Line chart (roundwise): dataset label is party abv
+  if (el.dataset != null && chart.data.datasets[el.dataset]) {
+    return chart.data.datasets[el.dataset].label;
+  }
+  return null;
+}
 
 // ---------------------------------------------------------------------------
 // Search (FTS5 trigram via D1 Worker)
@@ -4040,9 +5019,55 @@ document.getElementById('download-btn').addEventListener('click', async () => {
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
   let searchTimer = null;
+  let activeIdx = -1;
+  let resultEls = [];
+
+  function setExpanded(open) {
+    searchInput.setAttribute('aria-expanded', String(open));
+  }
+
+  function setActiveDescendant() {
+    const active = resultEls[activeIdx];
+    if (active) {
+      searchInput.setAttribute('aria-activedescendant', active.id);
+      active.setAttribute('aria-selected', 'true');
+      active.classList.add('active');
+    } else {
+      searchInput.removeAttribute('aria-activedescendant');
+    }
+  }
+
+  function clearActive() {
+    resultEls.forEach((el, i) => {
+      if (i !== activeIdx) {
+        el.removeAttribute('aria-selected');
+        el.classList.remove('active');
+      }
+    });
+  }
+
+  function moveActive(delta) {
+    if (!resultEls.length) return;
+    if (activeIdx >= 0) {
+      resultEls[activeIdx].removeAttribute('aria-selected');
+      resultEls[activeIdx].classList.remove('active');
+    }
+    activeIdx = (activeIdx + delta + resultEls.length) % resultEls.length;
+    setActiveDescendant();
+    clearActive();
+    resultEls[activeIdx].scrollIntoView({ block: 'nearest' });
+  }
+
+  function activateItem() {
+    const active = resultEls[activeIdx];
+    if (active && active.dataset.type) {
+      handleResultClick(active.dataset);
+    }
+  }
 
   searchInput.addEventListener('input', () => {
     clearTimeout(searchTimer);
+    activeIdx = -1;
     const q = searchInput.value.trim();
     if (q.length < 2) { hideResults(); return; }
     searchTimer = setTimeout(() => doSearch(q), 250);
@@ -4051,6 +5076,7 @@ document.getElementById('download-btn').addEventListener('click', async () => {
   searchInput.addEventListener('focus', () => {
     if (searchInput.value.trim().length >= 2) {
       searchResults.classList.add('active');
+      setExpanded(true);
     }
   });
 
@@ -4059,11 +5085,38 @@ document.getElementById('download-btn').addEventListener('click', async () => {
   });
 
   searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { hideResults(); searchInput.blur(); }
+    switch (e.key) {
+      case 'Escape':
+        hideResults(); searchInput.blur(); break;
+      case 'ArrowDown':
+        e.preventDefault();
+        if (!searchResults.classList.contains('active')) {
+          if (searchInput.value.trim().length >= 2) doSearch(searchInput.value.trim());
+        } else {
+          moveActive(1);
+        }
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (searchResults.classList.contains('active')) moveActive(-1);
+        break;
+      case 'Enter':
+        if (activeIdx >= 0) {
+          e.preventDefault();
+          activateItem();
+        }
+        break;
+      case 'Tab':
+        hideResults();
+        break;
+    }
   });
 
   function hideResults() {
     searchResults.classList.remove('active');
+    setExpanded(false);
+    activeIdx = -1;
+    searchInput.removeAttribute('aria-activedescendant');
   }
 
   async function doSearch(q) {
@@ -4072,7 +5125,7 @@ document.getElementById('download-btn').addEventListener('click', async () => {
       const data = await resp.json();
       renderResults(data.results, q);
     } catch (e) {
-      console.error('Search failed:', e);
+      console.warn('Search failed:', e);
     }
   }
 
@@ -4081,32 +5134,39 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     const labels = { party: 'Parties', constituency: 'Constituencies', candidate: 'Candidates' };
     let html = '';
     let total = 0;
+    let idx = 0;
 
     for (const type of order) {
       const items = grouped[type] || [];
       if (!items.length) continue;
-      html += `<div class="search-group-label">${labels[type]}</div>`;
+      html += `<div class="search-group-label" role="presentation">${labels[type]}</div>`;
       for (const item of items.slice(0, 5)) {
         total++;
         const name = item.highlighted_name || escapeHtml(item.name);
         const ctx = escapeHtml(item.context || '');
-        html += `<div class="search-result-item" data-type="${type}" data-id="${item.entity_id}" data-name="${escapeAttr(item.name)}">
+        const id = `sr-opt-${idx}`;
+        html += `<div class="search-result-item" id="${id}" role="option" tabindex="-1" data-type="${type}" data-id="${item.entity_id}" data-name="${escapeAttr(item.name)}">
           <div class="sr-name">${name}</div>
           ${ctx ? `<div class="sr-context">${ctx}</div>` : ''}
         </div>`;
+        idx++;
       }
     }
 
     if (!total) {
-      html = '<div class="search-result-item" style="color:var(--muted);cursor:default;">No results</div>';
+      html = '<div class="search-result-item" role="option" tabindex="-1" style="color:var(--muted);cursor:default;">No results</div>';
     }
 
     searchResults.innerHTML = html;
     searchResults.classList.add('active');
+    setExpanded(true);
+    activeIdx = -1;
+    resultEls = Array.from(searchResults.querySelectorAll('[role="option"]'));
 
-    // Click handlers
-    searchResults.querySelectorAll('.search-result-item[data-type]').forEach(el => {
-      el.addEventListener('click', () => handleResultClick(el.dataset));
+    resultEls.forEach(el => {
+      if (el.dataset.type) {
+        el.addEventListener('click', () => handleResultClick(el.dataset));
+      }
     });
   }
 
@@ -4116,21 +5176,14 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     searchInput.value = '';
 
     if (type === 'constituency') {
-      // Navigate to constituency: id is "state_code-ac_no"
       const [stateCode, acNo] = id.split('-');
-      // Set state filter
       currentState = stateCode;
       localStorage.setItem(STATE_STORAGE_KEY, currentState);
-      // Trigger race view
       document.querySelector('[data-view="races"]')?.click();
-      // Scroll to races section
       document.getElementById('races-section')?.scrollIntoView({ behavior: 'smooth' });
     } else if (type === 'party') {
-      // Could scroll to seat tally or highlight party
-      // For now, just scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (type === 'candidate') {
-      // id is "state_code-ac_no-party_abv"
       const parts = id.split('-');
       const stateCode = parts[0];
       const acNo = parts[1];
@@ -4150,29 +5203,93 @@ document.getElementById('download-btn').addEventListener('click', async () => {
 })();
 </script>
 
-<div id="tv-overlay" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); cursor:pointer;">
+<div id="tv-overlay" role="dialog" aria-modal="true" aria-labelledby="tv-overlay-title" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); cursor:pointer;">
   <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-family:var(--font-heading); text-align:center; padding:24px;">
     <div style="font-size:48px; margin-bottom:16px;">📺</div>
-    <h2 style="font-size:clamp(24px,4vw,36px); margin:0 0 8px; font-weight:700;">Coming soon!</h2>
+    <h2 id="tv-overlay-title" style="font-size:clamp(24px,4vw,36px); margin:0 0 8px; font-weight:700;">Coming soon!</h2>
     <p style="font-size:16px; margin:0; opacity:0.8;">TV mode is under construction. 😉
 
 </p>
   </div>
 </div>
 
+<!-- Download scope modal -->
+<div id="download-modal" role="dialog" aria-modal="true" aria-labelledby="download-modal-title" style="display:none; position:fixed; inset:0; z-index:9998; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); cursor:pointer; opacity:0; transition:opacity 0.3s ease;">
+  <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-family:var(--font-ui); text-align:center; padding:24px; pointer-events:none;">
+    <h2 id="download-modal-title" style="font-family:var(--font-heading); font-size:clamp(22px,5vw,32px); margin:0 0 12px; font-weight:700;">Download Dataset</h2>
+    <p id="download-modal-desc" style="font-size:15px; margin:0 0 28px; opacity:0.85; max-width:380px; line-height:1.5;">Choose what you want to download.</p>
+    <div style="display:flex; flex-direction:column; gap:10px; width:min(100%,320px); pointer-events:auto;">
+      <button type="button" id="download-modal-state" style="display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:14px 18px; border:1px solid rgba(255,255,255,0.25); border-radius:10px; background:rgba(255,255,255,0.12); color:#fff; font:14px var(--font-ui); font-weight:600; cursor:pointer; transition:background 0.15s;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+        <span id="download-modal-state-label">Download state only</span>
+      </button>
+      <button type="button" id="download-modal-all" style="display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:14px 18px; border:1px solid rgba(255,255,255,0.25); border-radius:10px; background:rgba(255,255,255,0.12); color:#fff; font:14px var(--font-ui); font-weight:600; cursor:pointer; transition:background 0.15s;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+        <span>Download all states</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
-document.getElementById('tv-btn').addEventListener('click', () => {
+document.getElementById('tv-btn').addEventListener('click', (e) => {
+  _tvOverlayTrigger = e.currentTarget;
   const overlay = document.getElementById('tv-overlay');
   overlay.style.opacity = '0';
   overlay.style.display = 'flex';
   overlay.style.transition = 'opacity 0.3s ease';
   requestAnimationFrame(() => { overlay.style.opacity = '1'; });
 });
-document.getElementById('tv-overlay').addEventListener('click', () => {
+function closeTvOverlay() {
   const overlay = document.getElementById('tv-overlay');
   overlay.style.opacity = '0';
-  setTimeout(() => { overlay.style.display = 'none'; }, 300);
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    const trigger = _tvOverlayTrigger;
+    if (trigger && trigger.isConnected) {
+      trigger.focus();
+    } else {
+      document.getElementById('tv-btn')?.focus();
+    }
+    _tvOverlayTrigger = null;
+  }, 300);
+}
+document.getElementById('tv-overlay').addEventListener('click', closeTvOverlay);
+document.getElementById('tv-overlay').addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { e.preventDefault(); closeTvOverlay(); }
+});
+// Download modal — listeners here because modal HTML is after main <script>
+document.getElementById('download-modal-state')?.addEventListener('click', () => {
+  closeDownloadModal();
+  performDownload(true);
+});
+document.getElementById('download-modal-all')?.addEventListener('click', () => {
+  closeDownloadModal();
+  performDownload(false);
+});
+document.getElementById('download-modal')?.addEventListener('click', (e) => {
+  if (e.target.closest('button')) return;
+  closeDownloadModal();
+});
+document.getElementById('download-modal')?.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { e.preventDefault(); closeDownloadModal(); }
+});
+// Form 20 info tooltip — tap to toggle on mobile
+document.querySelector('.form20-info')?.addEventListener('click', (e) => {
+  if (!window.matchMedia('(max-width: 640px)').matches) return;
+  e.stopPropagation();
+  e.currentTarget.classList.toggle('active');
+});
+document.addEventListener('click', (e) => {
+  if (!window.matchMedia('(max-width: 640px)').matches) return;
+  const info = document.querySelector('.form20-info.active');
+  if (info && !info.contains(e.target)) info.classList.remove('active');
 });
 </script>
+<footer class="site-footer">
+  <p>LET Live! The Live and Loaded ECI Elections Tracker of India</p>
+  <p>Data Source: <a href="https://results.eci.gov.in/" target="_blank" rel="noopener">Election Commission of India</a></p>
+  <p>&copy; Mahesh Shantaram / <a href="https://thecontrarian.in/" target="_blank" rel="noopener">thecontrarian.in</a></p>
+</footer>
 </body>
 </html>
