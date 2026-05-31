@@ -2003,8 +2003,14 @@
       align-items: center;
     }
     .race-controls-row .toggle-group {
-      width: 100%;
+      flex-basis: 100%;
       align-self: flex-start;
+    }
+    .toggle-btn {
+      font-size: 13px;
+    }
+    .chart-container {
+      border-radius: 0 !important;
     }
     .race-controls-row .field-row {
       flex: 1 1 0;
@@ -3445,7 +3451,7 @@ function renderChart(parties, majority) {
         },
       },
       layout: {
-        padding: { left: 8, right: 50, bottom: 10 },
+        padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: 50, bottom: 10 },
       },
       scales: {
         x: {
@@ -3555,7 +3561,7 @@ function renderVoteShare() {
           }
         },
       },
-      layout: { padding: { left: 8, right: 60, bottom: 10 } },
+      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: 60, bottom: 10 } },
       scales: {
         x: {
           grid: { color: theme.grid },
@@ -3937,7 +3943,7 @@ function drawRaceFinal(race) {
           }
         },
       },
-      layout: { padding: { left: 8, right: 80, bottom: 10 } },
+      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: 80, bottom: 10 } },
       scales: {
         x: {
           max: axis.max,
@@ -4000,11 +4006,14 @@ function drawRaceFinal(race) {
           ctx.lineTo(gapEnd, lineY);
           ctx.stroke();
 
-          ctx.font = canvasFont(isMobile ? 10 : 11, 'ui', 600);
+          ctx.font = canvasFont(isMobile ? 9 : 11, 'ui', 600);
           ctx.fillStyle = theme.muted;
-          if (gapWidth > 92) {
+          if (gapWidth > (isMobile ? 50 : 92)) {
             ctx.textAlign = 'center';
             ctx.fillText(marginLabel, gapStart + gapWidth / 2, lineY - 12);
+          } else if (isMobile) {
+            ctx.textAlign = 'left';
+            ctx.fillText(marginLabel, gapStart + 4, lineY - 14);
           } else {
             ctx.textAlign = 'left';
             ctx.fillText(marginLabel, gapEnd + 8, lineY);
@@ -4723,8 +4732,8 @@ document.getElementById('tv-overlay').addEventListener('keydown', (e) => {
 });
 </script>
 <footer class="site-footer">
-  <p>LET Live! — Election data from <a href="https://thecontrarian.in" target="_blank" rel="noopener">The Contrarian</a></p>
-  <p>Data sourced from the Election Commission of India</p>
+  <p>Data Source: <a href="https://results.eci.gov.in/" target="_blank" rel="noopener">Election Commission of India</a></p>
+  <p>&copy; Mahesh Shantaram / <a href="https://thecontrarian.in/" target="_blank" rel="noopener">thecontrarian.in</a></p>
 </footer>
 </body>
 </html>
