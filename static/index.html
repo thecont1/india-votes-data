@@ -2222,7 +2222,22 @@
       box-sizing: border-box;
     }
     .form20-card__action { display: none; }
-    .form20-info-tooltip { display: none; }
+    .form20-info.active .form20-info-tooltip { opacity: 1; pointer-events: auto; }
+    .form20-info-tooltip {
+      position: fixed;
+      top: 50%;
+      left: 12px;
+      right: 12px;
+      bottom: auto;
+      width: auto;
+      max-width: none;
+      max-height: 60vh;
+      overflow-y: auto;
+      z-index: 300;
+      pointer-events: none;
+      transform: translateY(-50%);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
     .site-footer {
       padding: 12px 10px;
       font-size: 13px;
@@ -4800,7 +4815,7 @@ function closeDownloadModal() {
   }, 300);
 }
 
-document.getElementById('download-btn').addEventListener('click', () => {
+document.getElementById('download-btn')?.addEventListener('click', () => {
   showDownloadModal();
 });
 
@@ -4809,23 +4824,7 @@ document.getElementById('download-btn-mobile')?.addEventListener('click', () => 
   showDownloadModal();
 });
 
-document.getElementById('download-modal-state').addEventListener('click', () => {
-  closeDownloadModal();
-  performDownload(true);
-});
-
-document.getElementById('download-modal-all').addEventListener('click', () => {
-  closeDownloadModal();
-  performDownload(false);
-});
-
-document.getElementById('download-modal').addEventListener('click', (e) => {
-  if (e.target === e.currentTarget) closeDownloadModal();
-});
-
-document.getElementById('download-modal').addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { e.preventDefault(); closeDownloadModal(); }
-});
+// (Download modal listeners registered after DOM — see second <script> block)
 
 // ---------------------------------------------------------------------------
 // Mobile party detail flip
@@ -5230,6 +5229,33 @@ function closeTvOverlay() {
 document.getElementById('tv-overlay').addEventListener('click', closeTvOverlay);
 document.getElementById('tv-overlay').addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { e.preventDefault(); closeTvOverlay(); }
+});
+// Download modal — listeners here because modal HTML is after main <script>
+document.getElementById('download-modal-state')?.addEventListener('click', () => {
+  closeDownloadModal();
+  performDownload(true);
+});
+document.getElementById('download-modal-all')?.addEventListener('click', () => {
+  closeDownloadModal();
+  performDownload(false);
+});
+document.getElementById('download-modal')?.addEventListener('click', (e) => {
+  if (e.target.closest('button')) return;
+  closeDownloadModal();
+});
+document.getElementById('download-modal')?.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { e.preventDefault(); closeDownloadModal(); }
+});
+// Form 20 info tooltip — tap to toggle on mobile
+document.querySelector('.form20-info')?.addEventListener('click', (e) => {
+  if (!window.matchMedia('(max-width: 640px)').matches) return;
+  e.stopPropagation();
+  e.currentTarget.classList.toggle('active');
+});
+document.addEventListener('click', (e) => {
+  if (!window.matchMedia('(max-width: 640px)').matches) return;
+  const info = document.querySelector('.form20-info.active');
+  if (info && !info.contains(e.target)) info.classList.remove('active');
 });
 </script>
 <footer class="site-footer">
