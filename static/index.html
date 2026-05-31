@@ -1408,7 +1408,7 @@
   }
   :root[data-theme="fair-lovely"] .chart-container {
     background: var(--surface-chart);
-    border: 1px solid var(--line-soft);
+    border: none;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
@@ -1961,7 +1961,7 @@
     #party-perf-card .toggle-group {
       display: flex;
       width: 100%;
-      margin-bottom: 0;
+      margin-bottom: 16px;
       border: none;
       background: transparent;
       border-radius: 0;
@@ -3542,6 +3542,10 @@ function renderChart(parties, majority) {
       responsive: true,
       maintainAspectRatio: false,
       animation: getChartAnimation(800),
+      onClick: (e, elements, ch) => {
+        const abv = getClickedPartyAbv(ch, elements);
+        if (abv) showPartyDetail(abv);
+      },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -3603,7 +3607,6 @@ function renderChart(parties, majority) {
       },
     },
   });
-  attachCanvasTap(canvas, chart);
 }
 
 function createStripeCanvas(color) {
@@ -3666,6 +3669,10 @@ function renderVoteShare() {
       responsive: true,
       maintainAspectRatio: false,
       animation: getChartAnimation(800),
+      onClick: (e, elements, ch) => {
+        const abv = getClickedPartyAbv(ch, elements);
+        if (abv) showPartyDetail(abv);
+      },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -3728,7 +3735,6 @@ function renderVoteShare() {
       }
     }],
   });
-  attachCanvasTap(canvas, voteShareChart);
 }
 
 // ---------------------------------------------------------------------------
@@ -4468,6 +4474,10 @@ async function renderRoundwise(stateCode) {
         responsive: true,
         maintainAspectRatio: false,
         animation: getChartAnimation(600),
+        onClick: (e, elements, ch) => {
+          const abv = getClickedPartyAbv(ch, elements);
+          if (abv) showPartyDetail(abv);
+        },
         interaction: { mode: 'index', intersect: false },
         plugins: {
           legend: { display: false },
@@ -4498,7 +4508,6 @@ async function renderRoundwise(stateCode) {
         },
       },
     });
-    attachCanvasTap(canvas, roundwiseChart);
   } catch (e) {
     console.warn('Failed to load roundwise:', e);
   }
@@ -4778,22 +4787,6 @@ document.getElementById('party-detail-back').addEventListener('touchend', (e) =>
   e.preventDefault();
   hidePartyDetail();
 });
-
-// Direct canvas tap handler (more reliable than Chart.js onClick on touch)
-function attachCanvasTap(canvas, chartInstance) {
-  if (!canvas || !chartInstance || canvas._tapAttached) return;
-  canvas._tapAttached = true;
-  canvas.addEventListener('click', (event) => {
-    if (!window.matchMedia('(max-width: 640px)').matches) return;
-    const elements = chartInstance.getElementsAtEventForMode(
-      event, 'nearest', { intersect: true }, true
-    );
-    if (elements.length > 0) {
-      const abv = getClickedPartyAbv(chartInstance, elements);
-      if (abv) showPartyDetail(abv);
-    }
-  });
-}
 
 // Helper for chart onClick — returns party abv or null
 function getClickedPartyAbv(chart, elements) {
