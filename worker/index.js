@@ -11,6 +11,8 @@ import { handleConstituency } from './queries/constituency.js';
 import { handleElections, handleCurrentElection } from './queries/elections.js';
 import { handleStates } from './queries/states.js';
 import { handleSearch } from './queries/search.js';
+import { handleCandidateHistory } from './queries/candidate-history.js';
+import { handleConstituencyHistory } from './queries/constituency-history.js';
 import { handleDownload } from './queries/download.js';
 import { handleTvChannels } from './queries/tv-channels.js';
 
@@ -40,6 +42,8 @@ export default {
       if (path === '/api/elections/current') return handleCurrentElection(env);
       if (path === '/api/states') return handleStates(env);
       if (path === '/api/search') return handleSearch(request, env);
+      if (path === '/api/candidate-history') return handleCandidateHistory(request, env);
+      if (path === '/api/constituency-history') return handleConstituencyHistory(request, env);
       if (path === '/api/download') return handleDownload(request, env);
       if (path === '/api/tv-channels') return handleTvChannels();
 
