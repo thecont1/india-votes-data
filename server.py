@@ -6,6 +6,7 @@ and the live election dashboard API.
 """
 
 import os
+import re
 import sys
 import time
 from datetime import datetime
@@ -1110,6 +1111,31 @@ def scrape_all_rounds_endpoint(request: ScrapeAllRoundsRequest):
 
     return {"status": "success", "data": results, "total_acs": len(results)}
 
+
+
+import csv
+
+@app.get("/api/tv-channels")
+def tv_channels():
+    """Return TV channel list from data/tv.csv."""
+    tv_csv = os.path.join(os.path.dirname(__file__), "data", "tv.csv")
+    if not os.path.exists(tv_csv):
+        return {"channels": []}
+    channels = []
+    with open(tv_csv, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            link = row.get("link", "")
+            # Extract YouTube video_id from watch URL
+            m = re.search(r"v=([A-Za-z0-9_-]+)", link)
+            if m:
+                channels.append({
+                    "name": row.get("channel", ""),
+                    "language": row.get("language", ""),
+                    "video_id": m.group(1),
+                    "link": link,
+                })
+    return {"channels": channels}
 
 # ---------------------------------------------------------------------------
 # Static file serving (dashboard must be mounted LAST)
