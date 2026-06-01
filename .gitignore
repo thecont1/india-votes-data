@@ -15,21 +15,10 @@ __pycache__/
 .venv/
 uv.lock
 
-# Database files
-*.db
-*.db-shm
-*.db-wal
-
-# Generated output files
-data/csv/
-data/json/
-data/parquet/
-
+# Data and database files
 archive/
-data/
-
-# Form 20 review summaries
-form20-review-*.md
+data/form20/
+data/election_results.*
 
 # Wrangler local state
 .wrangler/
