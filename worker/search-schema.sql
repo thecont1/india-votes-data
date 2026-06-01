@@ -1,6 +1,6 @@
 -- FTS5 Search Schema for LET Live!
 -- Trigram tokenizer for fuzzy matching of Indian names and party abbreviations
--- v3: Use final round (999 or max) for candidate votes and constituency totals
+-- v4: Added symbol_url for party symbols in search results
 
 -- Content table with ranking columns
 CREATE TABLE IF NOT EXISTS candidates_search (
@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS candidates_search (
     boost          REAL DEFAULT 1.0,  -- legacy ranking multiplier
     votes          INTEGER DEFAULT 0, -- candidate vote count (final round)
     total_votes    INTEGER DEFAULT 0, -- constituency total votes (final round)
-    election_sort  TEXT DEFAULT ''    -- election sort_date for recency weighting
+    election_sort  TEXT DEFAULT '',   -- election sort_date for recency weighting
+    symbol_url     TEXT DEFAULT ''    -- party symbol URL for candidates
 );
 
 -- FTS5 virtual table using trigram tokenizer
@@ -29,7 +30,7 @@ CREATE VIRTUAL TABLE IF NOT EXISTS search_fts USING fts5(
 
 -- Populate: candidates from final round per AC
 -- Final round = round 999 (postal ballots) if it exists, else max non-999 round
-INSERT INTO candidates_search (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort)
+INSERT INTO candidates_search (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort, symbol_url)
 WITH final_rounds AS (
     SELECT
         r.state_code,
@@ -51,7 +52,8 @@ SELECT 'candidate',
             ELSE 1.0 END,
        r.votes,
        0,
-       COALESCE(e.sort_date, '')
+       COALESCE(e.sort_date, ''),
+       COALESCE(p.symbol_url, '')
 FROM rounds_ac r
 JOIN final_rounds fr
     ON r.state_code = fr.state_code
@@ -60,10 +62,12 @@ JOIN final_rounds fr
 LEFT JOIN constituency_status cs
     ON r.state_code = cs.state_code AND r.ac_no = cs.ac_no
 LEFT JOIN elections e
-    ON e.states LIKE '%' || r.state_code || '%';
+    ON e.states LIKE '%' || r.state_code || '%'
+LEFT JOIN parties p
+    ON r.party_abv = p.abv;
 
 -- Populate: constituencies with total votes cast (final round only)
-INSERT INTO candidates_search (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort)
+INSERT INTO candidates_search (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort, symbol_url)
 WITH final_rounds AS (
     SELECT
         cs.state_code,
@@ -83,6 +87,7 @@ SELECT 'constituency',
        1.0,
        0,
        COALESCE(tv.total, 0),
+       '',
        ''
 FROM constituency_status cs
 JOIN states s ON cs.state_code = s.state_code

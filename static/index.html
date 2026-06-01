@@ -603,6 +603,13 @@
     color: var(--muted);
     margin-top: 1px;
   }
+  .search-result-item .sr-symbol {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 5px;
+    border-radius: 2px;
+  }
   /* Search detail modal */
   .search-modal-overlay {
     position: fixed;
@@ -5651,8 +5658,9 @@ function getClickedPartyAbv(chart, elements) {
         const name = item.highlighted_name || escapeHtml(item.name);
         const ctx = escapeHtml(item.context || '');
         const id = `sr-opt-${idx}`;
+        const sym = item.symbol_url ? `<img src="${escapeAttr(item.symbol_url)}" alt="" class="sr-symbol" width="16" height="16" loading="lazy">` : '';
         html += `<div class="search-result-item" id="${id}" role="option" tabindex="-1" data-type="${type}" data-id="${item.entity_id}" data-name="${escapeAttr(item.name)}">
-          <div class="sr-name">${name}</div>
+          <div class="sr-name">${sym}${name}</div>
           ${ctx ? `<div class="sr-context">${ctx}</div>` : ''}
         </div>`;
         idx++;

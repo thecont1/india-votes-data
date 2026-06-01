@@ -20,7 +20,7 @@ export async function handleSearch(request, env) {
   // Constituencies: sort by total_votes DESC
   const rows = await env.DB.prepare(`
     SELECT cs.entity_type, cs.entity_id, cs.name, cs.context, cs.boost,
-           cs.votes, cs.total_votes, cs.election_sort,
+           cs.votes, cs.total_votes, cs.election_sort, cs.symbol_url,
            highlight(search_fts, 2, '<mark>', '</mark>') as highlighted_name
     FROM search_fts sf
     JOIN candidates_search cs ON sf.rowid = cs.rowid
@@ -48,6 +48,7 @@ export async function handleSearch(request, env) {
       votes: row.votes,
       total_votes: row.total_votes,
       election_sort: row.election_sort,
+      symbol_url: row.symbol_url || '',
     };
     if (grouped[row.entity_type]) {
       grouped[row.entity_type].push(entry);
