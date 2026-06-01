@@ -5935,13 +5935,8 @@ function getClickedPartyAbv(chart, elements) {
   }
 
   // --- Helpers ---
-
-  function escapeHtml(s) {
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-  function escapeAttr(s) {
-    return s.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-  }
+  // Uses global escapeHtml/escapeAttr from outer scope (lines 3027-3032)
+  // which properly escape &, <, >, ", ' and coerce via String(s)
 })();
 </script>
 
