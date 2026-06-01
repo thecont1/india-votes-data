@@ -2276,7 +2276,7 @@
   /* =========================================================================
      LET Live! TV — right sidebar with live YouTube streams
      ========================================================================= */
-  :root { --tv-w: min(420px, 32vw); }
+  :root { --tv-w: min(520px, 32vw); }
 
   .page-layout {
     display: flex;
@@ -2380,7 +2380,7 @@
 
   .tv-resizer {
     flex: 0 0 auto;
-    width: 6px;
+    width: 0px;
     align-self: stretch;
     cursor: pointer;
     background: transparent;
@@ -5621,8 +5621,8 @@ function getClickedPartyAbv(chart, elements) {
       stopStream();
     } else {
       const maxW = Math.round(window.innerWidth * 0.5);
-      let savedW = 400;
-      try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 400; } catch (e) {}
+      let savedW = 500;
+      try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 500; } catch (e) {}
       savedW = Math.max(MIN_W, Math.min(savedW, maxW));
       card.classList.remove('closed');
       card.style.setProperty('--tv-saved-w', savedW + 'px');
@@ -5811,8 +5811,8 @@ function getClickedPartyAbv(chart, elements) {
 
     // Restore saved width
     const maxW = Math.round(window.innerWidth * 0.5);
-    let savedW = 400;
-    try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 400; } catch (e) {}
+    let savedW = 500;
+    try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 500; } catch (e) {}
     savedW = Math.max(MIN_W, Math.min(savedW, maxW));
     card.style.setProperty('--tv-saved-w', savedW + 'px');
 
