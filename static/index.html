@@ -629,8 +629,8 @@
   .search-modal {
     background: var(--card);
     border: 1px solid var(--border);
-    max-width: 680px;
-    width: min(95vw, 680px);
+    max-width: 960px;
+    width: min(95vw, 960px);
     max-height: 85vh;
     margin: 24px auto;
     overflow-y: auto;
@@ -5716,37 +5716,60 @@ function getClickedPartyAbv(chart, elements) {
 
   // Navigate to a specific constituency from the candidate modal
   function navigateToConstituency(electionId, stateCode, acNo) {
-    // 1. Set election selector
+    // 1. Set election selector and trigger change
     const selector = document.getElementById('election-selector');
     if (selector && electionId && selector.value !== electionId) {
       selector.value = electionId;
       selector.dispatchEvent(new Event('change'));
     }
-    // 2. Set state (small delay to let election change propagate)
+    // 2. Set state after election change propagates
     setTimeout(() => {
       currentState = stateCode;
       localStorage.setItem(STATE_STORAGE_KEY, stateCode);
-      // Re-render state bar and load data
       if (typeof renderStateBar === 'function' && typeof knownStates !== 'undefined') {
         renderStateBar(knownStates);
       }
       if (typeof fetchData === 'function') fetchData();
       if (typeof fetchStatus === 'function') fetchStatus();
       if (typeof loadStateCharts === 'function') loadStateCharts();
-      // 3. Scroll to races section and highlight the constituency
-      setTimeout(() => {
-        const racesEl = document.querySelector('.races-grid') || document.querySelector('[class*="race"]');
-        if (racesEl) racesEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Try to find and highlight the specific constituency card
-        const acStr = String(acNo);
-        const card = document.querySelector(`[data-ac="${acStr}"]`) ||
-                     document.querySelector(`[data-ac-no="${acStr}"]`);
-        if (card) {
-          card.classList.add('highlight-flash');
-          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          setTimeout(() => card.classList.remove('highlight-flash'), 2000);
-        }
-      }, 500);
+      // 3. Wait for race data to load, then select the right constituency
+      pollForConstituency(stateCode, acNo, 10);
+    }, 200);
+  }
+
+  function pollForConstituency(stateCode, acNo, attemptsLeft) {
+    if (attemptsLeft <= 0) return;
+    const sel = document.getElementById('race-select');
+    if (!sel || !sel.options.length) {
+      // Race dropdown not populated yet — retry
+      setTimeout(() => pollForConstituency(stateCode, acNo, attemptsLeft - 1), 300);
+      return;
+    }
+    // Find option with matching ac_no
+    const acStr = String(acNo);
+    let matchIdx = -1;
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].dataset.acNo === acStr) {
+        matchIdx = i;
+        break;
+      }
+    }
+    if (matchIdx < 0) {
+      // Ac not found in dropdown — might be a different state's race list
+      setTimeout(() => pollForConstituency(stateCode, acNo, attemptsLeft - 1), 300);
+      return;
+    }
+    // Select it and trigger the draw
+    sel.selectedIndex = matchIdx;
+    sel.dispatchEvent(new Event('change'));
+    // Scroll to races card and flash the chart
+    setTimeout(() => {
+      const card = document.getElementById('races-card');
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        card.classList.add('highlight-flash');
+        setTimeout(() => card.classList.remove('highlight-flash'), 2000);
+      }
     }, 200);
   }
 
@@ -5812,7 +5835,7 @@ function getClickedPartyAbv(chart, elements) {
       rows += `<tr>
         <td><a href="#" class="sm-election-link" data-election-id="${escapeAttr(c.election_id)}" data-state="${escapeAttr(c.state_code)}" data-ac="${c.ac_no}">${escapeHtml(c.election_name || '')}</a></td>
         <td>${escapeHtml(c.constituency || '')}, ${escapeHtml(c.state_abbrev || '')}</td>
-        <td><span class="sm-party" style="color:${partyColor};border-color:${partyColor}">${escapeHtml(c.party || '')}</span></td>
+        <td>${c.symbol_url ? `<img src="${escapeAttr(c.symbol_url)}" alt="" class="sr-symbol" width="16" height="16" loading="lazy">` : ''}<span class="sm-party" style="color:${partyColor};border-color:${partyColor}">${escapeHtml(c.party || '')}</span></td>
         <td class="numeric">${c.votes ? c.votes.toLocaleString('en-IN') : ''}</td>
         ${outcomeCol}
       </tr>`;

@@ -39,6 +39,7 @@ export async function handleCandidateHistory(request, env) {
         r.round_no,
         s.state_name,
         s.state_code_std,
+        p.symbol_url,
         ROW_NUMBER() OVER (
           PARTITION BY r.state_code, r.ac_no
           ORDER BY r.votes DESC
@@ -52,9 +53,11 @@ export async function handleCandidateHistory(request, env) {
         AND r.ac_no = fr.ac_no
         AND r.round_no = fr.final_round
       LEFT JOIN states s ON r.state_code = s.state_code
+      LEFT JOIN parties p ON r.party_abv = p.abv
     )
     SELECT state_code, ac_no, ac_name, candidate, party_abv, votes,
-           state_name, state_code_std, round_no, rank_in_round, winner_votes
+           state_name, state_code_std, round_no, rank_in_round, winner_votes,
+           symbol_url
     FROM ranked
     WHERE candidate = ?
     ORDER BY votes DESC
@@ -95,6 +98,7 @@ export async function handleCandidateHistory(request, env) {
       ac_no: r.ac_no,
       constituency: r.ac_name || '',
       party: r.party_abv || '',
+      symbol_url: r.symbol_url || '',
       votes: r.votes,
       rank: r.rank_in_round,
       winner_votes: r.winner_votes,
