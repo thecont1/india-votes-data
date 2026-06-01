@@ -74,6 +74,7 @@
     --green: #6ee7a1;
     --yellow: #fde047;
     --tv-frame: #ffffff;
+    --tv-dot: var(--yellow);
   }
 
   :root[data-theme="fair-lovely"] {
@@ -163,6 +164,7 @@
     --margin-border: #d1c8b9;
     --margin-text: #24303a;
     --tv-frame: #000000;
+    --tv-dot: #000000;
   }
 
   :root[data-theme="black-white"] {
@@ -197,6 +199,7 @@
     --green: #065f46;
     --yellow: #854d0e;
     --tv-frame: #000000;
+    --tv-dot: #000000;
   }
 
   :root[data-theme="dark-handsome"] {
@@ -2341,7 +2344,7 @@
     border: 15px;
     margin: 50px auto 0;
     background: transparent;
-    border: 3px solid var(--red);
+    border: 3px solid var(--tv-dot);
     transition: width 0.3s, height 0.3s, margin 0.3s, border-radius 0.3s, border 0.3s, background 0.3s;
   }
   #live-tv-card.closed .tv-stage::after {
@@ -2353,8 +2356,8 @@
     width: 18px;
     height: 16px;
     background: transparent;
-    border-left: 3px solid var(--red);
-    border-right: 3px solid var(--red);
+    border-left: 3px solid var(--tv-dot);
+    border-right: 3px solid var(--tv-dot);
     border-radius: 0 0 50% 50%;
   }
   #live-tv-card.closed .tv-stage iframe { display: none; }
@@ -2368,7 +2371,7 @@
     border: 15px;
     margin: 0 auto 14px;
     background: transparent;
-    border: 3px solid var(--green);
+    border: 3px solid var(--tv-dot);
     overflow: hidden;
     transition: width 0.3s, height 0.3s, margin 0.3s, border-radius 0.3s, border 0.3s, background 0.3s;
   }
@@ -5625,8 +5628,8 @@ function getClickedPartyAbv(chart, elements) {
       stopStream();
     } else {
       const maxW = Math.round(window.innerWidth * 0.5);
-      let savedW = 500;
-      try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 500; } catch (e) {}
+      let savedW = 550;
+      try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 550; } catch (e) {}
       savedW = Math.max(MIN_W, Math.min(savedW, maxW));
       card.classList.remove('closed');
       card.style.setProperty('--tv-saved-w', savedW + 'px');
@@ -5815,8 +5818,8 @@ function getClickedPartyAbv(chart, elements) {
 
     // Restore saved width
     const maxW = Math.round(window.innerWidth * 0.5);
-    let savedW = 500;
-    try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 500; } catch (e) {}
+    let savedW = 550;
+    try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 550; } catch (e) {}
     savedW = Math.max(MIN_W, Math.min(savedW, maxW));
     card.style.setProperty('--tv-saved-w', savedW + 'px');
 
