@@ -603,6 +603,87 @@
     color: var(--muted);
     margin-top: 1px;
   }
+  /* Search detail modal */
+  .search-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(4px);
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .search-modal-overlay.active { display: flex; align-items: center; justify-content: center; opacity: 1; }
+  .search-modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    max-width: 680px;
+    width: min(95vw, 680px);
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .search-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .search-modal-header h3 {
+    margin: 0;
+    font: 600 18px var(--font-heading);
+    color: var(--text);
+  }
+  .search-modal-header .sm-summary {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .search-modal-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+  }
+  .search-modal-close:hover { color: var(--text); }
+  .search-modal table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .search-modal th {
+    text-align: left;
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .search-modal td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .search-modal td.numeric {
+    font-family: var(--font-numeric);
+    text-align: right;
+  }
+  .search-modal td.won { color: var(--green); }
+  .search-modal td.lost { color: var(--muted); }
+  .search-modal .sm-party {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+  }
   .theme-picker {
     position: relative;
     display: inline-flex;
@@ -1908,6 +1989,15 @@
       min-height: 24px;
       padding: 10px 12px;
     }
+    .search-modal {
+      width: 100vw;
+      max-height: 90vh;
+      border: none;
+    }
+    .search-modal th, .search-modal td {
+      padding: 6px 8px;
+      font-size: 12px;
+    }
     @media (max-width: 400px) {
       .subtitle { display: none; }
     }
@@ -2624,8 +2714,11 @@
   <select id="election-selector" aria-label="Select election period" style="margin-left:12px; min-width:180px; max-width:220px;"></select>
   <div class="search-box">
     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-    <input type="text" id="search-input" placeholder="Search candidates, constituencies, parties..." autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-results" />
+    <input type="text" id="search-input" placeholder="Search candidates, constituencies..." autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-results" />
     <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
+  </div>
+  <div class="search-modal-overlay" id="search-modal-overlay" role="dialog" aria-modal="true" aria-label="Detail view">
+    <div class="search-modal" id="search-modal"></div>
   </div>
   <div class="meta" aria-label="Dashboard status and preferences">
     <span class="status-indicator" aria-live="polite">
@@ -5383,13 +5476,27 @@ function getClickedPartyAbv(chart, elements) {
 
 // ---------------------------------------------------------------------------
 // Search (FTS5 trigram via D1 Worker)
+// Two sections: Candidates + Constituencies, with detail modals
 // ---------------------------------------------------------------------------
 (() => {
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
+  const modalOverlay = document.getElementById('search-modal-overlay');
+  const modalEl = document.getElementById('search-modal');
   let searchTimer = null;
   let activeIdx = -1;
   let resultEls = [];
+
+  // Party colors for modal rendering (subset of most common)
+  const PARTY_COLORS = {
+    'BJP': '#FF6B00', 'INC': '#1E90FF', 'DMK': '#FF0000', 'AIADMK': '#008000',
+    'AITC': '#00FF7F', 'CPM': '#CC0000', 'CPI(M)': '#CC0000', 'TVK': '#FFD700',
+    'IUML': '#006400', 'CPI': '#8B0000', 'AGP': '#32CD32', 'VCK': '#8A2BE2',
+    'PMK': '#A9A9A9', 'IND': '#D3D3D3', 'NCP': '#00008B', 'JD(U)': '#008080',
+    'SHS': '#FF4500', 'TDP': '#FFD700', 'YSRCP': '#1E90FF', 'AAP': '#0066CC',
+    'BRS': '#FF69B4', 'JD(S)': '#008080', 'BSP': '#2241a3', 'SP': '#E32636',
+    'RJD': '#006600', 'ADAL': '#004400', 'SS': '#FF4500', 'NCPSP': '#00008B',
+  };
 
   function setExpanded(open) {
     searchInput.setAttribute('aria-expanded', String(open));
@@ -5499,8 +5606,8 @@ function getClickedPartyAbv(chart, elements) {
   }
 
   function renderResults(grouped, query) {
-    const order = ['party', 'constituency', 'candidate'];
-    const labels = { party: 'Parties', constituency: 'Constituencies', candidate: 'Candidates' };
+    const order = ['candidate', 'constituency'];
+    const labels = { candidate: 'Candidates', constituency: 'Constituencies' };
     let html = '';
     let total = 0;
     let idx = 0;
@@ -5509,7 +5616,7 @@ function getClickedPartyAbv(chart, elements) {
       const items = grouped[type] || [];
       if (!items.length) continue;
       html += `<div class="search-group-label" role="presentation">${labels[type]}</div>`;
-      for (const item of items.slice(0, 5)) {
+      for (const item of items.slice(0, 10)) {
         total++;
         const name = item.highlighted_name || escapeHtml(item.name);
         const ctx = escapeHtml(item.context || '');
@@ -5544,24 +5651,168 @@ function getClickedPartyAbv(chart, elements) {
     hideResults();
     searchInput.value = '';
 
-    if (type === 'constituency') {
+    if (type === 'candidate') {
+      openCandidateModal(name);
+    } else if (type === 'constituency') {
       const [stateCode, acNo] = id.split('-');
-      currentState = stateCode;
-      localStorage.setItem(STATE_STORAGE_KEY, currentState);
-      document.querySelector('[data-view="races"]')?.click();
-      document.getElementById('races-section')?.scrollIntoView({ behavior: 'smooth' });
-    } else if (type === 'party') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (type === 'candidate') {
-      const parts = id.split('-');
-      const stateCode = parts[0];
-      const acNo = parts[1];
-      currentState = stateCode;
-      localStorage.setItem(STATE_STORAGE_KEY, currentState);
-      document.querySelector('[data-view="races"]')?.click();
-      document.getElementById('races-section')?.scrollIntoView({ behavior: 'smooth' });
+      openConstituencyModal(stateCode, acNo);
     }
   }
+
+  // --- Modal infrastructure ---
+
+  function openModal(html) {
+    modalEl.innerHTML = html;
+    modalOverlay.classList.add('active');
+    // Focus trap
+    const closeBtn = modalEl.querySelector('.search-modal-close');
+    if (closeBtn) closeBtn.focus();
+    document.addEventListener('keydown', modalKeyHandler);
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove('active');
+    modalEl.innerHTML = '';
+    document.removeEventListener('keydown', modalKeyHandler);
+  }
+
+  function modalKeyHandler(e) {
+    if (e.key === 'Escape') { closeModal(); return; }
+    // Tab trap: keep focus within modal
+    if (e.key === 'Tab') {
+      const focusable = modalEl.querySelectorAll('button, [tabindex]:not([tabindex="-1"])');
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
+    }
+  }
+
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+
+  // --- Candidate modal ---
+
+  async function openCandidateModal(name) {
+    openModal('<div style="padding:20px;color:var(--muted);">Loading...</div>');
+    try {
+      const resp = await fetch(`${API_BASE}/api/candidate-history?name=${encodeURIComponent(name)}`);
+      const data = await resp.json();
+      renderCandidateModal(data);
+    } catch (e) {
+      openModal('<div style="padding:20px;color:var(--red);">Failed to load candidate data.</div>');
+    }
+  }
+
+  function renderCandidateModal(data) {
+    const { candidate, contests, summary } = data;
+    if (!summary) {
+      openModal(`<div class="search-modal-header"><h3>${escapeHtml(candidate)}</h3><button class="search-modal-close" onclick="this.closest('.search-modal-overlay').classList.remove('active')">&#x2715;</button></div><div style="padding:20px;color:var(--muted);">No election history found.</div>`);
+      return;
+    }
+
+    const partyList = summary.parties.join(', ');
+    const summaryLine = `${summary.total_contests} contest${summary.total_contests !== 1 ? 's' : ''} · ${summary.wins} win${summary.wins !== 1 ? 's' : ''} · ${partyList} · since ${summary.first_contest ? summary.first_contest.slice(0, 4) : '?'}`;
+
+    let rows = '';
+    for (const c of contests) {
+      const partyColor = PARTY_COLORS[c.party] || 'var(--muted)';
+      const wonClass = c.won ? 'won' : 'lost';
+      const wonMark = c.won ? '&#10003;' : '';
+      rows += `<tr>
+        <td>${escapeHtml(c.election_name || '')}</td>
+        <td>${escapeHtml(c.constituency || '')}</td>
+        <td><span class="sm-party" style="color:${partyColor};border-color:${partyColor}">${escapeHtml(c.party || '')}</span></td>
+        <td class="numeric">${c.votes ? c.votes.toLocaleString('en-IN') : ''}</td>
+        <td class="${wonClass}" style="text-align:center">${wonMark}</td>
+      </tr>`;
+    }
+
+    const html = `
+      <div class="search-modal-header">
+        <div>
+          <h3>${escapeHtml(candidate)}</h3>
+          <div class="sm-summary">${escapeHtml(summaryLine)}</div>
+        </div>
+        <button class="search-modal-close" aria-label="Close">&#x2715;</button>
+      </div>
+      <table>
+        <thead><tr>
+          <th>Election</th><th>Constituency</th><th>Party</th><th style="text-align:right">Votes</th><th style="text-align:center">Won</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+
+    openModal(html);
+    modalEl.querySelector('.search-modal-close')?.addEventListener('click', closeModal);
+  }
+
+  // --- Constituency modal ---
+
+  async function openConstituencyModal(stateCode, acNo) {
+    openModal('<div style="padding:20px;color:var(--muted);">Loading...</div>');
+    try {
+      const resp = await fetch(`${API_BASE}/api/constituency-history?state=${encodeURIComponent(stateCode)}&ac=${encodeURIComponent(acNo)}`);
+      const data = await resp.json();
+      renderConstituencyModal(data);
+    } catch (e) {
+      openModal('<div style="padding:20px;color:var(--red);">Failed to load constituency data.</div>');
+    }
+  }
+
+  function renderConstituencyModal(data) {
+    const { constituency, state, elections, summary } = data;
+    const title = constituency ? `${constituency} (${state || ''})` : 'Constituency';
+
+    if (!elections || !elections.length) {
+      openModal(`<div class="search-modal-header"><h3>${escapeHtml(title)}</h3><button class="search-modal-close">&#x2715;</button></div><div style="padding:20px;color:var(--muted);">No election history found.</div>`);
+      modalEl.querySelector('.search-modal-close')?.addEventListener('click', closeModal);
+      return;
+    }
+
+    const summaryParts = [`${summary.total_elections} election${summary.total_elections !== 1 ? 's' : ''} on record`];
+    if (summary.last_winner) summaryParts.push(summary.last_winner);
+    const summaryLine = summaryParts.join(' · ');
+
+    let rows = '';
+    for (const e of elections) {
+      const w = e.winner || {};
+      const r = e.runner_up || {};
+      const wColor = PARTY_COLORS[w.party] || 'var(--muted)';
+      const rColor = PARTY_COLORS[r.party] || 'var(--muted)';
+      rows += `<tr>
+        <td>${escapeHtml(e.election_name || '')}</td>
+        <td>${escapeHtml(w.candidate || '')} <span class="sm-party" style="color:${wColor};border-color:${wColor}">${escapeHtml(w.party || '')}</span></td>
+        <td>${escapeHtml(r.candidate || '')} <span class="sm-party" style="color:${rColor};border-color:${rColor}">${escapeHtml(r.party || '')}</span></td>
+        <td class="numeric">${e.margin ? e.margin.toLocaleString('en-IN') : ''}</td>
+      </tr>`;
+    }
+
+    const html = `
+      <div class="search-modal-header">
+        <div>
+          <h3>${escapeHtml(title)}</h3>
+          <div class="sm-summary">${escapeHtml(summaryLine)}</div>
+        </div>
+        <button class="search-modal-close" aria-label="Close">&#x2715;</button>
+      </div>
+      <table>
+        <thead><tr>
+          <th>Election</th><th>Winner</th><th>Runner-up</th><th style="text-align:right">Margin</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+
+    openModal(html);
+    modalEl.querySelector('.search-modal-close')?.addEventListener('click', closeModal);
+  }
+
+  // --- Helpers ---
 
   function escapeHtml(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

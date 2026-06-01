@@ -93,3 +93,7 @@ CREATE INDEX IF NOT EXISTS idx_cs_state_status
 -- constituency detail: fast PK lookup already covered, but AC name search
 CREATE INDEX IF NOT EXISTS idx_cs_ac_name
     ON constituency_status (ac_name);
+
+-- candidate history search: lookup by candidate name
+CREATE INDEX IF NOT EXISTS idx_rounds_candidate
+    ON rounds_ac (candidate);
