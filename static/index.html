@@ -24,6 +24,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Inconsolata:wght@500;600&family=Libre+Franklin:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<!-- Poper Code Start - poper.ai -->
+<script
+  id="poper-js-script"
+  data-account-id="062e904c550c5ce2bd17b882b36217ea"
+  data-domain="letlive.thecontrarian.in"
+  src="https://app.poper.ai/share/poper.js?accountID=062e904c550c5ce2bd17b882b36217ea&v=mpuelm4g"
+  defer
+></script>
+<script>
+    window.Poper = window.Poper || [];
+    window.Poper.push({
+        accountID: "062e904c550c5ce2bd17b882b36217ea",
+        domain: "letlive.thecontrarian.in",
+    });
+</script>
+<!-- Poper Code End -->
 <style>
   :root,
   :root[data-theme="dark-handsome"] {
@@ -57,6 +73,7 @@
     --red: #ff9a9a;
     --green: #6ee7a1;
     --yellow: #fde047;
+    --tv-frame: #ffffff;
   }
 
   :root[data-theme="fair-lovely"] {
@@ -145,6 +162,7 @@
     --margin-bg: #f2ede3;
     --margin-border: #d1c8b9;
     --margin-text: #24303a;
+    --tv-frame: #000000;
   }
 
   :root[data-theme="black-white"] {
@@ -178,6 +196,7 @@
     --red: #9f1239;
     --green: #065f46;
     --yellow: #854d0e;
+    --tv-frame: #000000;
   }
 
   :root[data-theme="dark-handsome"] {
@@ -1791,17 +1810,19 @@
   /* Footer */
   .site-footer {
     text-align: center;
-    padding: 20px 16px;
+    padding: 20px clamp(16px, 3vw, 32px);
     font-size: 14px;
     color: var(--muted);
     font-family: var(--font-ui);
     border-top: 1px solid var(--border);
-    margin-top: 16px;
+    margin: 16px auto 0;
+    max-width: min(100%, 1200px);
   }
   .site-footer a {
     color: var(--muted);
     text-decoration: underline;
   }
+  /* footer stays centered under content */
 
   /* Responsive */
   @media (max-width: 768px) {
@@ -2252,6 +2273,262 @@
       transition-duration: 0.01ms !important;
     }
   }
+  /* =========================================================================
+     LET Live! TV — right sidebar with live YouTube streams
+     ========================================================================= */
+  :root { --tv-w: min(420px, 32vw); }
+
+  .page-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .main-area {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  /* tv-open: content keeps its normal centering */
+
+  /* TV button glow when TV is open */
+  @keyframes tv-glow {
+    0%, 100% { box-shadow: 0 0 4px 1px rgba(96, 165, 250, 0.5); }
+    50%      { box-shadow: 0 0 8px 3px rgba(96, 165, 250, 0.8); }
+  }
+  body.tv-open #tv-btn {
+    animation: tv-glow 2s ease-in-out infinite;
+    border-color: var(--focus-ring);
+  }
+
+  #live-tv-card {
+    position: sticky;
+    top: var(--header-offset, 70px);
+    width: var(--tv-saved-w, var(--tv-w));
+    max-width: 100vw;
+    flex: 0 0 auto;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    padding-right: 16px;
+    margin: 0;
+    height: calc(100vh - var(--header-offset, 70px));
+    overflow: hidden;
+    transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #live-tv-card.closed {
+    width: 50px;
+    overflow: hidden;
+    background: var(--card-elevated);
+    cursor: pointer;
+  }
+  /* Hide lang + controls when collapsed */
+  #live-tv-card.closed .tv-lang-stack,
+  #live-tv-card.closed .tv-controls,
+  #live-tv-card.closed select {
+    visibility: hidden;
+  }
+  /* TV stage collapses to a blob dot */
+  #live-tv-card.closed .tv-stage {
+    width: 10px !important;
+    height: 10px !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 15px;
+    margin: 50px auto 0;
+    background: transparent;
+    border: 3px solid var(--red);
+    transition: width 0.3s, height 0.3s, margin 0.3s, border-radius 0.3s, border 0.3s, background 0.3s;
+  }
+  #live-tv-card.closed .tv-stage::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 16px;
+    background: transparent;
+    border-left: 3px solid var(--red);
+    border-right: 3px solid var(--red);
+    border-radius: 0 0 50% 50%;
+  }
+  #live-tv-card.closed .tv-stage iframe { display: none; }
+  /* News widget collapses to connected blob */
+  #live-tv-card.closed .poper-11597 {
+    width: 10px !important;
+    height: 10px !important;
+    min-height: 0;
+    min-width: 2;
+    border-radius: 50%;
+    border: 15px;
+    margin: 0 auto 14px;
+    background: transparent;
+    border: 3px solid var(--green);
+    overflow: hidden;
+    transition: width 0.3s, height 0.3s, margin 0.3s, border-radius 0.3s, border 0.3s, background 0.3s;
+  }
+  @media (max-width: 1023px) {
+    #live-tv-card { display: none; }
+    .tv-resizer { display: none; }
+    .page-layout { display: block; }
+  }
+
+  .tv-resizer {
+    flex: 0 0 auto;
+    width: 6px;
+    align-self: stretch;
+    cursor: pointer;
+    background: transparent;
+    position: relative;
+    z-index: 61;
+    transition: background 0.15s ease;
+  }
+  .tv-resizer:hover {
+    background: var(--border);
+  }
+
+  .tv-stage {
+    position: relative;
+    flex: 0 0 auto;
+    background: #000;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    border: 10px solid var(--tv-frame);
+    margin: 10px 14px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tv-stage iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  /* Language bar: horizontal row of equal-sized boxes */
+  .tv-lang-stack {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 10px 14px 0;
+  }
+  .tv-lang-stack .tv-lang-link {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 34px;
+    line-height: 34px;
+    padding: 0;
+    border: 0.5px solid var(--border);
+    border-right: 0;
+    border-radius: 0;
+    background: var(--control-bg);
+    color: var(--muted);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tv-lang-stack .tv-lang-link:last-child {
+    border-right: 0.5px solid var(--border);
+  }
+  .tv-lang-stack .tv-lang-link:hover {
+    background: var(--card-elevated);
+    color: var(--text);
+  }
+  .tv-lang-stack .tv-lang-link.active {
+    background: var(--control-active-bg);
+    color: var(--control-active-text);
+  }
+  .tv-lang-sep { display: none; }
+
+  .poper-11597 {
+    margin: 0 14px 10px;
+    background: var(--card);
+    border: 10px solid var(--tv-frame);
+    border-radius: 12px;
+    overflow: hidden !important;
+  }
+  .poper-11597 iframe {
+    transform: translateY(-52px) !important;
+  }
+
+  .tv-controls {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px 14px;
+  }
+  .tv-ctrl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--control-bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  #live-tv-card:not(.closed) .tv-ctrl-btn {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 92px;
+    white-space: nowrap;
+    box-shadow: 2px 2px 0 var(--text);
+  }
+  .tv-ctrl-btn:hover {
+    border-color: var(--control-hover-border);
+    background: var(--card-elevated);
+  }
+  .tv-ctrl-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  /* Button labels */
+  .tv-ctrl-label {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  /* STFU icons: stroked, no fill — match base .tv-ctrl-btn svg rules */
+  .tv-ctrl-btn.stfu-active {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .tv-stfu-off { display: none; }
+  .tv-ctrl-btn.stfu-active .tv-stfu-on { display: none; }
+  .tv-ctrl-btn.stfu-active .tv-stfu-off { display: block; }
+
 </style>
 </head>
 <body>
@@ -2280,7 +2557,7 @@
       <span class="status-dot idle" id="status-dot" aria-hidden="true"></span>
       <span id="status-text">Waiting for data...</span>
     </span>
-    <button class="download-btn" id="tv-btn" type="button" aria-label="TV mode coming soon" title="Coming soon — TV mode">
+    <button class="download-btn" id="tv-btn" type="button" aria-label="Toggle LET Live TV" title="LET Live TV" aria-expanded="false">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M15.331 4.502a49.408 49.408 0 0 0-4.407-.425L13.5 1.501l-1-1L8.991 4.01A54.24 54.24 0 0 0 8 4.001l-4-4-1 1 3.034 3.034a50.304 50.304 0 0 0-5.365.467C.239 6.185 0 8.045 0 10s.239 3.815.669 5.498C2.913 15.821 5.393 16 8 16s5.087-.179 7.331-.502c.43-1.683.669-3.543.669-5.498s-.239-3.815-.669-5.498zm-1.833 9.164C11.815 13.881 9.955 14 8 14s-3.815-.119-5.498-.334C2.179 12.544 2 11.304 2 10s.179-2.543.502-3.666C4.185 6.119 6.045 6 8 6s3.815.119 5.498.334C13.821 7.456 14 8.696 14 10s-.179 2.543-.502 3.666z"/></svg>
     </button>
     <button class="download-btn" id="download-btn" type="button" aria-label="Download dataset as Excel" title="Download dataset">
@@ -2307,7 +2584,7 @@
       <select id="election-selector-mobile" aria-label="Select election period"></select>
     </div>
     <div class="mobile-menu__section mobile-menu__actions">
-      <button class="download-btn" id="tv-btn-mobile" type="button" aria-label="TV mode coming soon" title="Coming soon — TV mode">
+      <button class="download-btn" id="tv-btn-mobile" type="button" aria-label="Toggle LET Live TV" title="LET Live TV">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M15.331 4.502a49.408 49.408 0 0 0-4.407-.425L13.5 1.501l-1-1L8.991 4.01A54.24 54.24 0 0 0 8 4.001l-4-4-1 1 3.034 3.034a50.304 50.304 0 0 0-5.365.467C.239 6.185 0 8.045 0 10s.239 3.815.669 5.498C2.913 15.821 5.393 16 8 16s5.087-.179 7.331-.502c.43-1.683.669-3.543.669-5.498s-.239-3.815-.669-5.498zm-1.833 9.164C11.815 13.881 9.955 14 8 14s-3.815-.119-5.498-.334C2.179 12.544 2 11.304 2 10s.179-2.543.502-3.666C4.185 6.119 6.045 6 8 6s3.815.119 5.498.334C13.821 7.456 14 8.696 14 10s-.179 2.543-.502 3.666z"/></svg>
         <span>TV Mode</span>
       </button>
@@ -2333,6 +2610,8 @@
   </div>
 </header>
 
+<div class="page-layout">
+<div class="main-area">
 <nav class="state-bar" id="state-bar" aria-label="Election state filters"></nav>
 
 <main class="content" id="main-content">
@@ -2466,6 +2745,32 @@
   </div>
 
 </main>
+<footer class="site-footer">
+  <p>LET Live! The Live and Loaded ECI Elections Tracker of India</p>
+  <p>Data Source: <a href="https://results.eci.gov.in/" target="_blank" rel="noopener">Election Commission of India</a></p>
+  <p>&copy; Mahesh Shantaram / <a href="https://thecontrarian.in/" target="_blank" rel="noopener">thecontrarian.in</a></p>
+</footer>
+</div><!-- .main-area -->
+<div class="tv-resizer" id="tv-resizer" aria-label="Resize TV panel" title="Drag to resize"></div>
+<aside id="live-tv-card">
+  <div class="tv-lang-stack" id="tv-lang-bar" aria-label="Filter channels by language"></div>
+  <div class="tv-controls">
+    <button class="tv-ctrl-btn" id="tv-next-btn" type="button" title="Next channel" aria-label="Next channel">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h2.397a5 5 0 0 0 4.096 -2.133l.177 -.253m3.66 -5.227l.177 -.254a5 5 0 0 1 4.096 -2.133h3.397"/><path d="M18 4l3 3l-3 3"/><path d="M3 7h2.397a5 5 0 0 1 4.096 2.133l4.014 5.734a5 5 0 0 0 4.096 2.133h3.397"/><path d="M18 20l3 -3l-3 -3"/></svg>
+      <span class="tv-ctrl-label">Channel</span>
+    </button>
+    <button class="tv-ctrl-btn" id="tv-stfu-btn" type="button" title="Mute" aria-label="Mute">
+      <svg class="tv-stfu-on" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>
+      <svg class="tv-stfu-off" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.636 6A13 13 0 0 0 19.4 3.2 1 1 0 0 1 21 4v11.344"/><path d="M14.378 14.357A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h1"/><path d="m2 2 20 20"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 8v6"/></svg>
+      <span class="tv-ctrl-label">STFU</span>
+    </button>
+  </div>
+  <!-- hidden for now — JS still uses this to track selection state -->
+  <select id="tv-channel" aria-label="Select news channel" style="display:none"></select>
+  <div class="tv-stage" id="tv-stage"></div>
+  <div class="poper-11597"></div>
+</aside>
+</div><!-- .page-layout -->
 <script>
 // ---------------------------------------------------------------------------
 // Config
@@ -2798,15 +3103,7 @@ document.getElementById('election-selector-mobile')?.addEventListener('change', 
 
 let _tvOverlayTrigger = null;
 
-document.getElementById('tv-btn-mobile')?.addEventListener('click', (e) => {
-  _tvOverlayTrigger = e.currentTarget;
-  const overlay = document.getElementById('tv-overlay');
-  overlay.style.opacity = '0';
-  overlay.style.display = 'flex';
-  overlay.style.transition = 'opacity 0.3s ease';
-  requestAnimationFrame(() => { overlay.style.opacity = '1'; });
-  setMobileMenuOpen(false);
-});
+// mobile TV handler moved to TV init block above
 
 document.querySelectorAll('.theme-option-mobile').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -5203,13 +5500,13 @@ function getClickedPartyAbv(chart, elements) {
 })();
 </script>
 
-<div id="tv-overlay" role="dialog" aria-modal="true" aria-labelledby="tv-overlay-title" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); cursor:pointer;">
+<div id="tv-overlay" role="dialog" aria-modal="true" aria-labelledby="tv-overlay-title" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.85);">
   <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-family:var(--font-heading); text-align:center; padding:24px;">
-    <div style="font-size:48px; margin-bottom:16px;">📺</div>
-    <h2 id="tv-overlay-title" style="font-size:clamp(24px,4vw,36px); margin:0 0 8px; font-weight:700;">Coming soon!</h2>
-    <p style="font-size:16px; margin:0; opacity:0.8;">TV mode is under construction. 😉
-
-</p>
+    <div id="tv-overlay-stage" style="width:min(100%, 720px); aspect-ratio:16/9; background:#000; border-radius:4px; overflow:hidden;"></div>
+    <div style="margin-top:12px; display:flex; gap:8px; align-items:center;">
+      <select id="tv-overlay-channel" style="min-height:40px; font-size:13px; padding:6px 10px;"></select>
+      <button id="tv-overlay-close" type="button" style="min-height:40px; min-width:40px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.12); color:#fff; font-size:20px; cursor:pointer;">✕</button>
+    </div>
   </div>
 </div>
 
@@ -5232,32 +5529,322 @@ function getClickedPartyAbv(chart, elements) {
 </div>
 
 <script>
-document.getElementById('tv-btn').addEventListener('click', (e) => {
-  _tvOverlayTrigger = e.currentTarget;
-  const overlay = document.getElementById('tv-overlay');
-  overlay.style.opacity = '0';
-  overlay.style.display = 'flex';
-  overlay.style.transition = 'opacity 0.3s ease';
-  requestAnimationFrame(() => { overlay.style.opacity = '1'; });
-});
-function closeTvOverlay() {
-  const overlay = document.getElementById('tv-overlay');
-  overlay.style.opacity = '0';
-  setTimeout(() => {
-    overlay.style.display = 'none';
-    const trigger = _tvOverlayTrigger;
-    if (trigger && trigger.isConnected) {
-      trigger.focus();
-    } else {
-      document.getElementById('tv-btn')?.focus();
+// =========================================================================
+// LET Live! TV — sidebar (desktop) + overlay (mobile)
+// =========================================================================
+(function() {
+  const YT_BASE = 'https://www.youtube-nocookie.com/embed/';
+  const LANG_KEY = 'letlive-tv-lang';
+  const WIDTH_KEY = 'letlive-tv-width';
+  const STFU_KEY = 'letlive-tv-stfu';
+  const TV_OPEN_KEY = 'letlive-tv-open';
+  function chanKeyFor(lang) { return 'letlive-tv-chan-' + (lang || 'all'); }
+  const MIN_W = 280;
+  let channels = [];
+  let iframeEl = null;
+  let activeLang = '';
+  let tvReady = false;
+
+  function byId(id) { return channels.find((c) => c.video_id === id); }
+  function defaultChannel() {
+    return channels.find((c) => /ndtv/i.test(c.name) && /english/i.test(c.language))
+        || channels.find((c) => /english/i.test(c.language))
+        || channels[0];
+  }
+
+  // --- Sidebar (desktop) ---
+  const card = document.getElementById('live-tv-card');
+  const langBar = document.getElementById('tv-lang-bar');
+  const chanSel = document.getElementById('tv-channel');
+  const stage = document.getElementById('tv-stage');
+
+  function populateChannels(lang) {
+    activeLang = lang;
+    const list = lang ? channels.filter((c) => c.language === lang) : channels;
+    chanSel.innerHTML = '';
+    list.forEach((c) => {
+      const o = document.createElement('option');
+      o.value = c.video_id;
+      o.textContent = c.name;
+      chanSel.appendChild(o);
+    });
+  }
+
+  function pickLanguage(lang) {
+    langBar.querySelectorAll('.tv-lang-link').forEach((b) => {
+      b.classList.toggle('active', b.dataset.lang === (lang || ''));
+    });
+    populateChannels(lang);
+    if (chanSel.options.length) {
+      // Restore last-watched channel for this language, or fall back to first
+      let saved = '';
+      try { saved = localStorage.getItem(chanKeyFor(lang)) || ''; } catch (e) {}
+      if (saved && Array.from(chanSel.options).some((o) => o.value === saved)) {
+        chanSel.value = saved;
+      } else {
+        chanSel.selectedIndex = 0;
+      }
+      try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+      try { localStorage.setItem(chanKeyFor(lang), chanSel.value); } catch (e) {}
+      mountStream();
     }
-    _tvOverlayTrigger = null;
-  }, 300);
-}
-document.getElementById('tv-overlay').addEventListener('click', closeTvOverlay);
-document.getElementById('tv-overlay').addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { e.preventDefault(); closeTvOverlay(); }
-});
+  }
+
+  function mountStream(videoId) {
+    const vid = videoId || chanSel.value;
+    const c = byId(vid) || defaultChannel();
+    if (!c) return;
+    const muteParam = stfuActive ? '&mute=1' : '';
+    if (!iframeEl) {
+      iframeEl = document.createElement('iframe');
+      iframeEl.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      stage.appendChild(iframeEl);
+    }
+    iframeEl.title = 'Live stream: ' + c.name;
+    iframeEl.src = YT_BASE + encodeURIComponent(c.video_id) + '?autoplay=1&rel=0&modestbranding=1' + muteParam;
+  }
+
+  function stopStream() {
+    if (iframeEl) { iframeEl.remove(); iframeEl = null; }
+  }
+
+  function toggleTv() {
+    const tvBtn = document.getElementById('tv-btn');
+    if (!tvReady) return;
+    const isOpen = !card.classList.contains('closed');
+    if (isOpen) {
+      card.classList.add('closed');
+      card.style.width = '';
+      document.body.classList.remove('tv-open');
+      tvBtn?.setAttribute('aria-expanded', 'false');
+      try { localStorage.setItem(TV_OPEN_KEY, '0'); } catch (e) {}
+      stopStream();
+    } else {
+      const maxW = Math.round(window.innerWidth * 0.5);
+      let savedW = 400;
+      try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 400; } catch (e) {}
+      savedW = Math.max(MIN_W, Math.min(savedW, maxW));
+      card.classList.remove('closed');
+      card.style.setProperty('--tv-saved-w', savedW + 'px');
+      card.style.width = '';
+      document.body.classList.add('tv-open');
+      tvBtn?.setAttribute('aria-expanded', 'true');
+      try { localStorage.setItem(TV_OPEN_KEY, '1'); } catch (e) {}
+      mountStream();
+    }
+  }
+
+  // Language bar click
+  langBar?.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tv-lang-link');
+    if (!btn) return;
+    const lang = btn.dataset.lang;
+    if (lang === activeLang) return;
+    pickLanguage(lang);
+  });
+
+  chanSel?.addEventListener('change', () => {
+    try { localStorage.setItem(chanKeyFor(activeLang), chanSel.value); } catch (e) {}
+    mountStream();
+  });
+
+  // --- Next channel button ---
+  let stfuActive = false;
+
+  document.getElementById('tv-next-btn')?.addEventListener('click', () => {
+    if (!tvReady || !chanSel.options.length) return;
+    const list = activeLang
+      ? channels.filter((c) => c.language === activeLang)
+      : channels;
+    if (!list.length) return;
+    const curIdx = list.findIndex((c) => c.video_id === chanSel.value);
+    const nextIdx = (curIdx + 1) % list.length;
+    const next = list[nextIdx];
+    chanSel.value = next.video_id;
+    try { localStorage.setItem(chanKeyFor(activeLang), next.video_id); } catch (e) {}
+    mountStream();
+  });
+
+  // --- STFU (mute) toggle ---
+  document.getElementById('tv-stfu-btn')?.addEventListener('click', () => {
+    if (!tvReady) return;
+    stfuActive = !stfuActive;
+    const btn = document.getElementById('tv-stfu-btn');
+    btn?.classList.toggle('stfu-active', stfuActive);
+    btn?.setAttribute('title', stfuActive ? 'Unmute' : 'Mute');
+    btn?.setAttribute('aria-label', stfuActive ? 'Unmute' : 'Mute');
+    try { localStorage.setItem(STFU_KEY, stfuActive ? '1' : '0'); } catch (e) {}
+    // Remount with or without mute parameter
+    const vid = chanSel?.value;
+    const c = byId(vid) || defaultChannel();
+    if (!c) return;
+    const muteParam = stfuActive ? '&mute=1' : '';
+    if (iframeEl) {
+      iframeEl.src = YT_BASE + encodeURIComponent(c.video_id) + '?autoplay=1&rel=0&modestbranding=1' + muteParam;
+    } else {
+      mountStream();
+    }
+  });
+
+  // Header TV button toggles the sidebar
+  document.getElementById('tv-btn')?.addEventListener('click', toggleTv);
+
+  // Clicking the collapsed sidebar bar reopens the TV.
+  // Clicking the right blank padding of the open bar closes it.
+  card?.addEventListener('click', (e) => {
+    if (e.target.closest('button, select, a, input, iframe')) return;
+    if (card.classList.contains('closed')) {
+      toggleTv();
+    } else {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      if (x >= rect.width - 30) toggleTv();
+    }
+  });
+
+  // Clicking the right edge bar toggles the TV pane
+  document.getElementById('tv-resizer')?.addEventListener('click', () => {
+    toggleTv();
+  });
+
+  // --- Mobile overlay ---
+  const overlay = document.getElementById('tv-overlay');
+  const overlayStage = document.getElementById('tv-overlay-stage');
+  const overlayChanSel = document.getElementById('tv-overlay-channel');
+  let overlayIframe = null;
+
+  function openMobileTv() {
+    if (!tvReady) return;
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    // Populate overlay channel selector
+    overlayChanSel.innerHTML = '';
+    const list = channels;
+    list.forEach((c) => {
+      const o = document.createElement('option');
+      o.value = c.video_id;
+      o.textContent = c.name + ' (' + c.language + ')';
+      overlayChanSel.appendChild(o);
+    });
+    // Try to match current sidebar selection
+    if (chanSel?.value) {
+      overlayChanSel.value = chanSel.value;
+    }
+    mountOverlayStream(overlayChanSel.value);
+  }
+
+  function mountOverlayStream(videoId) {
+    const c = byId(videoId) || defaultChannel();
+    if (!c) return;
+    if (!overlayIframe) {
+      overlayIframe = document.createElement('iframe');
+      overlayIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      overlayStage.appendChild(overlayIframe);
+    }
+    overlayIframe.title = 'Live stream: ' + c.name;
+    overlayIframe.src = YT_BASE + encodeURIComponent(c.video_id) + '?autoplay=1&rel=0&modestbranding=1';
+  }
+
+  function closeMobileTv() {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    if (overlayIframe) { overlayIframe.remove(); overlayIframe = null; }
+    document.getElementById('tv-btn-mobile')?.focus();
+  }
+
+  document.getElementById('tv-btn-mobile')?.addEventListener('click', (e) => {
+    _tvOverlayTrigger = e.currentTarget;
+    setMobileMenuOpen(false);
+    openMobileTv();
+  });
+
+  overlayChanSel?.addEventListener('change', () => {
+    mountOverlayStream(overlayChanSel.value);
+  });
+
+  document.getElementById('tv-overlay-close')?.addEventListener('click', closeMobileTv);
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) closeMobileTv();
+  });
+  overlay?.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { e.preventDefault(); closeMobileTv(); }
+  });
+
+  // --- Load channels from API ---
+  (async function load() {
+    try {
+      const res = await fetch('/api/tv-channels');
+      const data = await res.json();
+      channels = data.channels || [];
+    } catch (e) { channels = []; }
+    if (!channels.length) return;
+
+    // Build language buttons
+    const langs = [];
+    channels.forEach((c) => { if (!langs.includes(c.language)) langs.push(c.language); });
+    const allBtn = document.createElement('button');
+    allBtn.className = 'tv-lang-link active';
+    allBtn.type = 'button';
+    allBtn.dataset.lang = '';
+    allBtn.textContent = 'All';
+    langBar.appendChild(allBtn);
+    langs.forEach((l, i) => {
+      if (i < langs.length - 1) {
+        const sep = document.createElement('span');
+        sep.className = 'tv-lang-sep';
+        sep.textContent = '|';
+        langBar.appendChild(sep);
+      }
+      const btn = document.createElement('button');
+      btn.className = 'tv-lang-link';
+      btn.type = 'button';
+      btn.dataset.lang = l;
+      btn.textContent = l;
+      langBar.appendChild(btn);
+    });
+
+    // Restore saved language
+    let savedLang = '';
+    try { savedLang = localStorage.getItem(LANG_KEY) || ''; } catch (e) {}
+    if (savedLang && !langs.includes(savedLang)) savedLang = '';
+    pickLanguage(savedLang);
+
+    // Restore saved width
+    const maxW = Math.round(window.innerWidth * 0.5);
+    let savedW = 400;
+    try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 400; } catch (e) {}
+    savedW = Math.max(MIN_W, Math.min(savedW, maxW));
+    card.style.setProperty('--tv-saved-w', savedW + 'px');
+
+    // Restore STFU state
+    try {
+      if (localStorage.getItem(STFU_KEY) === '1') {
+        stfuActive = true;
+        document.getElementById('tv-stfu-btn')?.classList.add('stfu-active');
+        document.getElementById('tv-stfu-btn')?.setAttribute('title', 'Unmute');
+        document.getElementById('tv-stfu-btn')?.setAttribute('aria-label', 'Unmute');
+      }
+    } catch (e) {}
+
+    // Restore TV open/closed state
+    tvReady = true;
+    let tvWasOpen = false;
+    try { tvWasOpen = localStorage.getItem(TV_OPEN_KEY) === '1'; } catch (e) {}
+    if (window.innerWidth >= 1024 && tvWasOpen) {
+      card.classList.remove('closed');
+      card.style.setProperty('--tv-saved-w', savedW + 'px');
+      card.style.width = '';
+      document.body.classList.add('tv-open');
+      document.getElementById('tv-btn')?.setAttribute('aria-expanded', 'true');
+      mountStream();
+    } else if (window.innerWidth >= 1024) {
+      card.classList.add('closed');
+      card.style.width = '';
+      document.body.classList.remove('tv-open');
+      document.getElementById('tv-btn')?.setAttribute('aria-expanded', 'false');
+    }
+  })();
+})();
 // Download modal — listeners here because modal HTML is after main <script>
 document.getElementById('download-modal-state')?.addEventListener('click', () => {
   closeDownloadModal();
@@ -5286,10 +5873,21 @@ document.addEventListener('click', (e) => {
   if (info && !info.contains(e.target)) info.classList.remove('active');
 });
 </script>
-<footer class="site-footer">
-  <p>LET Live! The Live and Loaded ECI Elections Tracker of India</p>
-  <p>Data Source: <a href="https://results.eci.gov.in/" target="_blank" rel="noopener">Election Commission of India</a></p>
-  <p>&copy; Mahesh Shantaram / <a href="https://thecontrarian.in/" target="_blank" rel="noopener">thecontrarian.in</a></p>
-</footer>
+<script>
+(function hidePoperHeader() {
+  var c = document.querySelector('.poper-11597');
+  if (!c) return;
+  var hide = function() {
+    c.querySelectorAll('*').forEach(function(el) {
+      var t = (el.textContent || '').trim();
+      if (t === 'Built with Poper' || t === 'Latest' || (t.startsWith('Latest') && t.length < 20)) {
+        el.style.display = 'none';
+      }
+    });
+  };
+  hide();
+  new MutationObserver(hide).observe(c, { childList: true, subtree: true });
+})();
+</script>
 </body>
 </html>
