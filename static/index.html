@@ -2609,40 +2609,31 @@
     display: block;
   }
 
-  /* Language bar: horizontal row of equal-sized boxes */
+  /* Language bar: wrap-wrapped equal-sized boxes */
   .tv-lang-stack {
     flex: 0 0 auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 0;
+    gap: 4px;
     padding: 10px 14px 0;
   }
   .tv-lang-stack .tv-lang-link {
-    flex: 1 1 0;
-    min-width: 0;
-    height: 34px;
-    line-height: 34px;
-    padding: 0;
+    flex: 0 0 auto;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
     border: 0.5px solid var(--border);
-    border-right: 0;
     border-radius: 0;
     background: var(--control-bg);
     color: var(--muted);
     font-family: var(--font-ui);
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
     text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
     cursor: pointer;
     transition: background 0.12s, color 0.12s;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
-  }
-  .tv-lang-stack .tv-lang-link:last-child {
-    border-right: 0.5px solid var(--border);
   }
   .tv-lang-stack .tv-lang-link:hover {
     background: var(--card-elevated);
@@ -2651,10 +2642,6 @@
   .tv-lang-stack .tv-lang-link.active {
     background: var(--control-active-bg);
     color: var(--control-active-text);
-  }
-  .tv-lang-stack .tv-lang-link[data-lang=""],
-  .tv-lang-stack .tv-lang-link[data-lang="English"] {
-    font-size: 11px;
   }
   .tv-lang-sep { display: none; }
 
@@ -4830,6 +4817,19 @@ async function drawRaceRoundwise(race) {
     const rounds = [...new Set(rows.map(r => r.round_no))]
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
 
+    // Bandaid: if only round 999 exists (past elections), show a message
+    if (rounds.length === 1 && rounds[0] === 999) {
+      const overlay = document.getElementById('race-roundwise-overlay');
+      if (overlay) {
+        overlay.style.display = 'flex';
+        overlay.querySelector('h3').textContent = 'Round-by-round data not available';
+        overlay.querySelector('p').textContent = 'Only final results were recorded for this election. Detailed counting rounds were not captured.';
+      }
+      if (racesChart) { racesChart.destroy(); racesChart = null; }
+      return;
+    }
+    { const overlay = document.getElementById('race-roundwise-overlay'); if (overlay) overlay.style.display = 'none'; }
+
     const labels = rounds.map(rn => rn === 999 ? '🏁' : `${rn}`);
 
     // Store for card builder
@@ -5067,6 +5067,19 @@ async function renderRoundwise(stateCode) {
     const rounds = data.rounds || [];
     let series = data.series || [];
     if (!rounds.length || !series.length) return;
+
+    // Bandaid: if only round 999 exists (past elections), show a message
+    if (rounds.length === 1 && rounds[0] === 999) {
+      const overlay = document.getElementById('roundwise-overlay');
+      if (overlay) {
+        overlay.style.display = 'flex';
+        overlay.querySelector('h3').textContent = 'Round-by-round data not available';
+        overlay.querySelector('p').textContent = 'Only final results were recorded for this election. Detailed counting rounds were not captured.';
+      }
+      if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+      return;
+    }
+    { const overlay = document.getElementById('roundwise-overlay'); if (overlay) overlay.style.display = 'none'; }
 
     // Filter: keep parties up to and including NOTA; drop anyone below NOTA
     const finalIdx = rounds.length - 1;
@@ -6176,6 +6189,13 @@ function getClickedPartyAbv(chart, elements) {
     if (!channels.length) return;
 
     // Build language buttons
+    const LANG_EN = {
+      'English': 'English', 'हिन्दी': 'Hindi', 'मराठी': 'Marathi',
+      'বাংলা': 'Bengali', 'তামি঴': 'Tamil', 'தமிழ்': 'Tamil',
+      'తెలుగు': 'Telugu', 'ಕನ್ನಡ': 'Kannada', 'മലയാളം': 'Malayalam',
+      'ਪੰਜਾਬੀ': 'Punjabi', 'ગુજરાતી': 'Gujarati', 'ଓଡ଼ିଆ': 'Odia',
+      'অসমীয়া': 'Assamese', 'اردو': 'Urdu',
+    };
     const langs = [];
     channels.forEach((c) => { if (!langs.includes(c.language)) langs.push(c.language); });
     const allBtn = document.createElement('button');
@@ -6196,8 +6216,16 @@ function getClickedPartyAbv(chart, elements) {
       btn.type = 'button';
       btn.dataset.lang = l;
       btn.textContent = l;
+      btn.addEventListener('mouseenter', () => { btn.textContent = LANG_EN[l] || l; });
+      btn.addEventListener('mouseleave', () => { btn.textContent = l; });
       langBar.appendChild(btn);
     });
+
+    // Equalize all language buttons to the width of the widest label
+    const langBtns = langBar.querySelectorAll('.tv-lang-link');
+    let maxBtnW = 0;
+    langBtns.forEach(b => { if (b.offsetWidth > maxBtnW) maxBtnW = b.offsetWidth; });
+    if (maxBtnW > 0) langBtns.forEach(b => { b.style.minWidth = maxBtnW + 'px'; });
 
     // Restore saved language
     let savedLang = '';
