@@ -689,6 +689,30 @@
     font-weight: 600;
     border: 1px solid var(--border);
   }
+  .search-modal .sm-election-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+  .search-modal .sm-election-link:hover {
+    color: var(--focus-ring);
+  }
+  .search-modal .outcome {
+    width: 28px;
+    min-width: 28px;
+    padding: 8px 4px !important;
+  }
+  .search-modal .outcome.won { color: var(--green); font-weight: 700; }
+  .search-modal .outcome.runner-up { color: var(--yellow); font-weight: 700; }
+  .search-modal .outcome.safe { color: var(--muted); }
+  .search-modal .outcome.forfeit { color: var(--red); font-weight: 700; }
+  @keyframes highlight-flash {
+    0%, 100% { outline: none; }
+    50% { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+  }
+  .highlight-flash { animation: highlight-flash 0.6s ease 3; }
   .theme-picker {
     position: relative;
     display: inline-flex;
@@ -5682,6 +5706,42 @@ function getClickedPartyAbv(chart, elements) {
     document.removeEventListener('keydown', modalKeyHandler);
   }
 
+  // Navigate to a specific constituency from the candidate modal
+  function navigateToConstituency(electionId, stateCode, acNo) {
+    // 1. Set election selector
+    const selector = document.getElementById('election-selector');
+    if (selector && electionId && selector.value !== electionId) {
+      selector.value = electionId;
+      selector.dispatchEvent(new Event('change'));
+    }
+    // 2. Set state (small delay to let election change propagate)
+    setTimeout(() => {
+      currentState = stateCode;
+      localStorage.setItem(STATE_STORAGE_KEY, stateCode);
+      // Re-render state bar and load data
+      if (typeof renderStateBar === 'function' && typeof knownStates !== 'undefined') {
+        renderStateBar(knownStates);
+      }
+      if (typeof fetchData === 'function') fetchData();
+      if (typeof fetchStatus === 'function') fetchStatus();
+      if (typeof loadStateCharts === 'function') loadStateCharts();
+      // 3. Scroll to races section and highlight the constituency
+      setTimeout(() => {
+        const racesEl = document.querySelector('.races-grid') || document.querySelector('[class*="race"]');
+        if (racesEl) racesEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Try to find and highlight the specific constituency card
+        const acStr = String(acNo);
+        const card = document.querySelector(`[data-ac="${acStr}"]`) ||
+                     document.querySelector(`[data-ac-no="${acStr}"]`);
+        if (card) {
+          card.classList.add('highlight-flash');
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => card.classList.remove('highlight-flash'), 2000);
+        }
+      }, 500);
+    }, 200);
+  }
+
   function modalKeyHandler(e) {
     if (e.key === 'Escape') { closeModal(); return; }
     // Tab trap: keep focus within modal
@@ -5728,14 +5788,25 @@ function getClickedPartyAbv(chart, elements) {
     let rows = '';
     for (const c of contests) {
       const partyColor = PARTY_COLORS[c.party] || 'var(--muted)';
-      const wonClass = c.won ? 'won' : 'lost';
-      const wonMark = c.won ? '&#10003;' : '';
+      // Outcome: Won, Runner-Up, Lost (safe), Lost (forfeit)
+      // Safe = lost by >20% of winner's votes; forfeit = lost by <=20%
+      let outcomeCol = '';
+      const pct = c.winner_votes > 0 ? c.margin / c.winner_votes : 0;
+      if (c.rank === 1) {
+        outcomeCol = '<td class="outcome won" style="text-align:center">&#10003;</td><td class="outcome"></td><td class="outcome"></td><td class="outcome"></td>';
+      } else if (c.rank === 2) {
+        outcomeCol = '<td class="outcome"></td><td class="outcome runner-up" style="text-align:center">&#10003;</td><td class="outcome"></td><td class="outcome"></td>';
+      } else if (pct > 0.20) {
+        outcomeCol = '<td class="outcome"></td><td class="outcome"></td><td class="outcome safe" style="text-align:center">&#10003;</td><td class="outcome"></td>';
+      } else {
+        outcomeCol = '<td class="outcome"></td><td class="outcome"></td><td class="outcome"></td><td class="outcome forfeit" style="text-align:center">&#10003;</td>';
+      }
       rows += `<tr>
-        <td>${escapeHtml(c.election_name || '')}</td>
-        <td>${escapeHtml(c.constituency || '')}</td>
+        <td><a href="#" class="sm-election-link" data-election-id="${escapeAttr(c.election_id)}" data-state="${escapeAttr(c.state_code)}" data-ac="${c.ac_no}">${escapeHtml(c.election_name || '')}</a></td>
+        <td>${escapeHtml(c.constituency || '')}, ${escapeHtml(c.state_abbrev || '')}</td>
         <td><span class="sm-party" style="color:${partyColor};border-color:${partyColor}">${escapeHtml(c.party || '')}</span></td>
         <td class="numeric">${c.votes ? c.votes.toLocaleString('en-IN') : ''}</td>
-        <td class="${wonClass}" style="text-align:center">${wonMark}</td>
+        ${outcomeCol}
       </tr>`;
     }
 
@@ -5749,13 +5820,27 @@ function getClickedPartyAbv(chart, elements) {
       </div>
       <table>
         <thead><tr>
-          <th>Election</th><th>Constituency</th><th>Party</th><th style="text-align:right">Votes</th><th style="text-align:center">Won</th>
+          <th>Election</th><th>Constituency</th><th>Party</th><th style="text-align:right">Votes</th>
+          <th style="text-align:center">Won</th><th style="text-align:center">Runner-Up</th>
+          <th style="text-align:center">Lost (safe)</th><th style="text-align:center">Lost (forfeit)</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>`;
 
     openModal(html);
     modalEl.querySelector('.search-modal-close')?.addEventListener('click', closeModal);
+
+    // Wire election links
+    modalEl.querySelectorAll('.sm-election-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const electionId = link.dataset.electionId;
+        const stateCode = link.dataset.state;
+        const acNo = link.dataset.ac;
+        closeModal();
+        navigateToConstituency(electionId, stateCode, parseInt(acNo));
+      });
+    });
   }
 
   // --- Constituency modal ---

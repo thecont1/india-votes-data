@@ -8,20 +8,15 @@ export async function handleCandidateHistory(request, env) {
     return jsonResponse({ error: 'name parameter required' }, 400);
   }
 
-  // For each constituency the candidate contested, get only the final round:
-  //   - If round 999 exists (postal ballots), that's the final count
-  //   - Otherwise, the highest round_no (counting still ongoing)
-  // Then rank candidates within that round to determine winner.
+  // For each constituency the candidate contested, get only the final round.
+  // Also compute winner's votes and margin for each contest.
   const rows = await env.DB.prepare(`
     WITH candidate_constituencies AS (
-      -- Distinct (state_code, ac_no) pairs where this candidate appeared
       SELECT DISTINCT state_code, ac_no
       FROM rounds_ac
-      WHERE candidate = ? AND round_no != 999
+      WHERE candidate = ?
     ),
     final_rounds AS (
-      -- For each constituency, find the final round
-      -- Priority: round 999 (if exists) > max non-999 round
       SELECT
         cc.state_code,
         cc.ac_no,
@@ -34,7 +29,6 @@ export async function handleCandidateHistory(request, env) {
       FROM candidate_constituencies cc
     ),
     ranked AS (
-      -- Get all candidates in the final round, ranked by votes
       SELECT
         r.state_code,
         r.ac_no,
@@ -44,10 +38,14 @@ export async function handleCandidateHistory(request, env) {
         r.votes,
         r.round_no,
         s.state_name,
+        s.state_code_std,
         ROW_NUMBER() OVER (
           PARTITION BY r.state_code, r.ac_no
           ORDER BY r.votes DESC
-        ) as rank_in_round
+        ) as rank_in_round,
+        MAX(r.votes) OVER (
+          PARTITION BY r.state_code, r.ac_no
+        ) as winner_votes
       FROM rounds_ac r
       JOIN final_rounds fr
         ON r.state_code = fr.state_code
@@ -56,7 +54,7 @@ export async function handleCandidateHistory(request, env) {
       LEFT JOIN states s ON r.state_code = s.state_code
     )
     SELECT state_code, ac_no, ac_name, candidate, party_abv, votes,
-           state_name, round_no, rank_in_round
+           state_name, state_code_std, round_no, rank_in_round, winner_votes
     FROM ranked
     WHERE candidate = ?
     ORDER BY votes DESC
@@ -66,17 +64,19 @@ export async function handleCandidateHistory(request, env) {
     return jsonResponse({ candidate: name, contests: [], summary: null });
   }
 
-  // Fetch elections separately and build a lookup: state_code -> sorted elections
+  // Fetch elections and build lookup: state_code -> elections
   const electionRows = await env.DB.prepare(
     'SELECT election_id, name, states, sort_date FROM elections ORDER BY sort_date DESC'
   ).all();
   const stateElections = new Map();
+  const electionById = new Map();
   for (const e of electionRows.results) {
+    electionById.set(e.election_id, e);
     let states;
     try { states = JSON.parse(e.states); } catch { states = []; }
     for (const sc of states) {
       if (!stateElections.has(sc)) stateElections.set(sc, []);
-      stateElections.get(sc).push({ name: e.name, sort_date: e.sort_date });
+      stateElections.get(sc).push(e);
     }
   }
 
@@ -84,16 +84,21 @@ export async function handleCandidateHistory(request, env) {
   const contests = rows.results.map(r => {
     const elections = stateElections.get(r.state_code) || [];
     const election = elections[0] || null;
+    const margin = r.winner_votes - r.votes;
     return {
+      election_id: election?.election_id || '',
       election_name: election?.name || 'Unknown',
       sort_date: election?.sort_date || '',
       state: r.state_name || '',
       state_code: r.state_code,
+      state_abbrev: r.state_code_std || r.state_code,
       ac_no: r.ac_no,
       constituency: r.ac_name || '',
       party: r.party_abv || '',
       votes: r.votes,
-      won: r.rank_in_round === 1,
+      rank: r.rank_in_round,
+      winner_votes: r.winner_votes,
+      margin,
     };
   });
 
@@ -104,7 +109,7 @@ export async function handleCandidateHistory(request, env) {
   });
 
   // Build summary
-  const wins = contests.filter(c => c.won).length;
+  const wins = contests.filter(c => c.rank === 1).length;
   const parties = [...new Set(contests.map(c => c.party))];
   const dates = contests.map(c => c.sort_date).filter(Boolean).sort();
 
