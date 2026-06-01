@@ -1,6 +1,6 @@
 -- FTS5 Search Schema for LET Live!
 -- Trigram tokenizer for fuzzy matching of Indian names and party abbreviations
--- v2: Added votes, total_votes, election_sort for ranking
+-- v3: Use final round (999 or max) for candidate votes and constituency totals
 
 -- Content table with ranking columns
 CREATE TABLE IF NOT EXISTS candidates_search (
@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS candidates_search (
     name           TEXT NOT NULL,     -- primary searchable text
     context        TEXT DEFAULT '',   -- secondary text (state, party, alliance)
     boost          REAL DEFAULT 1.0,  -- legacy ranking multiplier
-    votes          INTEGER DEFAULT 0, -- candidate vote count (latest round)
-    total_votes    INTEGER DEFAULT 0, -- constituency total votes (all candidates summed)
+    votes          INTEGER DEFAULT 0, -- candidate vote count (final round)
+    total_votes    INTEGER DEFAULT 0, -- constituency total votes (final round)
     election_sort  TEXT DEFAULT ''    -- election sort_date for recency weighting
 );
 
@@ -27,9 +27,21 @@ CREATE VIRTUAL TABLE IF NOT EXISTS search_fts USING fts5(
     tokenize='trigram case_sensitive 0'
 );
 
--- Populate: candidates from latest round per AC
--- Includes votes + election sort_date for ranking
+-- Populate: candidates from final round per AC
+-- Final round = round 999 (postal ballots) if it exists, else max non-999 round
 INSERT INTO candidates_search (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort)
+WITH final_rounds AS (
+    SELECT
+        r.state_code,
+        r.ac_no,
+        COALESCE(
+            (SELECT MAX(r2.round_no) FROM rounds_ac r2
+             WHERE r2.state_code = r.state_code AND r2.ac_no = r.ac_no AND r2.round_no = 999),
+            (SELECT MAX(r2.round_no) FROM rounds_ac r2
+             WHERE r2.state_code = r.state_code AND r2.ac_no = r.ac_no AND r2.round_no != 999)
+        ) as final_round
+    FROM (SELECT DISTINCT state_code, ac_no FROM rounds_ac) r
+)
 SELECT 'candidate',
        r.state_code || '-' || r.ac_no || '-' || r.party_abv,
        r.candidate,
@@ -41,22 +53,29 @@ SELECT 'candidate',
        0,
        COALESCE(e.sort_date, '')
 FROM rounds_ac r
-INNER JOIN (
-    SELECT state_code, ac_no, MAX(round_no) as max_round
-    FROM rounds_ac
-    WHERE round_no != 999
-    GROUP BY state_code, ac_no
-) lr ON r.state_code = lr.state_code
-    AND r.ac_no = lr.ac_no
-    AND r.round_no = lr.max_round
+JOIN final_rounds fr
+    ON r.state_code = fr.state_code
+    AND r.ac_no = fr.ac_no
+    AND r.round_no = fr.final_round
 LEFT JOIN constituency_status cs
     ON r.state_code = cs.state_code AND r.ac_no = cs.ac_no
 LEFT JOIN elections e
-    ON e.states LIKE '%' || r.state_code || '%'
-WHERE r.round_no != 999;
+    ON e.states LIKE '%' || r.state_code || '%';
 
--- Populate: constituencies with total votes cast
+-- Populate: constituencies with total votes cast (final round only)
 INSERT INTO candidates_search (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort)
+WITH final_rounds AS (
+    SELECT
+        cs.state_code,
+        cs.ac_no,
+        COALESCE(
+            (SELECT MAX(r2.round_no) FROM rounds_ac r2
+             WHERE r2.state_code = cs.state_code AND r2.ac_no = cs.ac_no AND r2.round_no = 999),
+            (SELECT MAX(r2.round_no) FROM rounds_ac r2
+             WHERE r2.state_code = cs.state_code AND r2.ac_no = cs.ac_no AND r2.round_no != 999)
+        ) as final_round
+    FROM (SELECT DISTINCT state_code, ac_no FROM rounds_ac) cs
+)
 SELECT 'constituency',
        cs.state_code || '-' || cs.ac_no,
        cs.ac_name,
@@ -67,10 +86,19 @@ SELECT 'constituency',
        ''
 FROM constituency_status cs
 JOIN states s ON cs.state_code = s.state_code
+LEFT JOIN final_rounds fr ON cs.state_code = fr.state_code AND cs.ac_no = fr.ac_no
 LEFT JOIN (
     SELECT state_code, ac_no, SUM(votes) as total
     FROM rounds_ac
-    WHERE round_no != 999
+    WHERE round_no IN (
+        SELECT COALESCE(
+            (SELECT MAX(r2.round_no) FROM rounds_ac r2
+             WHERE r2.state_code = rounds_ac.state_code AND r2.ac_no = rounds_ac.ac_no AND r2.round_no = 999),
+            (SELECT MAX(r2.round_no) FROM rounds_ac r2
+             WHERE r2.state_code = rounds_ac.state_code AND r2.ac_no = rounds_ac.ac_no AND r2.round_no != 999)
+        )
+        FROM (SELECT DISTINCT state_code, ac_no FROM rounds_ac) rounds_ac
+    )
     GROUP BY state_code, ac_no
 ) tv ON cs.state_code = tv.state_code AND cs.ac_no = tv.ac_no
 WHERE cs.ac_name IS NOT NULL;

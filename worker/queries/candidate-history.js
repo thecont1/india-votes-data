@@ -8,11 +8,33 @@ export async function handleCandidateHistory(request, env) {
     return jsonResponse({ error: 'name parameter required' }, 400);
   }
 
-  // Find all appearances of this candidate across all rounds
-  // Use ROW_NUMBER to determine winner (rank 1 = most votes in that round)
-  // Do NOT join elections via LIKE (causes duplication). Fetch separately.
+  // For each constituency the candidate contested, get only the final round:
+  //   - If round 999 exists (postal ballots), that's the final count
+  //   - Otherwise, the highest round_no (counting still ongoing)
+  // Then rank candidates within that round to determine winner.
   const rows = await env.DB.prepare(`
-    WITH ranked AS (
+    WITH candidate_constituencies AS (
+      -- Distinct (state_code, ac_no) pairs where this candidate appeared
+      SELECT DISTINCT state_code, ac_no
+      FROM rounds_ac
+      WHERE candidate = ? AND round_no != 999
+    ),
+    final_rounds AS (
+      -- For each constituency, find the final round
+      -- Priority: round 999 (if exists) > max non-999 round
+      SELECT
+        cc.state_code,
+        cc.ac_no,
+        COALESCE(
+          (SELECT MAX(r2.round_no) FROM rounds_ac r2
+           WHERE r2.state_code = cc.state_code AND r2.ac_no = cc.ac_no AND r2.round_no = 999),
+          (SELECT MAX(r2.round_no) FROM rounds_ac r2
+           WHERE r2.state_code = cc.state_code AND r2.ac_no = cc.ac_no AND r2.round_no != 999)
+        ) as final_round
+      FROM candidate_constituencies cc
+    ),
+    ranked AS (
+      -- Get all candidates in the final round, ranked by votes
       SELECT
         r.state_code,
         r.ac_no,
@@ -23,19 +45,22 @@ export async function handleCandidateHistory(request, env) {
         r.round_no,
         s.state_name,
         ROW_NUMBER() OVER (
-          PARTITION BY r.state_code, r.ac_no, r.round_no
+          PARTITION BY r.state_code, r.ac_no
           ORDER BY r.votes DESC
         ) as rank_in_round
       FROM rounds_ac r
+      JOIN final_rounds fr
+        ON r.state_code = fr.state_code
+        AND r.ac_no = fr.ac_no
+        AND r.round_no = fr.final_round
       LEFT JOIN states s ON r.state_code = s.state_code
-      WHERE r.candidate = ?
-        AND r.round_no != 999
     )
     SELECT state_code, ac_no, ac_name, candidate, party_abv, votes,
            state_name, round_no, rank_in_round
     FROM ranked
+    WHERE candidate = ?
     ORDER BY votes DESC
-  `).bind(name).all();
+  `).bind(name, name).all();
 
   if (!rows.results.length) {
     return jsonResponse({ candidate: name, contests: [], summary: null });
@@ -58,9 +83,6 @@ export async function handleCandidateHistory(request, env) {
   // Match each contest to its election by state_code
   const contests = rows.results.map(r => {
     const elections = stateElections.get(r.state_code) || [];
-    // Find the election whose sort_date best matches this round
-    // Since we don't have election_id in rounds_ac, assign the first (most recent) election
-    // for the state. This is approximate but avoids the LIKE duplication bug.
     const election = elections[0] || null;
     return {
       election_name: election?.name || 'Unknown',

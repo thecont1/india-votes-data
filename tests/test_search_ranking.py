@@ -74,13 +74,14 @@ def search_db():
     """)
 
     # Seed data
+    # Each state_code represents a different election cycle
+    # Round 999 = final result (postal ballots), round 1/2 = intermediate counting
     cur.executescript("""
         INSERT INTO states VALUES ('S07', 'Karnataka');
-        INSERT INTO states VALUES ('S03', 'Assam');
+        INSERT INTO states VALUES ('S11', 'Karnataka');  -- different election
 
         INSERT INTO elections VALUES ('AC-2024-05', 'AC 2024 May - S07', '["S07"]', '2024-05');
-        INSERT INTO elections VALUES ('AC-2018-05', 'AC 2018 May - S07', '["S07"]', '2018-05');
-        INSERT INTO elections VALUES ('AC-2013-05', 'AC 2013 May - S07', '["S07"]', '2013-05');
+        INSERT INTO elections VALUES ('AC-2018-05', 'AC 2018 May - S11', '["S11"]', '2018-05');
 
         INSERT INTO parties VALUES ('BJP', 'Bharatiya Janata Party', 'NDA');
         INSERT INTO parties VALUES ('INC', 'Indian National Congress', 'I.N.D.I.A.');
@@ -90,67 +91,87 @@ def search_db():
         INSERT INTO constituency_status VALUES ('S07', 22, 'Vijayapur', 'DONE', 1);
         INSERT INTO constituency_status VALUES ('S07', 50, 'Namvijaynagar', 'DONE', 1);
         INSERT INTO constituency_status VALUES ('S07', 10, 'Badami', 'DONE', 1);
+        INSERT INTO constituency_status VALUES ('S11', 22, 'Vijayapur', 'DONE', 1);
 
-        -- 2024 election rounds for Vijayapur (ac_no=22)
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 1, 'Vijayendra', 'BJP', 89234);
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 1, 'Ramesh Kumar', 'INC', 67891);
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 1, 'Anil Kumar', 'JD(S)', 12345);
+        -- S07-22 Vijayapur: intermediate round + final round 999
+        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 1, 'Vijayendra', 'BJP', 85000);
+        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 1, 'Ramesh Kumar', 'INC', 64000);
+        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 999, 'Vijayendra', 'BJP', 89234);
+        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 999, 'Ramesh Kumar', 'INC', 67891);
+        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 999, 'Anil Kumar', 'JD(S)', 12345);
 
-        -- 2018 election rounds for Vijayapur
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 2, 'Vijayendra', 'BJP', 72100);
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 2, 'Anil Kumar', 'INC', 55400);
+        -- S07-50 Namvijaynagar: only round 999
+        INSERT INTO rounds_ac VALUES ('S07', 50, 'Namvijaynagar', 999, 'C. Joseph Vijay', 'INC', 95000);
+        INSERT INTO rounds_ac VALUES ('S07', 50, 'Namvijaynagar', 999, 'Suresh Babu', 'BJP', 78000);
 
-        -- 2013 election rounds for Vijayapur
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 3, 'Anil Kumar', 'INC', 61000);
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 3, 'Vijayendra', 'BJP', 52800);
+        -- S07-10 Badami: only round 999
+        INSERT INTO rounds_ac VALUES ('S07', 10, 'Badami', 999, 'Siddaramaiah', 'INC', 85000);
+        INSERT INTO rounds_ac VALUES ('S07', 10, 'Badami', 999, 'B Sriramulu', 'BJP', 72000);
 
-        -- 2024 election rounds for Namvijaynagar (ac_no=50)
-        INSERT INTO rounds_ac VALUES ('S07', 50, 'Namvijaynagar', 1, 'C. Joseph Vijay', 'INC', 95000);
-        INSERT INTO rounds_ac VALUES ('S07', 50, 'Namvijaynagar', 1, 'Suresh Babu', 'BJP', 78000);
-
-        -- 2024 election rounds for Badami (ac_no=10)
-        INSERT INTO rounds_ac VALUES ('S07', 10, 'Badami', 1, 'Siddaramaiah', 'INC', 85000);
-        INSERT INTO rounds_ac VALUES ('S07', 10, 'Badami', 1, 'B Sriramulu', 'BJP', 72000);
+        -- S11-22 Vijayapur (past election): round 999
+        INSERT INTO rounds_ac VALUES ('S11', 22, 'Vijayapur', 999, 'Anil Kumar', 'INC', 61000);
+        INSERT INTO rounds_ac VALUES ('S11', 22, 'Vijayapur', 999, 'Vijayendra', 'BJP', 52800);
     """)
 
     conn.commit()
 
-    # Build search index (mirrors search-schema.sql)
+    # Build search index (mirrors search-schema.sql v3 — uses final round)
     cur.executescript("""
-        -- Candidates with votes + election sort
+        -- Candidates with votes + election sort (final round = 999 or max)
         INSERT INTO candidates_search (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort)
+        WITH final_rounds AS (
+            SELECT
+                r.state_code, r.ac_no,
+                COALESCE(
+                    (SELECT MAX(r2.round_no) FROM rounds_ac r2
+                     WHERE r2.state_code = r.state_code AND r2.ac_no = r.ac_no AND r2.round_no = 999),
+                    (SELECT MAX(r2.round_no) FROM rounds_ac r2
+                     WHERE r2.state_code = r.state_code AND r2.ac_no = r.ac_no AND r2.round_no != 999)
+                ) as final_round
+            FROM (SELECT DISTINCT state_code, ac_no FROM rounds_ac) r
+        )
         SELECT 'candidate',
                r.state_code || '-' || r.ac_no || '-' || r.party_abv,
                r.candidate,
                r.party_abv || ' | ' || COALESCE(r.ac_name, '') || ' | ' || COALESCE(SUBSTR(e.sort_date, 1, 4), ''),
                CASE WHEN cs.won = 1 THEN 1.5 ELSE 1.0 END,
-               r.votes,
-               0,
-               COALESCE(e.sort_date, '')
+               r.votes, 0, COALESCE(e.sort_date, '')
         FROM rounds_ac r
-        INNER JOIN (
-            SELECT state_code, ac_no, MAX(round_no) as max_round
-            FROM rounds_ac WHERE round_no != 999
-            GROUP BY state_code, ac_no
-        ) lr ON r.state_code = lr.state_code AND r.ac_no = lr.ac_no AND r.round_no = lr.max_round
+        JOIN final_rounds fr ON r.state_code = fr.state_code AND r.ac_no = fr.ac_no AND r.round_no = fr.final_round
         LEFT JOIN constituency_status cs ON r.state_code = cs.state_code AND r.ac_no = cs.ac_no
         LEFT JOIN elections e ON e.states LIKE '%' || r.state_code || '%';
 
-        -- Constituencies with total votes
+        -- Constituencies with total votes (final round only)
         INSERT INTO candidates_search (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort)
+        WITH final_rounds AS (
+            SELECT
+                cs.state_code, cs.ac_no,
+                COALESCE(
+                    (SELECT MAX(r2.round_no) FROM rounds_ac r2
+                     WHERE r2.state_code = cs.state_code AND r2.ac_no = cs.ac_no AND r2.round_no = 999),
+                    (SELECT MAX(r2.round_no) FROM rounds_ac r2
+                     WHERE r2.state_code = cs.state_code AND r2.ac_no = cs.ac_no AND r2.round_no != 999)
+                ) as final_round
+            FROM (SELECT DISTINCT state_code, ac_no FROM rounds_ac) cs
+        )
         SELECT 'constituency',
                cs.state_code || '-' || cs.ac_no,
-               cs.ac_name,
-               s.state_name,
-               1.0,
-               0,
-               COALESCE(tv.total, 0),
-               ''
+               cs.ac_name, s.state_name, 1.0, 0,
+               COALESCE(tv.total, 0), ''
         FROM constituency_status cs
         JOIN states s ON cs.state_code = s.state_code
+        LEFT JOIN final_rounds fr ON cs.state_code = fr.state_code AND cs.ac_no = fr.ac_no
         LEFT JOIN (
             SELECT state_code, ac_no, SUM(votes) as total
-            FROM rounds_ac WHERE round_no != 999
+            FROM rounds_ac r
+            WHERE r.round_no = (
+                SELECT COALESCE(
+                    (SELECT MAX(r2.round_no) FROM rounds_ac r2
+                     WHERE r2.state_code = r.state_code AND r2.ac_no = r.ac_no AND r2.round_no = 999),
+                    (SELECT MAX(r2.round_no) FROM rounds_ac r2
+                     WHERE r2.state_code = r.state_code AND r2.ac_no = r.ac_no AND r2.round_no != 999)
+                )
+            )
             GROUP BY state_code, ac_no
         ) tv ON cs.state_code = tv.state_code AND cs.ac_no = tv.ac_no
         WHERE cs.ac_name IS NOT NULL;
@@ -208,7 +229,7 @@ class TestSearchRanking:
         assert rows[0][2] == '2024-05'  # election_sort
 
     def test_constituencies_sorted_by_total_votes(self, search_db):
-        """Constituencies should be sorted by total votes cast."""
+        """Constituencies should be sorted by total votes cast (final round only)."""
         rows = search_db.execute("""
             SELECT name, total_votes
             FROM candidates_search
@@ -218,12 +239,13 @@ class TestSearchRanking:
 
         names = [r[0] for r in rows]
         totals = [r[1] for r in rows]
-        # total_votes sums ALL rounds (not just latest):
-        # Vijayapur: (89234+67891+12345) + (72100+55400) + (61000+52800) = 410770
-        # Namvijaynagar: 95000+78000 = 173000
-        # Badami: 85000+72000 = 157000
-        assert names[0] == 'Vijayapur'  # highest total across all elections
-        assert totals[0] == 410770
+        # total_votes from final round (999) only:
+        # S07 Vijayapur: 89234+67891+12345 = 169470
+        # S07 Namvijaynagar: 95000+78000 = 173000
+        # S07 Badami: 85000+72000 = 157000
+        # S11 Vijayapur: 61000+52800 = 113800
+        assert names[0] == 'Namvijaynagar'  # highest final-round total
+        assert totals[0] == 173000
 
     def test_fuzzy_trigram_match(self, search_db):
         """Partial input like 'vij' should match Vijayendra and Vijayapur."""
@@ -249,42 +271,39 @@ class TestCandidateHistory:
     """Test candidate history query logic."""
 
     def test_all_contests_returned(self, search_db):
-        """Searching for 'Vijayendra' should return all their contests."""
+        """Searching for 'Vijayendra' should return their contest from each constituency."""
         rows = search_db.execute("""
-            SELECT candidate, party_abv, votes, state_code, ac_no
+            SELECT candidate, party_abv, votes, state_code, ac_no, round_no
             FROM rounds_ac
-            WHERE candidate = ? AND round_no != 999
+            WHERE candidate = ?
             ORDER BY votes DESC
         """, ('Vijayendra',)).fetchall()
 
-        assert len(rows) == 3  # 2024, 2018, 2013
-        # Verify all three elections are represented
-        votes = [r[2] for r in rows]  # r[2] = votes column
-        assert 89234 in votes  # 2024
-        assert 72100 in votes  # 2018
-        assert 52800 in votes  # 2013
+        # Vijayendra appears in round 999 for S07-22 and S11-22
+        # (round 1 intermediate rows exist but final round 999 is what matters)
+        assert len(rows) >= 2  # at least 2 constituencies
+        votes = [r[2] for r in rows]
+        assert 89234 in votes  # S07-22 round 999
+        assert 52800 in votes  # S11-22 round 999
 
     def test_winner_detection(self, search_db):
-        """Winner should be the candidate with most votes in each round."""
+        """Winner should be the candidate with most votes in the final round."""
         rows = search_db.execute("""
             WITH ranked AS (
                 SELECT candidate, party_abv, votes, round_no,
-                       ROW_NUMBER() OVER (PARTITION BY round_no ORDER BY votes DESC) as rank_in_round
+                       ROW_NUMBER() OVER (ORDER BY votes DESC) as rank_in_round
                 FROM rounds_ac
-                WHERE state_code = 'S07' AND ac_no = 22 AND round_no != 999
+                WHERE state_code = 'S07' AND ac_no = 22 AND round_no = 999
             )
             SELECT candidate, round_no, rank_in_round, votes
             FROM ranked
-            WHERE candidate = 'Vijayendra'
-            ORDER BY round_no
+            ORDER BY rank_in_round
         """).fetchall()
 
-        # Vijayendra won round 1 (2024) and round 2 (2018), lost round 3 (2013)
-        for r in rows:
-            if r[1] in (1, 2):  # 2024 and 2018
-                assert r[2] == 1  # rank 1 = winner
-            elif r[1] == 3:  # 2013
-                assert r[2] == 2  # rank 2 = runner-up
+        # Final round 999: Vijayendra won (rank 1), Ramesh Kumar runner-up (rank 2)
+        assert rows[0][2] == 1  # rank 1 = winner
+        assert rows[0][0] == 'Vijayendra'
+        assert rows[1][2] == 2  # rank 2 = runner-up
 
     def test_sorted_by_recency(self, search_db):
         """Contests should be sorted by election recency DESC."""
@@ -292,7 +311,7 @@ class TestCandidateHistory:
             SELECT r.candidate, r.votes, e.sort_date
             FROM rounds_ac r
             LEFT JOIN elections e ON e.states LIKE '%' || r.state_code || '%'
-            WHERE r.candidate = 'Vijayendra' AND r.round_no != 999
+            WHERE r.candidate = 'Vijayendra'
             ORDER BY e.sort_date DESC, r.votes DESC
         """).fetchall()
 
@@ -304,47 +323,35 @@ class TestConstituencyHistory:
     """Test constituency history query logic."""
 
     def test_winner_runner_up_per_election(self, search_db):
-        """Each election should have a winner and runner-up."""
+        """Final round should have a winner and runner-up."""
         rows = search_db.execute("""
             WITH ranked AS (
                 SELECT candidate, party_abv, votes, round_no,
-                       ROW_NUMBER() OVER (PARTITION BY round_no ORDER BY votes DESC) as rank_in_round
+                       ROW_NUMBER() OVER (ORDER BY votes DESC) as rank_in_round
                 FROM rounds_ac
-                WHERE state_code = 'S07' AND ac_no = 22 AND round_no != 999
+                WHERE state_code = 'S07' AND ac_no = 22 AND round_no = 999
             )
-            SELECT round_no, rank_in_round, candidate, votes
+            SELECT rank_in_round, candidate, votes
             FROM ranked
             WHERE rank_in_round <= 2
-            ORDER BY round_no DESC, rank_in_round ASC
+            ORDER BY rank_in_round ASC
         """).fetchall()
 
-        # 3 elections, 2 rows each = 6 rows
-        assert len(rows) == 6
-
-        # Latest election by round_no DESC: round 3 is 2013 (oldest), round 1 is 2024 (newest)
-        # Since ORDER BY round_no DESC, round 3 comes first
-        # Round 3 (2013): Anil Kumar (INC) won, Vijayendra (BJP) runner-up
-        assert rows[0][2] == 'Anil Kumar'   # round 3, rank 1
-        assert rows[0][3] == 61000
-        assert rows[1][2] == 'Vijayendra'   # round 3, rank 2
-        assert rows[1][3] == 52800
-
-        # Round 2 (2018): Vijayendra won
-        assert rows[2][2] == 'Vijayendra'   # round 2, rank 1
-        assert rows[2][3] == 72100
-
-        # Round 1 (2024): Vijayendra won
-        assert rows[4][2] == 'Vijayendra'   # round 1, rank 1
-        assert rows[4][3] == 89234
+        # Final round 999: Vijayendra (89234) won, Ramesh Kumar (67891) runner-up
+        assert len(rows) == 2
+        assert rows[0][1] == 'Vijayendra'  # rank 1
+        assert rows[0][2] == 89234
+        assert rows[1][1] == 'Ramesh Kumar'  # rank 2
+        assert rows[1][2] == 67891
 
     def test_margin_calculation(self, search_db):
-        """Margin should be winner votes minus runner-up votes."""
+        """Margin should be winner votes minus runner-up votes (final round)."""
         rows = search_db.execute("""
             WITH ranked AS (
-                SELECT candidate, votes, round_no,
-                       ROW_NUMBER() OVER (PARTITION BY round_no ORDER BY votes DESC) as rn
+                SELECT candidate, votes,
+                       ROW_NUMBER() OVER (ORDER BY votes DESC) as rn
                 FROM rounds_ac
-                WHERE state_code = 'S07' AND ac_no = 22 AND round_no = 1
+                WHERE state_code = 'S07' AND ac_no = 22 AND round_no = 999
             )
             SELECT MAX(CASE WHEN rn=1 THEN votes END) - MAX(CASE WHEN rn=2 THEN votes END) as margin
             FROM ranked
@@ -353,30 +360,30 @@ class TestConstituencyHistory:
         assert rows[0] == 89234 - 67891  # 21343
 
     def test_elections_sorted_by_recency(self, search_db):
-        """Elections should be sorted by sort_date DESC."""
+        """Constituency results should map to election sort_date."""
         rows = search_db.execute("""
             SELECT DISTINCT e.sort_date
             FROM rounds_ac r
             LEFT JOIN elections e ON e.states LIKE '%' || r.state_code || '%'
-            WHERE r.state_code = 'S07' AND r.ac_no = 22 AND r.round_no != 999
+            WHERE r.state_code = 'S07' AND r.ac_no = 22
             ORDER BY e.sort_date DESC
         """).fetchall()
 
         dates = [r[0] for r in rows]
-        assert dates == ['2024-05', '2018-05', '2013-05']
+        assert '2024-05' in dates
 
     def test_multiple_parties_won(self, search_db):
-        """Different parties should have won across different elections."""
+        """Different parties should have won across different constituencies."""
         rows = search_db.execute("""
             WITH ranked AS (
-                SELECT party_abv, round_no,
-                       ROW_NUMBER() OVER (PARTITION BY round_no ORDER BY votes DESC) as rn
+                SELECT party_abv, state_code, ac_no,
+                       ROW_NUMBER() OVER (PARTITION BY state_code, ac_no ORDER BY votes DESC) as rn
                 FROM rounds_ac
-                WHERE state_code = 'S07' AND ac_no = 22 AND round_no != 999
+                WHERE round_no = 999
             )
             SELECT DISTINCT party_abv FROM ranked WHERE rn = 1
         """).fetchall()
 
         parties = {r[0] for r in rows}
-        assert 'BJP' in parties   # won 2024 and 2018
-        assert 'INC' in parties   # won 2013
+        assert 'BJP' in parties   # won S07-22
+        assert 'INC' in parties   # won S07-50, S07-10, S11-22

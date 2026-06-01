@@ -610,11 +610,14 @@
     z-index: 9998;
     background: rgba(0,0,0,0.75);
     backdrop-filter: blur(4px);
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0.2s ease;
   }
-  .search-modal-overlay.active { display: flex; align-items: center; justify-content: center; opacity: 1; }
+  .search-modal-overlay.active { opacity: 1; pointer-events: auto; }
   .search-modal {
     background: var(--card);
     border: 1px solid var(--border);
@@ -5775,7 +5778,7 @@ function getClickedPartyAbv(chart, elements) {
       return;
     }
 
-    const summaryParts = [`${summary.total_elections} election${summary.total_elections !== 1 ? 's' : ''} on record`];
+    const summaryParts = ['Latest result'];
     if (summary.last_winner) summaryParts.push(summary.last_winner);
     const summaryLine = summaryParts.join(' · ');
 
