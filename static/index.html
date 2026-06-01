@@ -2382,10 +2382,71 @@
     overflow: hidden;
     transition: width 0.3s, height 0.3s, margin 0.3s, border-radius 0.3s, border 0.3s, background 0.3s;
   }
+  /* Mobile handle: hidden by default, shown in mobile media query */
+  .tv-mobile-handle { display: none; }
+
   @media (max-width: 1023px) {
-    #live-tv-card { display: none; }
+    .page-layout {
+      display: flex;
+      flex-direction: column;
+    }
     .tv-resizer { display: none; }
-    .page-layout { display: block; }
+    .tv-mobile-handle {
+      order: -2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 20px;
+      background: var(--card-elevated);
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+    }
+    .tv-mobile-handle::after {
+      content: '';
+      width: 36px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--muted);
+      opacity: 0.5;
+    }
+    #live-tv-card {
+      order: -1;
+      width: 100% !important;
+      max-width: none;
+      height: auto;
+      max-height: 0;
+      overflow: hidden;
+      position: static;
+      border-radius: 0;
+      padding-right: 0;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #live-tv-card.mobile-open {
+      max-height: 2000px;
+    }
+    /* Desktop closed state suppressed on mobile */
+    #live-tv-card.closed {
+      width: 100% !important;
+      background: var(--card);
+      cursor: default;
+    }
+    #live-tv-card.closed > * { visibility: visible; }
+    #live-tv-card.closed .tv-stage,
+    #live-tv-card.closed .poper-11597 {
+      width: 100% !important;
+      height: auto !important;
+      min-height: 0;
+      border-radius: 0;
+      border: 0;
+      margin: 0;
+      background: transparent;
+    }
+    #live-tv-card.closed .tv-stage { aspect-ratio: 16/9; }
+    #live-tv-card.closed .tv-stage::after { display: none; }
+    #live-tv-card.closed .tv-stage iframe { display: block; }
   }
 
   .tv-resizer {
@@ -2760,12 +2821,12 @@
 
 </main>
 <footer class="site-footer">
-  <p>LET Live! The Live and Loaded ECI Elections Tracker of India</p>
   <p>Data Source: <a href="https://results.eci.gov.in/" target="_blank" rel="noopener">Election Commission of India</a></p>
   <p>&copy; Mahesh Shantaram / <a href="https://thecontrarian.in/" target="_blank" rel="noopener">thecontrarian.in</a></p>
 </footer>
 </div><!-- .main-area -->
 <div class="tv-resizer" id="tv-resizer" aria-label="Resize TV panel" title="Drag to resize"></div>
+<div class="tv-mobile-handle" id="tv-mobile-handle" role="button" aria-label="Open TV panel" tabindex="0"></div>
 <aside id="live-tv-card">
   <div class="tv-lang-stack" id="tv-lang-bar" aria-label="Filter channels by language"></div>
   <div class="tv-controls">
@@ -3115,9 +3176,6 @@ document.getElementById('election-selector-mobile')?.addEventListener('change', 
   }
 });
 
-let _tvOverlayTrigger = null;
-
-// mobile TV handler moved to TV init block above
 
 document.querySelectorAll('.theme-option-mobile').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -5514,16 +5572,6 @@ function getClickedPartyAbv(chart, elements) {
 })();
 </script>
 
-<div id="tv-overlay" role="dialog" aria-modal="true" aria-labelledby="tv-overlay-title" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.85);">
-  <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-family:var(--font-heading); text-align:center; padding:24px;">
-    <div id="tv-overlay-stage" style="width:min(100%, 720px); aspect-ratio:16/9; background:#000; border-radius:4px; overflow:hidden;"></div>
-    <div style="margin-top:12px; display:flex; gap:8px; align-items:center;">
-      <select id="tv-overlay-channel" style="min-height:40px; font-size:13px; padding:6px 10px;"></select>
-      <button id="tv-overlay-close" type="button" style="min-height:40px; min-width:40px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.12); color:#fff; font-size:20px; cursor:pointer;">✕</button>
-    </div>
-  </div>
-</div>
-
 <!-- Download scope modal -->
 <div id="download-modal" role="dialog" aria-modal="true" aria-labelledby="download-modal-title" style="display:none; position:fixed; inset:0; z-index:9998; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); cursor:pointer; opacity:0; transition:opacity 0.3s ease;">
   <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-family:var(--font-ui); text-align:center; padding:24px; pointer-events:none;">
@@ -5544,7 +5592,7 @@ function getClickedPartyAbv(chart, elements) {
 
 <script>
 // =========================================================================
-// LET Live! TV — sidebar (desktop) + overlay (mobile)
+// LET Live! TV — sidebar (desktop) + slide-down panel (mobile)
 // =========================================================================
 (function() {
   const YT_BASE = 'https://www.youtube-nocookie.com/embed/';
@@ -5625,26 +5673,46 @@ function getClickedPartyAbv(chart, elements) {
   function toggleTv() {
     const tvBtn = document.getElementById('tv-btn');
     if (!tvReady) return;
-    const isOpen = !card.classList.contains('closed');
-    if (isOpen) {
-      card.classList.add('closed');
-      card.style.width = '';
-      document.body.classList.remove('tv-open');
-      tvBtn?.setAttribute('aria-expanded', 'false');
-      try { localStorage.setItem(TV_OPEN_KEY, '0'); } catch (e) {}
-      stopStream();
+    const isMobile = window.innerWidth < 1024;
+    if (isMobile) {
+      // Mobile: toggle slide-down panel
+      const wasOpen = card.classList.contains('mobile-open');
+      if (wasOpen) {
+        card.classList.remove('mobile-open');
+        document.body.classList.remove('tv-open');
+        tvBtn?.setAttribute('aria-expanded', 'false');
+        try { localStorage.setItem(TV_OPEN_KEY, '0'); } catch (e) {}
+        stopStream();
+      } else {
+        card.classList.add('mobile-open');
+        document.body.classList.add('tv-open');
+        tvBtn?.setAttribute('aria-expanded', 'true');
+        try { localStorage.setItem(TV_OPEN_KEY, '1'); } catch (e) {}
+        mountStream();
+      }
     } else {
-      const maxW = Math.round(window.innerWidth * 0.5);
-      let savedW = 550;
-      try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 550; } catch (e) {}
-      savedW = Math.max(MIN_W, Math.min(savedW, maxW));
-      card.classList.remove('closed');
-      card.style.setProperty('--tv-saved-w', savedW + 'px');
-      card.style.width = '';
-      document.body.classList.add('tv-open');
-      tvBtn?.setAttribute('aria-expanded', 'true');
-      try { localStorage.setItem(TV_OPEN_KEY, '1'); } catch (e) {}
-      mountStream();
+      // Desktop: toggle sidebar
+      const isOpen = !card.classList.contains('closed');
+      if (isOpen) {
+        card.classList.add('closed');
+        card.style.width = '';
+        document.body.classList.remove('tv-open');
+        tvBtn?.setAttribute('aria-expanded', 'false');
+        try { localStorage.setItem(TV_OPEN_KEY, '0'); } catch (e) {}
+        stopStream();
+      } else {
+        const maxW = Math.round(window.innerWidth * 0.5);
+        let savedW = 550;
+        try { savedW = parseInt(localStorage.getItem(WIDTH_KEY), 10) || 550; } catch (e) {}
+        savedW = Math.max(MIN_W, Math.min(savedW, maxW));
+        card.classList.remove('closed');
+        card.style.setProperty('--tv-saved-w', savedW + 'px');
+        card.style.width = '';
+        document.body.classList.add('tv-open');
+        tvBtn?.setAttribute('aria-expanded', 'true');
+        try { localStorage.setItem(TV_OPEN_KEY, '1'); } catch (e) {}
+        mountStream();
+      }
     }
   }
 
@@ -5721,67 +5789,13 @@ function getClickedPartyAbv(chart, elements) {
     toggleTv();
   });
 
-  // --- Mobile overlay ---
-  const overlay = document.getElementById('tv-overlay');
-  const overlayStage = document.getElementById('tv-overlay-stage');
-  const overlayChanSel = document.getElementById('tv-overlay-channel');
-  let overlayIframe = null;
+  // --- Mobile handle ---
+  document.getElementById('tv-mobile-handle')?.addEventListener('click', toggleTv);
 
-  function openMobileTv() {
-    if (!tvReady) return;
-    overlay.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    // Populate overlay channel selector
-    overlayChanSel.innerHTML = '';
-    const list = channels;
-    list.forEach((c) => {
-      const o = document.createElement('option');
-      o.value = c.video_id;
-      o.textContent = c.name + ' (' + c.language + ')';
-      overlayChanSel.appendChild(o);
-    });
-    // Try to match current sidebar selection
-    if (chanSel?.value) {
-      overlayChanSel.value = chanSel.value;
-    }
-    mountOverlayStream(overlayChanSel.value);
-  }
-
-  function mountOverlayStream(videoId) {
-    const c = byId(videoId) || defaultChannel();
-    if (!c) return;
-    if (!overlayIframe) {
-      overlayIframe = document.createElement('iframe');
-      overlayIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-      overlayStage.appendChild(overlayIframe);
-    }
-    overlayIframe.title = 'Live stream: ' + c.name;
-    overlayIframe.src = YT_BASE + encodeURIComponent(c.video_id) + '?autoplay=1&rel=0&modestbranding=1';
-  }
-
-  function closeMobileTv() {
-    overlay.style.display = 'none';
-    document.body.style.overflow = '';
-    if (overlayIframe) { overlayIframe.remove(); overlayIframe = null; }
-    document.getElementById('tv-btn-mobile')?.focus();
-  }
-
-  document.getElementById('tv-btn-mobile')?.addEventListener('click', (e) => {
-    _tvOverlayTrigger = e.currentTarget;
+  // Mobile TV Mode button in hamburger menu
+  document.getElementById('tv-btn-mobile')?.addEventListener('click', () => {
     setMobileMenuOpen(false);
-    openMobileTv();
-  });
-
-  overlayChanSel?.addEventListener('change', () => {
-    mountOverlayStream(overlayChanSel.value);
-  });
-
-  document.getElementById('tv-overlay-close')?.addEventListener('click', closeMobileTv);
-  overlay?.addEventListener('click', (e) => {
-    if (e.target === overlay) closeMobileTv();
-  });
-  overlay?.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { e.preventDefault(); closeMobileTv(); }
+    toggleTv();
   });
 
   // --- Load channels from API ---
@@ -5844,14 +5858,20 @@ function getClickedPartyAbv(chart, elements) {
     tvReady = true;
     let tvWasOpen = false;
     try { tvWasOpen = localStorage.getItem(TV_OPEN_KEY) === '1'; } catch (e) {}
-    if (window.innerWidth >= 1024 && tvWasOpen) {
+    const isMobile = window.innerWidth < 1024;
+    if (isMobile && tvWasOpen) {
+      card.classList.add('mobile-open');
+      document.body.classList.add('tv-open');
+      document.getElementById('tv-btn')?.setAttribute('aria-expanded', 'true');
+      mountStream();
+    } else if (!isMobile && tvWasOpen) {
       card.classList.remove('closed');
       card.style.setProperty('--tv-saved-w', savedW + 'px');
       card.style.width = '';
       document.body.classList.add('tv-open');
       document.getElementById('tv-btn')?.setAttribute('aria-expanded', 'true');
       mountStream();
-    } else if (window.innerWidth >= 1024) {
+    } else if (!isMobile) {
       card.classList.add('closed');
       card.style.width = '';
       document.body.classList.remove('tv-open');
