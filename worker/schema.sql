@@ -35,11 +35,12 @@ CREATE TABLE IF NOT EXISTS rounds_ac (
     state_code      TEXT    NOT NULL,
     ac_no           INTEGER NOT NULL,
     ac_name         TEXT,
+    election_id     TEXT    NOT NULL DEFAULT '',
     round_no        INTEGER NOT NULL,
     candidate       TEXT    NOT NULL,
     party_abv       TEXT    NOT NULL,
     votes           INTEGER NOT NULL,
-    PRIMARY KEY (state_code, ac_no, round_no, candidate, party_abv)
+    PRIMARY KEY (state_code, ac_no, election_id, round_no, candidate, party_abv)
 );
 
 CREATE TABLE IF NOT EXISTS rounds_pc (
@@ -97,3 +98,7 @@ CREATE INDEX IF NOT EXISTS idx_cs_ac_name
 -- candidate history search: lookup by candidate name
 CREATE INDEX IF NOT EXISTS idx_rounds_candidate
     ON rounds_ac (candidate);
+
+-- election filtering: lookup by election_id
+CREATE INDEX IF NOT EXISTS idx_rounds_election
+    ON rounds_ac (election_id);

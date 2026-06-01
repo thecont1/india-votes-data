@@ -38,11 +38,12 @@ def search_db():
             state_code TEXT NOT NULL,
             ac_no INTEGER NOT NULL,
             ac_name TEXT,
+            election_id TEXT NOT NULL DEFAULT '',
             round_no INTEGER NOT NULL,
             candidate TEXT NOT NULL,
             party_abv TEXT NOT NULL,
             votes INTEGER NOT NULL,
-            PRIMARY KEY (state_code, ac_no, round_no, candidate, party_abv)
+            PRIMARY KEY (state_code, ac_no, election_id, round_no, candidate, party_abv)
         );
 
         CREATE TABLE constituency_status (
@@ -94,23 +95,23 @@ def search_db():
         INSERT INTO constituency_status VALUES ('S11', 22, 'Vijayapur', 'DONE', 1);
 
         -- S07-22 Vijayapur: intermediate round + final round 999
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 1, 'Vijayendra', 'BJP', 85000);
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 1, 'Ramesh Kumar', 'INC', 64000);
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 999, 'Vijayendra', 'BJP', 89234);
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 999, 'Ramesh Kumar', 'INC', 67891);
-        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 999, 'Anil Kumar', 'JD(S)', 12345);
+        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 'AC-2024-05', 1, 'Vijayendra', 'BJP', 85000);
+        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 'AC-2024-05', 1, 'Ramesh Kumar', 'INC', 64000);
+        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 'AC-2024-05', 999, 'Vijayendra', 'BJP', 89234);
+        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 'AC-2024-05', 999, 'Ramesh Kumar', 'INC', 67891);
+        INSERT INTO rounds_ac VALUES ('S07', 22, 'Vijayapur', 'AC-2024-05', 999, 'Anil Kumar', 'JD(S)', 12345);
 
         -- S07-50 Namvijaynagar: only round 999
-        INSERT INTO rounds_ac VALUES ('S07', 50, 'Namvijaynagar', 999, 'C. Joseph Vijay', 'INC', 95000);
-        INSERT INTO rounds_ac VALUES ('S07', 50, 'Namvijaynagar', 999, 'Suresh Babu', 'BJP', 78000);
+        INSERT INTO rounds_ac VALUES ('S07', 50, 'Namvijaynagar', 'AC-2024-05', 999, 'C. Joseph Vijay', 'INC', 95000);
+        INSERT INTO rounds_ac VALUES ('S07', 50, 'Namvijaynagar', 'AC-2024-05', 999, 'Suresh Babu', 'BJP', 78000);
 
         -- S07-10 Badami: only round 999
-        INSERT INTO rounds_ac VALUES ('S07', 10, 'Badami', 999, 'Siddaramaiah', 'INC', 85000);
-        INSERT INTO rounds_ac VALUES ('S07', 10, 'Badami', 999, 'B Sriramulu', 'BJP', 72000);
+        INSERT INTO rounds_ac VALUES ('S07', 10, 'Badami', 'AC-2024-05', 999, 'Siddaramaiah', 'INC', 85000);
+        INSERT INTO rounds_ac VALUES ('S07', 10, 'Badami', 'AC-2024-05', 999, 'B Sriramulu', 'BJP', 72000);
 
         -- S11-22 Vijayapur (past election): round 999
-        INSERT INTO rounds_ac VALUES ('S11', 22, 'Vijayapur', 999, 'Anil Kumar', 'INC', 61000);
-        INSERT INTO rounds_ac VALUES ('S11', 22, 'Vijayapur', 999, 'Vijayendra', 'BJP', 52800);
+        INSERT INTO rounds_ac VALUES ('S11', 22, 'Vijayapur', 'AC-2018-05', 999, 'Anil Kumar', 'INC', 61000);
+        INSERT INTO rounds_ac VALUES ('S11', 22, 'Vijayapur', 'AC-2018-05', 999, 'Vijayendra', 'BJP', 52800);
     """)
 
     conn.commit()

@@ -17,63 +17,79 @@ export async function handleConstituencyHistory(request, env) {
     WHERE cs.state_code = ? AND cs.ac_no = ?
   `).bind(stateCode, acNo).first();
 
-  // Get the final round for this constituency:
-  //   - If round 999 exists (postal ballots), that's the final count
-  //   - Otherwise, the highest round_no (counting still ongoing)
-  // Then get the top 2 candidates from that round.
+  // Get the final round for this constituency, per election.
+  // Each election has its own final round (999 or max).
   const rows = await env.DB.prepare(`
-    WITH final_round AS (
-      SELECT
+    WITH election_finals AS (
+      SELECT election_id,
         COALESCE(
-          (SELECT MAX(round_no) FROM rounds_ac
-           WHERE state_code = ? AND ac_no = ? AND round_no = 999),
-          (SELECT MAX(round_no) FROM rounds_ac
-           WHERE state_code = ? AND ac_no = ? AND round_no != 999)
-        ) as rnd
+          (SELECT MAX(r2.round_no) FROM rounds_ac r2
+           WHERE r2.election_id = r.election_id AND r2.state_code = r.state_code AND r2.ac_no = r.ac_no AND r2.round_no = 999),
+          (SELECT MAX(r2.round_no) FROM rounds_ac r2
+           WHERE r2.election_id = r.election_id AND r2.state_code = r.state_code AND r2.ac_no = r.ac_no AND r2.round_no != 999)
+        ) as final_round
+      FROM (SELECT DISTINCT election_id, state_code, ac_no FROM rounds_ac
+            WHERE state_code = ? AND ac_no = ?) r
     ),
     ranked AS (
       SELECT
-        r.candidate, r.party_abv, r.votes, r.round_no,
-        ROW_NUMBER() OVER (ORDER BY r.votes DESC) as rank_in_round
-      FROM rounds_ac r, final_round fr
+        r.election_id, r.candidate, r.party_abv, r.votes,
+        e.name as election_name, e.sort_date,
+        ROW_NUMBER() OVER (PARTITION BY r.election_id ORDER BY r.votes DESC) as rank_in_round
+      FROM rounds_ac r
+      JOIN election_finals ef
+        ON r.election_id = ef.election_id
+        AND r.round_no = ef.final_round
+      LEFT JOIN elections e ON r.election_id = e.election_id
       WHERE r.state_code = ? AND r.ac_no = ?
-        AND r.round_no = fr.rnd
     )
-    SELECT candidate, party_abv, votes, round_no, rank_in_round
+    SELECT election_id, election_name, sort_date, candidate, party_abv, votes, rank_in_round
     FROM ranked
     WHERE rank_in_round <= 2
-    ORDER BY rank_in_round ASC
-  `).bind(stateCode, acNo, stateCode, acNo, stateCode, acNo).all();
+    ORDER BY sort_date DESC, rank_in_round ASC
+  `).bind(stateCode, acNo, stateCode, acNo).all();
 
-  // Get the election for this state
-  const election = await env.DB.prepare(
-    'SELECT name, sort_date FROM elections WHERE states LIKE ? ORDER BY sort_date DESC LIMIT 1'
-  ).bind(`%${stateCode}%`).first();
+  // Group by election
+  const electionMap = new Map();
+  for (const row of rows.results) {
+    if (!electionMap.has(row.election_id)) {
+      electionMap.set(row.election_id, {
+        election_name: row.election_name || 'Unknown',
+        sort_date: row.sort_date || '',
+        winner: null,
+        runner_up: null,
+        margin: 0,
+      });
+    }
+    const election = electionMap.get(row.election_id);
+    const entry = { candidate: row.candidate, party: row.party_abv, votes: row.votes };
+    if (row.rank_in_round === 1) election.winner = entry;
+    else if (row.rank_in_round === 2) election.runner_up = entry;
+  }
 
-  const winner = rows.results.find(r => r.rank_in_round === 1) || null;
-  const runnerUp = rows.results.find(r => r.rank_in_round === 2) || null;
-  const margin = winner && runnerUp ? winner.votes - runnerUp.votes : (winner ? winner.votes : 0);
+  const elections = [];
+  for (const [eid, election] of electionMap) {
+    if (election.winner && election.runner_up) {
+      election.margin = election.winner.votes - election.runner_up.votes;
+    } else if (election.winner) {
+      election.margin = election.winner.votes;
+    }
+    elections.push(election);
+  }
 
-  const electionData = winner ? [{
-    election_name: election?.name || `Round ${rows.results[0]?.round_no || '?'}`,
-    sort_date: election?.sort_date || '',
-    winner: { candidate: winner.candidate, party: winner.party_abv, votes: winner.votes },
-    runner_up: runnerUp ? { candidate: runnerUp.candidate, party: runnerUp.party_abv, votes: runnerUp.votes } : null,
-    margin,
-  }] : [];
-
-  const lastWinner = winner;
+  const partiesWon = [...new Set(elections.map(e => e.winner?.party).filter(Boolean))];
+  const lastWinner = elections[0]?.winner;
 
   return jsonResponse({
     constituency: meta?.ac_name || '',
     state: meta?.state_name || '',
     state_code: stateCode,
     ac_no: acNo,
-    elections: electionData,
+    elections,
     summary: {
-      total_elections: electionData.length,
-      parties_won: winner ? [winner.party_abv] : [],
-      last_winner: lastWinner ? `${lastWinner.candidate} (${lastWinner.party_abv})` : '',
+      total_elections: elections.length,
+      parties_won: partiesWon,
+      last_winner: lastWinner ? `${lastWinner.candidate} (${lastWinner.party})` : '',
     },
   });
 }

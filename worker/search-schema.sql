@@ -46,18 +46,13 @@ WITH final_rounds AS (
 SELECT 'candidate',
        r.state_code || '-' || r.ac_no || '-' || r.party_abv,
        r.candidate,
-       r.party_abv || ' | ' || COALESCE(r.ac_name, '') || ' | ' || COALESCE(SUBSTR(
-           (SELECT e.sort_date FROM elections e WHERE e.states LIKE '%' || r.state_code || '%' ORDER BY e.sort_date DESC LIMIT 1)
-       , 1, 4), ''),
+       r.party_abv || ' | ' || COALESCE(r.ac_name, '') || ' | ' || COALESCE(SUBSTR(e.sort_date, 1, 4), ''),
        CASE WHEN cs.won = 1 THEN 1.5
             WHEN cs.status = 'LIVE' THEN 1.2
             ELSE 1.0 END,
        r.votes,
        0,
-       COALESCE(
-           (SELECT e.sort_date FROM elections e WHERE e.states LIKE '%' || r.state_code || '%' ORDER BY e.sort_date DESC LIMIT 1),
-           ''
-       ),
+       COALESCE(e.sort_date, ''),
        COALESCE(p.symbol_url, '')
 FROM rounds_ac r
 JOIN final_rounds fr
@@ -66,6 +61,8 @@ JOIN final_rounds fr
     AND r.round_no = fr.final_round
 LEFT JOIN constituency_status cs
     ON r.state_code = cs.state_code AND r.ac_no = cs.ac_no
+LEFT JOIN elections e
+    ON r.election_id = e.election_id
 LEFT JOIN parties p
     ON r.party_abv = p.abv;
 
