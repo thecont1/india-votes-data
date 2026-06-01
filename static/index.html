@@ -611,10 +611,11 @@
     background: rgba(0,0,0,0.75);
     backdrop-filter: blur(4px);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
+    overflow-y: auto;
     transition: opacity 0.2s ease;
   }
   .search-modal-overlay.active { opacity: 1; pointer-events: auto; }
@@ -623,7 +624,8 @@
     border: 1px solid var(--border);
     max-width: 680px;
     width: min(95vw, 680px);
-    max-height: 80vh;
+    max-height: 85vh;
+    margin: 24px auto;
     overflow-y: auto;
     box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   }
@@ -2720,9 +2722,6 @@
     <input type="text" id="search-input" placeholder="Search candidates, constituencies..." autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-results" />
     <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
   </div>
-  <div class="search-modal-overlay" id="search-modal-overlay" role="dialog" aria-modal="true" aria-label="Detail view">
-    <div class="search-modal" id="search-modal"></div>
-  </div>
   <div class="meta" aria-label="Dashboard status and preferences">
     <span class="status-indicator" aria-live="polite">
       <span class="status-dot idle" id="status-dot" aria-hidden="true"></span>
@@ -2780,6 +2779,10 @@
     </div>
   </div>
 </header>
+
+<div class="search-modal-overlay" id="search-modal-overlay" role="dialog" aria-modal="true" aria-label="Detail view">
+  <div class="search-modal" id="search-modal"></div>
+</div>
 
 <div class="page-layout">
 <div class="main-area">
