@@ -4139,6 +4139,229 @@ const roundwiseEndpointPlugin = {
 };
 
 // ---------------------------------------------------------------------------
+// Slope chart — custom canvas for constituencies with only rounds 998 + 999
+// ---------------------------------------------------------------------------
+function drawSlopeChart(canvas, cands, theme) {
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const isMobile = window.matchMedia('(max-width: 640px)').matches;
+  const W = canvas.parentNode.clientWidth || 600;
+  const LABEL_W = isMobile ? 82 : 130;
+  const colLeft = LABEL_W;
+  const colRight = W - LABEL_W;
+  const PAD_TOP = 52;
+  const PAD_BOT = 24;
+  const ROW_H = isMobile ? 44 : 50;
+  const H = PAD_TOP + cands.length * ROW_H + PAD_BOT;
+
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  document.getElementById('races-chart-container').style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+
+  const byEVM = [...cands].sort((a, b) => b.evmVotes - a.evmVotes);
+  const byCombined = [...cands].sort((a, b) => b.combinedVotes - a.combinedVotes);
+  const rankY = (i) => PAD_TOP + (i + 0.5) * ROW_H;
+  const leftY = {}, rightY = {};
+  byEVM.forEach((c, i) => { leftY[c.candidate] = rankY(i); });
+  byCombined.forEach((c, i) => { rightY[c.candidate] = rankY(i); });
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Column axis dashed lines
+  ctx.save();
+  ctx.strokeStyle = theme.grid;
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 3]);
+  [colLeft, colRight].forEach(cx => {
+    ctx.beginPath(); ctx.moveTo(cx, PAD_TOP - 8); ctx.lineTo(cx, H - PAD_BOT); ctx.stroke();
+  });
+  ctx.setLineDash([]);
+  ctx.restore();
+
+  // Column headers
+  ctx.textAlign = 'center';
+  ctx.font = `600 ${isMobile ? 11 : 12}px ${theme.fontUi}`;
+  ctx.fillStyle = theme.label;
+  ctx.fillText('EVM Votes', colLeft, 18);
+  ctx.fillText('EVM+Postal', colRight, 18);
+  ctx.font = `400 ${isMobile ? 9 : 10}px ${theme.fontUi}`;
+  ctx.fillStyle = theme.muted;
+  ctx.fillText('Round 998', colLeft, 32);
+  ctx.fillText('Round 999', colRight, 32);
+
+  // Connecting bezier curves (draw under dots/labels)
+  const midX = (colLeft + colRight) / 2;
+  cands.forEach(c => {
+    const y1 = leftY[c.candidate];
+    const y2 = rightY[c.candidate];
+    const evmRank = byEVM.findIndex(x => x.candidate === c.candidate);
+    const combRank = byCombined.findIndex(x => x.candidate === c.candidate);
+    const isLeader = evmRank === 0 || combRank === 0;
+    const rankChanged = evmRank !== combRank;
+    ctx.save();
+    ctx.strokeStyle = c.color || '#888';
+    ctx.lineWidth = isLeader ? 2.5 : 1.5;
+    ctx.globalAlpha = rankChanged ? 0.9 : 0.45;
+    ctx.beginPath();
+    ctx.moveTo(colLeft, y1);
+    ctx.bezierCurveTo(midX, y1, midX, y2, colRight, y2);
+    ctx.stroke();
+    ctx.restore();
+  });
+
+  // Left column — sorted by EVM rank
+  byEVM.forEach((c, i) => {
+    const y = rankY(i);
+    const isTop = i === 0;
+    ctx.beginPath();
+    ctx.arc(colLeft, y, isTop ? 6 : 4.5, 0, Math.PI * 2);
+    ctx.fillStyle = c.color || '#888';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    const nameMax = LABEL_W - 10;
+    const words = c.candidate.split(' ');
+    const displayName = isMobile ? words[words.length - 1] : words.slice(0, 2).join(' ');
+    ctx.textAlign = 'right';
+    ctx.font = `${isTop ? '600' : '400'} ${isMobile ? 10 : 11}px ${theme.fontUi}`;
+    ctx.fillStyle = isTop ? theme.label : theme.muted;
+    ctx.fillText(truncateText(ctx, displayName, nameMax), colLeft - 9, y - 4);
+    ctx.font = `400 ${isMobile ? 9 : 10}px ${theme.fontUi}`;
+    ctx.fillStyle = theme.muted;
+    ctx.fillText(c.evmVotes.toLocaleString('en-IN'), colLeft - 9, y + 8);
+  });
+
+  // Right column — sorted by combined rank
+  byCombined.forEach((c, i) => {
+    const y = rankY(i);
+    const evmRank = byEVM.findIndex(x => x.candidate === c.candidate);
+    const isTop = i === 0;
+    const movedUp = i < evmRank;
+    const movedDown = i > evmRank;
+    const upset = isTop && evmRank !== 0;
+
+    ctx.beginPath();
+    ctx.arc(colRight, y, isTop ? 6 : 4.5, 0, Math.PI * 2);
+    ctx.fillStyle = c.color || '#888';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Rank change arrow near the dot
+    if (evmRank !== i) {
+      ctx.textAlign = 'center';
+      ctx.font = `700 8px ${theme.fontUi}`;
+      ctx.fillStyle = movedUp ? '#22c55e' : '#ef4444';
+      ctx.fillText(movedUp ? '▲' : '▼', colRight, y - 12);
+    }
+
+    const nameMax = LABEL_W - 14;
+    const words = c.candidate.split(' ');
+    const displayName = isMobile ? words[words.length - 1] : words.slice(0, 2).join(' ');
+    ctx.textAlign = 'left';
+    ctx.font = `${isTop ? '600' : '400'} ${isMobile ? 10 : 11}px ${theme.fontUi}`;
+    ctx.fillStyle = isTop ? theme.label : theme.muted;
+    ctx.fillText(truncateText(ctx, displayName, nameMax), colRight + 9, y - 4);
+    ctx.font = `400 ${isMobile ? 9 : 10}px ${theme.fontUi}`;
+    ctx.fillStyle = isTop ? theme.label : theme.muted;
+    ctx.fillText(c.combinedVotes.toLocaleString('en-IN'), colRight + 9, y + 8);
+
+    if (upset) {
+      ctx.font = `700 8px ${theme.fontUi}`;
+      ctx.fillStyle = '#ef4444';
+      ctx.fillText('POSTAL FLIP', colRight + 9, y + 21);
+    }
+  });
+
+  _slopeData = { byEVM, byCombined, leftY, rightY, colLeft, colRight, W, H };
+}
+
+function _buildSlopeCardHTML(col) {
+  if (!_slopeData) return '';
+  const { byEVM, byCombined } = _slopeData;
+  const isFinal = col === 1;
+  const ranked = isFinal ? byCombined : byEVM;
+  const voteKey = isFinal ? 'combinedVotes' : 'evmVotes';
+  const roundLabel = isFinal ? 'EVM+Postal Votes' : 'EVM Votes';
+  if (!ranked.length) return '';
+
+  const leader = ranked[0];
+  const runnerUp = ranked.length > 1 ? ranked[1] : null;
+  const margin = runnerUp ? leader[voteKey] - runnerUp[voteKey] : 0;
+
+  const swatch = (color) => `<span class="rw-swatch" style="border-color:${color};"></span>`;
+  const partySym = (abv) => {
+    const url = partySymbols[abv];
+    return url ? `<img src="${safeImgSrc(url)}" alt="" class="rw-card-sym">` : '';
+  };
+
+  const candidateCard = (c, label, delta) => {
+    const symUrl = partySymbols[c.party_abv];
+    const symHtml = symUrl ? `<img src="${safeImgSrc(symUrl)}" alt="" class="rw-candidate-card__sym">` : '';
+    const partyFullName = c.party_name || c.party_abv;
+    const deltaHtml = delta ? `<span class="rw-candidate-card__delta">${delta}</span>` : '';
+    return `<div class="rw-candidate-card">
+      ${symHtml}
+      <div class="rw-candidate-card__info">
+        <div class="rw-card-label">${label}</div>
+        <div class="rw-candidate-card__name">${escapeHtml(c.candidate)}</div>
+        <div class="rw-card-party-row">${swatch(c.color)} ${partySym(c.party_abv)} ${escapeHtml(partyFullName)}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="rw-candidate-card__votes">${c[voteKey].toLocaleString('en-IN')}</div>
+        ${deltaHtml}
+      </div>
+    </div>`;
+  };
+
+  const leaderHTML = candidateCard(leader, isFinal ? 'Winner' : 'Leading', null);
+  let trailingHTML = '';
+  if (runnerUp) {
+    const delta = margin > 0 ? `\u0394 \u2212${margin.toLocaleString('en-IN')}` : '';
+    trailingHTML = candidateCard(runnerUp, isFinal ? 'Runner-Up' : 'Trailing', delta);
+  }
+  const remainingHTML = ranked.slice(2).map((c, i) =>
+    `<div class="rw-candidate">
+      <span class="rw-crank">${i + 3}.</span>
+      ${escapeHtml(c.candidate)}
+      <span class="rw-cparty">(${swatch(c.color)} ${partySym(c.party_abv)} ${escapeHtml(c.party_abv)})</span>
+      <span class="rw-cvotes">${c[voteKey].toLocaleString('en-IN')}</span>
+    </div>`
+  ).join('');
+
+  return `<div class="rw-header"><span class="rw-round">${roundLabel}</span></div>${leaderHTML}${trailingHTML}${remainingHTML}`;
+}
+
+function _showSlopeCard(col, canvas, caretX, caretY, locked) {
+  const el = document.getElementById('roundwise-card');
+  const html = _buildSlopeCardHTML(col);
+  if (!html) { _hideRoundwiseCard(); return; }
+  el.innerHTML = html;
+  el.classList.add('visible');
+  if (locked) el.classList.add('locked'); else el.classList.remove('locked');
+
+  const container = canvas.parentNode;
+  const containerRect = container.getBoundingClientRect();
+  const canvasRect = canvas.getBoundingClientRect();
+  let left = canvasRect.left - containerRect.left + caretX + 14;
+  let top = canvasRect.top - containerRect.top + caretY - 14;
+  const elW = el.offsetWidth || 260;
+  const elH = el.offsetHeight || 200;
+  if (left + elW > containerRect.width) left = left - elW - 28;
+  if (top + elH > containerRect.height) top = containerRect.height - elH - 4;
+  if (top < 0) top = 4;
+  if (left < 0) left = 4;
+  el.style.left = left + 'px';
+  el.style.top = top + 'px';
+}
+
+// ---------------------------------------------------------------------------
 // Render — Seat Tally
 // ---------------------------------------------------------------------------
 function renderChart(parties, majority) {
@@ -5286,6 +5509,7 @@ function drawRaceFinal(race) {
 async function drawRaceRoundwise(race) {
   // Clear any previously locked round
   _lockedRoundIdx = null;
+  _slopeData = null;
   _hideRoundwiseCard();
 
   const shown = getShownCandidates(race);
@@ -5370,23 +5594,71 @@ async function drawRaceRoundwise(race) {
       ? shown.filter(c => c.candidate !== 'NOTA' && c.party_abv !== 'IND' && c.party_abv !== 'Independent')
       : shown;
 
+    // SLOPE CHART: 998+999 only — custom canvas rendering, no Chart.js
+    if (isSlope) {
+      const cands = slopeCandidates.map(c => ({
+        candidate: c.candidate,
+        party_abv: c.party_abv,
+        party_name: c.party_name,
+        color: c.color || colorsByCandidate[c.candidate],
+        won: c.won,
+        symbol_url: c.symbol_url,
+        evmVotes: (votesMap[c.candidate] || {})[998] || 0,
+        combinedVotes: (votesMap[c.candidate] || {})[999] || 0,
+      }));
+
+      drawSlopeChart(canvas, cands, theme);
+
+      canvas.onclick = function(e) {
+        if (!_slopeData) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const midX = (_slopeData.colLeft + _slopeData.colRight) / 2;
+        const col = x < midX ? 0 : 1;
+        if (_lockedRoundIdx === col) {
+          _lockedRoundIdx = null;
+          _hideRoundwiseCard();
+          canvas.style.cursor = 'pointer';
+        } else {
+          _lockedRoundIdx = col;
+          _showSlopeCard(col, canvas, x, e.clientY - rect.top, true);
+        }
+      };
+
+      canvas.onmousemove = function(e) {
+        if (_lockedRoundIdx !== null) return;
+        if (!_slopeData) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const midX = (_slopeData.colLeft + _slopeData.colRight) / 2;
+        const col = x < midX ? 0 : 1;
+        canvas.style.cursor = 'pointer';
+        _showSlopeCard(col, canvas, x, e.clientY - rect.top, false);
+      };
+
+      canvas.onmouseleave = function() {
+        if (_lockedRoundIdx !== null) return;
+        _hideRoundwiseCard();
+        canvas.style.cursor = '';
+      };
+
+      return;
+    }
+
     const datasets = slopeCandidates.map(c => {
-      const evmVotes = (votesMap[c.candidate] || {})[998] || 0;
-      const combinedVotes = (votesMap[c.candidate] || {})[999] || 0;
-      const isWinner = c.won || false;
       return {
         label: `${c.candidate} (${c.party_abv})`,
         _partyAbv: c.party_abv,
         _candidate: c.candidate,
-        data: isSlope ? [evmVotes, combinedVotes] : rounds.map(rn => (votesMap[c.candidate] || {})[rn] || 0),
+        data: rounds.map(rn => (votesMap[c.candidate] || {})[rn] || 0),
         borderColor: colorsByCandidate[c.candidate] || c.color,
         backgroundColor: colorsByCandidate[c.candidate] || c.color,
-        borderWidth: isSlope ? (isWinner ? 3 : 1.5) : 2,
-        pointRadius: isSlope ? 5 : 0,
-        pointHoverRadius: isSlope ? 7 : 4,
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 4,
         pointBackgroundColor: colorsByCandidate[c.candidate] || c.color,
-        pointBorderColor: isSlope ? '#fff' : 'transparent',
-        pointBorderWidth: isSlope ? 2 : 0,
+        pointBorderColor: 'transparent',
+        pointBorderWidth: 0,
         tension: 0,
         fill: false,
       };
