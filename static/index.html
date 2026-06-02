@@ -4163,10 +4163,14 @@ function drawSlopeChart(canvas, cands, theme) {
 
   const byEVM = [...cands].sort((a, b) => b.evmVotes - a.evmVotes);
   const byCombined = [...cands].sort((a, b) => b.combinedVotes - a.combinedVotes);
-  const rankY = (i) => PAD_TOP + (i + 0.5) * ROW_H;
+  const N = cands.length;
+  // Left column: rank 1 at BOTTOM (inverted) — right column: rank 1 at TOP (normal)
+  // This makes all lines sweep upward left→right, exaggerating postal vote increases.
+  const leftRankY  = (i) => PAD_TOP + (N - 1 - i + 0.5) * ROW_H;
+  const rightRankY = (i) => PAD_TOP + (i + 0.5) * ROW_H;
   const leftY = {}, rightY = {};
-  byEVM.forEach((c, i) => { leftY[c.candidate] = rankY(i); });
-  byCombined.forEach((c, i) => { rightY[c.candidate] = rankY(i); });
+  byEVM.forEach((c, i) => { leftY[c.candidate] = leftRankY(i); });
+  byCombined.forEach((c, i) => { rightY[c.candidate] = rightRankY(i); });
 
   ctx.clearRect(0, 0, W, H);
 
