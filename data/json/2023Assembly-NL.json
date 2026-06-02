@@ -2120,6 +2120,131 @@
                     }
                 ]
             }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1720.htm?ac=20",
+            "voting_data": {
+                "constituency_no": "20",
+                "constituency": "MELURI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "S.AKHO LEYRI",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "300",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Z.NYUSIETHO NYUTHE",
+                        "party": "Nationalist Democratic Progressive Party",
+                        "evm_votes": "11104",
+                        "postal_votes": "152"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Hopeson Snock",
+                        "party": "Rashtriya Janata Dal",
+                        "evm_votes": "101",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "YITACHU",
+                        "party": "Lok Janshakti Party(Ram Vilas)",
+                        "evm_votes": "7493",
+                        "postal_votes": "183"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "55",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1740.htm?ac=40",
+            "voting_data": {
+                "constituency_no": "40",
+                "constituency": "BHANDARI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ACHUMBEMO KIKON",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "13588",
+                        "postal_votes": "279"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "CHENITHUNG HUMTSOE",
+                        "party": "Indian National Congress",
+                        "evm_votes": "317",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MMHONLUMO KIKON",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10192",
+                        "postal_votes": "86"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "TSUNGRO KITHAN",
+                        "party": "National People's Party",
+                        "evm_votes": "1014",
+                        "postal_votes": "58"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "JOHN OVUNG",
+                        "party": "Independent",
+                        "evm_votes": "77",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "7",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1742.htm?ac=42",
+            "voting_data": {
+                "constituency_no": "42",
+                "constituency": "WAKCHING",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "W CHINGANG KONYAK",
+                        "party": "Nationalist Democratic Progressive Party",
+                        "evm_votes": "9067",
+                        "postal_votes": "99"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "M HONANG JESS",
+                        "party": "National People's Party",
+                        "evm_votes": "6356",
+                        "postal_votes": "77"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "52",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
         }
     ]
 }

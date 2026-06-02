@@ -3415,6 +3415,122 @@
                     }
                 ]
             }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1542.htm?ac=42",
+            "voting_data": {
+                "constituency_no": "42",
+                "constituency": "RONGJENG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ANDREASH G. MOMIN",
+                        "party": "United Democratic Party",
+                        "evm_votes": "1301",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "JEBING G MOMIN",
+                        "party": "Indian National Congress",
+                        "evm_votes": "3113",
+                        "postal_votes": "18"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "JIM M SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "8768",
+                        "postal_votes": "68"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "RAPIUSH CH. SANGMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "3293",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SENGNAM M. MARAK",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "4364",
+                        "postal_votes": "36"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "WALSENG M. SANGMA",
+                        "party": "Independent",
+                        "evm_votes": "8638",
+                        "postal_votes": "70"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "456",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1560.htm?ac=60",
+            "voting_data": {
+                "constituency_no": "60",
+                "constituency": "BAGHMARA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ALPHONSE CH. SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "251",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DR. SALJAGRINGRANG R. MARAK",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "2680",
+                        "postal_votes": "79"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SAMUEL M SANGMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "6695",
+                        "postal_votes": "93"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SATTO R. MARAK",
+                        "party": "National People's Party",
+                        "evm_votes": "5372",
+                        "postal_votes": "121"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "KARTUSH R. MARAK",
+                        "party": "Independent",
+                        "evm_votes": "8880",
+                        "postal_votes": "133"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NATHAWAL S. MARAK",
+                        "party": "Independent",
+                        "evm_votes": "4598",
+                        "postal_votes": "60"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "204",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
         }
     ]
 }
