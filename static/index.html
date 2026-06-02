@@ -5107,7 +5107,7 @@ async function drawRaceRoundwise(race) {
     const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}`);
     const data = await resp.json();
     const rows = data.rounds || [];
-    const rounds = [...new Set(rows.map(r => r.round_no))]
+    let rounds = [...new Set(rows.map(r => r.round_no))]
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
 
     // If only round 999 exists (past elections), show as "EVM+Postal Votes"
