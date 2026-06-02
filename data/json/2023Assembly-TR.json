@@ -1,3285 +1,2782 @@
 {
-  "election_id": "AC-2023-03",
-  "election_year": 2023,
-  "election_type": "Assembly",
-  "election_state": "TR",
-  "title": "Tripura Assembly Election 2023",
-  "states": [
-    "TR"
-  ],
-  "ac_names": {
-    "1": "SIMNA",
-    "2": "MOHANPUR",
-    "3": "BAMUTIA",
-    "4": "BARJALA",
-    "5": "KHAYERPUR",
-    "6": "AGARTALA",
-    "7": "RAMNAGAR",
-    "8": "TOWN BARDOWALI",
-    "9": "BANAMALIPUR",
-    "10": "MAJLISHPUR",
-    "11": "MANDAIBAZAR",
-    "12": "TAKARJALA",
-    "13": "PRATAPGARH",
-    "14": "BADHARGHAT",
-    "15": "KAMALASAGAR",
-    "16": "BISHALGARH",
-    "17": "GOLAGHATI",
-    "18": "SURYAMANINAGAR",
-    "19": "CHARILAM",
-    "20": "BOXANAGAR",
-    "21": "NALCHAR",
-    "22": "SONAMURA",
-    "23": "DHANPUR",
-    "24": "RAMCHANDRAGHAT",
-    "25": "KHOWAI",
-    "26": "ASHARAMBARI",
-    "27": "KALYANPUR-PRAMODNAGAR",
-    "28": "TELIAMURA",
-    "29": "KRISHNAPUR",
-    "30": "BAGMA",
-    "31": "RADHAKISHORPUR",
-    "32": "MATARBARI",
-    "33": "KAKRABAN-SHALGARA",
-    "34": "RAJNAGAR",
-    "35": "BELONIA",
-    "36": "SANTIRBAZAR",
-    "37": "HRISHYAMUKH",
-    "38": "JOLAIBARI",
-    "39": "MANU",
-    "40": "SABROOM",
-    "41": "AMPINAGAR",
-    "42": "AMARPUR",
-    "43": "KARBOOK",
-    "44": "RAIMA VALLEY",
-    "45": "KAMALPUR",
-    "46": "SURMA",
-    "47": "AMBASSA",
-    "48": "KARAMCHARA",
-    "49": "CHAWMANU",
-    "50": "PABIACHARA",
-    "51": "FATIKROY",
-    "52": "CHANDIPUR",
-    "53": "KAILASHAHAR",
-    "54": "KADAMTALA-KURTI",
-    "55": "BAGBASSA",
-    "56": "DHARMANAGAR",
-    "57": "JUBARAJNAGAR",
-    "58": "PANISAGAR",
-    "59": "PECHARTHAL",
-    "60": "KANCHANPUR"
-  },
-  "candidates": [
-    {
-      "constituency_no": 1,
-      "serial_no": 1,
-      "candidate": "Kumodh Debbarma",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 5679,
-      "postal_votes": 132,
-      "total_votes": 5811,
-      "won": 0
-    },
-    {
-      "constituency_no": 1,
-      "serial_no": 2,
-      "candidate": "Binod Debbarma",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 5577,
-      "postal_votes": 86,
-      "total_votes": 5663,
-      "won": 0
-    },
-    {
-      "constituency_no": 1,
-      "serial_no": 3,
-      "candidate": "Brishaketu Debbarma",
-      "party": "Tipra Motha Party",
-      "evm_votes": 22164,
-      "postal_votes": 593,
-      "total_votes": 22757,
-      "won": 1
-    },
-    {
-      "constituency_no": 1,
-      "serial_no": 4,
-      "candidate": "Jiten Debbarma",
-      "party": "Independent",
-      "evm_votes": 414,
-      "postal_votes": 4,
-      "total_votes": 418,
-      "won": 0
-    },
-    {
-      "constituency_no": 1,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 421,
-      "postal_votes": 1,
-      "total_votes": 422,
-      "won": 0
-    },
-    {
-      "constituency_no": 2,
-      "serial_no": 1,
-      "candidate": "Prasanta Sen Chowdhury",
-      "party": "Indian National Congress",
-      "evm_votes": 10301,
-      "postal_votes": 287,
-      "total_votes": 10588,
-      "won": 0
-    },
-    {
-      "constituency_no": 2,
-      "serial_no": 2,
-      "candidate": "Ratan Lal Nath",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 19128,
-      "postal_votes": 535,
-      "total_votes": 19663,
-      "won": 1
-    },
-    {
-      "constituency_no": 2,
-      "serial_no": 3,
-      "candidate": "Tapas Dey",
-      "party": "Tipra Motha Party",
-      "evm_votes": 11781,
-      "postal_votes": 497,
-      "total_votes": 12278,
-      "won": 0
-    },
-    {
-      "constituency_no": 2,
-      "serial_no": 4,
-      "candidate": "Joy Kumar Deb",
-      "party": "Independent",
-      "evm_votes": 479,
-      "postal_votes": 4,
-      "total_votes": 483,
-      "won": 0
-    },
-    {
-      "constituency_no": 2,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 349,
-      "postal_votes": 3,
-      "total_votes": 352,
-      "won": 0
-    },
-    {
-      "constituency_no": 3,
-      "serial_no": 1,
-      "candidate": "Krishnadhan Das",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 17665,
-      "postal_votes": 428,
-      "total_votes": 18093,
-      "won": 0
-    },
-    {
-      "constituency_no": 3,
-      "serial_no": 2,
-      "candidate": "Nayan Sarkar",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 19519,
-      "postal_votes": 600,
-      "total_votes": 20119,
-      "won": 1
-    },
-    {
-      "constituency_no": 3,
-      "serial_no": 3,
-      "candidate": "Nihar Ranjan Sarkar",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 613,
-      "postal_votes": 22,
-      "total_votes": 635,
-      "won": 0
-    },
-    {
-      "constituency_no": 3,
-      "serial_no": 4,
-      "candidate": "Nitai Sarkar",
-      "party": "Tipra Motha Party",
-      "evm_votes": 3309,
-      "postal_votes": 169,
-      "total_votes": 3478,
-      "won": 0
-    },
-    {
-      "constituency_no": 3,
-      "serial_no": 5,
-      "candidate": "Babul Bairagi",
-      "party": "Independent",
-      "evm_votes": 162,
-      "postal_votes": 3,
-      "total_votes": 165,
-      "won": 0
-    },
-    {
-      "constituency_no": 3,
-      "serial_no": 6,
-      "candidate": "Biplab Das",
-      "party": "Independent",
-      "evm_votes": 400,
-      "postal_votes": 2,
-      "total_votes": 402,
-      "won": 0
-    },
-    {
-      "constituency_no": 3,
-      "serial_no": 7,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 459,
-      "postal_votes": 14,
-      "total_votes": 473,
-      "won": 0
-    },
-    {
-      "constituency_no": 4,
-      "serial_no": 1,
-      "candidate": "Dr. Dilip Kumar Das",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 19207,
-      "postal_votes": 490,
-      "total_votes": 19697,
-      "won": 0
-    },
-    {
-      "constituency_no": 4,
-      "serial_no": 2,
-      "candidate": "Sudip Sarkar",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 20953,
-      "postal_votes": 533,
-      "total_votes": 21486,
-      "won": 1
-    },
-    {
-      "constituency_no": 4,
-      "serial_no": 3,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 973,
-      "postal_votes": 28,
-      "total_votes": 1001,
-      "won": 0
-    },
-    {
-      "constituency_no": 5,
-      "serial_no": 1,
-      "candidate": "Tejen Das",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 821,
-      "postal_votes": 9,
-      "total_votes": 830,
-      "won": 0
-    },
-    {
-      "constituency_no": 5,
-      "serial_no": 2,
-      "candidate": "Pabitra Kar",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 17816,
-      "postal_votes": 527,
-      "total_votes": 18343,
-      "won": 0
-    },
-    {
-      "constituency_no": 5,
-      "serial_no": 3,
-      "candidate": "Ratan Chakraborty",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 21989,
-      "postal_votes": 464,
-      "total_votes": 22453,
-      "won": 1
-    },
-    {
-      "constituency_no": 5,
-      "serial_no": 4,
-      "candidate": "Lakshmi Nag (Barman)",
-      "party": "Tipra Motha Party",
-      "evm_votes": 4985,
-      "postal_votes": 162,
-      "total_votes": 5147,
-      "won": 0
-    },
-    {
-      "constituency_no": 5,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 513,
-      "postal_votes": 7,
-      "total_votes": 520,
-      "won": 0
-    },
-    {
-      "constituency_no": 6,
-      "serial_no": 1,
-      "candidate": "Papia Dutta",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 17338,
-      "postal_votes": 935,
-      "total_votes": 18273,
-      "won": 0
-    },
-    {
-      "constituency_no": 6,
-      "serial_no": 2,
-      "candidate": "Sudip Roy Barman",
-      "party": "Indian National Congress",
-      "evm_votes": 25877,
-      "postal_votes": 558,
-      "total_votes": 26435,
-      "won": 1
-    },
-    {
-      "constituency_no": 6,
-      "serial_no": 3,
-      "candidate": "Arnab Roy",
-      "party": "Republican Party of India (A)",
-      "evm_votes": 216,
-      "postal_votes": 4,
-      "total_votes": 220,
-      "won": 0
-    },
-    {
-      "constituency_no": 6,
-      "serial_no": 4,
-      "candidate": "Goutam Deb",
-      "party": "Independent",
-      "evm_votes": 253,
-      "postal_votes": 2,
-      "total_votes": 255,
-      "won": 0
-    },
-    {
-      "constituency_no": 6,
-      "serial_no": 5,
-      "candidate": "Mangal Mia",
-      "party": "Independent",
-      "evm_votes": 104,
-      "postal_votes": 2,
-      "total_votes": 106,
-      "won": 0
-    },
-    {
-      "constituency_no": 6,
-      "serial_no": 6,
-      "candidate": "Malin Debbarma",
-      "party": "Independent",
-      "evm_votes": 232,
-      "postal_votes": 9,
-      "total_votes": 241,
-      "won": 0
-    },
-    {
-      "constituency_no": 6,
-      "serial_no": 7,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 537,
-      "postal_votes": 25,
-      "total_votes": 562,
-      "won": 0
-    },
-    {
-      "constituency_no": 7,
-      "serial_no": 1,
-      "candidate": "PUJAN BISWAS",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 2042,
-      "postal_votes": 37,
-      "total_votes": 2079,
-      "won": 0
-    },
-    {
-      "constituency_no": 7,
-      "serial_no": 2,
-      "candidate": "SURAJIT DATTA",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 16822,
-      "postal_votes": 633,
-      "total_votes": 17455,
-      "won": 1
-    },
-    {
-      "constituency_no": 7,
-      "serial_no": 3,
-      "candidate": "Dulal Ghosh",
-      "party": "Independent",
-      "evm_votes": 990,
-      "postal_votes": 15,
-      "total_votes": 1005,
-      "won": 0
-    },
-    {
-      "constituency_no": 7,
-      "serial_no": 4,
-      "candidate": "PURUSHUTTAM ROY BARMAN",
-      "party": "Independent",
-      "evm_votes": 15780,
-      "postal_votes": 778,
-      "total_votes": 16558,
-      "won": 0
-    },
-    {
-      "constituency_no": 7,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 650,
-      "postal_votes": 35,
-      "total_votes": 685,
-      "won": 0
-    },
-    {
-      "constituency_no": 8,
-      "serial_no": 1,
-      "candidate": "ANANTA BANERJEE",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 623,
-      "postal_votes": 16,
-      "total_votes": 639,
-      "won": 0
-    },
-    {
-      "constituency_no": 8,
-      "serial_no": 2,
-      "candidate": "ASISH KUMAR SAHA",
-      "party": "Indian National Congress",
-      "evm_votes": 17551,
-      "postal_votes": 778,
-      "total_votes": 18329,
-      "won": 0
-    },
-    {
-      "constituency_no": 8,
-      "serial_no": 3,
-      "candidate": "MANIK SAHA",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 18731,
-      "postal_votes": 855,
-      "total_votes": 19586,
-      "won": 1
-    },
-    {
-      "constituency_no": 8,
-      "serial_no": 4,
-      "candidate": "ARNAB ROY",
-      "party": "Republican Party of India (A)",
-      "evm_votes": 125,
-      "postal_votes": 5,
-      "total_votes": 130,
-      "won": 0
-    },
-    {
-      "constituency_no": 8,
-      "serial_no": 5,
-      "candidate": "RAMKRISHNA DEBNATH",
-      "party": "Independent",
-      "evm_votes": 197,
-      "postal_votes": 1,
-      "total_votes": 198,
-      "won": 0
-    },
-    {
-      "constituency_no": 8,
-      "serial_no": 6,
-      "candidate": "SHIBANI BHOWMIK",
-      "party": "Independent",
-      "evm_votes": 111,
-      "postal_votes": 6,
-      "total_votes": 117,
-      "won": 0
-    },
-    {
-      "constituency_no": 8,
-      "serial_no": 7,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 335,
-      "postal_votes": 16,
-      "total_votes": 351,
-      "won": 0
-    },
-    {
-      "constituency_no": 9,
-      "serial_no": 1,
-      "candidate": "GOPAL CHANDRA ROY",
-      "party": "Indian National Congress",
-      "evm_votes": 16500,
-      "postal_votes": 628,
-      "total_votes": 17128,
-      "won": 1
-    },
-    {
-      "constituency_no": 9,
-      "serial_no": 2,
-      "candidate": "RAJIB BHATTACHARJEE",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 15247,
-      "postal_votes": 512,
-      "total_votes": 15759,
-      "won": 0
-    },
-    {
-      "constituency_no": 9,
-      "serial_no": 3,
-      "candidate": "SANTANU SAHA",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 716,
-      "postal_votes": 16,
-      "total_votes": 732,
-      "won": 0
-    },
-    {
-      "constituency_no": 9,
-      "serial_no": 4,
-      "candidate": "Brajalal Debnath",
-      "party": "Independent",
-      "evm_votes": 161,
-      "postal_votes": 1,
-      "total_votes": 162,
-      "won": 0
-    },
-    {
-      "constituency_no": 9,
-      "serial_no": 5,
-      "candidate": "SUJATA DATTA",
-      "party": "Independent",
-      "evm_votes": 285,
-      "postal_votes": 3,
-      "total_votes": 288,
-      "won": 0
-    },
-    {
-      "constituency_no": 9,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 450,
-      "postal_votes": 29,
-      "total_votes": 479,
-      "won": 0
-    },
-    {
-      "constituency_no": 10,
-      "serial_no": 1,
-      "candidate": "Nirmal Majumder",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 597,
-      "postal_votes": 11,
-      "total_votes": 608,
-      "won": 0
-    },
-    {
-      "constituency_no": 10,
-      "serial_no": 2,
-      "candidate": "Sanjoy Das",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 15579,
-      "postal_votes": 598,
-      "total_votes": 16177,
-      "won": 0
-    },
-    {
-      "constituency_no": 10,
-      "serial_no": 3,
-      "candidate": "Sushanta Chowdhury",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 20832,
-      "postal_votes": 517,
-      "total_votes": 21349,
-      "won": 1
-    },
-    {
-      "constituency_no": 10,
-      "serial_no": 4,
-      "candidate": "Samir Basu",
-      "party": "Tipra Motha Party",
-      "evm_votes": 6658,
-      "postal_votes": 338,
-      "total_votes": 6996,
-      "won": 0
-    },
-    {
-      "constituency_no": 10,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 486,
-      "postal_votes": 6,
-      "total_votes": 492,
-      "won": 0
-    },
-    {
-      "constituency_no": 11,
-      "serial_no": 1,
-      "candidate": "Tarit Debbarma",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 6444,
-      "postal_votes": 159,
-      "total_votes": 6603,
-      "won": 0
-    },
-    {
-      "constituency_no": 11,
-      "serial_no": 2,
-      "candidate": "Radhacharan Debbarma",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 6880,
-      "postal_votes": 197,
-      "total_votes": 7077,
-      "won": 0
-    },
-    {
-      "constituency_no": 11,
-      "serial_no": 3,
-      "candidate": "Swapna Debbarma",
-      "party": "Tipra Motha Party",
-      "evm_votes": 27876,
-      "postal_votes": 850,
-      "total_votes": 28726,
-      "won": 1
-    },
-    {
-      "constituency_no": 11,
-      "serial_no": 4,
-      "candidate": "Hiramuni Debbarma",
-      "party": "Independent",
-      "evm_votes": 441,
-      "postal_votes": 2,
-      "total_votes": 443,
-      "won": 0
-    },
-    {
-      "constituency_no": 11,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 440,
-      "postal_votes": 4,
-      "total_votes": 444,
-      "won": 0
-    },
-    {
-      "constituency_no": 12,
-      "serial_no": 1,
-      "candidate": "Bidhan DebBarma",
-      "party": "Indigenous People's Front of Tripura",
-      "evm_votes": 2233,
-      "postal_votes": 29,
-      "total_votes": 2262,
-      "won": 0
-    },
-    {
-      "constituency_no": 12,
-      "serial_no": 2,
-      "candidate": "Shyamal Debbarma",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 1746,
-      "postal_votes": 50,
-      "total_votes": 1796,
-      "won": 0
-    },
-    {
-      "constituency_no": 12,
-      "serial_no": 3,
-      "candidate": "Ananta DebBarma",
-      "party": "Republican Party of India (Athawale)",
-      "evm_votes": 539,
-      "postal_votes": 3,
-      "total_votes": 542,
-      "won": 0
-    },
-    {
-      "constituency_no": 12,
-      "serial_no": 4,
-      "candidate": "Biswajit Kalai",
-      "party": "Tipra Motha Party",
-      "evm_votes": 33684,
-      "postal_votes": 1033,
-      "total_votes": 34717,
-      "won": 1
-    },
-    {
-      "constituency_no": 12,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 673,
-      "postal_votes": 3,
-      "total_votes": 676,
-      "won": 0
-    },
-    {
-      "constituency_no": 13,
-      "serial_no": 1,
-      "candidate": "KUHELI DAS",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 1172,
-      "postal_votes": 9,
-      "total_votes": 1181,
-      "won": 0
-    },
-    {
-      "constituency_no": 13,
-      "serial_no": 2,
-      "candidate": "RAMU DAS",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 25903,
-      "postal_votes": 519,
-      "total_votes": 26422,
-      "won": 1
-    },
-    {
-      "constituency_no": 13,
-      "serial_no": 3,
-      "candidate": "REBATI MOHAN DAS",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 23871,
-      "postal_votes": 465,
-      "total_votes": 24336,
-      "won": 0
-    },
-    {
-      "constituency_no": 13,
-      "serial_no": 4,
-      "candidate": "ASHOK KUMAR DAS",
-      "party": "Independent",
-      "evm_votes": 747,
-      "postal_votes": 14,
-      "total_votes": 761,
-      "won": 0
-    },
-    {
-      "constituency_no": 13,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 541,
-      "postal_votes": 14,
-      "total_votes": 555,
-      "won": 0
-    },
-    {
-      "constituency_no": 14,
-      "serial_no": 1,
-      "candidate": "Mina Rani Sarkar",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 26629,
-      "postal_votes": 798,
-      "total_votes": 27427,
-      "won": 1
-    },
-    {
-      "constituency_no": 14,
-      "serial_no": 2,
-      "candidate": "Partha Ranjan Sarkar",
-      "party": "All India Forward Bloc",
-      "evm_votes": 25289,
-      "postal_votes": 849,
-      "total_votes": 26138,
-      "won": 0
-    },
-    {
-      "constituency_no": 14,
-      "serial_no": 3,
-      "candidate": "Mridul Kanti Sarkar",
-      "party": "Independent",
-      "evm_votes": 709,
-      "postal_votes": 14,
-      "total_votes": 723,
-      "won": 0
-    },
-    {
-      "constituency_no": 14,
-      "serial_no": 4,
-      "candidate": "Sushil Chandra Das",
-      "party": "Independent",
-      "evm_votes": 1026,
-      "postal_votes": 10,
-      "total_votes": 1036,
-      "won": 0
-    },
-    {
-      "constituency_no": 14,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 685,
-      "postal_votes": 35,
-      "total_votes": 720,
-      "won": 0
-    },
-    {
-      "constituency_no": 15,
-      "serial_no": 1,
-      "candidate": "Antara Sarkar Deb",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 18551,
-      "postal_votes": 501,
-      "total_votes": 19052,
-      "won": 1
-    },
-    {
-      "constituency_no": 15,
-      "serial_no": 2,
-      "candidate": "Sutapa Ghosh",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 844,
-      "postal_votes": 14,
-      "total_votes": 858,
-      "won": 0
-    },
-    {
-      "constituency_no": 15,
-      "serial_no": 3,
-      "candidate": "Hiranmay Narayan Debnath",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 16851,
-      "postal_votes": 457,
-      "total_votes": 17308,
-      "won": 0
-    },
-    {
-      "constituency_no": 15,
-      "serial_no": 4,
-      "candidate": "Ashis Das",
-      "party": "Tipra Motha Party",
-      "evm_votes": 2244,
-      "postal_votes": 67,
-      "total_votes": 2311,
-      "won": 0
-    },
-    {
-      "constituency_no": 15,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 663,
-      "postal_votes": 7,
-      "total_votes": 670,
-      "won": 0
-    },
-    {
-      "constituency_no": 16,
-      "serial_no": 1,
-      "candidate": "Partha Pratim Majumder",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 20270,
-      "postal_votes": 718,
-      "total_votes": 20988,
-      "won": 0
-    },
-    {
-      "constituency_no": 16,
-      "serial_no": 2,
-      "candidate": "Sushanta Deb",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 21738,
-      "postal_votes": 576,
-      "total_votes": 22314,
-      "won": 1
-    },
-    {
-      "constituency_no": 16,
-      "serial_no": 3,
-      "candidate": "Haradhan Deb nath",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 590,
-      "postal_votes": 9,
-      "total_votes": 599,
-      "won": 0
-    },
-    {
-      "constituency_no": 16,
-      "serial_no": 4,
-      "candidate": "Md. Saha Alam Miah",
-      "party": "Tipra Motha Party",
-      "evm_votes": 1532,
-      "postal_votes": 74,
-      "total_votes": 1606,
-      "won": 0
-    },
-    {
-      "constituency_no": 16,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 469,
-      "postal_votes": 9,
-      "total_votes": 478,
-      "won": 0
-    },
-    {
-      "constituency_no": 17,
-      "serial_no": 1,
-      "candidate": "Brinda Rani DebBarma",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 7409,
-      "postal_votes": 197,
-      "total_votes": 7606,
-      "won": 0
-    },
-    {
-      "constituency_no": 17,
-      "serial_no": 2,
-      "candidate": "Himani Debbarma",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 10425,
-      "postal_votes": 177,
-      "total_votes": 10602,
-      "won": 0
-    },
-    {
-      "constituency_no": 17,
-      "serial_no": 3,
-      "candidate": "Amit Kumar Debbarma",
-      "party": "Republican Party of India (Athawale)",
-      "evm_votes": 445,
-      "postal_votes": 4,
-      "total_votes": 449,
-      "won": 0
-    },
-    {
-      "constituency_no": 17,
-      "serial_no": 4,
-      "candidate": "Manab Debbarma",
-      "party": "Tipra Motha Party",
-      "evm_votes": 19175,
-      "postal_votes": 625,
-      "total_votes": 19800,
-      "won": 1
-    },
-    {
-      "constituency_no": 17,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 518,
-      "postal_votes": 6,
-      "total_votes": 524,
-      "won": 0
-    },
-    {
-      "constituency_no": 18,
-      "serial_no": 1,
-      "candidate": "RAM PRASAD PAUL",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 24416,
-      "postal_votes": 575,
-      "total_votes": 24991,
-      "won": 1
-    },
-    {
-      "constituency_no": 18,
-      "serial_no": 2,
-      "candidate": "SUSANTA CHAKRABORTY",
-      "party": "Indian National Congress",
-      "evm_votes": 22487,
-      "postal_votes": 596,
-      "total_votes": 23083,
-      "won": 0
-    },
-    {
-      "constituency_no": 18,
-      "serial_no": 3,
-      "candidate": "BIPLAB MAJUMDER",
-      "party": "Independent",
-      "evm_votes": 492,
-      "postal_votes": 11,
-      "total_votes": 503,
-      "won": 0
-    },
-    {
-      "constituency_no": 18,
-      "serial_no": 4,
-      "candidate": "Mohanta Barman",
-      "party": "Independent",
-      "evm_votes": 751,
-      "postal_votes": 5,
-      "total_votes": 756,
-      "won": 0
-    },
-    {
-      "constituency_no": 18,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 723,
-      "postal_votes": 7,
-      "total_votes": 730,
-      "won": 0
-    },
-    {
-      "constituency_no": 19,
-      "serial_no": 1,
-      "candidate": "Ashok Deb Barma",
-      "party": "Indian National Congress",
-      "evm_votes": 9335,
-      "postal_votes": 292,
-      "total_votes": 9627,
-      "won": 0
-    },
-    {
-      "constituency_no": 19,
-      "serial_no": 2,
-      "candidate": "Jishnu Dev Varma",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 12554,
-      "postal_votes": 245,
-      "total_votes": 12799,
-      "won": 0
-    },
-    {
-      "constituency_no": 19,
-      "serial_no": 3,
-      "candidate": "Subodh Deb Barma",
-      "party": "Tipra Motha Party",
-      "evm_votes": 13205,
-      "postal_votes": 452,
-      "total_votes": 13657,
-      "won": 1
-    },
-    {
-      "constituency_no": 19,
-      "serial_no": 4,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 490,
-      "postal_votes": 6,
-      "total_votes": 496,
-      "won": 0
-    },
-    {
-      "constituency_no": 20,
-      "serial_no": 1,
-      "candidate": "Joydal Hossain",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 909,
-      "postal_votes": 7,
-      "total_votes": 916,
-      "won": 0
-    },
-    {
-      "constituency_no": 20,
-      "serial_no": 2,
-      "candidate": "Tafajjal Hossain",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 14334,
-      "postal_votes": 221,
-      "total_votes": 14555,
-      "won": 0
-    },
-    {
-      "constituency_no": 20,
-      "serial_no": 3,
-      "candidate": "Samsul Haque",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 18965,
-      "postal_votes": 439,
-      "total_votes": 19404,
-      "won": 1
-    },
-    {
-      "constituency_no": 20,
-      "serial_no": 4,
-      "candidate": "Abu Khayer Miah",
-      "party": "Tipra Motha Party",
-      "evm_votes": 2955,
-      "postal_votes": 55,
-      "total_votes": 3010,
-      "won": 0
-    },
-    {
-      "constituency_no": 20,
-      "serial_no": 5,
-      "candidate": "Safiqul Islam",
-      "party": "Independent",
-      "evm_votes": 316,
-      "postal_votes": 0,
-      "total_votes": 316,
-      "won": 0
-    },
-    {
-      "constituency_no": 20,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 341,
-      "postal_votes": 1,
-      "total_votes": 342,
-      "won": 0
-    },
-    {
-      "constituency_no": 21,
-      "serial_no": 1,
-      "candidate": "Kishor Barman",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 20361,
-      "postal_votes": 475,
-      "total_votes": 20836,
-      "won": 1
-    },
-    {
-      "constituency_no": 21,
-      "serial_no": 2,
-      "candidate": "Tapan Ch. Das",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 17853,
-      "postal_votes": 599,
-      "total_votes": 18452,
-      "won": 0
-    },
-    {
-      "constituency_no": 21,
-      "serial_no": 3,
-      "candidate": "Lutan Das",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 870,
-      "postal_votes": 19,
-      "total_votes": 889,
-      "won": 0
-    },
-    {
-      "constituency_no": 21,
-      "serial_no": 4,
-      "candidate": "Bimal Das",
-      "party": "Independent",
-      "evm_votes": 483,
-      "postal_votes": 3,
-      "total_votes": 486,
-      "won": 0
-    },
-    {
-      "constituency_no": 21,
-      "serial_no": 5,
-      "candidate": "Sunil Chandra Das",
-      "party": "Independent",
-      "evm_votes": 319,
-      "postal_votes": 5,
-      "total_votes": 324,
-      "won": 0
-    },
-    {
-      "constituency_no": 21,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 717,
-      "postal_votes": 8,
-      "total_votes": 725,
-      "won": 0
-    },
-    {
-      "constituency_no": 22,
-      "serial_no": 1,
-      "candidate": "Debabrata Bhattacharjee",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 17175,
-      "postal_votes": 449,
-      "total_votes": 17624,
-      "won": 0
-    },
-    {
-      "constituency_no": 22,
-      "serial_no": 2,
-      "candidate": "Neel Kamal Saha",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 1037,
-      "postal_votes": 9,
-      "total_votes": 1046,
-      "won": 0
-    },
-    {
-      "constituency_no": 22,
-      "serial_no": 3,
-      "candidate": "Shyamal Chakraborty",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 19502,
-      "postal_votes": 537,
-      "total_votes": 20039,
-      "won": 1
-    },
-    {
-      "constituency_no": 22,
-      "serial_no": 4,
-      "candidate": "Premjit Sinha",
-      "party": "Independent",
-      "evm_votes": 376,
-      "postal_votes": 1,
-      "total_votes": 377,
-      "won": 0
-    },
-    {
-      "constituency_no": 22,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 610,
-      "postal_votes": 7,
-      "total_votes": 617,
-      "won": 0
-    },
-    {
-      "constituency_no": 23,
-      "serial_no": 1,
-      "candidate": "Kaushik Chanda",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 15334,
-      "postal_votes": 314,
-      "total_votes": 15648,
-      "won": 0
-    },
-    {
-      "constituency_no": 23,
-      "serial_no": 2,
-      "candidate": "Pratima Bhoumik",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 18774,
-      "postal_votes": 374,
-      "total_votes": 19148,
-      "won": 1
-    },
-    {
-      "constituency_no": 23,
-      "serial_no": 3,
-      "candidate": "Habil Mia",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 647,
-      "postal_votes": 4,
-      "total_votes": 651,
-      "won": 0
-    },
-    {
-      "constituency_no": 23,
-      "serial_no": 4,
-      "candidate": "Amiya Dayal Noatia",
-      "party": "Tipra Motha Party",
-      "evm_votes": 8457,
-      "postal_votes": 214,
-      "total_votes": 8671,
-      "won": 0
-    },
-    {
-      "constituency_no": 23,
-      "serial_no": 5,
-      "candidate": "Bappi Debnath",
-      "party": "Independent",
-      "evm_votes": 258,
-      "postal_votes": 0,
-      "total_votes": 258,
-      "won": 0
-    },
-    {
-      "constituency_no": 23,
-      "serial_no": 6,
-      "candidate": "Rakesh Sukla Das",
-      "party": "Independent",
-      "evm_votes": 404,
-      "postal_votes": 1,
-      "total_votes": 405,
-      "won": 0
-    },
-    {
-      "constituency_no": 23,
-      "serial_no": 7,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 535,
-      "postal_votes": 3,
-      "total_votes": 538,
-      "won": 0
-    },
-    {
-      "constituency_no": 24,
-      "serial_no": 1,
-      "candidate": "Prasanta Debbarma",
-      "party": "Indigenous People's Front of Tripura",
-      "evm_votes": 919,
-      "postal_votes": 13,
-      "total_votes": 932,
-      "won": 0
-    },
-    {
-      "constituency_no": 24,
-      "serial_no": 2,
-      "candidate": "Ranjit Debbarma",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 6791,
-      "postal_votes": 150,
-      "total_votes": 6941,
-      "won": 0
-    },
-    {
-      "constituency_no": 24,
-      "serial_no": 3,
-      "candidate": "Ranjit Debbarma",
-      "party": "Tipra Motha Party",
-      "evm_votes": 22444,
-      "postal_votes": 699,
-      "total_votes": 23143,
-      "won": 1
-    },
-    {
-      "constituency_no": 24,
-      "serial_no": 4,
-      "candidate": "Sanjib Debbarma",
-      "party": "Independent",
-      "evm_votes": 5930,
-      "postal_votes": 80,
-      "total_votes": 6010,
-      "won": 0
-    },
-    {
-      "constituency_no": 24,
-      "serial_no": 5,
-      "candidate": "Sahajit Debbarma",
-      "party": "Independent",
-      "evm_votes": 598,
-      "postal_votes": 0,
-      "total_votes": 598,
-      "won": 0
-    },
-    {
-      "constituency_no": 24,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 391,
-      "postal_votes": 3,
-      "total_votes": 394,
-      "won": 0
-    },
-    {
-      "constituency_no": 25,
-      "serial_no": 1,
-      "candidate": "Nirmal Biswas",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 18946,
-      "postal_votes": 750,
-      "total_votes": 19696,
-      "won": 1
-    },
-    {
-      "constituency_no": 25,
-      "serial_no": 2,
-      "candidate": "Subrata Majumdar",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 18242,
-      "postal_votes": 414,
-      "total_votes": 18656,
-      "won": 0
-    },
-    {
-      "constituency_no": 25,
-      "serial_no": 3,
-      "candidate": "Kishore Roy",
-      "party": "Independent",
-      "evm_votes": 662,
-      "postal_votes": 8,
-      "total_votes": 670,
-      "won": 0
-    },
-    {
-      "constituency_no": 25,
-      "serial_no": 4,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 571,
-      "postal_votes": 16,
-      "total_votes": 587,
-      "won": 0
-    },
-    {
-      "constituency_no": 26,
-      "serial_no": 1,
-      "candidate": "Jayanti Deb Barma",
-      "party": "Indigenous People's Front of Tripura",
-      "evm_votes": 5478,
-      "postal_votes": 32,
-      "total_votes": 5510,
-      "won": 0
-    },
-    {
-      "constituency_no": 26,
-      "serial_no": 2,
-      "candidate": "Dilip Debbarma",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 4328,
-      "postal_votes": 92,
-      "total_votes": 4420,
-      "won": 0
-    },
-    {
-      "constituency_no": 26,
-      "serial_no": 3,
-      "candidate": "Animesh Debbarma",
-      "party": "Tipra Motha Party",
-      "evm_votes": 23329,
-      "postal_votes": 509,
-      "total_votes": 23838,
-      "won": 1
-    },
-    {
-      "constituency_no": 26,
-      "serial_no": 4,
-      "candidate": "Archana Urang",
-      "party": "Independent",
-      "evm_votes": 1123,
-      "postal_votes": 2,
-      "total_votes": 1125,
-      "won": 0
-    },
-    {
-      "constituency_no": 26,
-      "serial_no": 5,
-      "candidate": "Jappu DebBarma",
-      "party": "Independent",
-      "evm_votes": 432,
-      "postal_votes": 0,
-      "total_votes": 432,
-      "won": 0
-    },
-    {
-      "constituency_no": 26,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 488,
-      "postal_votes": 2,
-      "total_votes": 490,
-      "won": 0
-    },
-    {
-      "constituency_no": 27,
-      "serial_no": 1,
-      "candidate": "Pinaki Das Chowdhury",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 17554,
-      "postal_votes": 349,
-      "total_votes": 17903,
-      "won": 1
-    },
-    {
-      "constituency_no": 27,
-      "serial_no": 2,
-      "candidate": "Manindra Chandra Das",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 10658,
-      "postal_votes": 323,
-      "total_votes": 10981,
-      "won": 0
-    },
-    {
-      "constituency_no": 27,
-      "serial_no": 3,
-      "candidate": "Manihar Debbarma",
-      "party": "Tipra Motha Party",
-      "evm_votes": 10938,
-      "postal_votes": 352,
-      "total_votes": 11290,
-      "won": 0
-    },
-    {
-      "constituency_no": 27,
-      "serial_no": 4,
-      "candidate": "Nagendra Chandra Shil",
-      "party": "Independent",
-      "evm_votes": 526,
-      "postal_votes": 3,
-      "total_votes": 529,
-      "won": 0
-    },
-    {
-      "constituency_no": 27,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 371,
-      "postal_votes": 1,
-      "total_votes": 372,
-      "won": 0
-    },
-    {
-      "constituency_no": 28,
-      "serial_no": 1,
-      "candidate": "ASHOK KR. BAIDYA",
-      "party": "Indian National Congress",
-      "evm_votes": 12118,
-      "postal_votes": 485,
-      "total_votes": 12603,
-      "won": 0
-    },
-    {
-      "constituency_no": 28,
-      "serial_no": 2,
-      "candidate": "KALYANI SAHA ROY",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 16136,
-      "postal_votes": 619,
-      "total_votes": 16755,
-      "won": 1
-    },
-    {
-      "constituency_no": 28,
-      "serial_no": 3,
-      "candidate": "RABI CHOWDHURY",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 557,
-      "postal_votes": 18,
-      "total_votes": 575,
-      "won": 0
-    },
-    {
-      "constituency_no": 28,
-      "serial_no": 4,
-      "candidate": "ABHIJIT SARKAR",
-      "party": "Tipra Motha Party",
-      "evm_votes": 8455,
-      "postal_votes": 449,
-      "total_votes": 8904,
-      "won": 0
-    },
-    {
-      "constituency_no": 28,
-      "serial_no": 5,
-      "candidate": "Narayan Debnath",
-      "party": "Independent",
-      "evm_votes": 591,
-      "postal_votes": 13,
-      "total_votes": 604,
-      "won": 0
-    },
-    {
-      "constituency_no": 28,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 347,
-      "postal_votes": 11,
-      "total_votes": 358,
-      "won": 0
-    },
-    {
-      "constituency_no": 29,
-      "serial_no": 1,
-      "candidate": "BIKASH DEBBARMA",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 13466,
-      "postal_votes": 334,
-      "total_votes": 13800,
-      "won": 1
-    },
-    {
-      "constituency_no": 29,
-      "serial_no": 2,
-      "candidate": "SWASTI DEBBARMA",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 8397,
-      "postal_votes": 282,
-      "total_votes": 8679,
-      "won": 0
-    },
-    {
-      "constituency_no": 29,
-      "serial_no": 3,
-      "candidate": "MAHENDRA DEBBARMA",
-      "party": "Tipra Motha Party",
-      "evm_votes": 10849,
-      "postal_votes": 313,
-      "total_votes": 11162,
-      "won": 0
-    },
-    {
-      "constituency_no": 29,
-      "serial_no": 4,
-      "candidate": "ATUL DEBBARMA",
-      "party": "Independent",
-      "evm_votes": 398,
-      "postal_votes": 15,
-      "total_votes": 413,
-      "won": 0
-    },
-    {
-      "constituency_no": 29,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 467,
-      "postal_votes": 4,
-      "total_votes": 471,
-      "won": 0
-    },
-    {
-      "constituency_no": 30,
-      "serial_no": 1,
-      "candidate": "Naresh Chandra Jamatia",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 12315,
-      "postal_votes": 298,
-      "total_votes": 12613,
-      "won": 0
-    },
-    {
-      "constituency_no": 30,
-      "serial_no": 2,
-      "candidate": "Ram Pada Jamatia",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 19158,
-      "postal_votes": 324,
-      "total_votes": 19482,
-      "won": 1
-    },
-    {
-      "constituency_no": 30,
-      "serial_no": 3,
-      "candidate": "Purna Ch. Jamatia",
-      "party": "Tipra Motha Party",
-      "evm_votes": 16860,
-      "postal_votes": 539,
-      "total_votes": 17399,
-      "won": 0
-    },
-    {
-      "constituency_no": 30,
-      "serial_no": 4,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 785,
-      "postal_votes": 8,
-      "total_votes": 793,
-      "won": 0
-    },
-    {
-      "constituency_no": 31,
-      "serial_no": 1,
-      "candidate": "Pranajit Singha Roy",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 23668,
-      "postal_votes": 753,
-      "total_votes": 24421,
-      "won": 1
-    },
-    {
-      "constituency_no": 31,
-      "serial_no": 2,
-      "candidate": "Partha Karmakar",
-      "party": "Communist Party of India  (Marxist-Leninist)  (Liberation)",
-      "evm_votes": 942,
-      "postal_votes": 78,
-      "total_votes": 1020,
-      "won": 0
-    },
-    {
-      "constituency_no": 31,
-      "serial_no": 3,
-      "candidate": "Srikanta Datta",
-      "party": "Revolutionary Socialist Party",
-      "evm_votes": 16367,
-      "postal_votes": 640,
-      "total_votes": 17007,
-      "won": 0
-    },
-    {
-      "constituency_no": 31,
-      "serial_no": 4,
-      "candidate": "Bibhu lal Dey",
-      "party": "Independent",
-      "evm_votes": 372,
-      "postal_votes": 5,
-      "total_votes": 377,
-      "won": 0
-    },
-    {
-      "constituency_no": 31,
-      "serial_no": 5,
-      "candidate": "Ratan Debbarma",
-      "party": "Independent",
-      "evm_votes": 154,
-      "postal_votes": 5,
-      "total_votes": 159,
-      "won": 0
-    },
-    {
-      "constituency_no": 31,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 552,
-      "postal_votes": 16,
-      "total_votes": 568,
-      "won": 0
-    },
-    {
-      "constituency_no": 32,
-      "serial_no": 1,
-      "candidate": "Abhishek Debroy",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 25051,
-      "postal_votes": 443,
-      "total_votes": 25494,
-      "won": 1
-    },
-    {
-      "constituency_no": 32,
-      "serial_no": 2,
-      "candidate": "Pranajit Roy",
-      "party": "Indian National Congress",
-      "evm_votes": 16008,
-      "postal_votes": 445,
-      "total_votes": 16453,
-      "won": 0
-    },
-    {
-      "constituency_no": 32,
-      "serial_no": 3,
-      "candidate": "Biralal Noatia",
-      "party": "Tipra Motha Party",
-      "evm_votes": 6920,
-      "postal_votes": 181,
-      "total_votes": 7101,
-      "won": 0
-    },
-    {
-      "constituency_no": 32,
-      "serial_no": 4,
-      "candidate": "Tarmin Uddin",
-      "party": "Independent",
-      "evm_votes": 307,
-      "postal_votes": 2,
-      "total_votes": 309,
-      "won": 0
-    },
-    {
-      "constituency_no": 32,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 566,
-      "postal_votes": 10,
-      "total_votes": 576,
-      "won": 0
-    },
-    {
-      "constituency_no": 33,
-      "serial_no": 1,
-      "candidate": "Jitendra Majumder",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 23180,
-      "postal_votes": 445,
-      "total_votes": 23625,
-      "won": 1
-    },
-    {
-      "constituency_no": 33,
-      "serial_no": 2,
-      "candidate": "Ratan Kr. Bhowmik",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 17994,
-      "postal_votes": 580,
-      "total_votes": 18574,
-      "won": 0
-    },
-    {
-      "constituency_no": 33,
-      "serial_no": 3,
-      "candidate": "Kshir Mohan Das",
-      "party": "Tipra Motha Party",
-      "evm_votes": 5719,
-      "postal_votes": 177,
-      "total_votes": 5896,
-      "won": 0
-    },
-    {
-      "constituency_no": 33,
-      "serial_no": 4,
-      "candidate": "Uttam Das",
-      "party": "Independent",
-      "evm_votes": 313,
-      "postal_votes": 3,
-      "total_votes": 316,
-      "won": 0
-    },
-    {
-      "constituency_no": 33,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 635,
-      "postal_votes": 2,
-      "total_votes": 637,
-      "won": 0
-    },
-    {
-      "constituency_no": 34,
-      "serial_no": 1,
-      "candidate": "SUDHAN DAS",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 19065,
-      "postal_votes": 449,
-      "total_votes": 19514,
-      "won": 0
-    },
-    {
-      "constituency_no": 34,
-      "serial_no": 2,
-      "candidate": "SWAPNA MAJUMDER",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 20517,
-      "postal_votes": 332,
-      "total_votes": 20849,
-      "won": 1
-    },
-    {
-      "constituency_no": 34,
-      "serial_no": 3,
-      "candidate": "ABHIJIT MALAKAR",
-      "party": "Tipra Motha Party",
-      "evm_votes": 2234,
-      "postal_votes": 33,
-      "total_votes": 2267,
-      "won": 0
-    },
-    {
-      "constituency_no": 34,
-      "serial_no": 4,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 731,
-      "postal_votes": 7,
-      "total_votes": 738,
-      "won": 0
-    },
-    {
-      "constituency_no": 35,
-      "serial_no": 1,
-      "candidate": "GOUTAM SARKAR",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 19104,
-      "postal_votes": 509,
-      "total_votes": 19613,
-      "won": 0
-    },
-    {
-      "constituency_no": 35,
-      "serial_no": 2,
-      "candidate": "DILIP KUMAR CHOWDHURY",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 748,
-      "postal_votes": 12,
-      "total_votes": 760,
-      "won": 0
-    },
-    {
-      "constituency_no": 35,
-      "serial_no": 3,
-      "candidate": "DIPANKAR SEN",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 19319,
-      "postal_votes": 697,
-      "total_votes": 20016,
-      "won": 1
-    },
-    {
-      "constituency_no": 35,
-      "serial_no": 4,
-      "candidate": "GOURI SANKAR NANDI",
-      "party": "Independent",
-      "evm_votes": 400,
-      "postal_votes": 7,
-      "total_votes": 407,
-      "won": 0
-    },
-    {
-      "constituency_no": 35,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 655,
-      "postal_votes": 15,
-      "total_votes": 670,
-      "won": 0
-    },
-    {
-      "constituency_no": 36,
-      "serial_no": 1,
-      "candidate": "NARENDRA REANG",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 693,
-      "postal_votes": 4,
-      "total_votes": 697,
-      "won": 0
-    },
-    {
-      "constituency_no": 36,
-      "serial_no": 2,
-      "candidate": "PRAMOD REANG",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 18284,
-      "postal_votes": 425,
-      "total_votes": 18709,
-      "won": 1
-    },
-    {
-      "constituency_no": 36,
-      "serial_no": 3,
-      "candidate": "SATYAJIT REANG",
-      "party": "Communist Party of India",
-      "evm_votes": 11728,
-      "postal_votes": 335,
-      "total_votes": 12063,
-      "won": 0
-    },
-    {
-      "constituency_no": 36,
-      "serial_no": 4,
-      "candidate": "HARENDRA REANG",
-      "party": "Tipra Motha Party",
-      "evm_votes": 14260,
-      "postal_votes": 355,
-      "total_votes": 14615,
-      "won": 0
-    },
-    {
-      "constituency_no": 36,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 629,
-      "postal_votes": 7,
-      "total_votes": 636,
-      "won": 0
-    },
-    {
-      "constituency_no": 37,
-      "serial_no": 1,
-      "candidate": "ASOKE CH. MITRA",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 19456,
-      "postal_votes": 530,
-      "total_votes": 19986,
-      "won": 1
-    },
-    {
-      "constituency_no": 37,
-      "serial_no": 2,
-      "candidate": "DIPAYAN CHOUDHURY",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 18196,
-      "postal_votes": 372,
-      "total_votes": 18568,
-      "won": 0
-    },
-    {
-      "constituency_no": 37,
-      "serial_no": 3,
-      "candidate": "ARUP DEB",
-      "party": "Tipra Motha Party",
-      "evm_votes": 3790,
-      "postal_votes": 66,
-      "total_votes": 3856,
-      "won": 0
-    },
-    {
-      "constituency_no": 37,
-      "serial_no": 4,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 690,
-      "postal_votes": 4,
-      "total_votes": 694,
-      "won": 0
-    },
-    {
-      "constituency_no": 38,
-      "serial_no": 1,
-      "candidate": "KANGJARI MOG",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 1110,
-      "postal_votes": 21,
-      "total_votes": 1131,
-      "won": 0
-    },
-    {
-      "constituency_no": 38,
-      "serial_no": 2,
-      "candidate": "DEBENDRA TRIPURA",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 16808,
-      "postal_votes": 438,
-      "total_votes": 17246,
-      "won": 0
-    },
-    {
-      "constituency_no": 38,
-      "serial_no": 3,
-      "candidate": "SUKLA CHARAN NOATIA",
-      "party": "Indigenous People's Front of Tripura",
-      "evm_votes": 17316,
-      "postal_votes": 305,
-      "total_votes": 17621,
-      "won": 1
-    },
-    {
-      "constituency_no": 38,
-      "serial_no": 4,
-      "candidate": "GAURAB MOG CHOUDHURY",
-      "party": "Tipra Motha Party",
-      "evm_votes": 8679,
-      "postal_votes": 154,
-      "total_votes": 8833,
-      "won": 0
-    },
-    {
-      "constituency_no": 38,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 877,
-      "postal_votes": 11,
-      "total_votes": 888,
-      "won": 0
-    },
-    {
-      "constituency_no": 39,
-      "serial_no": 1,
-      "candidate": "Pravat Chowdhury",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 14452,
-      "postal_votes": 470,
-      "total_votes": 14922,
-      "won": 0
-    },
-    {
-      "constituency_no": 39,
-      "serial_no": 2,
-      "candidate": "Mailafru Mog",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 15191,
-      "postal_votes": 278,
-      "total_votes": 15469,
-      "won": 1
-    },
-    {
-      "constituency_no": 39,
-      "serial_no": 3,
-      "candidate": "Dhananjoy Tripura",
-      "party": "Tipra Motha Party",
-      "evm_votes": 13443,
-      "postal_votes": 207,
-      "total_votes": 13650,
-      "won": 0
-    },
-    {
-      "constituency_no": 39,
-      "serial_no": 4,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 786,
-      "postal_votes": 8,
-      "total_votes": 794,
-      "won": 0
-    },
-    {
-      "constituency_no": 40,
-      "serial_no": 1,
-      "candidate": "Jitendra Chaudhury",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 21196,
-      "postal_votes": 605,
-      "total_votes": 21801,
-      "won": 1
-    },
-    {
-      "constituency_no": 40,
-      "serial_no": 2,
-      "candidate": "Sankar Roy",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 20942,
-      "postal_votes": 463,
-      "total_votes": 21405,
-      "won": 0
-    },
-    {
-      "constituency_no": 40,
-      "serial_no": 3,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 1248,
-      "postal_votes": 17,
-      "total_votes": 1265,
-      "won": 0
-    },
-    {
-      "constituency_no": 41,
-      "serial_no": 1,
-      "candidate": "PARIKHIT KALAI",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 3999,
-      "postal_votes": 152,
-      "total_votes": 4151,
-      "won": 0
-    },
-    {
-      "constituency_no": 41,
-      "serial_no": 2,
-      "candidate": "PATAL KANYA JAMATIA",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 9202,
-      "postal_votes": 137,
-      "total_votes": 9339,
-      "won": 0
-    },
-    {
-      "constituency_no": 41,
-      "serial_no": 3,
-      "candidate": "SINDHU CHANDRA JAMATIA",
-      "party": "Indigenous People's Front of Tripura",
-      "evm_votes": 2057,
-      "postal_votes": 11,
-      "total_votes": 2068,
-      "won": 0
-    },
-    {
-      "constituency_no": 41,
-      "serial_no": 4,
-      "candidate": "PATHAN LAL JAMATIA",
-      "party": "Tipra Motha Party",
-      "evm_votes": 21006,
-      "postal_votes": 519,
-      "total_votes": 21525,
-      "won": 1
-    },
-    {
-      "constituency_no": 41,
-      "serial_no": 5,
-      "candidate": "PABITRA MOHAN JAMATIA",
-      "party": "Independent",
-      "evm_votes": 319,
-      "postal_votes": 0,
-      "total_votes": 319,
-      "won": 0
-    },
-    {
-      "constituency_no": 41,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 340,
-      "postal_votes": 1,
-      "total_votes": 341,
-      "won": 0
-    },
-    {
-      "constituency_no": 42,
-      "serial_no": 1,
-      "candidate": "Parimal Debnath",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 12851,
-      "postal_votes": 544,
-      "total_votes": 13395,
-      "won": 0
-    },
-    {
-      "constituency_no": 42,
-      "serial_no": 2,
-      "candidate": "Biplab Kumar Saha",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 422,
-      "postal_votes": 9,
-      "total_votes": 431,
-      "won": 0
-    },
-    {
-      "constituency_no": 42,
-      "serial_no": 3,
-      "candidate": "Ranjit Das",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 17497,
-      "postal_votes": 492,
-      "total_votes": 17989,
-      "won": 1
-    },
-    {
-      "constituency_no": 42,
-      "serial_no": 4,
-      "candidate": "Amal Majumder",
-      "party": "Republican Party of India (A)",
-      "evm_votes": 271,
-      "postal_votes": 1,
-      "total_votes": 272,
-      "won": 0
-    },
-    {
-      "constituency_no": 42,
-      "serial_no": 5,
-      "candidate": "Ashiram Reang",
-      "party": "Tipra Motha Party",
-      "evm_votes": 7857,
-      "postal_votes": 259,
-      "total_votes": 8116,
-      "won": 0
-    },
-    {
-      "constituency_no": 42,
-      "serial_no": 6,
-      "candidate": "Anil Reang",
-      "party": "Independent",
-      "evm_votes": 135,
-      "postal_votes": 5,
-      "total_votes": 140,
-      "won": 0
-    },
-    {
-      "constituency_no": 42,
-      "serial_no": 7,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 341,
-      "postal_votes": 9,
-      "total_votes": 350,
-      "won": 0
-    },
-    {
-      "constituency_no": 43,
-      "serial_no": 1,
-      "candidate": "Ashim Kumar Tripura",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 12030,
-      "postal_votes": 170,
-      "total_votes": 12200,
-      "won": 0
-    },
-    {
-      "constituency_no": 43,
-      "serial_no": 2,
-      "candidate": "Priyamani Debbarma",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 6761,
-      "postal_votes": 173,
-      "total_votes": 6934,
-      "won": 0
-    },
-    {
-      "constituency_no": 43,
-      "serial_no": 3,
-      "candidate": "Milton Chakma",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 672,
-      "postal_votes": 11,
-      "total_votes": 683,
-      "won": 0
-    },
-    {
-      "constituency_no": 43,
-      "serial_no": 4,
-      "candidate": "Sanjoy Manik Tripura",
-      "party": "Tipra Motha Party",
-      "evm_votes": 16235,
-      "postal_votes": 412,
-      "total_votes": 16647,
-      "won": 1
-    },
-    {
-      "constituency_no": 43,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 622,
-      "postal_votes": 3,
-      "total_votes": 625,
-      "won": 0
-    },
-    {
-      "constituency_no": 44,
-      "serial_no": 1,
-      "candidate": "Pabin Tripura",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 10987,
-      "postal_votes": 352,
-      "total_votes": 11339,
-      "won": 0
-    },
-    {
-      "constituency_no": 44,
-      "serial_no": 2,
-      "candidate": "Bikash Chakma",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 15494,
-      "postal_votes": 333,
-      "total_votes": 15827,
-      "won": 0
-    },
-    {
-      "constituency_no": 44,
-      "serial_no": 3,
-      "candidate": "Nandita Debbarma(Reang)",
-      "party": "Tipra Motha Party",
-      "evm_votes": 18772,
-      "postal_votes": 497,
-      "total_votes": 19269,
-      "won": 1
-    },
-    {
-      "constituency_no": 44,
-      "serial_no": 4,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 952,
-      "postal_votes": 6,
-      "total_votes": 958,
-      "won": 0
-    },
-    {
-      "constituency_no": 45,
-      "serial_no": 1,
-      "candidate": "MANOJ KANTI DEB",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 17788,
-      "postal_votes": 499,
-      "total_votes": 18287,
-      "won": 1
-    },
-    {
-      "constituency_no": 45,
-      "serial_no": 2,
-      "candidate": "RUBI GHOSH",
-      "party": "Indian National Congress",
-      "evm_votes": 12682,
-      "postal_votes": 345,
-      "total_votes": 13027,
-      "won": 0
-    },
-    {
-      "constituency_no": 45,
-      "serial_no": 3,
-      "candidate": "SUMEN DEY",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 607,
-      "postal_votes": 5,
-      "total_votes": 612,
-      "won": 0
-    },
-    {
-      "constituency_no": 45,
-      "serial_no": 4,
-      "candidate": "MERI DEBBARMA",
-      "party": "Tipra Motha Party",
-      "evm_votes": 7283,
-      "postal_votes": 251,
-      "total_votes": 7534,
-      "won": 0
-    },
-    {
-      "constituency_no": 45,
-      "serial_no": 5,
-      "candidate": "PREMTOSH DEB",
-      "party": "Independent",
-      "evm_votes": 497,
-      "postal_votes": 5,
-      "total_votes": 502,
-      "won": 0
-    },
-    {
-      "constituency_no": 45,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 517,
-      "postal_votes": 17,
-      "total_votes": 534,
-      "won": 0
-    },
-    {
-      "constituency_no": 46,
-      "serial_no": 1,
-      "candidate": "ANJAN DAS",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 12038,
-      "postal_votes": 437,
-      "total_votes": 12475,
-      "won": 0
-    },
-    {
-      "constituency_no": 46,
-      "serial_no": 2,
-      "candidate": "ARJUN NAMASUDRA",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 596,
-      "postal_votes": 14,
-      "total_votes": 610,
-      "won": 0
-    },
-    {
-      "constituency_no": 46,
-      "serial_no": 3,
-      "candidate": "SWAPNA DAS PAUL",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 16886,
-      "postal_votes": 427,
-      "total_votes": 17313,
-      "won": 1
-    },
-    {
-      "constituency_no": 46,
-      "serial_no": 4,
-      "candidate": "SHYAMAL SARKAR",
-      "party": "Tipra Motha Party",
-      "evm_votes": 11036,
-      "postal_votes": 431,
-      "total_votes": 11467,
-      "won": 0
-    },
-    {
-      "constituency_no": 46,
-      "serial_no": 5,
-      "candidate": "NIRANJAN DAS",
-      "party": "Independent",
-      "evm_votes": 308,
-      "postal_votes": 2,
-      "total_votes": 310,
-      "won": 0
-    },
-    {
-      "constituency_no": 46,
-      "serial_no": 6,
-      "candidate": "PRANESH DAS",
-      "party": "Independent",
-      "evm_votes": 414,
-      "postal_votes": 2,
-      "total_votes": 416,
-      "won": 0
-    },
-    {
-      "constituency_no": 46,
-      "serial_no": 7,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 370,
-      "postal_votes": 3,
-      "total_votes": 373,
-      "won": 0
-    },
-    {
-      "constituency_no": 47,
-      "serial_no": 1,
-      "candidate": "Amalendu DebBarma",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 12964,
-      "postal_votes": 409,
-      "total_votes": 13373,
-      "won": 0
-    },
-    {
-      "constituency_no": 47,
-      "serial_no": 2,
-      "candidate": "Chandan Mog Choudhury",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 728,
-      "postal_votes": 23,
-      "total_votes": 751,
-      "won": 0
-    },
-    {
-      "constituency_no": 47,
-      "serial_no": 3,
-      "candidate": "Suchitra Debbarma",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 14508,
-      "postal_votes": 316,
-      "total_votes": 14824,
-      "won": 0
-    },
-    {
-      "constituency_no": 47,
-      "serial_no": 4,
-      "candidate": "Chitta Ranjan Debbarma",
-      "party": "Tipra Motha Party",
-      "evm_votes": 14813,
-      "postal_votes": 504,
-      "total_votes": 15317,
-      "won": 1
-    },
-    {
-      "constituency_no": 47,
-      "serial_no": 5,
-      "candidate": "Karna dhan Chakma",
-      "party": "Independent",
-      "evm_votes": 814,
-      "postal_votes": 7,
-      "total_votes": 821,
-      "won": 0
-    },
-    {
-      "constituency_no": 47,
-      "serial_no": 6,
-      "candidate": "Krishna Kumar DebBarma",
-      "party": "Independent",
-      "evm_votes": 375,
-      "postal_votes": 1,
-      "total_votes": 376,
-      "won": 0
-    },
-    {
-      "constituency_no": 47,
-      "serial_no": 7,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 573,
-      "postal_votes": 10,
-      "total_votes": 583,
-      "won": 0
-    },
-    {
-      "constituency_no": 48,
-      "serial_no": 1,
-      "candidate": "Dibachandra Hrangkhawl",
-      "party": "Indian National Congress",
-      "evm_votes": 7182,
-      "postal_votes": 162,
-      "total_votes": 7344,
-      "won": 0
-    },
-    {
-      "constituency_no": 48,
-      "serial_no": 2,
-      "candidate": "Braja Lal Tripura",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 9751,
-      "postal_votes": 150,
-      "total_votes": 9901,
-      "won": 0
-    },
-    {
-      "constituency_no": 48,
-      "serial_no": 3,
-      "candidate": "Paul Dangshu",
-      "party": "Tipra Motha Party",
-      "evm_votes": 20038,
-      "postal_votes": 458,
-      "total_votes": 20496,
-      "won": 1
-    },
-    {
-      "constituency_no": 48,
-      "serial_no": 4,
-      "candidate": "Bishwanath Debbarma",
-      "party": "Tripura Peoples Party",
-      "evm_votes": 394,
-      "postal_votes": 3,
-      "total_votes": 397,
-      "won": 0
-    },
-    {
-      "constituency_no": 48,
-      "serial_no": 5,
-      "candidate": "Indrakhela Chakma",
-      "party": "Independent",
-      "evm_votes": 363,
-      "postal_votes": 3,
-      "total_votes": 366,
-      "won": 0
-    },
-    {
-      "constituency_no": 48,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 360,
-      "postal_votes": 7,
-      "total_votes": 367,
-      "won": 0
-    },
-    {
-      "constituency_no": 49,
-      "serial_no": 1,
-      "candidate": "Jiban Mohan Tripura",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 7172,
-      "postal_votes": 230,
-      "total_votes": 7402,
-      "won": 0
-    },
-    {
-      "constituency_no": 49,
-      "serial_no": 2,
-      "candidate": "Rupayan Chakma",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 562,
-      "postal_votes": 4,
-      "total_votes": 566,
-      "won": 0
-    },
-    {
-      "constituency_no": 49,
-      "serial_no": 3,
-      "candidate": "Sambhu Lal Chakma",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 16278,
-      "postal_votes": 366,
-      "total_votes": 16644,
-      "won": 1
-    },
-    {
-      "constituency_no": 49,
-      "serial_no": 4,
-      "candidate": "Barjeda Tripura",
-      "party": "Nationalist Citizens Party of India",
-      "evm_votes": 535,
-      "postal_votes": 1,
-      "total_votes": 536,
-      "won": 0
-    },
-    {
-      "constituency_no": 49,
-      "serial_no": 5,
-      "candidate": "Hangsa Kumar Tripura",
-      "party": "Tipra Motha Party",
-      "evm_votes": 13432,
-      "postal_votes": 313,
-      "total_votes": 13745,
-      "won": 0
-    },
-    {
-      "constituency_no": 49,
-      "serial_no": 6,
-      "candidate": "Tushar Kanti Chakma",
-      "party": "Independent",
-      "evm_votes": 379,
-      "postal_votes": 0,
-      "total_votes": 379,
-      "won": 0
-    },
-    {
-      "constituency_no": 49,
-      "serial_no": 7,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 495,
-      "postal_votes": 5,
-      "total_votes": 500,
-      "won": 0
-    },
-    {
-      "constituency_no": 50,
-      "serial_no": 1,
-      "candidate": "BHAGABAN CHANDRA DAS",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 19224,
-      "postal_votes": 318,
-      "total_votes": 19542,
-      "won": 1
-    },
-    {
-      "constituency_no": 50,
-      "serial_no": 2,
-      "candidate": "SATYABAN DAS",
-      "party": "Indian National Congress",
-      "evm_votes": 18751,
-      "postal_votes": 383,
-      "total_votes": 19134,
-      "won": 0
-    },
-    {
-      "constituency_no": 50,
-      "serial_no": 3,
-      "candidate": "GOBINDA DAS",
-      "party": "Tipra Motha Party",
-      "evm_votes": 4201,
-      "postal_votes": 130,
-      "total_votes": 4331,
-      "won": 0
-    },
-    {
-      "constituency_no": 50,
-      "serial_no": 4,
-      "candidate": "ARJUN NAMA",
-      "party": "Independent",
-      "evm_votes": 452,
-      "postal_votes": 3,
-      "total_votes": 455,
-      "won": 0
-    },
-    {
-      "constituency_no": 50,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 477,
-      "postal_votes": 13,
-      "total_votes": 490,
-      "won": 0
-    },
-    {
-      "constituency_no": 51,
-      "serial_no": 1,
-      "candidate": "Sudhangshu Das",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 19301,
-      "postal_votes": 269,
-      "total_votes": 19570,
-      "won": 1
-    },
-    {
-      "constituency_no": 51,
-      "serial_no": 2,
-      "candidate": "Subrata Das",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 14233,
-      "postal_votes": 225,
-      "total_votes": 14458,
-      "won": 0
-    },
-    {
-      "constituency_no": 51,
-      "serial_no": 3,
-      "candidate": "Bilas Bindu Malakar",
-      "party": "Tipra Motha Party",
-      "evm_votes": 4183,
-      "postal_votes": 115,
-      "total_votes": 4298,
-      "won": 0
-    },
-    {
-      "constituency_no": 51,
-      "serial_no": 4,
-      "candidate": "Sajal Das",
-      "party": "Tripura Peoples Party",
-      "evm_votes": 230,
-      "postal_votes": 0,
-      "total_votes": 230,
-      "won": 0
-    },
-    {
-      "constituency_no": 51,
-      "serial_no": 5,
-      "candidate": "Pranesh Das",
-      "party": "Independent",
-      "evm_votes": 256,
-      "postal_votes": 0,
-      "total_votes": 256,
-      "won": 0
-    },
-    {
-      "constituency_no": 51,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 349,
-      "postal_votes": 9,
-      "total_votes": 358,
-      "won": 0
-    },
-    {
-      "constituency_no": 52,
-      "serial_no": 1,
-      "candidate": "Krishnendu Choudhury",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 16565,
-      "postal_votes": 253,
-      "total_votes": 16818,
-      "won": 0
-    },
-    {
-      "constituency_no": 52,
-      "serial_no": 2,
-      "candidate": "Tinku Roy",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 17185,
-      "postal_votes": 210,
-      "total_votes": 17395,
-      "won": 1
-    },
-    {
-      "constituency_no": 52,
-      "serial_no": 3,
-      "candidate": "Bidyut Bikas Sinha",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 576,
-      "postal_votes": 6,
-      "total_votes": 582,
-      "won": 0
-    },
-    {
-      "constituency_no": 52,
-      "serial_no": 4,
-      "candidate": "Ranjan Singha",
-      "party": "Tipra Motha Party",
-      "evm_votes": 5187,
-      "postal_votes": 192,
-      "total_votes": 5379,
-      "won": 0
-    },
-    {
-      "constituency_no": 52,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 579,
-      "postal_votes": 8,
-      "total_votes": 587,
-      "won": 0
-    },
-    {
-      "constituency_no": 53,
-      "serial_no": 1,
-      "candidate": "Md. Abdul Matin",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 692,
-      "postal_votes": 4,
-      "total_votes": 696,
-      "won": 0
-    },
-    {
-      "constituency_no": 53,
-      "serial_no": 2,
-      "candidate": "Birajit Sinha",
-      "party": "Indian National Congress",
-      "evm_votes": 24785,
-      "postal_votes": 515,
-      "total_votes": 25300,
-      "won": 1
-    },
-    {
-      "constituency_no": 53,
-      "serial_no": 3,
-      "candidate": "Moboshar Ali",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 15260,
-      "postal_votes": 354,
-      "total_votes": 15614,
-      "won": 0
-    },
-    {
-      "constituency_no": 53,
-      "serial_no": 4,
-      "candidate": "Jahangir Ali",
-      "party": "Nationalist Citizens Party of India",
-      "evm_votes": 285,
-      "postal_votes": 1,
-      "total_votes": 286,
-      "won": 0
-    },
-    {
-      "constituency_no": 53,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 527,
-      "postal_votes": 10,
-      "total_votes": 537,
-      "won": 0
-    },
-    {
-      "constituency_no": 54,
-      "serial_no": 1,
-      "candidate": "Abdul Hasim",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 1058,
-      "postal_votes": 3,
-      "total_votes": 1061,
-      "won": 0
-    },
-    {
-      "constituency_no": 54,
-      "serial_no": 2,
-      "candidate": "Islam Uddin",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 19802,
-      "postal_votes": 210,
-      "total_votes": 20012,
-      "won": 1
-    },
-    {
-      "constituency_no": 54,
-      "serial_no": 3,
-      "candidate": "Dilip Tanti",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 17925,
-      "postal_votes": 195,
-      "total_votes": 18120,
-      "won": 0
-    },
-    {
-      "constituency_no": 54,
-      "serial_no": 4,
-      "candidate": "Gopal Krishna Deb",
-      "party": "Independent",
-      "evm_votes": 634,
-      "postal_votes": 2,
-      "total_votes": 636,
-      "won": 0
-    },
-    {
-      "constituency_no": 54,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 476,
-      "postal_votes": 4,
-      "total_votes": 480,
-      "won": 0
-    },
-    {
-      "constituency_no": 55,
-      "serial_no": 1,
-      "candidate": "Bijita Nath",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 17140,
-      "postal_votes": 304,
-      "total_votes": 17444,
-      "won": 0
-    },
-    {
-      "constituency_no": 55,
-      "serial_no": 2,
-      "candidate": "Bimal Nath",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 724,
-      "postal_votes": 7,
-      "total_votes": 731,
-      "won": 0
-    },
-    {
-      "constituency_no": 55,
-      "serial_no": 3,
-      "candidate": "Jadab Lal Debnath",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 18586,
-      "postal_votes": 319,
-      "total_votes": 18905,
-      "won": 1
-    },
-    {
-      "constituency_no": 55,
-      "serial_no": 4,
-      "candidate": "Kalpana Sinha",
-      "party": "Tipra Motha Party",
-      "evm_votes": 2205,
-      "postal_votes": 76,
-      "total_votes": 2281,
-      "won": 0
-    },
-    {
-      "constituency_no": 55,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 508,
-      "postal_votes": 9,
-      "total_votes": 517,
-      "won": 0
-    },
-    {
-      "constituency_no": 56,
-      "serial_no": 1,
-      "candidate": "Chayan Bhattacharya",
-      "party": "Indian National Congress",
-      "evm_votes": 17178,
-      "postal_votes": 408,
-      "total_votes": 17586,
-      "won": 0
-    },
-    {
-      "constituency_no": 56,
-      "serial_no": 2,
-      "candidate": "Biswa Bandhu Sen",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 18134,
-      "postal_votes": 550,
-      "total_votes": 18684,
-      "won": 1
-    },
-    {
-      "constituency_no": 56,
-      "serial_no": 3,
-      "candidate": "Narendu Das",
-      "party": "Independent",
-      "evm_votes": 158,
-      "postal_votes": 0,
-      "total_votes": 158,
-      "won": 0
-    },
-    {
-      "constituency_no": 56,
-      "serial_no": 4,
-      "candidate": "Bibash Ranjan Das",
-      "party": "Independent",
-      "evm_votes": 199,
-      "postal_votes": 4,
-      "total_votes": 203,
-      "won": 0
-    },
-    {
-      "constituency_no": 56,
-      "serial_no": 5,
-      "candidate": "Sanjay Chaudhury",
-      "party": "Independent",
-      "evm_votes": 128,
-      "postal_votes": 0,
-      "total_votes": 128,
-      "won": 0
-    },
-    {
-      "constituency_no": 56,
-      "serial_no": 6,
-      "candidate": "Saurabh Goswami",
-      "party": "Independent",
-      "evm_votes": 634,
-      "postal_votes": 24,
-      "total_votes": 658,
-      "won": 0
-    },
-    {
-      "constituency_no": 56,
-      "serial_no": 7,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 425,
-      "postal_votes": 19,
-      "total_votes": 444,
-      "won": 0
-    },
-    {
-      "constituency_no": 57,
-      "serial_no": 1,
-      "candidate": "Malina Debnath",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 18674,
-      "postal_votes": 416,
-      "total_votes": 19090,
-      "won": 0
-    },
-    {
-      "constituency_no": 57,
-      "serial_no": 2,
-      "candidate": "Sailendra Chandra Nath",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 18990,
-      "postal_votes": 396,
-      "total_votes": 19386,
-      "won": 1
-    },
-    {
-      "constituency_no": 57,
-      "serial_no": 3,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 839,
-      "postal_votes": 14,
-      "total_votes": 853,
-      "won": 0
-    },
-    {
-      "constituency_no": 58,
-      "serial_no": 1,
-      "candidate": "Binay Bhushan Das",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 15463,
-      "postal_votes": 282,
-      "total_votes": 15745,
-      "won": 1
-    },
-    {
-      "constituency_no": 58,
-      "serial_no": 2,
-      "candidate": "Sital Das",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 12971,
-      "postal_votes": 276,
-      "total_votes": 13247,
-      "won": 0
-    },
-    {
-      "constituency_no": 58,
-      "serial_no": 3,
-      "candidate": "Joy Chuangthang Halam",
-      "party": "Tipra Motha Party",
-      "evm_votes": 7480,
-      "postal_votes": 132,
-      "total_votes": 7612,
-      "won": 0
-    },
-    {
-      "constituency_no": 58,
-      "serial_no": 4,
-      "candidate": "Arun Nath",
-      "party": "Independent",
-      "evm_votes": 642,
-      "postal_votes": 6,
-      "total_votes": 648,
-      "won": 0
-    },
-    {
-      "constituency_no": 58,
-      "serial_no": 5,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 587,
-      "postal_votes": 4,
-      "total_votes": 591,
-      "won": 0
-    },
-    {
-      "constituency_no": 59,
-      "serial_no": 1,
-      "candidate": "PURNITA CHAKMA",
-      "party": "All India Trinamool Congress",
-      "evm_votes": 757,
-      "postal_votes": 10,
-      "total_votes": 767,
-      "won": 0
-    },
-    {
-      "constituency_no": 59,
-      "serial_no": 2,
-      "candidate": "SADHAN KUMAR CHAKMA",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 9614,
-      "postal_votes": 194,
-      "total_votes": 9808,
-      "won": 0
-    },
-    {
-      "constituency_no": 59,
-      "serial_no": 3,
-      "candidate": "SANTANA CHAKMA",
-      "party": "Bharatiya Janata Party",
-      "evm_votes": 17523,
-      "postal_votes": 258,
-      "total_votes": 17781,
-      "won": 1
-    },
-    {
-      "constituency_no": 59,
-      "serial_no": 4,
-      "candidate": "HOLLYWOOD CHAKMA",
-      "party": "Tipra Motha Party",
-      "evm_votes": 9443,
-      "postal_votes": 201,
-      "total_votes": 9644,
-      "won": 0
-    },
-    {
-      "constituency_no": 59,
-      "serial_no": 5,
-      "candidate": "KARNADHAN CHAKMA",
-      "party": "Independent",
-      "evm_votes": 549,
-      "postal_votes": 2,
-      "total_votes": 551,
-      "won": 0
-    },
-    {
-      "constituency_no": 59,
-      "serial_no": 6,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 523,
-      "postal_votes": 4,
-      "total_votes": 527,
-      "won": 0
-    },
-    {
-      "constituency_no": 60,
-      "serial_no": 1,
-      "candidate": "PREM KUMAR REANG",
-      "party": "Indigenous People's Front of Tripura",
-      "evm_votes": 3409,
-      "postal_votes": 36,
-      "total_votes": 3445,
-      "won": 0
-    },
-    {
-      "constituency_no": 60,
-      "serial_no": 2,
-      "candidate": "RAJENDRA REANG",
-      "party": "Communist Party of India  (Marxist)",
-      "evm_votes": 10128,
-      "postal_votes": 394,
-      "total_votes": 10522,
-      "won": 0
-    },
-    {
-      "constituency_no": 60,
-      "serial_no": 3,
-      "candidate": "PHILIP KUMAR REANG",
-      "party": "Tipra Motha Party",
-      "evm_votes": 14989,
-      "postal_votes": 424,
-      "total_votes": 15413,
-      "won": 1
-    },
-    {
-      "constituency_no": 60,
-      "serial_no": 4,
-      "candidate": "SHANKAR REANG",
-      "party": "Tipraland State Party",
-      "evm_votes": 1425,
-      "postal_votes": 29,
-      "total_votes": 1454,
-      "won": 0
-    },
-    {
-      "constituency_no": 60,
-      "serial_no": 5,
-      "candidate": "INDRAKHELA CHAKMA",
-      "party": "Independent",
-      "evm_votes": 792,
-      "postal_votes": 4,
-      "total_votes": 796,
-      "won": 0
-    },
-    {
-      "constituency_no": 60,
-      "serial_no": 6,
-      "candidate": "BIMANJOY REANG",
-      "party": "Independent",
-      "evm_votes": 9770,
-      "postal_votes": 244,
-      "total_votes": 10014,
-      "won": 0
-    },
-    {
-      "constituency_no": 60,
-      "serial_no": 7,
-      "candidate": "NOTA",
-      "party": "None of the Above",
-      "evm_votes": 643,
-      "postal_votes": 8,
-      "total_votes": 651,
-      "won": 0
-    }
-  ],
-  "total_acs": 60,
-  "total_candidates": 319,
-  "parties": [
-    "All India Forward Bloc",
-    "All India Trinamool Congress",
-    "Bharatiya Janata Party",
-    "Communist Party of India",
-    "Communist Party of India  (Marxist)",
-    "Communist Party of India  (Marxist-Leninist)  (Liberation)",
-    "Independent",
-    "Indian National Congress",
-    "Indigenous People's Front of Tripura",
-    "Nationalist Citizens Party of India",
-    "None of the Above",
-    "Republican Party of India (A)",
-    "Republican Party of India (Athawale)",
-    "Revolutionary Socialist Party",
-    "Tipra Motha Party",
-    "Tipraland State Party",
-    "Tripura Peoples Party"
-  ]
+    "election_year": 2023,
+    "election_type": "Assembly",
+    "election_state": "TR",
+    "title": "Tripura Assembly Election 2023",
+    "election_id": "AC-2023-03",
+    "constituencywise_results": [
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "1",
+                "constituency": "SIMNA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Kumodh Debbarma",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "5679",
+                        "postal_votes": "132"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Binod Debbarma",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "5577",
+                        "postal_votes": "86"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Brishaketu Debbarma",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "22164",
+                        "postal_votes": "593"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Jiten Debbarma",
+                        "party": "Independent",
+                        "evm_votes": "414",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "421",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "2",
+                "constituency": "MOHANPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Prasanta Sen Chowdhury",
+                        "party": "Indian National Congress",
+                        "evm_votes": "10301",
+                        "postal_votes": "287"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ratan Lal Nath",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "19128",
+                        "postal_votes": "535"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Tapas Dey",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "11781",
+                        "postal_votes": "497"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Joy Kumar Deb",
+                        "party": "Independent",
+                        "evm_votes": "479",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "349",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "3",
+                "constituency": "BAMUTIA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Krishnadhan Das",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17665",
+                        "postal_votes": "428"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Nayan Sarkar",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "19519",
+                        "postal_votes": "600"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Nihar Ranjan Sarkar",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "613",
+                        "postal_votes": "22"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Nitai Sarkar",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "3309",
+                        "postal_votes": "169"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Babul Bairagi",
+                        "party": "Independent",
+                        "evm_votes": "162",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Biplab Das",
+                        "party": "Independent",
+                        "evm_votes": "400",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "459",
+                        "postal_votes": "14"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "4",
+                "constituency": "BARJALA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Dr. Dilip Kumar Das",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "19207",
+                        "postal_votes": "490"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Sudip Sarkar",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "20953",
+                        "postal_votes": "533"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "973",
+                        "postal_votes": "28"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "5",
+                "constituency": "KHAYERPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Tejen Das",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "821",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Pabitra Kar",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "17816",
+                        "postal_votes": "527"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Ratan Chakraborty",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "21989",
+                        "postal_votes": "464"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Lakshmi Nag (Barman)",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "4985",
+                        "postal_votes": "162"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "513",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "6",
+                "constituency": "AGARTALA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Papia Dutta",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17338",
+                        "postal_votes": "935"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Sudip Roy Barman",
+                        "party": "Indian National Congress",
+                        "evm_votes": "25877",
+                        "postal_votes": "558"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Arnab Roy",
+                        "party": "Republican Party of India (A)",
+                        "evm_votes": "216",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Goutam Deb",
+                        "party": "Independent",
+                        "evm_votes": "253",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Mangal Mia",
+                        "party": "Independent",
+                        "evm_votes": "104",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Malin Debbarma",
+                        "party": "Independent",
+                        "evm_votes": "232",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "537",
+                        "postal_votes": "25"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "7",
+                "constituency": "RAMNAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "PUJAN BISWAS",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "2042",
+                        "postal_votes": "37"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SURAJIT DATTA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "16822",
+                        "postal_votes": "633"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Dulal Ghosh",
+                        "party": "Independent",
+                        "evm_votes": "990",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "PURUSHUTTAM ROY BARMAN",
+                        "party": "Independent",
+                        "evm_votes": "15780",
+                        "postal_votes": "778"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "650",
+                        "postal_votes": "35"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "8",
+                "constituency": "TOWN BARDOWALI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ANANTA BANERJEE",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "623",
+                        "postal_votes": "16"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ASISH KUMAR SAHA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "17551",
+                        "postal_votes": "778"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MANIK SAHA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "18731",
+                        "postal_votes": "855"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ARNAB ROY",
+                        "party": "Republican Party of India (A)",
+                        "evm_votes": "125",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "RAMKRISHNA DEBNATH",
+                        "party": "Independent",
+                        "evm_votes": "197",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "SHIBANI BHOWMIK",
+                        "party": "Independent",
+                        "evm_votes": "111",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "335",
+                        "postal_votes": "16"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "9",
+                "constituency": "BANAMALIPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "GOPAL CHANDRA ROY",
+                        "party": "Indian National Congress",
+                        "evm_votes": "16500",
+                        "postal_votes": "628"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "RAJIB BHATTACHARJEE",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "15247",
+                        "postal_votes": "512"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SANTANU SAHA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "716",
+                        "postal_votes": "16"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Brajalal Debnath",
+                        "party": "Independent",
+                        "evm_votes": "161",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SUJATA DATTA",
+                        "party": "Independent",
+                        "evm_votes": "285",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "450",
+                        "postal_votes": "29"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "10",
+                "constituency": "MAJLISHPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Nirmal Majumder",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "597",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Sanjoy Das",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "15579",
+                        "postal_votes": "598"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Sushanta Chowdhury",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "20832",
+                        "postal_votes": "517"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Samir Basu",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "6658",
+                        "postal_votes": "338"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "486",
+                        "postal_votes": "6"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "11",
+                "constituency": "MANDAIBAZAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Tarit Debbarma",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "6444",
+                        "postal_votes": "159"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Radhacharan Debbarma",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "6880",
+                        "postal_votes": "197"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Swapna Debbarma",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "27876",
+                        "postal_votes": "850"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Hiramuni Debbarma",
+                        "party": "Independent",
+                        "evm_votes": "441",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "440",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "12",
+                "constituency": "TAKARJALA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Bidhan DebBarma",
+                        "party": "Indigenous People's Front of Tripura",
+                        "evm_votes": "2233",
+                        "postal_votes": "29"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Shyamal Debbarma",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "1746",
+                        "postal_votes": "50"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Ananta DebBarma",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "539",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Biswajit Kalai",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "33684",
+                        "postal_votes": "1033"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "673",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "13",
+                "constituency": "PRATAPGARH",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "KUHELI DAS",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1172",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "RAMU DAS",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "25903",
+                        "postal_votes": "519"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "REBATI MOHAN DAS",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "23871",
+                        "postal_votes": "465"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ASHOK KUMAR DAS",
+                        "party": "Independent",
+                        "evm_votes": "747",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "541",
+                        "postal_votes": "14"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "14",
+                "constituency": "BADHARGHAT",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Mina Rani Sarkar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "26629",
+                        "postal_votes": "798"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Partha Ranjan Sarkar",
+                        "party": "All India Forward Bloc",
+                        "evm_votes": "25289",
+                        "postal_votes": "849"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Mridul Kanti Sarkar",
+                        "party": "Independent",
+                        "evm_votes": "709",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Sushil Chandra Das",
+                        "party": "Independent",
+                        "evm_votes": "1026",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "685",
+                        "postal_votes": "35"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "15",
+                "constituency": "KAMALASAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Antara Sarkar Deb",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "18551",
+                        "postal_votes": "501"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Sutapa Ghosh",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "844",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Hiranmay Narayan Debnath",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "16851",
+                        "postal_votes": "457"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Ashis Das",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "2244",
+                        "postal_votes": "67"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "663",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "16",
+                "constituency": "BISHALGARH",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Partha Pratim Majumder",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "20270",
+                        "postal_votes": "718"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Sushanta Deb",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "21738",
+                        "postal_votes": "576"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Haradhan Deb nath",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "590",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Md. Saha Alam Miah",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "1532",
+                        "postal_votes": "74"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "469",
+                        "postal_votes": "9"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "17",
+                "constituency": "GOLAGHATI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Brinda Rani DebBarma",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "7409",
+                        "postal_votes": "197"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Himani Debbarma",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10425",
+                        "postal_votes": "177"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Amit Kumar Debbarma",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "445",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Manab Debbarma",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "19175",
+                        "postal_votes": "625"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "518",
+                        "postal_votes": "6"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "18",
+                "constituency": "SURYAMANINAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "RAM PRASAD PAUL",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "24416",
+                        "postal_votes": "575"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SUSANTA CHAKRABORTY",
+                        "party": "Indian National Congress",
+                        "evm_votes": "22487",
+                        "postal_votes": "596"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "BIPLAB MAJUMDER",
+                        "party": "Independent",
+                        "evm_votes": "492",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Mohanta Barman",
+                        "party": "Independent",
+                        "evm_votes": "751",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "723",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "19",
+                "constituency": "CHARILAM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Ashok Deb Barma",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9335",
+                        "postal_votes": "292"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Jishnu Dev Varma",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "12554",
+                        "postal_votes": "245"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Subodh Deb Barma",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "13205",
+                        "postal_votes": "452"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "490",
+                        "postal_votes": "6"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "20",
+                "constituency": "BOXANAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Joydal Hossain",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "909",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Tafajjal Hossain",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "14334",
+                        "postal_votes": "221"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Samsul Haque",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "18965",
+                        "postal_votes": "439"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Abu Khayer Miah",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "2955",
+                        "postal_votes": "55"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Safiqul Islam",
+                        "party": "Independent",
+                        "evm_votes": "316",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "341",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "21",
+                "constituency": "NALCHAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Kishor Barman",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "20361",
+                        "postal_votes": "475"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Tapan Ch. Das",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "17853",
+                        "postal_votes": "599"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Lutan Das",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "870",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Bimal Das",
+                        "party": "Independent",
+                        "evm_votes": "483",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Sunil Chandra Das",
+                        "party": "Independent",
+                        "evm_votes": "319",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "717",
+                        "postal_votes": "8"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "22",
+                "constituency": "SONAMURA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Debabrata Bhattacharjee",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17175",
+                        "postal_votes": "449"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Neel Kamal Saha",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1037",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Shyamal Chakraborty",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "19502",
+                        "postal_votes": "537"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Premjit Sinha",
+                        "party": "Independent",
+                        "evm_votes": "376",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "610",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "23",
+                "constituency": "DHANPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Kaushik Chanda",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "15334",
+                        "postal_votes": "314"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Pratima Bhoumik",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "18774",
+                        "postal_votes": "374"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Habil Mia",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "647",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Amiya Dayal Noatia",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "8457",
+                        "postal_votes": "214"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Bappi Debnath",
+                        "party": "Independent",
+                        "evm_votes": "258",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Rakesh Sukla Das",
+                        "party": "Independent",
+                        "evm_votes": "404",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "535",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "24",
+                "constituency": "RAMCHANDRAGHAT",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Prasanta Debbarma",
+                        "party": "Indigenous People's Front of Tripura",
+                        "evm_votes": "919",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ranjit Debbarma",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "6791",
+                        "postal_votes": "150"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Ranjit Debbarma",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "22444",
+                        "postal_votes": "699"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Sanjib Debbarma",
+                        "party": "Independent",
+                        "evm_votes": "5930",
+                        "postal_votes": "80"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Sahajit Debbarma",
+                        "party": "Independent",
+                        "evm_votes": "598",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "391",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "25",
+                "constituency": "KHOWAI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Nirmal Biswas",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "18946",
+                        "postal_votes": "750"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Subrata Majumdar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "18242",
+                        "postal_votes": "414"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Kishore Roy",
+                        "party": "Independent",
+                        "evm_votes": "662",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "571",
+                        "postal_votes": "16"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "26",
+                "constituency": "ASHARAMBARI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Jayanti Deb Barma",
+                        "party": "Indigenous People's Front of Tripura",
+                        "evm_votes": "5478",
+                        "postal_votes": "32"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Dilip Debbarma",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "4328",
+                        "postal_votes": "92"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Animesh Debbarma",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "23329",
+                        "postal_votes": "509"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Archana Urang",
+                        "party": "Independent",
+                        "evm_votes": "1123",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Jappu DebBarma",
+                        "party": "Independent",
+                        "evm_votes": "432",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "488",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "27",
+                "constituency": "KALYANPUR-PRAMODNAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Pinaki Das Chowdhury",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17554",
+                        "postal_votes": "349"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Manindra Chandra Das",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "10658",
+                        "postal_votes": "323"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Manihar Debbarma",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "10938",
+                        "postal_votes": "352"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Nagendra Chandra Shil",
+                        "party": "Independent",
+                        "evm_votes": "526",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "371",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "28",
+                "constituency": "TELIAMURA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ASHOK KR. BAIDYA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "12118",
+                        "postal_votes": "485"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "KALYANI SAHA ROY",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "16136",
+                        "postal_votes": "619"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RABI CHOWDHURY",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "557",
+                        "postal_votes": "18"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ABHIJIT SARKAR",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "8455",
+                        "postal_votes": "449"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Narayan Debnath",
+                        "party": "Independent",
+                        "evm_votes": "591",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "347",
+                        "postal_votes": "11"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "29",
+                "constituency": "KRISHNAPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BIKASH DEBBARMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "13466",
+                        "postal_votes": "334"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SWASTI DEBBARMA",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "8397",
+                        "postal_votes": "282"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MAHENDRA DEBBARMA",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "10849",
+                        "postal_votes": "313"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ATUL DEBBARMA",
+                        "party": "Independent",
+                        "evm_votes": "398",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "467",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "30",
+                "constituency": "BAGMA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Naresh Chandra Jamatia",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "12315",
+                        "postal_votes": "298"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ram Pada Jamatia",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "19158",
+                        "postal_votes": "324"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Purna Ch. Jamatia",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "16860",
+                        "postal_votes": "539"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "785",
+                        "postal_votes": "8"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "31",
+                "constituency": "RADHAKISHORPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Pranajit Singha Roy",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "23668",
+                        "postal_votes": "753"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Partha Karmakar",
+                        "party": "Communist Party of India  (Marxist-Leninist)  (Liberation)",
+                        "evm_votes": "942",
+                        "postal_votes": "78"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Srikanta Datta",
+                        "party": "Revolutionary Socialist Party",
+                        "evm_votes": "16367",
+                        "postal_votes": "640"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Bibhu lal Dey",
+                        "party": "Independent",
+                        "evm_votes": "372",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Ratan Debbarma",
+                        "party": "Independent",
+                        "evm_votes": "154",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "552",
+                        "postal_votes": "16"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "32",
+                "constituency": "MATARBARI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Abhishek Debroy",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "25051",
+                        "postal_votes": "443"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Pranajit Roy",
+                        "party": "Indian National Congress",
+                        "evm_votes": "16008",
+                        "postal_votes": "445"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Biralal Noatia",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "6920",
+                        "postal_votes": "181"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Tarmin Uddin",
+                        "party": "Independent",
+                        "evm_votes": "307",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "566",
+                        "postal_votes": "10"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "33",
+                "constituency": "KAKRABAN-SHALGARA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Jitendra Majumder",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "23180",
+                        "postal_votes": "445"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ratan Kr. Bhowmik",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "17994",
+                        "postal_votes": "580"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Kshir Mohan Das",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "5719",
+                        "postal_votes": "177"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Uttam Das",
+                        "party": "Independent",
+                        "evm_votes": "313",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "635",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "34",
+                "constituency": "RAJNAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "SUDHAN DAS",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "19065",
+                        "postal_votes": "449"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SWAPNA MAJUMDER",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "20517",
+                        "postal_votes": "332"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "ABHIJIT MALAKAR",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "2234",
+                        "postal_votes": "33"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "731",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "35",
+                "constituency": "BELONIA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "GOUTAM SARKAR",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "19104",
+                        "postal_votes": "509"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DILIP KUMAR CHOWDHURY",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "748",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "DIPANKAR SEN",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "19319",
+                        "postal_votes": "697"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "GOURI SANKAR NANDI",
+                        "party": "Independent",
+                        "evm_votes": "400",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "655",
+                        "postal_votes": "15"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "36",
+                "constituency": "SANTIRBAZAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "NARENDRA REANG",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "693",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "PRAMOD REANG",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "18284",
+                        "postal_votes": "425"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SATYAJIT REANG",
+                        "party": "Communist Party of India",
+                        "evm_votes": "11728",
+                        "postal_votes": "335"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "HARENDRA REANG",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "14260",
+                        "postal_votes": "355"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "629",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "37",
+                "constituency": "HRISHYAMUKH",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ASOKE CH. MITRA",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "19456",
+                        "postal_votes": "530"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DIPAYAN CHOUDHURY",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "18196",
+                        "postal_votes": "372"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "ARUP DEB",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "3790",
+                        "postal_votes": "66"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "690",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "38",
+                "constituency": "JOLAIBARI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "KANGJARI MOG",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1110",
+                        "postal_votes": "21"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DEBENDRA TRIPURA",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "16808",
+                        "postal_votes": "438"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SUKLA CHARAN NOATIA",
+                        "party": "Indigenous People's Front of Tripura",
+                        "evm_votes": "17316",
+                        "postal_votes": "305"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "GAURAB MOG CHOUDHURY",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "8679",
+                        "postal_votes": "154"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "877",
+                        "postal_votes": "11"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "39",
+                "constituency": "MANU",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Pravat Chowdhury",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "14452",
+                        "postal_votes": "470"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Mailafru Mog",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "15191",
+                        "postal_votes": "278"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Dhananjoy Tripura",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "13443",
+                        "postal_votes": "207"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "786",
+                        "postal_votes": "8"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "40",
+                "constituency": "SABROOM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Jitendra Chaudhury",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "21196",
+                        "postal_votes": "605"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Sankar Roy",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "20942",
+                        "postal_votes": "463"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "1248",
+                        "postal_votes": "17"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "41",
+                "constituency": "AMPINAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "PARIKHIT KALAI",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "3999",
+                        "postal_votes": "152"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "PATAL KANYA JAMATIA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9202",
+                        "postal_votes": "137"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SINDHU CHANDRA JAMATIA",
+                        "party": "Indigenous People's Front of Tripura",
+                        "evm_votes": "2057",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "PATHAN LAL JAMATIA",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "21006",
+                        "postal_votes": "519"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "PABITRA MOHAN JAMATIA",
+                        "party": "Independent",
+                        "evm_votes": "319",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "340",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "42",
+                "constituency": "AMARPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Parimal Debnath",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "12851",
+                        "postal_votes": "544"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Biplab Kumar Saha",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "422",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Ranjit Das",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17497",
+                        "postal_votes": "492"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Amal Majumder",
+                        "party": "Republican Party of India (A)",
+                        "evm_votes": "271",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Ashiram Reang",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "7857",
+                        "postal_votes": "259"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Anil Reang",
+                        "party": "Independent",
+                        "evm_votes": "135",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "341",
+                        "postal_votes": "9"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "43",
+                "constituency": "KARBOOK",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Ashim Kumar Tripura",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "12030",
+                        "postal_votes": "170"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Priyamani Debbarma",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "6761",
+                        "postal_votes": "173"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Milton Chakma",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "672",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Sanjoy Manik Tripura",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "16235",
+                        "postal_votes": "412"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "622",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "44",
+                "constituency": "RAIMA VALLEY",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Pabin Tripura",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "10987",
+                        "postal_votes": "352"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Bikash Chakma",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "15494",
+                        "postal_votes": "333"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Nandita Debbarma(Reang)",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "18772",
+                        "postal_votes": "497"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "952",
+                        "postal_votes": "6"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "45",
+                "constituency": "KAMALPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "MANOJ KANTI DEB",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17788",
+                        "postal_votes": "499"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "RUBI GHOSH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "12682",
+                        "postal_votes": "345"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SUMEN DEY",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "607",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "MERI DEBBARMA",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "7283",
+                        "postal_votes": "251"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "PREMTOSH DEB",
+                        "party": "Independent",
+                        "evm_votes": "497",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "517",
+                        "postal_votes": "17"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "46",
+                "constituency": "SURMA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ANJAN DAS",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "12038",
+                        "postal_votes": "437"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ARJUN NAMASUDRA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "596",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SWAPNA DAS PAUL",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "16886",
+                        "postal_votes": "427"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SHYAMAL SARKAR",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "11036",
+                        "postal_votes": "431"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NIRANJAN DAS",
+                        "party": "Independent",
+                        "evm_votes": "308",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "PRANESH DAS",
+                        "party": "Independent",
+                        "evm_votes": "414",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "370",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "47",
+                "constituency": "AMBASSA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Amalendu DebBarma",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "12964",
+                        "postal_votes": "409"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Chandan Mog Choudhury",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "728",
+                        "postal_votes": "23"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Suchitra Debbarma",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "14508",
+                        "postal_votes": "316"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Chitta Ranjan Debbarma",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "14813",
+                        "postal_votes": "504"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Karna dhan Chakma",
+                        "party": "Independent",
+                        "evm_votes": "814",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Krishna Kumar DebBarma",
+                        "party": "Independent",
+                        "evm_votes": "375",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "573",
+                        "postal_votes": "10"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "48",
+                "constituency": "KARAMCHARA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Dibachandra Hrangkhawl",
+                        "party": "Indian National Congress",
+                        "evm_votes": "7182",
+                        "postal_votes": "162"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Braja Lal Tripura",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9751",
+                        "postal_votes": "150"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Paul Dangshu",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "20038",
+                        "postal_votes": "458"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Bishwanath Debbarma",
+                        "party": "Tripura Peoples Party",
+                        "evm_votes": "394",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Indrakhela Chakma",
+                        "party": "Independent",
+                        "evm_votes": "363",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "360",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "49",
+                "constituency": "CHAWMANU",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Jiban Mohan Tripura",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "7172",
+                        "postal_votes": "230"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Rupayan Chakma",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "562",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Sambhu Lal Chakma",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "16278",
+                        "postal_votes": "366"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Barjeda Tripura",
+                        "party": "Nationalist Citizens Party of India",
+                        "evm_votes": "535",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Hangsa Kumar Tripura",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "13432",
+                        "postal_votes": "313"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Tushar Kanti Chakma",
+                        "party": "Independent",
+                        "evm_votes": "379",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "495",
+                        "postal_votes": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "50",
+                "constituency": "PABIACHARA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BHAGABAN CHANDRA DAS",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "19224",
+                        "postal_votes": "318"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SATYABAN DAS",
+                        "party": "Indian National Congress",
+                        "evm_votes": "18751",
+                        "postal_votes": "383"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "GOBINDA DAS",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "4201",
+                        "postal_votes": "130"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ARJUN NAMA",
+                        "party": "Independent",
+                        "evm_votes": "452",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "477",
+                        "postal_votes": "13"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "51",
+                "constituency": "FATIKROY",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Sudhangshu Das",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "19301",
+                        "postal_votes": "269"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Subrata Das",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "14233",
+                        "postal_votes": "225"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Bilas Bindu Malakar",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "4183",
+                        "postal_votes": "115"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Sajal Das",
+                        "party": "Tripura Peoples Party",
+                        "evm_votes": "230",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Pranesh Das",
+                        "party": "Independent",
+                        "evm_votes": "256",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "349",
+                        "postal_votes": "9"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "52",
+                "constituency": "CHANDIPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Krishnendu Choudhury",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "16565",
+                        "postal_votes": "253"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Tinku Roy",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17185",
+                        "postal_votes": "210"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Bidyut Bikas Sinha",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "576",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Ranjan Singha",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "5187",
+                        "postal_votes": "192"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "579",
+                        "postal_votes": "8"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "53",
+                "constituency": "KAILASHAHAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Md. Abdul Matin",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "692",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Birajit Sinha",
+                        "party": "Indian National Congress",
+                        "evm_votes": "24785",
+                        "postal_votes": "515"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Moboshar Ali",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "15260",
+                        "postal_votes": "354"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Jahangir Ali",
+                        "party": "Nationalist Citizens Party of India",
+                        "evm_votes": "285",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "527",
+                        "postal_votes": "10"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "54",
+                "constituency": "KADAMTALA-KURTI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Abdul Hasim",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1058",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Islam Uddin",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "19802",
+                        "postal_votes": "210"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Dilip Tanti",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17925",
+                        "postal_votes": "195"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Gopal Krishna Deb",
+                        "party": "Independent",
+                        "evm_votes": "634",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "476",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "55",
+                "constituency": "BAGBASSA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Bijita Nath",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "17140",
+                        "postal_votes": "304"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Bimal Nath",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "724",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Jadab Lal Debnath",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "18586",
+                        "postal_votes": "319"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Kalpana Sinha",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "2205",
+                        "postal_votes": "76"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "508",
+                        "postal_votes": "9"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "56",
+                "constituency": "DHARMANAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Chayan Bhattacharya",
+                        "party": "Indian National Congress",
+                        "evm_votes": "17178",
+                        "postal_votes": "408"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Biswa Bandhu Sen",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "18134",
+                        "postal_votes": "550"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Narendu Das",
+                        "party": "Independent",
+                        "evm_votes": "158",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Bibash Ranjan Das",
+                        "party": "Independent",
+                        "evm_votes": "199",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Sanjay Chaudhury",
+                        "party": "Independent",
+                        "evm_votes": "128",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Saurabh Goswami",
+                        "party": "Independent",
+                        "evm_votes": "634",
+                        "postal_votes": "24"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "425",
+                        "postal_votes": "19"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "57",
+                "constituency": "JUBARAJNAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Malina Debnath",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "18674",
+                        "postal_votes": "416"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Sailendra Chandra Nath",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "18990",
+                        "postal_votes": "396"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "839",
+                        "postal_votes": "14"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "58",
+                "constituency": "PANISAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Binay Bhushan Das",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "15463",
+                        "postal_votes": "282"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Sital Das",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "12971",
+                        "postal_votes": "276"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Joy Chuangthang Halam",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "7480",
+                        "postal_votes": "132"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Arun Nath",
+                        "party": "Independent",
+                        "evm_votes": "642",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "587",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "59",
+                "constituency": "PECHARTHAL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "PURNITA CHAKMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "757",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SADHAN KUMAR CHAKMA",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "9614",
+                        "postal_votes": "194"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SANTANA CHAKMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17523",
+                        "postal_votes": "258"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "HOLLYWOOD CHAKMA",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "9443",
+                        "postal_votes": "201"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "KARNADHAN CHAKMA",
+                        "party": "Independent",
+                        "evm_votes": "549",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "523",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "",
+            "voting_data": {
+                "constituency_no": "60",
+                "constituency": "KANCHANPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "PREM KUMAR REANG",
+                        "party": "Indigenous People's Front of Tripura",
+                        "evm_votes": "3409",
+                        "postal_votes": "36"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "RAJENDRA REANG",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "10128",
+                        "postal_votes": "394"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "PHILIP KUMAR REANG",
+                        "party": "Tipra Motha Party",
+                        "evm_votes": "14989",
+                        "postal_votes": "424"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SHANKAR REANG",
+                        "party": "Tipraland State Party",
+                        "evm_votes": "1425",
+                        "postal_votes": "29"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "INDRAKHELA CHAKMA",
+                        "party": "Independent",
+                        "evm_votes": "792",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "BIMANJOY REANG",
+                        "party": "Independent",
+                        "evm_votes": "9770",
+                        "postal_votes": "244"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "643",
+                        "postal_votes": "8"
+                    }
+                ]
+            }
+        }
+    ]
 }
