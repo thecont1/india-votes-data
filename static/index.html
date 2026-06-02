@@ -4155,7 +4155,7 @@ function drawSlopeChart(canvas, cands, theme) {
   const colRight = W - LABEL_W;
   const PAD_TOP = 52;
   const PAD_BOT = 24;
-  const H = Math.max(380, cands.length * 44 + PAD_TOP + PAD_BOT);
+  const H = Math.max(480, Math.round((window.innerHeight || 700) * 0.62));
 
   canvas.width = W * dpr;
   canvas.height = H * dpr;
@@ -4167,23 +4167,25 @@ function drawSlopeChart(canvas, cands, theme) {
   const byEVM = [...cands].sort((a, b) => b.evmVotes - a.evmVotes);
   const byCombined = [...cands].sort((a, b) => b.combinedVotes - a.combinedVotes);
   const N = cands.length;
-  // Proportional Y scale: vote count maps linearly to vertical position.
-  // Top of canvas = max votes, bottom = min votes — every line rises left→right
-  // since combined votes ≥ EVM votes (postal only adds).
-  const allVotes = cands.flatMap(c => [c.evmVotes, c.combinedVotes]);
-  const maxVotes = Math.max(...allVotes);
-  const minVotes = Math.min(...allVotes);
-  const ySpanMin = (minVotes > 0 && maxVotes / minVotes > 4) ? 0 : minVotes * 0.92;
-  const ySpanMax = maxVotes * 1.04;
-  const voteToY = (v) => {
-    const frac = (v - ySpanMin) / (ySpanMax - ySpanMin);
-    return (H - PAD_BOT) - frac * (H - PAD_BOT - PAD_TOP);
-  };
+  // Two-zone layout:
+  //   Left column  — EVM votes    — distributed in the BOTTOM half (y: midH+gap → H-PAD_BOT)
+  //   Right column — EVM+Postal  — distributed in the TOP half    (y: PAD_TOP → midH-gap)
+  // Every line therefore sweeps from bottom-left to top-right.
+  const midH = H / 2;
+  const gap = 12;
+  const leftTop = midH + gap;
+  const leftBot = H - PAD_BOT;
+  const leftStep = (leftBot - leftTop) / N;
+  const leftRankY = (i) => leftTop + (i + 0.5) * leftStep;
+
+  const rightTop = PAD_TOP;
+  const rightBot = midH - gap;
+  const rightStep = (rightBot - rightTop) / N;
+  const rightRankY = (i) => rightTop + (i + 0.5) * rightStep;
+
   const leftY = {}, rightY = {};
-  cands.forEach(c => {
-    leftY[c.candidate] = voteToY(c.evmVotes);
-    rightY[c.candidate] = voteToY(c.combinedVotes);
-  });
+  byEVM.forEach((c, i) => { leftY[c.candidate] = leftRankY(i); });
+  byCombined.forEach((c, i) => { rightY[c.candidate] = rightRankY(i); });
 
   ctx.clearRect(0, 0, W, H);
 
@@ -4228,9 +4230,9 @@ function drawSlopeChart(canvas, cands, theme) {
     ctx.restore();
   });
 
-  // Left column — sorted by EVM rank (rank 1 = most votes = top-left)
+  // Left column — sorted by EVM rank, placed in bottom half
   byEVM.forEach((c, i) => {
-    const y = voteToY(c.evmVotes);
+    const y = leftRankY(i);
     const isTop = i === 0;
     ctx.beginPath();
     ctx.arc(colLeft, y, isTop ? 6 : 4.5, 0, Math.PI * 2);
@@ -4252,9 +4254,9 @@ function drawSlopeChart(canvas, cands, theme) {
     ctx.fillText(c.evmVotes.toLocaleString('en-IN'), colLeft - 9, y + 8);
   });
 
-  // Right column — sorted by combined rank (rank 1 = most votes = top-right)
+  // Right column — sorted by combined rank, placed in top half
   byCombined.forEach((c, i) => {
-    const y = voteToY(c.combinedVotes);
+    const y = rightRankY(i);
     const evmRank = byEVM.findIndex(x => x.candidate === c.candidate);
     const isTop = i === 0;
     const movedUp = i < evmRank;
