@@ -4663,11 +4663,10 @@ function squarify(values, bounds) {
 
 function worstRatio(row, totalArea, side) {
   let worst = 0;
-  const rowLen = totalArea / side; // shared dimension (perpendicular to `side`)
-  if (rowLen <= 0) return Infinity;
   for (const item of row) {
-    const otherDim = item.area / rowLen; // individual dimension
-    const r = Math.max(rowLen / otherDim, otherDim / rowLen);
+    const w = item.area / (totalArea / side);
+    const h = totalArea / side > 0 ? totalArea / (totalArea / side) : 0;
+    const r = Math.max(w / (h || 1), (h || 1) / w);
     worst = Math.max(worst, r);
   }
   return worst;
