@@ -19,6 +19,7 @@ uv.lock
 archive/
 data/form20/
 data/election_results.*
+data/json/*.d1-progress.json
 
 # Wrangler local state
 .wrangler/
