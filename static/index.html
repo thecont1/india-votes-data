@@ -4329,9 +4329,37 @@ function renderVoteShare() {
 
   if (items.length === 0) return;
 
-  // Squarified treemap layout — centered with padding
-  const bounds = { x: PAD, y: PAD, w: W - PAD * 2, h: H - PAD * 2 };
+  // Squarified treemap layout — fill canvas, then center
+  const bounds = { x: 0, y: 0, w: W, h: H };
   const rects = squarify(items.map(i => i.value), bounds);
+
+  // Post-process: ensure minimum 1px, clamp to canvas, center if gaps
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (const r of rects) {
+    if (!r) continue;
+    r.x = Math.max(0, r.x);
+    r.y = Math.max(0, r.y);
+    r.w = Math.max(1, Math.min(r.w, W - r.x));
+    r.h = Math.max(1, Math.min(r.h, H - r.y));
+    minX = Math.min(minX, r.x);
+    minY = Math.min(minY, r.y);
+    maxX = Math.max(maxX, r.x + r.w);
+    maxY = Math.max(maxY, r.y + r.h);
+  }
+  const usedW = maxX - minX;
+  const usedH = maxY - minY;
+  const offX = (W - usedW) / 2 - minX;
+  const offY = (H - usedH) / 2 - minY;
+  for (const r of rects) {
+    if (!r) continue;
+    r.x += offX;
+    r.y += offY;
+    // Final clamp after centering
+    r.x = Math.max(0, r.x);
+    r.y = Math.max(0, r.y);
+    r.w = Math.min(r.w, W - r.x);
+    r.h = Math.min(r.h, H - r.y);
+  }
   items.forEach((item, i) => { item.rect = rects[i]; });
 
   // Track hovered item for highlight
@@ -4362,9 +4390,9 @@ function renderVoteShare() {
       ctx.fillRect(r.x, r.y, r.w, r.h);
     }
 
-    // Label
+    // Label (draw on every rectangle, even tiny ones)
     const minDim = Math.min(r.w, r.h);
-    if (minDim < 24) return;  // too small for text
+    if (minDim < 4) return;  // too small for any label
 
     const fontSize = minDim > 70 ? 15 : minDim > 45 ? 12 : 10;
     ctx.textAlign = 'center';
@@ -4414,7 +4442,7 @@ function renderVoteShare() {
       }
 
       const minDim = Math.min(r.w, r.h);
-      if (minDim < 24) return;
+      if (minDim < 4) return;
 
       const fontSize = minDim > 70 ? 15 : minDim > 45 ? 12 : 10;
       ctx.textAlign = 'center';
@@ -4523,51 +4551,33 @@ function renderVoteShare() {
     tooltipEl.style.pointerEvents = 'none';
   }
 
-  // Click handling — same forgiving detection
+  // Click handling — strict containment
   canvas.onclick = (e) => {
     const mx = e.offsetX;
     const my = e.offsetY;
     let hit = null;
-    let minDist = Infinity;
     for (const item of items) {
       const r = item.rect;
       if (!r) continue;
-      if (mx >= r.x && mx <= r.x + r.w && my >= r.y && my <= r.y + r.h) {
+      if (mx >= r.x && mx < r.x + r.w && my >= r.y && my < r.y + r.h) {
         hit = item;
         break;
-      }
-      const cx = Math.max(r.x, Math.min(mx, r.x + r.w));
-      const cy = Math.max(r.y, Math.min(my, r.y + r.h));
-      const dist = Math.hypot(mx - cx, my - cy);
-      if (dist < 12 && dist < minDist) {
-        minDist = dist;
-        hit = item;
       }
     }
     if (hit) showPartyDetail(hit.abv);
   };
 
-  // Tooltip on hover — forgiving hit detection for small rectangles
+  // Tooltip on hover — strict containment, works for every rectangle
   canvas.onmousemove = (e) => {
     const mx = e.offsetX;
     const my = e.offsetY;
     let hit = null;
-    let minDist = Infinity;
     for (const item of items) {
       const r = item.rect;
       if (!r) continue;
-      // Strict containment
-      if (mx >= r.x && mx <= r.x + r.w && my >= r.y && my <= r.y + r.h) {
+      if (mx >= r.x && mx < r.x + r.w && my >= r.y && my < r.y + r.h) {
         hit = item;
         break;
-      }
-      // Proximity: nearest rect within 12px
-      const cx = Math.max(r.x, Math.min(mx, r.x + r.w));
-      const cy = Math.max(r.y, Math.min(my, r.y + r.h));
-      const dist = Math.hypot(mx - cx, my - cy);
-      if (dist < 12 && dist < minDist) {
-        minDist = dist;
-        hit = item;
       }
     }
     canvas.style.cursor = hit ? 'pointer' : 'default';
@@ -4653,10 +4663,11 @@ function squarify(values, bounds) {
 
 function worstRatio(row, totalArea, side) {
   let worst = 0;
+  const rowLen = totalArea / side; // shared dimension (perpendicular to `side`)
+  if (rowLen <= 0) return Infinity;
   for (const item of row) {
-    const w = item.area / (totalArea / side);
-    const h = totalArea / side > 0 ? totalArea / (totalArea / side) : 0;
-    const r = Math.max(w / (h || 1), (h || 1) / w);
+    const otherDim = item.area / rowLen; // individual dimension
+    const r = Math.max(rowLen / otherDim, otherDim / rowLen);
     worst = Math.max(worst, r);
   }
   return worst;
