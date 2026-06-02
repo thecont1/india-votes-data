@@ -3430,6 +3430,8 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
     // Update state bar to show only states in this election
     updateStateBarForElection(election.states);
     fetchStatus();
+    fetchData();
+    loadStateCharts();
   }
 });
 
