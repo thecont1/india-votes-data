@@ -9,14 +9,8 @@ export async function handleSearch(request, env) {
     return jsonResponse({ results: { candidate: [], constituency: [] }, query: q });
   }
 
-  // Get current election's sort_date for recency boost
-  const currentElection = await env.DB.prepare(
-    'SELECT sort_date FROM elections ORDER BY sort_date DESC LIMIT 1'
-  ).first();
-  const currentDate = currentElection?.sort_date || '';
-
-  // FTS5 trigram search with recency + votes ranking
-  // Candidates: current-election gets +1M head start, then sort by votes DESC
+  // FTS5 trigram search, sorted by votes DESC
+  // Candidates: sort by votes (final round vote count)
   // Constituencies: sort by total_votes DESC
   const rows = await env.DB.prepare(`
     SELECT cs.entity_type, cs.entity_id, cs.name, cs.context, cs.boost,
@@ -28,13 +22,12 @@ export async function handleSearch(request, env) {
       AND cs.entity_type IN ('candidate', 'constituency')
     ORDER BY
       CASE cs.entity_type
-        WHEN 'candidate' THEN
-          (CASE WHEN cs.election_sort >= ? THEN 1000000 ELSE 0 END) + cs.votes
+        WHEN 'candidate' THEN cs.votes
         WHEN 'constituency' THEN cs.total_votes
         ELSE 0
       END DESC
     LIMIT ?
-  `).bind(q, currentDate, limit).all();
+  `).bind(q, limit).all();
 
   // Group by entity_type
   const grouped = { candidate: [], constituency: [] };

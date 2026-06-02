@@ -1,11 +1,11 @@
 -- FTS5 Search Schema for LET Live!
 -- Trigram tokenizer for fuzzy matching of Indian names and party abbreviations
--- v4: Added symbol_url for party symbols in search results
+-- v5: Sort by votes earned; entity_id = state-ac-party
 
 -- Content table with ranking columns
 CREATE TABLE IF NOT EXISTS candidates_search (
     entity_type    TEXT NOT NULL,     -- 'candidate' | 'constituency'
-    entity_id      TEXT NOT NULL,     -- composite key for lookups
+    entity_id      TEXT NOT NULL,     -- composite key: state_code-ac_no-party_abv
     name           TEXT NOT NULL,     -- primary searchable text
     context        TEXT DEFAULT '',   -- secondary text (state, party, alliance)
     boost          REAL DEFAULT 1.0,  -- legacy ranking multiplier
