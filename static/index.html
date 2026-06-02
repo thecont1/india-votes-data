@@ -2930,8 +2930,6 @@
       <span class="race-sort-sep">|</span>
       <button class="race-sort-link" data-sort="margin-asc" type="button">Smallest Win Margin</button>
       <span class="race-sort-sep">|</span>
-      <button class="race-sort-link" data-sort="nota" type="button">Highest NOTA</button>
-      <span class="race-sort-sep">|</span>
       <button class="race-sort-link" data-sort="form20" type="button">Form 20 Priority</button>
     </div>
     <div class="race-controls-row">
@@ -4155,7 +4153,7 @@ function drawSlopeChart(canvas, cands, theme) {
   const colRight = W - LABEL_W;
   const PAD_TOP = 52;
   const PAD_BOT = 24;
-  const H = Math.max(480, Math.round((window.innerHeight || 700) * 0.62));
+  const H = Math.max(380, Math.round((window.innerHeight || 700) * 0.62) - 70);
 
   canvas.width = W * dpr;
   canvas.height = H * dpr;
@@ -4206,10 +4204,6 @@ function drawSlopeChart(canvas, cands, theme) {
   ctx.fillStyle = theme.label;
   ctx.fillText('EVM Votes', colLeft, 18);
   ctx.fillText('EVM+Postal', colRight, 18);
-  ctx.font = `400 ${isMobile ? 9 : 10}px ${theme.fontUi}`;
-  ctx.fillStyle = theme.muted;
-  ctx.fillText('Round 998', colLeft, 32);
-  ctx.fillText('Round 999', colRight, 32);
 
   // Connecting straight lines (draw under dots/labels)
   cands.forEach(c => {
@@ -4270,14 +4264,6 @@ function drawSlopeChart(canvas, cands, theme) {
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 1.5;
     ctx.stroke();
-
-    // Rank change arrow near the dot
-    if (evmRank !== i) {
-      ctx.textAlign = 'center';
-      ctx.font = `700 8px ${theme.fontUi}`;
-      ctx.fillStyle = movedUp ? '#22c55e' : '#ef4444';
-      ctx.fillText(movedUp ? '▲' : '▼', colRight, y - 12);
-    }
 
     const nameMax = LABEL_W - 14;
     const words = c.candidate.split(' ');
