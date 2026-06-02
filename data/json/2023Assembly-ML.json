@@ -1,0 +1,3420 @@
+{
+    "title": "GENERAL ELECTION TO VIDHAN SABHA TRENDS & RESULT MARCH-2023",
+    "election_id": "AC-2023-03",
+    "election_year": "2023",
+    "election_type": "Assembly",
+    "election_state": "ML",
+    "constituencywise_results": [
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS151.htm?ac=1",
+            "voting_data": {
+                "constituency_no": "1",
+                "constituency": "NARTIANG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DAWAN LYNGDOH",
+                        "party": "United Democratic Party",
+                        "evm_votes": "884",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "EMLANG LALOO",
+                        "party": "Indian National Congress",
+                        "evm_votes": "14683",
+                        "postal_votes": "163"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RIMIKI SARI",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "278",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SNIAWBHALANG DHAR",
+                        "party": "National People's Party",
+                        "evm_votes": "16601",
+                        "postal_votes": "368"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "GENEROUS PASLEIN",
+                        "party": "Independent",
+                        "evm_votes": "7357",
+                        "postal_votes": "47"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "432",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS152.htm?ac=2",
+            "voting_data": {
+                "constituency_no": "2",
+                "constituency": "JOWAI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ALLAN KEITH SUCHIANG",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "315",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "AWHAI ANDREW SHULLAI",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "10802",
+                        "postal_votes": "610"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "DANIEL DANN",
+                        "party": "Indian National Congress",
+                        "evm_votes": "210",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "MOONLIGHT PARIAT",
+                        "party": "United Democratic Party",
+                        "evm_votes": "9710",
+                        "postal_votes": "550"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "WAILADMIKI SHYLLA",
+                        "party": "National People's Party",
+                        "evm_votes": "13397",
+                        "postal_votes": "682"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "418",
+                        "postal_votes": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS153.htm?ac=3",
+            "voting_data": {
+                "constituency_no": "3",
+                "constituency": "RALIANG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "COMING ONE YMBON",
+                        "party": "National People's Party",
+                        "evm_votes": "13134",
+                        "postal_votes": "492"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "LAKHON BIAM",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8117",
+                        "postal_votes": "172"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RICHARD SINGH LYNGDOH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "4097",
+                        "postal_votes": "57"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ROBINUS SYNGKON",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1244",
+                        "postal_votes": "25"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SHEMHOK GAROD",
+                        "party": "People's Democratic Front",
+                        "evm_votes": "2444",
+                        "postal_votes": "69"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "J TREILANG SUCHIANG",
+                        "party": "United Democratic Party",
+                        "evm_votes": "5183",
+                        "postal_votes": "67"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "359",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS154.htm?ac=4",
+            "voting_data": {
+                "constituency_no": "4",
+                "constituency": "MOWKAIAW",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "CURRENTIS RABON",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "108",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "HABAHUN DKHAR",
+                        "party": "National People's Party",
+                        "evm_votes": "10420",
+                        "postal_votes": "187"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "LASTING SUCHIANG",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "858",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NEHEMAYAH TYNGKAN",
+                        "party": "Indian National Congress",
+                        "evm_votes": "10166",
+                        "postal_votes": "124"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NUJORKI SUNGOH",
+                        "party": "United Democratic Party",
+                        "evm_votes": "14137",
+                        "postal_votes": "371"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "360",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS155.htm?ac=5",
+            "voting_data": {
+                "constituency_no": "5",
+                "constituency": "SUTNGA SAIPUNG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "KRISON LANGSTANG",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "420",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SANTA MARY SHYLLA",
+                        "party": "National People's Party",
+                        "evm_votes": "16719",
+                        "postal_votes": "255"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SHITLANG PALE",
+                        "party": "United Democratic Party",
+                        "evm_votes": "10224",
+                        "postal_votes": "229"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "VINCENT .H. PALA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "14866",
+                        "postal_votes": "280"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "412",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS156.htm?ac=6",
+            "voting_data": {
+                "constituency_no": "6",
+                "constituency": "KHLIEHRIAT",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BHAYES CHYRMANG",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "170",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "JHANIKA SIANGSHAI",
+                        "party": "Indian National Congress",
+                        "evm_votes": "111",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "KYRMEN SHYLLA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "23011",
+                        "postal_votes": "503"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NEHLANG LYNGDOH",
+                        "party": "National People's Party",
+                        "evm_votes": "17519",
+                        "postal_votes": "389"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SUNIDA BAREH",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "109",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "DAMEWANHI L RYMBAI",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "851",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "112",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS157.htm?ac=7",
+            "voting_data": {
+                "constituency_no": "7",
+                "constituency": "AMLAREM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ALBAN K. GASHNGA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "99",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ARBIANGKAM KHARSOHMAT",
+                        "party": "Indian National Congress",
+                        "evm_votes": "132",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "FIRSTBORN MANNER",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "106",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "LAHKMEN RYMBUI",
+                        "party": "United Democratic Party",
+                        "evm_votes": "17457",
+                        "postal_votes": "346"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "STEPHANSON MUKHIM",
+                        "party": "National People's Party",
+                        "evm_votes": "17488",
+                        "postal_votes": "258"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "325",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS158.htm?ac=8",
+            "voting_data": {
+                "constituency_no": "8",
+                "constituency": "MAWHATI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BAIAHUNLANG MAKDOH",
+                        "party": "United Democratic Party",
+                        "evm_votes": "6494",
+                        "postal_votes": "62"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "CHARLES MARNGAR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "13104",
+                        "postal_votes": "169"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "EVALYNI KHARBANI",
+                        "party": "Hill State People’s Democratic Party",
+                        "evm_votes": "4569",
+                        "postal_votes": "21"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "DR. EVARIST MYRSING",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "1359",
+                        "postal_votes": "17"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "ROSWEL SHADAP",
+                        "party": "People's Democratic Front",
+                        "evm_votes": "553",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "DR. SARALIN DORPHANG",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "717",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "SHEMPHANG LYNGDOH",
+                        "party": "National People's Party",
+                        "evm_votes": "7945",
+                        "postal_votes": "84"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "OSBERT B. RYNJAH",
+                        "party": "Independent",
+                        "evm_votes": "204",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "190",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS159.htm?ac=9",
+            "voting_data": {
+                "constituency_no": "9",
+                "constituency": "NONGPOH",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "LONG SINGH BEY",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "639",
+                        "postal_votes": "22"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "MACDALYN SAWKMIE MAWLONG",
+                        "party": "National People's Party",
+                        "evm_votes": "7297",
+                        "postal_votes": "149"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MARIAN MARING",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "1055",
+                        "postal_votes": "24"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "MAYRALBORN SYIEM",
+                        "party": "United Democratic Party",
+                        "evm_votes": "14391",
+                        "postal_votes": "549"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "RONA KHYMDEIT",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8065",
+                        "postal_votes": "189"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "BISMO INGTIH",
+                        "party": "Independent",
+                        "evm_votes": "192",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "297",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1510.htm?ac=10",
+            "voting_data": {
+                "constituency_no": "10",
+                "constituency": "JIRANG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ADRIAN LAMBERT MYLLIEM",
+                        "party": "Indian National Congress",
+                        "evm_votes": "10948",
+                        "postal_votes": "119"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "BADHOK NONGMALIEH",
+                        "party": "United Democratic Party",
+                        "evm_votes": "4064",
+                        "postal_votes": "43"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RIYA SANGMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "2056",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SOSTHENES SOHTUN",
+                        "party": "National People's Party",
+                        "evm_votes": "12502",
+                        "postal_votes": "188"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SUNMOON D. MARAK",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "3905",
+                        "postal_votes": "23"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "SERIMINA D. MARAK",
+                        "party": "Republican Party of India (A)",
+                        "evm_votes": "173",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "FORCASTER NONGRANG",
+                        "party": "Independent",
+                        "evm_votes": "265",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "LEE TREVOR BAREH",
+                        "party": "Independent",
+                        "evm_votes": "219",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "314",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1511.htm?ac=11",
+            "voting_data": {
+                "constituency_no": "11",
+                "constituency": "UMSNING",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DR. CELESTINE LYNGDOH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9733",
+                        "postal_votes": "174"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DONLANG SOHKHLET",
+                        "party": "People's Democratic Front",
+                        "evm_votes": "576",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "DURUTH MAJAW",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "313",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "GILBERT NONGRUM",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "291",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "JASON SAWKMIE MAWLONG",
+                        "party": "National People's Party",
+                        "evm_votes": "7771",
+                        "postal_votes": "174"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "PRIMSON MAKDOH",
+                        "party": "Hill State People’s Democratic Party",
+                        "evm_votes": "351",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "SUNSHINE MAKRI",
+                        "party": "United Democratic Party",
+                        "evm_votes": "8591",
+                        "postal_votes": "152"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "DR. RICKY A. J. SYNGKON",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "5357",
+                        "postal_votes": "99"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "189",
+                        "postal_votes": "6"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1512.htm?ac=12",
+            "voting_data": {
+                "constituency_no": "12",
+                "constituency": "UMROI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BAIATEILANG LAPANG",
+                        "party": "People's Democratic Front",
+                        "evm_votes": "118",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DAMANBAIT LAMARE",
+                        "party": "National People's Party",
+                        "evm_votes": "14077",
+                        "postal_votes": "136"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "GEORGE B. LYNGDOH",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "12338",
+                        "postal_votes": "189"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SHANBOR RAMDE",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "396",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "STANLYWISS RYMBAI",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1057",
+                        "postal_votes": "24"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "197",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1513.htm?ac=13",
+            "voting_data": {
+                "constituency_no": "13",
+                "constituency": "MAWRYNGKNENG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BANSHANLANG LAWAI",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1526",
+                        "postal_votes": "33"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ESRON MARWEIN",
+                        "party": "Indian National Congress",
+                        "evm_votes": "408",
+                        "postal_votes": "25"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "HIGHLANDER KHARMALKI",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "941",
+                        "postal_votes": "27"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "OSAPHI SMITHSON JYRWA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "10008",
+                        "postal_votes": "174"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "PYNIAID SING SYIEM",
+                        "party": "National People's Party",
+                        "evm_votes": "9281",
+                        "postal_votes": "260"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "WYRAIWAN SOHTUN",
+                        "party": "Hill State People’s Democratic Party",
+                        "evm_votes": "134",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "HEAVING STONE KHARPRAN",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "11274",
+                        "postal_votes": "150"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "275",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1514.htm?ac=14",
+            "voting_data": {
+                "constituency_no": "14",
+                "constituency": "PYNTHORUMKHRAH",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ALEXANDER LALOO HEK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9040",
+                        "postal_votes": "281"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "PYNSHNGAINLANG SYIEM",
+                        "party": "Indian National Congress",
+                        "evm_votes": "6566",
+                        "postal_votes": "217"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RAYMOND BASAIAWMOIT",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "239",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ROCKY HEK",
+                        "party": "National People's Party",
+                        "evm_votes": "3277",
+                        "postal_votes": "79"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "MAYBORN GRACE LYNGDOH",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "5572",
+                        "postal_votes": "148"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "JUBANLANG KHARBIHKHIEW",
+                        "party": "Independent",
+                        "evm_votes": "93",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "RUP PARIAT",
+                        "party": "Independent",
+                        "evm_votes": "72",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "SAMBORLANG DIENGDOH",
+                        "party": "Independent",
+                        "evm_votes": "160",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "329",
+                        "postal_votes": "8"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1515.htm?ac=15",
+            "voting_data": {
+                "constituency_no": "15",
+                "constituency": "MAWLAI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "MARBUD DKHAR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1453",
+                        "postal_votes": "53"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "PROCESS T. SAWKMIE",
+                        "party": "United Democratic Party",
+                        "evm_votes": "4898",
+                        "postal_votes": "244"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "STEPBOURNEKUPAR RYNDEM",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "250",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "TEIBORLANG PATHAW",
+                        "party": "National People's Party",
+                        "evm_votes": "8377",
+                        "postal_votes": "237"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "WANDONBOK JYRWA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "434",
+                        "postal_votes": "16"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "BRIGHTSTARWELL MARBANIANG",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "23632",
+                        "postal_votes": "630"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "TARCISIOUS MAWLOT",
+                        "party": "Independent",
+                        "evm_votes": "260",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "243",
+                        "postal_votes": "11"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1516.htm?ac=16",
+            "voting_data": {
+                "constituency_no": "16",
+                "constituency": "EAST SHILLONG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "AJOY NONGRUM",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "255",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "MANUEL BADWAR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "4697",
+                        "postal_votes": "229"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "DR. MAZEL AMPAREEN LYNGDOH",
+                        "party": "National People's Party",
+                        "evm_votes": "6403",
+                        "postal_votes": "234"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ROMEO PHIRA RANI",
+                        "party": "People's Democratic Front",
+                        "evm_votes": "87",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "WANKITBOK POHSHNA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "2601",
+                        "postal_votes": "42"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "AVNER MEDON PARIAT",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "1913",
+                        "postal_votes": "61"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "WANPYNHUN KHARSYNTIEW",
+                        "party": "Independent",
+                        "evm_votes": "236",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "249",
+                        "postal_votes": "10"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1517.htm?ac=17",
+            "voting_data": {
+                "constituency_no": "17",
+                "constituency": "NORTH SHILLONG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DR. AMAN WARR",
+                        "party": "United Democratic Party",
+                        "evm_votes": "3650",
+                        "postal_votes": "141"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ELGIVA GWYNETH RYNJAH",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "783",
+                        "postal_votes": "33"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "J. ANTONIUS LYNGDOH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1491",
+                        "postal_votes": "64"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "MARIAHOM KHARKRANG",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "4444",
+                        "postal_votes": "106"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "RANSOM SUTNGA",
+                        "party": "National People's Party",
+                        "evm_votes": "1899",
+                        "postal_votes": "76"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "ADELBERT NONGRUM",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "5333",
+                        "postal_votes": "250"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "KYRSOIBOR PYRTUH",
+                        "party": "Independent",
+                        "evm_votes": "111",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "L. MICHAEL KHARSYNTIEW",
+                        "party": "Independent",
+                        "evm_votes": "376",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "184",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1518.htm?ac=18",
+            "voting_data": {
+                "constituency_no": "18",
+                "constituency": "WEST SHILLONG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BETHLEEN DKHAR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "393",
+                        "postal_votes": "24"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ERNEST MAWRIE",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "3723",
+                        "postal_votes": "48"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "IWAN MARIA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "180",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "MOHENDRO RAPSANG",
+                        "party": "National People's Party",
+                        "evm_votes": "4358",
+                        "postal_votes": "74"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "PAUL LYNGDOH",
+                        "party": "United Democratic Party",
+                        "evm_votes": "7680",
+                        "postal_votes": "237"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "RAJA JYRWA",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "1789",
+                        "postal_votes": "70"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "192",
+                        "postal_votes": "12"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1519.htm?ac=19",
+            "voting_data": {
+                "constituency_no": "19",
+                "constituency": "SOUTH SHILLONG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "IAN ANDREW LYNGDOH NONGKYNRIH",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1526",
+                        "postal_votes": "34"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SANBOR SHULLAI",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "13871",
+                        "postal_votes": "342"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "VENETIA PEARL MAWLONG",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1052",
+                        "postal_votes": "34"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "DANNY LANGSTIEH",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "2534",
+                        "postal_votes": "70"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "ANGELA G. RANGAD",
+                        "party": "Independent",
+                        "evm_votes": "1662",
+                        "postal_votes": "52"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "429",
+                        "postal_votes": "15"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1520.htm?ac=20",
+            "voting_data": {
+                "constituency_no": "20",
+                "constituency": "MYLLIEM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "GILBERT GUIDINGSTAR LALOO",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "545",
+                        "postal_votes": "21"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "HAMLETSON DOHLING",
+                        "party": "National People's Party",
+                        "evm_votes": "8486",
+                        "postal_votes": "226"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MITCHEL WANKHAR",
+                        "party": "United Democratic Party",
+                        "evm_votes": "2567",
+                        "postal_votes": "52"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "RONNIE V. LYNGDOH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8616",
+                        "postal_votes": "288"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SAMUEL HASHAH",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "420",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "AIBANDAPLIN F. LYNGDOH",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "8689",
+                        "postal_votes": "177"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "PYNSHAI MANIK SYIEM",
+                        "party": "Independent",
+                        "evm_votes": "583",
+                        "postal_votes": "31"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "RICHARD NONGBSAP",
+                        "party": "Independent",
+                        "evm_votes": "74",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "239",
+                        "postal_votes": "9"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1521.htm?ac=21",
+            "voting_data": {
+                "constituency_no": "21",
+                "constituency": "NONGTHYMMAI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BANIDA SHISHA KHARKONGOR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "994",
+                        "postal_votes": "51"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "CHARLES PYNGROPE",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "7243",
+                        "postal_votes": "209"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "DAVID KHARSATI",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "3223",
+                        "postal_votes": "51"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "JASMINE MARY LYNGDOH",
+                        "party": "National People's Party",
+                        "evm_votes": "1993",
+                        "postal_votes": "61"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "JEMINO MAWTHOH",
+                        "party": "United Democratic Party",
+                        "evm_votes": "6020",
+                        "postal_votes": "233"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "WINSTON TONY LYNGDOH",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "4346",
+                        "postal_votes": "127"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "WANKIT KUPAR KHARUMNUID",
+                        "party": "Independent",
+                        "evm_votes": "105",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "353",
+                        "postal_votes": "11"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1522.htm?ac=22",
+            "voting_data": {
+                "constituency_no": "22",
+                "constituency": "NONGKREM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DASAKHIATBHA LAMARE",
+                        "party": "National People's Party",
+                        "evm_votes": "7409",
+                        "postal_votes": "82"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DAVID T. KHARKONGOR",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "454",
+                        "postal_votes": "77"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "EGENSTAR KURKALANG",
+                        "party": "People's Democratic Front",
+                        "evm_votes": "1362",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "JOANNES J.T.L. LAMARE",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "170",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "LAMBOR MALNGIANG",
+                        "party": "United Democratic Party",
+                        "evm_votes": "8991",
+                        "postal_votes": "108"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "SARDONIK NONGKHLAW",
+                        "party": "Indian National Congress",
+                        "evm_votes": "272",
+                        "postal_votes": "21"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "ARDENT MILLER BASAIAWMOIT",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "13059",
+                        "postal_votes": "227"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "B. M. LANONG",
+                        "party": "Independent",
+                        "evm_votes": "135",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "193",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1524.htm?ac=24",
+            "voting_data": {
+                "constituency_no": "24",
+                "constituency": "MAWPHLANG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "AUSPICIOUS LYNGDOH MAWPHLANG",
+                        "party": "People's Democratic Front",
+                        "evm_votes": "6481",
+                        "postal_votes": "105"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DANNYSON KURBAH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "5518",
+                        "postal_votes": "76"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "KENNEDY CORNELIUS KHYRIEM",
+                        "party": "National People's Party",
+                        "evm_votes": "4670",
+                        "postal_votes": "63"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "MATTHEW BEYONDSTAR KURBAH",
+                        "party": "United Democratic Party",
+                        "evm_votes": "6596",
+                        "postal_votes": "94"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "MAWKORDOR RYNJAH",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1493",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "WOSSARROI RANI",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "1184",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "DORISTAR MARBANIANG",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "4759",
+                        "postal_votes": "52"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "140",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1525.htm?ac=25",
+            "voting_data": {
+                "constituency_no": "25",
+                "constituency": "MAWSYNRAM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ALVIN KHYRIEM SAWKMIE",
+                        "party": "National People's Party",
+                        "evm_votes": "9899",
+                        "postal_votes": "103"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "GOPAL STONE HYNNIEWTA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1033",
+                        "postal_votes": "23"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "HIMALAYA MUKTAN SHANGPLIANG",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9890",
+                        "postal_votes": "142"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "OLLAN SINGH SUIN",
+                        "party": "United Democratic Party",
+                        "evm_votes": "10846",
+                        "postal_votes": "141"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "STARFING JOVE LANGPEN PDAHKASIEJ",
+                        "party": "Hill State People’s Democratic Party",
+                        "evm_votes": "103",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "VINCENT T SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "683",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "187",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1526.htm?ac=26",
+            "voting_data": {
+                "constituency_no": "26",
+                "constituency": "SHELLA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ARENA HYNNIEWTA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "2655",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "BALAJIED KUPAR SYNREM",
+                        "party": "United Democratic Party",
+                        "evm_votes": "13077",
+                        "postal_votes": "197"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "GRACE MARY KHARPURI",
+                        "party": "National People's Party",
+                        "evm_votes": "12722",
+                        "postal_votes": "118"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "PLAYNESS KHIEWTAM",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "877",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "WELLBORN BYNNUD",
+                        "party": "Indian National Congress",
+                        "evm_votes": "583",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "347",
+                        "postal_votes": "11"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1527.htm?ac=27",
+            "voting_data": {
+                "constituency_no": "27",
+                "constituency": "PYNURSLA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ANTHONY JUSTINE KONGWANG",
+                        "party": "United Democratic Party",
+                        "evm_votes": "5356",
+                        "postal_votes": "21"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "EDMUND KHONGNGAI",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1201",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NEHRU SUTING",
+                        "party": "Indian National Congress",
+                        "evm_votes": "5567",
+                        "postal_votes": "38"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "PRESTONE TYNSONG",
+                        "party": "National People's Party",
+                        "evm_votes": "13601",
+                        "postal_votes": "144"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "ROWELLY KHONGSNI",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "376",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "MANBHALANG THABAH",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "3405",
+                        "postal_votes": "77"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "DON KUPAR MASSAR",
+                        "party": "Independent",
+                        "evm_votes": "4812",
+                        "postal_votes": "16"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "147",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1528.htm?ac=28",
+            "voting_data": {
+                "constituency_no": "28",
+                "constituency": "SOHRA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ALAN WEST KHARKONGOR",
+                        "party": "National People's Party",
+                        "evm_votes": "1585",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "GAVIN MIGUEL MYLLIEM",
+                        "party": "People's Democratic Front",
+                        "evm_votes": "11201",
+                        "postal_votes": "157"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "HAROLD FIRMING KHONGSIT",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1118",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "LAKYNTIEW SOHKHLET",
+                        "party": "Indian National Congress",
+                        "evm_votes": "219",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "MICHAEL RONNIE KSHIAR",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "140",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "TITOSSTAR WELL CHYNE",
+                        "party": "United Democratic Party",
+                        "evm_votes": "11190",
+                        "postal_votes": "153"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "G.PHAIYOLIN NONGRUM",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "904",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "124",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1529.htm?ac=29",
+            "voting_data": {
+                "constituency_no": "29",
+                "constituency": "MAWKYNREW",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BANTEIDOR LYNGDOH",
+                        "party": "People's Democratic Front",
+                        "evm_votes": "11732",
+                        "postal_votes": "57"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "COUNSELLOR MUKHIM",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "92",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "DONDOR MARBANIANG",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "463",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "KANSING LYNGSHIANG",
+                        "party": "National People's Party",
+                        "evm_votes": "7335",
+                        "postal_votes": "25"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "MARTLE N. MUKHIM",
+                        "party": "Hill State People’s Democratic Party",
+                        "evm_votes": "7610",
+                        "postal_votes": "42"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "PYNHUNLANG NONGRUM",
+                        "party": "Indian National Congress",
+                        "evm_votes": "461",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "REMINGTON PYNGROPE",
+                        "party": "United Democratic Party",
+                        "evm_votes": "5361",
+                        "postal_votes": "24"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "245",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1530.htm?ac=30",
+            "voting_data": {
+                "constituency_no": "30",
+                "constituency": "MAIRANG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BATSKHEM RYNTATHIANG",
+                        "party": "Indian National Congress",
+                        "evm_votes": "18584",
+                        "postal_votes": "327"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "MARK RINALDY SAWKMIE",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "240",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "METBAH LYNGDOH",
+                        "party": "United Democratic Party",
+                        "evm_votes": "18684",
+                        "postal_votes": "382"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SHANLANG WARJRI",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "931",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "115",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1531.htm?ac=31",
+            "voting_data": {
+                "constituency_no": "31",
+                "constituency": "MAWTHADRAISHAN",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BIOLINDA L.NONGLAIT",
+                        "party": "National People's Party",
+                        "evm_votes": "7574",
+                        "postal_votes": "84"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "BROLDING NONGSIEJ",
+                        "party": "United Democratic Party",
+                        "evm_votes": "14726",
+                        "postal_votes": "287"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "DARIKMEN L.MARSHILLONG",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "116",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "FOURTEENSON LYNGKHOI",
+                        "party": "Indian National Congress",
+                        "evm_votes": "251",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SHAKLIAR WARJRI",
+                        "party": "Hill State People’s Democratic Party",
+                        "evm_votes": "17126",
+                        "postal_votes": "240"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "312",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1532.htm?ac=32",
+            "voting_data": {
+                "constituency_no": "32",
+                "constituency": "NONGSTOIN",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DIOSSTARNESS JYNDIANG",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "245",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "GABRIEL WAHLANG",
+                        "party": "Indian National Congress",
+                        "evm_votes": "13408",
+                        "postal_votes": "439"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MACMILLAN BYRSAT",
+                        "party": "National People's Party",
+                        "evm_votes": "10563",
+                        "postal_votes": "660"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "MACMILLAN KHARBANI",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1060",
+                        "postal_votes": "31"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "POLESTAR NONGSIEJ",
+                        "party": "United Democratic Party",
+                        "evm_votes": "7340",
+                        "postal_votes": "165"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "SANJIED KYNSAI SHANGRIT",
+                        "party": "Hill State People’s Democratic Party",
+                        "evm_votes": "1365",
+                        "postal_votes": "25"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "BOBBY BOLDRICK KHARCHANDY",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "3650",
+                        "postal_votes": "105"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "STAINBINEL WANNIANG",
+                        "party": "Independent",
+                        "evm_votes": "202",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "93",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1533.htm?ac=33",
+            "voting_data": {
+                "constituency_no": "33",
+                "constituency": "RAMBRAI JYRNGAM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "FERNANDEZ S. DKHAR",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1544",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "A GOLDENSTAR NONGLONG",
+                        "party": "Indian National Congress",
+                        "evm_votes": "5751",
+                        "postal_votes": "54"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "KIMFA SIDNEY MARBANIANG",
+                        "party": "National People's Party",
+                        "evm_votes": "7176",
+                        "postal_votes": "96"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "K. PHLASTINGWEL PANGNIANG",
+                        "party": "Hill State People’s Democratic Party",
+                        "evm_votes": "8836",
+                        "postal_votes": "111"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SPASTERLIN NONGREM",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "686",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "FRANCIS PONDIT R. SANGMA",
+                        "party": "Independent",
+                        "evm_votes": "371",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "REMINGTON GABIL MOMIN",
+                        "party": "Independent",
+                        "evm_votes": "8925",
+                        "postal_votes": "132"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "SILLASH M. SANGMA",
+                        "party": "Independent",
+                        "evm_votes": "159",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "195",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1534.htm?ac=34",
+            "voting_data": {
+                "constituency_no": "34",
+                "constituency": "MAWSHYNRUT",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ANDREW CHARLES GARE",
+                        "party": "Indian National Congress",
+                        "evm_votes": "217",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "BEEJOY KYNTER",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "282",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "GIGUR MYRTHONG",
+                        "party": "National People's Party",
+                        "evm_votes": "13974",
+                        "postal_votes": "207"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "JUSTINE G. MOMIN",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "2503",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "METHODIUS DKHAR",
+                        "party": "Hill State People’s Democratic Party",
+                        "evm_votes": "19058",
+                        "postal_votes": "310"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "319",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1535.htm?ac=35",
+            "voting_data": {
+                "constituency_no": "35",
+                "constituency": "RANIKOR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "MARTIN M. DANGGO",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10683",
+                        "postal_votes": "170"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "PIUS MARWEIN",
+                        "party": "United Democratic Party",
+                        "evm_votes": "16263",
+                        "postal_votes": "239"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "TENGSIM G. MOMIN",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "149",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "VICTOREALNESS SYIEMLIEH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "469",
+                        "postal_votes": "25"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "OVERLIN IMIONG",
+                        "party": "Voice of the People Party",
+                        "evm_votes": "964",
+                        "postal_votes": "24"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "BICHITRO HAJONG",
+                        "party": "Independent",
+                        "evm_votes": "114",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "KRENATH N. MARAK",
+                        "party": "Independent",
+                        "evm_votes": "136",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "MIGHTER MARWEIN",
+                        "party": "Independent",
+                        "evm_votes": "2995",
+                        "postal_votes": "40"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "SAVIO PHRANGSNGI DKHAR",
+                        "party": "Independent",
+                        "evm_votes": "114",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "127",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1536.htm?ac=36",
+            "voting_data": {
+                "constituency_no": "36",
+                "constituency": "MAWKYRWAT",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BITY JYRWA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "146",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "CARNES SOHSHANG",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9040",
+                        "postal_votes": "366"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MEDALSING LYNGDOH",
+                        "party": "Hill State People’s Democratic Party",
+                        "evm_votes": "5919",
+                        "postal_votes": "163"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "RENIKTON LYNGDOH TONGKHAR",
+                        "party": "United Democratic Party",
+                        "evm_votes": "10336",
+                        "postal_votes": "342"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SOUNDER STRONG CAJEE",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "4485",
+                        "postal_votes": "94"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "H. STALYNE DIENGDOH",
+                        "party": "National People's Party",
+                        "evm_votes": "3060",
+                        "postal_votes": "147"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "BANPYNSKHEMLANG WAHLANG",
+                        "party": "Independent",
+                        "evm_votes": "67",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "128",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1537.htm?ac=37",
+            "voting_data": {
+                "constituency_no": "37",
+                "constituency": "KHARKUTTA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "CHERAK WATRE MOMIN",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "15710",
+                        "postal_votes": "186"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "CHIRENG PETER R. MARAK",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1708",
+                        "postal_votes": "38"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "ELSTONE D. MARAK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "927",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "LUDERBERG CH. MOMIN",
+                        "party": "United Democratic Party",
+                        "evm_votes": "511",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "RUPERT MOMIN",
+                        "party": "National People's Party",
+                        "evm_votes": "17210",
+                        "postal_votes": "216"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "523",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1538.htm?ac=38",
+            "voting_data": {
+                "constituency_no": "38",
+                "constituency": "MENDIPATHAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "MARTHON J SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "9165",
+                        "postal_votes": "198"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "PARDINAND D. SHIRA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "3221",
+                        "postal_votes": "91"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SENGNAB MOMIN",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "4013",
+                        "postal_votes": "119"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SUBROTHO G MARAK",
+                        "party": "United Democratic Party",
+                        "evm_votes": "989",
+                        "postal_votes": "28"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "TIMJIM K. MOMIN",
+                        "party": "Indian National Congress",
+                        "evm_votes": "5420",
+                        "postal_votes": "118"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "ELBARTH MARAK",
+                        "party": "Gana Suraksha Party",
+                        "evm_votes": "1358",
+                        "postal_votes": "17"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "191",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1539.htm?ac=39",
+            "voting_data": {
+                "constituency_no": "39",
+                "constituency": "RESUBELPARA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "RINALDO K. SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "7249",
+                        "postal_votes": "234"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SUKHARAM K. SANGMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "1915",
+                        "postal_votes": "42"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "TAPOSH D. MARAK",
+                        "party": "United Democratic Party",
+                        "evm_votes": "290",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "TIMOTHY D. SHIRA",
+                        "party": "National People's Party",
+                        "evm_votes": "10715",
+                        "postal_votes": "233"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "TWEEL K. MARAK",
+                        "party": "Indian National Congress",
+                        "evm_votes": "4959",
+                        "postal_votes": "105"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "STARLINE MOMIN",
+                        "party": "Independent",
+                        "evm_votes": "590",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "162",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1540.htm?ac=40",
+            "voting_data": {
+                "constituency_no": "40",
+                "constituency": "BAJENGDOBA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BRIGADY  NAPAK MARAK",
+                        "party": "Indian National Congress",
+                        "evm_votes": "7496",
+                        "postal_votes": "88"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "HENENDRA A. SANGMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "522",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "PONGSENG MARAK",
+                        "party": "National People's Party",
+                        "evm_votes": "9778",
+                        "postal_votes": "122"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "RAKMAN CH MARAK",
+                        "party": "United Democratic Party",
+                        "evm_votes": "487",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "TENGRAK R. MARAK",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "7332",
+                        "postal_votes": "99"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "CHADAMBE TENGKAM B MARAK",
+                        "party": "Independent",
+                        "evm_votes": "1988",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "ROCKY R MARAK",
+                        "party": "Independent",
+                        "evm_votes": "741",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "238",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1541.htm?ac=41",
+            "voting_data": {
+                "constituency_no": "41",
+                "constituency": "SONGSAK",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "CHAMPION R. SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "2223",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DR. MUKUL SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "12608",
+                        "postal_votes": "81"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NIHIM D SHIRA",
+                        "party": "National People's Party",
+                        "evm_votes": "12254",
+                        "postal_votes": "63"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "THOMAS MARAK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "774",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SARENNI MARAK",
+                        "party": "Republican Party of India",
+                        "evm_votes": "296",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "196",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1543.htm?ac=43",
+            "voting_data": {
+                "constituency_no": "43",
+                "constituency": "WILLIAM NAGAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ALPHONSUSH R. MARAK",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "4592",
+                        "postal_votes": "217"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DEBORAH C. MARAK",
+                        "party": "Indian National Congress",
+                        "evm_votes": "6940",
+                        "postal_votes": "193"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MARCUISE N MARAK",
+                        "party": "National People's Party",
+                        "evm_votes": "10655",
+                        "postal_votes": "321"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "RAKNANG CH. MOMIN",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "447",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "BALLENSING CH MARAK",
+                        "party": "Republican Party of India",
+                        "evm_votes": "137",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "ROBINUS T SANGMA",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "709",
+                        "postal_votes": "24"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "RUDRESWAR CH. MOMIN",
+                        "party": "Independent",
+                        "evm_votes": "5016",
+                        "postal_votes": "121"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "359",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1544.htm?ac=44",
+            "voting_data": {
+                "constituency_no": "44",
+                "constituency": "RAKSAMGRE",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BENEDIC R. MARAK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9328",
+                        "postal_votes": "38"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "FREDERICK D. SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1409",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "LIMISON D. SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "12123",
+                        "postal_votes": "61"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "DR. PRABIR D. SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "4035",
+                        "postal_votes": "40"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SUSHIL GAYARY",
+                        "party": "United Democratic Party",
+                        "evm_votes": "260",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "THOSENGCHEBA A. SANGMA",
+                        "party": "Republican Party of India (A)",
+                        "evm_votes": "165",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "184",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1545.htm?ac=45",
+            "voting_data": {
+                "constituency_no": "45",
+                "constituency": "TIKRIKILLA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "JIMMY D. SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "13150",
+                        "postal_votes": "68"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "JULIUS T. SANGMA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "311",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "DR. KAPIN CH. BORO",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1210",
+                        "postal_votes": "23"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "DR. MUKUL SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "7840",
+                        "postal_votes": "65"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "RAHINATH BARCHUNG",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "7768",
+                        "postal_votes": "81"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOOR NONGRUM",
+                        "party": "Independent",
+                        "evm_votes": "1097",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "297",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1546.htm?ac=46",
+            "voting_data": {
+                "constituency_no": "46",
+                "constituency": "PHULBARI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ABU TAHER MONDAL",
+                        "party": "National People's Party",
+                        "evm_votes": "14866",
+                        "postal_votes": "103"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "EDMUND K. SANGMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "1826",
+                        "postal_votes": "30"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "S G ESMATUR MOMININ",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "11652",
+                        "postal_votes": "77"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SAILENDRA R. SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "317",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "ZINBAWARD N. SANGMA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "397",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "FUL BOKSHA SHEIKH",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "68",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "219",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1547.htm?ac=47",
+            "voting_data": {
+                "constituency_no": "47",
+                "constituency": "RAJABALA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "MD ABDUS SALEH",
+                        "party": "National People's Party",
+                        "evm_votes": "12539",
+                        "postal_votes": "79"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ASHAHEL D. SHIRA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "6827",
+                        "postal_votes": "43"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "BAKUL CHANDRA HAJONG",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "428",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "CARLA R. SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "189",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "DR. MIZANUR RAHMAN KAZI",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "12561",
+                        "postal_votes": "67"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NIJUM SANGMA",
+                        "party": "Independent",
+                        "evm_votes": "418",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "157",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1548.htm?ac=48",
+            "voting_data": {
+                "constituency_no": "48",
+                "constituency": "SELSELLA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "AGASSI R. MARAK",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "7819",
+                        "postal_votes": "35"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ARBINSTONE B MARAK",
+                        "party": "National People's Party",
+                        "evm_votes": "16476",
+                        "postal_votes": "119"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "FERLIN C.A. SANGMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "6915",
+                        "postal_votes": "39"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "REYNOLD M SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1176",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SUBHANKAR KOCH",
+                        "party": "United Democratic Party",
+                        "evm_votes": "126",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "POLLOP R MARAK",
+                        "party": "Independent",
+                        "evm_votes": "185",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "TENGSRANG MARAK",
+                        "party": "Independent",
+                        "evm_votes": "205",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "179",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1549.htm?ac=49",
+            "voting_data": {
+                "constituency_no": "49",
+                "constituency": "DADENGGRE",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BRAINING R. MARAK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "481",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "CHESTERFIELD SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "364",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "JAMES PANGSANG KONGKAL SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "15612",
+                        "postal_votes": "72"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "RUPA M. MARAK",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "15619",
+                        "postal_votes": "83"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "WITJENG N. SANGMA",
+                        "party": "Republican Party of India (A)",
+                        "evm_votes": "359",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "168",
+                        "postal_votes": "158"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1550.htm?ac=50",
+            "voting_data": {
+                "constituency_no": "50",
+                "constituency": "NORTH TURA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ADAM KID M. SANGMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "7376",
+                        "postal_votes": "124"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "BILLYKID A. SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "2034",
+                        "postal_votes": "77"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "DR. PILNE A. SANGMA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "646",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "RUPERT M. SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "4608",
+                        "postal_votes": "135"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "THOMAS A. SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "11015",
+                        "postal_votes": "370"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "BINA ROSALINE A. SANGMA",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "224",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "248",
+                        "postal_votes": "14"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1551.htm?ac=51",
+            "voting_data": {
+                "constituency_no": "51",
+                "constituency": "SOUTH TURA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BERNARD N. MARAK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8166",
+                        "postal_votes": "160"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "BRENZIELD CH MARAK",
+                        "party": "Indian National Congress",
+                        "evm_votes": "553",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "CONRAD KONGKAL SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "12761",
+                        "postal_votes": "581"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "JOHN LESLEE K. SANGMA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "748",
+                        "postal_votes": "28"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "RICHARD M MARAK",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "2193",
+                        "postal_votes": "119"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "294",
+                        "postal_votes": "16"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1552.htm?ac=52",
+            "voting_data": {
+                "constituency_no": "52",
+                "constituency": "RANGSAKONA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BIPUL CH. SANGMA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "253",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DIPUL R. MARAK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "4523",
+                        "postal_votes": "48"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "EDMUND S SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "807",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SUBIR MARAK",
+                        "party": "National People's Party",
+                        "evm_votes": "13398",
+                        "postal_votes": "207"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "ZENITH .M. SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "12649",
+                        "postal_votes": "168"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "INDRASH M. MARAK",
+                        "party": "Republican Party of India (A)",
+                        "evm_votes": "352",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "193",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1553.htm?ac=53",
+            "voting_data": {
+                "constituency_no": "53",
+                "constituency": "AMPATI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "MIANI D. SHIRA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "13224",
+                        "postal_votes": "222"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "PREMANANDA KOCH",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "4701",
+                        "postal_votes": "61"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "STEVIE M. MARAK",
+                        "party": "National People's Party",
+                        "evm_votes": "11002",
+                        "postal_votes": "167"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "UTTORA GURI SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "467",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "227",
+                        "postal_votes": "6"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1554.htm?ac=54",
+            "voting_data": {
+                "constituency_no": "54",
+                "constituency": "MAHENDRAGANJ",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DIKKANCHI D SHIRA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "11708",
+                        "postal_votes": "134"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SANJAY A. SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "13368",
+                        "postal_votes": "192"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SAYEEDULLAH NONGRUM",
+                        "party": "Indian National Congress",
+                        "evm_votes": "321",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "TINGKU N MARAK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "6568",
+                        "postal_votes": "133"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "ADITYA HAJONG",
+                        "party": "Independent",
+                        "evm_votes": "161",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "SERAZUL H KHARKONGOR",
+                        "party": "Independent",
+                        "evm_votes": "100",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "171",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1555.htm?ac=55",
+            "voting_data": {
+                "constituency_no": "55",
+                "constituency": "SALMANPARA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BOSTON MARAK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "5568",
+                        "postal_votes": "32"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "IAN BOTHAM K. SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "11237",
+                        "postal_votes": "115"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RONALD RIKMAN SANGMA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "2747",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SINBATH CH MARAK",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1021",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "WINNERSON D. SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "6042",
+                        "postal_votes": "72"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "266",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1556.htm?ac=56",
+            "voting_data": {
+                "constituency_no": "56",
+                "constituency": "GAMBEGRE",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DANIEL M SANGMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "315",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "RAKESH SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "7594",
+                        "postal_votes": "34"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SADHIARANI M. SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "8345",
+                        "postal_votes": "36"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SALENG A. SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "11178",
+                        "postal_votes": "74"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "JHIM CARTER .M. SANGMA",
+                        "party": "Republican Party of India (A)",
+                        "evm_votes": "366",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "SAIRILL D. MARAK",
+                        "party": "Garo National Council",
+                        "evm_votes": "198",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "SUKBERLINE S. SANGMA",
+                        "party": "Independent",
+                        "evm_votes": "159",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "131",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1557.htm?ac=57",
+            "voting_data": {
+                "constituency_no": "57",
+                "constituency": "DALU",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "AKKI A SANGMA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "5265",
+                        "postal_votes": "42"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "BRENING A. SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "5788",
+                        "postal_votes": "46"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "KENETHSON SANGMA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "633",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ROGER BENNY A SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "327",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SENGKAL A SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "3073",
+                        "postal_votes": "31"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "PANSENG R. MARAK",
+                        "party": "Republican Party of India (A)",
+                        "evm_votes": "418",
+                        "postal_votes": "29"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "DIRAJ D. MARAK",
+                        "party": "Independent",
+                        "evm_votes": "349",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "PROMOD S. KOCH",
+                        "party": "Independent",
+                        "evm_votes": "692",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "SARBHA R. MARAK",
+                        "party": "Independent",
+                        "evm_votes": "2067",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "161",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1558.htm?ac=58",
+            "voting_data": {
+                "constituency_no": "58",
+                "constituency": "RONGARA SIJU",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "CALIS G MOMIN",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "1268",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DR RAJESH M MARAK",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "7840",
+                        "postal_votes": "98"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RAKKAM A. SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "11422",
+                        "postal_votes": "147"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ROPHUL S MARAK",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8239",
+                        "postal_votes": "72"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "TESENG A SANGMA",
+                        "party": "United Democratic Party",
+                        "evm_votes": "196",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "136",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2023/ConstituencywiseS1559.htm?ac=59",
+            "voting_data": {
+                "constituency_no": "59",
+                "constituency": "CHOKPOT",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "KARAK R. SANGMA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "3262",
+                        "postal_votes": "31"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "LAZARUS M SANGMA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "5574",
+                        "postal_votes": "41"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NOVEMBIRTH CH. MARAK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "611",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SENGCHIM N. SANGMA",
+                        "party": "National People's Party",
+                        "evm_votes": "9433",
+                        "postal_votes": "70"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NIKMAN CH. MARAK",
+                        "party": "Garo National Council",
+                        "evm_votes": "9092",
+                        "postal_votes": "58"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "331",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        }
+    ]
+}

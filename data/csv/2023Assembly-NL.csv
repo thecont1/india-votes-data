@@ -1,0 +1,230 @@
+election_year,election_type,election_state,constituency,constituency_no,serial_no,candidate,party,evm_votes,postal_votes
+2023,Assembly,NL,DIMAPUR-I,1,1,KEWEKHAPE THERIE,Indian National Congress,6333,33
+2023,Assembly,NL,DIMAPUR-I,1,2,H. TOVIHOTO AYEMI,Bharatiya Janata Party,13248,77
+2023,Assembly,NL,DIMAPUR-I,1,3,NOTA,None of the Above,191,4
+2023,Assembly,NL,DIMAPUR-II,2,1,S. AMENTO CHISHI,Indian National Congress,1746,38
+2023,Assembly,NL,DIMAPUR-II,2,2,MOATOSHI LONGKUMER,Nationalist Democratic Progressive Party,23580,276
+2023,Assembly,NL,DIMAPUR-II,2,3,Y. VIKHEHO AWOMI,Lok Janshakti Party(Ram Vilas),18573,136
+2023,Assembly,NL,DIMAPUR-II,2,4,NOTA,None of the Above,498,7
+2023,Assembly,NL,DIMAPUR-III,3,1,HEKANI JAKHALU,Nationalist Democratic Progressive Party,14241,154
+2023,Assembly,NL,DIMAPUR-III,3,2,VETETSO LASUH,Indian National Congress,357,13
+2023,Assembly,NL,DIMAPUR-III,3,3,AZHETO ZHIMOMI,Lok Janshakti Party(Ram Vilas),12705,154
+2023,Assembly,NL,DIMAPUR-III,3,4,KAHUTO CHISHI SUMI,Independent,1643,28
+2023,Assembly,NL,DIMAPUR-III,3,5,LUN TUNGNUNG,Independent,2431,14
+2023,Assembly,NL,DIMAPUR-III,3,6,NOTA,None of the Above,133,1
+2023,Assembly,NL,GHASPANI-I,4,1,AKAVI N. ZHIMOMI,Indian National Congress,4458,55
+2023,Assembly,NL,GHASPANI-I,4,2,N. JACOB ZHIMOMI,Bharatiya Janata Party,31533,504
+2023,Assembly,NL,GHASPANI-I,4,3,VIKATO AYE,Naga Peoples Front,254,23
+2023,Assembly,NL,GHASPANI-I,4,4,IMSUMONGBA PONGEN,Janata Dal  (United),8116,112
+2023,Assembly,NL,GHASPANI-I,4,5,V. PHUSHIKA AOMI,Independent,11889,52
+2023,Assembly,NL,GHASPANI-I,4,6,NOTA,None of the Above,261,3
+2023,Assembly,NL,GHASPANI-II,5,1,ZHALEO RIO,Nationalist Democratic Progressive Party,11293,112
+2023,Assembly,NL,GHASPANI-II,5,2,Z. KASHETO YEPTHO,Republican Party of India (Athawale),7165,65
+2023,Assembly,NL,GHASPANI-II,5,3,KITOHO S. ROTOKHA,Lok Janshakti Party(Ram Vilas),5756,37
+2023,Assembly,NL,GHASPANI-II,5,4,NOTA,None of the Above,110,1
+2023,Assembly,NL,TENNING,6,1,Henry Zeliang,Naga Peoples Front,38,1
+2023,Assembly,NL,TENNING,6,2,Namri Nchang,Nationalist Congress Party,6700,36
+2023,Assembly,NL,TENNING,6,3,Rosy Thomson,Indian National Congress,1693,11
+2023,Assembly,NL,TENNING,6,4,Tarie Zeliang,Nationalist Democratic Progressive Party,6365,34
+2023,Assembly,NL,TENNING,6,5,Zandi Domta,National People's Party,2459,8
+2023,Assembly,NL,TENNING,6,6,Dr. Tumda Newme,Independent,5506,24
+2023,Assembly,NL,TENNING,6,7,NOTA,None of the Above,42,0
+2023,Assembly,NL,PEREN,7,1,Kingudi Joseph,Naga Peoples Front,6770,115
+2023,Assembly,NL,PEREN,7,2,Taditui Rangkau Zeliang,Nationalist Democratic Progressive Party,16409,391
+2023,Assembly,NL,PEREN,7,3,K. Kengim Kulimbe,Independent,1095,21
+2023,Assembly,NL,PEREN,7,4,NOTA,None of the Above,137,3
+2023,Assembly,NL,WESTERN ANGAMI,8,1,Salhoutuonuo Kruse,Nationalist Democratic Progressive Party,6956,122
+2023,Assembly,NL,WESTERN ANGAMI,8,2,Keneizhakho Nakhro,Independent,6915,156
+2023,Assembly,NL,WESTERN ANGAMI,8,3,NOTA,None of the Above,78,2
+2023,Assembly,NL,KOHIMA TOWN,9,1,Er Meshenlo Kath,Indian National Congress,1391,22
+2023,Assembly,NL,KOHIMA TOWN,9,2,Dr Neikiesalie Nicky Kire,Nationalist Democratic Progressive Party,8273,229
+2023,Assembly,NL,KOHIMA TOWN,9,3,Dr Tseilhoutuo Rhutso (Dr Ato),National People's Party,9682,162
+2023,Assembly,NL,KOHIMA TOWN,9,4,NOTA,None of the Above,103,0
+2023,Assembly,NL,NORTHERN ANGAMI-I,10,1,Dr.Kekhrielhoulie Yhome,Nationalist Democratic Progressive Party,7591,133
+2023,Assembly,NL,NORTHERN ANGAMI-I,10,2,KHRIEHU LIEZIETSU,Naga Peoples Front,5878,156
+2023,Assembly,NL,NORTHERN ANGAMI-I,10,3,NOTA,None of the Above,68,4
+2023,Assembly,NL,NORTHERN ANGAMI-II,11,1,Neiphiu Rio,Nationalist Democratic Progressive Party,16749,296
+2023,Assembly,NL,NORTHERN ANGAMI-II,11,2,SEYIEVILIE SACHU,Indian National Congress,1198,23
+2023,Assembly,NL,NORTHERN ANGAMI-II,11,3,NOTA,None of the Above,87,0
+2023,Assembly,NL,TSEMINYU,12,1,R. KHING,Nationalist Democratic Progressive Party,4664,117
+2023,Assembly,NL,TSEMINYU,12,2,JOEL NAGA,Rising People’s Party,3661,57
+2023,Assembly,NL,TSEMINYU,12,3,JWENGA SEB,Janata Dal  (United),7946,150
+2023,Assembly,NL,TSEMINYU,12,4,ER. LEVI RENGMA,Lok Janshakti Party(Ram Vilas),328,24
+2023,Assembly,NL,TSEMINYU,12,5,LOGUSENG SEMP,Republican Party of India (Athawale),5398,135
+2023,Assembly,NL,TSEMINYU,12,6,NOTA,None of the Above,69,2
+2023,Assembly,NL,PUGHOBOTO,13,1,Y VIKHEHO SWU,Nationalist Democratic Progressive Party,6666,292
+2023,Assembly,NL,PUGHOBOTO,13,2,DR SUKHATO A SEMA,Lok Janshakti Party(Ram Vilas),7547,261
+2023,Assembly,NL,PUGHOBOTO,13,3,NOTA,None of the Above,23,0
+2023,Assembly,NL,SOUTHERN ANGAMI-I,14,1,Medo Yhokha,Nationalist Democratic Progressive Party,6346,120
+2023,Assembly,NL,SOUTHERN ANGAMI-I,14,2,Kevipodi Sophie,Independent,6561,82
+2023,Assembly,NL,SOUTHERN ANGAMI-I,14,3,NOTA,None of the Above,38,0
+2023,Assembly,NL,SOUTHERN ANGAMI-II,15,1,Kropol Vitsu,Bharatiya Janata Party,5918,67
+2023,Assembly,NL,SOUTHERN ANGAMI-II,15,2,Zale Neikha,Nationalist Congress Party,5471,64
+2023,Assembly,NL,SOUTHERN ANGAMI-II,15,3,Vipopal Kintso,Janata Dal  (United),4588,36
+2023,Assembly,NL,SOUTHERN ANGAMI-II,15,4,NOTA,None of the Above,44,0
+2023,Assembly,NL,PFUTSERO,16,1,NEIBA KRONU,Nationalist Democratic Progressive Party,7704,187
+2023,Assembly,NL,PFUTSERO,16,2,VIVOLIE KEZO,Naga Peoples Front,3039,20
+2023,Assembly,NL,PFUTSERO,16,3,DR.NEISATUO MERO,Independent,7853,142
+2023,Assembly,NL,PFUTSERO,16,4,NOTA,None of the Above,61,1
+2023,Assembly,NL,CHIZAMI,17,1,K. G Kenye,Nationalist Democratic Progressive Party,6979,109
+2023,Assembly,NL,CHIZAMI,17,2,KEZHIENYI KHALO,Naga Peoples Front,80,24
+2023,Assembly,NL,CHIZAMI,17,3,VEVOYI WIDEO,National People's Party,3279,31
+2023,Assembly,NL,CHIZAMI,17,4,KEVECHUTSO DOULO,Lok Janshakti Party(Ram Vilas),5739,70
+2023,Assembly,NL,CHIZAMI,17,5,NOTA,None of the Above,65,0
+2023,Assembly,NL,CHAZOUBA,18,1,KUDECHO KHAMO,Nationalist Democratic Progressive Party,9394,91
+2023,Assembly,NL,CHAZOUBA,18,2,SOVENYI,Naga Peoples Front,3374,59
+2023,Assembly,NL,CHAZOUBA,18,3,VEPRASA NYEKHA,National People's Party,393,4
+2023,Assembly,NL,CHAZOUBA,18,4,DR. CHOTISUH SAZO,Lok Janshakti Party(Ram Vilas),7159,88
+2023,Assembly,NL,CHAZOUBA,18,5,THEPUPHI KAPUH,Independent,2436,16
+2023,Assembly,NL,CHAZOUBA,18,6,NOTA,None of the Above,38,0
+2023,Assembly,NL,PHEK,19,1,Kupota Khesoh,Nationalist Democratic Progressive Party,9167,270
+2023,Assembly,NL,PHEK,19,2,Kuzholuzo Nienu,Naga Peoples Front,9076,409
+2023,Assembly,NL,PHEK,19,3,Zacilhu Ringa Vadeo,Indian National Congress,420,6
+2023,Assembly,NL,PHEK,19,4,NOTA,None of the Above,38,1
+2023,Assembly,NL,TULI,21,1,Amenba Yaden,Nationalist Congress Party,7222,68
+2023,Assembly,NL,TULI,21,2,A. Pangjung Jamir,Bharatiya Janata Party,10212,107
+2023,Assembly,NL,TULI,21,3,NOTA,None of the Above,38,0
+2023,Assembly,NL,ARKAKONG,22,1,Imnatiba,Nationalist Democratic Progressive Party,8090,94
+2023,Assembly,NL,ARKAKONG,22,2,Nuklutoshi,National People's Party,9257,130
+2023,Assembly,NL,ARKAKONG,22,3,NOTA,None of the Above,21,0
+2023,Assembly,NL,IMPUR,23,1,BENDANGKOKBA,Indian National Congress,5640,90
+2023,Assembly,NL,IMPUR,23,2,T N MANNEN,Nationalist Democratic Progressive Party,6718,107
+2023,Assembly,NL,IMPUR,23,3,NOTA,None of the Above,28,1
+2023,Assembly,NL,ANGETYONGPANG,24,1,S MAONGKABA OZUKUM,National People's Party,1785,57
+2023,Assembly,NL,ANGETYONGPANG,24,2,TONGPANG OZUKUM,Nationalist Democratic Progressive Party,7849,197
+2023,Assembly,NL,ANGETYONGPANG,24,3,ER K WATI,Independent,5730,96
+2023,Assembly,NL,ANGETYONGPANG,24,4,NOTA,None of the Above,20,0
+2023,Assembly,NL,MONGOYA,25,1,IMKONGMAR,Nationalist Democratic Progressive Party,6572,246
+2023,Assembly,NL,MONGOYA,25,2,MOASANGBA JAMIR,Naga Peoples Front,3478,162
+2023,Assembly,NL,MONGOYA,25,3,S SUPONGMEREN JAMIR,Indian National Congress,5633,143
+2023,Assembly,NL,MONGOYA,25,4,NOTA,None of the Above,33,1
+2023,Assembly,NL,AONGLENDEN,26,1,SHARINGAIN LONGKUMER,Nationalist Democratic Progressive Party,6992,82
+2023,Assembly,NL,AONGLENDEN,26,2,TOSHIPOKBA,Indian National Congress,2613,71
+2023,Assembly,NL,AONGLENDEN,26,3,NOTA,None of the Above,33,1
+2023,Assembly,NL,MOKOKCHUNG TOWN,27,1,ALEM JONGSHI,Indian National Congress,1322,85
+2023,Assembly,NL,MOKOKCHUNG TOWN,27,2,METSUBO JAMIR,Nationalist Democratic Progressive Party,5041,277
+2023,Assembly,NL,MOKOKCHUNG TOWN,27,3,NOTA,None of the Above,31,5
+2023,Assembly,NL,KORIDANG,28,1,IMKONG L. IMCHEN,Bharatiya Janata Party,8075,265
+2023,Assembly,NL,KORIDANG,28,2,MAJ. TOSHIKABA (Retd),Naga Peoples Front,7799,131
+2023,Assembly,NL,KORIDANG,28,3,T. CHALUKUMBA AO,Janata Dal  (United),110,28
+2023,Assembly,NL,KORIDANG,28,4,I. TALITSUBA IMCHEN,Independent,2618,78
+2023,Assembly,NL,KORIDANG,28,5,NOTA,None of the Above,39,2
+2023,Assembly,NL,JANGPETKONG,29,1,Imjongwati Longkumer,Naga Peoples Front,4139,98
+2023,Assembly,NL,JANGPETKONG,29,2,Temjenmenba,Nationalist Democratic Progressive Party,6155,83
+2023,Assembly,NL,JANGPETKONG,29,3,Longrineken,Lok Janshakti Party(Ram Vilas),745,32
+2023,Assembly,NL,JANGPETKONG,29,4,NOTA,None of the Above,9,1
+2023,Assembly,NL,ALONGTAKI,30,1,TEMJEN IMNA ALONG,Bharatiya Janata Party,9172,102
+2023,Assembly,NL,ALONGTAKI,30,2,J. LANU LONGCHAR,Janata Dal  (United),5468,58
+2023,Assembly,NL,ALONGTAKI,30,3,NOTA,None of the Above,38,0
+2023,Assembly,NL,AKULUTO,31,1,KAZHETO,Bharatiya Janata Party,0,0
+2023,Assembly,NL,ATOIZU,32,1,ER KAHULI SEMA,Bharatiya Janata Party,7489,203
+2023,Assembly,NL,ATOIZU,32,2,PICTO,Nationalist Congress Party,8105,189
+2023,Assembly,NL,ATOIZU,32,3,NOTA,None of the Above,14,2
+2023,Assembly,NL,SURUHUTO,33,1,H. KHEHOVI,Bharatiya Janata Party,6614,236
+2023,Assembly,NL,SURUHUTO,33,2,S. TOIHO YEPTHO,Nationalist Congress Party,6635,284
+2023,Assembly,NL,SURUHUTO,33,3,NOTA,None of the Above,18,0
+2023,Assembly,NL,AGHUNATO,34,1,G IKUTO ZHIMOMI,Nationalist Democratic Progressive Party,6907,226
+2023,Assembly,NL,AGHUNATO,34,2,HUKIYE N TISSICA,Lok Janshakti Party(Ram Vilas),6282,259
+2023,Assembly,NL,AGHUNATO,34,3,NOTA,None of the Above,32,0
+2023,Assembly,NL,ZUNHEBOTO,35,1,AKAVI SUMI,Naga Peoples Front,3780,113
+2023,Assembly,NL,ZUNHEBOTO,35,2,K TOKUGHA SUKHALU,Nationalist Democratic Progressive Party,15328,593
+2023,Assembly,NL,ZUNHEBOTO,35,3,NOTA,None of the Above,76,1
+2023,Assembly,NL,SATAKHA,36,1,G. KAITO AYE,Nationalist Democratic Progressive Party,8418,457
+2023,Assembly,NL,SATAKHA,36,2,ZHEITO CHOPHY,Lok Janshakti Party(Ram Vilas),7173,351
+2023,Assembly,NL,SATAKHA,36,3,NOTA,None of the Above,39,0
+2023,Assembly,NL,TYUI,37,1,YANTHUNGO PATTON,Bharatiya Janata Party,15989,652
+2023,Assembly,NL,TYUI,37,2,Y.KIKON,Rashtriya Janata Dal,39,2
+2023,Assembly,NL,TYUI,37,3,SENCHUMO LOTHA,Janata Dal  (United),7645,155
+2023,Assembly,NL,TYUI,37,4,HAYITHUNG TUNGOE LOTHA,Independent,30,1
+2023,Assembly,NL,TYUI,37,5,NOTA,None of the Above,17,4
+2023,Assembly,NL,WOKHA,38,1,Y MHONBEMO HUMTSOE,Nationalist Congress Party,15316,633
+2023,Assembly,NL,WOKHA,38,2,RENPONTHUNG EZUNG,Bharatiya Janata Party,12418,470
+2023,Assembly,NL,WOKHA,38,3,N WOBENTHUNG LOTHA,Indian National Congress,303,21
+2023,Assembly,NL,WOKHA,38,4,NOTA,None of the Above,22,4
+2023,Assembly,NL,SANIS,39,1,Mhathung Yanthan,Nationalist Democratic Progressive Party,14893,183
+2023,Assembly,NL,SANIS,39,2,Dr. Roland Lotha,Naga Peoples Front,1733,21
+2023,Assembly,NL,SANIS,39,3,Yanchamo Ovung,Indian National Congress,92,2
+2023,Assembly,NL,SANIS,39,4,Senkathung Jami,Rashtriya Janata Dal,5522,41
+2023,Assembly,NL,SANIS,39,5,Y. Sulanthung H Lotha,Lok Janshakti Party(Ram Vilas),285,4
+2023,Assembly,NL,SANIS,39,6,Mhonbemo,Independent,104,1
+2023,Assembly,NL,SANIS,39,7,NOTA,None of the Above,14,1
+2023,Assembly,NL,TIZIT,41,1,P. PAIWANG KONYAK,Bharatiya Janata Party,10270,158
+2023,Assembly,NL,TIZIT,41,2,TAHWANG ANGH,Naga Peoples Front,3360,14
+2023,Assembly,NL,TIZIT,41,3,T. THOMAS KONYAK,Indian National Congress,5808,17
+2023,Assembly,NL,TIZIT,41,4,NOTA,None of the Above,52,0
+2023,Assembly,NL,TAPI,43,1,A EPHA,National People's Party,132,18
+2023,Assembly,NL,TAPI,43,2,NOKE WANGNAO,Nationalist Democratic Progressive Party,5635,229
+2023,Assembly,NL,TAPI,43,3,WANGLEM KONYAK,Naga Peoples Front,5750,32
+2023,Assembly,NL,TAPI,43,4,GEIHWANG KONYAK,Janata Dal  (United),2740,30
+2023,Assembly,NL,TAPI,43,5,NOTA,None of the Above,42,0
+2023,Assembly,NL,PHOMCHING,44,1,H Chingsak Konyak,Naga Peoples Front,10,1
+2023,Assembly,NL,PHOMCHING,44,2,K Konngam Konyak,Bharatiya Janata Party,9746,57
+2023,Assembly,NL,PHOMCHING,44,3,T Ngampai Konyak,Indian National Congress,82,2
+2023,Assembly,NL,PHOMCHING,44,4,Pohwang Konyak,Nationalist Congress Party,6853,73
+2023,Assembly,NL,PHOMCHING,44,5,NOTA,None of the Above,50,1
+2023,Assembly,NL,TEHOK,45,1,C.L JOHN,Nationalist Democratic Progressive Party,9019,213
+2023,Assembly,NL,TEHOK,45,2,C KAWANG KONYAK,Naga Peoples Front,2134,28
+2023,Assembly,NL,TEHOK,45,3,SHABOH KONYAK,Indian National Congress,116,4
+2023,Assembly,NL,TEHOK,45,4,M M THROMA KONYAK,Communist Party of India,47,0
+2023,Assembly,NL,TEHOK,45,5,CHINGKAI KONYAK,Lok Janshakti Party(Ram Vilas),146,3
+2023,Assembly,NL,TEHOK,45,6,DR. CHINGO WALIM,Independent,22,2
+2023,Assembly,NL,TEHOK,45,7,NOTA,None of the Above,19,0
+2023,Assembly,NL,MON TOWN,46,1,ER. CHEONG KONYAK,Bharatiya Janata Party,7947,312
+2023,Assembly,NL,MON TOWN,46,2,Y MANKHAO KONYAK,Nationalist Congress Party,10515,355
+2023,Assembly,NL,MON TOWN,46,3,NOTA,None of the Above,36,2
+2023,Assembly,NL,ABOI,47,1,E. ESHAK KONYAK,Nationalist Democratic Progressive Party,2746,20
+2023,Assembly,NL,ABOI,47,2,WANGKA KONYAK,Republican Party of India (Athawale),3218,29
+2023,Assembly,NL,ABOI,47,3,C. MANPON KONYAK,Independent,6726,45
+2023,Assembly,NL,ABOI,47,4,NOTA,None of the Above,42,0
+2023,Assembly,NL,MOKA,48,1,A NYAMNYEI  KONYAK,National People's Party,8813,44
+2023,Assembly,NL,MOKA,48,2,EE PANGTEANG,Nationalist Democratic Progressive Party,8213,88
+2023,Assembly,NL,MOKA,48,3,D YONGNYAK KONYAK,Naga Peoples Front,257,31
+2023,Assembly,NL,MOKA,48,4,NOTA,None of the Above,24,1
+2023,Assembly,NL,TAMLU,49,1,B.S. Nganlang Phom,Nationalist Democratic Progressive Party,7892,60
+2023,Assembly,NL,TAMLU,49,2,H Nyemli Phom,Republican Party of India (Athawale),214,45
+2023,Assembly,NL,TAMLU,49,3,B. Bangtick Phom,Independent,8597,49
+2023,Assembly,NL,TAMLU,49,4,NOTA,None of the Above,46,0
+2023,Assembly,NL,LONGLENG,50,1,DENNGAN Y AVENNOHO,Indian National Congress,210,22
+2023,Assembly,NL,LONGLENG,50,2,S. PANGNYU PHOM,Bharatiya Janata Party,11291,347
+2023,Assembly,NL,LONGLENG,50,3,A PONGSHI PHOM,Nationalist Congress Party,16377,531
+2023,Assembly,NL,LONGLENG,50,4,PHUYAM,Independent,403,7
+2023,Assembly,NL,LONGLENG,50,5,NOTA,None of the Above,16,0
+2023,Assembly,NL,NOKSEN,51,1,H. Chuba Chang,Nationalist Democratic Progressive Party,4831,132
+2023,Assembly,NL,NOKSEN,51,2,Y. Lima Onen Chang,Republican Party of India (Athawale),5025,126
+2023,Assembly,NL,NOKSEN,51,3,NOTA,None of the Above,38,1
+2023,Assembly,NL,LONGKHIM CHARE,52,1,MUTHINGNYUBA SANGTAM,Nationalist Congress Party,8499,65
+2023,Assembly,NL,LONGKHIM CHARE,52,2,SETHRONGKYU,Bharatiya Janata Party,10085,102
+2023,Assembly,NL,LONGKHIM CHARE,52,3,SETHRICHEM SANGTAM,Republican Party of India (Athawale),1438,12
+2023,Assembly,NL,LONGKHIM CHARE,52,4,NOTA,None of the Above,38,0
+2023,Assembly,NL,TUENSANG SADAR-I,53,1,P. Bashangmongba Chang,Bharatiya Janata Party,12050,588
+2023,Assembly,NL,TUENSANG SADAR-I,53,2,Toyang Chang,Nationalist Congress Party,6771,223
+2023,Assembly,NL,TUENSANG SADAR-I,53,3,C.N Yanchu Chang,Independent,281,6
+2023,Assembly,NL,TUENSANG SADAR-I,53,4,NOTA,None of the Above,46,0
+2023,Assembly,NL,TUENSANG SADAR-II,54,1,K. Odibendang Chang,Nationalist Democratic Progressive Party,5053,61
+2023,Assembly,NL,TUENSANG SADAR-II,54,2,Z. Throngso,Indian National Congress,83,4
+2023,Assembly,NL,TUENSANG SADAR-II,54,3,H. Zungkum Chang,Naga Peoples Front,4450,37
+2023,Assembly,NL,TUENSANG SADAR-II,54,4,Imtichoba,Republican Party of India (Athawale),5464,50
+2023,Assembly,NL,TUENSANG SADAR-II,54,5,NOTA,None of the Above,35,0
+2023,Assembly,NL,TOBU,55,1,N. Bongkhao Konyak,Nationalist Democratic Progressive Party,9761,355
+2023,Assembly,NL,TOBU,55,2,Naiba Konyak,Lok Janshakti Party(Ram Vilas),10556,66
+2023,Assembly,NL,TOBU,55,3,NOTA,None of the Above,21,0
+2023,Assembly,NL,NOKLAK,56,1,H Haiying,Bharatiya Janata Party,7500,248
+2023,Assembly,NL,NOKLAK,56,2,P Longon,Nationalist Congress Party,8189,293
+2023,Assembly,NL,NOKLAK,56,3,NOTA,None of the Above,24,0
+2023,Assembly,NL,THONOKNYU,57,1,Benei M Lamthiu,National People's Party,10383,79
+2023,Assembly,NL,THONOKNYU,57,2,S Heno Khiamniungan,Nationalist Democratic Progressive Party,8098,39
+2023,Assembly,NL,THONOKNYU,57,3,L Khumo Khiamniungan,Lok Janshakti Party(Ram Vilas),43,3
+2023,Assembly,NL,THONOKNYU,57,4,NOTA,None of the Above,16,0
+2023,Assembly,NL,SHAMATOR CHESSORE,58,1,W AKUM YIMKHIUNG,Indian National Congress,80,5
+2023,Assembly,NL,SHAMATOR CHESSORE,58,2,S KEOSHU YIMCHUNGER,Nationalist Democratic Progressive Party,8862,203
+2023,Assembly,NL,SHAMATOR CHESSORE,58,3,H MUKAM,Naga Peoples Front,145,1
+2023,Assembly,NL,SHAMATOR CHESSORE,58,4,R TOHANBA,Lok Janshakti Party(Ram Vilas),6673,97
+2023,Assembly,NL,SHAMATOR CHESSORE,58,5,NOTA,None of the Above,49,0
+2023,Assembly,NL,SEYOCHUNG SITIMI,59,1,V. Kashiho Sangtam,Bharatiya Janata Party,10920,86
+2023,Assembly,NL,SEYOCHUNG SITIMI,59,2,Khaseo Sangtam,Indian National Congress,14,4
+2023,Assembly,NL,SEYOCHUNG SITIMI,59,3,C. Kipili Sangtam,National People's Party,11822,114
+2023,Assembly,NL,SEYOCHUNG SITIMI,59,4,NOTA,None of the Above,65,1
+2023,Assembly,NL,PUNGRO KIPHIRE,60,1,T. Atsuba,Indian National Congress,61,1
+2023,Assembly,NL,PUNGRO KIPHIRE,60,2,S. Kiusumew Yimchunger,Nationalist Democratic Progressive Party,15863,235
+2023,Assembly,NL,PUNGRO KIPHIRE,60,3,T. Yangseo Sangtam,Republican Party of India (Athawale),13509,298
+2023,Assembly,NL,PUNGRO KIPHIRE,60,4,NOTA,None of the Above,71,0

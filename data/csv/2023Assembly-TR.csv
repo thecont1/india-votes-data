@@ -1,0 +1,320 @@
+election_year,election_type,election_state,constituency,constituency_no,serial_no,candidate,party,evm_votes,postal_votes
+2023,Assembly,TR,SIMNA,1,1,Kumodh Debbarma,Communist Party of India  (Marxist),5679,132
+2023,Assembly,TR,SIMNA,1,2,Binod Debbarma,Bharatiya Janata Party,5577,86
+2023,Assembly,TR,SIMNA,1,3,Brishaketu Debbarma,Tipra Motha Party,22164,593
+2023,Assembly,TR,SIMNA,1,4,Jiten Debbarma,Independent,414,4
+2023,Assembly,TR,SIMNA,1,5,NOTA,None of the Above,421,1
+2023,Assembly,TR,MOHANPUR,2,1,Prasanta Sen Chowdhury,Indian National Congress,10301,287
+2023,Assembly,TR,MOHANPUR,2,2,Ratan Lal Nath,Bharatiya Janata Party,19128,535
+2023,Assembly,TR,MOHANPUR,2,3,Tapas Dey,Tipra Motha Party,11781,497
+2023,Assembly,TR,MOHANPUR,2,4,Joy Kumar Deb,Independent,479,4
+2023,Assembly,TR,MOHANPUR,2,5,NOTA,None of the Above,349,3
+2023,Assembly,TR,BAMUTIA,3,1,Krishnadhan Das,Bharatiya Janata Party,17665,428
+2023,Assembly,TR,BAMUTIA,3,2,Nayan Sarkar,Communist Party of India  (Marxist),19519,600
+2023,Assembly,TR,BAMUTIA,3,3,Nihar Ranjan Sarkar,All India Trinamool Congress,613,22
+2023,Assembly,TR,BAMUTIA,3,4,Nitai Sarkar,Tipra Motha Party,3309,169
+2023,Assembly,TR,BAMUTIA,3,5,Babul Bairagi,Independent,162,3
+2023,Assembly,TR,BAMUTIA,3,6,Biplab Das,Independent,400,2
+2023,Assembly,TR,BAMUTIA,3,7,NOTA,None of the Above,459,14
+2023,Assembly,TR,BARJALA,4,1,Dr. Dilip Kumar Das,Bharatiya Janata Party,19207,490
+2023,Assembly,TR,BARJALA,4,2,Sudip Sarkar,Communist Party of India  (Marxist),20953,533
+2023,Assembly,TR,BARJALA,4,3,NOTA,None of the Above,973,28
+2023,Assembly,TR,KHAYERPUR,5,1,Tejen Das,All India Trinamool Congress,821,9
+2023,Assembly,TR,KHAYERPUR,5,2,Pabitra Kar,Communist Party of India  (Marxist),17816,527
+2023,Assembly,TR,KHAYERPUR,5,3,Ratan Chakraborty,Bharatiya Janata Party,21989,464
+2023,Assembly,TR,KHAYERPUR,5,4,Lakshmi Nag (Barman),Tipra Motha Party,4985,162
+2023,Assembly,TR,KHAYERPUR,5,5,NOTA,None of the Above,513,7
+2023,Assembly,TR,AGARTALA,6,1,Papia Dutta,Bharatiya Janata Party,17338,935
+2023,Assembly,TR,AGARTALA,6,2,Sudip Roy Barman,Indian National Congress,25877,558
+2023,Assembly,TR,AGARTALA,6,3,Arnab Roy,Republican Party of India (A),216,4
+2023,Assembly,TR,AGARTALA,6,4,Goutam Deb,Independent,253,2
+2023,Assembly,TR,AGARTALA,6,5,Mangal Mia,Independent,104,2
+2023,Assembly,TR,AGARTALA,6,6,Malin Debbarma,Independent,232,9
+2023,Assembly,TR,AGARTALA,6,7,NOTA,None of the Above,537,25
+2023,Assembly,TR,RAMNAGAR,7,1,PUJAN BISWAS,All India Trinamool Congress,2042,37
+2023,Assembly,TR,RAMNAGAR,7,2,SURAJIT DATTA,Bharatiya Janata Party,16822,633
+2023,Assembly,TR,RAMNAGAR,7,3,Dulal Ghosh,Independent,990,15
+2023,Assembly,TR,RAMNAGAR,7,4,PURUSHUTTAM ROY BARMAN,Independent,15780,778
+2023,Assembly,TR,RAMNAGAR,7,5,NOTA,None of the Above,650,35
+2023,Assembly,TR,TOWN BARDOWALI,8,1,ANANTA BANERJEE,All India Trinamool Congress,623,16
+2023,Assembly,TR,TOWN BARDOWALI,8,2,ASISH KUMAR SAHA,Indian National Congress,17551,778
+2023,Assembly,TR,TOWN BARDOWALI,8,3,MANIK SAHA,Bharatiya Janata Party,18731,855
+2023,Assembly,TR,TOWN BARDOWALI,8,4,ARNAB ROY,Republican Party of India (A),125,5
+2023,Assembly,TR,TOWN BARDOWALI,8,5,RAMKRISHNA DEBNATH,Independent,197,1
+2023,Assembly,TR,TOWN BARDOWALI,8,6,SHIBANI BHOWMIK,Independent,111,6
+2023,Assembly,TR,TOWN BARDOWALI,8,7,NOTA,None of the Above,335,16
+2023,Assembly,TR,BANAMALIPUR,9,1,GOPAL CHANDRA ROY,Indian National Congress,16500,628
+2023,Assembly,TR,BANAMALIPUR,9,2,RAJIB BHATTACHARJEE,Bharatiya Janata Party,15247,512
+2023,Assembly,TR,BANAMALIPUR,9,3,SANTANU SAHA,All India Trinamool Congress,716,16
+2023,Assembly,TR,BANAMALIPUR,9,4,Brajalal Debnath,Independent,161,1
+2023,Assembly,TR,BANAMALIPUR,9,5,SUJATA DATTA,Independent,285,3
+2023,Assembly,TR,BANAMALIPUR,9,6,NOTA,None of the Above,450,29
+2023,Assembly,TR,MAJLISHPUR,10,1,Nirmal Majumder,All India Trinamool Congress,597,11
+2023,Assembly,TR,MAJLISHPUR,10,2,Sanjoy Das,Communist Party of India  (Marxist),15579,598
+2023,Assembly,TR,MAJLISHPUR,10,3,Sushanta Chowdhury,Bharatiya Janata Party,20832,517
+2023,Assembly,TR,MAJLISHPUR,10,4,Samir Basu,Tipra Motha Party,6658,338
+2023,Assembly,TR,MAJLISHPUR,10,5,NOTA,None of the Above,486,6
+2023,Assembly,TR,MANDAIBAZAR,11,1,Tarit Debbarma,Bharatiya Janata Party,6444,159
+2023,Assembly,TR,MANDAIBAZAR,11,2,Radhacharan Debbarma,Communist Party of India  (Marxist),6880,197
+2023,Assembly,TR,MANDAIBAZAR,11,3,Swapna Debbarma,Tipra Motha Party,27876,850
+2023,Assembly,TR,MANDAIBAZAR,11,4,Hiramuni Debbarma,Independent,441,2
+2023,Assembly,TR,MANDAIBAZAR,11,5,NOTA,None of the Above,440,4
+2023,Assembly,TR,TAKARJALA,12,1,Bidhan DebBarma,Indigenous People's Front of Tripura,2233,29
+2023,Assembly,TR,TAKARJALA,12,2,Shyamal Debbarma,Communist Party of India  (Marxist),1746,50
+2023,Assembly,TR,TAKARJALA,12,3,Ananta DebBarma,Republican Party of India (Athawale),539,3
+2023,Assembly,TR,TAKARJALA,12,4,Biswajit Kalai,Tipra Motha Party,33684,1033
+2023,Assembly,TR,TAKARJALA,12,5,NOTA,None of the Above,673,3
+2023,Assembly,TR,PRATAPGARH,13,1,KUHELI DAS,All India Trinamool Congress,1172,9
+2023,Assembly,TR,PRATAPGARH,13,2,RAMU DAS,Communist Party of India  (Marxist),25903,519
+2023,Assembly,TR,PRATAPGARH,13,3,REBATI MOHAN DAS,Bharatiya Janata Party,23871,465
+2023,Assembly,TR,PRATAPGARH,13,4,ASHOK KUMAR DAS,Independent,747,14
+2023,Assembly,TR,PRATAPGARH,13,5,NOTA,None of the Above,541,14
+2023,Assembly,TR,BADHARGHAT,14,1,Mina Rani Sarkar,Bharatiya Janata Party,26629,798
+2023,Assembly,TR,BADHARGHAT,14,2,Partha Ranjan Sarkar,All India Forward Bloc,25289,849
+2023,Assembly,TR,BADHARGHAT,14,3,Mridul Kanti Sarkar,Independent,709,14
+2023,Assembly,TR,BADHARGHAT,14,4,Sushil Chandra Das,Independent,1026,10
+2023,Assembly,TR,BADHARGHAT,14,5,NOTA,None of the Above,685,35
+2023,Assembly,TR,KAMALASAGAR,15,1,Antara Sarkar Deb,Bharatiya Janata Party,18551,501
+2023,Assembly,TR,KAMALASAGAR,15,2,Sutapa Ghosh,All India Trinamool Congress,844,14
+2023,Assembly,TR,KAMALASAGAR,15,3,Hiranmay Narayan Debnath,Communist Party of India  (Marxist),16851,457
+2023,Assembly,TR,KAMALASAGAR,15,4,Ashis Das,Tipra Motha Party,2244,67
+2023,Assembly,TR,KAMALASAGAR,15,5,NOTA,None of the Above,663,7
+2023,Assembly,TR,BISHALGARH,16,1,Partha Pratim Majumder,Communist Party of India  (Marxist),20270,718
+2023,Assembly,TR,BISHALGARH,16,2,Sushanta Deb,Bharatiya Janata Party,21738,576
+2023,Assembly,TR,BISHALGARH,16,3,Haradhan Deb nath,All India Trinamool Congress,590,9
+2023,Assembly,TR,BISHALGARH,16,4,Md. Saha Alam Miah,Tipra Motha Party,1532,74
+2023,Assembly,TR,BISHALGARH,16,5,NOTA,None of the Above,469,9
+2023,Assembly,TR,GOLAGHATI,17,1,Brinda Rani DebBarma,Communist Party of India  (Marxist),7409,197
+2023,Assembly,TR,GOLAGHATI,17,2,Himani Debbarma,Bharatiya Janata Party,10425,177
+2023,Assembly,TR,GOLAGHATI,17,3,Amit Kumar Debbarma,Republican Party of India (Athawale),445,4
+2023,Assembly,TR,GOLAGHATI,17,4,Manab Debbarma,Tipra Motha Party,19175,625
+2023,Assembly,TR,GOLAGHATI,17,5,NOTA,None of the Above,518,6
+2023,Assembly,TR,SURYAMANINAGAR,18,1,RAM PRASAD PAUL,Bharatiya Janata Party,24416,575
+2023,Assembly,TR,SURYAMANINAGAR,18,2,SUSANTA CHAKRABORTY,Indian National Congress,22487,596
+2023,Assembly,TR,SURYAMANINAGAR,18,3,BIPLAB MAJUMDER,Independent,492,11
+2023,Assembly,TR,SURYAMANINAGAR,18,4,Mohanta Barman,Independent,751,5
+2023,Assembly,TR,SURYAMANINAGAR,18,5,NOTA,None of the Above,723,7
+2023,Assembly,TR,CHARILAM,19,1,Ashok Deb Barma,Indian National Congress,9335,292
+2023,Assembly,TR,CHARILAM,19,2,Jishnu Dev Varma,Bharatiya Janata Party,12554,245
+2023,Assembly,TR,CHARILAM,19,3,Subodh Deb Barma,Tipra Motha Party,13205,452
+2023,Assembly,TR,CHARILAM,19,4,NOTA,None of the Above,490,6
+2023,Assembly,TR,BOXANAGAR,20,1,Joydal Hossain,All India Trinamool Congress,909,7
+2023,Assembly,TR,BOXANAGAR,20,2,Tafajjal Hossain,Bharatiya Janata Party,14334,221
+2023,Assembly,TR,BOXANAGAR,20,3,Samsul Haque,Communist Party of India  (Marxist),18965,439
+2023,Assembly,TR,BOXANAGAR,20,4,Abu Khayer Miah,Tipra Motha Party,2955,55
+2023,Assembly,TR,BOXANAGAR,20,5,Safiqul Islam,Independent,316,0
+2023,Assembly,TR,BOXANAGAR,20,6,NOTA,None of the Above,341,1
+2023,Assembly,TR,NALCHAR,21,1,Kishor Barman,Bharatiya Janata Party,20361,475
+2023,Assembly,TR,NALCHAR,21,2,Tapan Ch. Das,Communist Party of India  (Marxist),17853,599
+2023,Assembly,TR,NALCHAR,21,3,Lutan Das,All India Trinamool Congress,870,19
+2023,Assembly,TR,NALCHAR,21,4,Bimal Das,Independent,483,3
+2023,Assembly,TR,NALCHAR,21,5,Sunil Chandra Das,Independent,319,5
+2023,Assembly,TR,NALCHAR,21,6,NOTA,None of the Above,717,8
+2023,Assembly,TR,SONAMURA,22,1,Debabrata Bhattacharjee,Bharatiya Janata Party,17175,449
+2023,Assembly,TR,SONAMURA,22,2,Neel Kamal Saha,All India Trinamool Congress,1037,9
+2023,Assembly,TR,SONAMURA,22,3,Shyamal Chakraborty,Communist Party of India  (Marxist),19502,537
+2023,Assembly,TR,SONAMURA,22,4,Premjit Sinha,Independent,376,1
+2023,Assembly,TR,SONAMURA,22,5,NOTA,None of the Above,610,7
+2023,Assembly,TR,DHANPUR,23,1,Kaushik Chanda,Communist Party of India  (Marxist),15334,314
+2023,Assembly,TR,DHANPUR,23,2,Pratima Bhoumik,Bharatiya Janata Party,18774,374
+2023,Assembly,TR,DHANPUR,23,3,Habil Mia,All India Trinamool Congress,647,4
+2023,Assembly,TR,DHANPUR,23,4,Amiya Dayal Noatia,Tipra Motha Party,8457,214
+2023,Assembly,TR,DHANPUR,23,5,Bappi Debnath,Independent,258,0
+2023,Assembly,TR,DHANPUR,23,6,Rakesh Sukla Das,Independent,404,1
+2023,Assembly,TR,DHANPUR,23,7,NOTA,None of the Above,535,3
+2023,Assembly,TR,RAMCHANDRAGHAT,24,1,Prasanta Debbarma,Indigenous People's Front of Tripura,919,13
+2023,Assembly,TR,RAMCHANDRAGHAT,24,2,Ranjit Debbarma,Communist Party of India  (Marxist),6791,150
+2023,Assembly,TR,RAMCHANDRAGHAT,24,3,Ranjit Debbarma,Tipra Motha Party,22444,699
+2023,Assembly,TR,RAMCHANDRAGHAT,24,4,Sanjib Debbarma,Independent,5930,80
+2023,Assembly,TR,RAMCHANDRAGHAT,24,5,Sahajit Debbarma,Independent,598,0
+2023,Assembly,TR,RAMCHANDRAGHAT,24,6,NOTA,None of the Above,391,3
+2023,Assembly,TR,KHOWAI,25,1,Nirmal Biswas,Communist Party of India  (Marxist),18946,750
+2023,Assembly,TR,KHOWAI,25,2,Subrata Majumdar,Bharatiya Janata Party,18242,414
+2023,Assembly,TR,KHOWAI,25,3,Kishore Roy,Independent,662,8
+2023,Assembly,TR,KHOWAI,25,4,NOTA,None of the Above,571,16
+2023,Assembly,TR,ASHARAMBARI,26,1,Jayanti Deb Barma,Indigenous People's Front of Tripura,5478,32
+2023,Assembly,TR,ASHARAMBARI,26,2,Dilip Debbarma,Communist Party of India  (Marxist),4328,92
+2023,Assembly,TR,ASHARAMBARI,26,3,Animesh Debbarma,Tipra Motha Party,23329,509
+2023,Assembly,TR,ASHARAMBARI,26,4,Archana Urang,Independent,1123,2
+2023,Assembly,TR,ASHARAMBARI,26,5,Jappu DebBarma,Independent,432,0
+2023,Assembly,TR,ASHARAMBARI,26,6,NOTA,None of the Above,488,2
+2023,Assembly,TR,KALYANPUR-PRAMODNAGAR,27,1,Pinaki Das Chowdhury,Bharatiya Janata Party,17554,349
+2023,Assembly,TR,KALYANPUR-PRAMODNAGAR,27,2,Manindra Chandra Das,Communist Party of India  (Marxist),10658,323
+2023,Assembly,TR,KALYANPUR-PRAMODNAGAR,27,3,Manihar Debbarma,Tipra Motha Party,10938,352
+2023,Assembly,TR,KALYANPUR-PRAMODNAGAR,27,4,Nagendra Chandra Shil,Independent,526,3
+2023,Assembly,TR,KALYANPUR-PRAMODNAGAR,27,5,NOTA,None of the Above,371,1
+2023,Assembly,TR,TELIAMURA,28,1,ASHOK KR. BAIDYA,Indian National Congress,12118,485
+2023,Assembly,TR,TELIAMURA,28,2,KALYANI SAHA ROY,Bharatiya Janata Party,16136,619
+2023,Assembly,TR,TELIAMURA,28,3,RABI CHOWDHURY,All India Trinamool Congress,557,18
+2023,Assembly,TR,TELIAMURA,28,4,ABHIJIT SARKAR,Tipra Motha Party,8455,449
+2023,Assembly,TR,TELIAMURA,28,5,Narayan Debnath,Independent,591,13
+2023,Assembly,TR,TELIAMURA,28,6,NOTA,None of the Above,347,11
+2023,Assembly,TR,KRISHNAPUR,29,1,BIKASH DEBBARMA,Bharatiya Janata Party,13466,334
+2023,Assembly,TR,KRISHNAPUR,29,2,SWASTI DEBBARMA,Communist Party of India  (Marxist),8397,282
+2023,Assembly,TR,KRISHNAPUR,29,3,MAHENDRA DEBBARMA,Tipra Motha Party,10849,313
+2023,Assembly,TR,KRISHNAPUR,29,4,ATUL DEBBARMA,Independent,398,15
+2023,Assembly,TR,KRISHNAPUR,29,5,NOTA,None of the Above,467,4
+2023,Assembly,TR,BAGMA,30,1,Naresh Chandra Jamatia,Communist Party of India  (Marxist),12315,298
+2023,Assembly,TR,BAGMA,30,2,Ram Pada Jamatia,Bharatiya Janata Party,19158,324
+2023,Assembly,TR,BAGMA,30,3,Purna Ch. Jamatia,Tipra Motha Party,16860,539
+2023,Assembly,TR,BAGMA,30,4,NOTA,None of the Above,785,8
+2023,Assembly,TR,RADHAKISHORPUR,31,1,Pranajit Singha Roy,Bharatiya Janata Party,23668,753
+2023,Assembly,TR,RADHAKISHORPUR,31,2,Partha Karmakar,Communist Party of India  (Marxist-Leninist)  (Liberation),942,78
+2023,Assembly,TR,RADHAKISHORPUR,31,3,Srikanta Datta,Revolutionary Socialist Party,16367,640
+2023,Assembly,TR,RADHAKISHORPUR,31,4,Bibhu lal Dey,Independent,372,5
+2023,Assembly,TR,RADHAKISHORPUR,31,5,Ratan Debbarma,Independent,154,5
+2023,Assembly,TR,RADHAKISHORPUR,31,6,NOTA,None of the Above,552,16
+2023,Assembly,TR,MATARBARI,32,1,Abhishek Debroy,Bharatiya Janata Party,25051,443
+2023,Assembly,TR,MATARBARI,32,2,Pranajit Roy,Indian National Congress,16008,445
+2023,Assembly,TR,MATARBARI,32,3,Biralal Noatia,Tipra Motha Party,6920,181
+2023,Assembly,TR,MATARBARI,32,4,Tarmin Uddin,Independent,307,2
+2023,Assembly,TR,MATARBARI,32,5,NOTA,None of the Above,566,10
+2023,Assembly,TR,KAKRABAN-SHALGARA,33,1,Jitendra Majumder,Bharatiya Janata Party,23180,445
+2023,Assembly,TR,KAKRABAN-SHALGARA,33,2,Ratan Kr. Bhowmik,Communist Party of India  (Marxist),17994,580
+2023,Assembly,TR,KAKRABAN-SHALGARA,33,3,Kshir Mohan Das,Tipra Motha Party,5719,177
+2023,Assembly,TR,KAKRABAN-SHALGARA,33,4,Uttam Das,Independent,313,3
+2023,Assembly,TR,KAKRABAN-SHALGARA,33,5,NOTA,None of the Above,635,2
+2023,Assembly,TR,RAJNAGAR,34,1,SUDHAN DAS,Communist Party of India  (Marxist),19065,449
+2023,Assembly,TR,RAJNAGAR,34,2,SWAPNA MAJUMDER,Bharatiya Janata Party,20517,332
+2023,Assembly,TR,RAJNAGAR,34,3,ABHIJIT MALAKAR,Tipra Motha Party,2234,33
+2023,Assembly,TR,RAJNAGAR,34,4,NOTA,None of the Above,731,7
+2023,Assembly,TR,BELONIA,35,1,GOUTAM SARKAR,Bharatiya Janata Party,19104,509
+2023,Assembly,TR,BELONIA,35,2,DILIP KUMAR CHOWDHURY,All India Trinamool Congress,748,12
+2023,Assembly,TR,BELONIA,35,3,DIPANKAR SEN,Communist Party of India  (Marxist),19319,697
+2023,Assembly,TR,BELONIA,35,4,GOURI SANKAR NANDI,Independent,400,7
+2023,Assembly,TR,BELONIA,35,5,NOTA,None of the Above,655,15
+2023,Assembly,TR,SANTIRBAZAR,36,1,NARENDRA REANG,All India Trinamool Congress,693,4
+2023,Assembly,TR,SANTIRBAZAR,36,2,PRAMOD REANG,Bharatiya Janata Party,18284,425
+2023,Assembly,TR,SANTIRBAZAR,36,3,SATYAJIT REANG,Communist Party of India,11728,335
+2023,Assembly,TR,SANTIRBAZAR,36,4,HARENDRA REANG,Tipra Motha Party,14260,355
+2023,Assembly,TR,SANTIRBAZAR,36,5,NOTA,None of the Above,629,7
+2023,Assembly,TR,HRISHYAMUKH,37,1,ASOKE CH. MITRA,Communist Party of India  (Marxist),19456,530
+2023,Assembly,TR,HRISHYAMUKH,37,2,DIPAYAN CHOUDHURY,Bharatiya Janata Party,18196,372
+2023,Assembly,TR,HRISHYAMUKH,37,3,ARUP DEB,Tipra Motha Party,3790,66
+2023,Assembly,TR,HRISHYAMUKH,37,4,NOTA,None of the Above,690,4
+2023,Assembly,TR,JOLAIBARI,38,1,KANGJARI MOG,All India Trinamool Congress,1110,21
+2023,Assembly,TR,JOLAIBARI,38,2,DEBENDRA TRIPURA,Communist Party of India  (Marxist),16808,438
+2023,Assembly,TR,JOLAIBARI,38,3,SUKLA CHARAN NOATIA,Indigenous People's Front of Tripura,17316,305
+2023,Assembly,TR,JOLAIBARI,38,4,GAURAB MOG CHOUDHURY,Tipra Motha Party,8679,154
+2023,Assembly,TR,JOLAIBARI,38,5,NOTA,None of the Above,877,11
+2023,Assembly,TR,MANU,39,1,Pravat Chowdhury,Communist Party of India  (Marxist),14452,470
+2023,Assembly,TR,MANU,39,2,Mailafru Mog,Bharatiya Janata Party,15191,278
+2023,Assembly,TR,MANU,39,3,Dhananjoy Tripura,Tipra Motha Party,13443,207
+2023,Assembly,TR,MANU,39,4,NOTA,None of the Above,786,8
+2023,Assembly,TR,SABROOM,40,1,Jitendra Chaudhury,Communist Party of India  (Marxist),21196,605
+2023,Assembly,TR,SABROOM,40,2,Sankar Roy,Bharatiya Janata Party,20942,463
+2023,Assembly,TR,SABROOM,40,3,NOTA,None of the Above,1248,17
+2023,Assembly,TR,AMPINAGAR,41,1,PARIKHIT KALAI,Communist Party of India  (Marxist),3999,152
+2023,Assembly,TR,AMPINAGAR,41,2,PATAL KANYA JAMATIA,Bharatiya Janata Party,9202,137
+2023,Assembly,TR,AMPINAGAR,41,3,SINDHU CHANDRA JAMATIA,Indigenous People's Front of Tripura,2057,11
+2023,Assembly,TR,AMPINAGAR,41,4,PATHAN LAL JAMATIA,Tipra Motha Party,21006,519
+2023,Assembly,TR,AMPINAGAR,41,5,PABITRA MOHAN JAMATIA,Independent,319,0
+2023,Assembly,TR,AMPINAGAR,41,6,NOTA,None of the Above,340,1
+2023,Assembly,TR,AMARPUR,42,1,Parimal Debnath,Communist Party of India  (Marxist),12851,544
+2023,Assembly,TR,AMARPUR,42,2,Biplab Kumar Saha,All India Trinamool Congress,422,9
+2023,Assembly,TR,AMARPUR,42,3,Ranjit Das,Bharatiya Janata Party,17497,492
+2023,Assembly,TR,AMARPUR,42,4,Amal Majumder,Republican Party of India (A),271,1
+2023,Assembly,TR,AMARPUR,42,5,Ashiram Reang,Tipra Motha Party,7857,259
+2023,Assembly,TR,AMARPUR,42,6,Anil Reang,Independent,135,5
+2023,Assembly,TR,AMARPUR,42,7,NOTA,None of the Above,341,9
+2023,Assembly,TR,KARBOOK,43,1,Ashim Kumar Tripura,Bharatiya Janata Party,12030,170
+2023,Assembly,TR,KARBOOK,43,2,Priyamani Debbarma,Communist Party of India  (Marxist),6761,173
+2023,Assembly,TR,KARBOOK,43,3,Milton Chakma,All India Trinamool Congress,672,11
+2023,Assembly,TR,KARBOOK,43,4,Sanjoy Manik Tripura,Tipra Motha Party,16235,412
+2023,Assembly,TR,KARBOOK,43,5,NOTA,None of the Above,622,3
+2023,Assembly,TR,RAIMA VALLEY,44,1,Pabin Tripura,Communist Party of India  (Marxist),10987,352
+2023,Assembly,TR,RAIMA VALLEY,44,2,Bikash Chakma,Bharatiya Janata Party,15494,333
+2023,Assembly,TR,RAIMA VALLEY,44,3,Nandita Debbarma(Reang),Tipra Motha Party,18772,497
+2023,Assembly,TR,RAIMA VALLEY,44,4,NOTA,None of the Above,952,6
+2023,Assembly,TR,KAMALPUR,45,1,MANOJ KANTI DEB,Bharatiya Janata Party,17788,499
+2023,Assembly,TR,KAMALPUR,45,2,RUBI GHOSH,Indian National Congress,12682,345
+2023,Assembly,TR,KAMALPUR,45,3,SUMEN DEY,All India Trinamool Congress,607,5
+2023,Assembly,TR,KAMALPUR,45,4,MERI DEBBARMA,Tipra Motha Party,7283,251
+2023,Assembly,TR,KAMALPUR,45,5,PREMTOSH DEB,Independent,497,5
+2023,Assembly,TR,KAMALPUR,45,6,NOTA,None of the Above,517,17
+2023,Assembly,TR,SURMA,46,1,ANJAN DAS,Communist Party of India  (Marxist),12038,437
+2023,Assembly,TR,SURMA,46,2,ARJUN NAMASUDRA,All India Trinamool Congress,596,14
+2023,Assembly,TR,SURMA,46,3,SWAPNA DAS PAUL,Bharatiya Janata Party,16886,427
+2023,Assembly,TR,SURMA,46,4,SHYAMAL SARKAR,Tipra Motha Party,11036,431
+2023,Assembly,TR,SURMA,46,5,NIRANJAN DAS,Independent,308,2
+2023,Assembly,TR,SURMA,46,6,PRANESH DAS,Independent,414,2
+2023,Assembly,TR,SURMA,46,7,NOTA,None of the Above,370,3
+2023,Assembly,TR,AMBASSA,47,1,Amalendu DebBarma,Communist Party of India  (Marxist),12964,409
+2023,Assembly,TR,AMBASSA,47,2,Chandan Mog Choudhury,All India Trinamool Congress,728,23
+2023,Assembly,TR,AMBASSA,47,3,Suchitra Debbarma,Bharatiya Janata Party,14508,316
+2023,Assembly,TR,AMBASSA,47,4,Chitta Ranjan Debbarma,Tipra Motha Party,14813,504
+2023,Assembly,TR,AMBASSA,47,5,Karna dhan Chakma,Independent,814,7
+2023,Assembly,TR,AMBASSA,47,6,Krishna Kumar DebBarma,Independent,375,1
+2023,Assembly,TR,AMBASSA,47,7,NOTA,None of the Above,573,10
+2023,Assembly,TR,KARAMCHARA,48,1,Dibachandra Hrangkhawl,Indian National Congress,7182,162
+2023,Assembly,TR,KARAMCHARA,48,2,Braja Lal Tripura,Bharatiya Janata Party,9751,150
+2023,Assembly,TR,KARAMCHARA,48,3,Paul Dangshu,Tipra Motha Party,20038,458
+2023,Assembly,TR,KARAMCHARA,48,4,Bishwanath Debbarma,Tripura Peoples Party,394,3
+2023,Assembly,TR,KARAMCHARA,48,5,Indrakhela Chakma,Independent,363,3
+2023,Assembly,TR,KARAMCHARA,48,6,NOTA,None of the Above,360,7
+2023,Assembly,TR,CHAWMANU,49,1,Jiban Mohan Tripura,Communist Party of India  (Marxist),7172,230
+2023,Assembly,TR,CHAWMANU,49,2,Rupayan Chakma,All India Trinamool Congress,562,4
+2023,Assembly,TR,CHAWMANU,49,3,Sambhu Lal Chakma,Bharatiya Janata Party,16278,366
+2023,Assembly,TR,CHAWMANU,49,4,Barjeda Tripura,Nationalist Citizens Party of India,535,1
+2023,Assembly,TR,CHAWMANU,49,5,Hangsa Kumar Tripura,Tipra Motha Party,13432,313
+2023,Assembly,TR,CHAWMANU,49,6,Tushar Kanti Chakma,Independent,379,0
+2023,Assembly,TR,CHAWMANU,49,7,NOTA,None of the Above,495,5
+2023,Assembly,TR,PABIACHARA,50,1,BHAGABAN CHANDRA DAS,Bharatiya Janata Party,19224,318
+2023,Assembly,TR,PABIACHARA,50,2,SATYABAN DAS,Indian National Congress,18751,383
+2023,Assembly,TR,PABIACHARA,50,3,GOBINDA DAS,Tipra Motha Party,4201,130
+2023,Assembly,TR,PABIACHARA,50,4,ARJUN NAMA,Independent,452,3
+2023,Assembly,TR,PABIACHARA,50,5,NOTA,None of the Above,477,13
+2023,Assembly,TR,FATIKROY,51,1,Sudhangshu Das,Bharatiya Janata Party,19301,269
+2023,Assembly,TR,FATIKROY,51,2,Subrata Das,Communist Party of India  (Marxist),14233,225
+2023,Assembly,TR,FATIKROY,51,3,Bilas Bindu Malakar,Tipra Motha Party,4183,115
+2023,Assembly,TR,FATIKROY,51,4,Sajal Das,Tripura Peoples Party,230,0
+2023,Assembly,TR,FATIKROY,51,5,Pranesh Das,Independent,256,0
+2023,Assembly,TR,FATIKROY,51,6,NOTA,None of the Above,349,9
+2023,Assembly,TR,CHANDIPUR,52,1,Krishnendu Choudhury,Communist Party of India  (Marxist),16565,253
+2023,Assembly,TR,CHANDIPUR,52,2,Tinku Roy,Bharatiya Janata Party,17185,210
+2023,Assembly,TR,CHANDIPUR,52,3,Bidyut Bikas Sinha,All India Trinamool Congress,576,6
+2023,Assembly,TR,CHANDIPUR,52,4,Ranjan Singha,Tipra Motha Party,5187,192
+2023,Assembly,TR,CHANDIPUR,52,5,NOTA,None of the Above,579,8
+2023,Assembly,TR,KAILASHAHAR,53,1,Md. Abdul Matin,All India Trinamool Congress,692,4
+2023,Assembly,TR,KAILASHAHAR,53,2,Birajit Sinha,Indian National Congress,24785,515
+2023,Assembly,TR,KAILASHAHAR,53,3,Moboshar Ali,Bharatiya Janata Party,15260,354
+2023,Assembly,TR,KAILASHAHAR,53,4,Jahangir Ali,Nationalist Citizens Party of India,285,1
+2023,Assembly,TR,KAILASHAHAR,53,5,NOTA,None of the Above,527,10
+2023,Assembly,TR,KADAMTALA-KURTI,54,1,Abdul Hasim,All India Trinamool Congress,1058,3
+2023,Assembly,TR,KADAMTALA-KURTI,54,2,Islam Uddin,Communist Party of India  (Marxist),19802,210
+2023,Assembly,TR,KADAMTALA-KURTI,54,3,Dilip Tanti,Bharatiya Janata Party,17925,195
+2023,Assembly,TR,KADAMTALA-KURTI,54,4,Gopal Krishna Deb,Independent,634,2
+2023,Assembly,TR,KADAMTALA-KURTI,54,5,NOTA,None of the Above,476,4
+2023,Assembly,TR,BAGBASSA,55,1,Bijita Nath,Communist Party of India  (Marxist),17140,304
+2023,Assembly,TR,BAGBASSA,55,2,Bimal Nath,All India Trinamool Congress,724,7
+2023,Assembly,TR,BAGBASSA,55,3,Jadab Lal Debnath,Bharatiya Janata Party,18586,319
+2023,Assembly,TR,BAGBASSA,55,4,Kalpana Sinha,Tipra Motha Party,2205,76
+2023,Assembly,TR,BAGBASSA,55,5,NOTA,None of the Above,508,9
+2023,Assembly,TR,DHARMANAGAR,56,1,Chayan Bhattacharya,Indian National Congress,17178,408
+2023,Assembly,TR,DHARMANAGAR,56,2,Biswa Bandhu Sen,Bharatiya Janata Party,18134,550
+2023,Assembly,TR,DHARMANAGAR,56,3,Narendu Das,Independent,158,0
+2023,Assembly,TR,DHARMANAGAR,56,4,Bibash Ranjan Das,Independent,199,4
+2023,Assembly,TR,DHARMANAGAR,56,5,Sanjay Chaudhury,Independent,128,0
+2023,Assembly,TR,DHARMANAGAR,56,6,Saurabh Goswami,Independent,634,24
+2023,Assembly,TR,DHARMANAGAR,56,7,NOTA,None of the Above,425,19
+2023,Assembly,TR,JUBARAJNAGAR,57,1,Malina Debnath,Bharatiya Janata Party,18674,416
+2023,Assembly,TR,JUBARAJNAGAR,57,2,Sailendra Chandra Nath,Communist Party of India  (Marxist),18990,396
+2023,Assembly,TR,JUBARAJNAGAR,57,3,NOTA,None of the Above,839,14
+2023,Assembly,TR,PANISAGAR,58,1,Binay Bhushan Das,Bharatiya Janata Party,15463,282
+2023,Assembly,TR,PANISAGAR,58,2,Sital Das,Communist Party of India  (Marxist),12971,276
+2023,Assembly,TR,PANISAGAR,58,3,Joy Chuangthang Halam,Tipra Motha Party,7480,132
+2023,Assembly,TR,PANISAGAR,58,4,Arun Nath,Independent,642,6
+2023,Assembly,TR,PANISAGAR,58,5,NOTA,None of the Above,587,4
+2023,Assembly,TR,PECHARTHAL,59,1,PURNITA CHAKMA,All India Trinamool Congress,757,10
+2023,Assembly,TR,PECHARTHAL,59,2,SADHAN KUMAR CHAKMA,Communist Party of India  (Marxist),9614,194
+2023,Assembly,TR,PECHARTHAL,59,3,SANTANA CHAKMA,Bharatiya Janata Party,17523,258
+2023,Assembly,TR,PECHARTHAL,59,4,HOLLYWOOD CHAKMA,Tipra Motha Party,9443,201
+2023,Assembly,TR,PECHARTHAL,59,5,KARNADHAN CHAKMA,Independent,549,2
+2023,Assembly,TR,PECHARTHAL,59,6,NOTA,None of the Above,523,4
+2023,Assembly,TR,KANCHANPUR,60,1,PREM KUMAR REANG,Indigenous People's Front of Tripura,3409,36
+2023,Assembly,TR,KANCHANPUR,60,2,RAJENDRA REANG,Communist Party of India  (Marxist),10128,394
+2023,Assembly,TR,KANCHANPUR,60,3,PHILIP KUMAR REANG,Tipra Motha Party,14989,424
+2023,Assembly,TR,KANCHANPUR,60,4,SHANKAR REANG,Tipraland State Party,1425,29
+2023,Assembly,TR,KANCHANPUR,60,5,INDRAKHELA CHAKMA,Independent,792,4
+2023,Assembly,TR,KANCHANPUR,60,6,BIMANJOY REANG,Independent,9770,244
+2023,Assembly,TR,KANCHANPUR,60,7,NOTA,None of the Above,643,8
