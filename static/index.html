@@ -1949,6 +1949,43 @@
     color: var(--text);
     margin-bottom: 8px;
   }
+  .unopposed-overlay {
+    text-align: center;
+    z-index: 10;
+  }
+  .unopposed-overlay__badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: var(--control-active-bg);
+    color: var(--control-active-text);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .unopposed-overlay__name {
+    font-family: var(--font-heading);
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .unopposed-overlay__party {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .unopposed-overlay__swatch {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
 
   /* Footer */
   .site-footer {
@@ -2940,6 +2977,7 @@
           <div class="chart-container" id="races-chart-container" style="height:600px;">
             <canvas id="races-chart"></canvas>
             <div id="roundwise-card" class="roundwise-card"></div>
+            <div id="unopposed-overlay" class="unopposed-overlay" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;"></div>
             <div id="race-overall-overlay" class="empty-state" style="display:flex; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
               <div class="icon">📊</div>
               <h3>This view is available in single-state mode only</h3>
@@ -4799,6 +4837,8 @@ function renderRaces(stateCode) {
     card.style.display = 'block';
     // Hide chart since it won't have data in Overall mode
     document.getElementById('races-chart').style.display = 'none';
+    // Hide unopposed overlay
+    document.getElementById('unopposed-overlay').style.display = 'none';
     // Show roundwise-overlay if in roundwise view, overall-overlay otherwise
     if (raceView === 'roundwise') {
       overallOverlay.style.display = 'none';
@@ -5052,6 +5092,32 @@ function drawRaceFinal(race) {
   const shown = getShownCandidates(race);
   if (!shown.length) return;
 
+  const canvas = document.getElementById('races-chart');
+  const overlay = document.getElementById('unopposed-overlay');
+
+  // Uncontested: single candidate — show "Won Unopposed" card instead of a chart
+  if (shown.length === 1) {
+    if (racesChart) { racesChart.destroy(); racesChart = null; }
+    canvas.style.display = 'none';
+    const c = shown[0];
+    const swatchColor = c.color || '#888';
+    overlay.innerHTML = `
+      <div class="unopposed-overlay__badge">Won Unopposed</div>
+      <div class="unopposed-overlay__name">${escapeHtml(c.candidate)}</div>
+      <div class="unopposed-overlay__party">
+        <span class="unopposed-overlay__swatch" style="background:${swatchColor};"></span>
+        ${escapeHtml(c.party_name || c.party_abv)}
+      </div>
+    `;
+    overlay.style.display = 'flex';
+    updateRaceLegend(shown);
+    return;
+  }
+
+  // Multi-candidate: normal chart
+  canvas.style.display = '';
+  overlay.style.display = 'none';
+
   updateRaceLegend(shown);
   const labels = shown.map(() => '');
   const votesData = shown.map(c => c.votes);
@@ -5065,7 +5131,6 @@ function drawRaceFinal(race) {
   const chartH = Math.max(220, shown.length * rowHeight + 70);
   document.getElementById('races-chart-container').style.height = chartH + 'px';
 
-  const canvas = document.getElementById('races-chart');
   const ctx = canvas.getContext('2d');
   const theme = chartTheme();
 
@@ -5220,6 +5285,7 @@ async function drawRaceRoundwise(race) {
   updateRaceLegend(shown);
 
   const canvas = document.getElementById('races-chart');
+  const overlay = document.getElementById('unopposed-overlay');
   const ctx = canvas.getContext('2d');
   const theme = chartTheme();
 
@@ -5227,6 +5293,27 @@ async function drawRaceRoundwise(race) {
     racesChart.destroy();
     racesChart = null;
   }
+
+  // Uncontested: single candidate — show "Won Unopposed" card instead of a chart
+  if (shown.length === 1) {
+    canvas.style.display = 'none';
+    const c = shown[0];
+    const swatchColor = c.color || '#888';
+    overlay.innerHTML = `
+      <div class="unopposed-overlay__badge">Won Unopposed</div>
+      <div class="unopposed-overlay__name">${escapeHtml(c.candidate)}</div>
+      <div class="unopposed-overlay__party">
+        <span class="unopposed-overlay__swatch" style="background:${swatchColor};"></span>
+        ${escapeHtml(c.party_name || c.party_abv)}
+      </div>
+    `;
+    overlay.style.display = 'flex';
+    return;
+  }
+
+  // Multi-candidate: normal roundwise chart
+  canvas.style.display = '';
+  overlay.style.display = 'none';
 
   try {
     const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}`);
