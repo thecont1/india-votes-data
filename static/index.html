@@ -879,6 +879,9 @@
     border-color: var(--control-active-bg);
     font-weight: 600;
   }
+  /* Desktop: show full name, hide short */
+  .state-full { display: inline; }
+  .state-short { display: none; }
 
   /* Main content */
   .content {
@@ -1995,6 +1998,9 @@
   }
 
   @media (max-width: 640px) {
+    /* Mobile: show short state names, hide full */
+    .state-full { display: none !important; }
+    .state-short { display: inline !important; }
     .header {
       display: flex;
       flex-wrap: wrap;
@@ -3428,9 +3434,10 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
 });
 
 function updateStateBarForElection(stateCodes) {
-  const states = [{ code: '', name: 'Overall' }, ...stateCodes.map(code => ({
+  const states = [{ code: '', name: 'Overall', short: 'All' }, ...stateCodes.map(code => ({
     code,
-    name: stateNameMap[code] || code
+    name: stateNameMap[code] || code,
+    short: code
   }))];
   renderStateBar(states);
   loadStateStatuses(states);
@@ -5652,7 +5659,7 @@ function renderStateBar(states) {
     const kind = statusKind(statuses);
     btn.type = 'button';
     btn.className = 'state-btn' + (isActive ? ' active' : '');
-    btn.innerHTML = `<span class="pill-dot dot-${kind}" aria-hidden="true"></span><span>${escapeHtml(s.name)}</span>`;
+    btn.innerHTML = `<span class="pill-dot dot-${kind}" aria-hidden="true"></span><span class="state-full">${escapeHtml(s.name)}</span><span class="state-short">${escapeHtml(s.short || s.name)}</span>`;
     btn.setAttribute('aria-pressed', String(isActive));
     btn.setAttribute('aria-label', `${s.name}: ${kind}`);
     btn.onclick = () => {
