@@ -283,21 +283,38 @@ def validate_json(data: dict) -> list:
 # ---------------------------------------------------------------------------
 
 def extract_metadata(data: dict, state_map: dict, election_id_override: str | None = None) -> dict:
-    """Extract and validate election metadata from JSON."""
+    """Extract and validate election metadata from JSON.
+
+    election_id is resolved in order:
+      1. --election-id CLI flag (explicit override)
+      2. election_id field in the JSON file
+      3. Error — neither provided
+    """
     year = int(data["election_year"])
     state_std = data["election_state"]
     title = data.get("title", f"Assembly Election {year}")
 
     month = derive_month_from_title(title)
-    if month == 0:
-        raise ValueError(
-            f"Cannot determine month from title: '{title}'. "
-            f"Use --election-id to override (e.g. --election-id AC-2023-05)"
-        )
 
     state_eci, state_name = lookup_state_code(state_std, state_map)
 
-    election_id = election_id_override or f"AC-{year}-{month:02d}"
+    # Resolve election_id: CLI flag > JSON field > error
+    election_id = election_id_override or data.get("election_id")
+    if not election_id:
+        raise ValueError(
+            "No election_id provided. Either:\n"
+            "  1. Add \"election_id\": \"AC-YYYY-MM\" to the JSON file, or\n"
+            "  2. Pass --election-id AC-YYYY-MM on the command line\n"
+            "  Example: --election-id AC-2023-06"
+        )
+
+    # Validate format
+    import re
+    if not re.match(r"^AC-\d{4}-\d{2}$", election_id):
+        raise ValueError(
+            f"Invalid election_id format: '{election_id}'. "
+            f"Expected AC-YYYY-MM (e.g. AC-2023-06)"
+        )
 
     return {
         "election_id": election_id,
@@ -365,6 +382,7 @@ def transform_to_rounds(data: dict, meta: dict) -> tuple:
 def ensure_election(meta: dict, wrangler_db: str, preprocess: bool) -> bool:
     """Ensure the elections table has a record for this election.
 
+    If the election already exists, merges the new state into the states array.
     Uses wrangler d1 execute.
     Returns True if successful.
     """
@@ -373,21 +391,45 @@ def ensure_election(meta: dict, wrangler_db: str, preprocess: bool) -> bool:
     sort_date = f"{meta['year']}-{meta['month']:02d}"
     name = meta["title"][:60].replace("'", "''")
 
-    sql = (
-        f"INSERT OR IGNORE INTO elections (election_id, name, states, sort_date) "
-        f"VALUES ('{election_id}', '{name}', '[\"{state_code}\"]', '{sort_date}');"
-    )
-
-    if preprocess:
-        print(f"  [PREPROCESS] wrangler d1 execute: {sql}")
-        return True
-
-    try:
+    def run_sql(sql):
+        if preprocess:
+            print(f"  [PREPROCESS] {sql[:120]}...")
+            return []
         result = subprocess.run(
-            ["wrangler", "d1", "execute", wrangler_db, "--command", sql, "--remote"],
+            ["wrangler", "d1", "execute", wrangler_db, "--command", sql, "--remote", "--json"],
             capture_output=True, text=True, check=True, timeout=30,
         )
-        print(f"  Election record: {election_id} inserted/exists")
+        return json.loads(result.stdout) if result.stdout.strip() else []
+
+    try:
+        # Check if election already exists
+        check_sql = f"SELECT states FROM elections WHERE election_id = '{election_id}';"
+        data = run_sql(check_sql)
+
+        if data and data[0].get("results"):
+            # Election exists — merge state into states array
+            existing_states = json.loads(data[0]["results"][0].get("states", "[]"))
+            if state_code not in existing_states:
+                existing_states.append(state_code)
+                states_json = json.dumps(existing_states).replace("'", "''")
+                update_sql = (
+                    f"UPDATE elections SET states = '{states_json}' "
+                    f"WHERE election_id = '{election_id}';"
+                )
+                run_sql(update_sql)
+                print(f"  Election record: {election_id} updated — states: {existing_states}")
+            else:
+                print(f"  Election record: {election_id} exists — state {state_code} already included")
+        else:
+            # New election — insert
+            states_json = json.dumps([state_code])
+            insert_sql = (
+                f"INSERT INTO elections (election_id, name, states, sort_date) "
+                f"VALUES ('{election_id}', '{name}', '{states_json}', '{sort_date}');"
+            )
+            run_sql(insert_sql)
+            print(f"  Election record: {election_id} created — states: [{state_code}]")
+
         return True
     except subprocess.CalledProcessError as e:
         print(f"  ERROR inserting election record: {e.stderr.strip()}")
@@ -560,7 +602,10 @@ Examples:
     parser.add_argument("json_path", help="Path to the JSON results file")
     parser.add_argument("--preprocess", action="store_true", help="Validate and transform without writing to D1")
     parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE, help=f"D1 batch statement limit (default {DEFAULT_BATCH_SIZE})")
-    parser.add_argument("--election-id", help="Override derived election_id (e.g. AC-2023-05)")
+    parser.add_argument("--election-id",
+                        help="Election ID in AC-YYYY-MM format (e.g. AC-2023-06). "
+                             "Required if not in JSON file. Multiple states sharing "
+                             "a result date use the same ID.")
     parser.add_argument("--resume", action="store_true", help="Skip constituencies already loaded (tracked in .d1-progress.json)")
     parser.add_argument("--skip-election", action="store_true", help="Skip inserting the election record")
     parser.add_argument("--skip-verify", action="store_true", help="Skip post-load verification")

@@ -265,7 +265,7 @@ def append_csv(filepath: str, result: dict, election_year: int, state_code_out: 
             ])
 
 
-def write_json(filepath: str, title: str, election_year: int,
+def write_json(filepath: str, title: str, election_id: str, election_year: int,
                state_code_out: str, all_results: list) -> None:
     """Rewrite the full JSON file (called after each constituency).
 
@@ -274,6 +274,7 @@ def write_json(filepath: str, title: str, election_year: int,
     """
     output = {
         "title": title,
+        "election_id": election_id,
         "election_year": str(election_year),
         "election_type": "Assembly",
         "election_state": state_code_out,
@@ -326,6 +327,9 @@ Examples:
     )
     parser.add_argument("archive_url", help="Archive.org URL for constituency #1")
     parser.add_argument("--state-code", help="Two-letter state code for output (e.g. KA)")
+    parser.add_argument("--election-id", required=True,
+                        help="Election ID in AC-YYYY-MM format (e.g. AC-2023-06). "
+                             "Multiple states sharing a result date use the same ID.")
     parser.add_argument("--dry-run", action="store_true", help="Fetch only first 3 constituencies")
     args = parser.parse_args()
 
@@ -429,7 +433,7 @@ Examples:
                     ],
                 },
             })
-            write_json(json_path, title, election_year, state_code_out, json_results)
+            write_json(json_path, title, args.election_id, election_year, state_code_out, json_results)
 
             scraped_nos.add(ac_no)
             print(f"{len(candidates)} candidates")
