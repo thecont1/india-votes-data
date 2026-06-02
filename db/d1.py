@@ -66,6 +66,7 @@ def insert_batch(rounds):
     if not INGEST_URL:
         raise RuntimeError("D1_INGEST_URL not set — use db_utils for local SQLite")
 
+    import time
     ok = 0
     failed = 0
     for r in rounds:
@@ -82,15 +83,21 @@ def insert_batch(rounds):
         if r.get("election_id"):
             payload["election_id"] = r["election_id"]
 
-        resp = requests.post(
-            f"{INGEST_URL}/ingest/round",
-            json=payload,
-            headers={"Authorization": f"Bearer {INGEST_TOKEN}"},
-            timeout=30,
-        )
-        if resp.status_code == 200:
-            ok += 1
-        else:
-            failed += 1
+        for attempt in range(3):
+            resp = requests.post(
+                f"{INGEST_URL}/ingest/round",
+                json=payload,
+                headers={"Authorization": f"Bearer {INGEST_TOKEN}"},
+                timeout=30,
+            )
+            if resp.status_code == 200:
+                ok += 1
+                break
+            elif resp.status_code == 429:
+                time.sleep(2 ** attempt)
+            else:
+                failed += 1
+                break
+        time.sleep(0.05)
 
     return {"ok": ok, "failed": failed, "rounds": len(rounds)}
