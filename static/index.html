@@ -1250,10 +1250,9 @@
   .summary-chip {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
-    gap: 10px;
-    min-height: 100px;
+    align-items: baseline;
     padding: var(--chip-padding-y) var(--chip-padding-x);
     border-radius: var(--chip-radius);
     border: 1px solid transparent;
@@ -5634,8 +5633,8 @@ function updateStatusBar(status) {
 
   const chip = (tone, label, value) => `
     <article class="summary-chip summary-chip--${tone}" aria-label="${label} ${Number(value).toLocaleString('en-IN')}">
-      <div class="summary-chip__label">${label}</div>
-      <div class="summary-chip__value">${Number(value).toLocaleString('en-IN')}</div>
+      <span class="summary-chip__label">${label}</span>
+      <span class="summary-chip__value">${Number(value).toLocaleString('en-IN')}</span>
     </article>
   `;
 
