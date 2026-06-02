@@ -20,7 +20,6 @@ export default {
     }
 
     const url = new URL(request.url);
-
     try {
       // Health check
       if (url.pathname === '/health') {
@@ -96,12 +95,18 @@ async function handleRoundIngest(request, env, corsHeaders) {
   for (const c of candidates) {
     stmts.push(
       env.DB.prepare(`
-        INSERT OR REPLACE INTO candidates_search (entity_type, entity_id, name, context, boost)
-        VALUES ('candidate', ?, ?, ?, 1.0)
+        INSERT OR REPLACE INTO candidates_search
+        (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort, symbol_url)
+        VALUES ('candidate', ?, ?, ?, 1.0, ?, 0,
+                COALESCE((SELECT sort_date FROM elections WHERE election_id = ?), ''),
+                COALESCE((SELECT symbol_url FROM parties WHERE abv = ?), ''))
       `).bind(
         `${state_code}-${ac_no}-${c.party_abv}`,
         c.candidate,
-        `${c.party_abv} | ${ac_name || ''}`
+        `${c.party_abv} | ${ac_name || ''}`,
+        c.votes,
+        eid,
+        c.party_abv
       )
     );
   }
@@ -169,12 +174,18 @@ async function handleBatchIngest(request, env, corsHeaders) {
     for (const c of candidates) {
       stmts.push(
         env.DB.prepare(`
-          INSERT OR REPLACE INTO candidates_search (entity_type, entity_id, name, context, boost)
-          VALUES ('candidate', ?, ?, ?, 1.0)
+          INSERT OR REPLACE INTO candidates_search
+          (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort, symbol_url)
+          VALUES ('candidate', ?, ?, ?, 1.0, ?, 0,
+                  COALESCE((SELECT sort_date FROM elections WHERE election_id = ?), ''),
+                  COALESCE((SELECT symbol_url FROM parties WHERE abv = ?), ''))
         `).bind(
           `${state_code}-${ac_no}-${c.party_abv}`,
           c.candidate,
-          `${c.party_abv} | ${ac_name || ''}`
+          `${c.party_abv} | ${ac_name || ''}`,
+          c.votes,
+          eid,
+          c.party_abv
         )
       );
     }
