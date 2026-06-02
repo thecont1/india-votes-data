@@ -3531,7 +3531,14 @@ function resetToDefaults() {
   document.getElementById('perf-chart-area-roundwise').style.visibility = 'hidden';
   // Reboot
   lastDataFingerprint = '';
-  loadElections().then(() => init());
+  loadElections().then(() => {
+    // Default to first state in current election (not Overall)
+    if (currentElection && currentElection.states && currentElection.states.length > 0) {
+      currentState = currentElection.states[0];
+      localStorage.setItem(STATE_STORAGE_KEY, currentState);
+    }
+    init();
+  });
 }
 
 // Toggle between Seat Tally, Vote Share, and Roundwise
@@ -3934,6 +3941,7 @@ function legendTooltip(context) {
 // Roundwise card — hover + locked modes for Results by Constituency chart
 // ---------------------------------------------------------------------------
 let _lockedRoundIdx = null;
+let _slopeData = null;
 let _rwRounds = [];
 let _rwLabels = [];
 let _rwForm20Status = 'unavailable';
