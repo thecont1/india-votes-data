@@ -389,7 +389,11 @@ def ensure_election(meta: dict, wrangler_db: str, preprocess: bool) -> bool:
     election_id = meta["election_id"]
     state_code = meta["state_code"]
     sort_date = f"{meta['year']}-{meta['month']:02d}"
-    name = meta["title"][:60].replace("'", "''")
+
+    # Convention: election name is "AC YYYY Mon" (counting month)
+    MONTH_ABBR = {1:"Jan",2:"Feb",3:"Mar",4:"Apr",5:"May",6:"Jun",
+                  7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
+    name = f"AC {meta['year']} {MONTH_ABBR.get(meta['month'], '???')}"
 
     def run_sql(sql):
         if preprocess:
