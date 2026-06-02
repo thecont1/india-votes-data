@@ -4284,7 +4284,7 @@ function renderVoteShare() {
   const canvas = document.getElementById('vote-share-chart');
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
+  const rect = canvas.parentNode.getBoundingClientRect();
   canvas.width = rect.width * dpr;
   canvas.height = rect.height * dpr;
   canvas.style.width = rect.width + 'px';
