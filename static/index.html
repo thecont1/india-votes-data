@@ -4293,6 +4293,28 @@ function renderVoteShare() {
 
   if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
 
+  // Build per-party candidate rankings from racesData (top 3 vote-getters)
+  const partyCandidatesMap = {};
+  if (typeof racesData !== 'undefined' && racesData) {
+    racesData.forEach(race => {
+      (race.candidates || []).forEach(c => {
+        if (!c.party_abv || !c.candidate || c.candidate === 'NOTA') return;
+        if (!partyCandidatesMap[c.party_abv]) partyCandidatesMap[c.party_abv] = [];
+        partyCandidatesMap[c.party_abv].push({
+          name: c.candidate,
+          votes: c.votes || 0,
+          constituency: race.constituency || '',
+          won: c.won || false,
+        });
+      });
+    });
+    // Sort each party's candidates by votes descending, keep top 3
+    Object.keys(partyCandidatesMap).forEach(abv => {
+      partyCandidatesMap[abv].sort((a, b) => b.votes - a.votes);
+      partyCandidatesMap[abv] = partyCandidatesMap[abv].slice(0, 3);
+    });
+  }
+
   // Build treemap items — all parties with votes
   const items = perfParties
     .filter(p => (p.total_votes || 0) > 0)
@@ -4310,6 +4332,9 @@ function renderVoteShare() {
   const rects = squarify(items.map(i => i.value), { x: 0, y: 0, w: W, h: H });
   items.forEach((item, i) => { item.rect = rects[i]; });
 
+  // Track hovered item for highlight
+  let hoveredItem = null;
+
   // Draw
   const theme = chartTheme();
   ctx.clearRect(0, 0, W, H);
@@ -4318,41 +4343,183 @@ function renderVoteShare() {
     const r = item.rect;
     if (!r || r.w < 1 || r.h < 1) return;
 
+    const isHovered = hoveredItem === item;
+
     // Fill with party color
     ctx.fillStyle = item.color;
     ctx.fillRect(r.x, r.y, r.w, r.h);
 
-    // Subtle border
-    ctx.strokeStyle = theme.background;
-    ctx.lineWidth = 2;
-    ctx.strokeRect(r.x, r.y, r.w, r.h);
+    // Gap between tiles (1px background-colored line)
+    ctx.fillStyle = theme.background;
+    ctx.fillRect(r.x, r.y, r.w, 1);
+    ctx.fillRect(r.x, r.y, 1, r.h);
+
+    // Hover highlight: semi-transparent overlay
+    if (isHovered) {
+      ctx.fillStyle = 'rgba(255,255,255,0.15)';
+      ctx.fillRect(r.x, r.y, r.w, r.h);
+    }
 
     // Label
     const minDim = Math.min(r.w, r.h);
-    if (minDim < 28) return;  // too small for text
+    if (minDim < 24) return;  // too small for text
 
-    const fontSize = minDim > 60 ? 14 : minDim > 40 ? 11 : 9;
-    ctx.font = `600 ${fontSize}px ${theme.fontUi}`;
+    const fontSize = minDim > 70 ? 15 : minDim > 45 ? 12 : 10;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
     // Choose text color for contrast
     const lum = luminance(item.color);
-    ctx.fillStyle = lum > 0.4 ? '#000' : '#fff';
+    const textColor = lum > 0.4 ? '#000' : '#fff';
 
     const cx = r.x + r.w / 2;
     const cy = r.y + r.h / 2;
 
-    // Party abbreviation (always show)
-    const abv = truncateText(ctx, item.abv, r.w - 8);
-    ctx.fillText(abv, cx, minDim > 40 ? cy - fontSize * 0.5 : cy);
+    // Party abbreviation
+    ctx.font = `700 ${fontSize}px ${theme.fontUi}`;
+    ctx.fillStyle = textColor;
+    const abv = truncateText(ctx, item.abv, r.w - 10);
+    ctx.fillText(abv, cx, minDim > 45 ? cy - fontSize * 0.45 : cy);
 
     // Vote share % (show if room)
-    if (minDim > 40 && r.h > 36) {
-      ctx.font = `500 ${fontSize - 2}px ${theme.fontUi}`;
-      ctx.fillText(item.pct + '%', cx, cy + fontSize * 0.7);
+    if (minDim > 45 && r.h > 40) {
+      ctx.font = `500 ${Math.max(fontSize - 3, 9)}px ${theme.fontUi}`;
+      ctx.fillStyle = textColor;
+      ctx.globalAlpha = 0.75;
+      ctx.fillText(item.pct + '%', cx, cy + fontSize * 0.65);
+      ctx.globalAlpha = 1;
     }
   });
+
+  // Redraw function (for hover highlight)
+  function redraw() {
+    ctx.clearRect(0, 0, W, H);
+    items.forEach(item => {
+      const r = item.rect;
+      if (!r || r.w < 1 || r.h < 1) return;
+      const isHovered = hoveredItem === item;
+
+      ctx.fillStyle = item.color;
+      ctx.fillRect(r.x, r.y, r.w, r.h);
+
+      ctx.fillStyle = theme.background;
+      ctx.fillRect(r.x, r.y, r.w, 1);
+      ctx.fillRect(r.x, r.y, 1, r.h);
+
+      if (isHovered) {
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.fillRect(r.x, r.y, r.w, r.h);
+      }
+
+      const minDim = Math.min(r.w, r.h);
+      if (minDim < 24) return;
+
+      const fontSize = minDim > 70 ? 15 : minDim > 45 ? 12 : 10;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const lum = luminance(item.color);
+      const textColor = lum > 0.4 ? '#000' : '#fff';
+      const cx = r.x + r.w / 2;
+      const cy = r.y + r.h / 2;
+
+      ctx.font = `700 ${fontSize}px ${theme.fontUi}`;
+      ctx.fillStyle = textColor;
+      const abv = truncateText(ctx, item.abv, r.w - 10);
+      ctx.fillText(abv, cx, minDim > 45 ? cy - fontSize * 0.45 : cy);
+
+      if (minDim > 45 && r.h > 40) {
+        ctx.font = `500 ${Math.max(fontSize - 3, 9)}px ${theme.fontUi}`;
+        ctx.fillStyle = textColor;
+        ctx.globalAlpha = 0.75;
+        ctx.fillText(item.pct + '%', cx, cy + fontSize * 0.65);
+        ctx.globalAlpha = 1;
+      }
+    });
+  }
+
+  // Tooltip element (reuse chartjs-tooltip styling)
+  let tooltipEl = canvas._tooltipEl;
+  if (!tooltipEl) {
+    tooltipEl = document.createElement('div');
+    tooltipEl.className = 'chartjs-tooltip';
+    canvas.parentNode.style.position = 'relative';
+    canvas.parentNode.appendChild(tooltipEl);
+    canvas._tooltipEl = tooltipEl;
+  }
+
+  function showTreemapTooltip(item, mouseX, mouseY) {
+    const party = perfParties.find(p => p.party_abv === item.abv);
+    const detail = partyDetails[item.abv] || {};
+    const symbolUrl = partySymbols[item.abv] || detail.symbol_url || '';
+    const fullName = partyNames[item.abv] || detail.name || item.abv;
+    const dep = partyDepositLoss[item.abv] || {};
+    const won = party ? party.won : 0;
+    const leading = party ? party.leading : 0;
+    const totalVotes = party ? (party.total_votes || 0) : 0;
+    const lostSafe = dep.lost_no_deposit || 0;
+    const lostForfeited = dep.lost_deposit || 0;
+    const lostTotal = lostSafe + lostForfeited;
+    const totalSeats = won + leading + lostTotal;
+    const fmt = (n) => n.toLocaleString('en-IN');
+
+    const symHtml = symbolUrl
+      ? `<img src="${safeImgSrc(symbolUrl)}" class="tooltip-symbol" alt="">`
+      : '';
+
+    // Header: symbol + party name
+    let html = `<div class="tooltip-header">${symHtml}<span><div class="tooltip-title">${escapeHtml(fullName)} (${escapeHtml(item.abv)})</div></span></div>`;
+
+    // Stats table
+    const rows = [];
+    rows.push(`<tr><td class="td-label">Won</td><td class="td-value">${fmt(won)}</td></tr>`);
+    if (leading > 0) rows.push(`<tr><td class="td-label" style="padding-left:12px;opacity:0.7">leading</td><td class="td-value" style="opacity:0.7">${fmt(leading)}</td></tr>`);
+    rows.push(`<tr><td class="td-label">Lost</td><td class="td-value">${fmt(lostTotal)}</td></tr>`);
+    if (lostSafe > 0) rows.push(`<tr><td class="td-label" style="padding-left:12px;opacity:0.7">deposit safe</td><td class="td-value" style="opacity:0.7">${fmt(lostSafe)}</td></tr>`);
+    if (lostForfeited > 0) rows.push(`<tr><td class="td-label" style="padding-left:12px;opacity:0.7">deposit lost</td><td class="td-value" style="opacity:0.7">${fmt(lostForfeited)}</td></tr>`);
+    rows.push(`<tr><td class="td-label">Total Seats</td><td class="td-value">${fmt(totalSeats)}</td></tr>`);
+    rows.push(`<tr><td class="td-label">Vote Share</td><td class="td-value">${item.pct}%</td></tr>`);
+    rows.push(`<tr><td class="td-label">Total Votes</td><td class="td-value">${fmt(totalVotes)}</td></tr>`);
+    html += `<table class="tooltip-table">${rows.join('')}</table>`;
+
+    // Chief
+    if (detail.chief) {
+      html += `<div style="margin-top:4px;font-size:11px;color:var(--tooltip-muted,var(--muted));">Chief: ${escapeHtml(detail.chief)}</div>`;
+    }
+
+    // Top 3 candidates
+    const topCands = partyCandidatesMap[item.abv];
+    if (topCands && topCands.length > 0) {
+      html += `<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border);font-size:11px;color:var(--tooltip-muted,var(--muted));">`;
+      html += `<div style="font-weight:600;margin-bottom:2px;color:var(--tooltip-text,var(--text));">Top vote-getters</div>`;
+      topCands.forEach((c, i) => {
+        const wonMark = c.won ? ' ✓' : '';
+        html += `<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px;">${i + 1}. ${escapeHtml(c.name)} <span style="opacity:0.6">${escapeHtml(c.constituency)}</span> ${fmt(c.votes)}${wonMark}</div>`;
+      });
+      html += '</div>';
+    }
+
+    tooltipEl.innerHTML = html;
+    tooltipEl.style.opacity = '1';
+    tooltipEl.style.pointerEvents = 'none';
+
+    // Position: right of cursor, clamped to container
+    const wrapRect = canvas.parentNode.getBoundingClientRect();
+    const canvasRect = canvas.getBoundingClientRect();
+    let left = canvasRect.left - wrapRect.left + mouseX + 14;
+    let top = canvasRect.top - wrapRect.top + mouseY - 10;
+    const tipW = tooltipEl.offsetWidth || 260;
+    const tipH = tooltipEl.offsetHeight || 200;
+    if (left + tipW > wrapRect.width) left = canvasRect.left - wrapRect.left + mouseX - tipW - 14;
+    if (top + tipH > wrapRect.height) top = wrapRect.height - tipH - 4;
+    if (top < 0) top = 4;
+    tooltipEl.style.left = left + 'px';
+    tooltipEl.style.top = top + 'px';
+  }
+
+  function hideTreemapTooltip() {
+    tooltipEl.style.opacity = '0';
+    tooltipEl.style.pointerEvents = 'none';
+  }
 
   // Click handling
   canvas.onclick = (e) => {
@@ -4381,12 +4548,25 @@ function renderVoteShare() {
     }
     canvas.style.cursor = hit ? 'pointer' : 'default';
     if (hit) {
-      const party = perfParties.find(p => p.party_abv === hit.abv);
-      const name = partyNames[hit.abv] || hit.abv;
-      const votes = (hit.value || 0).toLocaleString();
-      canvas.title = `${name} (${hit.abv})\n${hit.pct}% — ${votes} votes`;
+      showTreemapTooltip(hit, mx, my);
+      if (hoveredItem !== hit) {
+        hoveredItem = hit;
+        redraw();
+      }
     } else {
-      canvas.title = '';
+      hideTreemapTooltip();
+      if (hoveredItem) {
+        hoveredItem = null;
+        redraw();
+      }
+    }
+  };
+
+  canvas.onmouseleave = () => {
+    hideTreemapTooltip();
+    if (hoveredItem) {
+      hoveredItem = null;
+      redraw();
     }
   };
 }
