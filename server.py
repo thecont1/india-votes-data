@@ -19,7 +19,7 @@ from fastapi.staticfiles import StaticFiles
 from io import BytesIO
 from pydantic import BaseModel
 
-from db_utils import _connect, _cursor, IS_PG, get_elections, get_current_election, get_election_by_id
+from db import _connect, _cursor, IS_PG, get_elections, get_current_election, get_election_by_id
 
 app = FastAPI(
     title="ECI Results Scraper API",

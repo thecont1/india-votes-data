@@ -203,7 +203,7 @@ def update_db(report: dict) -> str:
 
 def get_current_statuses(state_code: str) -> dict:
     """Get current form20_status for all ACs in a state. Returns {ac_no: status}."""
-    import db_utils
+    import db.sqlite as db_utils
     conn = db_utils._connect()
     cur = db_utils._cursor(conn)
     try:

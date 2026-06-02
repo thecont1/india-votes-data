@@ -118,7 +118,7 @@ def test_db():
     conn.commit()
     conn.close()
 
-    import db_utils
+    import db.sqlite as db_utils
     original_connect = db_utils._connect
     original_is_pg = db_utils.IS_PG
     db_utils._connect = lambda: sqlite3.connect(db_path)

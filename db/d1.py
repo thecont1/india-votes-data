@@ -20,6 +20,7 @@ def insert_round_snapshot(state_code, ac_no, ac_name, round_no, candidates, **kw
         ac_name: Assembly constituency name
         round_no: Round number (999 = postal/final)
         candidates: List of dicts with 'candidate', 'party', 'votes' keys
+        election_id: Optional election ID (e.g. "AC-2023-05"). Passed via kwargs.
 
     Returns:
         Response JSON from Worker
@@ -27,18 +28,22 @@ def insert_round_snapshot(state_code, ac_no, ac_name, round_no, candidates, **kw
     if not INGEST_URL:
         raise RuntimeError("D1_INGEST_URL not set — use db_utils for local SQLite")
 
+    payload = {
+        "state_code": state_code,
+        "ac_no": ac_no,
+        "ac_name": ac_name,
+        "round_no": round_no,
+        "candidates": [
+            {"candidate": c["candidate"], "party_abv": c["party_abv"], "votes": c["votes"]}
+            for c in candidates
+        ],
+    }
+    if kwargs.get("election_id"):
+        payload["election_id"] = kwargs["election_id"]
+
     resp = requests.post(
         f"{INGEST_URL}/ingest/round",
-        json={
-            "state_code": state_code,
-            "ac_no": ac_no,
-            "ac_name": ac_name,
-            "round_no": round_no,
-            "candidates": [
-                {"candidate": c["candidate"], "party_abv": c["party"], "votes": c["votes"]}
-                for c in candidates
-            ],
-        },
+        json=payload,
         headers={"Authorization": f"Bearer {INGEST_TOKEN}"},
         timeout=30,
     )
@@ -51,7 +56,8 @@ def insert_batch(rounds):
 
     Args:
         rounds: List of dicts with 'state_code', 'ac_no', 'ac_name',
-                'round_no', 'candidates' keys
+                'round_no', 'candidates' keys (each with 'candidate',
+                'party_abv', 'votes'). Optional 'election_id' per round.
 
     Returns:
         Response JSON from Worker
@@ -59,23 +65,24 @@ def insert_batch(rounds):
     if not INGEST_URL:
         raise RuntimeError("D1_INGEST_URL not set — use db_utils for local SQLite")
 
+    def _round_payload(r):
+        payload = {
+            "state_code": r["state_code"],
+            "ac_no": r["ac_no"],
+            "ac_name": r.get("ac_name"),
+            "round_no": r["round_no"],
+            "candidates": [
+                {"candidate": c["candidate"], "party_abv": c["party_abv"], "votes": c["votes"]}
+                for c in r["candidates"]
+            ],
+        }
+        if r.get("election_id"):
+            payload["election_id"] = r["election_id"]
+        return payload
+
     resp = requests.post(
         f"{INGEST_URL}/ingest/batch",
-        json={
-            "rounds": [
-                {
-                    "state_code": r["state_code"],
-                    "ac_no": r["ac_no"],
-                    "ac_name": r.get("ac_name"),
-                    "round_no": r["round_no"],
-                    "candidates": [
-                        {"candidate": c["candidate"], "party_abv": c["party"], "votes": c["votes"]}
-                        for c in r["candidates"]
-                    ],
-                }
-                for r in rounds
-            ]
-        },
+        json={"rounds": [_round_payload(r) for r in rounds]},
         headers={"Authorization": f"Bearer {INGEST_TOKEN}"},
         timeout=60,
     )

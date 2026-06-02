@@ -20,7 +20,7 @@ import httpx
 import pandas as pd
 from PIL import Image
 
-import db_utils
+import db.sqlite as db_utils
 
 
 # ---------------------------------------------------------------------------

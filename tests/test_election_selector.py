@@ -29,7 +29,7 @@ def test_db():
     conn.close()
     
     # Patch db_utils to use our test database
-    import db_utils
+    import db.sqlite as db_utils
     original_connect = db_utils._connect
     original_is_pg = db_utils.IS_PG
     
@@ -52,7 +52,7 @@ class TestElectionSelector:
 
     def test_upsert_and_get_elections(self, test_db):
         """Test upsert_election and get_elections work together."""
-        import db_utils
+        import db.sqlite as db_utils
         
         db_utils.upsert_election("AC-2024-10", "AC 2024 Oct", ["S07", "U08"], "2024-10")
         
@@ -67,7 +67,7 @@ class TestElectionSelector:
 
     def test_multiple_elections_sorted(self, test_db):
         """Test multiple elections are sorted by sort_date DESC."""
-        import db_utils
+        import db.sqlite as db_utils
         
         db_utils.upsert_election("AC-2024-10", "AC 2024 Oct", ["S07", "U08"], "2024-10")
         db_utils.upsert_election("AC-2025-05", "AC 2025 May", ["S03", "S11"], "2025-05")
@@ -81,7 +81,7 @@ class TestElectionSelector:
 
     def test_get_election_by_id(self, test_db):
         """Test get_election_by_id retrieves correct election."""
-        import db_utils
+        import db.sqlite as db_utils
         
         db_utils.upsert_election("AC-2024-10", "AC 2024 Oct", ["S07", "U08"], "2024-10")
         
@@ -95,7 +95,7 @@ class TestElectionSelector:
 
     def test_get_current_election(self, test_db):
         """Test get_current_election returns most recent election."""
-        import db_utils
+        import db.sqlite as db_utils
         
         db_utils.upsert_election("AC-2024-10", "AC 2024 Oct", ["S07"], "2024-10")
         db_utils.upsert_election("AC-2025-02", "AC 2025 Feb", ["U05"], "2025-02")
@@ -106,7 +106,7 @@ class TestElectionSelector:
 
     def test_upsert_updates_existing(self, test_db):
         """Test upsert_election updates existing election on conflict."""
-        import db_utils
+        import db.sqlite as db_utils
         
         db_utils.upsert_election("AC-2024-10", "AC 2024 Oct", ["S07", "U08"], "2024-10")
         db_utils.upsert_election("AC-2024-10", "AC 2024 Oct - Updated", ["S07", "U08", "S09"], "2024-10")
@@ -120,7 +120,7 @@ class TestElectionSelector:
 
     def test_states_deserialized_as_list(self, test_db):
         """Test that states are returned as Python list, not JSON string."""
-        import db_utils
+        import db.sqlite as db_utils
         
         db_utils.upsert_election("AC-2024-10", "AC 2024 Oct", ["S07", "U08"], "2024-10")
         
@@ -135,7 +135,7 @@ class TestElectionSampleData:
 
     def test_requirement_data(self, test_db):
         """Test that sample election data from requirements works."""
-        import db_utils
+        import db.sqlite as db_utils
         
         # From requirements:
         # AC 2024 Oct - S07, U08

@@ -31,9 +31,9 @@ from datetime import datetime, timezone
 
 import os
 if os.environ.get("D1_INGEST_URL"):
-    from db_d1 import insert_round_snapshot
+    from db.d1 import insert_round_snapshot
 else:
-    from db_utils import insert_round_snapshot
+    from db import insert_round_snapshot
 from core.scraper import get_state_name
 
 DEFAULT_PORT = 8000

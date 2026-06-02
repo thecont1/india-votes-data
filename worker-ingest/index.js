@@ -51,7 +51,7 @@ export default {
 
 async function handleRoundIngest(request, env, corsHeaders) {
   const body = await request.json();
-  const { state_code, ac_no, ac_name, round_no, candidates } = body;
+  const { state_code, ac_no, ac_name, round_no, candidates, election_id } = body;
 
   if (!state_code || !ac_no || !candidates?.length) {
     return Response.json(
@@ -60,17 +60,18 @@ async function handleRoundIngest(request, env, corsHeaders) {
     );
   }
 
+  const eid = election_id || '';
   const stmts = [];
 
   // Insert each candidate
   for (const c of candidates) {
     stmts.push(
       env.DB.prepare(`
-        INSERT INTO rounds_ac (state_code, ac_no, ac_name, round_no, candidate, party_abv, votes)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        ON CONFLICT (state_code, ac_no, round_no, candidate, party_abv)
+        INSERT INTO rounds_ac (state_code, ac_no, ac_name, election_id, round_no, candidate, party_abv, votes)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT (state_code, ac_no, election_id, round_no, candidate, party_abv)
         DO UPDATE SET votes = EXCLUDED.votes, ac_name = EXCLUDED.ac_name
-      `).bind(state_code, ac_no, ac_name || null, round_no, c.candidate, c.party_abv, c.votes)
+      `).bind(state_code, ac_no, ac_name || null, eid, round_no, c.candidate, c.party_abv, c.votes)
     );
   }
 
@@ -133,17 +134,18 @@ async function handleBatchIngest(request, env, corsHeaders) {
   let totalCandidates = 0;
 
   for (const round of rounds) {
-    const { state_code, ac_no, ac_name, round_no, candidates } = round;
+    const { state_code, ac_no, ac_name, round_no, candidates, election_id } = round;
     if (!state_code || !ac_no || !candidates?.length) continue;
 
+    const eid = election_id || '';
     for (const c of candidates) {
       stmts.push(
         env.DB.prepare(`
-          INSERT INTO rounds_ac (state_code, ac_no, ac_name, round_no, candidate, party_abv, votes)
-          VALUES (?, ?, ?, ?, ?, ?, ?)
-          ON CONFLICT (state_code, ac_no, round_no, candidate, party_abv)
+          INSERT INTO rounds_ac (state_code, ac_no, ac_name, election_id, round_no, candidate, party_abv, votes)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT (state_code, ac_no, election_id, round_no, candidate, party_abv)
           DO UPDATE SET votes = EXCLUDED.votes, ac_name = EXCLUDED.ac_name
-        `).bind(state_code, ac_no, ac_name || null, round_no, c.candidate, c.party_abv, c.votes)
+        `).bind(state_code, ac_no, ac_name || null, eid, round_no, c.candidate, c.party_abv, c.votes)
       );
       totalCandidates++;
     }

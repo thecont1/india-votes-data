@@ -46,7 +46,7 @@ except ImportError:
     HAS_UC = False
 
 import os
-from db_utils import (
+from db import (
     _normalize_party,
     get_work_queue,
     init_db,
@@ -54,9 +54,9 @@ from db_utils import (
     upsert_constituency_status,
 )
 if os.environ.get("D1_INGEST_URL"):
-    from db_d1 import insert_round_snapshot
+    from db.d1 import insert_round_snapshot
 else:
-    from db_utils import insert_round_snapshot
+    from db import insert_round_snapshot
 from config import get_election_id, get_tracked_states
 from core.scraper import build_roundwise_url
 
@@ -520,7 +520,7 @@ def fetch_won_lists() -> dict[str, list[int]]:
             continue
 
         # Match won counts to specific ACs by vote rank from DB
-        from db_utils import _connect, _cursor
+        from db import _connect, _cursor
         conn = _connect()
         cur = _cursor(conn)
         try:

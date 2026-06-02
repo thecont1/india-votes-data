@@ -28,7 +28,7 @@ from core.scraper import (
     parse_partywise_url,
     scrape_worker,
 )
-from db_utils import insert_round_snapshot
+from db import insert_round_snapshot
 
 
 def show_usage():

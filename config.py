@@ -7,7 +7,7 @@ Everything else (election ID, state codes, roundwise URLs) is derived.
 
 import os
 
-from db_utils import get_state_name
+from db import get_state_name
 
 CONF_FILE = os.path.join(os.path.dirname(__file__), "election.conf")
 
