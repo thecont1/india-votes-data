@@ -4196,8 +4196,7 @@ function drawSlopeChart(canvas, cands, theme) {
   ctx.fillText('Round 998', colLeft, 32);
   ctx.fillText('Round 999', colRight, 32);
 
-  // Connecting bezier curves (draw under dots/labels)
-  const midX = (colLeft + colRight) / 2;
+  // Connecting straight lines (draw under dots/labels)
   cands.forEach(c => {
     const y1 = leftY[c.candidate];
     const y2 = rightY[c.candidate];
@@ -4211,15 +4210,15 @@ function drawSlopeChart(canvas, cands, theme) {
     ctx.globalAlpha = rankChanged ? 0.9 : 0.45;
     ctx.beginPath();
     ctx.moveTo(colLeft, y1);
-    ctx.bezierCurveTo(midX, y1, midX, y2, colRight, y2);
+    ctx.lineTo(colRight, y2);
     ctx.stroke();
     ctx.restore();
   });
 
-  // Left column — sorted by EVM rank
+  // Left column — sorted by EVM rank (rank 1 = bottom-left, so i = N-1 is the leader)
   byEVM.forEach((c, i) => {
-    const y = rankY(i);
-    const isTop = i === 0;
+    const y = leftRankY(i);
+    const isTop = i === N - 1;
     ctx.beginPath();
     ctx.arc(colLeft, y, isTop ? 6 : 4.5, 0, Math.PI * 2);
     ctx.fillStyle = c.color || '#888';
@@ -4240,9 +4239,9 @@ function drawSlopeChart(canvas, cands, theme) {
     ctx.fillText(c.evmVotes.toLocaleString('en-IN'), colLeft - 9, y + 8);
   });
 
-  // Right column — sorted by combined rank
+  // Right column — sorted by combined rank (rank 1 = top-right, so i = 0 is the leader)
   byCombined.forEach((c, i) => {
-    const y = rankY(i);
+    const y = rightRankY(i);
     const evmRank = byEVM.findIndex(x => x.candidate === c.candidate);
     const isTop = i === 0;
     const movedUp = i < evmRank;
