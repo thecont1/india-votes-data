@@ -2744,7 +2744,7 @@
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
 <header class="header">
-  <div class="header-brand">
+  <div class="header-brand" id="header-brand" role="button" tabindex="0" aria-label="Reset to defaults" style="cursor:pointer;">
     <img src="/static/favicon.png" alt="LET Live logo" class="logo" width="64" height="64">
     <div class="brand-text">
       <span class="wordmark">LET Live!</span>
@@ -3404,9 +3404,13 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
   if (election && election.election_id !== currentElection?.election_id) {
     currentElection = election;
     localStorage.setItem(ELECTION_STORAGE_KEY, election.election_id);
-    // Reset state when election changes
-    currentState = '';
-    localStorage.removeItem(STATE_STORAGE_KEY);
+    // Default to first state in this election, not Overall
+    currentState = election.states && election.states.length > 0 ? election.states[0] : '';
+    if (currentState) {
+      localStorage.setItem(STATE_STORAGE_KEY, currentState);
+    } else {
+      localStorage.removeItem(STATE_STORAGE_KEY);
+    }
     stateStatuses = {};
     knownStates = [];
     // Clear UI
@@ -3440,6 +3444,51 @@ loadElections().then(() => {
     if (knownStates.length) loadStateStatuses(knownStates);
   }, 30000);
 });
+
+// ---------------------------------------------------------------------------
+// Logo / wordmark click → reset to defaults
+// ---------------------------------------------------------------------------
+document.getElementById('header-brand').addEventListener('click', resetToDefaults);
+document.getElementById('header-brand').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); resetToDefaults(); }
+});
+
+function resetToDefaults() {
+  // Clear all persisted state
+  localStorage.removeItem(ELECTION_STORAGE_KEY);
+  localStorage.removeItem(STATE_STORAGE_KEY);
+  localStorage.removeItem(RACE_VIEW_STORAGE_KEY);
+  localStorage.removeItem(RACE_SORT_STORAGE_KEY);
+  localStorage.removeItem(RACE_AC_STORAGE_KEY);
+  // Reset view state
+  raceView = 'final';
+  perfView = 'tally';
+  raceSortMode = 'alpha';
+  currentState = '';
+  currentRace = null;
+  _lockedRoundIdx = null;
+  // Destroy all charts
+  if (chart) { chart.destroy(); chart = null; }
+  if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
+  if (racesChart) { racesChart.destroy(); racesChart = null; }
+  if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+  // Reset toggle buttons
+  document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === 'tally');
+    b.setAttribute('aria-pressed', b.dataset.view === 'tally' ? 'true' : 'false');
+  });
+  document.querySelectorAll('#race-toggle .toggle-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.raceView === 'final');
+    b.setAttribute('aria-pressed', b.dataset.raceView === 'final' ? 'true' : 'false');
+  });
+  // Show Seat Tally, hide others
+  document.getElementById('perf-chart-area-tally').style.visibility = '';
+  document.getElementById('perf-chart-area-share').style.visibility = 'hidden';
+  document.getElementById('perf-chart-area-roundwise').style.visibility = 'hidden';
+  // Reboot
+  lastDataFingerprint = '';
+  loadElections().then(() => init());
+}
 
 // Toggle between Seat Tally, Vote Share, and Roundwise
 document.getElementById('perf-toggle').addEventListener('click', (e) => {
