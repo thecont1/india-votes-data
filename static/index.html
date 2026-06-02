@@ -3825,7 +3825,7 @@ let _rwForm20Url = null;
 function _buildRoundwiseCardHTML(roundIdx, locked) {
   if (roundIdx < 0 || roundIdx >= _rwRounds.length) return '';
   const rn = _rwRounds[roundIdx];
-  const roundLabel = rn === 999 ? 'Final (incl. postal)' : `Round ${rn}`;
+  const roundLabel = rn === 999 ? 'EVM+Postal Votes' : `Round ${rn}`;
 
   // Build from chart datasets — use full candidate names from currentRace
   const raceCandidates = (typeof currentRace !== 'undefined' && currentRace && currentRace.candidates)
@@ -4922,20 +4922,20 @@ async function drawRaceRoundwise(race) {
     const rounds = [...new Set(rows.map(r => r.round_no))]
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
 
-    // Bandaid: if only round 999 exists (past elections), show a message
+    // If only round 999 exists (past elections), show as "EVM+Postal Votes"
     if (rounds.length === 1 && rounds[0] === 999) {
-      const overlay = document.getElementById('race-roundwise-overlay');
-      if (overlay) {
-        overlay.style.display = 'flex';
-        overlay.querySelector('h3').textContent = 'Round-by-round data not available';
-        overlay.querySelector('p').textContent = 'Only final results were recorded for this election. Detailed counting rounds were not captured.';
-      }
-      if (racesChart) { racesChart.destroy(); racesChart = null; }
-      return;
+      rounds = [999];
+      // Continue to chart rendering — will show as "EVM+Postal Votes"
     }
     { const overlay = document.getElementById('race-roundwise-overlay'); if (overlay) overlay.style.display = 'none'; }
 
-    const labels = rounds.map(rn => rn === 999 ? '🏁' : `${rn}`);
+    const labels = rounds.map(rn => {
+      if (rn === 999) return 'EVM+Postal';
+      // If 999 is present, the round before it is the last EVM-only round
+      const has999 = rounds.includes(999);
+      if (has999 && rn === Math.max(...rounds.filter(r => r !== 999))) return 'EVM';
+      return `${rn}`;
+    });
 
     // Store for card builder
     _rwRounds = rounds;
