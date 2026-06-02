@@ -3529,6 +3529,10 @@ function resetToDefaults() {
   document.getElementById('perf-chart-area-tally').style.visibility = '';
   document.getElementById('perf-chart-area-share').style.visibility = 'hidden';
   document.getElementById('perf-chart-area-roundwise').style.visibility = 'hidden';
+  // Reset race sort links to alpha
+  document.querySelectorAll('#race-sort-bar .race-sort-link').forEach(b => {
+    b.classList.toggle('active', b.dataset.sort === 'alpha');
+  });
   // Reboot
   lastDataFingerprint = '';
   loadElections().then(() => {
