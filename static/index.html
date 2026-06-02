@@ -4290,6 +4290,7 @@ function renderVoteShare() {
   ctx.scale(dpr, dpr);
   const W = rect.width;
   const H = rect.height;
+  const PAD = 16;  // padding around treemap for centering
 
   if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
 
@@ -4328,8 +4329,9 @@ function renderVoteShare() {
 
   if (items.length === 0) return;
 
-  // Squarified treemap layout
-  const rects = squarify(items.map(i => i.value), { x: 0, y: 0, w: W, h: H });
+  // Squarified treemap layout — centered with padding
+  const bounds = { x: PAD, y: PAD, w: W - PAD * 2, h: H - PAD * 2 };
+  const rects = squarify(items.map(i => i.value), bounds);
   items.forEach((item, i) => { item.rect = rects[i]; });
 
   // Track hovered item for highlight
@@ -4521,29 +4523,51 @@ function renderVoteShare() {
     tooltipEl.style.pointerEvents = 'none';
   }
 
-  // Click handling
+  // Click handling — same forgiving detection
   canvas.onclick = (e) => {
     const mx = e.offsetX;
     const my = e.offsetY;
+    let hit = null;
+    let minDist = Infinity;
     for (const item of items) {
       const r = item.rect;
-      if (r && mx >= r.x && mx <= r.x + r.w && my >= r.y && my <= r.y + r.h) {
-        showPartyDetail(item.abv);
-        return;
+      if (!r) continue;
+      if (mx >= r.x && mx <= r.x + r.w && my >= r.y && my <= r.y + r.h) {
+        hit = item;
+        break;
+      }
+      const cx = Math.max(r.x, Math.min(mx, r.x + r.w));
+      const cy = Math.max(r.y, Math.min(my, r.y + r.h));
+      const dist = Math.hypot(mx - cx, my - cy);
+      if (dist < 12 && dist < minDist) {
+        minDist = dist;
+        hit = item;
       }
     }
+    if (hit) showPartyDetail(hit.abv);
   };
 
-  // Tooltip on hover
+  // Tooltip on hover — forgiving hit detection for small rectangles
   canvas.onmousemove = (e) => {
     const mx = e.offsetX;
     const my = e.offsetY;
     let hit = null;
+    let minDist = Infinity;
     for (const item of items) {
       const r = item.rect;
-      if (r && mx >= r.x && mx <= r.x + r.w && my >= r.y && my <= r.y + r.h) {
+      if (!r) continue;
+      // Strict containment
+      if (mx >= r.x && mx <= r.x + r.w && my >= r.y && my <= r.y + r.h) {
         hit = item;
         break;
+      }
+      // Proximity: nearest rect within 12px
+      const cx = Math.max(r.x, Math.min(mx, r.x + r.w));
+      const cy = Math.max(r.y, Math.min(my, r.y + r.h));
+      const dist = Math.hypot(mx - cx, my - cy);
+      if (dist < 12 && dist < minDist) {
+        minDist = dist;
+        hit = item;
       }
     }
     canvas.style.cursor = hit ? 'pointer' : 'default';
