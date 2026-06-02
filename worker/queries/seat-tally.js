@@ -163,6 +163,17 @@ export async function handleSeatTally(request, env) {
       'SELECT assembly_seats FROM states WHERE state_code = ?'
     ).bind(state).first();
     if (sRow) majority = Math.floor(sRow.assembly_seats / 2) + 1;
+  } else if (electionId) {
+    // Sum assembly_seats for states in this election only
+    const election = await getElectionById(env, electionId);
+    if (election) {
+      const stateList = JSON.parse(election.states);
+      const ph = stateList.map(() => '?').join(',');
+      const mRow = await env.DB.prepare(
+        `SELECT SUM(assembly_seats) as total_seats FROM states WHERE state_code IN (${ph})`
+      ).bind(...stateList).first();
+      if (mRow?.total_seats) majority = Math.floor(mRow.total_seats / 2) + 1;
+    }
   } else {
     const mRow = await env.DB.prepare(`
       SELECT SUM(s.assembly_seats) as total_seats
