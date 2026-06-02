@@ -1678,8 +1678,16 @@
   .chartjs-tooltip.treemap-tooltip {
     max-width: 320px;
     min-width: 260px;
-    padding: 16px;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
   }
+  .treemap-tooltip__accent { height: 4px; flex-shrink: 0; }
+  .treemap-tooltip__body { padding: 14px 16px; }
+  .treemap-tooltip .flip-back__title { font-size: 16px; }
+  .treemap-tooltip .flip-back__table { font-size: 12px; }
+  .treemap-tooltip .flip-back__table td { padding: 6px 0; }
+  .treemap-tooltip .flip-back__spacer { height: 8px; }
   .chartjs-tooltip .tooltip-header {
     display: flex;
     align-items: center;
@@ -4326,8 +4334,10 @@ function renderVoteShare() {
     });
   }
 
-  // Build treemap items — all parties with votes
-  const items = perfParties
+  const theme = chartTheme();
+
+  // Build treemap items — parties < 1% vote share are clubbed as 'Others'
+  const _allItems = perfParties
     .filter(p => (p.total_votes || 0) > 0)
     .map(p => ({
       abv: p.party_abv,
@@ -4336,6 +4346,20 @@ function renderVoteShare() {
       color: p.color,
     }))
     .sort((a, b) => b.value - a.value);
+
+  const _otherItems = _allItems.filter(i => parseFloat(i.pct) < 1.0);
+  const items = _allItems.filter(i => parseFloat(i.pct) >= 1.0);
+  if (_otherItems.length > 0) {
+    const _othersVotes = _otherItems.reduce((s, i) => s + i.value, 0);
+    items.push({
+      abv: 'Others',
+      value: _othersVotes,
+      pct: (_othersVotes * 100 / grandTotal).toFixed(1),
+      color: theme.muted,
+      isOthers: true,
+      otherParties: _otherItems,
+    });
+  }
 
   if (items.length === 0) return;
 
@@ -4374,7 +4398,6 @@ function renderVoteShare() {
 
   // Track hovered item for highlight
   let hoveredItem = null;
-  const theme = chartTheme();
 
   // Set up start/end rects for transition animation
   const _prevMap = Object.fromEntries((prevTreemapItems || []).map(p => [p.abv, p.rect]));
@@ -4461,58 +4484,84 @@ function renderVoteShare() {
   }
 
   function showTreemapTooltip(item, mouseX, mouseY) {
-    const party = perfParties.find(p => p.party_abv === item.abv);
-    const detail = partyDetails[item.abv] || {};
-    const symbolUrl = partySymbols[item.abv] || detail.symbol_url || '';
-    const fullName = partyNames[item.abv] || detail.name || item.abv;
-    const dep = partyDepositLoss[item.abv] || {};
-    const won = party ? party.won : 0;
-    const leading = party ? party.leading : 0;
-    const totalVotes = party ? (party.total_votes || 0) : 0;
-    const lostSafe = dep.lost_no_deposit || 0;
-    const lostForfeited = dep.lost_deposit || 0;
-    const lostTotal = lostSafe + lostForfeited;
-    const totalSeats = won + leading + lostTotal;
     const fmt = (n) => n.toLocaleString('en-IN');
+    const accent = `<div class="treemap-tooltip__accent" style="background:${item.color};"></div>`;
 
-    const symHtml = symbolUrl
-      ? `<img src="${safeImgSrc(symbolUrl)}" alt="">`
-      : `<div style="width:52px;height:52px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🏛️</div>`;
+    let html;
 
-    let html = `
-      <div class="flip-back__header">
-        ${symHtml}
-        <div>
-          <div class="flip-back__title">${escapeHtml(fullName)}</div>
-          <div class="flip-back__subtitle">${escapeHtml(item.abv)}</div>
-          ${detail.founded ? `<div class="flip-back__subtitle">Founded ${escapeHtml(detail.founded)}</div>` : ''}
-          ${detail.chief ? `<div class="flip-back__subtitle">Chief ${escapeHtml(detail.chief)}</div>` : ''}
+    if (item.isOthers) {
+      const others = item.otherParties || [];
+      const rows = others.map(p =>
+        `<tr><td class="td-label td-label--light">${escapeHtml(p.abv)}</td><td class="td-value td-value--light">${p.pct}%</td></tr>`
+      ).join('');
+      html = `${accent}<div class="treemap-tooltip__body">
+        <div class="flip-back__header">
+          <div style="width:44px;height:44px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🗳️</div>
+          <div>
+            <div class="flip-back__title">Others</div>
+            <div class="flip-back__subtitle">${others.length} parties · &lt;1% each</div>
+            <div class="flip-back__subtitle">${item.pct}% combined vote share</div>
+          </div>
         </div>
-      </div>
-      <div class="flip-back__spacer"></div>
-      <table class="flip-back__table">
-        <tr><td class="td-label td-label--dark">Won</td><td class="td-value td-value--dark">${fmt(won)}</td></tr>
-        <tr><td class="td-label td-indent td-label--light">leading</td><td class="td-value td-indent td-value--light">${fmt(leading)}</td></tr>
-        <tr><td class="td-label td-label--dark">Lost</td><td class="td-value td-value--dark">${fmt(lostTotal)}</td></tr>
-        <tr><td class="td-label td-indent td-label--light">deposit safe</td><td class="td-value td-indent td-value--light">${fmt(lostSafe)}</td></tr>
-        <tr><td class="td-label td-indent td-label--light">deposit lost</td><td class="td-value td-indent td-value--light">${fmt(lostForfeited)}</td></tr>
-        <tr><td class="td-label td-label--dark">Total Seats</td><td class="td-value td-value--dark">${fmt(totalSeats)}</td></tr>
-        <tr><td class="td-label td-label--light">Vote Share</td><td class="td-value td-value--light">${item.pct}%</td></tr>
-        <tr><td class="td-label td-label--light">Total Votes</td><td class="td-value td-value--light">${fmt(totalVotes)}</td></tr>
-      </table>`;
+        <div class="flip-back__spacer"></div>
+        <table class="flip-back__table">${rows}
+          <tr><td class="td-label td-label--dark">Total Votes</td><td class="td-value td-value--dark">${fmt(item.value)}</td></tr>
+        </table>
+      </div>`;
+    } else {
+      const party = perfParties.find(p => p.party_abv === item.abv);
+      const detail = partyDetails[item.abv] || {};
+      const symbolUrl = partySymbols[item.abv] || detail.symbol_url || '';
+      const fullName = partyNames[item.abv] || detail.name || item.abv;
+      const dep = partyDepositLoss[item.abv] || {};
+      const won = party ? party.won : 0;
+      const leading = party ? party.leading : 0;
+      const totalVotes = party ? (party.total_votes || 0) : 0;
+      const lostSafe = dep.lost_no_deposit || 0;
+      const lostForfeited = dep.lost_deposit || 0;
+      const lostTotal = lostSafe + lostForfeited;
+      const totalSeats = won + leading + lostTotal;
 
-    if (detail.alliance) {
-      html += `<div class="flip-back__divider"></div><div class="flip-back__meta"><div><strong>Alliance</strong> ${escapeHtml(detail.alliance)}</div></div>`;
-    }
+      const symHtml = symbolUrl
+        ? `<img src="${safeImgSrc(symbolUrl)}" alt="">`
+        : `<div style="width:44px;height:44px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🏛️</div>`;
 
-    const topCands = partyCandidatesMap[item.abv];
-    if (topCands && topCands.length > 0) {
-      html += `<div class="flip-back__divider"></div>`;
-      html += `<div style="font-size:12px;font-family:var(--font-ui);font-weight:600;color:var(--text);margin-bottom:4px;">Top vote-getters</div>`;
-      topCands.forEach((c, i) => {
-        const wonMark = c.won ? ' ✓' : '';
-        html += `<div style="font-size:12px;font-family:var(--font-ui);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:2px 0;">${i + 1}. ${escapeHtml(c.name)} <span style="opacity:0.6">${escapeHtml(c.constituency)}</span> ${fmt(c.votes)}${wonMark}</div>`;
-      });
+      html = `${accent}<div class="treemap-tooltip__body">
+        <div class="flip-back__header">
+          ${symHtml}
+          <div>
+            <div class="flip-back__title">${escapeHtml(fullName)}</div>
+            <div class="flip-back__subtitle">${escapeHtml(item.abv)}</div>
+            ${detail.founded ? `<div class="flip-back__subtitle">Founded ${escapeHtml(detail.founded)}</div>` : ''}
+            ${detail.chief ? `<div class="flip-back__subtitle">Chief ${escapeHtml(detail.chief)}</div>` : ''}
+          </div>
+        </div>
+        <div class="flip-back__spacer"></div>
+        <table class="flip-back__table">
+          <tr><td class="td-label td-label--dark">Won</td><td class="td-value td-value--dark">${fmt(won)}</td></tr>
+          <tr><td class="td-label td-indent td-label--light">leading</td><td class="td-value td-indent td-value--light">${fmt(leading)}</td></tr>
+          <tr><td class="td-label td-label--dark">Lost</td><td class="td-value td-value--dark">${fmt(lostTotal)}</td></tr>
+          ${lostSafe > 0 ? `<tr><td class="td-label td-indent td-label--light">deposit safe</td><td class="td-value td-indent td-value--light">${fmt(lostSafe)}</td></tr>` : ''}
+          ${lostForfeited > 0 ? `<tr><td class="td-label td-indent td-label--light">deposit lost</td><td class="td-value td-indent td-value--light">${fmt(lostForfeited)}</td></tr>` : ''}
+          <tr><td class="td-label td-label--dark">Total Seats</td><td class="td-value td-value--dark">${fmt(totalSeats)}</td></tr>
+          <tr><td class="td-label td-label--light">Vote Share</td><td class="td-value td-value--light">${item.pct}%</td></tr>
+          <tr><td class="td-label td-label--light">Total Votes</td><td class="td-value td-value--light">${fmt(totalVotes)}</td></tr>
+        </table>
+        ${detail.alliance ? `<div class="flip-back__divider"></div><div class="flip-back__meta"><div><strong>Alliance</strong> ${escapeHtml(detail.alliance)}</div></div>` : ''}
+      </div>`;
+
+      const topCands = partyCandidatesMap[item.abv];
+      if (topCands && topCands.length > 0) {
+        const candsHtml = topCands.map((c, i) => {
+          const wonMark = c.won ? ' ✓' : '';
+          return `<div style="font-size:11px;font-family:var(--font-ui);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:2px 0;">${i + 1}. ${escapeHtml(c.name)} <span style="opacity:0.6">${escapeHtml(c.constituency)}</span> ${fmt(c.votes)}${wonMark}</div>`;
+        }).join('');
+        html += `<div class="treemap-tooltip__body" style="padding-top:0;">
+          <div class="flip-back__divider"></div>
+          <div style="font-size:11px;font-family:var(--font-ui);font-weight:600;color:var(--text);margin:6px 0 3px;">Top vote-getters</div>
+          ${candsHtml}
+        </div>`;
+      }
     }
 
     tooltipEl.innerHTML = html;
