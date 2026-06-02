@@ -692,9 +692,17 @@
   .search-modal .sm-party {
     display: inline-block;
     padding: 1px 6px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     border: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .search-modal .sm-symbol {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 4px;
+    border-radius: 2px;
   }
   .search-modal .sm-election-link {
     color: var(--accent);
@@ -5953,7 +5961,7 @@ function getClickedPartyAbv(chart, elements) {
       rows += `<tr>
         <td><a href="#" class="sm-election-link" data-election-id="${escapeAttr(c.election_id)}" data-state="${escapeAttr(c.state_code)}" data-ac="${c.ac_no}">${escapeHtml(c.election_name || '')}</a></td>
         <td>${escapeHtml(c.constituency || '')}, ${escapeHtml(c.state_abbrev || '')}</td>
-        <td>${c.symbol_url ? `<img src="${escapeAttr(c.symbol_url)}" alt="" class="sr-symbol" width="16" height="16" loading="lazy">` : ''}<span class="sm-party" style="color:${partyColor};border-color:${partyColor}">${escapeHtml(c.party || '')}</span></td>
+        <td>${c.symbol_url ? `<img src="${escapeAttr(c.symbol_url)}" alt="" class="sm-symbol" loading="lazy">` : ''}<span class="sm-party" style="color:${partyColor};border-color:${partyColor}">${escapeHtml(c.party || '')}</span></td>
         <td class="numeric">${c.votes ? c.votes.toLocaleString('en-IN') : ''}</td>
         ${outcomeCol}
       </tr>`;
