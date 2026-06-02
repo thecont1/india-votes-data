@@ -1675,6 +1675,11 @@
     max-width: 280px;
     box-shadow: 0 4px 12px color-mix(in srgb, var(--text) 12%, transparent);
   }
+  .chartjs-tooltip.treemap-tooltip {
+    max-width: 320px;
+    min-width: 260px;
+    padding: 16px;
+  }
   .chartjs-tooltip .tooltip-header {
     display: flex;
     align-items: center;
@@ -4449,7 +4454,7 @@ function renderVoteShare() {
   let tooltipEl = canvas._tooltipEl;
   if (!tooltipEl) {
     tooltipEl = document.createElement('div');
-    tooltipEl.className = 'chartjs-tooltip';
+    tooltipEl.className = 'chartjs-tooltip treemap-tooltip';
     canvas.parentNode.style.position = 'relative';
     canvas.parentNode.appendChild(tooltipEl);
     canvas._tooltipEl = tooltipEl;
@@ -4471,39 +4476,43 @@ function renderVoteShare() {
     const fmt = (n) => n.toLocaleString('en-IN');
 
     const symHtml = symbolUrl
-      ? `<img src="${safeImgSrc(symbolUrl)}" class="tooltip-symbol" alt="">`
-      : '';
+      ? `<img src="${safeImgSrc(symbolUrl)}" alt="">`
+      : `<div style="width:52px;height:52px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🏛️</div>`;
 
-    // Header: symbol + party name
-    let html = `<div class="tooltip-header">${symHtml}<span><div class="tooltip-title">${escapeHtml(fullName)} (${escapeHtml(item.abv)})</div></span></div>`;
+    let html = `
+      <div class="flip-back__header">
+        ${symHtml}
+        <div>
+          <div class="flip-back__title">${escapeHtml(fullName)}</div>
+          <div class="flip-back__subtitle">${escapeHtml(item.abv)}</div>
+          ${detail.founded ? `<div class="flip-back__subtitle">Founded ${escapeHtml(detail.founded)}</div>` : ''}
+          ${detail.chief ? `<div class="flip-back__subtitle">Chief ${escapeHtml(detail.chief)}</div>` : ''}
+        </div>
+      </div>
+      <div class="flip-back__spacer"></div>
+      <table class="flip-back__table">
+        <tr><td class="td-label td-label--dark">Won</td><td class="td-value td-value--dark">${fmt(won)}</td></tr>
+        <tr><td class="td-label td-indent td-label--light">leading</td><td class="td-value td-indent td-value--light">${fmt(leading)}</td></tr>
+        <tr><td class="td-label td-label--dark">Lost</td><td class="td-value td-value--dark">${fmt(lostTotal)}</td></tr>
+        <tr><td class="td-label td-indent td-label--light">deposit safe</td><td class="td-value td-indent td-value--light">${fmt(lostSafe)}</td></tr>
+        <tr><td class="td-label td-indent td-label--light">deposit lost</td><td class="td-value td-indent td-value--light">${fmt(lostForfeited)}</td></tr>
+        <tr><td class="td-label td-label--dark">Total Seats</td><td class="td-value td-value--dark">${fmt(totalSeats)}</td></tr>
+        <tr><td class="td-label td-label--light">Vote Share</td><td class="td-value td-value--light">${item.pct}%</td></tr>
+        <tr><td class="td-label td-label--light">Total Votes</td><td class="td-value td-value--light">${fmt(totalVotes)}</td></tr>
+      </table>`;
 
-    // Stats table
-    const rows = [];
-    rows.push(`<tr><td class="td-label">Won</td><td class="td-value">${fmt(won)}</td></tr>`);
-    if (leading > 0) rows.push(`<tr><td class="td-label" style="padding-left:12px;opacity:0.7">leading</td><td class="td-value" style="opacity:0.7">${fmt(leading)}</td></tr>`);
-    rows.push(`<tr><td class="td-label">Lost</td><td class="td-value">${fmt(lostTotal)}</td></tr>`);
-    if (lostSafe > 0) rows.push(`<tr><td class="td-label" style="padding-left:12px;opacity:0.7">deposit safe</td><td class="td-value" style="opacity:0.7">${fmt(lostSafe)}</td></tr>`);
-    if (lostForfeited > 0) rows.push(`<tr><td class="td-label" style="padding-left:12px;opacity:0.7">deposit lost</td><td class="td-value" style="opacity:0.7">${fmt(lostForfeited)}</td></tr>`);
-    rows.push(`<tr><td class="td-label">Total Seats</td><td class="td-value">${fmt(totalSeats)}</td></tr>`);
-    rows.push(`<tr><td class="td-label">Vote Share</td><td class="td-value">${item.pct}%</td></tr>`);
-    rows.push(`<tr><td class="td-label">Total Votes</td><td class="td-value">${fmt(totalVotes)}</td></tr>`);
-    html += `<table class="tooltip-table">${rows.join('')}</table>`;
-
-    // Chief
-    if (detail.chief) {
-      html += `<div style="margin-top:4px;font-size:11px;color:var(--tooltip-muted,var(--muted));">Chief: ${escapeHtml(detail.chief)}</div>`;
+    if (detail.alliance) {
+      html += `<div class="flip-back__divider"></div><div class="flip-back__meta"><div><strong>Alliance</strong> ${escapeHtml(detail.alliance)}</div></div>`;
     }
 
-    // Top 3 candidates
     const topCands = partyCandidatesMap[item.abv];
     if (topCands && topCands.length > 0) {
-      html += `<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border);font-size:11px;color:var(--tooltip-muted,var(--muted));">`;
-      html += `<div style="font-weight:600;margin-bottom:2px;color:var(--tooltip-text,var(--text));">Top vote-getters</div>`;
+      html += `<div class="flip-back__divider"></div>`;
+      html += `<div style="font-size:12px;font-family:var(--font-ui);font-weight:600;color:var(--text);margin-bottom:4px;">Top vote-getters</div>`;
       topCands.forEach((c, i) => {
         const wonMark = c.won ? ' ✓' : '';
-        html += `<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px;">${i + 1}. ${escapeHtml(c.name)} <span style="opacity:0.6">${escapeHtml(c.constituency)}</span> ${fmt(c.votes)}${wonMark}</div>`;
+        html += `<div style="font-size:12px;font-family:var(--font-ui);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:2px 0;">${i + 1}. ${escapeHtml(c.name)} <span style="opacity:0.6">${escapeHtml(c.constituency)}</span> ${fmt(c.votes)}${wonMark}</div>`;
       });
-      html += '</div>';
     }
 
     tooltipEl.innerHTML = html;
