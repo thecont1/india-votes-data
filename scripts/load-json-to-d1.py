@@ -73,7 +73,7 @@ HARDCODED_PARTIES = {
     "Lok Janshakti Party(Ram Vilas)": "LJP(RV)",
 }
 
-DEFAULT_BATCH_SIZE = 80
+DEFAULT_BATCH_SIZE = 40
 DEFAULT_WRANGLER_DB = "election-results"
 
 
@@ -343,7 +343,8 @@ def transform_to_rounds(data: dict, meta: dict) -> tuple:
         ac_name = vd["constituency"]
         tally = vd["voting_tally"]
 
-        candidates = []
+        candidates_evm = []
+        candidates_combined = []
         for entry in tally:
             party_name = entry["party"].strip()
             party_abv = normalize_party(party_name)
@@ -354,22 +355,31 @@ def transform_to_rounds(data: dict, meta: dict) -> tuple:
 
             evm = int(str(entry["evm_votes"]).replace(",", "").strip())
             postal = int(str(entry["postal_votes"]).replace(",", "").strip())
-            votes = evm + postal
 
-            candidates.append({
+            base = {
                 "candidate": entry["candidate"].strip(),
                 "party_abv": party_abv,
-                "votes": votes,
                 "_orig_party": party_name,  # for preprocess display
-            })
+            }
+            candidates_evm.append({**base, "votes": evm})
+            candidates_combined.append({**base, "votes": evm + postal})
 
+        # Round 998 = EVM-only, Round 999 = EVM+Postal combined
         rounds.append({
             "state_code": meta["state_code"],
             "election_id": meta["election_id"],
             "ac_no": ac_no,
             "ac_name": ac_name,
-            "round_no": 999,  # Final result
-            "candidates": candidates,
+            "round_no": 998,
+            "candidates": candidates_evm,
+        })
+        rounds.append({
+            "state_code": meta["state_code"],
+            "election_id": meta["election_id"],
+            "ac_no": ac_no,
+            "ac_name": ac_name,
+            "round_no": 999,
+            "candidates": candidates_combined,
         })
 
     return rounds, party_warnings
@@ -512,11 +522,15 @@ def load_to_d1(batches: list) -> dict:
     failed = 0
     for i, batch in enumerate(batches):
         total_cands = sum(len(r["candidates"]) for r in batch)
-        print(f"    Batch {i+1}/{len(batches)}: {len(batch)} ACs, {total_cands} candidates...", end=" ", flush=True)
+        print(f"    Batch {i+1}/{len(batches)}: {len(batch)} rounds, {total_cands} candidates...", end=" ", flush=True)
         try:
-            insert_batch(batch)
-            print(f"OK")
-            ok += len(batch)
+            result = insert_batch(batch)
+            ok += result["ok"]
+            failed += result["failed"]
+            if result["failed"]:
+                print(f"OK ({result['ok']}/{result['rounds']} rounds, {result['failed']} FAILED)")
+            else:
+                print(f"OK")
         except Exception as e:
             print(f"FAILED: {e}")
             failed += len(batch)

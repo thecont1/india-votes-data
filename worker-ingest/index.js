@@ -181,14 +181,12 @@ async function handleBatchIngest(request, env, corsHeaders) {
   }
 
   // D1 batch limit is ~100 statements; split if needed
-  const BATCH_SIZE = 80;
+  const BATCH_SIZE = 50;
   for (let i = 0; i < stmts.length; i += BATCH_SIZE) {
     await env.DB.batch(stmts.slice(i, i + BATCH_SIZE));
   }
 
-  // Rebuild FTS once at the end
-  await env.DB.prepare("INSERT INTO search_fts(search_fts) VALUES('rebuild')").run();
-
+  // Skip FTS rebuild per-batch — caller does it once after all loads
   return Response.json(
     { ok: true, rounds: rounds.length, candidates: totalCandidates },
     { headers: corsHeaders }
