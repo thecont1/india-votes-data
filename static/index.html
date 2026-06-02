@@ -3465,6 +3465,8 @@ document.getElementById('perf-toggle').addEventListener('click', (e) => {
   });
   if (view === 'roundwise' && currentState) {
     renderRoundwise(currentState);
+  } else if (view === 'share') {
+    renderVoteShare();
   }
 });
 
@@ -4284,7 +4286,7 @@ function renderVoteShare() {
   const canvas = document.getElementById('vote-share-chart');
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.parentNode.getBoundingClientRect();
+  const rect = canvas.closest('.perf-chart-area').getBoundingClientRect();
   canvas.width = rect.width * dpr;
   canvas.height = rect.height * dpr;
   canvas.style.width = rect.width + 'px';
