@@ -1252,7 +1252,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: flex-start;
     padding: var(--chip-padding-y) var(--chip-padding-x);
     border-radius: var(--chip-radius);
     border: 1px solid transparent;
@@ -2095,8 +2095,6 @@
       gap: 6px;
     }
     .summary-chip {
-      min-height: 52px;
-      gap: 2px;
       padding: 6px 4px;
       border-radius: 10px;
     }
@@ -3364,7 +3362,7 @@ async function loadElections() {
     const statesData = await statesRes.json();
     stateNameMap = {};
     (statesData.states || []).forEach(s => {
-      stateNameMap[s.state_code] = s.state_name;
+      stateNameMap[s.state_code] = { name: s.state_name, std: s.state_code_std || s.state_code };
     });
 
     const res = await fetch(API_BASE + '/api/elections');
@@ -3437,8 +3435,8 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
 function updateStateBarForElection(stateCodes) {
   const states = [{ code: '', name: 'Overall', short: 'All' }, ...stateCodes.map(code => ({
     code,
-    name: stateNameMap[code] || code,
-    short: code
+    name: stateNameMap[code]?.name || code,
+    short: stateNameMap[code]?.std || code
   }))];
   renderStateBar(states);
   loadStateStatuses(states);
@@ -5754,7 +5752,7 @@ function showDownloadModal() {
   const stateBtn = document.getElementById('download-modal-state');
   const stateLabel = document.getElementById('download-modal-state-label');
   const desc = document.getElementById('download-modal-desc');
-  const stateName = currentState ? (stateNameMap[currentState] || currentState) : '';
+  const stateName = currentState ? (stateNameMap[currentState]?.name || currentState) : '';
 
   if (currentState && stateName) {
     stateLabel.textContent = `Download ${stateName} only`;
