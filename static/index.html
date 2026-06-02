@@ -4045,17 +4045,21 @@ function renderChart(parties, majority) {
     });
   }
 
-  // Store for vote share view (same parties, same order)
-  perfParties = main;
+  // Store for vote share view — ALL parties, not just top 15
+  perfParties = sorted;
 
+  // Chart data: top 15 + Others
   const labels = main.map(p => p.party_abv);
   const wonData = main.map(p => p.won);
   const leadData = main.map(p => p.leading);
   const colors = main.map(p => p.color);
   const symbols = main.map(p => p.symbol_url);
 
-  // Circle-style legend (no y-axis labels)
-  buildCircleLegend(document.getElementById('perf-legend-tally'), labels, colors, symbols);
+  // Legend: ALL parties (sorted by seats, including NOTA and Independents)
+  const allLabels = sorted.map(p => p.party_abv);
+  const allColors = sorted.map(p => p.color);
+  const allSymbols = sorted.map(p => p.symbol_url);
+  buildCircleLegend(document.getElementById('perf-legend-tally'), allLabels, allColors, allSymbols);
 
   main.forEach(p => {
     partyNames[p.party_abv] = p.party_name || p.party_abv;
@@ -4255,116 +4259,208 @@ function createStripeCanvas(color) {
 }
 
 // ---------------------------------------------------------------------------
-// Render — Vote Share (uses same parties as seat tally for smooth toggle)
+// Render — Vote Share (treemap)
 // ---------------------------------------------------------------------------
 function renderVoteShare() {
   if (!perfParties.length) return;
 
-  // Use the SAME party list as seat tally (same order, same grouping)
   const grandTotal = perfParties.reduce((s, p) => s + (p.total_votes || 0), 0);
   if (grandTotal === 0) return;
 
-  const labels = perfParties.map(p => p.party_abv);
-  const data = perfParties.map(p => +((p.total_votes || 0) * 100 / grandTotal).toFixed(1));
-  const colors = perfParties.map(p => p.color);
-  const symbols = perfParties.map(p => p.symbol_url);
-
-  // Circle-style legend
-  buildCircleLegend(document.getElementById('perf-legend-tally'), labels, colors, symbols);
+  // Legend: ALL parties
+  const allLabels = perfParties.map(p => p.party_abv);
+  const allColors = perfParties.map(p => p.color);
+  const allSymbols = perfParties.map(p => p.symbol_url);
+  buildCircleLegend(document.getElementById('perf-legend-tally'), allLabels, allColors, allSymbols);
 
   const canvas = document.getElementById('vote-share-chart');
   const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const W = rect.width;
+  const H = rect.height;
+
+  if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
+
+  // Build treemap items — all parties with votes
+  const items = perfParties
+    .filter(p => (p.total_votes || 0) > 0)
+    .map(p => ({
+      abv: p.party_abv,
+      value: p.total_votes || 0,
+      pct: ((p.total_votes || 0) * 100 / grandTotal).toFixed(1),
+      color: p.color,
+    }))
+    .sort((a, b) => b.value - a.value);
+
+  if (items.length === 0) return;
+
+  // Squarified treemap layout
+  const rects = squarify(items.map(i => i.value), { x: 0, y: 0, w: W, h: H });
+  items.forEach((item, i) => { item.rect = rects[i]; });
+
+  // Draw
   const theme = chartTheme();
+  ctx.clearRect(0, 0, W, H);
 
-  if (voteShareChart) {
-    voteShareChart.destroy();
-    voteShareChart = null;
-  }
+  items.forEach(item => {
+    const r = item.rect;
+    if (!r || r.w < 1 || r.h < 1) return;
 
-  const niceMax = Math.ceil(Math.max(...data) / 5) * 5;
+    // Fill with party color
+    ctx.fillStyle = item.color;
+    ctx.fillRect(r.x, r.y, r.w, r.h);
 
-  voteShareChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        data,
-        backgroundColor: colors,
-        borderRadius: 4,
-        borderSkipped: false,
-      }],
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: getChartAnimation(800),
-      onClick: (e, elements, ch) => {
-        const abv = getClickedPartyAbv(ch, elements);
-        if (abv) showPartyDetail(abv);
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          external: partyCardTooltip,
-          enabled: false,
-          backgroundColor: theme.tooltipBg,
-          titleColor: theme.tooltipText,
-          bodyColor: theme.tooltipMuted,
-          borderColor: theme.tooltipBorder,
-          borderWidth: 1,
-          padding: 12,
-          callbacks: {
-            title: function(items) {
-              if (!items.length) return '';
-              const abv = items[0].label;
-              const fullName = partyNames[abv] || abv;
-              return fullName === abv ? abv : `${fullName} (${abv})`;
-            },
-            label: function(ctx) {
-              const pct = ctx.parsed.x;
-              const abv = ctx.chart.data.labels[ctx.dataIndex];
-              const party = perfParties.find(p => p.party_abv === abv);
-              const totalVotes = party ? (party.total_votes || 0) : 0;
-              return [`${pct}% of total votes`, `${totalVotes.toLocaleString()} votes`];
-            }
-          }
-        },
-      },
-      layout: { padding: { left: window.matchMedia('(max-width: 640px)').matches ? 0 : 8, right: window.matchMedia('(max-width: 640px)').matches ? 0 : 60, top: 10, bottom: 10 } },
-      scales: {
-        x: {
-          grid: { color: theme.grid, borderColor: 'transparent' },
-          ticks: { color: theme.muted, font: { size: 12 }, stepSize: 5 },
-          title: { display: true, text: 'Vote Share (%)', color: theme.muted },
-          max: niceMax,
-        },
-        y: {
-          grid: { display: false },
-          ticks: { display: false },  // labels in legend, not on axis
-        },
-      },
-    },
-    plugins: [{
-      id: 'vsLabels',
-      afterDraw(chart) {
-        const xScale = chart.scales.x;
-        const meta = chart.getDatasetMeta(0);
-        const ctx = chart.ctx;
-        ctx.save();
-        ctx.font = canvasFont(13, 'ui', 600);
-        ctx.fillStyle = chartTheme().label;
-        ctx.textBaseline = 'middle';
-        ctx.textAlign = 'left';
-        for (let i = 0; i < meta.data.length; i++) {
-          const val = chart.data.datasets[0].data[i];
-          const x = xScale.getPixelForValue(val) + 6;
-          ctx.fillText(val + '%', x, meta.data[i].y);
-        }
-        ctx.restore();
-      }
-    }],
+    // Subtle border
+    ctx.strokeStyle = theme.background;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(r.x, r.y, r.w, r.h);
+
+    // Label
+    const minDim = Math.min(r.w, r.h);
+    if (minDim < 28) return;  // too small for text
+
+    const fontSize = minDim > 60 ? 14 : minDim > 40 ? 11 : 9;
+    ctx.font = `600 ${fontSize}px ${theme.fontUi}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // Choose text color for contrast
+    const lum = luminance(item.color);
+    ctx.fillStyle = lum > 0.4 ? '#000' : '#fff';
+
+    const cx = r.x + r.w / 2;
+    const cy = r.y + r.h / 2;
+
+    // Party abbreviation (always show)
+    const abv = truncateText(ctx, item.abv, r.w - 8);
+    ctx.fillText(abv, cx, minDim > 40 ? cy - fontSize * 0.5 : cy);
+
+    // Vote share % (show if room)
+    if (minDim > 40 && r.h > 36) {
+      ctx.font = `500 ${fontSize - 2}px ${theme.fontUi}`;
+      ctx.fillText(item.pct + '%', cx, cy + fontSize * 0.7);
+    }
   });
+
+  // Click handling
+  canvas.onclick = (e) => {
+    const mx = e.offsetX;
+    const my = e.offsetY;
+    for (const item of items) {
+      const r = item.rect;
+      if (r && mx >= r.x && mx <= r.x + r.w && my >= r.y && my <= r.y + r.h) {
+        showPartyDetail(item.abv);
+        return;
+      }
+    }
+  };
+
+  // Tooltip on hover
+  canvas.onmousemove = (e) => {
+    const mx = e.offsetX;
+    const my = e.offsetY;
+    let hit = null;
+    for (const item of items) {
+      const r = item.rect;
+      if (r && mx >= r.x && mx <= r.x + r.w && my >= r.y && my <= r.y + r.h) {
+        hit = item;
+        break;
+      }
+    }
+    canvas.style.cursor = hit ? 'pointer' : 'default';
+    if (hit) {
+      const party = perfParties.find(p => p.party_abv === hit.abv);
+      const name = partyNames[hit.abv] || hit.abv;
+      const votes = (hit.value || 0).toLocaleString();
+      canvas.title = `${name} (${hit.abv})\n${hit.pct}% — ${votes} votes`;
+    } else {
+      canvas.title = '';
+    }
+  };
+}
+
+// Squarified treemap algorithm
+function squarify(values, bounds) {
+  const total = values.reduce((s, v) => s + v, 0);
+  const items = values.map((v, i) => ({ idx: i, area: (v / total) * bounds.w * bounds.h }));
+  items.sort((a, b) => b.area - a.area);
+
+  const rects = new Array(values.length);
+  let remaining = { ...bounds };
+  let rest = [...items];
+
+  while (rest.length > 0) {
+    const row = [rest[0]];
+    rest = rest.slice(1);
+    let rowArea = row[0].area;
+
+    const isWide = remaining.w >= remaining.h;
+    const side = isWide ? remaining.h : remaining.w;
+
+    while (rest.length > 0) {
+      const candidate = rowArea + rest[0].area;
+      const currentRatio = worstRatio(row, rowArea, side);
+      const candidateRatio = worstRatio([...row, rest[0]], candidate, side);
+      if (candidateRatio <= currentRatio) {
+        row.push(rest[0]);
+        rowArea = candidate;
+        rest = rest.slice(1);
+      } else {
+        break;
+      }
+    }
+
+    // Layout row
+    const frac = rowArea / (remaining.w * remaining.h);
+    if (isWide) {
+      const rowW = remaining.w * frac;
+      let y = remaining.y;
+      for (const item of row) {
+        const h = item.area / rowW;
+        rects[item.idx] = { x: remaining.x, y, w: rowW, h };
+        y += h;
+      }
+      remaining = { x: remaining.x + rowW, y: remaining.y, w: remaining.w - rowW, h: remaining.h };
+    } else {
+      const rowH = remaining.h * frac;
+      let x = remaining.x;
+      for (const item of row) {
+        const w = item.area / rowH;
+        rects[item.idx] = { x, y: remaining.y, w, h: rowH };
+        x += w;
+      }
+      remaining = { x: remaining.x, y: remaining.y + rowH, w: remaining.w, h: remaining.h - rowH };
+    }
+  }
+  return rects;
+}
+
+function worstRatio(row, totalArea, side) {
+  let worst = 0;
+  for (const item of row) {
+    const w = item.area / (totalArea / side);
+    const h = totalArea / side > 0 ? totalArea / (totalArea / side) : 0;
+    const r = Math.max(w / (h || 1), (h || 1) / w);
+    worst = Math.max(worst, r);
+  }
+  return worst;
+}
+
+function luminance(hex) {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  return 0.299 * r + 0.587 * g + 0.114 * b;
+}
+
+function truncateText(ctx, text, maxW) {
+  if (ctx.measureText(text).width <= maxW) return text;
+  while (text.length > 1 && ctx.measureText(text + '…').width > maxW) text = text.slice(0, -1);
+  return text + '…';
 }
 
 // ---------------------------------------------------------------------------
