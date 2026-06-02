@@ -729,6 +729,54 @@ Examples:
         progress["loaded"] = sorted(set(progress["loaded"]))
         save_progress(args.json_path, progress)
 
+    # ── Set won=1 for winners (archive data doesn't have this) ─────────
+    if not args.preprocess:
+        print()
+        print("Setting won status for winners...")
+        try:
+            # Find the winning candidate in each AC (most votes in final round)
+            # and set won=1 in constituency_status
+            won_sql = (
+                "UPDATE constituency_status SET won = 1 "
+                "WHERE (state_code, ac_no) IN ("
+                "  SELECT r.state_code, r.ac_no "
+                "  FROM rounds_ac r "
+                "  JOIN ("
+                "    SELECT state_code, ac_no, MAX(round_no) as max_round "
+                "    FROM rounds_ac "
+                f"   WHERE state_code = '{meta['state_code']}' "
+                "    GROUP BY state_code, ac_no"
+                "  ) lr ON r.state_code = lr.state_code AND r.ac_no = lr.ac_no "
+                "  AND r.round_no = lr.max_round "
+                "  JOIN ("
+                "    SELECT r2.state_code, r2.ac_no, MAX(r2.votes) as max_votes "
+                "    FROM rounds_ac r2 "
+                "    JOIN ("
+                "      SELECT state_code, ac_no, MAX(round_no) as max_round "
+                "      FROM rounds_ac "
+                f"     WHERE state_code = '{meta['state_code']}' "
+                "      GROUP BY state_code, ac_no"
+                "    ) lr2 ON r2.state_code = lr2.state_code AND r2.ac_no = lr2.ac_no "
+                "    AND r2.round_no = lr2.max_round "
+                "    GROUP BY r2.state_code, r2.ac_no"
+                "  ) mv ON r.state_code = mv.state_code AND r.ac_no = mv.ac_no "
+                "  AND r.votes = mv.max_votes"
+                f") AND state_code = '{meta['state_code']}' AND won = 0;"
+            )
+            result = subprocess.run(
+                ["wrangler", "d1", "execute", args.wrangler_db,
+                 "--command", won_sql, "--remote", "--json"],
+                capture_output=True, text=True, check=True, timeout=30,
+            )
+            parsed = json.loads(result.stdout) if result.stdout.strip() else {}
+            if isinstance(parsed, list) and parsed:
+                changes = parsed[0].get("meta", {}).get("changes", 0)
+            else:
+                changes = 0
+            print(f"  Won status set for {changes} constituencies")
+        except Exception as e:
+            print(f"  Warning: could not set won status: {e}")
+
     # ── Verify ──────────────────────────────────────────────────────────
     if not args.skip_verify and not args.preprocess:
         print()
