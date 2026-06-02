@@ -7083,6 +7083,10 @@ function getClickedPartyAbv(chart, elements) {
       card.style.width = '';
       document.body.classList.remove('tv-open');
       document.getElementById('tv-btn')?.setAttribute('aria-expanded', 'false');
+      stopStream();
+    } else {
+      // Mobile, pane closed — kill any stream pickLanguage() started
+      stopStream();
     }
   })();
 })();
