@@ -3006,6 +3006,7 @@ let partySymbols = {};
 let partyDetails = {};
 let partyDepositLoss = {};
 let voteShareChart = null;
+let prevTreemapItems = null;
 let racesChart = null;
 let racesData = [];
 let currentRace = null;
@@ -3835,7 +3836,7 @@ let _rwForm20Url = null;
 function _buildRoundwiseCardHTML(roundIdx, locked) {
   if (roundIdx < 0 || roundIdx >= _rwRounds.length) return '';
   const rn = _rwRounds[roundIdx];
-  const roundLabel = rn === 999 ? 'EVM+Postal Votes' : `Round ${rn}`;
+  const roundLabel = rn === 999 ? 'EVM+Postal Votes' : rn === 998 ? 'EVM Votes' : `Round ${rn}`;
 
   // Build from chart datasets — use full candidate names from currentRace
   const raceCandidates = (typeof currentRace !== 'undefined' && currentRace && currentRace.candidates)
@@ -4368,54 +4369,45 @@ function renderVoteShare() {
 
   // Track hovered item for highlight
   let hoveredItem = null;
-
-  // Draw
   const theme = chartTheme();
-  ctx.clearRect(0, 0, W, H);
 
+  // Set up start/end rects for transition animation
+  const _prevMap = Object.fromEntries((prevTreemapItems || []).map(p => [p.abv, p.rect]));
   items.forEach(item => {
+    const prev = _prevMap[item.abv];
+    item.endRect = { ...item.rect };
+    item.startRect = prev
+      ? { ...prev }
+      : { x: item.endRect.x + item.endRect.w / 2, y: item.endRect.y + item.endRect.h / 2, w: 0, h: 0 };
+    item.rect = { ...item.startRect };
+  });
+
+  // Shared draw helper (used by redraw and animation)
+  function drawItem(item, isHov) {
     const r = item.rect;
     if (!r || r.w < 1 || r.h < 1) return;
-
-    const isHovered = hoveredItem === item;
-
-    // Fill with party color
     ctx.fillStyle = item.color;
     ctx.fillRect(r.x, r.y, r.w, r.h);
-
-    // Gap between tiles (1px background-colored line)
     ctx.fillStyle = theme.background;
     ctx.fillRect(r.x, r.y, r.w, 1);
     ctx.fillRect(r.x, r.y, 1, r.h);
-
-    // Hover highlight: semi-transparent overlay
-    if (isHovered) {
+    if (isHov) {
       ctx.fillStyle = 'rgba(255,255,255,0.15)';
       ctx.fillRect(r.x, r.y, r.w, r.h);
     }
-
-    // Label (draw on every rectangle, even tiny ones)
     const minDim = Math.min(r.w, r.h);
-    if (minDim < 4) return;  // too small for any label
-
+    if (minDim < 4) return;
     const fontSize = minDim > 70 ? 15 : minDim > 45 ? 12 : 10;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-
-    // Choose text color for contrast
     const lum = luminance(item.color);
     const textColor = lum > 0.4 ? '#000' : '#fff';
-
     const cx = r.x + r.w / 2;
     const cy = r.y + r.h / 2;
-
-    // Party abbreviation
     ctx.font = `700 ${fontSize}px ${theme.fontUi}`;
     ctx.fillStyle = textColor;
     const abv = truncateText(ctx, item.abv, r.w - 10);
     ctx.fillText(abv, cx, minDim > 45 ? cy - fontSize * 0.45 : cy);
-
-    // Vote share % (show if room)
     if (minDim > 45 && r.h > 40) {
       ctx.font = `500 ${Math.max(fontSize - 3, 9)}px ${theme.fontUi}`;
       ctx.fillStyle = textColor;
@@ -4423,53 +4415,35 @@ function renderVoteShare() {
       ctx.fillText(item.pct + '%', cx, cy + fontSize * 0.65);
       ctx.globalAlpha = 1;
     }
-  });
+  }
 
-  // Redraw function (for hover highlight)
   function redraw() {
     ctx.clearRect(0, 0, W, H);
-    items.forEach(item => {
-      const r = item.rect;
-      if (!r || r.w < 1 || r.h < 1) return;
-      const isHovered = hoveredItem === item;
-
-      ctx.fillStyle = item.color;
-      ctx.fillRect(r.x, r.y, r.w, r.h);
-
-      ctx.fillStyle = theme.background;
-      ctx.fillRect(r.x, r.y, r.w, 1);
-      ctx.fillRect(r.x, r.y, 1, r.h);
-
-      if (isHovered) {
-        ctx.fillStyle = 'rgba(255,255,255,0.15)';
-        ctx.fillRect(r.x, r.y, r.w, r.h);
-      }
-
-      const minDim = Math.min(r.w, r.h);
-      if (minDim < 4) return;
-
-      const fontSize = minDim > 70 ? 15 : minDim > 45 ? 12 : 10;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      const lum = luminance(item.color);
-      const textColor = lum > 0.4 ? '#000' : '#fff';
-      const cx = r.x + r.w / 2;
-      const cy = r.y + r.h / 2;
-
-      ctx.font = `700 ${fontSize}px ${theme.fontUi}`;
-      ctx.fillStyle = textColor;
-      const abv = truncateText(ctx, item.abv, r.w - 10);
-      ctx.fillText(abv, cx, minDim > 45 ? cy - fontSize * 0.45 : cy);
-
-      if (minDim > 45 && r.h > 40) {
-        ctx.font = `500 ${Math.max(fontSize - 3, 9)}px ${theme.fontUi}`;
-        ctx.fillStyle = textColor;
-        ctx.globalAlpha = 0.75;
-        ctx.fillText(item.pct + '%', cx, cy + fontSize * 0.65);
-        ctx.globalAlpha = 1;
-      }
-    });
+    items.forEach(item => drawItem(item, hoveredItem === item));
   }
+
+  // Transition animation
+  const ANIM_DURATION = 380;
+  function _easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+  function _lerpRect(a, b, t) {
+    return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t,
+             w: a.w + (b.w - a.w) * t, h: a.h + (b.h - a.h) * t };
+  }
+  let _animStart = null;
+  function _animStep(ts) {
+    if (!_animStart) _animStart = ts;
+    const t = _easeOut(Math.min((ts - _animStart) / ANIM_DURATION, 1));
+    items.forEach(item => { item.rect = _lerpRect(item.startRect, item.endRect, t); });
+    redraw();
+    if (t < 1) {
+      canvas._animFrame = requestAnimationFrame(_animStep);
+    } else {
+      items.forEach(item => { item.rect = { ...item.endRect }; });
+      prevTreemapItems = items.map(item => ({ abv: item.abv, rect: { ...item.rect }, color: item.color, pct: item.pct }));
+    }
+  }
+  if (canvas._animFrame) cancelAnimationFrame(canvas._animFrame);
+  canvas._animFrame = requestAnimationFrame(_animStep);
 
   // Tooltip element (reuse chartjs-tooltip styling)
   let tooltipEl = canvas._tooltipEl;
@@ -5163,6 +5137,9 @@ async function drawRaceRoundwise(race) {
       return `${rn}`;
     });
 
+    // SLOPE CHART: rounds 998+999 → EVM → EVM+Postal slope
+    const isSlope = rounds.length === 2 && rounds.includes(998) && rounds.includes(999);
+
     // Store for card builder
     _rwRounds = rounds;
     _rwLabels = labels;
@@ -5180,19 +5157,32 @@ async function drawRaceRoundwise(race) {
     const partyByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.party_abv]));
     const symbolByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.symbol_url || null]));
 
-    const datasets = shown.map(c => ({
-      label: `${c.candidate} (${c.party_abv})`,
-      _partyAbv: c.party_abv,
-      _candidate: c.candidate,
-      data: rounds.map(rn => (votesMap[c.candidate] || {})[rn] || 0),
-      borderColor: colorsByCandidate[c.candidate] || c.color,
-      backgroundColor: colorsByCandidate[c.candidate] || c.color,
-      borderWidth: 2,
-      pointRadius: 0,
-      pointHoverRadius: 4,
-      tension: 0.25,
-      fill: false,
-    }));
+    // For slope: filter to recognized parties only (skip NOTA, Independent)
+    const slopeCandidates = isSlope
+      ? shown.filter(c => c.candidate !== 'NOTA' && c.party_abv !== 'IND' && c.party_abv !== 'Independent')
+      : shown;
+
+    const datasets = slopeCandidates.map(c => {
+      const evmVotes = (votesMap[c.candidate] || {})[998] || 0;
+      const combinedVotes = (votesMap[c.candidate] || {})[999] || 0;
+      const isWinner = c.won || false;
+      return {
+        label: `${c.candidate} (${c.party_abv})`,
+        _partyAbv: c.party_abv,
+        _candidate: c.candidate,
+        data: isSlope ? [evmVotes, combinedVotes] : rounds.map(rn => (votesMap[c.candidate] || {})[rn] || 0),
+        borderColor: colorsByCandidate[c.candidate] || c.color,
+        backgroundColor: colorsByCandidate[c.candidate] || c.color,
+        borderWidth: isSlope ? (isWinner ? 3 : 1.5) : 2,
+        pointRadius: isSlope ? 5 : 0,
+        pointHoverRadius: isSlope ? 7 : 4,
+        pointBackgroundColor: colorsByCandidate[c.candidate] || c.color,
+        pointBorderColor: isSlope ? '#fff' : 'transparent',
+        pointBorderWidth: isSlope ? 2 : 0,
+        tension: 0,
+        fill: false,
+      };
+    });
 
     const rowHeight = window.matchMedia('(max-width: 640px)').matches ? 52 : 44;
     const chartH = Math.max(300, shown.length * rowHeight + 70);
@@ -5211,6 +5201,7 @@ async function drawRaceRoundwise(race) {
       data: { labels, datasets },
       _rwDimColor: dimColor,
       _rwLineColor: lineColor,
+      _isSlope: isSlope,
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -5223,13 +5214,13 @@ async function drawRaceRoundwise(race) {
         layout: { padding: { top: 10, right: 14, bottom: 10 } },
         scales: {
           x: {
-            grid: { color: theme.grid, borderColor: 'transparent' },
-            ticks: { color: theme.muted, font: { size: 11 }, maxRotation: 0 },
-            title: { display: true, text: 'Round', color: theme.muted },
+            grid: { display: false },
+            ticks: { color: theme.muted, font: { size: isSlope ? 13 : 11, weight: isSlope ? '600' : '400' }, maxRotation: 0 },
+            title: { display: false },
           },
           y: {
             beginAtZero: true,
-            grid: { color: theme.grid, borderColor: 'transparent' },
+            grid: { color: isSlope ? 'transparent' : theme.grid, borderColor: 'transparent' },
             ticks: { color: theme.muted, font: { size: 11 }, callback: v => formatVotes(v) },
             title: { display: true, text: 'Votes', color: theme.muted },
           },
