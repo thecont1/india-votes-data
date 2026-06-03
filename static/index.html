@@ -1008,23 +1008,40 @@
     user-select: none;
   }
   .race-sort-group-label {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
     color: var(--muted);
-    opacity: 0.6;
-    letter-spacing: 0.03em;
+    opacity: 0.55;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     user-select: none;
   }
   .race-sort-group-sep {
     display: inline-block;
-    width: 1px;
-    height: 13px;
+    width: 1.5px;
+    height: 16px;
     background: var(--muted);
-    opacity: 0.3;
+    opacity: 0.25;
     align-self: center;
-    margin: 0 10px;
+    margin: 0 14px;
   }
+  .race-sort-group,
+  .race-filter-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .race-filter-btn {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 5px;
+  }
+  .race-filter-btn.active { text-decoration: none; }
+  .filter-sw { flex-shrink: 0; display: block; }
+  .filter-sw-on { display: none; }
+  .race-filter-btn.active .filter-sw-off { display: none; }
+  .race-filter-btn.active .filter-sw-on { display: block; }
   #races-chart-container {
     height: 552px !important;
   }
@@ -2948,19 +2965,31 @@
   <div class="card" id="races-card">
     <h2>Results by Constituency</h2>
     <div class="race-sort-bar" id="race-sort-bar">
-      <span class="race-sort-group-label">Sort by</span>
-      <button class="race-sort-link active" data-sort="alpha" type="button">Constituency Name</button>
-      <span class="race-sort-sep">|</span>
-      <button class="race-sort-link" data-sort="acno" type="button">Constituency No.</button>
-      <span class="race-sort-sep">|</span>
-      <button class="race-sort-link" data-sort="margin-desc" type="button">Greatest Win Margin</button>
-      <span class="race-sort-sep">|</span>
-      <button class="race-sort-link" data-sort="margin-asc" type="button">Smallest Win Margin</button>
+      <div class="race-sort-group">
+        <span class="race-sort-group-label">Sort by</span>
+        <button class="race-sort-link active" data-sort="alpha" type="button">Constituency Name</button>
+        <span class="race-sort-sep">|</span>
+        <button class="race-sort-link" data-sort="acno" type="button">Constituency No.</button>
+        <span class="race-sort-sep">|</span>
+        <button class="race-sort-link" data-sort="margin-desc" type="button">Greatest Win Margin</button>
+        <span class="race-sort-sep">|</span>
+        <button class="race-sort-link" data-sort="margin-asc" type="button">Smallest Win Margin</button>
+      </div>
       <span class="race-sort-group-sep"></span>
-      <span class="race-sort-group-label">Filter by</span>
-      <button class="race-sort-link" data-sort="form20" type="button" id="form20-sort-btn">Form 20 Priority</button>
-      <span class="race-sort-sep">|</span>
-      <button class="race-sort-link" data-sort="bye" type="button" id="bye-sort-btn" disabled style="opacity:0.4;cursor:default;">Bye-Election Priority</button>
+      <div class="race-filter-group">
+        <span class="race-sort-group-label">Filter by</span>
+        <button class="race-sort-link race-filter-btn" data-sort="form20" type="button" id="form20-sort-btn">
+          <svg class="filter-sw filter-sw-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
+          <svg class="filter-sw filter-sw-on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
+          Form 20 Priority
+        </button>
+        <span class="race-sort-sep">|</span>
+        <button class="race-sort-link race-filter-btn" data-sort="bye" type="button" id="bye-sort-btn" disabled style="opacity:0.4;cursor:default;">
+          <svg class="filter-sw filter-sw-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
+          <svg class="filter-sw filter-sw-on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
+          Bye-Election Priority
+        </button>
+      </div>
     </div>
     <div class="race-controls-row">
       <div class="toggle-group" id="race-toggle" role="group" aria-label="Constituency result view">
@@ -5309,12 +5338,16 @@ document.getElementById('race-sort-bar')?.addEventListener('click', (e) => {
   const btn = e.target.closest('.race-sort-link');
   if (!btn) return;
   const mode = btn.dataset.sort;
-  if (mode === raceSortMode) return;
-  raceSortMode = mode;
-  localStorage.setItem(RACE_SORT_STORAGE_KEY, mode);
+  // Clicking an already-active filter toggles it off (returns to alpha sort)
+  const isActiveFilter = mode === raceSortMode && btn.classList.contains('race-filter-btn');
+  const targetMode = isActiveFilter ? 'alpha' : mode;
+  if (targetMode === raceSortMode) return;
+  raceSortMode = targetMode;
+  localStorage.setItem(RACE_SORT_STORAGE_KEY, raceSortMode);
   // Update active state
   document.querySelectorAll('.race-sort-link').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  const activeBtn = document.querySelector(`#race-sort-bar [data-sort="${raceSortMode}"]`);
+  if (activeBtn) activeBtn.classList.add('active');
   populateRaceDropdown(false); // false = don't restore saved selection, show first item
 });
 
