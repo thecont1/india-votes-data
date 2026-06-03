@@ -12,6 +12,7 @@ Output: data/json/bye-elections/YYYY-MM.json
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import os
 import re
@@ -30,33 +31,23 @@ MIN_JITTER = 1.0
 MAX_JITTER = 2.0
 REQUEST_TIMEOUT = 20
 
-# ECI state codes -> standard 2-letter codes (for output)
-ECI_TO_STD = {
-    "S01": "AN", "S02": "AP", "S03": "AR", "S04": "AS", "S05": "BR",
-    "S06": "GJ", "S07": "HR", "S08": "HP", "S10": "KA", "S11": "KL",
-    "S12": "MP", "S13": "MH", "S14": "MN", "S15": "ML", "S16": "MZ",
-    "S17": "NL", "S18": "OD", "S19": "PY", "S20": "PB", "S21": "RJ",
-    "S22": "SK", "S23": "TN", "S24": "TS", "S25": "TR", "S26": "UP",
-    "S27": "UK", "S28": "WB", "S29": "GA", "S30": "GJ", "S31": "HR",
-    "S32": "HP", "S33": "JK", "S34": "JH",
-    "U01": "AN", "U02": "CH", "U03": "DD", "U05": "DL", "U06": "LD",
-    "U07": "PY", "U08": "JK", "U09": "LA",
-}
+# ECI state codes -> standard 2-letter codes (derived from data/states.csv)
+_STATES_CSV = os.path.join(os.path.dirname(__file__), "..", "data", "states.csv")
 
-ECI_STATE_NAMES = {
-    "S01": "Andhra Pradesh", "S02": "Arunachal Pradesh", "S03": "Assam",
-    "S04": "Bihar", "S05": "Goa", "S06": "Gujarat", "S07": "Haryana",
-    "S08": "Himachal Pradesh", "S10": "Karnataka", "S11": "Kerala",
-    "S12": "Madhya Pradesh", "S13": "Maharashtra", "S14": "Manipur",
-    "S15": "Meghalaya", "S16": "Mizoram", "S17": "Nagaland", "S18": "Odisha",
-    "S19": "Punjab", "S20": "Rajasthan", "S21": "Sikkim", "S22": "Tamil Nadu",
-    "S23": "Tripura", "S24": "Uttar Pradesh", "S25": "West Bengal",
-    "S26": "Chhattisgarh", "S27": "Jharkhand", "S28": "Uttarakhand",
-    "S29": "Telangana",
-    "U01": "Andaman & Nicobar", "U02": "Chandigarh",
-    "U03": "Dadra & Nagar Haveli", "U05": "Delhi", "U06": "Lakshadweep",
-    "U07": "Puducherry", "U08": "Jammu & Kashmir", "U09": "Ladakh",
-}
+
+def _load_state_maps() -> tuple:
+    """Build ECI_TO_STD and ECI_STATE_NAMES from states.csv."""
+    eci_to_std = {}
+    eci_names = {}
+    with open(_STATES_CSV, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            eci = row["state_code_eci"]
+            eci_to_std[eci] = row["state_code"]
+            eci_names[eci] = row["state_name"]
+    return eci_to_std, eci_names
+
+
+ECI_TO_STD, ECI_STATE_NAMES = _load_state_maps()
 
 # Party name normalization (same as load-json-to-d1.py)
 HARDCODED_PARTIES = {
