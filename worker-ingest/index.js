@@ -121,7 +121,7 @@ async function handleRoundIngest(request, env, corsHeaders) {
 
   // Update FTS content table for new/changed candidates
   for (const c of candidates) {
-    const entityId = `${state_code}-${ac_no}-${eid ? eid + '-' : ''}${c.party_abv}`;
+    const entityId = `${state_code}-${ac_no}-${eid ? eid + '-' : ''}${c.party_abv}|${c.candidate}`;
     // Delete existing row to avoid duplicates (no UNIQUE constraint on entity_id)
     stmts.push(
       env.DB.prepare(`DELETE FROM candidates_search WHERE entity_id = ?`).bind(entityId)
@@ -206,7 +206,7 @@ async function handleBatchIngest(request, env, corsHeaders) {
     );
 
     for (const c of candidates) {
-      const entityId = `${state_code}-${ac_no}-${eid ? eid + '-' : ''}${c.party_abv}`;
+      const entityId = `${state_code}-${ac_no}-${eid ? eid + '-' : ''}${c.party_abv}|${c.candidate}`;
       stmts.push(
         env.DB.prepare(`DELETE FROM candidates_search WHERE entity_id = ?`).bind(entityId)
       );

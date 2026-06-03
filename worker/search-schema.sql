@@ -44,7 +44,7 @@ WITH final_rounds AS (
     FROM (SELECT DISTINCT state_code, ac_no FROM rounds_ac) r
 )
 SELECT 'candidate',
-       r.state_code || '-' || r.ac_no || '-' || CASE WHEN r.election_id != '' THEN r.election_id || '-' ELSE '' END || r.party_abv,
+       r.state_code || '-' || r.ac_no || '-' || CASE WHEN r.election_id != '' THEN r.election_id || '-' ELSE '' END || r.party_abv || '|' || r.candidate,
        r.candidate,
        r.party_abv || ' | ' || COALESCE(r.ac_name, '') || ' | ' || COALESCE(SUBSTR(e.sort_date, 1, 4), ''),
        CASE WHEN cs.won = 1 THEN 1.5
