@@ -919,6 +919,10 @@
     position: relative;
     height: clamp(390px, 63vh, 600px);
   }
+  /* Assembly view: taller area so the hemicycle fills the space */
+  .perf-view-assembly .perf-chart-area {
+    height: clamp(390px, min(80vw, 80vh), 700px);
+  }
   .perf-chart-area > div {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -2260,6 +2264,9 @@
     /* 3. Chart area to 46vh */
     .perf-chart-area {
       height: 46vh;
+    }
+    .perf-view-assembly .perf-chart-area {
+      height: min(90vw, 70vh);
     }
 
     /* 4. Card padding shrink — edge-to-edge charts, text keeps inline padding */
@@ -3685,6 +3692,7 @@ document.getElementById('perf-toggle').addEventListener('click', (e) => {
   document.getElementById('assembly-overlay').style.display = 'none';
 
   perfView = view;
+  document.getElementById('party-perf-card').classList.toggle('perf-view-assembly', view === 'assembly');
   document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
     const isActive = b.dataset.view === view;
     b.classList.toggle('active', isActive);
@@ -3816,12 +3824,15 @@ function loadStateCharts() {
     document.getElementById('perf-chart-area-roundwise').style.visibility = '';
   }
   if (perfView === 'assembly') {
+    document.getElementById('party-perf-card').classList.add('perf-view-assembly');
     if (currentState) {
       document.getElementById('assembly-overlay').style.display = 'none';
     } else {
       document.getElementById('assembly-overlay').style.display = 'flex';
     }
     document.getElementById('perf-chart-area-assembly').style.visibility = '';
+  } else {
+    document.getElementById('party-perf-card').classList.remove('perf-view-assembly');
   }
   renderRaces(currentState);
   // Roundwise / Assembly only make sense for a single state - skip in Overall view
@@ -6287,28 +6298,58 @@ function renderAssembly(stateCode) {
   const W = rect.width;
   const H = rect.height;
 
-  const DOT_RADIUS = 8;     // larger dots — faces will go inside later
-  const DOT_GAP = 2;
-  const ROW_GAP = DOT_RADIUS * 2 + DOT_GAP;
   const ARC_MARGIN = 0.06; // radians kept clear at each end
-  const PAD = DOT_RADIUS + 4;
+  const N = winners.length;
 
-  const baseline = H - DOT_RADIUS; // bottom of bottom-most dots
-  const outerR = Math.min((W - PAD * 2) / 2, baseline - DOT_RADIUS);
-  if (outerR < DOT_RADIUS * 2) return;
+  // Dynamically size dots so the hemicycle makes good use of the canvas.
+  // Approach: binary-search DOT_RADIUS so that the total row capacity ≥ N
+  // AND the outermost arc radius is as large as possible given both W and H.
+  //
+  // outerR is constrained by:
+  //   - height: outerR ≤ H - 2*DOT_RADIUS  (apex must fit within canvas)
+  //   - width:  outerR ≤ (W - 2*PAD) / 2   (ends must fit within canvas)
+  //
+  // We want the LARGEST DOT_RADIUS for which capacity ≥ N.
 
-  // Compute available rows (outermost first)
-  const rows = [];
-  for (let r = 0; ; r++) {
-    const radius = outerR - r * ROW_GAP;
-    if (radius < DOT_RADIUS * 2) break;
-    rows.push(radius);
-    // Each row can hold at most arcLen / dotSpacing dots; stop once we have enough capacity
-    const totalCap = rows.reduce((s, rad) => {
-      return s + Math.max(1, Math.floor((Math.PI - ARC_MARGIN * 2) * rad / (DOT_RADIUS * 2 + DOT_GAP)));
-    }, 0);
-    if (totalCap >= winners.length) break;
+  const rowCap = (rad, dr, dg) =>
+    Math.max(1, Math.floor((Math.PI - ARC_MARGIN * 2) * rad / (dr * 2 + dg)));
+
+  const computeLayout = (dr) => {
+    const dg = Math.max(1, Math.round(dr * 0.25));
+    const rg = dr * 2 + dg;
+    const pad = dr + 4;
+    const base = H - dr;
+    const outer = Math.min((W - pad * 2) / 2, base - dr);
+    if (outer < dr * 2) return null;
+    const rs = [];
+    for (let r = 0; ; r++) {
+      const rad = outer - r * rg;
+      if (rad < dr * 2) break;
+      rs.push(rad);
+      if (rs.reduce((s, rd) => s + rowCap(rd, dr, dg), 0) >= N) break;
+    }
+    const cap = rs.reduce((s, rd) => s + rowCap(rd, dr, dg), 0);
+    return cap >= N ? { dr, dg, rg, pad, base, outer, rows: rs } : null;
+  };
+
+  // Binary search: find largest DOT_RADIUS that fits all seats
+  let lo = 3, hi = Math.min(30, Math.floor(Math.min(W, H) / 4));
+  let best = computeLayout(lo);
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    const layout = computeLayout(mid);
+    if (layout) { best = layout; lo = mid + 1; }
+    else hi = mid - 1;
   }
+  if (!best) return;
+
+  const DOT_RADIUS = best.dr;
+  const DOT_GAP    = best.dg;
+  const ROW_GAP    = best.rg;
+  const PAD        = best.pad;
+  const baseline   = best.base;
+  const outerR     = best.outer;
+  const rows       = best.rows;
   if (!rows.length) return;
 
   const totalSeats = winners.length;
