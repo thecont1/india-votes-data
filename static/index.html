@@ -6672,7 +6672,7 @@ function getClickedPartyAbv(chart, elements) {
       const items = grouped[type] || [];
       if (!items.length) continue;
       html += `<div class="search-group-label" role="presentation">${labels[type]}</div>`;
-      for (const item of items.slice(0, 10)) {
+      for (const item of items.slice(0, 20)) {
         total++;
         const name = item.highlighted_name || escapeHtml(item.name);
         const ctx = escapeHtml(item.context || '');

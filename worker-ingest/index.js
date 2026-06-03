@@ -1,6 +1,33 @@
 // Ingestion Worker — writes only, auth required
 // Accepts scraper data and writes to D1 in batches
 
+// Party name normalization — must match load-json-to-d1.py HARDCODED_PARTIES
+const PARTY_ABBREV = {
+  'Janata Dal  (Secular)': 'JD(S)', 'Janata Dal (Secular)': 'JD(S)',
+  'Janata Dal  (United)': 'JD(U)', 'Janata Dal (United)': 'JD(U)',
+  'None of the Above': 'NOTA', 'Bharat Rashtra Samithi': 'BRS',
+  'Nationalist Congress Party': 'NCP',
+  'Nationalist Congress Party - Sharadchandra Pawar': 'NCP-SP',
+  'Nationalist Congress Party \u2013 Sharadchandra Pawar': 'NCP-SP',
+  'Shiv Sena': 'SHS', 'ShivSena': 'SHS', 'SHIVSS': 'SHS',
+  'Shiv Sena (Uddhav Balasaheb Thackeray)': 'SS(UBT)',
+  'Rashtriya Janata Dal': 'RJD', 'Rashtriya Lok Dal': 'RLD',
+  'Jammu & Kashmir National Conference': 'JKNC',
+  'Jammu and Kashmir National Conference': 'JKNC',
+  'Jammu & Kashmir Peoples Democratic Party': 'JKPDP',
+  'Indian National Lok Dal': 'INLD', 'Haryana Lokhit Party': 'HLP',
+  'Jannayak Janta Party': 'JJP',
+  'All India Majlis-E-Ittehadul Muslimeen': 'AIMIM',
+  'All India Majlis-e-Ittehadul Muslimeen': 'AIMIM',
+  'Communist Party of India (Marxist-Leninist) (Liberation)': 'CPI(ML)(L)',
+};
+
+function normalizeParty(name) {
+  if (!name) return name;
+  const trimmed = name.trim();
+  return PARTY_ABBREV[trimmed] || trimmed;
+}
+
 export default {
   async fetch(request, env) {
     const corsHeaders = {
@@ -64,6 +91,7 @@ async function handleRoundIngest(request, env, corsHeaders) {
 
   // Insert each candidate
   for (const c of candidates) {
+    c.party_abv = normalizeParty(c.party_abv);
     stmts.push(
       env.DB.prepare(`
         INSERT INTO rounds_ac (state_code, ac_no, ac_name, election_id, round_no, candidate, party_abv, votes)
@@ -93,15 +121,20 @@ async function handleRoundIngest(request, env, corsHeaders) {
 
   // Update FTS content table for new/changed candidates
   for (const c of candidates) {
+    const entityId = `${state_code}-${ac_no}-${eid ? eid + '-' : ''}${c.party_abv}`;
+    // Delete existing row to avoid duplicates (no UNIQUE constraint on entity_id)
+    stmts.push(
+      env.DB.prepare(`DELETE FROM candidates_search WHERE entity_id = ?`).bind(entityId)
+    );
     stmts.push(
       env.DB.prepare(`
-        INSERT OR REPLACE INTO candidates_search
+        INSERT INTO candidates_search
         (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort, symbol_url)
         VALUES ('candidate', ?, ?, ?, 1.0, ?, 0,
                 COALESCE((SELECT sort_date FROM elections WHERE election_id = ?), ''),
                 COALESCE((SELECT symbol_url FROM parties WHERE abv = ?), ''))
       `).bind(
-        `${state_code}-${ac_no}-${eid ? eid + '-' : ''}${c.party_abv}`,
+        entityId,
         c.candidate,
         `${c.party_abv} | ${ac_name || ''}`,
         c.votes,
@@ -144,6 +177,7 @@ async function handleBatchIngest(request, env, corsHeaders) {
 
     const eid = election_id || '';
     for (const c of candidates) {
+      c.party_abv = normalizeParty(c.party_abv);
       stmts.push(
         env.DB.prepare(`
           INSERT INTO rounds_ac (state_code, ac_no, ac_name, election_id, round_no, candidate, party_abv, votes)
@@ -172,15 +206,19 @@ async function handleBatchIngest(request, env, corsHeaders) {
     );
 
     for (const c of candidates) {
+      const entityId = `${state_code}-${ac_no}-${eid ? eid + '-' : ''}${c.party_abv}`;
+      stmts.push(
+        env.DB.prepare(`DELETE FROM candidates_search WHERE entity_id = ?`).bind(entityId)
+      );
       stmts.push(
         env.DB.prepare(`
-          INSERT OR REPLACE INTO candidates_search
+          INSERT INTO candidates_search
           (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort, symbol_url)
           VALUES ('candidate', ?, ?, ?, 1.0, ?, 0,
                   COALESCE((SELECT sort_date FROM elections WHERE election_id = ?), ''),
                   COALESCE((SELECT symbol_url FROM parties WHERE abv = ?), ''))
         `).bind(
-          `${state_code}-${ac_no}-${eid ? eid + '-' : ''}${c.party_abv}`,
+          entityId,
           c.candidate,
           `${c.party_abv} | ${ac_name || ''}`,
           c.votes,
