@@ -5200,6 +5200,9 @@ function renderRaces(stateCode) {
         document.querySelector('[data-sort="alpha"]')?.classList.add('active');
         populateRaceDropdown(false);
       }
+      // Refresh indicator for the currently selected race (may have been
+      // drawn before byeElectionMap was populated)
+      if (currentRace) updateByeElectionIndicator(currentRace);
     })
     .catch(() => {
       byeElectionMap = {};
