@@ -61,7 +61,7 @@ export async function handleAcRaces(request, env) {
 
   // Get party names and symbols
   const partyRows = await env.DB.prepare(
-    'SELECT abv, name, symbol_url FROM parties WHERE symbol_url IS NOT NULL'
+    'SELECT abv, name, symbol_url FROM parties'
   ).all();
   const partyInfo = {};
   for (const r of partyRows.results) {
