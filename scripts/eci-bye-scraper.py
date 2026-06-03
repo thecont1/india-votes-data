@@ -78,27 +78,30 @@ HARDCODED_PARTIES = {
 
 _party_cache = None
 
+WRANGLER_DB = "election-results"
+
 
 def _load_party_map() -> dict:
-    """Load {full_name: abbreviation} from data/parties.csv."""
+    """Load {full_name: abbreviation} from D1 parties table via wrangler."""
     global _party_cache
     if _party_cache is not None:
         return _party_cache
-    import csv
     name_to_abv = {}
-    parties_csv = os.path.join(os.path.dirname(__file__), "..", "data", "parties.csv")
     try:
-        with open(parties_csv, newline="", encoding="utf-8") as f:
-            for row in csv.DictReader(f):
+        result = subprocess.run(
+            ["wrangler", "d1", "execute", WRANGLER_DB,
+             "--command", "SELECT abv, name FROM parties;",
+             "--remote", "--json"],
+            capture_output=True, text=True, check=True, timeout=30,
+        )
+        data = json.loads(result.stdout) if result.stdout.strip() else []
+        if data and data[0].get("results"):
+            for row in data[0]["results"]:
                 abv = row.get("abv", "").strip()
                 name = row.get("name", "").strip()
                 if abv and name:
                     name_to_abv[name] = abv
-                for alias in row.get("aliases", "").split(","):
-                    alias = alias.strip()
-                    if alias:
-                        name_to_abv[alias] = abv
-    except FileNotFoundError:
+    except (subprocess.CalledProcessError, json.JSONDecodeError, FileNotFoundError):
         pass
     _party_cache = name_to_abv
     return name_to_abv
