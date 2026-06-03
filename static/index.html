@@ -6355,46 +6355,57 @@ function renderAssembly(stateCode) {
   const totalSeats = winners.length;
   const arcSpan = Math.PI - ARC_MARGIN * 2; // total angular span
 
-  // Each party gets an angular wedge proportional to its seat count.
-  // Within each party's wedge, dots are placed on every row, packed
-  // tightly in the angular dimension.
+  // Per-row capacity (max dots that fit on each arc)
+  const rowCapacity = rows.map(rad =>
+    Math.max(1, Math.floor((Math.PI - ARC_MARGIN * 2) * rad / (DOT_RADIUS * 2 + DOT_GAP)))
+  );
+  const totalCap = rowCapacity.reduce((s, c) => s + c, 0);
+
+  // Each party is assigned an angular wedge proportional to its seat count.
+  // Within that wedge, we place dots on each row — but we GUARANTEE the exact
+  // seat count by distributing seats across rows proportionally (with rounding
+  // correction) rather than using floor(wedgeSpan/step) which drops seats.
   //
-  // Strategy:
-  //   1. Assign each party an angular range [startAngle, endAngle]
-  //      (measured from left = Math.PI - ARC_MARGIN, sweeping right)
-  //   2. For each row, place dots at the angular resolution of that row,
-  //      but only within the party's angular range.
+  // Layout: parties are ordered left→right. Each party's wedge spans
+  //   [angleStart, angleEnd] in the full arcSpan.
+  // On each row, within that angular range, we place exactly the allocated
+  // number of dots for that row, evenly spaced and centred in the wedge.
 
-  // Dot angular spacing per row (so dots on each row are evenly spaced)
-  const dotAngularStep = (rad) => (DOT_RADIUS * 2 + DOT_GAP) / rad; // radians between dot centres
-
-  // Assign angular wedges to parties
-  const partyWedges = [];
-  let angleUsed = 0;
-  for (const [abv, d] of sortedParties) {
-    const wedge = (d.count / totalSeats) * arcSpan;
-    partyWedges.push({ color: d.color, start: angleUsed, end: angleUsed + wedge });
-    angleUsed += wedge;
-  }
-
-  // Build seat list: iterate each party's wedge across all rows
   const seats = [];
-  for (const { color, start, end } of partyWedges) {
-    for (const radius of rows) {
-      const step = dotAngularStep(radius);
-      // Centre dots within this wedge on this row
-      const wedgeSpan = end - start;
-      const nFit = Math.max(0, Math.floor(wedgeSpan / step));
-      if (nFit === 0) continue;
-      const usedSpan = (nFit - 1) * step;
-      const offset = (wedgeSpan - usedSpan) / 2; // centre dots in wedge
-      for (let i = 0; i < nFit; i++) {
-        // angle sweeps left→right: Math.PI - ARC_MARGIN is left end
-        const angle = (Math.PI - ARC_MARGIN) - (start + offset + i * step);
+  let globalAngle = 0; // tracks how much of arcSpan has been used
+
+  for (const [, d] of sortedParties) {
+    const partySeats = d.count;
+    const wedgeFrac = partySeats / totalSeats;
+    const wedgeSpan = wedgeFrac * arcSpan;
+    const wedgeStart = globalAngle;
+    const wedgeEnd = globalAngle + wedgeSpan;
+    globalAngle = wedgeEnd;
+
+    // Distribute partySeats across rows proportionally to row capacity,
+    // using Largest Remainder Method to guarantee exact total.
+    const exact = rows.map((_, i) => partySeats * rowCapacity[i] / totalCap);
+    const floored = exact.map(Math.floor);
+    let remainder = partySeats - floored.reduce((s, v) => s + v, 0);
+    const fracs = exact.map((v, i) => ({ i, f: v - floored[i] }))
+      .sort((a, b) => b.f - a.f);
+    for (let k = 0; k < remainder; k++) floored[fracs[k].i]++;
+
+    // Place dots for this party on each row
+    for (let ri = 0; ri < rows.length; ri++) {
+      const n = floored[ri];
+      if (n === 0) continue;
+      const radius = rows[ri];
+      // Space n dots evenly within the wedge, centred
+      const step = n > 1 ? wedgeSpan / n : wedgeSpan;
+      const offset = step / 2;
+      for (let i = 0; i < n; i++) {
+        // angle: left end of arc = Math.PI - ARC_MARGIN, sweeping clockwise (decreasing angle)
+        const angle = (Math.PI - ARC_MARGIN) - (wedgeStart + offset + i * step);
         seats.push({
           x: W / 2 + radius * Math.cos(angle),
           y: baseline - radius * Math.sin(angle),
-          color,
+          color: d.color,
           phase: Math.random() * Math.PI * 2,
           freq: 0.5 + Math.random() * 1.5,
         });
