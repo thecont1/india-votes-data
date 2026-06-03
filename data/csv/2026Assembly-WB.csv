@@ -1633,13 +1633,13 @@ election_year,election_type,election_state,constituency,constituency_no,serial_n
 2026,Assembly,WB,DIAMOND HARBOUR,143,9,PANNALAL HALDER,Independent,1399,11
 2026,Assembly,WB,DIAMOND HARBOUR,143,10,HUMAYUN SHAH,Independent,533,1
 2026,Assembly,WB,DIAMOND HARBOUR,143,11,NOTA,None of the Above,1368,11
-2026,Assembly,WB,FALTA,144,1,ABDUR RAZZAK MOLLA,Indian National Congress,0,0
-2026,Assembly,WB,FALTA,144,2,JAHANGIR KHAN,All India Trinamool Congress,0,0
-2026,Assembly,WB,FALTA,144,3,DEBANGSHU PANDA,Bharatiya Janata Party,0,0
-2026,Assembly,WB,FALTA,144,4,SAMBHU NATH KURMI,Communist Party of India (Marxist),0,0
-2026,Assembly,WB,FALTA,144,5,CHANDRAKANTA ROY,Independent,0,0
-2026,Assembly,WB,FALTA,144,6,DIP HATI,Independent,0,0
-2026,Assembly,WB,FALTA,144,7,NOTA,None of the Above,0,0
+2026,Assembly,WB,FALTA,144,1,ABDUR RAZZAK MOLLA,Indian National Congress,10079,5
+2026,Assembly,WB,FALTA,144,2,JAHANGIR KHAN,All India Trinamool Congress,6257,1526
+2026,Assembly,WB,FALTA,144,3,DEBANGSHU PANDA,Bharatiya Janata Party,149421,245
+2026,Assembly,WB,FALTA,144,4,SAMBHU NATH KURMI,Communist Party of India (Marxist),40625,20
+2026,Assembly,WB,FALTA,144,5,CHANDRAKANTA ROY,Independent,982,1
+2026,Assembly,WB,FALTA,144,6,DIP HATI,Independent,245,2
+2026,Assembly,WB,FALTA,144,7,NOTA,None of the Above,775,9
 2026,Assembly,WB,SATGACHHIA,145,1,AGNISWAR NASKAR,Bharatiya Janata Party,110412,611
 2026,Assembly,WB,SATGACHHIA,145,2,GOUTAM PAL,Communist Party of India (Marxist),11638,98
 2026,Assembly,WB,SATGACHHIA,145,3,PRABHASH CHANDRA GHOSH,Indian National Congress,1566,11
