@@ -429,6 +429,7 @@ def main():
         "election_id": args.election_id,
         "title": "Bye Election to Assembly Constituencies: Results",
         "election_year": args.election_id.split("-")[1] if "-" in args.election_id else "2026",
+        "election_month": args.election_id.split("-")[2] if len(args.election_id.split("-")) >= 3 else "",
         "election_type": "Bye-Election",
         "scraped_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "constituencies": all_results,

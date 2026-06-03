@@ -236,9 +236,16 @@ def main():
     # Derive metadata
     states = list(set(c["state_code"] for c in constituencies))
     states.sort()
-    year = data.get("election_year", "2026")
-    sort_date = f"{year}-05"  # May 2026
-    name = f"Bye-Election {year} May"
+    eid_parts = election_id.split("-")
+    year = eid_parts[1] if len(eid_parts) >= 2 else data.get("election_year", "2026")
+    month = data.get("election_month") or (eid_parts[2] if len(eid_parts) >= 3 else "01")
+    MONTH_NAMES = {
+        "01": "January", "02": "February", "03": "March", "04": "April",
+        "05": "May", "06": "June", "07": "July", "08": "August",
+        "09": "September", "10": "October", "11": "November", "12": "December",
+    }
+    sort_date = f"{year}-{month}"
+    name = f"Bye-Election {year} {MONTH_NAMES.get(month, month)}"
 
     print(f"JSON        : {args.json_file}")
     print(f"Election ID : {election_id}")
