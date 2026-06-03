@@ -148,8 +148,8 @@ async function handleBatchIngest(request, env, corsHeaders) {
         env.DB.prepare(`
           INSERT INTO rounds_ac (state_code, ac_no, ac_name, election_id, round_no, candidate, party_abv, votes)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-          ON CONFLICT (state_code, ac_no, round_no, candidate, party_abv)
-          DO UPDATE SET votes = EXCLUDED.votes, ac_name = EXCLUDED.ac_name, election_id = EXCLUDED.election_id
+          ON CONFLICT (state_code, ac_no, election_id, round_no, candidate, party_abv)
+          DO UPDATE SET votes = EXCLUDED.votes, ac_name = EXCLUDED.ac_name
         `).bind(state_code, ac_no, ac_name || null, eid, round_no, c.candidate, c.party_abv, c.votes)
       );
       totalCandidates++;
