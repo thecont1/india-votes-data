@@ -802,12 +802,12 @@ Examples:
                 "  AND r.votes = mv.max_votes"
                 f") AND state_code = '{meta['state_code']}' AND won = 0;"
             )
-            result = subprocess.run(
+            won_result = subprocess.run(
                 ["wrangler", "d1", "execute", args.wrangler_db,
                  "--command", won_sql, "--remote", "--json"],
                 capture_output=True, text=True, check=True, timeout=30,
             )
-            parsed = json.loads(result.stdout) if result.stdout.strip() else {}
+            parsed = json.loads(won_result.stdout) if won_result.stdout.strip() else {}
             if isinstance(parsed, list) and parsed:
                 changes = parsed[0].get("meta", {}).get("changes", 0)
             else:
@@ -820,7 +820,7 @@ Examples:
     if not args.skip_verify and not args.preprocess:
         print()
         print("Verification:")
-        verify_load(meta, len(rounds), args.wrangler_db, args.preprocess)
+        verify_load(meta, n_constituencies, args.wrangler_db, args.preprocess)
 
     # ── Summary ─────────────────────────────────────────────────────────
     print()
