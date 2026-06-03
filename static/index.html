@@ -1184,6 +1184,17 @@
   }
   .form20-card--unavailable .form20-card__status { color: var(--muted); }
   .form20-card--unavailable .form20-card__status svg { stroke: var(--muted); }
+
+  /* Bye-election indicator */
+  #bye-election-indicator { display: inline-flex; align-items: center; }
+  #bye-election-toggle:hover {
+    border-color: var(--control-hover-border, #fff) !important;
+    background: var(--card-elevated, #2a2a2a) !important;
+  }
+  #bye-election-toggle:focus-visible {
+    outline: 3px solid var(--focus-ring, #60a5fa);
+    outline-offset: 2px;
+  }
   .form20-card--unverified .form20-card__status { color: #d97706; }
   .form20-card--unverified .form20-card__status svg { stroke: #d97706; }
   .form20-card--verified .form20-card__status { color: #059669; }
@@ -2935,7 +2946,9 @@
       <span class="race-sort-sep">|</span>
       <button class="race-sort-link" data-sort="margin-asc" type="button">Smallest Win Margin</button>
       <span class="race-sort-sep">|</span>
-      <button class="race-sort-link" data-sort="form20" type="button">Form 20 Priority</button>
+      <button class="race-sort-link" data-sort="form20" type="button" id="form20-sort-btn">Form 20 Priority</button>
+      <span class="race-sort-sep">|</span>
+      <button class="race-sort-link" data-sort="bye" type="button" id="bye-sort-btn" disabled style="opacity:0.4;cursor:default;">Bye-Election Priority</button>
     </div>
     <div class="race-controls-row">
       <div class="toggle-group" id="race-toggle" role="group" aria-label="Constituency result view">
@@ -2972,6 +2985,18 @@
           <span id="form20-status-text">Unavailable</span>
         </span>
         <span id="form20-action"></span>
+      </div>
+      <div id="bye-election-indicator" style="display:none; margin-left:8px;">
+        <button type="button" id="bye-election-toggle" style="
+          display:inline-flex; align-items:center; gap:6px;
+          padding:6px 12px; border:1px solid var(--control-border);
+          border-radius:var(--chip-radius, 14px); background:var(--control-bg);
+          color:var(--control-text); font:600 12px var(--font-ui);
+          cursor:pointer; white-space:nowrap; transition:all 0.15s;
+        " onclick="toggleByeElection()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          <span id="bye-election-toggle-text">Bye-Election held</span>
+        </button>
       </div>
     </div>
     <div class="flip-wrap" id="race-flip-wrap">
@@ -3067,6 +3092,8 @@ let prevTreemapItems = null;
 let racesChart = null;
 let racesData = [];
 let currentRace = null;
+let byeElectionMap = {};  // ac_no -> bye-election race data
+let showingByeElection = false;  // toggle state for bye-election view
 let raceView = localStorage.getItem(RACE_VIEW_STORAGE_KEY) || 'final';
 let roundwiseChart = null;
 let lastDataFingerprint = '';
@@ -3408,7 +3435,7 @@ async function loadElections() {
 
     const res = await fetch(API_BASE + '/api/elections');
     const data = await res.json();
-    electionsList = data.elections || [];
+    electionsList = (data.elections || []).filter(e => !e.election_id.startsWith('BYE-'));
     const selector = document.getElementById('election-selector');
     const electionOptions = electionsList.map(e =>
       `<option value="${e.election_id}">${e.name}</option>`
@@ -4176,13 +4203,14 @@ function drawSlopeChart(canvas, cands, theme) {
   // Every line therefore sweeps from bottom-left to top-right.
   const midH = H / 2;
   const gap = 12;
-  const leftTop = midH + gap;
   const leftBot = H - PAD_BOT;
+  const rightBot = midH - gap;
+  // Push both columns toward center: left dots up, right dots down
+  const shift = (leftBot - (midH + gap)) * 0.25;
+  const leftTop = midH + gap - shift;
+  const rightTop = PAD_TOP + shift;
   const leftStep = (leftBot - leftTop) / N;
   const leftRankY = (i) => leftTop + (i + 0.5) * leftStep;
-
-  const rightTop = PAD_TOP;
-  const rightBot = midH - gap;
   const rightStep = (rightBot - rightTop) / N;
   const rightRankY = (i) => rightTop + (i + 0.5) * rightStep;
 
@@ -5097,8 +5125,40 @@ function renderRaces(stateCode) {
   roundwiseOverlay.style.display = 'none';
   document.getElementById('races-chart').style.display = 'block';
   card.style.display = 'block';
+  showingByeElection = false;
 
-  fetch(`${API_BASE}/api/ac-races?state=${stateCode}`)
+  // Fetch bye-election data for this state (non-blocking)
+  const byeSortBtn = document.getElementById('bye-sort-btn');
+  fetch(`${API_BASE}/api/bye-elections?state=${stateCode}`)
+    .then(r => r.json())
+    .then(data => {
+      byeElectionMap = {};
+      const byeElectionId = data.election_id || null;
+      (data.bye_elections || []).forEach(be => {
+        be.election_id = byeElectionId;
+        byeElectionMap[be.ac_no] = be;
+      });
+      const hasBye = Object.keys(byeElectionMap).length > 0;
+      byeSortBtn.disabled = !hasBye;
+      byeSortBtn.style.opacity = hasBye ? '' : '0.4';
+      byeSortBtn.style.cursor = hasBye ? '' : 'default';
+      // If currently showing bye sort but no bye-elections, reset to alpha
+      if (!hasBye && raceSortMode === 'bye') {
+        raceSortMode = 'alpha';
+        document.querySelectorAll('.race-sort-link').forEach(b => b.classList.remove('active'));
+        document.querySelector('[data-sort="alpha"]')?.classList.add('active');
+        populateRaceDropdown(false);
+      }
+    })
+    .catch(() => {
+      byeElectionMap = {};
+      byeSortBtn.disabled = true;
+      byeSortBtn.style.opacity = '0.4';
+      byeSortBtn.style.cursor = 'default';
+    });
+
+  const electionParam = currentElection ? `&election_id=${currentElection.election_id}` : '';
+  fetch(`${API_BASE}/api/ac-races?state=${stateCode}${electionParam}`)
     .then(r => r.json())
     .then(data => {
       racesData = data.races || [];
@@ -5112,6 +5172,20 @@ function renderRaces(stateCode) {
       }));
 
       populateRaceDropdown();
+
+      // Enable/disable Form 20 Priority button based on available statuses
+      const form20Btn = document.getElementById('form20-sort-btn');
+      const form20Statuses = new Set(['MISMATCH', 'ERROR', 'UNVERIFIED', 'UNAVAILABLE']);
+      const hasForm20 = racesData.some(r => form20Statuses.has(r.form20_status));
+      form20Btn.disabled = !hasForm20;
+      form20Btn.style.opacity = hasForm20 ? '' : '0.4';
+      form20Btn.style.cursor = hasForm20 ? '' : 'default';
+      if (!hasForm20 && raceSortMode === 'form20') {
+        raceSortMode = 'alpha';
+        document.querySelectorAll('.race-sort-link').forEach(b => b.classList.remove('active'));
+        document.querySelector('[data-sort="alpha"]')?.classList.add('active');
+        populateRaceDropdown(false);
+      }
     })
     .catch(e => {
       console.warn('Failed to load races:', e);
@@ -5176,6 +5250,17 @@ function populateRaceDropdown(restoreSelection = true) {
         if (diffA !== diffB) return diffB - diffA;
         // Within same difficulty: lower margin first
         return (sa.margin ?? 999999) - (sb.margin ?? 999999);
+      });
+      break;
+    }
+    case 'bye': {
+      // FILTER to only show constituencies with bye-elections
+      indices = indices.filter(i => byeElectionMap[racesData[i].ac_no]);
+      // Sort by bye-election margin descending
+      indices.sort((a, b) => {
+        const ma = byeElectionMap[racesData[a].ac_no]?.margin ?? 0;
+        const mb = byeElectionMap[racesData[b].ac_no]?.margin ?? 0;
+        return mb - ma;
       });
       break;
     }
@@ -5284,11 +5369,11 @@ function niceAxis(maxValue, divisions = 6) {
 
 function getShownCandidates(race) {
   const candidates = race.candidates || [];
-  let showCount = candidates.length;
-  for (let i = 0; i < candidates.length; i++) {
-    if (candidates[i].candidate === 'NOTA') { showCount = i + 1; break; }
-  }
-  return candidates.slice(0, showCount);
+  // Find NOTA's vote count
+  const nota = candidates.find(c => c.candidate === 'NOTA');
+  const notaVotes = nota ? nota.votes : 0;
+  // Show candidates with votes > NOTA's votes, exclude NOTA itself
+  return candidates.filter(c => c.candidate !== 'NOTA' && c.votes >= notaVotes);
 }
 
 function updateRaceLegend(candidates) {
@@ -5312,6 +5397,8 @@ function drawSingleRace(race) {
   hideCandidateDetail();
   if (race) localStorage.setItem(RACE_AC_STORAGE_KEY, race.ac_no);
   updateForm20Field(race);
+  updateByeElectionIndicator(race);
+  showingByeElection = false;
   if (raceView === 'roundwise') {
     drawRaceRoundwise(race);
     return;
@@ -5326,6 +5413,52 @@ function drawSingleRace(race) {
   cvs.onmouseleave = null;
   cvs.style.cursor = '';
   drawRaceFinal(race);
+}
+
+function updateByeElectionIndicator(race) {
+  const indicator = document.getElementById('bye-election-indicator');
+  const toggleText = document.getElementById('bye-election-toggle-text');
+  if (!race || !byeElectionMap[race.ac_no]) {
+    indicator.style.display = 'none';
+    return;
+  }
+  indicator.style.display = 'inline-flex';
+  toggleText.textContent = showingByeElection ? 'View original results' : 'Bye-Election held';
+}
+
+function toggleByeElection() {
+  if (!currentRace) return;
+  const be = byeElectionMap[currentRace.ac_no];
+  if (!be) return;
+
+  showingByeElection = !showingByeElection;
+  const toggleText = document.getElementById('bye-election-toggle-text');
+  const toggleBtn = document.getElementById('bye-election-toggle');
+
+  if (showingByeElection) {
+    // Switch to bye-election results
+    toggleText.textContent = 'View original results';
+    toggleBtn.style.borderColor = 'var(--accent, #fff)';
+    toggleBtn.style.background = 'var(--control-active-bg, #f6f6f6)';
+    toggleBtn.style.color = 'var(--control-active-text, #111)';
+
+    // Transform bye-election data to match race format
+    const beRace = {
+      ac_no: be.ac_no,
+      ac_name: be.ac_name,
+      margin: be.margin,
+      candidates: be.candidates,
+      election_id: be.election_id,
+    };
+    drawRaceFinal(beRace);
+  } else {
+    // Switch back to original results
+    toggleText.textContent = 'Bye-Election held';
+    toggleBtn.style.borderColor = '';
+    toggleBtn.style.background = '';
+    toggleBtn.style.color = '';
+    drawRaceFinal(currentRace);
+  }
 }
 
 function drawRaceFinal(race) {
@@ -5557,11 +5690,19 @@ async function drawRaceRoundwise(race) {
   overlay.style.display = 'none';
 
   try {
-    const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}`);
+    const eid = race.election_id || (currentElection && currentElection.election_id);
+    const eidParam = eid ? `?election_id=${eid}` : '';
+    const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}${eidParam}`);
     const data = await resp.json();
-    const rows = data.rounds || [];
+    let rows = data.rounds || [];
     let rounds = [...new Set(rows.map(r => r.round_no))]
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
+
+    // If both 998+999 exist, show only those as a slope chart
+    if (rounds.includes(998) && rounds.includes(999)) {
+      rounds = [998, 999];
+      rows = rows.filter(r => r.round_no === 998 || r.round_no === 999);
+    }
 
     // If only round 999 exists (past elections), show as "EVM+Postal Votes"
     if (rounds.length === 1 && rounds[0] === 999) {
@@ -5840,7 +5981,8 @@ async function renderRoundwise(stateCode) {
         return;
       }
       const payloads = await Promise.all(stateCodes.map(async code => {
-        const resp = await fetch(`${API_BASE}/api/roundwise?state=${code}`);
+        const eidParam2 = currentElection ? `&election_id=${currentElection.election_id}` : '';
+        const resp = await fetch(`${API_BASE}/api/roundwise?state=${code}${eidParam2}`);
         return resp.json();
       }));
       const roundMap = new Map();
@@ -5871,7 +6013,8 @@ async function renderRoundwise(stateCode) {
           })),
       };
     } else {
-      const resp = await fetch(`${API_BASE}/api/roundwise?state=${stateCode}`);
+      const eidParam3 = currentElection ? `&election_id=${currentElection.election_id}` : '';
+      const resp = await fetch(`${API_BASE}/api/roundwise?state=${stateCode}${eidParam3}`);
       data = await resp.json();
     }
 
