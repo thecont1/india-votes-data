@@ -14,6 +14,7 @@ Requires D1_INGEST_URL and D1_INGEST_TOKEN env vars (or .env).
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import os
 import subprocess
@@ -28,6 +29,26 @@ from dotenv import load_dotenv
 
 WRANGLER_DB = "election-results"
 DEFAULT_BATCH_SIZE = 200  # rounds per batch (not candidates)
+STATES_CSV = os.path.join(os.path.dirname(__file__), "..", "data", "states.csv")
+
+_eci_to_std_cache = None
+
+def _eci_to_std_map() -> dict:
+    """Build {eci_code: std_code} from states.csv, cached."""
+    global _eci_to_std_cache
+    if _eci_to_std_cache is None:
+        _eci_to_std_cache = {}
+        with open(STATES_CSV, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                _eci_to_std_cache[row["state_code_eci"]] = row["state_code"]
+    return _eci_to_std_cache
+
+
+def build_election_name(prefix: str, year, states_eci: list) -> str:
+    """Build election name like 'Bye-Election 2026 AS/KL/TN' from ECI state codes."""
+    eci_map = _eci_to_std_map()
+    std_codes = sorted(eci_map.get(e, e) for e in states_eci)
+    return f"{prefix} {year} {'/'.join(std_codes)}"
 
 
 def check_env() -> tuple:
@@ -239,13 +260,8 @@ def main():
     eid_parts = election_id.split("-")
     year = eid_parts[1] if len(eid_parts) >= 2 else data.get("election_year", "2026")
     month = data.get("election_month") or (eid_parts[2] if len(eid_parts) >= 3 else "01")
-    MONTH_NAMES = {
-        "01": "January", "02": "February", "03": "March", "04": "April",
-        "05": "May", "06": "June", "07": "July", "08": "August",
-        "09": "September", "10": "October", "11": "November", "12": "December",
-    }
     sort_date = f"{year}-{month}"
-    name = f"Bye-Election {year} {MONTH_NAMES.get(month, month)}"
+    name = build_election_name("Bye-Election", year, states)
 
     print(f"JSON        : {args.json_file}")
     print(f"Election ID : {election_id}")

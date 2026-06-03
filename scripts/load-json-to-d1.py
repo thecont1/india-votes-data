@@ -112,6 +112,26 @@ def lookup_state_code(state_std: str, state_map: dict) -> tuple:
     return entry["state_code_eci"], entry["state_name"]
 
 
+_eci_to_std_cache = None
+
+def _eci_to_std_map() -> dict:
+    """Build {eci_code: std_code} from states.csv, cached."""
+    global _eci_to_std_cache
+    if _eci_to_std_cache is None:
+        _eci_to_std_cache = {}
+        with open(STATES_CSV, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                _eci_to_std_cache[row["state_code_eci"]] = row["state_code"]
+    return _eci_to_std_cache
+
+
+def build_election_name(prefix: str, year, states_eci: list) -> str:
+    """Build election name like 'AC 2026 AS/KL/TN' from ECI state codes."""
+    eci_map = _eci_to_std_map()
+    std_codes = sorted(eci_map.get(e, e) for e in states_eci)
+    return f"{prefix} {year} {'/'.join(std_codes)}"
+
+
 # ---------------------------------------------------------------------------
 # Party normalization
 # ---------------------------------------------------------------------------
@@ -405,11 +425,6 @@ def ensure_election(meta: dict, wrangler_db: str, preprocess: bool) -> bool:
     state_code = meta["state_code"]
     sort_date = f"{meta['year']}-{meta['month']:02d}"
 
-    # Convention: election name is "AC YYYY Mon" (counting month)
-    MONTH_ABBR = {1:"Jan",2:"Feb",3:"Mar",4:"Apr",5:"May",6:"Jun",
-                  7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
-    name = f"AC {meta['year']} {MONTH_ABBR.get(meta['month'], '???')}"
-
     def run_sql(sql):
         if preprocess:
             print(f"  [PREPROCESS] {sql[:120]}...")
@@ -431,8 +446,10 @@ def ensure_election(meta: dict, wrangler_db: str, preprocess: bool) -> bool:
             if state_code not in existing_states:
                 existing_states.append(state_code)
                 states_json = json.dumps(existing_states).replace("'", "''")
+                name = build_election_name("AC", meta["year"], existing_states)
+                name_escaped = name.replace("'", "''")
                 update_sql = (
-                    f"UPDATE elections SET states = '{states_json}' "
+                    f"UPDATE elections SET states = '{states_json}', name = '{name_escaped}' "
                     f"WHERE election_id = '{election_id}';"
                 )
                 run_sql(update_sql)
@@ -441,6 +458,7 @@ def ensure_election(meta: dict, wrangler_db: str, preprocess: bool) -> bool:
                 print(f"  Election record: {election_id} exists — state {state_code} already included")
         else:
             # New election — insert
+            name = build_election_name("AC", meta["year"], [state_code])
             states_json = json.dumps([state_code])
             insert_sql = (
                 f"INSERT INTO elections (election_id, name, states, sort_date) "
@@ -667,7 +685,9 @@ Examples:
     # ── Transform to D1 rounds ──────────────────────────────────────────
     rounds, party_warnings = transform_to_rounds(data, meta)
     total_candidates = sum(len(r["candidates"]) for r in rounds)
-    print(f"  Constituencies: {len(rounds)}")
+    n_constituencies = len({r["ac_no"] for r in rounds})
+    print(f"  Constituencies: {n_constituencies}")
+    print(f"  Rounds        : {len(rounds)}")
     print(f"  Candidates    : {total_candidates}")
 
     # ── Resume: filter already-loaded ───────────────────────────────────

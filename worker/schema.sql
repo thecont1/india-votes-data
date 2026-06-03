@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS rounds_pc (
 
 CREATE TABLE IF NOT EXISTS elections (
     election_id     TEXT PRIMARY KEY,                     -- eg: "AC-2024-10"
-    name            TEXT NOT NULL,                        -- "AC 2024 Oct - S07, U08"
+    name            TEXT NOT NULL,                        -- "AC 2024 AS/BR/KL"
     states          TEXT NOT NULL,                        -- JSON array of state codes
     sort_date       TEXT NOT NULL                         -- "2024-10" for sorting
 );
