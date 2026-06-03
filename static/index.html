@@ -3129,6 +3129,7 @@ let currentState = localStorage.getItem(STATE_STORAGE_KEY) || '';
 let currentMajority = null;
 let chart = null;
 let pollTimer = null;
+let lastDeclaredCount = -1;
 let partyNames = {};
 let partySymbols = {};
 let partyDetails = {};
@@ -3544,6 +3545,8 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
     if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
     if (racesChart) { racesChart.destroy(); racesChart = null; }
     if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+    lastDeclaredCount = -1;
+    lastDataFingerprint = '';
     // Update state bar to show only states in this election
     updateStateBarForElection(election.states);
     fetchStatus();
@@ -3772,6 +3775,14 @@ async function fetchStatus() {
     const resp = await fetch(url);
     const status = await resp.json();
     updateStatusBar(status);
+    // When declared count changes, refresh charts immediately
+    const s = status.statuses || {};
+    const done = s.DONE || 0;
+    if (lastDeclaredCount !== -1 && done !== lastDeclaredCount) {
+      lastDataFingerprint = '';
+      fetchData();
+    }
+    lastDeclaredCount = done;
   } catch (e) { /* ignore */ }
 }
 
@@ -6237,6 +6248,7 @@ function renderStateBar(states) {
       localStorage.setItem(STATE_STORAGE_KEY, s.code);
       localStorage.removeItem(RACE_AC_STORAGE_KEY);
       lastDataFingerprint = '';
+      lastDeclaredCount = -1;
       renderStateBar(states);
       fetchData();
       fetchStatus();
