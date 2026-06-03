@@ -1187,14 +1187,6 @@
 
   /* Bye-election indicator */
   #bye-election-indicator { display: inline-flex; align-items: center; }
-  #bye-election-toggle:hover {
-    border-color: var(--control-hover-border, #fff) !important;
-    background: var(--card-elevated, #2a2a2a) !important;
-  }
-  #bye-election-toggle:focus-visible {
-    outline: 3px solid var(--focus-ring, #60a5fa);
-    outline-offset: 2px;
-  }
   .form20-card--unverified .form20-card__status { color: #d97706; }
   .form20-card--unverified .form20-card__status svg { stroke: #d97706; }
   .form20-card--verified .form20-card__status { color: #059669; }
@@ -2986,17 +2978,12 @@
         </span>
         <span id="form20-action"></span>
       </div>
-      <div id="bye-election-indicator" style="display:none; margin-left:8px;">
-        <button type="button" id="bye-election-toggle" style="
-          display:inline-flex; align-items:center; gap:6px;
-          padding:6px 12px; border:1px solid var(--control-border);
-          border-radius:var(--chip-radius, 14px); background:var(--control-bg);
-          color:var(--control-text); font:600 12px var(--font-ui);
-          cursor:pointer; white-space:nowrap; transition:all 0.15s;
-        " onclick="toggleByeElection()">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-          <span id="bye-election-toggle-text">Bye-Election held</span>
-        </button>
+      <div id="bye-election-indicator" style="display:none; margin-left:8px; align-items:center; gap:6px;">
+        <span style="font:500 11px var(--font-ui); color:var(--muted); white-space:nowrap;">Election:</span>
+        <div class="toggle-group" role="group" aria-label="Election results view" style="font-size:12px;">
+          <button class="toggle-btn active" type="button" id="bye-orig-btn" aria-pressed="true" onclick="setByeView(false)">Original</button>
+          <button class="toggle-btn" type="button" id="bye-new-btn" aria-pressed="false" onclick="setByeView(true)">Bye-Election</button>
+        </div>
       </div>
     </div>
     <div class="flip-wrap" id="race-flip-wrap">
@@ -5396,8 +5383,8 @@ function drawSingleRace(race) {
   hideCandidateDetail();
   if (race) localStorage.setItem(RACE_AC_STORAGE_KEY, race.ac_no);
   updateForm20Field(race);
-  updateByeElectionIndicator(race);
   showingByeElection = false;
+  updateByeElectionIndicator(race);
   if (raceView === 'roundwise') {
     drawRaceRoundwise(race);
     return;
@@ -5416,32 +5403,28 @@ function drawSingleRace(race) {
 
 function updateByeElectionIndicator(race) {
   const indicator = document.getElementById('bye-election-indicator');
-  const toggleText = document.getElementById('bye-election-toggle-text');
   if (!race || !byeElectionMap[race.ac_no]) {
     indicator.style.display = 'none';
     return;
   }
   indicator.style.display = 'inline-flex';
-  toggleText.textContent = showingByeElection ? 'View original results' : 'Bye-Election held';
+  document.getElementById('bye-orig-btn').classList.toggle('active', !showingByeElection);
+  document.getElementById('bye-orig-btn').setAttribute('aria-pressed', String(!showingByeElection));
+  document.getElementById('bye-new-btn').classList.toggle('active', showingByeElection);
+  document.getElementById('bye-new-btn').setAttribute('aria-pressed', String(showingByeElection));
 }
 
-function toggleByeElection() {
+function setByeView(showBye) {
   if (!currentRace) return;
   const be = byeElectionMap[currentRace.ac_no];
   if (!be) return;
+  if (showingByeElection === showBye) return;
 
-  showingByeElection = !showingByeElection;
-  const toggleText = document.getElementById('bye-election-toggle-text');
-  const toggleBtn = document.getElementById('bye-election-toggle');
+  showingByeElection = showBye;
+  updateByeElectionIndicator(currentRace);
 
+  const drawFn = raceView === 'roundwise' ? drawRaceRoundwise : drawRaceFinal;
   if (showingByeElection) {
-    // Switch to bye-election results
-    toggleText.textContent = 'View original results';
-    toggleBtn.style.borderColor = 'var(--accent, #fff)';
-    toggleBtn.style.background = 'var(--control-active-bg, #f6f6f6)';
-    toggleBtn.style.color = 'var(--control-active-text, #111)';
-
-    // Transform bye-election data to match race format
     const beRace = {
       ac_no: be.ac_no,
       ac_name: be.ac_name,
@@ -5449,15 +5432,8 @@ function toggleByeElection() {
       candidates: be.candidates,
       election_id: be.election_id,
     };
-    const drawFn = raceView === 'roundwise' ? drawRaceRoundwise : drawRaceFinal;
     drawFn(beRace);
   } else {
-    // Switch back to original results
-    toggleText.textContent = 'Bye-Election held';
-    toggleBtn.style.borderColor = '';
-    toggleBtn.style.background = '';
-    toggleBtn.style.color = '';
-    const drawFn = raceView === 'roundwise' ? drawRaceRoundwise : drawRaceFinal;
     drawFn(currentRace);
   }
 }
