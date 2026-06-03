@@ -119,6 +119,12 @@ async function handleRoundIngest(request, env, corsHeaders) {
     `).bind(state_code, ac_no, ac_name || null, status, round_no)
   );
 
+  // Look up state standard code for search context (e.g. S25 -> WB)
+  const stateRow = await env.DB.prepare(
+    "SELECT state_code_std FROM states WHERE state_code = ?"
+  ).bind(state_code).first();
+  const stateStd = stateRow?.state_code_std || state_code;
+
   // Update FTS content table for new/changed candidates
   for (const c of candidates) {
     const entityId = `${state_code}-${ac_no}-${eid ? eid + '-' : ''}${c.party_abv}|${c.candidate}`;
@@ -136,7 +142,7 @@ async function handleRoundIngest(request, env, corsHeaders) {
       `).bind(
         entityId,
         c.candidate,
-        `${c.party_abv} | ${ac_name || ''}`,
+        `${c.party_abv} | ${ac_name || ''}, ${stateStd}`,
         c.votes,
         eid,
         c.party_abv
@@ -205,6 +211,12 @@ async function handleBatchIngest(request, env, corsHeaders) {
       `).bind(state_code, ac_no, ac_name || null, status, round_no)
     );
 
+    // Look up state standard code for search context (e.g. S25 -> WB)
+    const stateRow = await env.DB.prepare(
+      "SELECT state_code_std FROM states WHERE state_code = ?"
+    ).bind(state_code).first();
+    const stateStd = stateRow?.state_code_std || state_code;
+
     for (const c of candidates) {
       const entityId = `${state_code}-${ac_no}-${eid ? eid + '-' : ''}${c.party_abv}|${c.candidate}`;
       stmts.push(
@@ -220,7 +232,7 @@ async function handleBatchIngest(request, env, corsHeaders) {
         `).bind(
           entityId,
           c.candidate,
-          `${c.party_abv} | ${ac_name || ''}`,
+          `${c.party_abv} | ${ac_name || ''}, ${stateStd}`,
           c.votes,
           eid,
           c.party_abv

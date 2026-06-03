@@ -46,7 +46,7 @@ WITH final_rounds AS (
 SELECT 'candidate',
        r.state_code || '-' || r.ac_no || '-' || CASE WHEN r.election_id != '' THEN r.election_id || '-' ELSE '' END || r.party_abv || '|' || r.candidate,
        r.candidate,
-       r.party_abv || ' | ' || COALESCE(r.ac_name, '') || ' | ' || COALESCE(SUBSTR(e.sort_date, 1, 4), ''),
+       r.party_abv || ' | ' || COALESCE(r.ac_name, '') || ', ' || COALESCE(s.state_code_std, r.state_code) || ' | ' || COALESCE(SUBSTR(e.sort_date, 1, 4), ''),
        CASE WHEN cs.won = 1 THEN 1.5
             WHEN cs.status = 'LIVE' THEN 1.2
             ELSE 1.0 END,
@@ -64,7 +64,8 @@ LEFT JOIN constituency_status cs
 LEFT JOIN elections e
     ON r.election_id = e.election_id
 LEFT JOIN parties p
-    ON r.party_abv = p.abv;
+    ON r.party_abv = p.abv
+JOIN states s ON r.state_code = s.state_code;
 
 -- Populate: constituencies with total votes cast (final round only)
 INSERT INTO candidates_search (entity_type, entity_id, name, context, boost, votes, total_votes, election_sort, symbol_url)
@@ -87,11 +88,13 @@ SELECT 'constituency',
        1.0,
        0,
        COALESCE(tv.total, 0),
-       '',
+       COALESCE(e.sort_date, ''),
        ''
 FROM constituency_status cs
 JOIN states s ON cs.state_code = s.state_code
 LEFT JOIN final_rounds fr ON cs.state_code = fr.state_code AND cs.ac_no = fr.ac_no
+LEFT JOIN rounds_ac r ON r.state_code = cs.state_code AND r.ac_no = cs.ac_no AND r.round_no = fr.final_round
+LEFT JOIN elections e ON r.election_id = e.election_id
 LEFT JOIN (
     SELECT state_code, ac_no, SUM(votes) as total
     FROM rounds_ac

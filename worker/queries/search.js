@@ -9,30 +9,42 @@ export async function handleSearch(request, env) {
     return jsonResponse({ results: { candidate: [], constituency: [] }, query: q });
   }
 
-  // FTS5 trigram search, sorted by votes DESC
-  // Candidates: sort by votes (final round vote count)
-  // Constituencies: sort by total_votes DESC
-  const rows = await env.DB.prepare(`
-    SELECT cs.entity_type, cs.entity_id, cs.name, cs.context, cs.boost,
-           cs.votes, cs.total_votes, cs.election_sort, cs.symbol_url,
-           highlight(search_fts, 2, '<mark>', '</mark>') as highlighted_name
-    FROM search_fts sf
-    JOIN candidates_search cs ON sf.rowid = cs.rowid
-    WHERE sf.search_fts MATCH ?
-      AND cs.entity_type IN ('candidate', 'constituency')
-    ORDER BY
-      CASE cs.entity_type
-        WHEN 'candidate' THEN cs.votes
-        WHEN 'constituency' THEN cs.total_votes
-        ELSE 0
-      END DESC
-    LIMIT ?
-  `).bind(q, limit).all();
+  // Two separate FTS queries with different sort orders:
+  // - Candidates: sort by votes DESC (importance by vote count)
+  // - Constituencies: sort by election_sort DESC (most recent first), then total_votes DESC
+  const candidateLimit = Math.min(limit, 20);
+  const constituencyLimit = Math.min(limit, 10);
 
-  // Group by entity_type
+  const [candidateRows, constituencyRows] = await Promise.all([
+    env.DB.prepare(`
+      SELECT cs.entity_type, cs.entity_id, cs.name, cs.context, cs.boost,
+             cs.votes, cs.total_votes, cs.election_sort, cs.symbol_url,
+             highlight(search_fts, 2, '<mark>', '</mark>') as highlighted_name
+      FROM search_fts sf
+      JOIN candidates_search cs ON sf.rowid = cs.rowid
+      WHERE sf.search_fts MATCH ?
+        AND cs.entity_type = 'candidate'
+      ORDER BY cs.votes DESC
+      LIMIT ?
+    `).bind(q, candidateLimit).all(),
+
+    env.DB.prepare(`
+      SELECT cs.entity_type, cs.entity_id, cs.name, cs.context, cs.boost,
+             cs.votes, cs.total_votes, cs.election_sort, cs.symbol_url,
+             highlight(search_fts, 2, '<mark>', '</mark>') as highlighted_name
+      FROM search_fts sf
+      JOIN candidates_search cs ON sf.rowid = cs.rowid
+      WHERE sf.search_fts MATCH ?
+        AND cs.entity_type = 'constituency'
+      ORDER BY cs.election_sort DESC, cs.total_votes DESC
+      LIMIT ?
+    `).bind(q, constituencyLimit).all(),
+  ]);
+
   const grouped = { candidate: [], constituency: [] };
-  for (const row of rows.results) {
-    const entry = {
+
+  for (const row of candidateRows.results) {
+    grouped.candidate.push({
       entity_id: row.entity_id,
       name: row.name,
       context: row.context,
@@ -42,10 +54,21 @@ export async function handleSearch(request, env) {
       total_votes: row.total_votes,
       election_sort: row.election_sort,
       symbol_url: row.symbol_url || '',
-    };
-    if (grouped[row.entity_type]) {
-      grouped[row.entity_type].push(entry);
-    }
+    });
+  }
+
+  for (const row of constituencyRows.results) {
+    grouped.constituency.push({
+      entity_id: row.entity_id,
+      name: row.name,
+      context: row.context,
+      highlighted_name: row.highlighted_name,
+      boost: row.boost,
+      votes: row.votes,
+      total_votes: row.total_votes,
+      election_sort: row.election_sort,
+      symbol_url: row.symbol_url || '',
+    });
   }
 
   return jsonResponse({ results: grouped, query: q });
