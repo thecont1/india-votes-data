@@ -33,7 +33,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # ---------------------------------------------------------------------------
 
 STATES_CSV = os.path.join(os.path.dirname(__file__), "..", "data", "states.csv")
-PARTIES_CSV = os.path.join(os.path.dirname(__file__), "..", "data", "parties.csv")
 
 MONTH_MAP = {
     "JANUARY": 1, "FEBRUARY": 2, "MARCH": 3, "APRIL": 4,
@@ -52,8 +51,13 @@ HARDCODED_PARTIES = {
     "Janata Dal (United)": "JD(U)",
     "None of the Above": "NOTA",
     "Bharat Rashtra Samithi": "BRS",
-    "Shiv Sena (Uddhav Balasaheb Thackeray)": "SHS(UBT)",
-    "Shiv Sena (Uddhav Balasaheb Thackeray)": "SHS(UBT)",
+    "Nationalist Congress Party": "NCP",
+    "Nationalist Congress Party - Sharadchandra Pawar": "NCP-SP",
+    "Nationalist Congress Party \u2013 Sharadchandra Pawar": "NCP-SP",
+    "Shiv Sena": "SHS",
+    "ShivSena": "SHS",
+    "SHIVSS": "SHS",
+    "Shiv Sena (Uddhav Balasaheb Thackeray)": "SS(UBT)",
     "Rashtriya Janata Dal": "RJD",
     "Rashtriya Lok Dal": "RLD",
     "Jammu & Kashmir National Conference": "JKNC",
@@ -107,6 +111,26 @@ def lookup_state_code(state_std: str, state_map: dict) -> tuple:
     return entry["state_code_eci"], entry["state_name"]
 
 
+_eci_to_std_cache = None
+
+def _eci_to_std_map() -> dict:
+    """Build {eci_code: std_code} from states.csv, cached."""
+    global _eci_to_std_cache
+    if _eci_to_std_cache is None:
+        _eci_to_std_cache = {}
+        with open(STATES_CSV, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                _eci_to_std_cache[row["state_code_eci"]] = row["state_code"]
+    return _eci_to_std_cache
+
+
+def build_election_name(prefix: str, year, states_eci: list) -> str:
+    """Build election name like 'AC 2026 AS/KL/TN' from ECI state codes."""
+    eci_map = _eci_to_std_map()
+    std_codes = sorted(eci_map.get(e, e) for e in states_eci)
+    return f"{prefix} {year} {'/'.join(std_codes)}"
+
+
 # ---------------------------------------------------------------------------
 # Party normalization
 # ---------------------------------------------------------------------------
@@ -115,27 +139,27 @@ _party_cache = None
 
 
 def _load_party_map() -> dict:
-    """Load {full_name: abbreviation} from data/parties.csv."""
+    """Load {full_name: abbreviation} from D1 parties table via wrangler."""
     global _party_cache
     if _party_cache is not None:
         return _party_cache
 
     name_to_abv = {}
     try:
-        with open(PARTIES_CSV, newline="", encoding="utf-8") as f:
-            for row in csv.DictReader(f):
+        result = subprocess.run(
+            ["wrangler", "d1", "execute", DEFAULT_WRANGLER_DB,
+             "--command", "SELECT abv, name FROM parties;",
+             "--remote", "--json"],
+            capture_output=True, text=True, check=True, timeout=30,
+        )
+        data = json.loads(result.stdout) if result.stdout.strip() else []
+        if data and data[0].get("results"):
+            for row in data[0]["results"]:
                 abv = row.get("abv", "").strip()
                 name = row.get("name", "").strip()
                 if abv and name:
                     name_to_abv[name] = abv
-                # Also parse aliases (comma-separated)
-                aliases = row.get("aliases", "").strip()
-                if aliases:
-                    for alias in aliases.split(","):
-                        alias = alias.strip()
-                        if alias:
-                            name_to_abv[alias] = abv
-    except FileNotFoundError:
+    except (subprocess.CalledProcessError, json.JSONDecodeError, FileNotFoundError):
         pass
 
     _party_cache = name_to_abv
@@ -146,10 +170,10 @@ def normalize_party(name: str) -> str:
     """Normalize a party name to its abbreviation.
 
     Layered approach:
-    1. Check if already an abbreviation (in parties.csv abv column)
-    2. Check hardcoded map
-    3. Check parties.csv name -> abv map
-    4. Case-insensitive match
+    1. Check hardcoded map (fast, covers common edge cases)
+    2. Check D1 parties table name -> abv map
+    3. Case-insensitive match
+    4. Check if input is already a known abbreviation
     5. Return input unchanged (caller warns)
     """
     if not name:
@@ -400,11 +424,6 @@ def ensure_election(meta: dict, wrangler_db: str, preprocess: bool) -> bool:
     state_code = meta["state_code"]
     sort_date = f"{meta['year']}-{meta['month']:02d}"
 
-    # Convention: election name is "AC YYYY Mon" (counting month)
-    MONTH_ABBR = {1:"Jan",2:"Feb",3:"Mar",4:"Apr",5:"May",6:"Jun",
-                  7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
-    name = f"AC {meta['year']} {MONTH_ABBR.get(meta['month'], '???')}"
-
     def run_sql(sql):
         if preprocess:
             print(f"  [PREPROCESS] {sql[:120]}...")
@@ -426,8 +445,10 @@ def ensure_election(meta: dict, wrangler_db: str, preprocess: bool) -> bool:
             if state_code not in existing_states:
                 existing_states.append(state_code)
                 states_json = json.dumps(existing_states).replace("'", "''")
+                name = build_election_name("AC", meta["year"], existing_states)
+                name_escaped = name.replace("'", "''")
                 update_sql = (
-                    f"UPDATE elections SET states = '{states_json}' "
+                    f"UPDATE elections SET states = '{states_json}', name = '{name_escaped}' "
                     f"WHERE election_id = '{election_id}';"
                 )
                 run_sql(update_sql)
@@ -436,6 +457,7 @@ def ensure_election(meta: dict, wrangler_db: str, preprocess: bool) -> bool:
                 print(f"  Election record: {election_id} exists — state {state_code} already included")
         else:
             # New election — insert
+            name = build_election_name("AC", meta["year"], [state_code])
             states_json = json.dumps([state_code])
             insert_sql = (
                 f"INSERT INTO elections (election_id, name, states, sort_date) "
@@ -662,7 +684,9 @@ Examples:
     # ── Transform to D1 rounds ──────────────────────────────────────────
     rounds, party_warnings = transform_to_rounds(data, meta)
     total_candidates = sum(len(r["candidates"]) for r in rounds)
-    print(f"  Constituencies: {len(rounds)}")
+    n_constituencies = len({r["ac_no"] for r in rounds})
+    print(f"  Constituencies: {n_constituencies}")
+    print(f"  Rounds        : {len(rounds)}")
     print(f"  Candidates    : {total_candidates}")
 
     # ── Resume: filter already-loaded ───────────────────────────────────
@@ -777,12 +801,12 @@ Examples:
                 "  AND r.votes = mv.max_votes"
                 f") AND state_code = '{meta['state_code']}' AND won = 0;"
             )
-            result = subprocess.run(
+            won_result = subprocess.run(
                 ["wrangler", "d1", "execute", args.wrangler_db,
                  "--command", won_sql, "--remote", "--json"],
                 capture_output=True, text=True, check=True, timeout=30,
             )
-            parsed = json.loads(result.stdout) if result.stdout.strip() else {}
+            parsed = json.loads(won_result.stdout) if won_result.stdout.strip() else {}
             if isinstance(parsed, list) and parsed:
                 changes = parsed[0].get("meta", {}).get("changes", 0)
             else:
@@ -795,7 +819,7 @@ Examples:
     if not args.skip_verify and not args.preprocess:
         print()
         print("Verification:")
-        verify_load(meta, len(rounds), args.wrangler_db, args.preprocess)
+        verify_load(meta, n_constituencies, args.wrangler_db, args.preprocess)
 
     # ── Summary ─────────────────────────────────────────────────────────
     print()

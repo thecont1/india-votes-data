@@ -575,6 +575,11 @@
     letter-spacing: 0.5px;
     color: var(--muted);
   }
+  .search-group-label + .search-group-label {
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+    padding-top: 8px;
+  }
   .search-result-item {
     padding: 8px 10px;
     cursor: pointer;
@@ -1007,6 +1012,49 @@
     opacity: 0.5;
     user-select: none;
   }
+  .race-sort-group-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    opacity: 0.55;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    user-select: none;
+  }
+  .race-sort-group-sep {
+    display: inline-block;
+    width: 1.5px;
+    height: 16px;
+    background: var(--muted);
+    opacity: 0.25;
+    align-self: center;
+    margin: 0 14px;
+  }
+  .race-sort-group,
+  .race-filter-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  /* Bye-election toggle switch */
+  .bye-el-label {
+    background: none; border: none; padding: 0 3px;
+    font: 500 12px var(--font-ui); color: var(--muted);
+    cursor: pointer; transition: color 0.15s; white-space: nowrap;
+  }
+  .bye-el-label:hover { color: var(--text); }
+  .bye-el-label.active { color: var(--text); font-weight: 700; }
+  .bye-el-sw {
+    background: none; border: none; padding: 0 2px;
+    cursor: pointer; display: inline-flex; align-items: center;
+    color: var(--muted); transition: color 0.2s; line-height: 0;
+  }
+  .bye-el-sw:hover { color: var(--text); }
+  .bye-sw-on { display: none; }
+  #bye-election-indicator.showing-bye .bye-sw-off { display: none; }
+  #bye-election-indicator.showing-bye .bye-sw-on { display: block; }
+  #bye-election-indicator.showing-bye .bye-el-sw { color: var(--text); }
   #races-chart-container {
     height: 552px !important;
   }
@@ -1044,6 +1092,13 @@
     flex: 0 1 auto;
     min-width: 0;
     margin-bottom: 0;
+  }
+  .race-constituency-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 1 auto;
+    min-width: 0;
   }
   .form20-card {
     flex: 0 0 auto;
@@ -1184,6 +1239,9 @@
   }
   .form20-card--unavailable .form20-card__status { color: var(--muted); }
   .form20-card--unavailable .form20-card__status svg { stroke: var(--muted); }
+
+  /* Bye-election indicator */
+  #bye-election-indicator { display: inline-flex; align-items: center; }
   .form20-card--unverified .form20-card__status { color: #d97706; }
   .form20-card--unverified .form20-card__status svg { stroke: #d97706; }
   .form20-card--verified .form20-card__status { color: #059669; }
@@ -2927,23 +2985,41 @@
   <div class="card" id="races-card">
     <h2>Results by Constituency</h2>
     <div class="race-sort-bar" id="race-sort-bar">
-      <button class="race-sort-link active" data-sort="alpha" type="button">Sort by Constituency Name</button>
-      <span class="race-sort-sep">|</span>
-      <button class="race-sort-link" data-sort="acno" type="button">Constituency No.</button>
-      <span class="race-sort-sep">|</span>
-      <button class="race-sort-link" data-sort="margin-desc" type="button">Greatest Win Margin</button>
-      <span class="race-sort-sep">|</span>
-      <button class="race-sort-link" data-sort="margin-asc" type="button">Smallest Win Margin</button>
-      <span class="race-sort-sep">|</span>
-      <button class="race-sort-link" data-sort="form20" type="button">Form 20 Priority</button>
+      <div class="race-sort-group">
+        <span class="race-sort-group-label">Sort by</span>
+        <button class="race-sort-link active" data-sort="alpha" type="button">Constituency Name</button>
+        <span class="race-sort-sep">|</span>
+        <button class="race-sort-link" data-sort="acno" type="button">Constituency No.</button>
+        <span class="race-sort-sep">|</span>
+        <button class="race-sort-link" data-sort="margin-desc" type="button">Greatest Win Margin</button>
+        <span class="race-sort-sep">|</span>
+        <button class="race-sort-link" data-sort="margin-asc" type="button">Smallest Win Margin</button>
+      </div>
+      <span class="race-sort-group-sep"></span>
+      <div class="race-filter-group">
+        <span class="race-sort-group-label">Filter by</span>
+        <button class="race-sort-link race-filter-btn" data-sort="form20" type="button" id="form20-sort-btn">Form 20 Priority</button>
+        <span class="race-sort-sep">|</span>
+        <button class="race-sort-link race-filter-btn" data-sort="bye" type="button" id="bye-sort-btn" disabled style="opacity:0.4;cursor:default;">Bye-Election Priority</button>
+      </div>
     </div>
     <div class="race-controls-row">
       <div class="toggle-group" id="race-toggle" role="group" aria-label="Constituency result view">
         <button class="toggle-btn active" type="button" data-race-view="final" aria-pressed="true">Final</button>
         <button class="toggle-btn" type="button" data-race-view="roundwise" aria-pressed="false">Roundwise</button>
       </div>
-      <div class="field-row">
-        <select id="race-select" size="1" aria-label="Select constituency"></select>
+      <div class="race-constituency-group">
+        <div class="field-row">
+          <select id="race-select" size="1" aria-label="Select constituency"></select>
+        </div>
+        <div id="bye-election-indicator" style="display:none; align-items:center; gap:4px;">
+          <button type="button" class="bye-el-label active" id="bye-orig-btn" aria-pressed="true" onclick="setByeView(false)">Original</button>
+          <button type="button" class="bye-el-sw" onclick="setByeView(!showingByeElection)" aria-label="Toggle election type">
+            <svg class="bye-sw-off" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
+            <svg class="bye-sw-on" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
+          </button>
+          <button type="button" class="bye-el-label" id="bye-new-btn" aria-pressed="false" onclick="setByeView(true)">Bye-Election</button>
+        </div>
       </div>
       <div class="form20-card form20-card--unavailable" id="form20-card">
         <span class="form20-card__label">Form 20
@@ -3032,7 +3108,6 @@
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-const POLL_INTERVAL = 180000;
 const THEME_STORAGE_KEY = 'eci-dashboard-theme';
 const STATE_STORAGE_KEY = 'eci-dashboard-state';
 const ELECTION_STORAGE_KEY = 'eci-dashboard-election';
@@ -3057,7 +3132,6 @@ if (!STATIC_BASE) {
 let currentState = localStorage.getItem(STATE_STORAGE_KEY) || '';
 let currentMajority = null;
 let chart = null;
-let pollTimer = null;
 let partyNames = {};
 let partySymbols = {};
 let partyDetails = {};
@@ -3067,6 +3141,8 @@ let prevTreemapItems = null;
 let racesChart = null;
 let racesData = [];
 let currentRace = null;
+let byeElectionMap = {};  // ac_no -> bye-election race data
+let showingByeElection = false;  // toggle state for bye-election view
 let raceView = localStorage.getItem(RACE_VIEW_STORAGE_KEY) || 'final';
 let roundwiseChart = null;
 let lastDataFingerprint = '';
@@ -3408,7 +3484,7 @@ async function loadElections() {
 
     const res = await fetch(API_BASE + '/api/elections');
     const data = await res.json();
-    electionsList = data.elections || [];
+    electionsList = (data.elections || []).filter(e => !e.election_id.startsWith('BYE-'));
     const selector = document.getElementById('election-selector');
     const electionOptions = electionsList.map(e =>
       `<option value="${e.election_id}">${e.name}</option>`
@@ -3457,6 +3533,12 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
     }
     stateStatuses = {};
     knownStates = [];
+    // Reset sort to default on election change
+    raceSortMode = 'alpha';
+    localStorage.setItem(RACE_SORT_STORAGE_KEY, 'alpha');
+    document.querySelectorAll('#race-sort-bar .race-sort-link').forEach(b => {
+      b.classList.toggle('active', b.dataset.sort === 'alpha');
+    });
     // Clear UI
     document.getElementById('state-bar').innerHTML = '';
     document.getElementById('perf-legend-tally').innerHTML = '';
@@ -3465,6 +3547,7 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
     if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
     if (racesChart) { racesChart.destroy(); racesChart = null; }
     if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+    lastDataFingerprint = '';
     // Update state bar to show only states in this election
     updateStateBarForElection(election.states);
     fetchStatus();
@@ -3486,7 +3569,7 @@ function updateStateBarForElection(stateCodes) {
 // Boot
 loadElections().then(() => {
   init();
-  setInterval(fetchStatus, 10000);
+  setInterval(() => { fetchStatus(); fetchData(); }, 10000);
   setInterval(() => {
     if (knownStates.length) loadStateStatuses(knownStates);
   }, 30000);
@@ -3635,7 +3718,6 @@ async function init() {
   await fetchStatus();
   loadStateCharts();
   fetchData();
-  pollTimer = setInterval(fetchData, POLL_INTERVAL);
 }
 
 // ---------------------------------------------------------------------------
@@ -4153,7 +4235,7 @@ function drawSlopeChart(canvas, cands, theme) {
   const dpr = window.devicePixelRatio || 1;
   const isMobile = window.matchMedia('(max-width: 640px)').matches;
   const W = canvas.parentNode.clientWidth || 600;
-  const LABEL_W = isMobile ? 82 : 130;
+  const LABEL_W = isMobile ? 82 : 180;
   const colLeft = LABEL_W;
   const colRight = W - LABEL_W;
   const PAD_TOP = 52;
@@ -4170,19 +4252,19 @@ function drawSlopeChart(canvas, cands, theme) {
   const byEVM = [...cands].sort((a, b) => b.evmVotes - a.evmVotes);
   const byCombined = [...cands].sort((a, b) => b.combinedVotes - a.combinedVotes);
   const N = cands.length;
-  // Two-zone layout:
-  //   Left column  — EVM votes    — distributed in the BOTTOM half (y: midH+gap → H-PAD_BOT)
-  //   Right column — EVM+Postal  — distributed in the TOP half    (y: PAD_TOP → midH-gap)
-  // Every line therefore sweeps from bottom-left to top-right.
-  const midH = H / 2;
-  const gap = 12;
-  const leftTop = midH + gap;
-  const leftBot = H - PAD_BOT;
-  const leftStep = (leftBot - leftTop) / N;
-  const leftRankY = (i) => leftTop + (i + 0.5) * leftStep;
-
-  const rightTop = PAD_TOP;
-  const rightBot = midH - gap;
+  // Equal-range rank layout: both columns use 60 % of the drawable height.
+  //   Left  — rank 1 at 65 % from bottom (35 % from top), rank N at 5 % from bottom.
+  //   Right — rank 1 at 5 % from top,                    rank N at 65 % from top.
+  // Both ranges equal 0.60 × drawRange → identical step size → equi-distant dots.
+  const drawTop = PAD_TOP;
+  const drawBot = H - PAD_BOT;
+  const drawRange = drawBot - drawTop;
+  const leftTop  = drawTop + drawRange * 0.35;
+  const leftBot  = drawBot - drawRange * 0.05;
+  const rightTop = drawTop + drawRange * 0.05;
+  const rightBot = drawTop + drawRange * 0.65;
+  const leftStep  = (leftBot  - leftTop)  / N;
+  const leftRankY  = (i) => leftTop  + (i + 0.5) * leftStep;
   const rightStep = (rightBot - rightTop) / N;
   const rightRankY = (i) => rightTop + (i + 0.5) * rightStep;
 
@@ -4207,8 +4289,8 @@ function drawSlopeChart(canvas, cands, theme) {
   ctx.textAlign = 'center';
   ctx.font = `600 ${isMobile ? 11 : 12}px ${theme.fontUi}`;
   ctx.fillStyle = theme.label;
-  ctx.fillText('EVM Votes', colLeft, 18);
-  ctx.fillText('EVM+Postal', colRight, 18);
+  ctx.fillText('Rank by EVM Votes', colLeft, 18);
+  ctx.fillText('Rank by EVM+Postal Votes', colRight, 18);
 
   // Connecting straight lines (draw under dots/labels)
   cands.forEach(c => {
@@ -4243,7 +4325,7 @@ function drawSlopeChart(canvas, cands, theme) {
 
     const nameMax = LABEL_W - 10;
     const words = c.candidate.split(' ');
-    const displayName = isMobile ? words[words.length - 1] : words.slice(0, 2).join(' ');
+    const displayName = isMobile ? words[words.length - 1] : c.candidate;
     ctx.textAlign = 'right';
     ctx.font = `${isTop ? '600' : '400'} ${isMobile ? 10 : 11}px ${theme.fontUi}`;
     ctx.fillStyle = isTop ? theme.label : theme.muted;
@@ -4272,7 +4354,7 @@ function drawSlopeChart(canvas, cands, theme) {
 
     const nameMax = LABEL_W - 14;
     const words = c.candidate.split(' ');
-    const displayName = isMobile ? words[words.length - 1] : words.slice(0, 2).join(' ');
+    const displayName = isMobile ? words[words.length - 1] : c.candidate;
     ctx.textAlign = 'left';
     ctx.font = `${isTop ? '600' : '400'} ${isMobile ? 10 : 11}px ${theme.fontUi}`;
     ctx.fillStyle = isTop ? theme.label : theme.muted;
@@ -5097,8 +5179,43 @@ function renderRaces(stateCode) {
   roundwiseOverlay.style.display = 'none';
   document.getElementById('races-chart').style.display = 'block';
   card.style.display = 'block';
+  showingByeElection = false;
 
-  fetch(`${API_BASE}/api/ac-races?state=${stateCode}`)
+  // Fetch bye-election data for this state (non-blocking)
+  const byeSortBtn = document.getElementById('bye-sort-btn');
+  fetch(`${API_BASE}/api/bye-elections?state=${stateCode}`)
+    .then(r => r.json())
+    .then(data => {
+      byeElectionMap = {};
+      const byeElectionId = data.election_id || null;
+      (data.bye_elections || []).forEach(be => {
+        be.election_id = byeElectionId;
+        byeElectionMap[be.ac_no] = be;
+      });
+      const hasBye = Object.keys(byeElectionMap).length > 0;
+      byeSortBtn.disabled = !hasBye;
+      byeSortBtn.style.opacity = hasBye ? '' : '0.4';
+      byeSortBtn.style.cursor = hasBye ? '' : 'default';
+      // If currently showing bye sort but no bye-elections, reset to alpha
+      if (!hasBye && raceSortMode === 'bye') {
+        raceSortMode = 'alpha';
+        document.querySelectorAll('.race-sort-link').forEach(b => b.classList.remove('active'));
+        document.querySelector('[data-sort="alpha"]')?.classList.add('active');
+        populateRaceDropdown(false);
+      }
+      // Refresh indicator for the currently selected race (may have been
+      // drawn before byeElectionMap was populated)
+      if (currentRace) updateByeElectionIndicator(currentRace);
+    })
+    .catch(() => {
+      byeElectionMap = {};
+      byeSortBtn.disabled = true;
+      byeSortBtn.style.opacity = '0.4';
+      byeSortBtn.style.cursor = 'default';
+    });
+
+  const electionParam = currentElection ? `&election_id=${currentElection.election_id}` : '';
+  fetch(`${API_BASE}/api/ac-races?state=${stateCode}${electionParam}`)
     .then(r => r.json())
     .then(data => {
       racesData = data.races || [];
@@ -5112,6 +5229,20 @@ function renderRaces(stateCode) {
       }));
 
       populateRaceDropdown();
+
+      // Enable/disable Form 20 Priority button based on available statuses
+      const form20Btn = document.getElementById('form20-sort-btn');
+      const form20Statuses = new Set(['MISMATCH', 'ERROR', 'UNVERIFIED', 'UNAVAILABLE']);
+      const hasForm20 = racesData.some(r => form20Statuses.has(r.form20_status));
+      form20Btn.disabled = !hasForm20;
+      form20Btn.style.opacity = hasForm20 ? '' : '0.4';
+      form20Btn.style.cursor = hasForm20 ? '' : 'default';
+      if (!hasForm20 && raceSortMode === 'form20') {
+        raceSortMode = 'alpha';
+        document.querySelectorAll('.race-sort-link').forEach(b => b.classList.remove('active'));
+        document.querySelector('[data-sort="alpha"]')?.classList.add('active');
+        populateRaceDropdown(false);
+      }
     })
     .catch(e => {
       console.warn('Failed to load races:', e);
@@ -5179,6 +5310,17 @@ function populateRaceDropdown(restoreSelection = true) {
       });
       break;
     }
+    case 'bye': {
+      // FILTER to only show constituencies with bye-elections
+      indices = indices.filter(i => byeElectionMap[racesData[i].ac_no]);
+      // Sort by bye-election margin descending
+      indices.sort((a, b) => {
+        const ma = byeElectionMap[racesData[a].ac_no]?.margin ?? 0;
+        const mb = byeElectionMap[racesData[b].ac_no]?.margin ?? 0;
+        return mb - ma;
+      });
+      break;
+    }
   }
 
   const sel = document.getElementById('race-select');
@@ -5212,12 +5354,16 @@ document.getElementById('race-sort-bar')?.addEventListener('click', (e) => {
   const btn = e.target.closest('.race-sort-link');
   if (!btn) return;
   const mode = btn.dataset.sort;
-  if (mode === raceSortMode) return;
-  raceSortMode = mode;
-  localStorage.setItem(RACE_SORT_STORAGE_KEY, mode);
+  // Clicking an already-active filter toggles it off (returns to alpha sort)
+  const isActiveFilter = mode === raceSortMode && btn.classList.contains('race-filter-btn');
+  const targetMode = isActiveFilter ? 'alpha' : mode;
+  if (targetMode === raceSortMode) return;
+  raceSortMode = targetMode;
+  localStorage.setItem(RACE_SORT_STORAGE_KEY, raceSortMode);
   // Update active state
   document.querySelectorAll('.race-sort-link').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  const activeBtn = document.querySelector(`#race-sort-bar [data-sort="${raceSortMode}"]`);
+  if (activeBtn) activeBtn.classList.add('active');
   populateRaceDropdown(false); // false = don't restore saved selection, show first item
 });
 
@@ -5284,11 +5430,11 @@ function niceAxis(maxValue, divisions = 6) {
 
 function getShownCandidates(race) {
   const candidates = race.candidates || [];
-  let showCount = candidates.length;
-  for (let i = 0; i < candidates.length; i++) {
-    if (candidates[i].candidate === 'NOTA') { showCount = i + 1; break; }
-  }
-  return candidates.slice(0, showCount);
+  // Find NOTA's vote count
+  const nota = candidates.find(c => c.candidate === 'NOTA');
+  const notaVotes = nota ? nota.votes : 0;
+  // Show candidates with votes > NOTA's votes, exclude NOTA itself
+  return candidates.filter(c => c.candidate !== 'NOTA' && c.votes >= notaVotes);
 }
 
 function updateRaceLegend(candidates) {
@@ -5312,6 +5458,8 @@ function drawSingleRace(race) {
   hideCandidateDetail();
   if (race) localStorage.setItem(RACE_AC_STORAGE_KEY, race.ac_no);
   updateForm20Field(race);
+  showingByeElection = false;
+  updateByeElectionIndicator(race);
   if (raceView === 'roundwise') {
     drawRaceRoundwise(race);
     return;
@@ -5326,6 +5474,44 @@ function drawSingleRace(race) {
   cvs.onmouseleave = null;
   cvs.style.cursor = '';
   drawRaceFinal(race);
+}
+
+function updateByeElectionIndicator(race) {
+  const indicator = document.getElementById('bye-election-indicator');
+  if (!race || !byeElectionMap[race.ac_no]) {
+    indicator.style.display = 'none';
+    return;
+  }
+  indicator.style.display = 'inline-flex';
+  indicator.classList.toggle('showing-bye', showingByeElection);
+  document.getElementById('bye-orig-btn').classList.toggle('active', !showingByeElection);
+  document.getElementById('bye-orig-btn').setAttribute('aria-pressed', String(!showingByeElection));
+  document.getElementById('bye-new-btn').classList.toggle('active', showingByeElection);
+  document.getElementById('bye-new-btn').setAttribute('aria-pressed', String(showingByeElection));
+}
+
+function setByeView(showBye) {
+  if (!currentRace) return;
+  const be = byeElectionMap[currentRace.ac_no];
+  if (!be) return;
+  if (showingByeElection === showBye) return;
+
+  showingByeElection = showBye;
+  updateByeElectionIndicator(currentRace);
+
+  const drawFn = raceView === 'roundwise' ? drawRaceRoundwise : drawRaceFinal;
+  if (showingByeElection) {
+    const beRace = {
+      ac_no: be.ac_no,
+      ac_name: be.ac_name,
+      margin: be.margin,
+      candidates: be.candidates,
+      election_id: be.election_id,
+    };
+    drawFn(beRace);
+  } else {
+    drawFn(currentRace);
+  }
 }
 
 function drawRaceFinal(race) {
@@ -5557,9 +5743,11 @@ async function drawRaceRoundwise(race) {
   overlay.style.display = 'none';
 
   try {
-    const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}`);
+    const eid = race.election_id || (currentElection && currentElection.election_id);
+    const eidParam = eid ? `?election_id=${eid}` : '';
+    const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}${eidParam}`);
     const data = await resp.json();
-    const rows = data.rounds || [];
+    let rows = data.rounds || [];
     let rounds = [...new Set(rows.map(r => r.round_no))]
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
 
@@ -5570,6 +5758,17 @@ async function drawRaceRoundwise(race) {
     }
     { const overlay = document.getElementById('race-roundwise-overlay'); if (overlay) overlay.style.display = 'none'; }
 
+    // SLOPE CHART: activates only when the dataset has EXACTLY rounds 998 and 999
+    const isSlope = rounds.length === 2 && rounds.includes(998) && rounds.includes(999);
+
+    // For multi-round elections that also include round 998, strip it from the
+    // regular line chart — it is a redundant EVM summary that duplicates the
+    // final counting-round total and would appear as a confusing "Round 998" point.
+    if (!isSlope && rounds.includes(998)) {
+      rounds = rounds.filter(r => r !== 998);
+      rows   = rows.filter(r => r.round_no !== 998);
+    }
+
     const labels = rounds.map(rn => {
       if (rn === 999) return 'EVM+Postal';
       // If 999 is present, the round before it is the last EVM-only round
@@ -5577,9 +5776,6 @@ async function drawRaceRoundwise(race) {
       if (has999 && rn === Math.max(...rounds.filter(r => r !== 999))) return 'EVM';
       return `${rn}`;
     });
-
-    // SLOPE CHART: rounds 998+999 → EVM → EVM+Postal slope
-    const isSlope = rounds.length === 2 && rounds.includes(998) && rounds.includes(999);
 
     // Store for card builder
     _rwRounds = rounds;
@@ -5840,7 +6036,8 @@ async function renderRoundwise(stateCode) {
         return;
       }
       const payloads = await Promise.all(stateCodes.map(async code => {
-        const resp = await fetch(`${API_BASE}/api/roundwise?state=${code}`);
+        const eidParam2 = currentElection ? `&election_id=${currentElection.election_id}` : '';
+        const resp = await fetch(`${API_BASE}/api/roundwise?state=${code}${eidParam2}`);
         return resp.json();
       }));
       const roundMap = new Map();
@@ -5871,7 +6068,8 @@ async function renderRoundwise(stateCode) {
           })),
       };
     } else {
-      const resp = await fetch(`${API_BASE}/api/roundwise?state=${stateCode}`);
+      const eidParam3 = currentElection ? `&election_id=${currentElection.election_id}` : '';
+      const resp = await fetch(`${API_BASE}/api/roundwise?state=${stateCode}${eidParam3}`);
       data = await resp.json();
     }
 
@@ -6477,7 +6675,7 @@ function getClickedPartyAbv(chart, elements) {
       const items = grouped[type] || [];
       if (!items.length) continue;
       html += `<div class="search-group-label" role="presentation">${labels[type]}</div>`;
-      for (const item of items.slice(0, 10)) {
+      for (const item of items.slice(0, 20)) {
         total++;
         const name = item.highlighted_name || escapeHtml(item.name);
         const ctx = escapeHtml(item.context || '');

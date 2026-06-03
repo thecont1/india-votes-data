@@ -1,0 +1,2336 @@
+{
+  "election_id": "BYE-2026-05",
+  "title": "Bye Election to Assembly Constituencies: Results",
+  "election_year": "2026",
+  "election_month": "05",
+  "election_type": "Bye-Election",
+  "scraped_at": "2026-06-03T20:04:53Z",
+  "constituencies": [
+    {
+      "state_code": "S06",
+      "state_std": "GJ",
+      "state_name": "Gujarat",
+      "ac_no": 111,
+      "ac_name": "UMRETH",
+      "rounds": [
+        {
+          "round_no": 1,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 2209
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 4186
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 35
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 11
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 37
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 43
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 108
+            }
+          ]
+        },
+        {
+          "round_no": 2,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 4000
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 8343
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 71
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 31
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 76
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 72
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 197
+            }
+          ]
+        },
+        {
+          "round_no": 3,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 6204
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 12739
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 99
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 70
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 98
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 97
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 325
+            }
+          ]
+        },
+        {
+          "round_no": 4,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 9350
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 16671
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 135
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 101
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 124
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 114
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 435
+            }
+          ]
+        },
+        {
+          "round_no": 5,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 11097
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 21111
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 158
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 116
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 157
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 152
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 527
+            }
+          ]
+        },
+        {
+          "round_no": 6,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 13041
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 25217
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 182
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 154
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 178
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 185
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 605
+            }
+          ]
+        },
+        {
+          "round_no": 7,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 18819
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 25961
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 199
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 170
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 194
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 200
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 675
+            }
+          ]
+        },
+        {
+          "round_no": 8,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 21314
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 30089
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 239
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 198
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 223
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 238
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 773
+            }
+          ]
+        },
+        {
+          "round_no": 9,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 23310
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 33745
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 274
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 215
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 243
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 266
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 854
+            }
+          ]
+        },
+        {
+          "round_no": 10,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 25767
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 38309
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 318
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 230
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 271
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 310
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1003
+            }
+          ]
+        },
+        {
+          "round_no": 11,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 28525
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 43485
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 357
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 251
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 292
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 361
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1130
+            }
+          ]
+        },
+        {
+          "round_no": 12,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 29652
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 48405
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 381
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 266
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 330
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 399
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1230
+            }
+          ]
+        },
+        {
+          "round_no": 13,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 31542
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 52360
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 413
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 285
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 365
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 448
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1342
+            }
+          ]
+        },
+        {
+          "round_no": 14,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 35116
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 54638
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 441
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 299
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 389
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 475
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1404
+            }
+          ]
+        },
+        {
+          "round_no": 15,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 37411
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 57774
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 484
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 326
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 409
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 496
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1489
+            }
+          ]
+        },
+        {
+          "round_no": 16,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 39412
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 61288
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 522
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 338
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 437
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 516
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1568
+            }
+          ]
+        },
+        {
+          "round_no": 17,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 41470
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 65234
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 564
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 352
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 471
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 558
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1688
+            }
+          ]
+        },
+        {
+          "round_no": 18,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 43117
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 69722
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 615
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 381
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 509
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 609
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1833
+            }
+          ]
+        },
+        {
+          "round_no": 19,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 44571
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 75377
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 667
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 386
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 538
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 657
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1963
+            }
+          ]
+        },
+        {
+          "round_no": 20,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 47246
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 80052
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 719
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 409
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 583
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 724
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 2099
+            }
+          ]
+        },
+        {
+          "round_no": 21,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 52706
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 82148
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 749
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 424
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 603
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 756
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 2240
+            }
+          ]
+        },
+        {
+          "round_no": 22,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 54590
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 85107
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 769
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 434
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 621
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 784
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 2330
+            }
+          ]
+        },
+        {
+          "round_no": 23,
+          "candidates": [
+            {
+              "candidate": "BHRUGURAJSINH CHAUHAN",
+              "party_abv": "INC",
+              "votes": 54689
+            },
+            {
+              "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+              "party_abv": "BJP",
+              "votes": 85371
+            },
+            {
+              "candidate": "MAULIK VINUBHAI SHAH",
+              "party_abv": "BNJD",
+              "votes": 771
+            },
+            {
+              "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+              "party_abv": "IND",
+              "votes": 435
+            },
+            {
+              "candidate": "NIRUPABEN NATVARLAL  MADHU",
+              "party_abv": "IND",
+              "votes": 622
+            },
+            {
+              "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+              "party_abv": "IND",
+              "votes": 786
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 2332
+            }
+          ]
+        }
+      ],
+      "postal_votes": [
+        {
+          "candidate": "BHRUGURAJSINH CHAUHAN",
+          "party_abv": "INC",
+          "evm_votes": 54689,
+          "postal_votes": 68,
+          "total_votes": 54757
+        },
+        {
+          "candidate": "HARSHADBHAI GOVINDBHAI PARMAR",
+          "party_abv": "BJP",
+          "evm_votes": 85371,
+          "postal_votes": 129,
+          "total_votes": 85500
+        },
+        {
+          "candidate": "MAULIK VINUBHAI SHAH",
+          "party_abv": "BNJD",
+          "evm_votes": 771,
+          "postal_votes": 2,
+          "total_votes": 773
+        },
+        {
+          "candidate": "JITESHKUMAR GHANSHYAMBHAI SEVAK (JITUBHAI SEVAK)",
+          "party_abv": "IND",
+          "evm_votes": 435,
+          "postal_votes": 0,
+          "total_votes": 435
+        },
+        {
+          "candidate": "NIRUPABEN NATVARLAL  MADHU",
+          "party_abv": "IND",
+          "evm_votes": 622,
+          "postal_votes": 4,
+          "total_votes": 626
+        },
+        {
+          "candidate": "MAHENDRABHAI NATVARBHAI PARMAR",
+          "party_abv": "IND",
+          "evm_votes": 786,
+          "postal_votes": 0,
+          "total_votes": 786
+        },
+        {
+          "candidate": "NOTA",
+          "party_abv": "NOTA",
+          "evm_votes": 2332,
+          "postal_votes": 3,
+          "total_votes": 2335
+        }
+      ]
+    },
+    {
+      "state_code": "S10",
+      "state_std": "KA",
+      "state_name": "Karnataka",
+      "ac_no": 24,
+      "ac_name": "BAGALKOT",
+      "rounds": [
+        {
+          "round_no": 1,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 6106
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 2899
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 29
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 8
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 6
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 11
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 9
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 11
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 15
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 65
+            }
+          ]
+        },
+        {
+          "round_no": 2,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 10996
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 5980
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 53
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 13
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 7
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 21
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 14
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 17
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 38
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 125
+            }
+          ]
+        },
+        {
+          "round_no": 3,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 16935
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 8312
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 76
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 17
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 10
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 26
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 17
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 25
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 65
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 180
+            }
+          ]
+        },
+        {
+          "round_no": 4,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 22139
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 11034
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 93
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 24
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 17
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 29
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 26
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 28
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 89
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 233
+            }
+          ]
+        },
+        {
+          "round_no": 5,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 27618
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 13989
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 115
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 32
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 22
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 44
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 35
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 36
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 103
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 315
+            }
+          ]
+        },
+        {
+          "round_no": 6,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 32667
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 16972
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 146
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 37
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 25
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 52
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 42
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 50
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 129
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 380
+            }
+          ]
+        },
+        {
+          "round_no": 7,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 34787
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 21839
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 172
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 41
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 25
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 56
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 47
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 58
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 147
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 454
+            }
+          ]
+        },
+        {
+          "round_no": 8,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 37281
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 26147
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 197
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 47
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 27
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 58
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 50
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 82
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 157
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 494
+            }
+          ]
+        },
+        {
+          "round_no": 9,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 41510
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 29463
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 215
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 48
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 27
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 65
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 51
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 86
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 169
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 527
+            }
+          ]
+        },
+        {
+          "round_no": 10,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 44924
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 33302
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 229
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 53
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 29
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 73
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 54
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 89
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 186
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 584
+            }
+          ]
+        },
+        {
+          "round_no": 11,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 47510
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 37303
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 261
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 55
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 30
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 77
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 58
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 101
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 199
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 654
+            }
+          ]
+        },
+        {
+          "round_no": 12,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 50736
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 39964
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 271
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 61
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 32
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 80
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 64
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 109
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 208
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 689
+            }
+          ]
+        },
+        {
+          "round_no": 13,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 54153
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 43594
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 287
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 69
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 35
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 88
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 65
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 116
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 213
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 742
+            }
+          ]
+        },
+        {
+          "round_no": 14,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 57775
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 47585
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 304
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 75
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 38
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 93
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 69
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 122
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 223
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 804
+            }
+          ]
+        },
+        {
+          "round_no": 15,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 61281
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 51488
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 321
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 79
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 39
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 98
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 79
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 124
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 229
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 886
+            }
+          ]
+        },
+        {
+          "round_no": 16,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 65051
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 54049
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 339
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 85
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 42
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 106
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 86
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 137
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 243
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 935
+            }
+          ]
+        },
+        {
+          "round_no": 17,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 68575
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 57571
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 361
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 88
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 44
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 112
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 89
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 142
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 260
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1001
+            }
+          ]
+        },
+        {
+          "round_no": 18,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 74019
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 60763
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 387
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 93
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 49
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 124
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 96
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 154
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 286
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1094
+            }
+          ]
+        },
+        {
+          "round_no": 19,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 78786
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 63673
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 411
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 96
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 51
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 132
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 109
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 164
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 308
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1167
+            }
+          ]
+        },
+        {
+          "round_no": 20,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 83759
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 67050
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 440
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 102
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 53
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 136
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 113
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 174
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 335
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1253
+            }
+          ]
+        },
+        {
+          "round_no": 21,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 87928
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 70485
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 472
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 106
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 60
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 136
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 118
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 182
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 356
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1316
+            }
+          ]
+        },
+        {
+          "round_no": 22,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 93400
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 73197
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 502
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 108
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 62
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 145
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 120
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 188
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 373
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1391
+            }
+          ]
+        },
+        {
+          "round_no": 23,
+          "candidates": [
+            {
+              "candidate": "UMESH HULLAPPA METI",
+              "party_abv": "INC",
+              "votes": 98802
+            },
+            {
+              "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+              "party_abv": "BJP",
+              "votes": 76429
+            },
+            {
+              "candidate": "ANTHOSH SAVVASE",
+              "party_abv": "UPP",
+              "votes": 520
+            },
+            {
+              "candidate": "TALAWAR SHIVAKUMAR",
+              "party_abv": "BIP1",
+              "votes": 112
+            },
+            {
+              "candidate": "THEJORAMASHETTY DEVANGA",
+              "party_abv": "Janatha Chaluvali Bharatha",
+              "votes": 62
+            },
+            {
+              "candidate": "NAGARAJ.S.KALAKUTAGAR",
+              "party_abv": "KRS",
+              "votes": 152
+            },
+            {
+              "candidate": "SIDDAPPA GODI",
+              "party_abv": "All India Janaraksha Party",
+              "votes": 128
+            },
+            {
+              "candidate": "ANAND JAKATI",
+              "party_abv": "IND",
+              "votes": 197
+            },
+            {
+              "candidate": "RAVI SHIVAPPA PADASALAGI",
+              "party_abv": "IND",
+              "votes": 388
+            },
+            {
+              "candidate": "NOTA",
+              "party_abv": "NOTA",
+              "votes": 1457
+            }
+          ]
+        }
+      ],
+      "postal_votes": [
+        {
+          "candidate": "UMESH HULLAPPA METI",
+          "party_abv": "INC",
+          "evm_votes": 98802,
+          "postal_votes": 117,
+          "total_votes": 98919
+        },
+        {
+          "candidate": "CHARANTIMATH VEERABHADRAYYA (VEERANNA)",
+          "party_abv": "BJP",
+          "evm_votes": 76429,
+          "postal_votes": 158,
+          "total_votes": 76587
+        },
+        {
+          "candidate": "ANTHOSH SAVVASE",
+          "party_abv": "UPP",
+          "evm_votes": 520,
+          "postal_votes": 1,
+          "total_votes": 521
+        },
+        {
+          "candidate": "TALAWAR SHIVAKUMAR",
+          "party_abv": "BIP1",
+          "evm_votes": 112,
+          "postal_votes": 0,
+          "total_votes": 112
+        },
+        {
+          "candidate": "THEJORAMASHETTY DEVANGA",
+          "party_abv": "Janatha Chaluvali Bharatha",
+          "evm_votes": 62,
+          "postal_votes": 0,
+          "total_votes": 62
+        },
+        {
+          "candidate": "NAGARAJ.S.KALAKUTAGAR",
+          "party_abv": "KRS",
+          "evm_votes": 152,
+          "postal_votes": 2,
+          "total_votes": 154
+        },
+        {
+          "candidate": "SIDDAPPA GODI",
+          "party_abv": "All India Janaraksha Party",
+          "evm_votes": 128,
+          "postal_votes": 3,
+          "total_votes": 131
+        },
+        {
+          "candidate": "ANAND JAKATI",
+          "party_abv": "IND",
+          "evm_votes": 197,
+          "postal_votes": 1,
+          "total_votes": 198
+        },
+        {
+          "candidate": "RAVI SHIVAPPA PADASALAGI",
+          "party_abv": "IND",
+          "evm_votes": 388,
+          "postal_votes": 1,
+          "total_votes": 389
+        },
+        {
+          "candidate": "NOTA",
+          "party_abv": "NOTA",
+          "evm_votes": 1457,
+          "postal_votes": 1,
+          "total_votes": 1458
+        }
+      ]
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import { handleCandidateHistory } from './queries/candidate-history.js';
 import { handleConstituencyHistory } from './queries/constituency-history.js';
 import { handleDownload } from './queries/download.js';
 import { handleTvChannels } from './queries/tv-channels.js';
+import { handleByeElections } from './queries/bye-elections.js';
 
 export default {
   async fetch(request, env) {
@@ -46,11 +47,12 @@ export default {
       if (path === '/api/constituency-history') return handleConstituencyHistory(request, env);
       if (path === '/api/download') return handleDownload(request, env);
       if (path === '/api/tv-channels') return handleTvChannels();
+      if (path === '/api/bye-elections') return handleByeElections(request, env);
 
       // Constituency detail: /api/constituency/:state/:ac
       const constMatch = path.match(/^\/api\/constituency\/([^/]+)\/(\d+)$/);
       if (constMatch) {
-        return handleConstituency(constMatch[1], constMatch[2], env);
+        return handleConstituency(constMatch[1], constMatch[2], env, request);
       }
 
       return errorResponse('Not found', 404);
