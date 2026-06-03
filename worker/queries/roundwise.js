@@ -4,7 +4,12 @@ import { getColor } from '../shared/party-colors.js';
 export async function handleRoundwise(request, env) {
   const url = new URL(request.url);
   const state = url.searchParams.get('state');
+  const electionId = url.searchParams.get('election_id')?.trim();
   if (!state) return jsonResponse({ error: 'state required' }, 400);
+
+  const electionFilter = electionId ? 'AND election_id = ?' : '';
+  const binds = electionId ? [state, electionId] : [state];
+  const fBinds = electionId ? [state, electionId] : [state];
 
   // Phase 1: counting rounds (exclude 999)
   const rows = await env.DB.prepare(`
@@ -15,12 +20,12 @@ export async function handleRoundwise(request, env) {
                ORDER BY votes DESC
              ) as rn
       FROM rounds_ac
-      WHERE state_code = ? AND round_no != 999
+      WHERE state_code = ? AND round_no != 999 ${electionFilter}
     )
     SELECT ac_no, round_no, party_abv, votes
     FROM ranked WHERE rn = 1
     ORDER BY ac_no, round_no
-  `).bind(state).all();
+  `).bind(...binds).all();
 
   // Build per-AC sorted round data
   const acData = new Map();    // ac_no -> [{round, party, votes}]
@@ -69,19 +74,18 @@ export async function handleRoundwise(request, env) {
   const fRows = await env.DB.prepare(`
     WITH ranked AS (
       SELECT r.state_code, r.ac_no,
-             p.abv as party_abv, r.votes,
+             r.party_abv, r.votes,
              ROW_NUMBER() OVER (
                PARTITION BY r.state_code, r.ac_no
                ORDER BY r.votes DESC
              ) as rank
       FROM rounds_ac r
-      JOIN parties p ON r.party_abv = p.abv
-      WHERE r.state_code = ? AND r.round_no = 999
+      WHERE r.state_code = ? AND r.round_no = 999 ${electionFilter}
     )
     SELECT party_abv, SUM(votes) as total_votes
     FROM ranked WHERE rank = 1
     GROUP BY party_abv
-  `).bind(state).all();
+  `).bind(...fBinds).all();
 
   const fData = new Map();
   for (const row of fRows.results) {

@@ -4,7 +4,11 @@ import { getColor } from '../shared/party-colors.js';
 export async function handleAcRaces(request, env) {
   const url = new URL(request.url);
   const state = url.searchParams.get('state');
+  const electionId = url.searchParams.get('election_id')?.trim();
   if (!state) return jsonResponse({ error: 'state required' }, 400);
+
+  const electionFilter = electionId ? 'AND r.election_id = ?' : '';
+  const binds = electionId ? [state, electionId, state, electionId] : [state, state];
 
   const rows = await env.DB.prepare(`
     WITH latest_rounds AS (
@@ -12,7 +16,7 @@ export async function handleAcRaces(request, env) {
       FROM (
         SELECT state_code, ac_no, MAX(round_no) as max_round
         FROM rounds_ac
-        WHERE state_code = ?
+        WHERE state_code = ? ${electionId ? 'AND election_id = ?' : ''}
         GROUP BY state_code, ac_no
       ) lr
       JOIN constituency_status cs
@@ -22,7 +26,7 @@ export async function handleAcRaces(request, env) {
     ranked AS (
       SELECT r.state_code, r.ac_no, r.ac_name,
              r.candidate,
-             p.abv as party_abv, p.name as party_name,
+             r.party_abv,
              r.votes,
              cs.current_round,
              cs.won,
@@ -43,9 +47,9 @@ export async function handleAcRaces(request, env) {
       JOIN constituency_status cs
         ON r.state_code = cs.state_code
         AND r.ac_no = cs.ac_no
-      JOIN parties p ON r.party_abv = p.abv
+      WHERE r.state_code = ? ${electionFilter}
     )
-    SELECT ac_no, ac_name, candidate, party_abv, party_name,
+    SELECT ac_no, ac_name, candidate, party_abv,
            votes, rank,
            current_round, won, latest_round,
            form20_url, form20_status,
@@ -53,14 +57,16 @@ export async function handleAcRaces(request, env) {
            SUM(votes) OVER (PARTITION BY ac_no) as total_votes
     FROM ranked
     ORDER BY ac_no, rank
-  `).bind(state).all();
+  `).bind(...binds).all();
 
-  // Get party symbols
-  const symbolRows = await env.DB.prepare(
-    'SELECT abv, symbol_url FROM parties WHERE symbol_url IS NOT NULL'
+  // Get party names and symbols
+  const partyRows = await env.DB.prepare(
+    'SELECT abv, name, symbol_url FROM parties WHERE symbol_url IS NOT NULL'
   ).all();
-  const symbols = {};
-  for (const r of symbolRows.results) symbols[r.abv] = r.symbol_url;
+  const partyInfo = {};
+  for (const r of partyRows.results) {
+    partyInfo[r.abv] = { name: r.name, symbol_url: r.symbol_url };
+  }
 
   // Group by AC
   const acMap = new Map();
@@ -83,13 +89,14 @@ export async function handleAcRaces(request, env) {
       });
     }
     const ac = acMap.get(row.ac_no);
+    const pi = partyInfo[row.party_abv] || {};
     ac.candidates.push({
       ac_no: row.ac_no, ac_name: row.ac_name,
       candidate: row.candidate,
-      party_abv: row.party_abv, party_name: row.party_name,
+      party_abv: row.party_abv, party_name: pi.name || row.party_abv,
       votes: row.votes, rank: row.rank,
       color: getColor(row.party_abv),
-      symbol_url: symbols[row.party_abv] || null,
+      symbol_url: pi.symbol_url || null,
     });
   }
 
