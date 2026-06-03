@@ -5449,14 +5449,16 @@ function toggleByeElection() {
       candidates: be.candidates,
       election_id: be.election_id,
     };
-    drawRaceFinal(beRace);
+    const drawFn = raceView === 'roundwise' ? drawRaceRoundwise : drawRaceFinal;
+    drawFn(beRace);
   } else {
     // Switch back to original results
     toggleText.textContent = 'Bye-Election held';
     toggleBtn.style.borderColor = '';
     toggleBtn.style.background = '';
     toggleBtn.style.color = '';
-    drawRaceFinal(currentRace);
+    const drawFn = raceView === 'roundwise' ? drawRaceRoundwise : drawRaceFinal;
+    drawFn(currentRace);
   }
 }
 
