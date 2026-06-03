@@ -3103,7 +3103,6 @@
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-const POLL_INTERVAL = 180000;
 const THEME_STORAGE_KEY = 'eci-dashboard-theme';
 const STATE_STORAGE_KEY = 'eci-dashboard-state';
 const ELECTION_STORAGE_KEY = 'eci-dashboard-election';
@@ -3128,8 +3127,6 @@ if (!STATIC_BASE) {
 let currentState = localStorage.getItem(STATE_STORAGE_KEY) || '';
 let currentMajority = null;
 let chart = null;
-let pollTimer = null;
-let lastDeclaredCount = -1;
 let partyNames = {};
 let partySymbols = {};
 let partyDetails = {};
@@ -3545,7 +3542,6 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
     if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
     if (racesChart) { racesChart.destroy(); racesChart = null; }
     if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
-    lastDeclaredCount = -1;
     lastDataFingerprint = '';
     // Update state bar to show only states in this election
     updateStateBarForElection(election.states);
@@ -3568,7 +3564,7 @@ function updateStateBarForElection(stateCodes) {
 // Boot
 loadElections().then(() => {
   init();
-  setInterval(fetchStatus, 10000);
+  setInterval(() => { fetchStatus(); fetchData(); }, 10000);
   setInterval(() => {
     if (knownStates.length) loadStateStatuses(knownStates);
   }, 30000);
@@ -3717,7 +3713,6 @@ async function init() {
   await fetchStatus();
   loadStateCharts();
   fetchData();
-  pollTimer = setInterval(fetchData, POLL_INTERVAL);
 }
 
 // ---------------------------------------------------------------------------
@@ -3775,14 +3770,6 @@ async function fetchStatus() {
     const resp = await fetch(url);
     const status = await resp.json();
     updateStatusBar(status);
-    // When declared count changes, refresh charts immediately
-    const s = status.statuses || {};
-    const done = s.DONE || 0;
-    if (lastDeclaredCount !== -1 && done !== lastDeclaredCount) {
-      lastDataFingerprint = '';
-      fetchData();
-    }
-    lastDeclaredCount = done;
   } catch (e) { /* ignore */ }
 }
 
@@ -6248,7 +6235,6 @@ function renderStateBar(states) {
       localStorage.setItem(STATE_STORAGE_KEY, s.code);
       localStorage.removeItem(RACE_AC_STORAGE_KEY);
       lastDataFingerprint = '';
-      lastDeclaredCount = -1;
       renderStateBar(states);
       fetchData();
       fetchStatus();
