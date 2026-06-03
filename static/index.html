@@ -1007,6 +1007,24 @@
     opacity: 0.5;
     user-select: none;
   }
+  .race-sort-group-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    opacity: 0.6;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    user-select: none;
+  }
+  .race-sort-group-sep {
+    display: inline-block;
+    width: 1px;
+    height: 13px;
+    background: var(--muted);
+    opacity: 0.3;
+    align-self: center;
+    margin: 0 10px;
+  }
   #races-chart-container {
     height: 552px !important;
   }
@@ -2930,14 +2948,16 @@
   <div class="card" id="races-card">
     <h2>Results by Constituency</h2>
     <div class="race-sort-bar" id="race-sort-bar">
-      <button class="race-sort-link active" data-sort="alpha" type="button">Sort by Constituency Name</button>
+      <span class="race-sort-group-label">Sort by</span>
+      <button class="race-sort-link active" data-sort="alpha" type="button">Constituency Name</button>
       <span class="race-sort-sep">|</span>
       <button class="race-sort-link" data-sort="acno" type="button">Constituency No.</button>
       <span class="race-sort-sep">|</span>
       <button class="race-sort-link" data-sort="margin-desc" type="button">Greatest Win Margin</button>
       <span class="race-sort-sep">|</span>
       <button class="race-sort-link" data-sort="margin-asc" type="button">Smallest Win Margin</button>
-      <span class="race-sort-sep">|</span>
+      <span class="race-sort-group-sep"></span>
+      <span class="race-sort-group-label">Filter by</span>
       <button class="race-sort-link" data-sort="form20" type="button" id="form20-sort-btn">Form 20 Priority</button>
       <span class="race-sort-sep">|</span>
       <button class="race-sort-link" data-sort="bye" type="button" id="bye-sort-btn" disabled style="opacity:0.4;cursor:default;">Bye-Election Priority</button>
@@ -3471,6 +3491,12 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
     }
     stateStatuses = {};
     knownStates = [];
+    // Reset sort to default on election change
+    raceSortMode = 'alpha';
+    localStorage.setItem(RACE_SORT_STORAGE_KEY, 'alpha');
+    document.querySelectorAll('#race-sort-bar .race-sort-link').forEach(b => {
+      b.classList.toggle('active', b.dataset.sort === 'alpha');
+    });
     // Clear UI
     document.getElementById('state-bar').innerHTML = '';
     document.getElementById('perf-legend-tally').innerHTML = '';
