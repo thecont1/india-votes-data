@@ -4180,7 +4180,7 @@ function drawSlopeChart(canvas, cands, theme) {
   const dpr = window.devicePixelRatio || 1;
   const isMobile = window.matchMedia('(max-width: 640px)').matches;
   const W = canvas.parentNode.clientWidth || 600;
-  const LABEL_W = isMobile ? 82 : 130;
+  const LABEL_W = isMobile ? 82 : 180;
   const colLeft = LABEL_W;
   const colRight = W - LABEL_W;
   const PAD_TOP = 52;
@@ -4197,20 +4197,19 @@ function drawSlopeChart(canvas, cands, theme) {
   const byEVM = [...cands].sort((a, b) => b.evmVotes - a.evmVotes);
   const byCombined = [...cands].sort((a, b) => b.combinedVotes - a.combinedVotes);
   const N = cands.length;
-  // Two-zone layout:
-  //   Left column  — EVM votes    — distributed in the BOTTOM half (y: midH+gap → H-PAD_BOT)
-  //   Right column — EVM+Postal  — distributed in the TOP half    (y: PAD_TOP → midH-gap)
-  // Every line therefore sweeps from bottom-left to top-right.
-  const midH = H / 2;
-  const gap = 12;
-  const leftBot = H - PAD_BOT;
-  const rightBot = midH - gap;
-  // Push both columns toward center: left dots up, right dots down
-  const shift = (leftBot - (midH + gap)) * 0.25;
-  const leftTop = midH + gap - shift;
-  const rightTop = PAD_TOP + shift;
-  const leftStep = (leftBot - leftTop) / N;
-  const leftRankY = (i) => leftTop + (i + 0.5) * leftStep;
+  // Equal-range rank layout: both columns use 60 % of the drawable height.
+  //   Left  — rank 1 at 65 % from bottom (35 % from top), rank N at 5 % from bottom.
+  //   Right — rank 1 at 5 % from top,                    rank N at 65 % from top.
+  // Both ranges equal 0.60 × drawRange → identical step size → equi-distant dots.
+  const drawTop = PAD_TOP;
+  const drawBot = H - PAD_BOT;
+  const drawRange = drawBot - drawTop;
+  const leftTop  = drawTop + drawRange * 0.35;
+  const leftBot  = drawBot - drawRange * 0.05;
+  const rightTop = drawTop + drawRange * 0.05;
+  const rightBot = drawTop + drawRange * 0.65;
+  const leftStep  = (leftBot  - leftTop)  / N;
+  const leftRankY  = (i) => leftTop  + (i + 0.5) * leftStep;
   const rightStep = (rightBot - rightTop) / N;
   const rightRankY = (i) => rightTop + (i + 0.5) * rightStep;
 
@@ -4235,8 +4234,8 @@ function drawSlopeChart(canvas, cands, theme) {
   ctx.textAlign = 'center';
   ctx.font = `600 ${isMobile ? 11 : 12}px ${theme.fontUi}`;
   ctx.fillStyle = theme.label;
-  ctx.fillText('EVM Votes', colLeft, 18);
-  ctx.fillText('EVM+Postal', colRight, 18);
+  ctx.fillText('Rank by EVM Votes', colLeft, 18);
+  ctx.fillText('Rank by EVM+Postal Votes', colRight, 18);
 
   // Connecting straight lines (draw under dots/labels)
   cands.forEach(c => {
@@ -4271,7 +4270,7 @@ function drawSlopeChart(canvas, cands, theme) {
 
     const nameMax = LABEL_W - 10;
     const words = c.candidate.split(' ');
-    const displayName = isMobile ? words[words.length - 1] : words.slice(0, 2).join(' ');
+    const displayName = isMobile ? words[words.length - 1] : c.candidate;
     ctx.textAlign = 'right';
     ctx.font = `${isTop ? '600' : '400'} ${isMobile ? 10 : 11}px ${theme.fontUi}`;
     ctx.fillStyle = isTop ? theme.label : theme.muted;
@@ -4300,7 +4299,7 @@ function drawSlopeChart(canvas, cands, theme) {
 
     const nameMax = LABEL_W - 14;
     const words = c.candidate.split(' ');
-    const displayName = isMobile ? words[words.length - 1] : words.slice(0, 2).join(' ');
+    const displayName = isMobile ? words[words.length - 1] : c.candidate;
     ctx.textAlign = 'left';
     ctx.font = `${isTop ? '600' : '400'} ${isMobile ? 10 : 11}px ${theme.fontUi}`;
     ctx.fillStyle = isTop ? theme.label : theme.muted;
@@ -5698,18 +5697,23 @@ async function drawRaceRoundwise(race) {
     let rounds = [...new Set(rows.map(r => r.round_no))]
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
 
-    // If both 998+999 exist, show only those as a slope chart
-    if (rounds.includes(998) && rounds.includes(999)) {
-      rounds = [998, 999];
-      rows = rows.filter(r => r.round_no === 998 || r.round_no === 999);
-    }
-
     // If only round 999 exists (past elections), show as "EVM+Postal Votes"
     if (rounds.length === 1 && rounds[0] === 999) {
       rounds = [999];
       // Continue to chart rendering — will show as "EVM+Postal Votes"
     }
     { const overlay = document.getElementById('race-roundwise-overlay'); if (overlay) overlay.style.display = 'none'; }
+
+    // SLOPE CHART: activates only when the dataset has EXACTLY rounds 998 and 999
+    const isSlope = rounds.length === 2 && rounds.includes(998) && rounds.includes(999);
+
+    // For multi-round elections that also include round 998, strip it from the
+    // regular line chart — it is a redundant EVM summary that duplicates the
+    // final counting-round total and would appear as a confusing "Round 998" point.
+    if (!isSlope && rounds.includes(998)) {
+      rounds = rounds.filter(r => r !== 998);
+      rows   = rows.filter(r => r.round_no !== 998);
+    }
 
     const labels = rounds.map(rn => {
       if (rn === 999) return 'EVM+Postal';
@@ -5718,9 +5722,6 @@ async function drawRaceRoundwise(race) {
       if (has999 && rn === Math.max(...rounds.filter(r => r !== 999))) return 'EVM';
       return `${rn}`;
     });
-
-    // SLOPE CHART: rounds 998+999 → EVM → EVM+Postal slope
-    const isSlope = rounds.length === 2 && rounds.includes(998) && rounds.includes(999);
 
     // Store for card builder
     _rwRounds = rounds;
