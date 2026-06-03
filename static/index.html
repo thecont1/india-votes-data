@@ -2942,6 +2942,7 @@
       <button class="toggle-btn active" type="button" data-view="tally" aria-pressed="true">Seat Tally</button>
       <button class="toggle-btn" type="button" data-view="share" aria-pressed="false">Vote Share</button>
       <button class="toggle-btn" type="button" data-view="roundwise" aria-pressed="false">Roundwise</button>
+      <button class="toggle-btn" type="button" data-view="assembly" aria-pressed="false">The Assembly</button>
     </div>
     <div class="flip-wrap" id="perf-flip-wrap">
       <div class="flipper" id="perf-flipper">
@@ -2965,6 +2966,16 @@
                 <div class="icon">📊</div>
                     <h3>This view is available in single-state mode only</h3>
                     <p>Pick a state from the buttons above to see constituency-level results.</p>
+              </div>
+            </div>
+            <div id="perf-chart-area-assembly" style="visibility:hidden;">
+              <div class="chart-container">
+                <canvas id="assembly-chart"></canvas>
+              </div>
+              <div id="assembly-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <div class="icon">🏛️</div>
+                <h3>This view is available in single-state mode only</h3>
+                <p>Pick a state from the buttons above to see the assembly.</p>
               </div>
             </div>
           </div>
@@ -3167,8 +3178,9 @@ function safeImgSrc(url) {
   } catch (_) { /* relative URL — allow */ return url; }
   return '';
 }
-let perfView = 'tally';  // 'tally', 'share', or 'roundwise'
+let perfView = 'tally';  // 'tally', 'share', 'roundwise', or 'assembly'
 let perfParties = [];  // shared party list for both views
+let assemblyAnimFrame = null;  // rAF id for assembly jitter animation
 let raceSortMode = localStorage.getItem(RACE_SORT_STORAGE_KEY) || 'alpha';
 
 // Restore active sort button from saved state
@@ -3296,6 +3308,11 @@ function refreshChartTheme() {
     chartInstance.options.animation = getChartAnimation(0);
     chartInstance.update('none');
   });
+  // Restart assembly animation with updated colours
+  if (perfView === 'assembly' && currentState) {
+    if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
+    renderAssembly(currentState);
+  }
 }
 
 function updateThemeMenu(nextTheme) {
@@ -3602,6 +3619,7 @@ function resetToDefaults() {
   if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
   if (racesChart) { racesChart.destroy(); racesChart = null; }
   if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+  if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
   // Reset toggle buttons
   document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.view === 'tally');
@@ -3615,6 +3633,8 @@ function resetToDefaults() {
   document.getElementById('perf-chart-area-tally').style.visibility = '';
   document.getElementById('perf-chart-area-share').style.visibility = 'hidden';
   document.getElementById('perf-chart-area-roundwise').style.visibility = 'hidden';
+  document.getElementById('perf-chart-area-assembly').style.visibility = 'hidden';
+  document.getElementById('assembly-overlay').style.display = 'none';
   // Reset race sort links to alpha
   document.querySelectorAll('#race-sort-bar .race-sort-link').forEach(b => {
     b.classList.toggle('active', b.dataset.sort === 'alpha');
@@ -3631,32 +3651,38 @@ function resetToDefaults() {
   });
 }
 
-// Toggle between Seat Tally, Vote Share, and Roundwise
+// Toggle between Seat Tally, Vote Share, Roundwise, and Assembly
 document.getElementById('perf-toggle').addEventListener('click', (e) => {
   const btn = e.target.closest('.toggle-btn');
   if (!btn) return;
   const view = btn.dataset.view;
   if (view === perfView) return;
 
-  // Roundwise only works for single state - show overlay in Overall view
-  if (view === 'roundwise' && !currentState) {
-    perfView = 'roundwise';
+  // Roundwise / Assembly only work for single state - show overlay in Overall view
+  if ((view === 'roundwise' || view === 'assembly') && !currentState) {
+    perfView = view;
     document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
       const isActive = b.dataset.view === view;
       b.classList.toggle('active', isActive);
       b.setAttribute('aria-pressed', String(isActive));
     });
-    ['tally', 'share', 'roundwise'].forEach(k => {
+    ['tally', 'share', 'roundwise', 'assembly'].forEach(k => {
       document.getElementById('perf-chart-area-' + k).style.visibility = k === view ? '' : 'hidden';
     });
-    document.getElementById('roundwise-overlay').style.display = 'flex';
+    if (view === 'roundwise') {
+      document.getElementById('roundwise-overlay').style.display = 'flex';
+      if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+    } else if (view === 'assembly') {
+      document.getElementById('assembly-overlay').style.display = 'flex';
+      if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
+    }
     document.getElementById('perf-legend-tally').innerHTML = '';
-    if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
     return;
   }
 
-  // Hide overlay if switching away from roundwise or entering state view
+  // Hide overlays if switching away or entering state view
   document.getElementById('roundwise-overlay').style.display = 'none';
+  document.getElementById('assembly-overlay').style.display = 'none';
 
   perfView = view;
   document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
@@ -3664,13 +3690,15 @@ document.getElementById('perf-toggle').addEventListener('click', (e) => {
     b.classList.toggle('active', isActive);
     b.setAttribute('aria-pressed', String(isActive));
   });
-  ['tally', 'share', 'roundwise'].forEach(k => {
+  ['tally', 'share', 'roundwise', 'assembly'].forEach(k => {
     document.getElementById('perf-chart-area-' + k).style.visibility = k === view ? '' : 'hidden';
   });
   if (view === 'roundwise' && currentState) {
     renderRoundwise(currentState);
   } else if (view === 'share') {
     renderVoteShare();
+  } else if (view === 'assembly' && currentState) {
+    renderAssembly(currentState);
   }
 });
 
@@ -3787,16 +3815,29 @@ function loadStateCharts() {
     }
     document.getElementById('perf-chart-area-roundwise').style.visibility = '';
   }
+  if (perfView === 'assembly') {
+    if (currentState) {
+      document.getElementById('assembly-overlay').style.display = 'none';
+    } else {
+      document.getElementById('assembly-overlay').style.display = 'flex';
+    }
+    document.getElementById('perf-chart-area-assembly').style.visibility = '';
+  }
   renderRaces(currentState);
-  // Roundwise only makes sense for a single state - skip in Overall view
+  // Roundwise / Assembly only make sense for a single state - skip in Overall view
   if (currentState) {
-    renderRoundwise(currentState);
+    if (perfView === 'roundwise') renderRoundwise(currentState);
+    if (perfView === 'assembly') renderAssembly(currentState);
   } else {
-    // Clear legend when entering Overall view (no roundwise data)
+    // Clear legend when entering Overall view (no roundwise/assembly data)
     document.getElementById('perf-legend-tally').innerHTML = '';
     if (roundwiseChart) {
       roundwiseChart.destroy();
       roundwiseChart = null;
+    }
+    if (assemblyAnimFrame) {
+      cancelAnimationFrame(assemblyAnimFrame);
+      assemblyAnimFrame = null;
     }
   }
 }
@@ -5230,6 +5271,9 @@ function renderRaces(stateCode) {
 
       populateRaceDropdown();
 
+      // Update assembly view if currently active
+      if (perfView === 'assembly') renderAssembly(stateCode);
+
       // Enable/disable Form 20 Priority button based on available statuses
       const form20Btn = document.getElementById('form20-sort-btn');
       const form20Statuses = new Set(['MISMATCH', 'ERROR', 'UNVERIFIED', 'UNAVAILABLE']);
@@ -6173,6 +6217,186 @@ async function renderRoundwise(stateCode) {
   } catch (e) {
     console.warn('Failed to load roundwise:', e);
   }
+}
+
+// ---------------------------------------------------------------------------
+// The Assembly — hemicycle of jittering seat dots
+// ---------------------------------------------------------------------------
+function renderAssembly(stateCode) {
+  if (!stateCode) return;
+  const canvas = document.getElementById('assembly-chart');
+  if (!canvas) return;
+
+  if (assemblyAnimFrame) {
+    cancelAnimationFrame(assemblyAnimFrame);
+    assemblyAnimFrame = null;
+  }
+
+  if (!racesData || !racesData.length) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
+
+  // Build one winner entry per seat
+  const winners = [];
+  for (const race of racesData) {
+    const cands = race.candidates || [];
+    const winner = cands.find(c => c.won) || cands[0];
+    if (!winner) continue;
+    winners.push({
+      party_abv: winner.party_abv,
+      color: winner.color || '#888888',
+    });
+  }
+
+  if (!winners.length) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
+
+  // Group by party
+  const partyMap = new Map();
+  for (const w of winners) {
+    if (!partyMap.has(w.party_abv)) {
+      partyMap.set(w.party_abv, { count: 0, color: w.color });
+    }
+    partyMap.get(w.party_abv).count++;
+  }
+
+  const sortedParties = [...partyMap.entries()]
+    .sort((a, b) => b[1].count - a[1].count);
+
+  buildCircleLegend(
+    document.getElementById('perf-legend-tally'),
+    sortedParties.map(([abv]) => abv),
+    sortedParties.map(([, d]) => d.color),
+    sortedParties.map(([abv]) => partySymbols[abv] || null)
+  );
+
+  // Canvas setup (DPR-aware)
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.closest('.perf-chart-area').getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = rect.width;
+  const H = rect.height;
+
+  const DOT_RADIUS = 8;     // larger dots — faces will go inside later
+  const DOT_GAP = 2;
+  const ROW_GAP = DOT_RADIUS * 2 + DOT_GAP;
+  const ARC_MARGIN = 0.06; // radians kept clear at each end
+  const PAD = DOT_RADIUS + 4;
+
+  const baseline = H - DOT_RADIUS; // bottom of bottom-most dots
+  const outerR = Math.min((W - PAD * 2) / 2, baseline - DOT_RADIUS);
+  if (outerR < DOT_RADIUS * 2) return;
+
+  // Compute available rows (outermost first)
+  const rows = [];
+  for (let r = 0; ; r++) {
+    const radius = outerR - r * ROW_GAP;
+    if (radius < DOT_RADIUS * 2) break;
+    rows.push(radius);
+    // Each row can hold at most arcLen / dotSpacing dots; stop once we have enough capacity
+    const totalCap = rows.reduce((s, rad) => {
+      return s + Math.max(1, Math.floor((Math.PI - ARC_MARGIN * 2) * rad / (DOT_RADIUS * 2 + DOT_GAP)));
+    }, 0);
+    if (totalCap >= winners.length) break;
+  }
+  if (!rows.length) return;
+
+  const totalSeats = winners.length;
+  const arcSpan = Math.PI - ARC_MARGIN * 2; // total angular span
+
+  // Each party gets an angular wedge proportional to its seat count.
+  // Within each party's wedge, dots are placed on every row, packed
+  // tightly in the angular dimension.
+  //
+  // Strategy:
+  //   1. Assign each party an angular range [startAngle, endAngle]
+  //      (measured from left = Math.PI - ARC_MARGIN, sweeping right)
+  //   2. For each row, place dots at the angular resolution of that row,
+  //      but only within the party's angular range.
+
+  // Dot angular spacing per row (so dots on each row are evenly spaced)
+  const dotAngularStep = (rad) => (DOT_RADIUS * 2 + DOT_GAP) / rad; // radians between dot centres
+
+  // Assign angular wedges to parties
+  const partyWedges = [];
+  let angleUsed = 0;
+  for (const [abv, d] of sortedParties) {
+    const wedge = (d.count / totalSeats) * arcSpan;
+    partyWedges.push({ color: d.color, start: angleUsed, end: angleUsed + wedge });
+    angleUsed += wedge;
+  }
+
+  // Build seat list: iterate each party's wedge across all rows
+  const seats = [];
+  for (const { color, start, end } of partyWedges) {
+    for (const radius of rows) {
+      const step = dotAngularStep(radius);
+      // Centre dots within this wedge on this row
+      const wedgeSpan = end - start;
+      const nFit = Math.max(0, Math.floor(wedgeSpan / step));
+      if (nFit === 0) continue;
+      const usedSpan = (nFit - 1) * step;
+      const offset = (wedgeSpan - usedSpan) / 2; // centre dots in wedge
+      for (let i = 0; i < nFit; i++) {
+        // angle sweeps left→right: Math.PI - ARC_MARGIN is left end
+        const angle = (Math.PI - ARC_MARGIN) - (start + offset + i * step);
+        seats.push({
+          x: W / 2 + radius * Math.cos(angle),
+          y: baseline - radius * Math.sin(angle),
+          color,
+          phase: Math.random() * Math.PI * 2,
+          freq: 0.5 + Math.random() * 1.5,
+        });
+      }
+    }
+  }
+
+  const isBw = document.documentElement.dataset.theme === 'black-white';
+  const strokeColor = isBw ? '#000000' : 'transparent';
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const s of seats) {
+      const jx = s.jitterX || 0;
+      const jy = s.jitterY || 0;
+      ctx.beginPath();
+      ctx.arc(s.x + jx, s.y + jy, DOT_RADIUS, 0, Math.PI * 2);
+      ctx.fillStyle = s.color;
+      ctx.fill();
+      if (strokeColor !== 'transparent') {
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+  }
+
+  if (prefersReducedMotion.matches) {
+    draw();
+    return;
+  }
+
+  function animate(time) {
+    const t = time * 0.001;
+    for (const s of seats) {
+      s.jitterX = Math.sin(t * s.freq + s.phase) * 1.5;
+      s.jitterY = Math.cos(t * s.freq * 0.7 + s.phase) * 1.5;
+    }
+    draw();
+    assemblyAnimFrame = requestAnimationFrame(animate);
+  }
+
+  assemblyAnimFrame = requestAnimationFrame(animate);
 }
 
 // ---------------------------------------------------------------------------
