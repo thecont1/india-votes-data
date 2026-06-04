@@ -3238,6 +3238,7 @@ function safeImgSrc(url) {
 }
 let perfView = 'tally';  // 'tally', 'share', 'roundwise', or 'assembly'
 let perfParties = [];  // shared party list for both views
+let perfAllParties = [];  // ALL parties from API (for vote-share denominator)
 let assemblyAnimFrame = null;  // rAF id for assembly jitter animation
 let raceSortMode = localStorage.getItem(RACE_SORT_STORAGE_KEY) || 'alpha';
 
@@ -4598,6 +4599,7 @@ function renderChart(parties, majority) {
 
   // Store for vote share view — ALL parties, not just top 15
   perfParties = sorted;
+  perfAllParties = parties;  // full list for vote-share denominator
 
   // Chart data: top 15 + Others
   const labels = main.map(p => p.party_abv);
@@ -4839,7 +4841,7 @@ function createStripeCanvas(color) {
 function renderVoteShare() {
   if (!perfParties.length) return;
 
-  const grandTotal = perfParties.reduce((s, p) => s + (p.total_votes || 0), 0);
+  const grandTotal = (perfAllParties.length ? perfAllParties : perfParties).reduce((s, p) => s + (p.total_votes || 0), 0);
   if (grandTotal === 0) return;
 
   // Legend: ALL parties
