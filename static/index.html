@@ -6212,7 +6212,7 @@ async function renderRoundwise(stateCode) {
     const ctx = canvas.getContext('2d');
     const theme = chartTheme();
 
-    const labels = rounds.map(rn => rn === 999 ? 'Final' : `${rn}`);
+    const labels = rounds.map(rn => rn === 999 ? 'Final' : `Round ${rn}`);
 
     const datasets = series.map(s => ({
       label: s.party_abv,
