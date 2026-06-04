@@ -6549,18 +6549,18 @@ function renderAssembly(stateCode) {
     if (!nearest) { tooltip.style.opacity = '0'; return; }
 
     const symHtml = nearest.symbol_url
-      ? `<img src="${nearest.symbol_url}" alt="" onerror="this.style.display='none'">`
+      ? `<img src="${safeImgSrc(nearest.symbol_url)}" alt="" onerror="this.style.display='none'">`
       : '';
 
     tooltip.style.position = 'absolute';
     tooltip.innerHTML =
-      `<div class="at-accent" style="background:${nearest.color}"></div>` +
-      `<div class="at-name">${nearest.candidate}</div>` +
-      `<div class="at-party">${symHtml}${nearest.party_name}` +
+      `<div class="at-accent" style="background:${escapeAttr(nearest.color)}"></div>` +
+      `<div class="at-name">${escapeHtml(nearest.candidate)}</div>` +
+      `<div class="at-party">${symHtml}${escapeHtml(nearest.party_name)}` +
         (nearest.party_abv && nearest.party_abv !== nearest.party_name
-          ? ` <span style="opacity:.65">(${nearest.party_abv})</span>` : '') +
+          ? ` <span style="opacity:.65">(${escapeHtml(nearest.party_abv)})</span>` : '') +
       `</div>` +
-      `<div class="at-row">🏛 <strong>${nearest.ac_name}</strong></div>` +
+      `<div class="at-row">🏛 <strong>${escapeHtml(nearest.ac_name)}</strong></div>` +
       `<div class="at-row">🗳 <strong>${fmt(nearest.votes)}</strong> votes` +
         (nearest.margin > 0 ? ` &nbsp;·&nbsp; Margin: <strong>${fmt(nearest.margin)}</strong>` : '') +
       `</div>`;
