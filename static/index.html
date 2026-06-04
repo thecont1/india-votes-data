@@ -4550,7 +4550,6 @@ function _showSlopeCard(col, canvas, caretX, caretY, locked) {
   el.classList.add('visible');
   if (locked) el.classList.add('locked'); else el.classList.remove('locked');
 
-  const container = canvas.parentNode;
   const containerRect = container.getBoundingClientRect();
   const canvasRect = canvas.getBoundingClientRect();
   let left = canvasRect.left - containerRect.left + caretX + 14;
