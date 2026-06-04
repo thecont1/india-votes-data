@@ -11,39 +11,46 @@ export async function handleRoundwise(request, env) {
   const binds = electionId ? [state, electionId] : [state];
   const fBinds = electionId ? [state, electionId] : [state];
 
-  // Phase 1: counting rounds (exclude 999)
+  // Phase 1: counting rounds (exclude 999) — ALL party votes per AC
   const rows = await env.DB.prepare(`
-    WITH ranked AS (
-      SELECT state_code, ac_no, round_no, party_abv, votes,
-             ROW_NUMBER() OVER (
-               PARTITION BY state_code, ac_no, round_no
-               ORDER BY votes DESC
-             ) as rn
-      FROM rounds_ac
-      WHERE state_code = ? AND round_no != 999 ${electionFilter}
-    )
     SELECT ac_no, round_no, party_abv, votes
-    FROM ranked WHERE rn = 1
-    ORDER BY ac_no, round_no
+    FROM rounds_ac
+    WHERE state_code = ? AND round_no != 999 ${electionFilter}
+    ORDER BY ac_no, round_no, party_abv
   `).bind(...binds).all();
 
   // Build per-AC sorted round data
-  const acData = new Map();    // ac_no -> [{round, party, votes}]
-  const acRoundKeys = new Map(); // ac_no -> [round_no] sorted
+  // acData: ac_no -> Map(round_no -> [{party, votes}])
+  // acRoundKeys: ac_no -> [round_no] sorted unique
+  const acData = new Map();
+  const acRoundKeys = new Map();
   const allParties = new Set();
 
   for (const row of rows.results) {
     if (!acData.has(row.ac_no)) {
-      acData.set(row.ac_no, []);
+      acData.set(row.ac_no, new Map());
       acRoundKeys.set(row.ac_no, []);
     }
-    acData.get(row.ac_no).push({ round: row.round_no, party: row.party_abv, votes: row.votes });
-    acRoundKeys.get(row.ac_no).push(row.round_no);
+    const acRounds = acData.get(row.ac_no);
+    if (!acRounds.has(row.round_no)) {
+      acRounds.set(row.round_no, []);
+      acRoundKeys.get(row.ac_no).push(row.round_no);
+    }
+    acRounds.get(row.round_no).push({ party: row.party_abv, votes: row.votes });
     allParties.add(row.party_abv);
   }
 
+  // Sort round keys for each AC
+  for (const rounds of acRoundKeys.values()) {
+    rounds.sort((a, b) => a - b);
+  }
+
   // Distinct target rounds
-  const distinctRounds = [...new Set(rows.results.map(r => r.round_no))].sort((a, b) => a - b);
+  const allRoundNos = new Set();
+  for (const rounds of acRoundKeys.values()) {
+    for (const rn of rounds) allRoundNos.add(rn);
+  }
+  const distinctRounds = [...allRoundNos].sort((a, b) => a - b);
 
   // Binary search helper
   function bisectRight(arr, target) {
@@ -56,34 +63,27 @@ export async function handleRoundwise(request, env) {
     return lo;
   }
 
-  // For each target round, compute party totals
+  // For each target round, compute party totals (all parties, not just leader)
   const countingData = new Map();
   for (const targetRn of distinctRounds) {
     const partyTotals = new Map();
     for (const [acNo, rounds] of acRoundKeys) {
       const idx = bisectRight(rounds, targetRn) - 1;
       if (idx >= 0) {
-        const { party, votes } = acData.get(acNo)[idx];
-        partyTotals.set(party, (partyTotals.get(party) || 0) + votes);
+        const roundNo = rounds[idx];
+        for (const { party, votes } of acData.get(acNo).get(roundNo)) {
+          partyTotals.set(party, (partyTotals.get(party) || 0) + votes);
+        }
       }
     }
     countingData.set(targetRn, partyTotals);
   }
 
-  // Phase 2: F round (999)
+  // Phase 2: F round (999) — ALL party votes
   const fRows = await env.DB.prepare(`
-    WITH ranked AS (
-      SELECT r.state_code, r.ac_no,
-             r.party_abv, r.votes,
-             ROW_NUMBER() OVER (
-               PARTITION BY r.state_code, r.ac_no
-               ORDER BY r.votes DESC
-             ) as rank
-      FROM rounds_ac r
-      WHERE r.state_code = ? AND r.round_no = 999 ${electionFilter}
-    )
     SELECT party_abv, SUM(votes) as total_votes
-    FROM ranked WHERE rank = 1
+    FROM rounds_ac
+    WHERE state_code = ? AND round_no = 999 ${electionFilter}
     GROUP BY party_abv
   `).bind(...fBinds).all();
 
