@@ -4145,6 +4145,7 @@ function legendTooltip(context) {
 // ---------------------------------------------------------------------------
 let _lockedRoundIdx = null;
 let _slopeData = null;
+let _perfSlopeDetail = null;  // per-AC stats for Party Performance slope chart
 let _rwRounds = [];
 let _rwLabels = [];
 let _rwForm20Status = 'unavailable';
@@ -4493,15 +4494,73 @@ function _buildSlopeCardHTML(col) {
   const roundLabel = isFinal ? 'EVM+Postal Votes' : 'EVM Votes';
   if (!ranked.length) return '';
 
-  const leader = ranked[0];
-  const runnerUp = ranked.length > 1 ? ranked[1] : null;
-  const margin = runnerUp ? leader[voteKey] - runnerUp[voteKey] : 0;
-
   const swatch = (color) => `<span class="rw-swatch" style="border-color:${color};"></span>`;
   const partySym = (abv) => {
     const url = partySymbols[abv];
     return url ? `<img src="${safeImgSrc(url)}" alt="" class="rw-card-sym">` : '';
   };
+  const fmt = (n) => n != null ? n.toLocaleString('en-IN') : '\u2014';
+
+  // Party-level slope chart: show per-AC stats when slopeDetail is available
+  if (_perfSlopeDetail) {
+    const party = ranked[0];
+    const partyAbv = party.party_abv;
+    const detail = _perfSlopeDetail[partyAbv] || {};
+    const evm = detail.evm || {};
+    const postal = detail.postal || {};
+    const evmTotal = party.evmVotes || 0;
+    const postalTotal = (party.combinedVotes || 0) - evmTotal;
+    const postalPct = evmTotal > 0 ? (postalTotal / evmTotal * 100).toFixed(1) : '0.0';
+
+    const statRow = (label, m) => {
+      if (!m) return '';
+      return `<div style="display:flex;justify-content:space-between;font-size:11px;padding:1px 0;">
+        <span style="color:var(--tooltip-muted, var(--muted));">${label}</span>
+        <span style="font-variant-numeric:tabular-nums;color:var(--tooltip-text, var(--text));">${fmt(m.mean)} med ${fmt(m.median)}</span>
+      </div>`;
+    };
+
+    // Show top 5 parties with postal vote %
+    const top5 = ranked.slice(0, 5).map((p, i) => {
+      const pEvm = p.evmVotes || 0;
+      const pPostal = (p.combinedVotes || 0) - pEvm;
+      const pPct = pEvm > 0 ? (pPostal / pEvm * 100).toFixed(1) : '0.0';
+      const symUrl = partySymbols[p.party_abv];
+      const symHtml = symUrl ? `<img src="${safeImgSrc(symUrl)}" alt="" style="width:12px;height:12px;object-fit:contain;">` : '';
+      return `<div style="display:flex;align-items:center;gap:6px;padding:2px 0;font-size:11px;">
+        <span style="width:10px;height:10px;border-radius:50%;border:2px solid ${p.color};background:transparent;flex-shrink:0;"></span>
+        ${symHtml}
+        <span style="flex:1;font-weight:600;color:var(--tooltip-text, var(--text));">${p.party_abv}</span>
+        <span style="font-variant-numeric:tabular-nums;color:var(--tooltip-muted, var(--muted));">${fmt(pEvm)}</span>
+        <span style="font-variant-numeric:tabular-nums;color:var(--tooltip-muted, var(--muted));">+${fmt(pPostal)}</span>
+        <span style="font-variant-numeric:tabular-nums;color:${pPostal > 0 ? 'var(--green)' : 'var(--tooltip-muted)'};font-weight:600;width:44px;text-align:right;">${pPct}%</span>
+      </div>`;
+    }).join('');
+
+    // Per-AC stats for hovered party
+    const detailHTML = (evm || postal) ? `
+      <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border, #555);font-size:11px;">
+        <div style="font-weight:600;color:var(--tooltip-text, var(--text));margin-bottom:3px;">Per-AC stats: ${escapeHtml(partyAbv)}</div>
+        <div style="color:var(--tooltip-muted, var(--muted));font-size:10px;margin-bottom:2px;">EVM votes (mean / median / IQR)</div>
+        ${statRow('', evm)}
+        <div style="color:var(--tooltip-muted, var(--muted));font-size:10px;margin-top:3px;margin-bottom:2px;">Postal votes (mean / median / IQR)</div>
+        ${statRow('', postal)}
+      </div>` : '';
+
+    const headerLabel = isFinal ? 'EVM+Postal' : 'EVM';
+    return `<div style="font-size:13px;font-weight:700;color:var(--tooltip-text, var(--text));margin-bottom:6px;">${headerLabel} Votes</div>
+      ${top5}
+      <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border, #555);font-size:11px;">
+        <div style="display:flex;justify-content:space-between;"><span style="color:var(--tooltip-muted);">Postal as % of EVM</span><span style="font-weight:600;color:var(--tooltip-text);">${postalPct}%</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:var(--tooltip-muted);">ACs contested</span><span style="font-weight:600;color:var(--tooltip-text);">${fmt(evm.count)}</span></div>
+      </div>
+      ${detailHTML}`;
+  }
+
+  // Constituency-level slope chart (original behavior)
+  const leader = ranked[0];
+  const runnerUp = ranked.length > 1 ? ranked[1] : null;
+  const margin = runnerUp ? leader[voteKey] - runnerUp[voteKey] : 0;
 
   const candidateCard = (c, label, delta) => {
     const symUrl = partySymbols[c.party_abv];
@@ -6279,6 +6338,7 @@ async function renderRoundwise(stateCode) {
 
     const rounds = data.rounds || [];
     let series = data.series || [];
+    _perfSlopeDetail = data.slopeDetail || null;  // per-AC stats for slope chart tooltip
     if (!rounds.length || !series.length) return;
 
     // Bandaid: if only round 999 exists (past elections), show a message
@@ -6390,6 +6450,7 @@ async function renderRoundwise(stateCode) {
       roundwiseChart.destroy();
       roundwiseChart = null;
     }
+    _perfSlopeDetail = null;
 
     roundwiseChart = new Chart(ctx, {
       type: 'line',

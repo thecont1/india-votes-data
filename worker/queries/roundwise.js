@@ -133,5 +133,68 @@ export async function handleRoundwise(request, env) {
       data: allRounds.map(rn => cumulativeSeries.get(rn)?.get(party) || 0),
     }));
 
-  return jsonResponse({ state, rounds: allRounds, series });
+  // Slope detail: per-AC vote breakdowns when rounds are exactly 998+999
+  let slopeDetail = null;
+  if (allRounds.length === 2 && allRounds.includes(998) && allRounds.includes(999)) {
+    const perAcRows = await env.DB.prepare(`
+      SELECT ac_no, party_abv, votes, round_no
+      FROM rounds_ac
+      WHERE state_code = ? AND round_no IN (998, 999) ${electionFilter}
+    `).bind(...fBinds).all();
+
+    // Build per-AC maps: party -> [per-AC votes at 998], party -> [per-AC votes at 999]
+    const evmByParty = new Map();
+    const postalByParty = new Map();
+    for (const row of perAcRows.results) {
+      if (row.round_no === 998) {
+        if (!evmByParty.has(row.party_abv)) evmByParty.set(row.party_abv, []);
+        evmByParty.get(row.party_abv).push(row.votes);
+      } else {
+        if (!postalByParty.has(row.party_abv)) postalByParty.set(row.party_abv, []);
+        postalByParty.get(row.party_abv).push(row.votes);
+      }
+    }
+
+    // Compute measures of central tendency per party
+    const measures = (arr) => {
+      if (!arr.length) return null;
+      const sorted = [...arr].sort((a, b) => a - b);
+      const n = sorted.length;
+      const sum = sorted.reduce((s, v) => s + v, 0);
+      const mean = sum / n;
+      const median = n % 2 === 0
+        ? (sorted[n / 2 - 1] + sorted[n / 2]) / 2
+        : sorted[Math.floor(n / 2)];
+      const q1 = sorted[Math.floor(n * 0.25)];
+      const q3 = sorted[Math.floor(n * 0.75)];
+      return { mean: Math.round(mean), median, min: sorted[0], max: sorted[n - 1], q1, q3, count: n };
+    };
+
+    slopeDetail = {};
+    for (const party of sortedParties) {
+      const evmArr = evmByParty.get(party) || [];
+      const postalArr = postalByParty.get(party) || [];
+      // Postal = round 999 - round 998 (need per-AC subtraction)
+      // Build per-AC postal by subtracting EVM from combined
+      const evmMap = new Map();
+      for (const row of perAcRows.results) {
+        if (row.round_no === 998 && row.party_abv === party) {
+          evmMap.set(row.ac_no, row.votes);
+        }
+      }
+      const postalVotes = [];
+      for (const row of perAcRows.results) {
+        if (row.round_no === 999 && row.party_abv === party) {
+          const evm = evmMap.get(row.ac_no) || 0;
+          postalVotes.push(Math.max(0, row.votes - evm));
+        }
+      }
+      slopeDetail[party] = {
+        evm: measures(evmArr),
+        postal: measures(postalVotes),
+      };
+    }
+  }
+
+  return jsonResponse({ state, rounds: allRounds, series, slopeDetail });
 }
