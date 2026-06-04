@@ -919,10 +919,6 @@
     position: relative;
     height: clamp(390px, 63vh, 600px);
   }
-  /* Assembly view: taller area so the hemicycle fills the space */
-  .perf-view-assembly .perf-chart-area {
-    height: clamp(390px, min(80vw, 80vh), 700px);
-  }
   .perf-chart-area > div {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -2314,10 +2310,6 @@
     .perf-chart-area {
       height: 46vh;
     }
-    .perf-view-assembly .perf-chart-area {
-      height: min(90vw, 70vh);
-    }
-
     /* 4. Card padding shrink — edge-to-edge charts, text keeps inline padding */
     .card {
       padding: 10px 0;
@@ -6366,6 +6358,7 @@ function renderAssembly(stateCode) {
       symbol_url:  winner.symbol_url || null,
       candidate:   winner.candidate || '',
       ac_name:     race.ac_name || '',
+      ac_no:       race.ac_no,
       votes:       winner.votes || 0,
       margin:      race.margin  || 0,
     });
@@ -6521,10 +6514,11 @@ function renderAssembly(stateCode) {
         phase:      Math.random() * Math.PI * 2,
         freq:       0.5 + Math.random() * 1.5,
         candidate:  meta.candidate  || '',
-        party_abv:  meta.party_abv  || d.abv,
-        party_name: meta.party_name || d.abv,
+        party_abv:  meta.party_abv  || abv,
+        party_name: meta.party_name || abv,
         symbol_url: meta.symbol_url || null,
         ac_name:    meta.ac_name    || '',
+        ac_no:      meta.ac_no,
         votes:      meta.votes      || 0,
         margin:     meta.margin     || 0,
       });
@@ -6582,18 +6576,23 @@ function renderAssembly(stateCode) {
 
   function fmt(n) { return Number(n).toLocaleString('en-IN'); }
 
-  canvas.addEventListener('mousemove', (e) => {
-    if (!assemblySeats.length) return;
-    const r = assemblyDotRadius;
-    const hitR = r + 4; // slightly larger hit zone
-    const mx = e.offsetX, my = e.offsetY;
-
+  function findNearest(mx, my) {
+    const hitR = assemblyDotRadius + 4;
     let nearest = null, best = Infinity;
     for (const s of assemblySeats) {
       const dx = s.x - mx, dy = s.y - my;
       const d2 = dx * dx + dy * dy;
       if (d2 < best && d2 < hitR * hitR) { best = d2; nearest = s; }
     }
+    return nearest;
+  }
+
+  canvas.addEventListener('mousemove', (e) => {
+    if (!assemblySeats.length) return;
+    const mx = e.offsetX, my = e.offsetY;
+    const nearest = findNearest(mx, my);
+
+    canvas.style.cursor = nearest ? 'pointer' : '';
 
     if (!nearest) { tooltip.style.opacity = '0'; return; }
 
@@ -6627,6 +6626,33 @@ function renderAssembly(stateCode) {
 
   canvas.addEventListener('mouseleave', () => {
     tooltip.style.opacity = '0';
+    canvas.style.cursor = '';
+  });
+
+  canvas.addEventListener('click', (e) => {
+    if (!assemblySeats.length) return;
+    const nearest = findNearest(e.offsetX, e.offsetY);
+    if (!nearest || nearest.ac_no == null) return;
+    tooltip.style.opacity = '0';
+    // Select the matching option in the race dropdown and scroll to it
+    const sel = document.getElementById('race-select');
+    if (!sel) return;
+    const acStr = String(nearest.ac_no);
+    let idx = -1;
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].dataset.acNo === acStr) { idx = i; break; }
+    }
+    if (idx < 0) return;
+    sel.selectedIndex = idx;
+    sel.dispatchEvent(new Event('change'));
+    const card = document.getElementById('races-card');
+    if (card) {
+      setTimeout(() => {
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        card.classList.add('highlight-flash');
+        setTimeout(() => card.classList.remove('highlight-flash'), 2000);
+      }, 80);
+    }
   });
 })();
 
