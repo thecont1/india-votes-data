@@ -3011,8 +3011,9 @@
               </div>
             </div>
             <div id="perf-chart-area-roundwise" style="visibility:hidden;">
-              <div class="chart-container">
+              <div class="chart-container" style="position:relative;">
                 <canvas id="roundwise-chart"></canvas>
+                <div id="perf-roundwise-card" class="roundwise-card"></div>
               </div>
               <div id="roundwise-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
                 <div class="icon">📊</div>
@@ -4281,8 +4282,9 @@ function _showRoundwiseCard(roundIdx, chart, caretX, caretY, locked) {
 }
 
 function _hideRoundwiseCard() {
-  const el = document.getElementById('roundwise-card');
-  el.classList.remove('visible', 'locked');
+  document.querySelectorAll('.roundwise-card').forEach(el => {
+    el.classList.remove('visible', 'locked');
+  });
 }
 
 // Chart.js plugin: vertical highlight line + dimming when round is locked
@@ -4538,7 +4540,9 @@ function _buildSlopeCardHTML(col) {
 }
 
 function _showSlopeCard(col, canvas, caretX, caretY, locked) {
-  const el = document.getElementById('roundwise-card');
+  // Find the roundwise-card inside the same container as the canvas
+  const container = canvas.parentNode;
+  const el = container.querySelector('.roundwise-card') || document.getElementById('roundwise-card');
   const html = _buildSlopeCardHTML(col);
   if (!html) { _hideRoundwiseCard(); return; }
   el.innerHTML = html;
