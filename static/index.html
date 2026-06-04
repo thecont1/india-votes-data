@@ -4485,6 +4485,365 @@ function drawSlopeChart(canvas, cands, theme) {
   _slopeData = { byEVM, byCombined, leftY, rightY, colLeft, colRight, W, H };
 }
 
+// ---------------------------------------------------------------------------
+// Slope + Beeswarm SVG — editorial per-AC distribution in the centre
+// ---------------------------------------------------------------------------
+function drawSlopeBeeswarm(container, cands, detailParties, theme) {
+  const isMobile = window.matchMedia('(max-width: 640px)').matches;
+
+  // Clean up previous SVG / canvas
+  const oldSvg = container.querySelector('svg.slope-beeswarm');
+  if (oldSvg) oldSvg.remove();
+  const canvas = container.querySelector('canvas');
+  if (canvas) { canvas.style.display = 'none'; }
+
+  // If no detail data on mobile, silently fall back to nothing (caller handles fallback)
+  if (isMobile && !detailParties) return;
+
+  // Create SVG
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.classList.add('slope-beeswarm');
+  svg.style.cssText = 'display:block;width:100%;height:100%;';
+  container.insertBefore(svg, container.firstChild);
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  function mk(tag, attrs, parent) {
+    const el = document.createElementNS(SVG_NS, tag);
+    for (const [k, v] of Object.entries(attrs || {})) el.setAttribute(k, v);
+    if (parent) parent.appendChild(el);
+    return el;
+  }
+  function txt(str, attrs, parent) {
+    const t = mk('text', attrs, parent);
+    t.textContent = str;
+    return t;
+  }
+
+  // Layout
+  const W = container.clientWidth || 1200;
+  const LABEL_W = isMobile ? 90 : 180;
+  const PAD_TOP = 48;
+  const PAD_BOT = 56;
+  const ROW_H = isMobile ? 36 : 50;
+  const CHART_L = LABEL_W;
+  const CHART_R = W - LABEL_W;
+  const CHART_W = Math.max(200, CHART_R - CHART_L);
+
+  const validCands = cands.filter(c => c.party_abv !== 'NOTA' && c.evmVotes > 0);
+  const N = validCands.length;
+  const H = PAD_TOP + N * ROW_H + PAD_BOT;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+  // Ranks
+  const byEVM = [...validCands].sort((a, b) => b.evmVotes - a.evmVotes);
+  const byCombined = [...validCands].sort((a, b) => b.combinedVotes - a.combinedVotes);
+
+  const drawTop = PAD_TOP;
+  const drawBot = H - PAD_BOT;
+  const drawRange = drawBot - drawTop;
+  const leftTop  = drawTop + drawRange * 0.35;
+  const leftBot  = drawBot - drawRange * 0.05;
+  const rightTop = drawTop + drawRange * 0.05;
+  const rightBot = drawTop + drawRange * 0.65;
+  const leftStep  = (leftBot  - leftTop)  / Math.max(N, 1);
+  const rightStep = (rightBot - rightTop) / Math.max(N, 1);
+  const leftRankY  = (i) => leftTop  + (i + 0.5) * leftStep;
+  const rightRankY = (i) => rightTop + (i + 0.5) * rightStep;
+
+  const leftY = {}, rightY = {};
+  byEVM.forEach((c, i) => { leftY[c.party_abv] = leftRankY(i); });
+  byCombined.forEach((c, i) => { rightY[c.party_abv] = rightRankY(i); });
+
+  // Set _slopeData so existing _buildSlopeCardHTML keeps working
+  const colLeft = CHART_L;
+  const colRight = CHART_R;
+  _slopeData = { byEVM, byCombined, leftY, rightY, colLeft, colRight, W, H };
+
+  // Detail map
+  const detailMap = {};
+  if (detailParties) {
+    detailParties.forEach(p => { detailMap[p.party_abv] = p; });
+  }
+
+  // Scales
+  let maxEVM = 0, maxPostal = 0;
+  if (detailParties) {
+    detailParties.forEach(p => {
+      p.pts.forEach(pt => {
+        if (pt.evm > maxEVM) maxEVM = pt.evm;
+        if (pt.postal > maxPostal) maxPostal = pt.postal;
+      });
+    });
+  }
+  if (maxEVM === 0) maxEVM = 1;
+  if (maxPostal === 0) maxPostal = 1;
+
+  const xEVM    = (v) => CHART_L + (v / (maxEVM * 1.08)) * CHART_W;
+  const xPostal = (v) => CHART_L + (v / (maxPostal * 1.15)) * CHART_W;
+
+  const g = mk('g', {}, svg);
+
+  // ── Subtle row backgrounds ──
+  for (let i = 0; i < N; i++) {
+    const y = drawTop + i * ROW_H;
+    if (i % 2 === 0) {
+      mk('rect', { x: 0, y, width: W, height: ROW_H, fill: theme.grid, opacity: '0.12' }, g);
+    }
+    mk('line', { x1: 0, y1: y, x2: W, y2: y, stroke: theme.grid, 'stroke-width': '0.5' }, g);
+  }
+
+  // ── Vertical gridlines ──
+  const evmTicks = [0];
+  const evmTickStep = Math.max(1, Math.ceil(maxEVM / 5 / 1000) * 1000);
+  for (let t = evmTickStep; t <= maxEVM; t += evmTickStep) evmTicks.push(t);
+  evmTicks.forEach(v => {
+    const x = xEVM(v);
+    mk('line', { x1: x, y1: drawTop, x2: x, y2: drawBot, stroke: theme.grid, 'stroke-width': '0.5', opacity: '0.5' }, g);
+    txt(v === 0 ? '0' : `${(v / 1000).toFixed(0)}K`, {
+      x, y: drawBot + 18, 'text-anchor': 'middle', 'font-size': '9',
+      fill: theme.muted, 'font-family': theme.fontUi || 'sans-serif'
+    }, g);
+  });
+
+  const postTicks = [0];
+  const postTickStep = Math.max(1, Math.ceil(maxPostal / 4 / 100) * 100);
+  for (let t = postTickStep; t <= maxPostal; t += postTickStep) postTicks.push(t);
+  postTicks.forEach(v => {
+    const x = xPostal(v);
+    mk('line', { x1: x, y1: drawTop, x2: x, y2: drawBot, stroke: theme.grid, 'stroke-width': '0.5', 'stroke-dasharray': '2,4', opacity: '0.4' }, g);
+    txt(String(v), {
+      x, y: drawBot + 34, 'text-anchor': 'middle', 'font-size': '9',
+      fill: theme.muted, 'font-family': theme.fontUi || 'sans-serif'
+    }, g);
+  });
+
+  // ── Connecting lines ──
+  validCands.forEach(c => {
+    const y1 = leftY[c.party_abv];
+    const y2 = rightY[c.party_abv];
+    const evmRank = byEVM.findIndex(x => x.party_abv === c.party_abv);
+    const combRank = byCombined.findIndex(x => x.party_abv === c.party_abv);
+    const isLeader = evmRank === 0 || combRank === 0;
+    const rankChanged = evmRank !== combRank;
+    mk('line', {
+      x1: CHART_L, y1: y1, x2: CHART_R, y2: y2,
+      stroke: c.color || '#888', 'stroke-width': isLeader ? '2' : '1',
+      opacity: rankChanged ? '0.7' : '0.3'
+    }, g);
+  });
+
+  // ── Left labels ──
+  byEVM.forEach((c, i) => {
+    const y = leftRankY(i);
+    const isTop = i === 0;
+    const color = c.color || '#888';
+    txt(`${i + 1}`, { x: CHART_L - 30, y: y + 1, 'text-anchor': 'end', 'dominant-baseline': 'central', 'font-size': '10', fill: theme.muted, 'font-weight': '500' }, g);
+    txt(c.party_abv, { x: CHART_L - 10, y: y - 5, 'text-anchor': 'end', 'dominant-baseline': 'auto', 'font-size': isTop ? '14' : '12', 'font-weight': isTop ? '700' : '500', fill: color }, g);
+    txt(c.evmVotes.toLocaleString('en-IN'), { x: CHART_L - 10, y: y + 11, 'text-anchor': 'end', 'dominant-baseline': 'auto', 'font-size': '10', fill: theme.muted, 'font-family': theme.fontUi || 'sans-serif' }, g);
+    mk('circle', { cx: CHART_L, cy: y, r: isTop ? '5.5' : '4', fill: color }, g);
+  });
+
+  // ── Right labels ──
+  byCombined.forEach((c, i) => {
+    const y = rightRankY(i);
+    const evmRank = byEVM.findIndex(x => x.party_abv === c.party_abv);
+    const isTop = i === 0;
+    const color = c.color || '#888';
+    txt(`${i + 1}`, { x: CHART_R + 30, y: y + 1, 'text-anchor': 'start', 'dominant-baseline': 'central', 'font-size': '10', fill: theme.muted, 'font-weight': '500' }, g);
+    txt(c.party_abv, { x: CHART_R + 10, y: y - 5, 'text-anchor': 'start', 'dominant-baseline': 'auto', 'font-size': isTop ? '14' : '12', 'font-weight': isTop ? '700' : '500', fill: color }, g);
+    txt(c.combinedVotes.toLocaleString('en-IN'), { x: CHART_R + 10, y: y + 11, 'text-anchor': 'start', 'dominant-baseline': 'auto', 'font-size': '10', fill: theme.muted, 'font-family': theme.fontUi || 'sans-serif' }, g);
+    mk('circle', { cx: CHART_R, cy: y, r: isTop ? '5.5' : '4', fill: color }, g);
+    if (isTop && evmRank !== 0) {
+      txt('POSTAL FLIP', { x: CHART_R + 10, y: y + 22, 'text-anchor': 'start', 'dominant-baseline': 'auto', 'font-size': '8', fill: '#ef4444', 'font-weight': '700' }, g);
+    }
+  });
+
+  // ── Beeswarm ──
+  if (detailParties && detailParties.length) {
+    const EVM_LANE_H = isMobile ? 12 : 18;
+    const POST_LANE_H = isMobile ? 10 : 14;
+    const LANE_GAP = 3;
+    const DOT_R = 2.6;
+    const DOT_R_POST = 2.0;
+
+    function packDots(dots, laneTop, laneH, r) {
+      dots.sort((a, b) => a.x - b.x);
+      const placed = [];
+      const minDist = r * 2.4;
+      for (const d of dots) {
+        let bestY = laneTop + laneH / 2;
+        let bestScore = -Infinity;
+        for (let row = 0; row < Math.ceil(laneH / minDist) + 1; row++) {
+          for (const sign of [0, 1, -1]) {
+            if (row === 0 && sign !== 0) continue;
+            const tryY = laneTop + laneH / 2 + sign * row * minDist;
+            if (tryY - r < laneTop || tryY + r > laneTop + laneH) continue;
+            let minGap = Infinity;
+            for (const p of placed) {
+              const dx = d.x - p.x;
+              const dy = tryY - p.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < minGap) minGap = dist;
+            }
+            const score = minGap;
+            if (score > bestScore) {
+              bestY = tryY;
+              bestScore = score;
+            }
+            if (minGap >= minDist) break;
+          }
+          if (bestScore >= minDist) break;
+        }
+        d.py = bestY;
+        placed.push(d);
+      }
+    }
+
+    validCands.forEach(c => {
+      const detail = detailMap[c.party_abv];
+      if (!detail) return;
+      const evmY = leftY[c.party_abv];
+      const combY = rightY[c.party_abv];
+      const cy = (evmY + combY) / 2;
+      const color = c.color || '#888';
+      const bandTop = cy - (EVM_LANE_H + POST_LANE_H + LANE_GAP) / 2;
+      const evmLaneTop = bandTop;
+      const postLaneTop = bandTop + EVM_LANE_H + LANE_GAP;
+
+      // EVM dots
+      const evmDots = detail.pts.map(pt => ({ x: xEVM(pt.evm), y: 0, evm: pt.evm, postal: pt.postal, ac: pt.ac }));
+      packDots(evmDots, evmLaneTop, EVM_LANE_H, DOT_R);
+      evmDots.forEach(d => {
+        mk('circle', { cx: d.x, cy: d.py, r: DOT_R, fill: color, opacity: '0.55', 'data-ac': d.ac, 'data-evm': d.evm, 'data-postal': d.postal, 'data-party': c.party_abv }, g);
+      });
+
+      // Postal dots
+      const postDots = detail.pts.filter(pt => pt.postal > 0).map(pt => ({ x: xPostal(pt.postal), y: 0, evm: pt.evm, postal: pt.postal, ac: pt.ac }));
+      packDots(postDots, postLaneTop, POST_LANE_H, DOT_R_POST);
+      postDots.forEach(d => {
+        mk('circle', { cx: d.x, cy: d.py, r: DOT_R_POST, fill: color, opacity: '0.4', 'data-ac': d.ac, 'data-evm': d.evm, 'data-postal': d.postal, 'data-party': c.party_abv }, g);
+      });
+    });
+  }
+
+  // ── Column headers ──
+  txt('RANK BY EVM VOTES', { x: CHART_L - 10, y: drawTop - 8, 'text-anchor': 'end', 'font-size': '9', 'font-weight': '600', fill: theme.muted, 'letter-spacing': '0.8' }, g);
+  txt('RANK BY EVM+POSTAL VOTES', { x: CHART_R + 10, y: drawTop - 8, 'text-anchor': 'start', 'font-size': '9', 'font-weight': '600', fill: theme.muted, 'letter-spacing': '0.8' }, g);
+
+  // ── Axis labels ──
+  txt('EVM votes per constituency', { x: CHART_L + CHART_W / 2, y: drawBot + 16, 'text-anchor': 'middle', 'font-size': '10', 'font-weight': '500', fill: theme.muted }, g);
+  txt('Postal votes per constituency', { x: CHART_L + CHART_W / 2, y: drawBot + 32, 'text-anchor': 'middle', 'font-size': '10', 'font-weight': '500', fill: theme.muted }, g);
+
+  // ── Hover interactions ──
+  const tooltipEl = container.querySelector('.roundwise-card') || document.getElementById('perf-roundwise-card');
+  let hoveredDot = null;
+  let lockedDot = null;
+
+  svg.addEventListener('mousemove', (e) => {
+    const rect = svg.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    const scaleY = H / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const my = (e.clientY - rect.top) * scaleY;
+
+    let nearest = null, minD = Infinity;
+    const dots = svg.querySelectorAll('circle[data-ac]');
+    dots.forEach(dot => {
+      const cx = parseFloat(dot.getAttribute('cx'));
+      const cy = parseFloat(dot.getAttribute('cy'));
+      const r = parseFloat(dot.getAttribute('r'));
+      const d = Math.sqrt((mx - cx) ** 2 + (my - cy) ** 2);
+      if (d < r * 3 && d < minD) { minD = d; nearest = dot; }
+    });
+
+    if (nearest !== hoveredDot) {
+      hoveredDot = nearest;
+      if (nearest) {
+        const ac = nearest.getAttribute('data-ac');
+        const evm = parseInt(nearest.getAttribute('data-evm'));
+        const postal = parseInt(nearest.getAttribute('data-postal'));
+        const party = nearest.getAttribute('data-party') || '';
+        if (tooltipEl) {
+          tooltipEl.innerHTML = `<div style="font-size:12px;font-weight:700;color:var(--tooltip-text,${theme.tooltipText || '#1a1a1a'});margin-bottom:3px;">AC ${ac} · ${party}</div><div style="font-size:11px;color:var(--tooltip-muted,${theme.tooltipMuted || '#666'});">EVM: ${evm.toLocaleString('en-IN')} · Postal: ${postal.toLocaleString('en-IN')}</div>`;
+          tooltipEl.classList.add('visible');
+          tooltipEl.classList.remove('locked');
+        }
+      } else if (!lockedDot && tooltipEl) {
+        tooltipEl.classList.remove('visible');
+      }
+    }
+    if (hoveredDot && tooltipEl) {
+      const cRect = container.getBoundingClientRect();
+      let left = e.clientX - cRect.left + 14;
+      let top = e.clientY - cRect.top - 14;
+      const tw = tooltipEl.offsetWidth || 200;
+      const th = tooltipEl.offsetHeight || 60;
+      if (left + tw > cRect.width) left = left - tw - 28;
+      if (top + th > cRect.height) top = cRect.height - th - 4;
+      if (top < 0) top = 4;
+      if (left < 0) left = 4;
+      tooltipEl.style.left = left + 'px';
+      tooltipEl.style.top = top + 'px';
+    }
+  });
+
+  svg.addEventListener('mouseleave', () => {
+    hoveredDot = null;
+    if (!lockedDot && tooltipEl) tooltipEl.classList.remove('visible');
+  });
+
+  svg.addEventListener('click', (e) => {
+    const rect = svg.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    const mx = (e.clientX - rect.left) * scaleX;
+
+    // Check dot click first
+    let nearestDot = null, minD = Infinity;
+    const dots = svg.querySelectorAll('circle[data-ac]');
+    dots.forEach(dot => {
+      const cx = parseFloat(dot.getAttribute('cx'));
+      const cy = parseFloat(dot.getAttribute('cy'));
+      const r = parseFloat(dot.getAttribute('r'));
+      const d = Math.sqrt((mx - cx) ** 2 + ((e.clientY - rect.top) * (H / rect.height) - cy) ** 2);
+      if (d < r * 3.5 && d < minD) { minD = d; nearestDot = dot; }
+    });
+
+    if (nearestDot) {
+      if (lockedDot === nearestDot) {
+        lockedDot = null;
+        _lockedRoundIdx = null;
+        if (tooltipEl) tooltipEl.classList.remove('visible', 'locked');
+      } else {
+        lockedDot = nearestDot;
+        // Re-show tooltip for the locked dot
+        const ac = nearestDot.getAttribute('data-ac');
+        const evm = parseInt(nearestDot.getAttribute('data-evm'));
+        const postal = parseInt(nearestDot.getAttribute('data-postal'));
+        const party = nearestDot.getAttribute('data-party') || '';
+        if (tooltipEl) {
+          tooltipEl.innerHTML = `<div style="font-size:12px;font-weight:700;color:var(--tooltip-text,${theme.tooltipText || '#1a1a1a'});margin-bottom:3px;">AC ${ac} · ${party}</div><div style="font-size:11px;color:var(--tooltip-muted,${theme.tooltipMuted || '#666'});">EVM: ${evm.toLocaleString('en-IN')} · Postal: ${postal.toLocaleString('en-IN')}</div>`;
+          tooltipEl.classList.add('visible', 'locked');
+        }
+      }
+      return;
+    }
+
+    // Column click → use existing slope card
+    const midX = (CHART_L + CHART_R) / 2;
+    const col = mx < midX ? 0 : 1;
+    if (_lockedRoundIdx === col) {
+      _lockedRoundIdx = null;
+      _hideRoundwiseCard();
+      lockedDot = null;
+    } else {
+      _lockedRoundIdx = col;
+      // Build a fake canvas rect for _showSlopeCard compat
+      const fakeCanvas = { parentNode: container, getBoundingClientRect: () => rect };
+      _showSlopeCard(col, fakeCanvas, e.clientX - rect.left, e.clientY - rect.top, true);
+    }
+  });
+}
+
 function _buildSlopeCardHTML(col) {
   if (!_slopeData) return '';
   const { byEVM, byCombined } = _slopeData;
@@ -6362,6 +6721,12 @@ async function renderRoundwise(stateCode) {
     const canvas = document.getElementById('roundwise-chart');
     const ctx = canvas.getContext('2d');
     const theme = chartTheme();
+    const chartContainer = canvas.closest('.chart-container');
+
+    // Clean up any previous SVG beeswarm and restore canvas visibility
+    const oldSvg = chartContainer ? chartContainer.querySelector('svg.slope-beeswarm') : null;
+    if (oldSvg) oldSvg.remove();
+    if (canvas) canvas.style.display = '';
 
     // SLOPE CHART for two-round data (998 + 999)
     const isSlope = rounds.length === 2 && rounds.includes(998) && rounds.includes(999);
@@ -6383,40 +6748,61 @@ async function renderRoundwise(stateCode) {
         }))
         .sort((a, b) => b.combinedVotes - a.combinedVotes);
 
-      drawSlopeChart(canvas, cands, theme);
-
-      canvas.onclick = function(e) {
-        if (!_slopeData) return;
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const midX = (_slopeData.colLeft + _slopeData.colRight) / 2;
-        const col = x < midX ? 0 : 1;
-        if (_lockedRoundIdx === col) {
-          _lockedRoundIdx = null;
-          _hideRoundwiseCard();
-          canvas.style.cursor = 'pointer';
-        } else {
-          _lockedRoundIdx = col;
-          _showSlopeCard(col, canvas, x, e.clientY - rect.top, true);
+      // Fetch per-AC detail data for the beeswarm (single-state only)
+      let detailData = null;
+      if (stateCode && chartContainer) {
+        try {
+          const eidParam4 = currentElection ? `&election_id=${currentElection.election_id}` : '';
+          const detailResp = await fetch(`${API_BASE}/api/slope-detail/${stateCode}${eidParam4 ? '?' + eidParam4.slice(1) : ''}`);
+          if (detailResp.ok) {
+            const detailJson = await detailResp.json();
+            detailData = detailJson.parties || null;
+          }
+        } catch (err) {
+          console.warn('Failed to load slope detail:', err);
         }
-      };
+      }
 
-      canvas.onmousemove = function(e) {
-        if (_lockedRoundIdx !== null) return;
-        if (!_slopeData) return;
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const midX = (_slopeData.colLeft + _slopeData.colRight) / 2;
-        const col = x < midX ? 0 : 1;
-        canvas.style.cursor = 'pointer';
-        _showSlopeCard(col, canvas, x, e.clientY - rect.top, false);
-      };
+      if (chartContainer && detailData) {
+        // Editorial beeswarm SVG replaces the centre table
+        drawSlopeBeeswarm(chartContainer, cands, detailData, theme);
+      } else {
+        // Fallback to original canvas slope chart
+        drawSlopeChart(canvas, cands, theme);
 
-      canvas.onmouseleave = function() {
-        if (_lockedRoundIdx !== null) return;
-        _hideRoundwiseCard();
-        canvas.style.cursor = '';
-      };
+        canvas.onclick = function(e) {
+          if (!_slopeData) return;
+          const rect = canvas.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const midX = (_slopeData.colLeft + _slopeData.colRight) / 2;
+          const col = x < midX ? 0 : 1;
+          if (_lockedRoundIdx === col) {
+            _lockedRoundIdx = null;
+            _hideRoundwiseCard();
+            canvas.style.cursor = 'pointer';
+          } else {
+            _lockedRoundIdx = col;
+            _showSlopeCard(col, canvas, x, e.clientY - rect.top, true);
+          }
+        };
+
+        canvas.onmousemove = function(e) {
+          if (_lockedRoundIdx !== null) return;
+          if (!_slopeData) return;
+          const rect = canvas.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const midX = (_slopeData.colLeft + _slopeData.colRight) / 2;
+          const col = x < midX ? 0 : 1;
+          canvas.style.cursor = 'pointer';
+          _showSlopeCard(col, canvas, x, e.clientY - rect.top, false);
+        };
+
+        canvas.onmouseleave = function() {
+          if (_lockedRoundIdx !== null) return;
+          _hideRoundwiseCard();
+          canvas.style.cursor = '';
+        };
+      }
 
       return;
     }

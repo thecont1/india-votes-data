@@ -587,6 +587,85 @@ def roundwise(state: str = Query(..., description="State code (required)")):
         conn.close()
 
 
+@app.get("/api/slope-detail/{state_code}")
+def slope_detail(state_code: str):
+    """Per-AC EVM and postal vote distribution by party for slope-beeswarm viz.
+
+    Returns one dot per (party, ac_no) for round 998 (EVM) and round 999 (total),
+    with postal = total - EVM.  Parties are sorted by total EVM votes descending.
+    """
+    conn = _connect()
+    cur = _cursor(conn)
+    try:
+        p = "%s" if IS_PG else "?"
+        cur.execute(f"""
+            WITH all_pairs AS (
+                SELECT DISTINCT party_abv, ac_no
+                FROM rounds_ac
+                WHERE state_code = {p} AND round_no IN (998, 999)
+            ),
+            evm AS (
+                SELECT party_abv, ac_no, SUM(votes) as votes
+                FROM rounds_ac
+                WHERE state_code = {p} AND round_no = 998
+                GROUP BY party_abv, ac_no
+            ),
+            total AS (
+                SELECT party_abv, ac_no, SUM(votes) as votes
+                FROM rounds_ac
+                WHERE state_code = {p} AND round_no = 999
+                GROUP BY party_abv, ac_no
+            )
+            SELECT
+                a.party_abv,
+                a.ac_no,
+                COALESCE(e.votes, 0) as evm_votes,
+                COALESCE(t.votes, 0) as total_votes,
+                COALESCE(t.votes, 0) - COALESCE(e.votes, 0) as postal_votes
+            FROM all_pairs a
+            LEFT JOIN evm e ON a.party_abv = e.party_abv AND a.ac_no = e.ac_no
+            LEFT JOIN total t ON a.party_abv = t.party_abv AND a.ac_no = t.ac_no
+            ORDER BY a.party_abv, a.ac_no
+        """, (state_code, state_code, state_code))
+        rows = cur.fetchall()
+
+        # Aggregate into party -> [ {ac, evm, postal, total} ]
+        from collections import defaultdict
+        party_pts = defaultdict(list)
+        for row in rows:
+            d = dict(row) if hasattr(row, "keys") else {
+                "party_abv": row[0], "ac_no": row[1],
+                "evm_votes": row[2], "total_votes": row[3],
+                "postal_votes": row[4],
+            }
+            party_pts[d["party_abv"]].append({
+                "ac": d["ac_no"],
+                "evm": d["evm_votes"],
+                "total": d["total_votes"],
+                "postal": d["postal_votes"],
+            })
+
+        # Build response: one entry per party with totals and per-AC points
+        symbols = _get_party_symbols()
+        parties = []
+        for party_abv, pts in party_pts.items():
+            total_evm = sum(pt["evm"] for pt in pts)
+            total_combined = sum(pt["total"] for pt in pts)
+            parties.append({
+                "party_abv": party_abv,
+                "color": PARTY_COLORS.get(party_abv, DEFAULT_COLOR),
+                "symbol_url": symbols.get(party_abv),
+                "total_evm": total_evm,
+                "total_combined": total_combined,
+                "pts": pts,
+            })
+        parties.sort(key=lambda p: p["total_evm"], reverse=True)
+
+        return {"state": state_code, "parties": parties}
+    finally:
+        conn.close()
+
+
 @app.get("/api/status")
 def status_summary(
     state: str = Query(default=None),
