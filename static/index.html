@@ -557,8 +557,9 @@
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(3px);
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -7649,13 +7650,12 @@ function getClickedPartyAbv(chart, elements) {
       const r = e.runner_up || {};
       const wColor = PARTY_COLORS[w.party] || 'var(--muted)';
       const rColor = PARTY_COLORS[r.party] || 'var(--muted)';
+      const wVotes = w.votes ? `<span style="color:var(--muted);white-space:nowrap;font-family:var(--font-numeric);">${w.votes.toLocaleString('en-IN')}</span>` : '';
+      const rVotes = r.votes ? `<span style="color:var(--muted);white-space:nowrap;font-family:var(--font-numeric);">${r.votes.toLocaleString('en-IN')}</span>` : '';
       rows += `<tr>
         <td><a href="#" class="sm-election-link" data-election-id="${escapeAttr(e.election_id || '')}" data-state="${escapeAttr(sc || '')}" data-ac="${ac || ''}">${escapeHtml(e.election_name || '')}</a></td>
-        <td><span class="sm-party" style="color:${wColor};border-color:${wColor}">${escapeHtml(w.party || '')}</span> ${escapeHtml(w.candidate || '')}</td>
-        <td class="numeric">${w.votes ? w.votes.toLocaleString('en-IN') : ''}</td>
-        <td class="numeric" style="font-weight:600;">${e.margin ? e.margin.toLocaleString('en-IN') : ''}</td>
-        <td class="numeric">${r.votes ? r.votes.toLocaleString('en-IN') : ''}</td>
-        <td><span class="sm-party" style="color:${rColor};border-color:${rColor}">${escapeHtml(r.party || '')}</span> ${escapeHtml(r.candidate || '')}</td>
+        <td><div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><span><span class="sm-party" style="color:${wColor};border-color:${wColor}">[${escapeHtml(w.party || '')}]</span> ${escapeHtml(w.candidate || '')}</span>${wVotes}</div></td>
+        <td><div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><span><span class="sm-party" style="color:${rColor};border-color:${rColor}">[${escapeHtml(r.party || '')}]</span> ${escapeHtml(r.candidate || '')}</span>${rVotes}</div></td>
       </tr>`;
     }
 
@@ -7668,7 +7668,7 @@ function getClickedPartyAbv(chart, elements) {
       </div>
       <table>
         <thead><tr>
-          <th>Election</th><th>Winner</th><th style="text-align:right">Votes</th><th style="text-align:right">Margin</th><th style="text-align:right">Votes</th><th>Runner-up</th>
+          <th>Election</th><th>Winner</th><th>Runner-Up</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>`;
