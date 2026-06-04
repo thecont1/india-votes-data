@@ -552,33 +552,50 @@
     color: var(--muted);
     pointer-events: none;
   }
+  .search-results-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    padding: 80px 16px 40px;
+  }
+  .search-results-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
   .search-results {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
     background: var(--card);
     border: 1px solid var(--border);
-    border-top: none;
-    max-height: 400px;
+    width: min(90vw, 640px);
+    max-height: calc(100vh - 120px);
     overflow-y: auto;
-    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     display: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    border-radius: 2px;
   }
   .search-results.active { display: block; }
   .search-group-label {
-    padding: 6px 10px 2px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 8px 12px;
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--muted);
+    color: var(--text);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
   }
   .search-group-label + .search-group-label {
     border-top: 1px solid var(--border);
-    margin-top: 4px;
-    padding-top: 8px;
   }
   .search-result-item {
     padding: 8px 10px;
@@ -2903,6 +2920,8 @@
   <div class="search-box">
     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
     <input type="text" id="search-input" placeholder="Search candidates, constituencies..." autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-results" />
+  </div>
+  <div class="search-results-overlay" id="search-results-overlay">
     <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
   </div>
   <div class="meta" aria-label="Dashboard status and preferences">
@@ -7236,6 +7255,7 @@ function getClickedPartyAbv(chart, elements) {
 (() => {
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
+  const searchResultsOverlay = document.getElementById('search-results-overlay');
   const modalOverlay = document.getElementById('search-modal-overlay');
   const modalEl = document.getElementById('search-modal');
   let searchTimer = null;
@@ -7307,12 +7327,17 @@ function getClickedPartyAbv(chart, elements) {
   searchInput.addEventListener('focus', () => {
     if (searchInput.value.trim().length >= 2) {
       searchResults.classList.add('active');
+      searchResultsOverlay.classList.add('active');
       setExpanded(true);
     }
   });
 
+  searchResultsOverlay.addEventListener('click', (e) => {
+    if (e.target === searchResultsOverlay) hideResults();
+  });
+
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-box')) hideResults();
+    if (!e.target.closest('.search-box') && !e.target.closest('.search-results-overlay')) hideResults();
   });
 
   searchInput.addEventListener('keydown', (e) => {
@@ -7345,6 +7370,7 @@ function getClickedPartyAbv(chart, elements) {
 
   function hideResults() {
     searchResults.classList.remove('active');
+    searchResultsOverlay.classList.remove('active');
     setExpanded(false);
     activeIdx = -1;
     searchInput.removeAttribute('aria-activedescendant');
@@ -7391,6 +7417,7 @@ function getClickedPartyAbv(chart, elements) {
 
     searchResults.innerHTML = html;
     searchResults.classList.add('active');
+    searchResultsOverlay.classList.add('active');
     setExpanded(true);
     activeIdx = -1;
     resultEls = Array.from(searchResults.querySelectorAll('[role="option"]'));
@@ -7606,7 +7633,7 @@ function getClickedPartyAbv(chart, elements) {
   }
 
   function renderConstituencyModal(data) {
-    const { constituency, state, elections, summary } = data;
+    const { constituency, state, state_code: sc, ac_no: ac, elections } = data;
     const title = constituency ? `${constituency} (${state || ''})` : 'Constituency';
 
     if (!elections || !elections.length) {
@@ -7615,10 +7642,6 @@ function getClickedPartyAbv(chart, elements) {
       return;
     }
 
-    const summaryParts = ['Latest result'];
-    if (summary.last_winner) summaryParts.push(summary.last_winner);
-    const summaryLine = summaryParts.join(' · ');
-
     let rows = '';
     for (const e of elections) {
       const w = e.winner || {};
@@ -7626,10 +7649,12 @@ function getClickedPartyAbv(chart, elements) {
       const wColor = PARTY_COLORS[w.party] || 'var(--muted)';
       const rColor = PARTY_COLORS[r.party] || 'var(--muted)';
       rows += `<tr>
-        <td>${escapeHtml(e.election_name || '')}</td>
-        <td>${escapeHtml(w.candidate || '')} <span class="sm-party" style="color:${wColor};border-color:${wColor}">${escapeHtml(w.party || '')}</span></td>
-        <td>${escapeHtml(r.candidate || '')} <span class="sm-party" style="color:${rColor};border-color:${rColor}">${escapeHtml(r.party || '')}</span></td>
-        <td class="numeric">${e.margin ? e.margin.toLocaleString('en-IN') : ''}</td>
+        <td><a href="#" class="sm-election-link" data-election-id="${escapeAttr(e.election_id || '')}" data-state="${escapeAttr(sc || '')}" data-ac="${ac || ''}">${escapeHtml(e.election_name || '')}</a></td>
+        <td><span class="sm-party" style="color:${wColor};border-color:${wColor}">${escapeHtml(w.party || '')}</span> ${escapeHtml(w.candidate || '')}</td>
+        <td class="numeric">${w.votes ? w.votes.toLocaleString('en-IN') : ''}</td>
+        <td class="numeric" style="font-weight:600;">${e.margin ? e.margin.toLocaleString('en-IN') : ''}</td>
+        <td class="numeric">${r.votes ? r.votes.toLocaleString('en-IN') : ''}</td>
+        <td><span class="sm-party" style="color:${rColor};border-color:${rColor}">${escapeHtml(r.party || '')}</span> ${escapeHtml(r.candidate || '')}</td>
       </tr>`;
     }
 
@@ -7637,19 +7662,30 @@ function getClickedPartyAbv(chart, elements) {
       <div class="search-modal-header">
         <div>
           <h3>${escapeHtml(title)}</h3>
-          <div class="sm-summary">${escapeHtml(summaryLine)}</div>
         </div>
         <button class="search-modal-close" aria-label="Close">&#x2715;</button>
       </div>
       <table>
         <thead><tr>
-          <th>Election</th><th>Winner</th><th>Runner-up</th><th style="text-align:right">Margin</th>
+          <th>Election</th><th>Winner</th><th style="text-align:right">Votes</th><th style="text-align:right">Margin</th><th style="text-align:right">Votes</th><th>Runner-up</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>`;
 
     openModal(html);
     modalEl.querySelector('.search-modal-close')?.addEventListener('click', closeModal);
+
+    // Wire election links
+    modalEl.querySelectorAll('.sm-election-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const electionId = link.dataset.electionId;
+        const stateCode = link.dataset.state;
+        const acNo = link.dataset.ac;
+        closeModal();
+        navigateToConstituency(electionId, stateCode, parseInt(acNo));
+      });
+    });
   }
 
   // --- Helpers ---
