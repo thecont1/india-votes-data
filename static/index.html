@@ -6442,7 +6442,7 @@ async function renderRoundwise(stateCode) {
       return;
     }
 
-    const labels = rounds.map(rn => rn === 999 ? 'Final' : `Round ${rn}`);
+    const labels = rounds.map(rn => rn === 999 ? 'Final' : String(rn));
 
     const datasets = series.map(s => ({
       label: s.party_abv,
