@@ -16,6 +16,7 @@ import { handleConstituencyHistory } from './queries/constituency-history.js';
 import { handleDownload } from './queries/download.js';
 import { handleTvChannels } from './queries/tv-channels.js';
 import { handleByeElections } from './queries/bye-elections.js';
+import { handleSlopeDetail } from './queries/slope-detail.js';
 
 export default {
   async fetch(request, env) {
@@ -48,6 +49,12 @@ export default {
       if (path === '/api/download') return handleDownload(request, env);
       if (path === '/api/tv-channels') return handleTvChannels();
       if (path === '/api/bye-elections') return handleByeElections(request, env);
+
+      // Slope detail: /api/slope-detail/:state_code
+      const slopeMatch = path.match(/^\/api\/slope-detail\/([^/]+)$/);
+      if (slopeMatch) {
+        return handleSlopeDetail(request, env);
+      }
 
       // Constituency detail: /api/constituency/:state/:ac
       const constMatch = path.match(/^\/api\/constituency\/([^/]+)\/(\d+)$/);
