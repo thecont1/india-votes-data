@@ -5595,6 +5595,14 @@ function drawSingleRace(race) {
   cvs.onmousemove = null;
   cvs.onmouseleave = null;
   cvs.style.cursor = '';
+  // Also clean up Party Performance roundwise canvas (slope chart handlers)
+  const rwcvs = document.getElementById('roundwise-chart');
+  if (rwcvs) {
+    rwcvs.onclick = null;
+    rwcvs.onmousemove = null;
+    rwcvs.onmouseleave = null;
+    rwcvs.style.cursor = '';
+  }
   drawRaceFinal(race);
 }
 
@@ -5949,6 +5957,10 @@ async function drawRaceRoundwise(race) {
 
     // SLOPE CHART: 998+999 only — custom canvas rendering, no Chart.js
     if (isSlope) {
+      // Destroy any lingering Chart.js instance — its ResizeObserver would
+      // redraw over our raw-canvas slope chart when drawSlopeChart resizes.
+      if (racesChart) { racesChart.destroy(); racesChart = null; }
+
       const cands = slopeCandidates.map(c => ({
         candidate: c.candidate,
         party_abv: c.party_abv,
@@ -6256,6 +6268,64 @@ async function renderRoundwise(stateCode) {
     const canvas = document.getElementById('roundwise-chart');
     const ctx = canvas.getContext('2d');
     const theme = chartTheme();
+
+    // SLOPE CHART for two-round data (998 + 999)
+    const isSlope = rounds.length === 2 && rounds.includes(998) && rounds.includes(999);
+    if (isSlope) {
+      if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+
+      // Map party seat data to the slope chart's expected format
+      const cands = series
+        .filter(s => s.party_abv !== 'NOTA')
+        .map(s => ({
+          candidate: s.party_abv,
+          party_abv: s.party_abv,
+          party_name: s.party_abv,
+          color: s.color,
+          won: false,
+          symbol_url: s.symbol_url || null,
+          evmVotes: s.data[0] || 0,
+          combinedVotes: s.data[1] || 0,
+        }))
+        .sort((a, b) => b.combinedVotes - a.combinedVotes);
+
+      drawSlopeChart(canvas, cands, theme);
+
+      canvas.onclick = function(e) {
+        if (!_slopeData) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const midX = (_slopeData.colLeft + _slopeData.colRight) / 2;
+        const col = x < midX ? 0 : 1;
+        if (_lockedRoundIdx === col) {
+          _lockedRoundIdx = null;
+          _hideRoundwiseCard();
+          canvas.style.cursor = 'pointer';
+        } else {
+          _lockedRoundIdx = col;
+          _showSlopeCard(col, canvas, x, e.clientY - rect.top, true);
+        }
+      };
+
+      canvas.onmousemove = function(e) {
+        if (_lockedRoundIdx !== null) return;
+        if (!_slopeData) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const midX = (_slopeData.colLeft + _slopeData.colRight) / 2;
+        const col = x < midX ? 0 : 1;
+        canvas.style.cursor = 'pointer';
+        _showSlopeCard(col, canvas, x, e.clientY - rect.top, false);
+      };
+
+      canvas.onmouseleave = function() {
+        if (_lockedRoundIdx !== null) return;
+        _hideRoundwiseCard();
+        canvas.style.cursor = '';
+      };
+
+      return;
+    }
 
     const labels = rounds.map(rn => rn === 999 ? 'Final' : `${rn}`);
 
