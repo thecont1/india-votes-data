@@ -3190,7 +3190,6 @@ let partyNames = {};
 let partySymbols = {};
 let partyDetails = {};
 let partyDepositLoss = {};
-let voteShareChart = null;
 let prevTreemapItems = null;
 let racesChart = null;
 let racesData = [];
@@ -3359,7 +3358,7 @@ function refreshChartTheme() {
     });
   }
 
-  [chart, voteShareChart, racesChart, roundwiseChart].forEach(chartInstance => {
+  [chart, racesChart, roundwiseChart].forEach(chartInstance => {
     if (!chartInstance) return;
     setTooltipTheme(chartInstance);
     setScaleTheme(chartInstance);
@@ -3619,11 +3618,10 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
     document.getElementById('perf-legend-tally').innerHTML = '';
     // Reload data for new election
     if (chart) { chart.destroy(); chart = null; }
-    if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
     if (racesChart) { racesChart.destroy(); racesChart = null; }
     if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
     lastDataFingerprint = '';
-    // Update state bar to show only states in this election
+    drawRaceRoundwise._cache = null;
     updateStateBarForElection(election.states);
     fetchStatus();
     fetchData();
@@ -3674,7 +3672,6 @@ function resetToDefaults() {
   _lockedRoundIdx = null;
   // Destroy all charts
   if (chart) { chart.destroy(); chart = null; }
-  if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
   if (racesChart) { racesChart.destroy(); racesChart = null; }
   if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
   if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
@@ -3702,6 +3699,7 @@ function resetToDefaults() {
   });
   // Reboot
   lastDataFingerprint = '';
+  drawRaceRoundwise._cache = null;
   loadElections().then(() => {
     // Default to first state in current election (not Overall)
     if (currentElection && currentElection.states && currentElection.states.length > 0) {
@@ -3828,8 +3826,7 @@ async function fetchData() {
 
     currentMajority = data.majority;
     renderChart(data.parties, data.majority);
-    renderVoteShare();
-    if (currentState) renderRaces(currentState);
+    if (perfView === 'share') renderVoteShare();
     const dt = new Date(data.updated_at);
     const day = dt.getDate();
     const month = dt.toLocaleString('en-IN', { month: 'long' });
@@ -4612,6 +4609,30 @@ function renderChart(parties, majority) {
   const ctx = canvas.getContext('2d');
   const theme = chartTheme();
 
+  // --- Update in place if chart exists and labels match ---
+  const labelsChanged = chart && (
+    chart.data.labels.length !== labels.length ||
+    chart.data.labels.some((l, i) => l !== labels[i])
+  );
+
+  if (chart && !labelsChanged) {
+    // Common case: same parties, just update seat counts
+    chart.data.datasets[0].data = wonData;
+    chart.data.datasets[1].data = leadData;
+    chart.data.datasets[0].backgroundColor = colors;
+    chart.data.datasets[1].backgroundColor = colors.map(c => {
+      const pat = ctx.createPattern(createStripeCanvas(c), 'repeat');
+      return pat || c;
+    });
+    // Update x-axis suggestedMax in case majority line moved
+    chart.options.scales.x.suggestedMax = (majority && currentState !== '')
+      ? Math.max(...wonData, ...leadData, majority) + 2
+      : undefined;
+    chart.update();
+    return;
+  }
+
+  // --- First render or labels changed: create/recreate chart ---
   if (chart) {
     chart.destroy();
     chart = null;
@@ -4824,8 +4845,6 @@ function renderVoteShare() {
   const W = rect.width;
   const H = rect.height;
   const PAD = 16;  // padding around treemap for centering
-
-  if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
 
   // Build per-party candidate rankings from racesData (top 3 vote-getters)
   const partyCandidatesMap = {};
@@ -5663,6 +5682,24 @@ function drawRaceFinal(race) {
   const ctx = canvas.getContext('2d');
   const theme = chartTheme();
 
+  // --- Update in place if chart exists and candidates match ---
+  const candidatesChanged = racesChart && (
+    racesChart.data.labels.length !== labels.length ||
+    racesChart.data.datasets[0]._partyAbvs?.some((abv, i) => abv !== shown[i]?.party_abv)
+  );
+
+  if (racesChart && !candidatesChanged) {
+    // Common case: same candidates, just update vote counts
+    racesChart.data.datasets[0].data = votesData;
+    racesChart.data.datasets[0].backgroundColor = colors;
+    racesChart.data.datasets[0]._partyAbvs = shown.map(c => c.party_abv);
+    racesChart.options.scales.x.max = axis.max;
+    racesChart.options.scales.x.ticks.stepSize = axis.step;
+    racesChart.update();
+    return;
+  }
+
+  // --- First render or candidates changed: create/recreate chart ---
   if (racesChart) {
     racesChart.destroy();
     racesChart = null;
@@ -5754,8 +5791,9 @@ function drawRaceFinal(race) {
         ctx.textBaseline = 'middle';
         for (let i = 0; i < meta.data.length; i++) {
           const bar = meta.data[i];
-          const votes = votesData[i];
+          const votes = chart.data.datasets[0].data[i];
           const c = shown[i];
+          if (!c) continue;
           const barW = xScale.getPixelForValue(votes) - xScale.getPixelForValue(0);
           const barX = xScale.getPixelForValue(0);
           ctx.textAlign = 'left';
@@ -5769,12 +5807,15 @@ function drawRaceFinal(race) {
           }
         }
 
-        if (runnerUpIndex >= 0 && marginDiff > 0 && meta?.data?.[runnerUpIndex]) {
-          const runnerBar = meta.data[runnerUpIndex];
-          const gapStart = xScale.getPixelForValue(votesData[runnerUpIndex]);
-          const gapEnd = xScale.getPixelForValue(winnerVotes);
+        const currentWinnerVotes = chart.data.datasets[0].data[0] || 0;
+        const currentRunnerUpIdx = chart.data.datasets[0].data.length > 1 ? 1 : -1;
+        const currentMarginDiff = currentRunnerUpIdx >= 0 ? Math.max(0, currentWinnerVotes - chart.data.datasets[0].data[currentRunnerUpIdx]) : 0;
+        if (currentRunnerUpIdx >= 0 && currentMarginDiff > 0 && meta?.data?.[currentRunnerUpIdx]) {
+          const runnerBar = meta.data[currentRunnerUpIdx];
+          const gapStart = xScale.getPixelForValue(chart.data.datasets[0].data[currentRunnerUpIdx]);
+          const gapEnd = xScale.getPixelForValue(currentWinnerVotes);
           const gapWidth = gapEnd - gapStart;
-          const marginLabel = `Margin ${marginDiff.toLocaleString()}`;
+          const marginLabel = `Margin ${currentMarginDiff.toLocaleString()}`;
           const lineY = runnerBar.y;
 
           ctx.strokeStyle = theme.muted;
@@ -5819,13 +5860,9 @@ async function drawRaceRoundwise(race) {
   const ctx = canvas.getContext('2d');
   const theme = chartTheme();
 
-  if (racesChart) {
-    racesChart.destroy();
-    racesChart = null;
-  }
-
   // Uncontested: single candidate — show "Won Unopposed" card instead of a chart
   if (shown.length === 1) {
+    if (racesChart) { racesChart.destroy(); racesChart = null; }
     canvas.style.display = 'none';
     const c = shown[0];
     const swatchColor = c.color || '#888';
@@ -5846,10 +5883,18 @@ async function drawRaceRoundwise(race) {
   overlay.style.display = 'none';
 
   try {
-    const eid = race.election_id || (currentElection && currentElection.election_id);
-    const eidParam = eid ? `?election_id=${eid}` : '';
-    const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}${eidParam}`);
-    const data = await resp.json();
+    // Cache roundwise data per constituency to avoid re-fetching
+    const cacheKey = `${currentState}:${race.ac_no}`;
+    let data;
+    if (drawRaceRoundwise._cache?.key === cacheKey) {
+      data = drawRaceRoundwise._cache.data;
+    } else {
+      const eid = race.election_id || (currentElection && currentElection.election_id);
+      const eidParam = eid ? `?election_id=${eid}` : '';
+      const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}${eidParam}`);
+      data = await resp.json();
+      drawRaceRoundwise._cache = { key: cacheKey, data };
+    }
     let rows = data.rounds || [];
     let rounds = [...new Set(rows.map(r => r.round_no))]
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
@@ -6725,6 +6770,7 @@ function renderStateBar(states) {
       localStorage.setItem(STATE_STORAGE_KEY, s.code);
       localStorage.removeItem(RACE_AC_STORAGE_KEY);
       lastDataFingerprint = '';
+      drawRaceRoundwise._cache = null;
       renderStateBar(states);
       fetchData();
       fetchStatus();
