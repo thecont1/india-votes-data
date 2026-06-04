@@ -6266,33 +6266,7 @@ function perfRoundwiseTooltip(context) {
     </div>`;
   }).join('');
 
-  // Grand totals: EVM (last non-999 round) and EVM+Postal (round 999)
-  const roundLabels = chart.data.labels || [];
-  const hoveredIdx = tooltip.dataPoints?.[0]?.dataIndex ?? -1;
-  // Find EVM-only round (second-to-last if last is 999/Final)
-  let evmTotal = 0, evmPostalTotal = 0;
-  const lastLabel = roundLabels[roundLabels.length - 1] || '';
-  const hasFinal = lastLabel === 'Final' || lastLabel === 'EVM+Postal';
-  if (hasFinal) {
-    const finalIdx = roundLabels.length - 1;
-    for (const ds of chart.data.datasets) evmPostalTotal += ds.data[finalIdx] || 0;
-    const evmIdx = finalIdx - 1;
-    if (evmIdx >= 0) {
-      for (const ds of chart.data.datasets) evmTotal += ds.data[evmIdx] || 0;
-    }
-  } else {
-    for (const ds of chart.data.datasets) evmTotal += ds.data[hoveredIdx] || 0;
-  }
-
-  let totalsHtml = '';
-  if (hasFinal && evmTotal > 0) {
-    totalsHtml = `<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border, #555);font-size:11px;color:var(--tooltip-muted, var(--muted));">
-      <div style="display:flex;justify-content:space-between;"><span>EVM total</span><span style="font-variant-numeric:tabular-nums;font-weight:600;color:var(--tooltip-text, var(--text));">${evmTotal.toLocaleString()}</span></div>
-      <div style="display:flex;justify-content:space-between;"><span>EVM+Postal total</span><span style="font-variant-numeric:tabular-nums;font-weight:600;color:var(--tooltip-text, var(--text));">${evmPostalTotal.toLocaleString()}</span></div>
-    </div>`;
-  }
-
-  el.innerHTML = `<div style="font-size:13px;font-weight:700;color:var(--tooltip-text, var(--text));margin-bottom:6px;">${escapeHtml(roundLabel)}</div>${rows}${totalsHtml}`;
+  el.innerHTML = `<div style="font-size:13px;font-weight:700;color:var(--tooltip-text, var(--text));margin-bottom:6px;">${escapeHtml(roundLabel)}</div>${rows}`;
 
   _showTooltip(el);
   _positionTooltip(chart, tooltip, el);
