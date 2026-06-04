@@ -4343,7 +4343,7 @@ function drawSlopeChart(canvas, cands, theme) {
   canvas.height = H * dpr;
   canvas.style.width = W + 'px';
   canvas.style.height = H + 'px';
-  document.getElementById('races-chart-container').style.height = H + 'px';
+  canvas.parentNode.style.height = H + 'px';
   ctx.scale(dpr, dpr);
 
   const byEVM = [...cands].sort((a, b) => b.evmVotes - a.evmVotes);
@@ -4423,13 +4423,11 @@ function drawSlopeChart(canvas, cands, theme) {
     const nameMax = LABEL_W - 10;
     const words = c.candidate.split(' ');
     const displayName = isMobile ? words[words.length - 1] : c.candidate;
+    const label = `${displayName} — ${c.evmVotes.toLocaleString('en-IN')}`;
     ctx.textAlign = 'right';
     ctx.font = `${isTop ? '600' : '400'} ${isMobile ? 10 : 11}px ${theme.fontUi}`;
     ctx.fillStyle = isTop ? theme.label : theme.muted;
-    ctx.fillText(truncateText(ctx, displayName, nameMax), colLeft - 9, y - 4);
-    ctx.font = `400 ${isMobile ? 9 : 10}px ${theme.fontUi}`;
-    ctx.fillStyle = theme.muted;
-    ctx.fillText(c.evmVotes.toLocaleString('en-IN'), colLeft - 9, y + 8);
+    ctx.fillText(truncateText(ctx, label, nameMax), colLeft - 9, y + 3);
   });
 
   // Right column — sorted by combined rank, placed in top half
@@ -4452,18 +4450,16 @@ function drawSlopeChart(canvas, cands, theme) {
     const nameMax = LABEL_W - 14;
     const words = c.candidate.split(' ');
     const displayName = isMobile ? words[words.length - 1] : c.candidate;
+    const label = `${displayName} — ${c.combinedVotes.toLocaleString('en-IN')}`;
     ctx.textAlign = 'left';
     ctx.font = `${isTop ? '600' : '400'} ${isMobile ? 10 : 11}px ${theme.fontUi}`;
     ctx.fillStyle = isTop ? theme.label : theme.muted;
-    ctx.fillText(truncateText(ctx, displayName, nameMax), colRight + 9, y - 4);
-    ctx.font = `400 ${isMobile ? 9 : 10}px ${theme.fontUi}`;
-    ctx.fillStyle = isTop ? theme.label : theme.muted;
-    ctx.fillText(c.combinedVotes.toLocaleString('en-IN'), colRight + 9, y + 8);
+    ctx.fillText(truncateText(ctx, label, nameMax), colRight + 9, y + 3);
 
     if (upset) {
       ctx.font = `700 8px ${theme.fontUi}`;
       ctx.fillStyle = '#ef4444';
-      ctx.fillText('POSTAL FLIP', colRight + 9, y + 21);
+      ctx.fillText('POSTAL FLIP', colRight + 9, y + 16);
     }
   });
 
@@ -6040,6 +6036,8 @@ async function drawRaceRoundwise(race) {
                    : 'rgba(240,240,240,0.4)';
     const lineColor = currentTheme === 'dark-handsome' ? 'rgba(255,255,255,0.25)'
                     : 'rgba(0,0,0,0.2)';
+
+    if (racesChart) { racesChart.destroy(); racesChart = null; }
 
     racesChart = new Chart(ctx, {
       type: 'line',
