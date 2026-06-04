@@ -2989,16 +2989,9 @@
     <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
       <div class="toggle-group" id="perf-toggle" role="group" aria-label="Party performance view">
         <button class="toggle-btn active" type="button" data-view="tally" aria-pressed="true">Seat Tally</button>
+        <button class="toggle-btn" type="button" data-view="assembly" aria-pressed="false">The Assembly</button>
         <button class="toggle-btn" type="button" data-view="share" aria-pressed="false">Vote Share</button>
         <button class="toggle-btn" type="button" data-view="roundwise" aria-pressed="false">Roundwise</button>
-      </div>
-      <div id="tally-assembly-switch" style="display:none; align-items:center; gap:2px;">
-        <button type="button" class="bye-el-label active" id="tally-bar-btn" aria-pressed="true" onclick="setTallySubview('tally')">Bar</button>
-        <button type="button" class="bye-el-sw" onclick="setTallySubview(perfView === 'tally' ? 'assembly' : 'tally')" aria-label="Toggle bar / assembly view">
-          <svg class="bye-sw-off" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
-          <svg class="bye-sw-on" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
-        </button>
-        <button type="button" class="bye-el-label" id="tally-assembly-btn" aria-pressed="false" onclick="setTallySubview('assembly')">The Assembly</button>
       </div>
     </div>
     <div class="flip-wrap" id="perf-flip-wrap">
@@ -3688,7 +3681,8 @@ function resetToDefaults() {
     b.classList.toggle('active', b.dataset.raceView === 'final');
     b.setAttribute('aria-pressed', b.dataset.raceView === 'final' ? 'true' : 'false');
   });
-  // Show Seat Tally, hide others; reset assembly subview
+  // Show Seat Tally, hide others
+  perfView = 'tally';
   document.getElementById('perf-chart-area-tally').style.visibility = '';
   document.getElementById('perf-chart-area-share').style.visibility = 'hidden';
   document.getElementById('perf-chart-area-roundwise').style.visibility = 'hidden';
@@ -3696,7 +3690,6 @@ function resetToDefaults() {
   document.getElementById('assembly-overlay').style.display = 'none';
   document.getElementById('tally-chart').style.visibility = '';
   document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
-  document.getElementById('party-perf-card').classList.remove('perf-view-assembly');
   // Reset race sort links to alpha
   document.querySelectorAll('#race-sort-bar .race-sort-link').forEach(b => {
     b.classList.toggle('active', b.dataset.sort === 'alpha');
@@ -3713,97 +3706,52 @@ function resetToDefaults() {
   });
 }
 
-// Show/hide and reset the Bar/Assembly sub-switch inside Seat Tally
-function updateTallySwitch() {
-  const sw = document.getElementById('tally-assembly-switch');
-  const isAssembly = perfView === 'assembly';
-  // Show switch only when Seat Tally tab is active AND a single state is selected
-  const showSwitch = (perfView === 'tally' || perfView === 'assembly') && !!currentState;
-  sw.classList.toggle('visible', showSwitch);
-  sw.classList.toggle('showing-assembly', isAssembly);
-  document.getElementById('tally-bar-btn').classList.toggle('active', !isAssembly);
-  document.getElementById('tally-bar-btn').setAttribute('aria-pressed', String(!isAssembly));
-  document.getElementById('tally-assembly-btn').classList.toggle('active', isAssembly);
-  document.getElementById('tally-assembly-btn').setAttribute('aria-pressed', String(isAssembly));
-}
-
-// Switch between Bar chart and Assembly view within the Seat Tally area
-function setTallySubview(view) {
-  if (view === perfView) return;
-  if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
-  document.getElementById('assembly-overlay').style.display = 'none';
-  perfView = view;
-  document.getElementById('party-perf-card').classList.toggle('perf-view-assembly', view === 'assembly');
-  // Both 'tally' and 'assembly' share the tally chart area div
-  ['share', 'roundwise', 'assembly'].forEach(k => {
-    document.getElementById('perf-chart-area-' + k).style.visibility = 'hidden';
-  });
-  document.getElementById('perf-chart-area-tally').style.visibility = '';
-  if (view === 'assembly') {
-    if (currentState) {
-      renderAssembly(currentState);
-    } else {
-      document.getElementById('assembly-overlay').style.display = 'flex';
-    }
-    document.getElementById('tally-chart').style.visibility = 'hidden';
-    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = '';
-  } else {
-    document.getElementById('tally-chart').style.visibility = '';
-    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
-  }
-  updateTallySwitch();
-}
-
-// Toggle between Seat Tally, Vote Share, Roundwise
+// Toggle between Seat Tally, The Assembly, Vote Share, Roundwise
 document.getElementById('perf-toggle').addEventListener('click', (e) => {
   const btn = e.target.closest('.toggle-btn');
   if (!btn) return;
   const view = btn.dataset.view;
-  // Normalise: assembly lives inside tally now
-  const topView = (view === 'assembly') ? 'tally' : view;
-  if (topView === perfView || (perfView === 'assembly' && topView === 'tally')) return;
+  if (view === perfView) return;
 
   if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
   document.getElementById('roundwise-overlay').style.display = 'none';
   document.getElementById('assembly-overlay').style.display = 'none';
-  document.getElementById('party-perf-card').classList.remove('perf-view-assembly');
-  document.getElementById('tally-chart').style.visibility = '';
-  document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
 
-  // Switching away from tally/assembly: reset subview to bar
-  if (perfView === 'assembly') perfView = 'tally';
+  perfView = view;
+  document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
+    const active = b.dataset.view === view;
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-pressed', String(active));
+  });
 
-  // Roundwise only works for single state
-  if (topView === 'roundwise' && !currentState) {
-    perfView = 'roundwise';
-    document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
-      const isActive = b.dataset.view === 'roundwise';
-      b.classList.toggle('active', isActive);
-      b.setAttribute('aria-pressed', String(isActive));
-    });
-    ['tally', 'share', 'roundwise', 'assembly'].forEach(k => {
-      document.getElementById('perf-chart-area-' + k).style.visibility = k === 'roundwise' ? '' : 'hidden';
-    });
-    document.getElementById('roundwise-overlay').style.display = 'flex';
-    if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
-    document.getElementById('perf-legend-tally').innerHTML = '';
-    updateTallySwitch();
-    return;
+  // Chart area visibility — tally area hosts both 'tally' and 'assembly' canvases
+  const inTallyArea = view === 'tally' || view === 'assembly';
+  document.getElementById('perf-chart-area-tally').style.visibility     = inTallyArea        ? '' : 'hidden';
+  document.getElementById('perf-chart-area-share').style.visibility      = view === 'share'    ? '' : 'hidden';
+  document.getElementById('perf-chart-area-roundwise').style.visibility  = view === 'roundwise'? '' : 'hidden';
+  document.getElementById('perf-chart-area-assembly').style.visibility   = 'hidden';
+
+  // Sub-canvas visibility within the tally area
+  if (view === 'assembly') {
+    document.getElementById('tally-chart').style.visibility = 'hidden';
+    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = '';
+    if (currentState) renderAssembly(currentState);
+    else document.getElementById('assembly-overlay').style.display = 'flex';
+  } else {
+    document.getElementById('tally-chart').style.visibility = '';
+    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
   }
 
-  perfView = topView;
-  document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
-    const isActive = b.dataset.view === topView;
-    b.classList.toggle('active', isActive);
-    b.setAttribute('aria-pressed', String(isActive));
-  });
-  document.getElementById('perf-chart-area-tally').style.visibility = topView === 'tally' ? '' : 'hidden';
-  document.getElementById('perf-chart-area-share').style.visibility = topView === 'share' ? '' : 'hidden';
-  document.getElementById('perf-chart-area-roundwise').style.visibility = topView === 'roundwise' ? '' : 'hidden';
-  document.getElementById('perf-chart-area-assembly').style.visibility = 'hidden';
-  if (topView === 'roundwise' && currentState) renderRoundwise(currentState);
-  else if (topView === 'share') renderVoteShare();
-  updateTallySwitch();
+  if (view === 'roundwise') {
+    if (!currentState) {
+      document.getElementById('roundwise-overlay').style.display = 'flex';
+      if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+      document.getElementById('perf-legend-tally').innerHTML = '';
+    } else {
+      renderRoundwise(currentState);
+    }
+  }
+  if (view === 'share') renderVoteShare();
 });
 
 document.getElementById('race-toggle').addEventListener('click', (e) => {
@@ -3920,16 +3868,13 @@ function loadStateCharts() {
     document.getElementById('perf-chart-area-roundwise').style.visibility = '';
   }
   if (perfView === 'assembly') {
-    document.getElementById('party-perf-card').classList.toggle('perf-view-assembly', !!currentState);
     document.getElementById('assembly-overlay').style.display = currentState ? 'none' : 'flex';
     document.getElementById('tally-chart').style.visibility = 'hidden';
     document.getElementById('assembly-chart').closest('.chart-container').style.visibility = '';
   } else {
-    document.getElementById('party-perf-card').classList.remove('perf-view-assembly');
     document.getElementById('tally-chart').style.visibility = '';
     document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
   }
-  updateTallySwitch();
   renderRaces(currentState);
   // Roundwise / Assembly only make sense for a single state - skip in Overall view
   if (currentState) {
