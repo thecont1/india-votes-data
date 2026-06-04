@@ -1722,6 +1722,48 @@
     background: #000000; border-color: #333;
     box-shadow: 0 4px 16px rgba(0,0,0,0.6);
   }
+  #assembly-tooltip {
+    background: var(--tooltip-bg, var(--card));
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px 10px 14px;
+    font: 500 12px var(--font-ui);
+    color: var(--text);
+    box-shadow: 0 4px 16px color-mix(in srgb, var(--text) 14%, transparent);
+    min-width: 180px;
+    max-width: 260px;
+    white-space: nowrap;
+  }
+  #assembly-tooltip .at-name {
+    font-weight: 700; font-size: 13px; margin-bottom: 2px;
+    white-space: normal; line-height: 1.3;
+  }
+  #assembly-tooltip .at-party {
+    font-size: 11px; color: var(--muted); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  #assembly-tooltip .at-party img {
+    width: 16px; height: 16px; object-fit: contain;
+    background: #fff; border-radius: 3px; padding: 1px; flex-shrink: 0;
+  }
+  #assembly-tooltip .at-row {
+    font-size: 11px; color: var(--muted); line-height: 1.8;
+  }
+  #assembly-tooltip .at-row strong { color: var(--text); font-weight: 600; }
+  #assembly-tooltip .at-accent {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    border-radius: 8px 0 0 8px;
+  }
+  :root[data-theme="fair-lovely"] #assembly-tooltip {
+    background: #ffffff; border-color: var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  }
+  :root[data-theme="dark-handsome"] #assembly-tooltip {
+    background: #000000; border-color: #333;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  }
+  :root[data-theme="dark-handsome"] #assembly-tooltip .at-party img { filter: invert(1); }
+
   .chartjs-tooltip {
     position: absolute;
     background: var(--tooltip-bg, var(--card));
@@ -2261,7 +2303,6 @@
     .perf-chart-area {
       height: 46vh;
     }
-
     /* 4. Card padding shrink — edge-to-edge charts, text keeps inline padding */
     .card {
       padding: 10px 0;
@@ -2938,10 +2979,13 @@
   <!-- Party Performance: Seat Tally + Vote Share (toggled) -->
   <div class="card" id="party-perf-card">
     <h2>Party Performance</h2>
-    <div class="toggle-group" id="perf-toggle" role="group" aria-label="Party performance view">
-      <button class="toggle-btn active" type="button" data-view="tally" aria-pressed="true">Seat Tally</button>
-      <button class="toggle-btn" type="button" data-view="share" aria-pressed="false">Vote Share</button>
-      <button class="toggle-btn" type="button" data-view="roundwise" aria-pressed="false">Roundwise</button>
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+      <div class="toggle-group" id="perf-toggle" role="group" aria-label="Party performance view">
+        <button class="toggle-btn active" type="button" data-view="tally" aria-pressed="true">Seat Tally</button>
+        <button class="toggle-btn" type="button" data-view="assembly" aria-pressed="false">The Assembly</button>
+        <button class="toggle-btn" type="button" data-view="share" aria-pressed="false">Vote Share</button>
+        <button class="toggle-btn" type="button" data-view="roundwise" aria-pressed="false">Roundwise</button>
+      </div>
     </div>
     <div class="flip-wrap" id="perf-flip-wrap">
       <div class="flipper" id="perf-flipper">
@@ -2950,6 +2994,15 @@
             <div id="perf-chart-area-tally">
               <div class="chart-container">
                 <canvas id="tally-chart"></canvas>
+              </div>
+              <div class="chart-container" style="position:absolute; top:0; left:0; right:0; bottom:0; visibility:hidden;">
+                <canvas id="assembly-chart"></canvas>
+                <div id="assembly-tooltip" role="tooltip" style="position:absolute;pointer-events:none;opacity:0;transition:opacity 0.12s;z-index:200;"></div>
+              </div>
+              <div id="assembly-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
+                <div class="icon">🏛️</div>
+                <h3>This view is available in single-state mode only</h3>
+                <p>Pick a state from the buttons above to see the assembly.</p>
               </div>
             </div>
             <div id="perf-chart-area-share" style="visibility:hidden;">
@@ -2967,6 +3020,7 @@
                     <p>Pick a state from the buttons above to see constituency-level results.</p>
               </div>
             </div>
+            <div id="perf-chart-area-assembly" style="display:none;"></div>
           </div>
           <div id="perf-legend-tally" class="legend perf-party-legend" style="margin-bottom:0;"></div>
         </div>
@@ -3140,6 +3194,8 @@ let voteShareChart = null;
 let prevTreemapItems = null;
 let racesChart = null;
 let racesData = [];
+let assemblySeats = [];
+let assemblyDotRadius = 8;
 let currentRace = null;
 let byeElectionMap = {};  // ac_no -> bye-election race data
 let showingByeElection = false;  // toggle state for bye-election view
@@ -3149,6 +3205,19 @@ let lastDataFingerprint = '';
 let selectedTheme = DEFAULT_THEME;
 let stateStatuses = {};
 let knownStates = [];
+
+function resetAssemblyView() {
+  assemblySeats = [];
+  assemblyDotRadius = 8;
+  const canvas = document.getElementById('assembly-chart');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.style.cursor = '';
+  }
+  const tip = document.getElementById('assembly-tooltip');
+  if (tip) tip.style.opacity = '0';
+}
 
 // ---------------------------------------------------------------------------
 // Sanitization helpers (global scope — used by mobile detail flips)
@@ -3167,8 +3236,9 @@ function safeImgSrc(url) {
   } catch (_) { /* relative URL — allow */ return url; }
   return '';
 }
-let perfView = 'tally';  // 'tally', 'share', or 'roundwise'
+let perfView = 'tally';  // 'tally', 'share', 'roundwise', or 'assembly'
 let perfParties = [];  // shared party list for both views
+let assemblyAnimFrame = null;  // rAF id for assembly jitter animation
 let raceSortMode = localStorage.getItem(RACE_SORT_STORAGE_KEY) || 'alpha';
 
 // Restore active sort button from saved state
@@ -3296,6 +3366,11 @@ function refreshChartTheme() {
     chartInstance.options.animation = getChartAnimation(0);
     chartInstance.update('none');
   });
+  // Restart assembly animation with updated colours
+  if (perfView === 'assembly' && currentState) {
+    if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
+    renderAssembly(currentState);
+  }
 }
 
 function updateThemeMenu(nextTheme) {
@@ -3602,6 +3677,7 @@ function resetToDefaults() {
   if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
   if (racesChart) { racesChart.destroy(); racesChart = null; }
   if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+  if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
   // Reset toggle buttons
   document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.view === 'tally');
@@ -3612,9 +3688,14 @@ function resetToDefaults() {
     b.setAttribute('aria-pressed', b.dataset.raceView === 'final' ? 'true' : 'false');
   });
   // Show Seat Tally, hide others
+  perfView = 'tally';
   document.getElementById('perf-chart-area-tally').style.visibility = '';
   document.getElementById('perf-chart-area-share').style.visibility = 'hidden';
   document.getElementById('perf-chart-area-roundwise').style.visibility = 'hidden';
+  document.getElementById('perf-chart-area-assembly').style.visibility = 'hidden';
+  document.getElementById('assembly-overlay').style.display = 'none';
+  document.getElementById('tally-chart').style.visibility = '';
+  document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
   // Reset race sort links to alpha
   document.querySelectorAll('#race-sort-bar .race-sort-link').forEach(b => {
     b.classList.toggle('active', b.dataset.sort === 'alpha');
@@ -3631,47 +3712,52 @@ function resetToDefaults() {
   });
 }
 
-// Toggle between Seat Tally, Vote Share, and Roundwise
+// Toggle between Seat Tally, The Assembly, Vote Share, Roundwise
 document.getElementById('perf-toggle').addEventListener('click', (e) => {
   const btn = e.target.closest('.toggle-btn');
   if (!btn) return;
   const view = btn.dataset.view;
   if (view === perfView) return;
 
-  // Roundwise only works for single state - show overlay in Overall view
-  if (view === 'roundwise' && !currentState) {
-    perfView = 'roundwise';
-    document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
-      const isActive = b.dataset.view === view;
-      b.classList.toggle('active', isActive);
-      b.setAttribute('aria-pressed', String(isActive));
-    });
-    ['tally', 'share', 'roundwise'].forEach(k => {
-      document.getElementById('perf-chart-area-' + k).style.visibility = k === view ? '' : 'hidden';
-    });
-    document.getElementById('roundwise-overlay').style.display = 'flex';
-    document.getElementById('perf-legend-tally').innerHTML = '';
-    if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
-    return;
-  }
-
-  // Hide overlay if switching away from roundwise or entering state view
+  if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
   document.getElementById('roundwise-overlay').style.display = 'none';
+  document.getElementById('assembly-overlay').style.display = 'none';
 
   perfView = view;
   document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
-    const isActive = b.dataset.view === view;
-    b.classList.toggle('active', isActive);
-    b.setAttribute('aria-pressed', String(isActive));
+    const active = b.dataset.view === view;
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-pressed', String(active));
   });
-  ['tally', 'share', 'roundwise'].forEach(k => {
-    document.getElementById('perf-chart-area-' + k).style.visibility = k === view ? '' : 'hidden';
-  });
-  if (view === 'roundwise' && currentState) {
-    renderRoundwise(currentState);
-  } else if (view === 'share') {
-    renderVoteShare();
+
+  // Chart area visibility — tally area hosts both 'tally' and 'assembly' canvases
+  const inTallyArea = view === 'tally' || view === 'assembly';
+  document.getElementById('perf-chart-area-tally').style.visibility     = inTallyArea        ? '' : 'hidden';
+  document.getElementById('perf-chart-area-share').style.visibility      = view === 'share'    ? '' : 'hidden';
+  document.getElementById('perf-chart-area-roundwise').style.visibility  = view === 'roundwise'? '' : 'hidden';
+  document.getElementById('perf-chart-area-assembly').style.visibility   = 'hidden';
+
+  // Sub-canvas visibility within the tally area
+  if (view === 'assembly') {
+    document.getElementById('tally-chart').style.visibility = 'hidden';
+    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = '';
+    if (currentState) renderAssembly(currentState);
+    else document.getElementById('assembly-overlay').style.display = 'flex';
+  } else {
+    document.getElementById('tally-chart').style.visibility = '';
+    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
   }
+
+  if (view === 'roundwise') {
+    if (!currentState) {
+      document.getElementById('roundwise-overlay').style.display = 'flex';
+      if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+      document.getElementById('perf-legend-tally').innerHTML = '';
+    } else {
+      renderRoundwise(currentState);
+    }
+  }
+  if (view === 'share') renderVoteShare();
 });
 
 document.getElementById('race-toggle').addEventListener('click', (e) => {
@@ -3787,17 +3873,31 @@ function loadStateCharts() {
     }
     document.getElementById('perf-chart-area-roundwise').style.visibility = '';
   }
-  renderRaces(currentState);
-  // Roundwise only makes sense for a single state - skip in Overall view
-  if (currentState) {
-    renderRoundwise(currentState);
+  if (perfView === 'assembly') {
+    document.getElementById('assembly-overlay').style.display = currentState ? 'none' : 'flex';
+    document.getElementById('tally-chart').style.visibility = 'hidden';
+    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = '';
   } else {
-    // Clear legend when entering Overall view (no roundwise data)
+    document.getElementById('tally-chart').style.visibility = '';
+    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
+  }
+  renderRaces(currentState);
+  // Roundwise / Assembly only make sense for a single state - skip in Overall view
+  if (currentState) {
+    if (perfView === 'roundwise') renderRoundwise(currentState);
+    if (perfView === 'assembly') renderAssembly(currentState);
+  } else {
+    // Clear legend when entering Overall view (no roundwise/assembly data)
     document.getElementById('perf-legend-tally').innerHTML = '';
     if (roundwiseChart) {
       roundwiseChart.destroy();
       roundwiseChart = null;
     }
+    if (assemblyAnimFrame) {
+      cancelAnimationFrame(assemblyAnimFrame);
+      assemblyAnimFrame = null;
+    }
+    resetAssemblyView();
   }
 }
 
@@ -5230,6 +5330,9 @@ function renderRaces(stateCode) {
 
       populateRaceDropdown();
 
+      // Update assembly view if currently active
+      if (perfView === 'assembly') renderAssembly(stateCode);
+
       // Enable/disable Form 20 Priority button based on available statuses
       const form20Btn = document.getElementById('form20-sort-btn');
       const form20Statuses = new Set(['MISMATCH', 'ERROR', 'UNVERIFIED', 'UNAVAILABLE']);
@@ -6174,6 +6277,388 @@ async function renderRoundwise(stateCode) {
     console.warn('Failed to load roundwise:', e);
   }
 }
+
+// ---------------------------------------------------------------------------
+// The Assembly — hemicycle of jittering seat dots
+// ---------------------------------------------------------------------------
+function renderAssembly(stateCode) {
+  if (!stateCode) return;
+  const canvas = document.getElementById('assembly-chart');
+  if (!canvas) return;
+
+  if (assemblyAnimFrame) {
+    cancelAnimationFrame(assemblyAnimFrame);
+    assemblyAnimFrame = null;
+  }
+
+  if (!racesData || !racesData.length) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
+
+  // Build one winner entry per seat with full metadata for tooltip
+  const winners = [];
+  for (const race of racesData) {
+    const cands = race.candidates || [];
+    const winner = cands.find(c => c.won) || cands[0];
+    if (!winner) continue;
+    winners.push({
+      party_abv:   winner.party_abv,
+      party_name:  winner.party_name || winner.party_abv,
+      color:       winner.color || '#888888',
+      symbol_url:  winner.symbol_url || null,
+      candidate:   winner.candidate || '',
+      ac_name:     race.ac_name || '',
+      ac_no:       race.ac_no,
+      votes:       winner.votes || 0,
+      margin:      race.margin  || 0,
+    });
+  }
+
+  if (!winners.length) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
+
+  // Group by party
+  const partyMap = new Map();
+  for (const w of winners) {
+    if (!partyMap.has(w.party_abv)) {
+      partyMap.set(w.party_abv, { count: 0, color: w.color });
+    }
+    partyMap.get(w.party_abv).count++;
+  }
+
+  const sortedParties = [...partyMap.entries()]
+    .sort((a, b) => b[1].count - a[1].count);
+
+  buildCircleLegend(
+    document.getElementById('perf-legend-tally'),
+    sortedParties.map(([abv]) => abv),
+    sortedParties.map(([, d]) => d.color),
+    sortedParties.map(([abv]) => partySymbols[abv] || null)
+  );
+
+  // Canvas setup (DPR-aware)
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.closest('.perf-chart-area').getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = rect.width;
+  const H = rect.height;
+
+  const ARC_MARGIN = 0.06; // radians kept clear at each end
+  const N = winners.length;
+
+  // Dynamically size dots so the hemicycle makes good use of the canvas.
+  // Approach: binary-search DOT_RADIUS so that the total row capacity ≥ N
+  // AND the outermost arc radius is as large as possible given both W and H.
+  //
+  // outerR is constrained by:
+  //   - height: outerR ≤ H - 2*DOT_RADIUS  (apex must fit within canvas)
+  //   - width:  outerR ≤ (W - 2*PAD) / 2   (ends must fit within canvas)
+  //
+  // We want the LARGEST DOT_RADIUS for which capacity ≥ N.
+
+  const WELL_FACTOR = 0.40; // innermost arc ≥ this fraction of outerR (keeps the "well" empty)
+
+  const rowCap = (rad, dr, dg) =>
+    Math.max(1, Math.floor((Math.PI - ARC_MARGIN * 2) * rad / (dr * 2 + dg)));
+
+  const computeLayout = (dr) => {
+    const dg = Math.max(1, Math.round(dr * 0.25));
+    const rg = dr * 2 + dg;
+    const pad = dr + 4;
+    const base = H - dr;
+    const outer = Math.min((W - pad * 2) / 2, base - dr);
+    if (outer < dr * 2) return null;
+    const innerMin = Math.max(dr * 2, outer * WELL_FACTOR);
+    const rs = [];
+    for (let r = 0; ; r++) {
+      const rad = outer - r * rg;
+      if (rad < innerMin) break;
+      rs.push(rad);
+      if (rs.reduce((s, rd) => s + rowCap(rd, dr, dg), 0) >= N) break;
+    }
+    const cap = rs.reduce((s, rd) => s + rowCap(rd, dr, dg), 0);
+    return cap >= N ? { dr, dg, rg, pad, base, outer, rows: rs } : null;
+  };
+
+  // Binary search: find largest DOT_RADIUS that fits all seats
+  let lo = 3, hi = Math.min(30, Math.floor(Math.min(W, H) / 4));
+  let best = computeLayout(lo);
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    const layout = computeLayout(mid);
+    if (layout) { best = layout; lo = mid + 1; }
+    else hi = mid - 1;
+  }
+  if (!best) return;
+
+  const DOT_RADIUS = best.dr;
+  const DOT_GAP    = best.dg;
+  const ROW_GAP    = best.rg;
+  const PAD        = best.pad;
+  const baseline   = best.base;
+  const outerR     = best.outer;
+  const rows       = best.rows;
+  if (!rows.length) return;
+
+  const totalSeats = winners.length;
+  const arcSpan = Math.PI - ARC_MARGIN * 2;
+
+  // Per-row capacity at uniform physical spacing
+  const rowCapacity = rows.map(rad =>
+    Math.max(1, Math.floor(arcSpan * rad / (DOT_RADIUS * 2 + DOT_GAP)))
+  );
+  const totalCap = rowCapacity.reduce((s, c) => s + c, 0);
+
+  // Distribute exactly totalSeats across rows proportionally (LRM).
+  // Each row gets rowSeats[r] dots, uniformly spaced — guaranteed no overlap.
+  const exactPerRow = rows.map((_, i) => totalSeats * rowCapacity[i] / totalCap);
+  const rowSeats = exactPerRow.map(Math.floor);
+  let rowRem = totalSeats - rowSeats.reduce((s, v) => s + v, 0);
+  const rowFracs = exactPerRow.map((v, i) => ({ i, f: v - Math.floor(v) }))
+    .sort((a, b) => b.f - a.f);
+  for (let k = 0; k < rowRem; k++) rowSeats[rowFracs[k].i]++;
+
+  // Build all seat positions with correct physical spacing on every arc
+  const allPositions = [];
+  for (let ri = 0; ri < rows.length; ri++) {
+    const n = rowSeats[ri];
+    if (n === 0) continue;
+    const radius = rows[ri];
+    const step = arcSpan / n;
+    for (let i = 0; i < n; i++) {
+      allPositions.push({ angle: (Math.PI - ARC_MARGIN) - (i + 0.5) * step, radius });
+    }
+  }
+
+  // Sort left→right by angle (descending). Assigning parties in order
+  // then paints contiguous angular wedges with no clashing at boundaries.
+  allPositions.sort((a, b) => b.angle - a.angle);
+
+  // partyWinners: map party_abv → queue of winner metadata (preserving order)
+  const partyQueues = new Map();
+  for (const w of winners) {
+    if (!partyQueues.has(w.party_abv)) partyQueues.set(w.party_abv, []);
+    partyQueues.get(w.party_abv).push(w);
+  }
+
+  const seats = [];
+  let pi = 0;
+  for (const [abv, d] of sortedParties) {
+    const queue = partyQueues.get(abv) || [];
+    for (let k = 0; k < d.count; k++) {
+      if (pi >= allPositions.length) break;
+      const { angle, radius } = allPositions[pi++];
+      const meta = queue[k] || {};
+      seats.push({
+        x:          W / 2 + radius * Math.cos(angle),
+        y:          baseline - radius * Math.sin(angle),
+        color:      d.color,
+        phase:      Math.random() * Math.PI * 2,
+        freq:       0.5 + Math.random() * 1.5,
+        candidate:  meta.candidate  || '',
+        party_abv:  meta.party_abv  || abv,
+        party_name: meta.party_name || abv,
+        symbol_url: meta.symbol_url || null,
+        ac_name:    meta.ac_name    || '',
+        ac_no:      meta.ac_no,
+        votes:      meta.votes      || 0,
+        margin:     meta.margin     || 0,
+      });
+    }
+  }
+
+  assemblySeats = seats;
+  assemblyDotRadius = DOT_RADIUS;
+
+  const isBw = document.documentElement.dataset.theme === 'black-white';
+  const strokeColor = isBw ? '#000000' : 'transparent';
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const s of seats) {
+      const jx = s.jitterX || 0;
+      const jy = s.jitterY || 0;
+      ctx.beginPath();
+      ctx.arc(s.x + jx, s.y + jy, DOT_RADIUS, 0, Math.PI * 2);
+      ctx.fillStyle = s.color;
+      ctx.fill();
+      if (strokeColor !== 'transparent') {
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+  }
+
+  if (prefersReducedMotion.matches) {
+    draw();
+    return;
+  }
+
+  function animate(time) {
+    const t = time * 0.001;
+    for (const s of seats) {
+      s.jitterX = Math.sin(t * s.freq + s.phase) * 1.5;
+      s.jitterY = Math.cos(t * s.freq * 0.7 + s.phase) * 1.5;
+    }
+    draw();
+    assemblyAnimFrame = requestAnimationFrame(animate);
+  }
+
+  assemblyAnimFrame = requestAnimationFrame(animate);
+}
+
+// ---------------------------------------------------------------------------
+// Assembly tooltip — hover over a dot to see member info
+// ---------------------------------------------------------------------------
+(function setupAssemblyTooltip() {
+  const canvas  = document.getElementById('assembly-chart');
+  const tooltip = document.getElementById('assembly-tooltip');
+  if (!canvas || !tooltip) return;
+
+  function fmt(n) { return Number(n).toLocaleString('en-IN'); }
+
+  // --- Spatial grid index (rebuilds when seats change) ---
+  const CELL = 20;                        // bucket size ≈ hit radius
+  let grid = new Map();                    // "col,row" → seat[]
+  let gridVersion = -1;                    // tracks assemblySeats rebuilds
+
+  function buildGrid() {
+    const cur = assemblySeats;
+    if (cur._gridVersion === gridVersion) return;   // no-op if unchanged
+    gridVersion = cur._gridVersion = (cur._gridVersion || 0) + 1;
+    grid.clear();
+    for (let i = 0; i < cur.length; i++) {
+      const s = cur[i];
+      const col = Math.floor(s.x / CELL);
+      const row = Math.floor(s.y / CELL);
+      // Insert seat into every cell its hit radius could touch
+      const hitR = assemblyDotRadius + 4;
+      const cMin = Math.floor((s.x - hitR) / CELL);
+      const cMax = Math.floor((s.x + hitR) / CELL);
+      const rMin = Math.floor((s.y - hitR) / CELL);
+      const rMax = Math.floor((s.y + hitR) / CELL);
+      for (let c = cMin; c <= cMax; c++) {
+        for (let r = rMin; r <= rMax; r++) {
+          const key = c + ',' + r;
+          let bucket = grid.get(key);
+          if (!bucket) { bucket = []; grid.set(key, bucket); }
+          bucket.push(s);
+        }
+      }
+    }
+  }
+
+  function findNearest(mx, my) {
+    buildGrid();
+    const hitR = assemblyDotRadius + 4;
+    const col = Math.floor(mx / CELL);
+    const row = Math.floor(my / CELL);
+    const bucket = grid.get(col + ',' + row);
+    if (!bucket || !bucket.length) return null;
+
+    let nearest = null, best = Infinity;
+    for (const s of bucket) {
+      const dx = s.x - mx, dy = s.y - my;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < best && d2 < hitR * hitR) { best = d2; nearest = s; }
+    }
+    return nearest;
+  }
+
+  // --- rAF-throttled mousemove ---
+  let pendingMx = 0, pendingMy = 0, rafScheduled = false;
+
+  function processHover() {
+    rafScheduled = false;
+    if (!assemblySeats.length) return;
+
+    const mx = pendingMx, my = pendingMy;
+    const nearest = findNearest(mx, my);
+
+    canvas.style.cursor = nearest ? 'pointer' : '';
+
+    if (!nearest) { tooltip.style.opacity = '0'; return; }
+
+    const symHtml = nearest.symbol_url
+      ? `<img src="${safeImgSrc(nearest.symbol_url)}" alt="" onerror="this.style.display='none'">`
+      : '';
+
+    tooltip.style.position = 'absolute';
+    tooltip.innerHTML =
+      `<div class="at-accent" style="background:${escapeAttr(nearest.color)}"></div>` +
+      `<div class="at-name">${escapeHtml(nearest.candidate)}</div>` +
+      `<div class="at-party">${symHtml}${escapeHtml(nearest.party_name)}` +
+        (nearest.party_abv && nearest.party_abv !== nearest.party_name
+          ? ` <span style="opacity:.65">(${escapeHtml(nearest.party_abv)})</span>` : '') +
+      `</div>` +
+      `<div class="at-row">🏛 <strong>${escapeHtml(nearest.ac_name)}</strong></div>` +
+      `<div class="at-row">🗳 <strong>${fmt(nearest.votes)}</strong> votes` +
+        (nearest.margin > 0 ? ` &nbsp;·&nbsp; Margin: <strong>${fmt(nearest.margin)}</strong>` : '') +
+      `</div>`;
+
+    // Position: prefer upper-right of cursor; clamp to canvas bounds
+    const TW = 240, TH = 90;
+    const cW = canvas.offsetWidth, cH = canvas.offsetHeight;
+    let tx = mx + 14, ty = my - TH - 8;
+    if (tx + TW > cW) tx = mx - TW - 14;
+    if (ty < 4) ty = my + 14;
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top  = ty + 'px';
+    tooltip.style.opacity = '1';
+  }
+
+  canvas.addEventListener('mousemove', (e) => {
+    pendingMx = e.offsetX;
+    pendingMy = e.offsetY;
+    if (!rafScheduled) {
+      rafScheduled = true;
+      requestAnimationFrame(processHover);
+    }
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    tooltip.style.opacity = '0';
+    canvas.style.cursor = '';
+    if (rafScheduled) rafScheduled = false;   // cancel pending frame
+  });
+
+  canvas.addEventListener('click', (e) => {
+    if (!assemblySeats.length) return;
+    const nearest = findNearest(e.offsetX, e.offsetY);
+    if (!nearest || nearest.ac_no == null) return;
+    tooltip.style.opacity = '0';
+    // Select the matching option in the race dropdown and scroll to it
+    const sel = document.getElementById('race-select');
+    if (!sel) return;
+    const acStr = String(nearest.ac_no);
+    let idx = -1;
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].dataset.acNo === acStr) { idx = i; break; }
+    }
+    if (idx < 0) return;
+    sel.selectedIndex = idx;
+    sel.dispatchEvent(new Event('change'));
+    const card = document.getElementById('races-card');
+    if (card) {
+      setTimeout(() => {
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        card.classList.add('highlight-flash');
+        setTimeout(() => card.classList.remove('highlight-flash'), 2000);
+      }, 80);
+    }
+  });
+})();
 
 // ---------------------------------------------------------------------------
 // Status helpers
