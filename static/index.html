@@ -3011,8 +3011,9 @@
               </div>
             </div>
             <div id="perf-chart-area-roundwise" style="visibility:hidden;">
-              <div class="chart-container">
+              <div class="chart-container" style="position:relative;">
                 <canvas id="roundwise-chart"></canvas>
+                <div id="perf-roundwise-card" class="roundwise-card"></div>
               </div>
               <div id="roundwise-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
                 <div class="icon">📊</div>
@@ -3190,7 +3191,6 @@ let partyNames = {};
 let partySymbols = {};
 let partyDetails = {};
 let partyDepositLoss = {};
-let voteShareChart = null;
 let prevTreemapItems = null;
 let racesChart = null;
 let racesData = [];
@@ -3238,6 +3238,7 @@ function safeImgSrc(url) {
 }
 let perfView = 'tally';  // 'tally', 'share', 'roundwise', or 'assembly'
 let perfParties = [];  // shared party list for both views
+let perfAllParties = [];  // ALL parties from API (for vote-share denominator)
 let assemblyAnimFrame = null;  // rAF id for assembly jitter animation
 let raceSortMode = localStorage.getItem(RACE_SORT_STORAGE_KEY) || 'alpha';
 
@@ -3359,7 +3360,7 @@ function refreshChartTheme() {
     });
   }
 
-  [chart, voteShareChart, racesChart, roundwiseChart].forEach(chartInstance => {
+  [chart, racesChart, roundwiseChart].forEach(chartInstance => {
     if (!chartInstance) return;
     setTooltipTheme(chartInstance);
     setScaleTheme(chartInstance);
@@ -3599,8 +3600,14 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
   if (election && election.election_id !== currentElection?.election_id) {
     currentElection = election;
     localStorage.setItem(ELECTION_STORAGE_KEY, election.election_id);
-    // Default to first state in this election, not Overall
-    currentState = election.states && election.states.length > 0 ? election.states[0] : '';
+    // Default to first state alphabetically in this election, not Overall
+    currentState = election.states && election.states.length > 0
+      ? [...election.states].sort((a, b) => {
+          const na = stateNameMap[a]?.name || a;
+          const nb = stateNameMap[b]?.name || b;
+          return na.localeCompare(nb);
+        })[0]
+      : '';
     if (currentState) {
       localStorage.setItem(STATE_STORAGE_KEY, currentState);
     } else {
@@ -3619,11 +3626,10 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
     document.getElementById('perf-legend-tally').innerHTML = '';
     // Reload data for new election
     if (chart) { chart.destroy(); chart = null; }
-    if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
     if (racesChart) { racesChart.destroy(); racesChart = null; }
     if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
     lastDataFingerprint = '';
-    // Update state bar to show only states in this election
+    drawRaceRoundwise._cache = null;
     updateStateBarForElection(election.states);
     fetchStatus();
     fetchData();
@@ -3632,7 +3638,12 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
 });
 
 function updateStateBarForElection(stateCodes) {
-  const states = [{ code: '', name: 'Overall', short: 'All' }, ...stateCodes.map(code => ({
+  const sorted = [...stateCodes].sort((a, b) => {
+    const na = stateNameMap[a]?.name || a;
+    const nb = stateNameMap[b]?.name || b;
+    return na.localeCompare(nb);
+  });
+  const states = [{ code: '', name: 'Overall', short: 'All' }, ...sorted.map(code => ({
     code,
     name: stateNameMap[code]?.name || code,
     short: stateNameMap[code]?.std || code
@@ -3674,7 +3685,6 @@ function resetToDefaults() {
   _lockedRoundIdx = null;
   // Destroy all charts
   if (chart) { chart.destroy(); chart = null; }
-  if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
   if (racesChart) { racesChart.destroy(); racesChart = null; }
   if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
   if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
@@ -3702,10 +3712,15 @@ function resetToDefaults() {
   });
   // Reboot
   lastDataFingerprint = '';
+  drawRaceRoundwise._cache = null;
   loadElections().then(() => {
-    // Default to first state in current election (not Overall)
+    // Default to first state alphabetically in current election (not Overall)
     if (currentElection && currentElection.states && currentElection.states.length > 0) {
-      currentState = currentElection.states[0];
+      currentState = [...currentElection.states].sort((a, b) => {
+        const na = stateNameMap[a]?.name || a;
+        const nb = stateNameMap[b]?.name || b;
+        return na.localeCompare(nb);
+      })[0];
       localStorage.setItem(STATE_STORAGE_KEY, currentState);
     }
     init();
@@ -3828,8 +3843,7 @@ async function fetchData() {
 
     currentMajority = data.majority;
     renderChart(data.parties, data.majority);
-    renderVoteShare();
-    if (currentState) renderRaces(currentState);
+    if (perfView === 'share') renderVoteShare();
     const dt = new Date(data.updated_at);
     const day = dt.getDate();
     const month = dt.toLocaleString('en-IN', { month: 'long' });
@@ -4131,6 +4145,7 @@ function legendTooltip(context) {
 // ---------------------------------------------------------------------------
 let _lockedRoundIdx = null;
 let _slopeData = null;
+let _perfSlopeDetail = null;  // per-AC stats for Party Performance slope chart
 let _rwRounds = [];
 let _rwLabels = [];
 let _rwForm20Status = 'unavailable';
@@ -4269,8 +4284,9 @@ function _showRoundwiseCard(roundIdx, chart, caretX, caretY, locked) {
 }
 
 function _hideRoundwiseCard() {
-  const el = document.getElementById('roundwise-card');
-  el.classList.remove('visible', 'locked');
+  document.querySelectorAll('.roundwise-card').forEach(el => {
+    el.classList.remove('visible', 'locked');
+  });
 }
 
 // Chart.js plugin: vertical highlight line + dimming when round is locked
@@ -4346,7 +4362,7 @@ function drawSlopeChart(canvas, cands, theme) {
   canvas.height = H * dpr;
   canvas.style.width = W + 'px';
   canvas.style.height = H + 'px';
-  document.getElementById('races-chart-container').style.height = H + 'px';
+  canvas.parentNode.style.height = H + 'px';
   ctx.scale(dpr, dpr);
 
   const byEVM = [...cands].sort((a, b) => b.evmVotes - a.evmVotes);
@@ -4426,13 +4442,11 @@ function drawSlopeChart(canvas, cands, theme) {
     const nameMax = LABEL_W - 10;
     const words = c.candidate.split(' ');
     const displayName = isMobile ? words[words.length - 1] : c.candidate;
+    const label = `${displayName} — ${c.evmVotes.toLocaleString('en-IN')}`;
     ctx.textAlign = 'right';
     ctx.font = `${isTop ? '600' : '400'} ${isMobile ? 10 : 11}px ${theme.fontUi}`;
     ctx.fillStyle = isTop ? theme.label : theme.muted;
-    ctx.fillText(truncateText(ctx, displayName, nameMax), colLeft - 9, y - 4);
-    ctx.font = `400 ${isMobile ? 9 : 10}px ${theme.fontUi}`;
-    ctx.fillStyle = theme.muted;
-    ctx.fillText(c.evmVotes.toLocaleString('en-IN'), colLeft - 9, y + 8);
+    ctx.fillText(truncateText(ctx, label, nameMax), colLeft - 9, y + 3);
   });
 
   // Right column — sorted by combined rank, placed in top half
@@ -4455,18 +4469,16 @@ function drawSlopeChart(canvas, cands, theme) {
     const nameMax = LABEL_W - 14;
     const words = c.candidate.split(' ');
     const displayName = isMobile ? words[words.length - 1] : c.candidate;
+    const label = `${displayName} — ${c.combinedVotes.toLocaleString('en-IN')}`;
     ctx.textAlign = 'left';
     ctx.font = `${isTop ? '600' : '400'} ${isMobile ? 10 : 11}px ${theme.fontUi}`;
     ctx.fillStyle = isTop ? theme.label : theme.muted;
-    ctx.fillText(truncateText(ctx, displayName, nameMax), colRight + 9, y - 4);
-    ctx.font = `400 ${isMobile ? 9 : 10}px ${theme.fontUi}`;
-    ctx.fillStyle = isTop ? theme.label : theme.muted;
-    ctx.fillText(c.combinedVotes.toLocaleString('en-IN'), colRight + 9, y + 8);
+    ctx.fillText(truncateText(ctx, label, nameMax), colRight + 9, y + 3);
 
     if (upset) {
       ctx.font = `700 8px ${theme.fontUi}`;
       ctx.fillStyle = '#ef4444';
-      ctx.fillText('POSTAL FLIP', colRight + 9, y + 21);
+      ctx.fillText('POSTAL FLIP', colRight + 9, y + 16);
     }
   });
 
@@ -4477,6 +4489,54 @@ function _buildSlopeCardHTML(col) {
   if (!_slopeData) return '';
   const { byEVM, byCombined } = _slopeData;
   const isFinal = col === 1;
+  if (!byEVM.length) return '';
+
+  // Party-level slope chart: table of per-AC stats when slopeDetail is available
+  if (_perfSlopeDetail && _perfSlopeDetail.length) {
+    const fmt = (n) => n != null ? n.toLocaleString('en-IN') : '\u2014';
+    const sym = (abv) => {
+      const url = partySymbols[abv];
+      return url ? `<img src="${safeImgSrc(url)}" alt="" style="width:12px;height:12px;object-fit:contain;vertical-align:middle;">` : '';
+    };
+    const thStyle = 'padding:3px 5px;font-size:10px;font-weight:600;color:var(--tooltip-muted,#999);white-space:nowrap;border-bottom:1px solid var(--border,#555);';
+    const tdStyle = 'padding:3px 5px;font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;';
+
+    const header = `<tr>
+      <th style="${thStyle}text-align:left;">Party</th>
+      <th style="${thStyle}text-align:right;" colspan="2">min</th>
+      <th style="${thStyle}text-align:right;" colspan="2">mean</th>
+      <th style="${thStyle}text-align:right;" colspan="2">median</th>
+      <th style="${thStyle}text-align:right;" colspan="2">mode</th>
+      <th style="${thStyle}text-align:right;" colspan="2">max</th>
+    </tr>
+    <tr>
+      <th style="${thStyle}"></th>
+      <th style="${thStyle}text-align:right;">EVM</th><th style="${thStyle}text-align:right;">Post</th>
+      <th style="${thStyle}text-align:right;">EVM</th><th style="${thStyle}text-align:right;">Post</th>
+      <th style="${thStyle}text-align:right;">EVM</th><th style="${thStyle}text-align:right;">Post</th>
+      <th style="${thStyle}text-align:right;">EVM</th><th style="${thStyle}text-align:right;">Post</th>
+      <th style="${thStyle}text-align:right;">EVM</th><th style="${thStyle}text-align:right;">Post</th>
+    </tr>`;
+
+    const rows = _perfSlopeDetail.map(p => {
+      const e = p.evm, po = p.postal;
+      return `<tr>
+        <td style="${tdStyle}text-align:left;">${sym(p.party_abv)} <b>${p.party_abv}</b></td>
+        <td style="${tdStyle}text-align:right;">${fmt(e.min)}</td><td style="${tdStyle}text-align:right;">${fmt(po.min)}</td>
+        <td style="${tdStyle}text-align:right;">${fmt(e.mean)}</td><td style="${tdStyle}text-align:right;">${fmt(po.mean)}</td>
+        <td style="${tdStyle}text-align:right;">${fmt(e.median)}</td><td style="${tdStyle}text-align:right;">${fmt(po.median)}</td>
+        <td style="${tdStyle}text-align:right;">${fmt(e.mode)}</td><td style="${tdStyle}text-align:right;">${fmt(po.mode)}</td>
+        <td style="${tdStyle}text-align:right;">${fmt(e.max)}</td><td style="${tdStyle}text-align:right;">${fmt(po.max)}</td>
+      </tr>`;
+    }).join('');
+
+    const label = isFinal ? 'EVM+Postal' : 'EVM';
+    return `<div style="font-size:12px;font-weight:700;color:var(--tooltip-text,var(--text));margin-bottom:4px;">${label} per-AC distribution</div>
+      <div style="font-size:10px;color:var(--tooltip-muted,var(--muted));margin-bottom:4px;">Parties in 50th+ percentile (50%+ ACs)</div>
+      <table style="border-collapse:collapse;width:100%;">${header}${rows}</table>`;
+  }
+
+  // Constituency-level slope chart (original behavior)
   const ranked = isFinal ? byCombined : byEVM;
   const voteKey = isFinal ? 'combinedVotes' : 'evmVotes';
   const roundLabel = isFinal ? 'EVM+Postal Votes' : 'EVM Votes';
@@ -4530,14 +4590,15 @@ function _buildSlopeCardHTML(col) {
 }
 
 function _showSlopeCard(col, canvas, caretX, caretY, locked) {
-  const el = document.getElementById('roundwise-card');
+  // Find the roundwise-card inside the same container as the canvas
+  const container = canvas.parentNode;
+  const el = container.querySelector('.roundwise-card') || document.getElementById('roundwise-card');
   const html = _buildSlopeCardHTML(col);
   if (!html) { _hideRoundwiseCard(); return; }
   el.innerHTML = html;
   el.classList.add('visible');
   if (locked) el.classList.add('locked'); else el.classList.remove('locked');
 
-  const container = canvas.parentNode;
   const containerRect = container.getBoundingClientRect();
   const canvasRect = canvas.getBoundingClientRect();
   let left = canvasRect.left - containerRect.left + caretX + 14;
@@ -4586,6 +4647,7 @@ function renderChart(parties, majority) {
 
   // Store for vote share view — ALL parties, not just top 15
   perfParties = sorted;
+  perfAllParties = parties;  // full list for vote-share denominator
 
   // Chart data: top 15 + Others
   const labels = main.map(p => p.party_abv);
@@ -4612,6 +4674,30 @@ function renderChart(parties, majority) {
   const ctx = canvas.getContext('2d');
   const theme = chartTheme();
 
+  // --- Update in place if chart exists and labels match ---
+  const labelsChanged = chart && (
+    chart.data.labels.length !== labels.length ||
+    chart.data.labels.some((l, i) => l !== labels[i])
+  );
+
+  if (chart && !labelsChanged) {
+    // Common case: same parties, just update seat counts
+    chart.data.datasets[0].data = wonData;
+    chart.data.datasets[1].data = leadData;
+    chart.data.datasets[0].backgroundColor = colors;
+    chart.data.datasets[1].backgroundColor = colors.map(c => {
+      const pat = ctx.createPattern(createStripeCanvas(c), 'repeat');
+      return pat || c;
+    });
+    // Update x-axis suggestedMax in case majority line moved
+    chart.options.scales.x.suggestedMax = (majority && currentState !== '')
+      ? Math.max(...wonData, ...leadData, majority) + 2
+      : undefined;
+    chart.update();
+    return;
+  }
+
+  // --- First render or labels changed: create/recreate chart ---
   if (chart) {
     chart.destroy();
     chart = null;
@@ -4803,7 +4889,7 @@ function createStripeCanvas(color) {
 function renderVoteShare() {
   if (!perfParties.length) return;
 
-  const grandTotal = perfParties.reduce((s, p) => s + (p.total_votes || 0), 0);
+  const grandTotal = (perfAllParties.length ? perfAllParties : perfParties).reduce((s, p) => s + (p.total_votes || 0), 0);
   if (grandTotal === 0) return;
 
   // Legend: ALL parties
@@ -4824,8 +4910,6 @@ function renderVoteShare() {
   const W = rect.width;
   const H = rect.height;
   const PAD = 16;  // padding around treemap for centering
-
-  if (voteShareChart) { voteShareChart.destroy(); voteShareChart = null; }
 
   // Build per-party candidate rankings from racesData (top 3 vote-getters)
   const partyCandidatesMap = {};
@@ -5576,6 +5660,14 @@ function drawSingleRace(race) {
   cvs.onmousemove = null;
   cvs.onmouseleave = null;
   cvs.style.cursor = '';
+  // Also clean up Party Performance roundwise canvas (slope chart handlers)
+  const rwcvs = document.getElementById('roundwise-chart');
+  if (rwcvs) {
+    rwcvs.onclick = null;
+    rwcvs.onmousemove = null;
+    rwcvs.onmouseleave = null;
+    rwcvs.style.cursor = '';
+  }
   drawRaceFinal(race);
 }
 
@@ -5663,6 +5755,24 @@ function drawRaceFinal(race) {
   const ctx = canvas.getContext('2d');
   const theme = chartTheme();
 
+  // --- Update in place if chart exists and candidates match ---
+  const candidatesChanged = racesChart && (
+    racesChart.data.labels.length !== labels.length ||
+    racesChart.data.datasets[0]._partyAbvs?.some((abv, i) => abv !== shown[i]?.party_abv)
+  );
+
+  if (racesChart && !candidatesChanged) {
+    // Common case: same candidates, just update vote counts
+    racesChart.data.datasets[0].data = votesData;
+    racesChart.data.datasets[0].backgroundColor = colors;
+    racesChart.data.datasets[0]._partyAbvs = shown.map(c => c.party_abv);
+    racesChart.options.scales.x.max = axis.max;
+    racesChart.options.scales.x.ticks.stepSize = axis.step;
+    racesChart.update();
+    return;
+  }
+
+  // --- First render or candidates changed: create/recreate chart ---
   if (racesChart) {
     racesChart.destroy();
     racesChart = null;
@@ -5754,8 +5864,9 @@ function drawRaceFinal(race) {
         ctx.textBaseline = 'middle';
         for (let i = 0; i < meta.data.length; i++) {
           const bar = meta.data[i];
-          const votes = votesData[i];
+          const votes = chart.data.datasets[0].data[i];
           const c = shown[i];
+          if (!c) continue;
           const barW = xScale.getPixelForValue(votes) - xScale.getPixelForValue(0);
           const barX = xScale.getPixelForValue(0);
           ctx.textAlign = 'left';
@@ -5769,12 +5880,15 @@ function drawRaceFinal(race) {
           }
         }
 
-        if (runnerUpIndex >= 0 && marginDiff > 0 && meta?.data?.[runnerUpIndex]) {
-          const runnerBar = meta.data[runnerUpIndex];
-          const gapStart = xScale.getPixelForValue(votesData[runnerUpIndex]);
-          const gapEnd = xScale.getPixelForValue(winnerVotes);
+        const currentWinnerVotes = chart.data.datasets[0].data[0] || 0;
+        const currentRunnerUpIdx = chart.data.datasets[0].data.length > 1 ? 1 : -1;
+        const currentMarginDiff = currentRunnerUpIdx >= 0 ? Math.max(0, currentWinnerVotes - chart.data.datasets[0].data[currentRunnerUpIdx]) : 0;
+        if (currentRunnerUpIdx >= 0 && currentMarginDiff > 0 && meta?.data?.[currentRunnerUpIdx]) {
+          const runnerBar = meta.data[currentRunnerUpIdx];
+          const gapStart = xScale.getPixelForValue(chart.data.datasets[0].data[currentRunnerUpIdx]);
+          const gapEnd = xScale.getPixelForValue(currentWinnerVotes);
           const gapWidth = gapEnd - gapStart;
-          const marginLabel = `Margin ${marginDiff.toLocaleString()}`;
+          const marginLabel = `Margin ${currentMarginDiff.toLocaleString()}`;
           const lineY = runnerBar.y;
 
           ctx.strokeStyle = theme.muted;
@@ -5819,13 +5933,9 @@ async function drawRaceRoundwise(race) {
   const ctx = canvas.getContext('2d');
   const theme = chartTheme();
 
-  if (racesChart) {
-    racesChart.destroy();
-    racesChart = null;
-  }
-
   // Uncontested: single candidate — show "Won Unopposed" card instead of a chart
   if (shown.length === 1) {
+    if (racesChart) { racesChart.destroy(); racesChart = null; }
     canvas.style.display = 'none';
     const c = shown[0];
     const swatchColor = c.color || '#888';
@@ -5846,10 +5956,18 @@ async function drawRaceRoundwise(race) {
   overlay.style.display = 'none';
 
   try {
-    const eid = race.election_id || (currentElection && currentElection.election_id);
-    const eidParam = eid ? `?election_id=${eid}` : '';
-    const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}${eidParam}`);
-    const data = await resp.json();
+    // Cache roundwise data per constituency to avoid re-fetching
+    const cacheKey = `${currentState}:${race.ac_no}`;
+    let data;
+    if (drawRaceRoundwise._cache?.key === cacheKey) {
+      data = drawRaceRoundwise._cache.data;
+    } else {
+      const eid = race.election_id || (currentElection && currentElection.election_id);
+      const eidParam = eid ? `?election_id=${eid}` : '';
+      const resp = await fetch(`${API_BASE}/api/constituency/${currentState}/${race.ac_no}${eidParam}`);
+      data = await resp.json();
+      drawRaceRoundwise._cache = { key: cacheKey, data };
+    }
     let rows = data.rounds || [];
     let rounds = [...new Set(rows.map(r => r.round_no))]
       .sort((a, b) => (a === 999 ? Infinity : a) - (b === 999 ? Infinity : b));
@@ -5904,6 +6022,10 @@ async function drawRaceRoundwise(race) {
 
     // SLOPE CHART: 998+999 only — custom canvas rendering, no Chart.js
     if (isSlope) {
+      // Destroy any lingering Chart.js instance — its ResizeObserver would
+      // redraw over our raw-canvas slope chart when drawSlopeChart resizes.
+      if (racesChart) { racesChart.destroy(); racesChart = null; }
+
       const cands = slopeCandidates.map(c => ({
         candidate: c.candidate,
         party_abv: c.party_abv,
@@ -5983,6 +6105,8 @@ async function drawRaceRoundwise(race) {
                    : 'rgba(240,240,240,0.4)';
     const lineColor = currentTheme === 'dark-handsome' ? 'rgba(255,255,255,0.25)'
                     : 'rgba(0,0,0,0.2)';
+
+    if (racesChart) { racesChart.destroy(); racesChart = null; }
 
     racesChart = new Chart(ctx, {
       type: 'line',
@@ -6120,7 +6244,33 @@ function perfRoundwiseTooltip(context) {
     </div>`;
   }).join('');
 
-  el.innerHTML = `<div style="font-size:13px;font-weight:700;color:var(--tooltip-text, var(--text));margin-bottom:6px;">${escapeHtml(roundLabel)}</div>${rows}`;
+  // Grand totals: EVM (last non-999 round) and EVM+Postal (round 999)
+  const roundLabels = chart.data.labels || [];
+  const hoveredIdx = tooltip.dataPoints?.[0]?.dataIndex ?? -1;
+  // Find EVM-only round (second-to-last if last is 999/Final)
+  let evmTotal = 0, evmPostalTotal = 0;
+  const lastLabel = roundLabels[roundLabels.length - 1] || '';
+  const hasFinal = lastLabel === 'Final' || lastLabel === 'EVM+Postal';
+  if (hasFinal) {
+    const finalIdx = roundLabels.length - 1;
+    for (const ds of chart.data.datasets) evmPostalTotal += ds.data[finalIdx] || 0;
+    const evmIdx = finalIdx - 1;
+    if (evmIdx >= 0) {
+      for (const ds of chart.data.datasets) evmTotal += ds.data[evmIdx] || 0;
+    }
+  } else {
+    for (const ds of chart.data.datasets) evmTotal += ds.data[hoveredIdx] || 0;
+  }
+
+  let totalsHtml = '';
+  if (hasFinal && evmTotal > 0) {
+    totalsHtml = `<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border, #555);font-size:11px;color:var(--tooltip-muted, var(--muted));">
+      <div style="display:flex;justify-content:space-between;"><span>EVM total</span><span style="font-variant-numeric:tabular-nums;font-weight:600;color:var(--tooltip-text, var(--text));">${evmTotal.toLocaleString()}</span></div>
+      <div style="display:flex;justify-content:space-between;"><span>EVM+Postal total</span><span style="font-variant-numeric:tabular-nums;font-weight:600;color:var(--tooltip-text, var(--text));">${evmPostalTotal.toLocaleString()}</span></div>
+    </div>`;
+  }
+
+  el.innerHTML = `<div style="font-size:13px;font-weight:700;color:var(--tooltip-text, var(--text));margin-bottom:6px;">${escapeHtml(roundLabel)}</div>${rows}${totalsHtml}`;
 
   _showTooltip(el);
   _positionTooltip(chart, tooltip, el);
@@ -6178,6 +6328,7 @@ async function renderRoundwise(stateCode) {
 
     const rounds = data.rounds || [];
     let series = data.series || [];
+    _perfSlopeDetail = data.slopeDetail || null;  // per-AC stats for slope chart tooltip
     if (!rounds.length || !series.length) return;
 
     // Bandaid: if only round 999 exists (past elections), show a message
@@ -6212,6 +6363,64 @@ async function renderRoundwise(stateCode) {
     const ctx = canvas.getContext('2d');
     const theme = chartTheme();
 
+    // SLOPE CHART for two-round data (998 + 999)
+    const isSlope = rounds.length === 2 && rounds.includes(998) && rounds.includes(999);
+    if (isSlope) {
+      if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
+
+      // Map party seat data to the slope chart's expected format
+      const cands = series
+        .filter(s => s.party_abv !== 'NOTA')
+        .map(s => ({
+          candidate: s.party_abv,
+          party_abv: s.party_abv,
+          party_name: s.party_abv,
+          color: s.color,
+          won: false,
+          symbol_url: s.symbol_url || null,
+          evmVotes: s.data[0] || 0,
+          combinedVotes: s.data[1] || 0,
+        }))
+        .sort((a, b) => b.combinedVotes - a.combinedVotes);
+
+      drawSlopeChart(canvas, cands, theme);
+
+      canvas.onclick = function(e) {
+        if (!_slopeData) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const midX = (_slopeData.colLeft + _slopeData.colRight) / 2;
+        const col = x < midX ? 0 : 1;
+        if (_lockedRoundIdx === col) {
+          _lockedRoundIdx = null;
+          _hideRoundwiseCard();
+          canvas.style.cursor = 'pointer';
+        } else {
+          _lockedRoundIdx = col;
+          _showSlopeCard(col, canvas, x, e.clientY - rect.top, true);
+        }
+      };
+
+      canvas.onmousemove = function(e) {
+        if (_lockedRoundIdx !== null) return;
+        if (!_slopeData) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const midX = (_slopeData.colLeft + _slopeData.colRight) / 2;
+        const col = x < midX ? 0 : 1;
+        canvas.style.cursor = 'pointer';
+        _showSlopeCard(col, canvas, x, e.clientY - rect.top, false);
+      };
+
+      canvas.onmouseleave = function() {
+        if (_lockedRoundIdx !== null) return;
+        _hideRoundwiseCard();
+        canvas.style.cursor = '';
+      };
+
+      return;
+    }
+
     const labels = rounds.map(rn => rn === 999 ? 'Final' : `${rn}`);
 
     const datasets = series.map(s => ({
@@ -6231,6 +6440,7 @@ async function renderRoundwise(stateCode) {
       roundwiseChart.destroy();
       roundwiseChart = null;
     }
+    _perfSlopeDetail = null;
 
     roundwiseChart = new Chart(ctx, {
       type: 'line',
@@ -6725,6 +6935,7 @@ function renderStateBar(states) {
       localStorage.setItem(STATE_STORAGE_KEY, s.code);
       localStorage.removeItem(RACE_AC_STORAGE_KEY);
       lastDataFingerprint = '';
+      drawRaceRoundwise._cache = null;
       renderStateBar(states);
       fetchData();
       fetchStatus();
