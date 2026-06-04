@@ -6241,7 +6241,8 @@ function perfRoundwiseTooltip(context) {
   if (tooltip.opacity === 0) { _hideTooltip(el); return; }
   if (!tooltip.dataPoints || !tooltip.dataPoints.length) return;
 
-  const roundLabel = tooltip.title?.[0] || '';
+  const rawLabel = tooltip.title?.[0] || '';
+  const roundLabel = /^\d+$/.test(rawLabel) ? `Round ${rawLabel}` : rawLabel;
 
   // Collect all party values at this index, sorted by votes desc
   const items = tooltip.dataPoints
