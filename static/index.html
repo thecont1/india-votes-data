@@ -3206,6 +3206,19 @@ let selectedTheme = DEFAULT_THEME;
 let stateStatuses = {};
 let knownStates = [];
 
+function resetAssemblyView() {
+  assemblySeats = [];
+  assemblyDotRadius = 8;
+  const canvas = document.getElementById('assembly-chart');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.style.cursor = '';
+  }
+  const tip = document.getElementById('assembly-tooltip');
+  if (tip) tip.style.opacity = '0';
+}
+
 // ---------------------------------------------------------------------------
 // Sanitization helpers (global scope — used by mobile detail flips)
 // ---------------------------------------------------------------------------
@@ -3884,6 +3897,7 @@ function loadStateCharts() {
       cancelAnimationFrame(assemblyAnimFrame);
       assemblyAnimFrame = null;
     }
+    resetAssemblyView();
   }
 }
 
