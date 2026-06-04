@@ -1041,6 +1041,13 @@
     gap: 6px;
     flex-wrap: wrap;
   }
+  /* Tally / Assembly sub-toggle switch */
+  #tally-assembly-switch { display: none; }
+  #tally-assembly-switch.visible { display: inline-flex !important; }
+  #tally-assembly-switch.showing-assembly .bye-sw-off { display: none; }
+  #tally-assembly-switch.showing-assembly .bye-sw-on { display: block; }
+  #tally-assembly-switch.showing-assembly .bye-el-sw { color: var(--text); }
+
   /* Bye-election toggle switch */
   .bye-el-label {
     background: none; border: none; padding: 0 3px;
@@ -2945,11 +2952,20 @@
   <!-- Party Performance: Seat Tally + Vote Share (toggled) -->
   <div class="card" id="party-perf-card">
     <h2>Party Performance</h2>
-    <div class="toggle-group" id="perf-toggle" role="group" aria-label="Party performance view">
-      <button class="toggle-btn active" type="button" data-view="tally" aria-pressed="true">Seat Tally</button>
-      <button class="toggle-btn" type="button" data-view="share" aria-pressed="false">Vote Share</button>
-      <button class="toggle-btn" type="button" data-view="roundwise" aria-pressed="false">Roundwise</button>
-      <button class="toggle-btn" type="button" data-view="assembly" aria-pressed="false">The Assembly</button>
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+      <div class="toggle-group" id="perf-toggle" role="group" aria-label="Party performance view">
+        <button class="toggle-btn active" type="button" data-view="tally" aria-pressed="true">Seat Tally</button>
+        <button class="toggle-btn" type="button" data-view="share" aria-pressed="false">Vote Share</button>
+        <button class="toggle-btn" type="button" data-view="roundwise" aria-pressed="false">Roundwise</button>
+      </div>
+      <div id="tally-assembly-switch" style="display:none; align-items:center; gap:2px;">
+        <button type="button" class="bye-el-label active" id="tally-bar-btn" aria-pressed="true" onclick="setTallySubview('tally')">Bar</button>
+        <button type="button" class="bye-el-sw" onclick="setTallySubview(perfView === 'tally' ? 'assembly' : 'tally')" aria-label="Toggle bar / assembly view">
+          <svg class="bye-sw-off" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
+          <svg class="bye-sw-on" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
+        </button>
+        <button type="button" class="bye-el-label" id="tally-assembly-btn" aria-pressed="false" onclick="setTallySubview('assembly')">The Assembly</button>
+      </div>
     </div>
     <div class="flip-wrap" id="perf-flip-wrap">
       <div class="flipper" id="perf-flipper">
@@ -2958,6 +2974,14 @@
             <div id="perf-chart-area-tally">
               <div class="chart-container">
                 <canvas id="tally-chart"></canvas>
+              </div>
+              <div class="chart-container" style="position:absolute; top:0; left:0; right:0; bottom:0; visibility:hidden;">
+                <canvas id="assembly-chart"></canvas>
+              </div>
+              <div id="assembly-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; flex-direction:column; align-items:center; justify-content:center;">
+                <div class="icon">🏛️</div>
+                <h3>This view is available in single-state mode only</h3>
+                <p>Pick a state from the buttons above to see the assembly.</p>
               </div>
             </div>
             <div id="perf-chart-area-share" style="visibility:hidden;">
@@ -2975,16 +2999,7 @@
                     <p>Pick a state from the buttons above to see constituency-level results.</p>
               </div>
             </div>
-            <div id="perf-chart-area-assembly" style="visibility:hidden;">
-              <div class="chart-container">
-                <canvas id="assembly-chart"></canvas>
-              </div>
-              <div id="assembly-overlay" class="empty-state" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-                <div class="icon">🏛️</div>
-                <h3>This view is available in single-state mode only</h3>
-                <p>Pick a state from the buttons above to see the assembly.</p>
-              </div>
-            </div>
+            <div id="perf-chart-area-assembly" style="display:none;"></div>
           </div>
           <div id="perf-legend-tally" class="legend perf-party-legend" style="margin-bottom:0;"></div>
         </div>
@@ -3636,12 +3651,15 @@ function resetToDefaults() {
     b.classList.toggle('active', b.dataset.raceView === 'final');
     b.setAttribute('aria-pressed', b.dataset.raceView === 'final' ? 'true' : 'false');
   });
-  // Show Seat Tally, hide others
+  // Show Seat Tally, hide others; reset assembly subview
   document.getElementById('perf-chart-area-tally').style.visibility = '';
   document.getElementById('perf-chart-area-share').style.visibility = 'hidden';
   document.getElementById('perf-chart-area-roundwise').style.visibility = 'hidden';
   document.getElementById('perf-chart-area-assembly').style.visibility = 'hidden';
   document.getElementById('assembly-overlay').style.display = 'none';
+  document.getElementById('tally-chart').style.visibility = '';
+  document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
+  document.getElementById('party-perf-card').classList.remove('perf-view-assembly');
   // Reset race sort links to alpha
   document.querySelectorAll('#race-sort-bar .race-sort-link').forEach(b => {
     b.classList.toggle('active', b.dataset.sort === 'alpha');
@@ -3658,56 +3676,97 @@ function resetToDefaults() {
   });
 }
 
-// Toggle between Seat Tally, Vote Share, Roundwise, and Assembly
+// Show/hide and reset the Bar/Assembly sub-switch inside Seat Tally
+function updateTallySwitch() {
+  const sw = document.getElementById('tally-assembly-switch');
+  const isAssembly = perfView === 'assembly';
+  // Show switch only when Seat Tally tab is active AND a single state is selected
+  const showSwitch = (perfView === 'tally' || perfView === 'assembly') && !!currentState;
+  sw.classList.toggle('visible', showSwitch);
+  sw.classList.toggle('showing-assembly', isAssembly);
+  document.getElementById('tally-bar-btn').classList.toggle('active', !isAssembly);
+  document.getElementById('tally-bar-btn').setAttribute('aria-pressed', String(!isAssembly));
+  document.getElementById('tally-assembly-btn').classList.toggle('active', isAssembly);
+  document.getElementById('tally-assembly-btn').setAttribute('aria-pressed', String(isAssembly));
+}
+
+// Switch between Bar chart and Assembly view within the Seat Tally area
+function setTallySubview(view) {
+  if (view === perfView) return;
+  if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
+  document.getElementById('assembly-overlay').style.display = 'none';
+  perfView = view;
+  document.getElementById('party-perf-card').classList.toggle('perf-view-assembly', view === 'assembly');
+  // Both 'tally' and 'assembly' share the tally chart area div
+  ['share', 'roundwise', 'assembly'].forEach(k => {
+    document.getElementById('perf-chart-area-' + k).style.visibility = 'hidden';
+  });
+  document.getElementById('perf-chart-area-tally').style.visibility = '';
+  if (view === 'assembly') {
+    if (currentState) {
+      renderAssembly(currentState);
+    } else {
+      document.getElementById('assembly-overlay').style.display = 'flex';
+    }
+    document.getElementById('tally-chart').style.visibility = 'hidden';
+    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = '';
+  } else {
+    document.getElementById('tally-chart').style.visibility = '';
+    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
+  }
+  updateTallySwitch();
+}
+
+// Toggle between Seat Tally, Vote Share, Roundwise
 document.getElementById('perf-toggle').addEventListener('click', (e) => {
   const btn = e.target.closest('.toggle-btn');
   if (!btn) return;
   const view = btn.dataset.view;
-  if (view === perfView) return;
+  // Normalise: assembly lives inside tally now
+  const topView = (view === 'assembly') ? 'tally' : view;
+  if (topView === perfView || (perfView === 'assembly' && topView === 'tally')) return;
 
-  // Roundwise / Assembly only work for single state - show overlay in Overall view
-  if ((view === 'roundwise' || view === 'assembly') && !currentState) {
-    perfView = view;
+  if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
+  document.getElementById('roundwise-overlay').style.display = 'none';
+  document.getElementById('assembly-overlay').style.display = 'none';
+  document.getElementById('party-perf-card').classList.remove('perf-view-assembly');
+  document.getElementById('tally-chart').style.visibility = '';
+  document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
+
+  // Switching away from tally/assembly: reset subview to bar
+  if (perfView === 'assembly') perfView = 'tally';
+
+  // Roundwise only works for single state
+  if (topView === 'roundwise' && !currentState) {
+    perfView = 'roundwise';
     document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
-      const isActive = b.dataset.view === view;
+      const isActive = b.dataset.view === 'roundwise';
       b.classList.toggle('active', isActive);
       b.setAttribute('aria-pressed', String(isActive));
     });
     ['tally', 'share', 'roundwise', 'assembly'].forEach(k => {
-      document.getElementById('perf-chart-area-' + k).style.visibility = k === view ? '' : 'hidden';
+      document.getElementById('perf-chart-area-' + k).style.visibility = k === 'roundwise' ? '' : 'hidden';
     });
-    if (view === 'roundwise') {
-      document.getElementById('roundwise-overlay').style.display = 'flex';
-      if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
-    } else if (view === 'assembly') {
-      document.getElementById('assembly-overlay').style.display = 'flex';
-      if (assemblyAnimFrame) { cancelAnimationFrame(assemblyAnimFrame); assemblyAnimFrame = null; }
-    }
+    document.getElementById('roundwise-overlay').style.display = 'flex';
+    if (roundwiseChart) { roundwiseChart.destroy(); roundwiseChart = null; }
     document.getElementById('perf-legend-tally').innerHTML = '';
+    updateTallySwitch();
     return;
   }
 
-  // Hide overlays if switching away or entering state view
-  document.getElementById('roundwise-overlay').style.display = 'none';
-  document.getElementById('assembly-overlay').style.display = 'none';
-
-  perfView = view;
-  document.getElementById('party-perf-card').classList.toggle('perf-view-assembly', view === 'assembly');
+  perfView = topView;
   document.querySelectorAll('#perf-toggle .toggle-btn').forEach(b => {
-    const isActive = b.dataset.view === view;
+    const isActive = b.dataset.view === topView;
     b.classList.toggle('active', isActive);
     b.setAttribute('aria-pressed', String(isActive));
   });
-  ['tally', 'share', 'roundwise', 'assembly'].forEach(k => {
-    document.getElementById('perf-chart-area-' + k).style.visibility = k === view ? '' : 'hidden';
-  });
-  if (view === 'roundwise' && currentState) {
-    renderRoundwise(currentState);
-  } else if (view === 'share') {
-    renderVoteShare();
-  } else if (view === 'assembly' && currentState) {
-    renderAssembly(currentState);
-  }
+  document.getElementById('perf-chart-area-tally').style.visibility = topView === 'tally' ? '' : 'hidden';
+  document.getElementById('perf-chart-area-share').style.visibility = topView === 'share' ? '' : 'hidden';
+  document.getElementById('perf-chart-area-roundwise').style.visibility = topView === 'roundwise' ? '' : 'hidden';
+  document.getElementById('perf-chart-area-assembly').style.visibility = 'hidden';
+  if (topView === 'roundwise' && currentState) renderRoundwise(currentState);
+  else if (topView === 'share') renderVoteShare();
+  updateTallySwitch();
 });
 
 document.getElementById('race-toggle').addEventListener('click', (e) => {
@@ -3824,16 +3883,16 @@ function loadStateCharts() {
     document.getElementById('perf-chart-area-roundwise').style.visibility = '';
   }
   if (perfView === 'assembly') {
-    document.getElementById('party-perf-card').classList.add('perf-view-assembly');
-    if (currentState) {
-      document.getElementById('assembly-overlay').style.display = 'none';
-    } else {
-      document.getElementById('assembly-overlay').style.display = 'flex';
-    }
-    document.getElementById('perf-chart-area-assembly').style.visibility = '';
+    document.getElementById('party-perf-card').classList.toggle('perf-view-assembly', !!currentState);
+    document.getElementById('assembly-overlay').style.display = currentState ? 'none' : 'flex';
+    document.getElementById('tally-chart').style.visibility = 'hidden';
+    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = '';
   } else {
     document.getElementById('party-perf-card').classList.remove('perf-view-assembly');
+    document.getElementById('tally-chart').style.visibility = '';
+    document.getElementById('assembly-chart').closest('.chart-container').style.visibility = 'hidden';
   }
+  updateTallySwitch();
   renderRaces(currentState);
   // Roundwise / Assembly only make sense for a single state - skip in Overall view
   if (currentState) {
@@ -6311,6 +6370,8 @@ function renderAssembly(stateCode) {
   //
   // We want the LARGEST DOT_RADIUS for which capacity ≥ N.
 
+  const WELL_FACTOR = 0.40; // innermost arc ≥ this fraction of outerR (keeps the "well" empty)
+
   const rowCap = (rad, dr, dg) =>
     Math.max(1, Math.floor((Math.PI - ARC_MARGIN * 2) * rad / (dr * 2 + dg)));
 
@@ -6321,10 +6382,11 @@ function renderAssembly(stateCode) {
     const base = H - dr;
     const outer = Math.min((W - pad * 2) / 2, base - dr);
     if (outer < dr * 2) return null;
+    const innerMin = Math.max(dr * 2, outer * WELL_FACTOR);
     const rs = [];
     for (let r = 0; ; r++) {
       const rad = outer - r * rg;
-      if (rad < dr * 2) break;
+      if (rad < innerMin) break;
       rs.push(rad);
       if (rs.reduce((s, rd) => s + rowCap(rd, dr, dg), 0) >= N) break;
     }
@@ -6353,63 +6415,52 @@ function renderAssembly(stateCode) {
   if (!rows.length) return;
 
   const totalSeats = winners.length;
-  const arcSpan = Math.PI - ARC_MARGIN * 2; // total angular span
+  const arcSpan = Math.PI - ARC_MARGIN * 2;
 
-  // Per-row capacity (max dots that fit on each arc)
+  // Per-row capacity at uniform physical spacing
   const rowCapacity = rows.map(rad =>
-    Math.max(1, Math.floor((Math.PI - ARC_MARGIN * 2) * rad / (DOT_RADIUS * 2 + DOT_GAP)))
+    Math.max(1, Math.floor(arcSpan * rad / (DOT_RADIUS * 2 + DOT_GAP)))
   );
   const totalCap = rowCapacity.reduce((s, c) => s + c, 0);
 
-  // Each party is assigned an angular wedge proportional to its seat count.
-  // Within that wedge, we place dots on each row — but we GUARANTEE the exact
-  // seat count by distributing seats across rows proportionally (with rounding
-  // correction) rather than using floor(wedgeSpan/step) which drops seats.
-  //
-  // Layout: parties are ordered left→right. Each party's wedge spans
-  //   [angleStart, angleEnd] in the full arcSpan.
-  // On each row, within that angular range, we place exactly the allocated
-  // number of dots for that row, evenly spaced and centred in the wedge.
+  // Distribute exactly totalSeats across rows proportionally (LRM).
+  // Each row gets rowSeats[r] dots, uniformly spaced — guaranteed no overlap.
+  const exactPerRow = rows.map((_, i) => totalSeats * rowCapacity[i] / totalCap);
+  const rowSeats = exactPerRow.map(Math.floor);
+  let rowRem = totalSeats - rowSeats.reduce((s, v) => s + v, 0);
+  const rowFracs = exactPerRow.map((v, i) => ({ i, f: v - Math.floor(v) }))
+    .sort((a, b) => b.f - a.f);
+  for (let k = 0; k < rowRem; k++) rowSeats[rowFracs[k].i]++;
+
+  // Build all seat positions with correct physical spacing on every arc
+  const allPositions = [];
+  for (let ri = 0; ri < rows.length; ri++) {
+    const n = rowSeats[ri];
+    if (n === 0) continue;
+    const radius = rows[ri];
+    const step = arcSpan / n;
+    for (let i = 0; i < n; i++) {
+      allPositions.push({ angle: (Math.PI - ARC_MARGIN) - (i + 0.5) * step, radius });
+    }
+  }
+
+  // Sort left→right by angle (descending). Assigning parties in order
+  // then paints contiguous angular wedges with no clashing at boundaries.
+  allPositions.sort((a, b) => b.angle - a.angle);
 
   const seats = [];
-  let globalAngle = 0; // tracks how much of arcSpan has been used
-
+  let pi = 0;
   for (const [, d] of sortedParties) {
-    const partySeats = d.count;
-    const wedgeFrac = partySeats / totalSeats;
-    const wedgeSpan = wedgeFrac * arcSpan;
-    const wedgeStart = globalAngle;
-    const wedgeEnd = globalAngle + wedgeSpan;
-    globalAngle = wedgeEnd;
-
-    // Distribute partySeats across rows proportionally to row capacity,
-    // using Largest Remainder Method to guarantee exact total.
-    const exact = rows.map((_, i) => partySeats * rowCapacity[i] / totalCap);
-    const floored = exact.map(Math.floor);
-    let remainder = partySeats - floored.reduce((s, v) => s + v, 0);
-    const fracs = exact.map((v, i) => ({ i, f: v - floored[i] }))
-      .sort((a, b) => b.f - a.f);
-    for (let k = 0; k < remainder; k++) floored[fracs[k].i]++;
-
-    // Place dots for this party on each row
-    for (let ri = 0; ri < rows.length; ri++) {
-      const n = floored[ri];
-      if (n === 0) continue;
-      const radius = rows[ri];
-      // Space n dots evenly within the wedge, centred
-      const step = n > 1 ? wedgeSpan / n : wedgeSpan;
-      const offset = step / 2;
-      for (let i = 0; i < n; i++) {
-        // angle: left end of arc = Math.PI - ARC_MARGIN, sweeping clockwise (decreasing angle)
-        const angle = (Math.PI - ARC_MARGIN) - (wedgeStart + offset + i * step);
-        seats.push({
-          x: W / 2 + radius * Math.cos(angle),
-          y: baseline - radius * Math.sin(angle),
-          color: d.color,
-          phase: Math.random() * Math.PI * 2,
-          freq: 0.5 + Math.random() * 1.5,
-        });
-      }
+    for (let k = 0; k < d.count; k++) {
+      if (pi >= allPositions.length) break;
+      const { angle, radius } = allPositions[pi++];
+      seats.push({
+        x: W / 2 + radius * Math.cos(angle),
+        y: baseline - radius * Math.sin(angle),
+        color: d.color,
+        phase: Math.random() * Math.PI * 2,
+        freq: 0.5 + Math.random() * 1.5,
+      });
     }
   }
 
