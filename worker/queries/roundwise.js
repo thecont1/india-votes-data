@@ -142,57 +142,77 @@ export async function handleRoundwise(request, env) {
       WHERE state_code = ? AND round_no IN (998, 999) ${electionFilter}
     `).bind(...fBinds).all();
 
-    // Build per-AC maps: party -> [per-AC votes at 998], party -> [per-AC votes at 999]
+    // Count total ACs from round 999
+    const totalACs = new Set(
+      perAcRows.results.filter(r => r.round_no === 999).map(r => r.ac_no)
+    ).size;
+    const threshold = Math.ceil(totalACs * 0.5);
+
+    // Build per-AC maps: party -> Map(ac_no -> votes) for 998 and 999
     const evmByParty = new Map();
-    const postalByParty = new Map();
+    const combinedByParty = new Map();
     for (const row of perAcRows.results) {
-      if (row.round_no === 998) {
-        if (!evmByParty.has(row.party_abv)) evmByParty.set(row.party_abv, []);
-        evmByParty.get(row.party_abv).push(row.votes);
-      } else {
-        if (!postalByParty.has(row.party_abv)) postalByParty.set(row.party_abv, []);
-        postalByParty.get(row.party_abv).push(row.votes);
-      }
+      const map = row.round_no === 998 ? evmByParty : combinedByParty;
+      if (!map.has(row.party_abv)) map.set(row.party_abv, new Map());
+      map.get(row.party_abv).set(row.ac_no, row.votes);
     }
 
-    // Compute measures of central tendency per party
-    const measures = (arr) => {
+    // Statistics helpers
+    const sortedArr = (arr) => [...arr].sort((a, b) => a - b);
+    const percentile = (sorted, p) => {
+      const idx = (p / 100) * (sorted.length - 1);
+      const lo = Math.floor(idx);
+      const hi = Math.ceil(idx);
+      return lo === hi ? sorted[lo] : sorted[lo] + (sorted[hi] - sorted[lo]) * (idx - lo);
+    };
+    const mode = (arr) => {
       if (!arr.length) return null;
-      const sorted = [...arr].sort((a, b) => a - b);
-      const n = sorted.length;
-      const sum = sorted.reduce((s, v) => s + v, 0);
-      const mean = sum / n;
-      const median = n % 2 === 0
-        ? (sorted[n / 2 - 1] + sorted[n / 2]) / 2
-        : sorted[Math.floor(n / 2)];
-      const q1 = sorted[Math.floor(n * 0.25)];
-      const q3 = sorted[Math.floor(n * 0.75)];
-      return { mean: Math.round(mean), median, min: sorted[0], max: sorted[n - 1], q1, q3, count: n };
+      const freq = new Map();
+      for (const v of arr) freq.set(v, (freq.get(v) || 0) + 1);
+      let best = arr[0], bestCount = 0;
+      for (const [v, c] of freq) {
+        if (c > bestCount || (c === bestCount && v < best)) { best = v; bestCount = c; }
+      }
+      return best;
     };
 
-    slopeDetail = {};
+    // Compute per-party stats
+    slopeDetail = [];
     for (const party of sortedParties) {
-      const evmArr = evmByParty.get(party) || [];
-      const postalArr = postalByParty.get(party) || [];
-      // Postal = round 999 - round 998 (need per-AC subtraction)
-      // Build per-AC postal by subtracting EVM from combined
-      const evmMap = new Map();
-      for (const row of perAcRows.results) {
-        if (row.round_no === 998 && row.party_abv === party) {
-          evmMap.set(row.ac_no, row.votes);
-        }
+      const evmMap = evmByParty.get(party) || new Map();
+      const combMap = combinedByParty.get(party) || new Map();
+      if (evmMap.size < threshold) continue;  // 50% threshold
+
+      // Postal = combined - EVM per AC
+      const postalArr = [];
+      for (const [acNo, combVotes] of combMap) {
+        postalArr.push(Math.max(0, combVotes - (evmMap.get(acNo) || 0)));
       }
-      const postalVotes = [];
-      for (const row of perAcRows.results) {
-        if (row.round_no === 999 && row.party_abv === party) {
-          const evm = evmMap.get(row.ac_no) || 0;
-          postalVotes.push(Math.max(0, row.votes - evm));
-        }
-      }
-      slopeDetail[party] = {
-        evm: measures(evmArr),
-        postal: measures(postalVotes),
-      };
+      const evmArr = [...evmMap.values()];
+
+      const sEvm = sortedArr(evmArr);
+      const sPost = sortedArr(postalArr);
+
+      slopeDetail.push({
+        party_abv: party,
+        count: evmMap.size,
+        evm: {
+          min: sEvm[0],
+          q1: percentile(sEvm, 25),
+          mean: Math.round(evmArr.reduce((s, v) => s + v, 0) / evmArr.length),
+          median: percentile(sEvm, 50),
+          mode: mode(evmArr),
+          max: sEvm[sEvm.length - 1],
+        },
+        postal: {
+          min: sPost[0],
+          q1: percentile(sPost, 25),
+          mean: Math.round(postalArr.reduce((s, v) => s + v, 0) / postalArr.length),
+          median: percentile(sPost, 50),
+          mode: mode(postalArr),
+          max: sPost[sPost.length - 1],
+        },
+      });
     }
   }
 
