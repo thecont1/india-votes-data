@@ -6528,10 +6528,47 @@ function renderAssembly(stateCode) {
 
   function fmt(n) { return Number(n).toLocaleString('en-IN'); }
 
+  // --- Spatial grid index (rebuilds when seats change) ---
+  const CELL = 20;                        // bucket size ≈ hit radius
+  let grid = new Map();                    // "col,row" → seat[]
+  let gridVersion = -1;                    // tracks assemblySeats rebuilds
+
+  function buildGrid() {
+    const cur = assemblySeats;
+    if (cur._gridVersion === gridVersion) return;   // no-op if unchanged
+    gridVersion = cur._gridVersion = (cur._gridVersion || 0) + 1;
+    grid.clear();
+    for (let i = 0; i < cur.length; i++) {
+      const s = cur[i];
+      const col = Math.floor(s.x / CELL);
+      const row = Math.floor(s.y / CELL);
+      // Insert seat into every cell its hit radius could touch
+      const hitR = assemblyDotRadius + 4;
+      const cMin = Math.floor((s.x - hitR) / CELL);
+      const cMax = Math.floor((s.x + hitR) / CELL);
+      const rMin = Math.floor((s.y - hitR) / CELL);
+      const rMax = Math.floor((s.y + hitR) / CELL);
+      for (let c = cMin; c <= cMax; c++) {
+        for (let r = rMin; r <= rMax; r++) {
+          const key = c + ',' + r;
+          let bucket = grid.get(key);
+          if (!bucket) { bucket = []; grid.set(key, bucket); }
+          bucket.push(s);
+        }
+      }
+    }
+  }
+
   function findNearest(mx, my) {
+    buildGrid();
     const hitR = assemblyDotRadius + 4;
+    const col = Math.floor(mx / CELL);
+    const row = Math.floor(my / CELL);
+    const bucket = grid.get(col + ',' + row);
+    if (!bucket || !bucket.length) return null;
+
     let nearest = null, best = Infinity;
-    for (const s of assemblySeats) {
+    for (const s of bucket) {
       const dx = s.x - mx, dy = s.y - my;
       const d2 = dx * dx + dy * dy;
       if (d2 < best && d2 < hitR * hitR) { best = d2; nearest = s; }
@@ -6539,9 +6576,14 @@ function renderAssembly(stateCode) {
     return nearest;
   }
 
-  canvas.addEventListener('mousemove', (e) => {
+  // --- rAF-throttled mousemove ---
+  let pendingMx = 0, pendingMy = 0, rafScheduled = false;
+
+  function processHover() {
+    rafScheduled = false;
     if (!assemblySeats.length) return;
-    const mx = e.offsetX, my = e.offsetY;
+
+    const mx = pendingMx, my = pendingMy;
     const nearest = findNearest(mx, my);
 
     canvas.style.cursor = nearest ? 'pointer' : '';
@@ -6574,11 +6616,21 @@ function renderAssembly(stateCode) {
     tooltip.style.left = tx + 'px';
     tooltip.style.top  = ty + 'px';
     tooltip.style.opacity = '1';
+  }
+
+  canvas.addEventListener('mousemove', (e) => {
+    pendingMx = e.offsetX;
+    pendingMy = e.offsetY;
+    if (!rafScheduled) {
+      rafScheduled = true;
+      requestAnimationFrame(processHover);
+    }
   });
 
   canvas.addEventListener('mouseleave', () => {
     tooltip.style.opacity = '0';
     canvas.style.cursor = '';
+    if (rafScheduled) rafScheduled = false;   // cancel pending frame
   });
 
   canvas.addEventListener('click', (e) => {
