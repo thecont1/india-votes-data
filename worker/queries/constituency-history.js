@@ -54,6 +54,7 @@ export async function handleConstituencyHistory(request, env) {
   for (const row of rows.results) {
     if (!electionMap.has(row.election_id)) {
       electionMap.set(row.election_id, {
+        election_id: row.election_id,
         election_name: row.election_name || 'Unknown',
         sort_date: row.sort_date || '',
         winner: null,
