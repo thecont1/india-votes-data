@@ -6025,16 +6025,19 @@ async function drawRaceRoundwise(race) {
     _rwForm20Status = race.form20_status || 'unavailable';
     _rwForm20Url = race.form20_url || null;
 
-    // Build per-candidate vote map: candidate -> round_no -> votes
+    // Build per-candidate vote map: "name|party" -> round_no -> votes
+    // Composite key handles duplicate candidate names (e.g. two "SUBRATA PAIK")
+    const _candKey = (r) => `${r.candidate}|${r.party_abv}`;
     const votesMap = {};
     rows.forEach(r => {
-      if (!votesMap[r.candidate]) votesMap[r.candidate] = {};
-      votesMap[r.candidate][r.round_no] = r.votes;
+      const k = _candKey(r);
+      if (!votesMap[k]) votesMap[k] = {};
+      votesMap[k][r.round_no] = r.votes;
     });
 
-    const colorsByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.color]));
-    const partyByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.party_abv]));
-    const symbolByCandidate = Object.fromEntries(shown.map(c => [c.candidate, c.symbol_url || null]));
+    const colorsByCandidate = Object.fromEntries(shown.map(c => [_candKey(c), c.color]));
+    const partyByCandidate = Object.fromEntries(shown.map(c => [_candKey(c), c.party_abv]));
+    const symbolByCandidate = Object.fromEntries(shown.map(c => [_candKey(c), c.symbol_url || null]));
 
     // For slope: filter to recognized parties only (skip NOTA, Independent)
     const slopeCandidates = isSlope
@@ -6051,11 +6054,11 @@ async function drawRaceRoundwise(race) {
         candidate: c.candidate,
         party_abv: c.party_abv,
         party_name: c.party_name,
-        color: c.color || colorsByCandidate[c.candidate],
+        color: c.color || colorsByCandidate[_candKey(c)],
         won: c.won,
         symbol_url: c.symbol_url,
-        evmVotes: (votesMap[c.candidate] || {})[998] || 0,
-        combinedVotes: (votesMap[c.candidate] || {})[999] || 0,
+        evmVotes: (votesMap[_candKey(c)] || {})[998] || 0,
+        combinedVotes: (votesMap[_candKey(c)] || {})[999] || 0,
       }));
 
       drawSlopeChart(canvas, cands, theme);
@@ -6101,13 +6104,13 @@ async function drawRaceRoundwise(race) {
         label: `${c.candidate} (${c.party_abv})`,
         _partyAbv: c.party_abv,
         _candidate: c.candidate,
-        data: rounds.map(rn => (votesMap[c.candidate] || {})[rn] || 0),
-        borderColor: colorsByCandidate[c.candidate] || c.color,
-        backgroundColor: colorsByCandidate[c.candidate] || c.color,
+        data: rounds.map(rn => (votesMap[_candKey(c)] || {})[rn] || 0),
+        borderColor: colorsByCandidate[_candKey(c)] || c.color,
+        backgroundColor: colorsByCandidate[_candKey(c)] || c.color,
         borderWidth: 2,
         pointRadius: 0,
         pointHoverRadius: 4,
-        pointBackgroundColor: colorsByCandidate[c.candidate] || c.color,
+        pointBackgroundColor: colorsByCandidate[_candKey(c)] || c.color,
         pointBorderColor: 'transparent',
         pointBorderWidth: 0,
         tension: 0,
