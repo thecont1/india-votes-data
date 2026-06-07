@@ -1,0 +1,1422 @@
+election_year,election_type,election_state,constituency,constituency_no,serial_no,candidate,party,evm_votes,postal_votes
+2022,Assembly,PB,SUJANPUR,1,1,AMIT SINGH (MANTO),Aam Aadmi Party,28803,507
+2022,Assembly,PB,SUJANPUR,1,2,DINESH SINGH (BABBU),Bharatiya Janata Party,41673,607
+2022,Assembly,PB,SUJANPUR,1,3,NARESH PURI,Indian National Congress,46456,460
+2022,Assembly,PB,SUJANPUR,1,4,RAJ KUMAR GUPTA (BITTU),Shiromani Akali Dal,7943,56
+2022,Assembly,PB,SUJANPUR,1,5,MANDEEP KAUR,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),678,26
+2022,Assembly,PB,SUJANPUR,1,6,KANWAR VISHWADEEP SINGH SALARIA,Independent,269,2
+2022,Assembly,PB,SUJANPUR,1,7,DESH RAJ,Independent,272,8
+2022,Assembly,PB,SUJANPUR,1,8,BABA PAWAN KUMAR,Independent,421,3
+2022,Assembly,PB,SUJANPUR,1,9,MANGA,Independent,353,1
+2022,Assembly,PB,SUJANPUR,1,10,NOTA,None of the Above,789,12
+2022,Assembly,PB,BHOA,2,1,SEEMA KUMARI,Bharatiya Janata Party,28484,648
+2022,Assembly,PB,BHOA,2,2,JOGINDER PAL,Indian National Congress,48399,736
+2022,Assembly,PB,BHOA,2,3,RAKESH KUMAR,Bahujan Samaj Party,4968,78
+2022,Assembly,PB,BHOA,2,4,LAL CHAND,Aam Aadmi Party,49504,835
+2022,Assembly,PB,BHOA,2,5,MUNISH KUMAR,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1100,18
+2022,Assembly,PB,BHOA,2,6,KARAM SINGH,Independent,643,9
+2022,Assembly,PB,BHOA,2,7,DHARMINDER,Independent,302,3
+2022,Assembly,PB,BHOA,2,8,YUDHVIR SINGH,Independent,708,9
+2022,Assembly,PB,BHOA,2,9,VIJAY KUMAR,Independent,378,1
+2022,Assembly,PB,BHOA,2,10,NOTA,None of the Above,736,13
+2022,Assembly,PB,PATHANKOT,3,1,ASHWANI KUMAR SHARMA,Bharatiya Janata Party,42787,345
+2022,Assembly,PB,PATHANKOT,3,2,AMIT VIJ,Indian National Congress,35159,214
+2022,Assembly,PB,PATHANKOT,3,3,SATYA DEV SAINI,Communist Party of India,822,2
+2022,Assembly,PB,PATHANKOT,3,4,ADVOCATE JYOTI PAL BHIM,Bahujan Samaj Party,1065,14
+2022,Assembly,PB,PATHANKOT,3,5,VIBHUTI SHARMA,Aam Aadmi Party,31149,302
+2022,Assembly,PB,PATHANKOT,3,6,KARTAR SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),946,9
+2022,Assembly,PB,PATHANKOT,3,7,NOTA,None of the Above,664,2
+2022,Assembly,PB,GURDASPUR,4,1,GURBACHAN SINGH BABEHALI,Shiromani Akali Dal,35974,434
+2022,Assembly,PB,GURDASPUR,4,2,PARMINDER SINGH GILL,Bharatiya Janata Party,9648,171
+2022,Assembly,PB,GURDASPUR,4,3,BARINDERMEET SINGH PAHRA,Indian National Congress,42955,788
+2022,Assembly,PB,GURDASPUR,4,4,RAMAN BAHL,Aam Aadmi Party,28965,535
+2022,Assembly,PB,GURDASPUR,4,5,INDERPAL SINGH,Sanyukt Sangharsh Party,2360,31
+2022,Assembly,PB,GURDASPUR,4,6,SIMRANJIT SINGH MAAN,Punjab Kisan Dal,298,7
+2022,Assembly,PB,GURDASPUR,4,7,SUNNY,Independent,109,1
+2022,Assembly,PB,GURDASPUR,4,8,SUNNY GILL,Independent,248,2
+2022,Assembly,PB,GURDASPUR,4,9,KARANDEEP SINGH,Independent,167,1
+2022,Assembly,PB,GURDASPUR,4,10,GURPREET SINGH,Independent,133,1
+2022,Assembly,PB,GURDASPUR,4,11,JAGDISH MASIH,Independent,172,0
+2022,Assembly,PB,GURDASPUR,4,12,DEEPAK SHARMA,Independent,294,0
+2022,Assembly,PB,GURDASPUR,4,13,PARMJEET SINGH,Independent,159,0
+2022,Assembly,PB,GURDASPUR,4,14,NOTA,None of the Above,685,14
+2022,Assembly,PB,DINA NAGAR,5,1,ARUNA CHAUDHARY,Indian National Congress,50547,586
+2022,Assembly,PB,DINA NAGAR,5,2,SHAMSHER SINGH,Aam Aadmi Party,49170,832
+2022,Assembly,PB,DINA NAGAR,5,3,KAMALJEET CHAWLA,Bahujan Samaj Party,15430,104
+2022,Assembly,PB,DINA NAGAR,5,4,RENU KASHYAP,Bharatiya Janata Party,20200,360
+2022,Assembly,PB,DINA NAGAR,5,5,KULWANT SINGH,Independent,1535,13
+2022,Assembly,PB,DINA NAGAR,5,6,NOTA,None of the Above,919,12
+2022,Assembly,PB,QADIAN,6,1,GURIQBAL SINGH MAHAL,Shiromani Akali Dal,41125,380
+2022,Assembly,PB,QADIAN,6,2,JAGROOP SINGH SEKHWAN,Aam Aadmi Party,34195,721
+2022,Assembly,PB,QADIAN,6,3,PARTAP SINGH BAJWA,Indian National Congress,48116,563
+2022,Assembly,PB,QADIAN,6,4,HARDIP SINGH,Nationalist Justice Party,412,8
+2022,Assembly,PB,QADIAN,6,5,JATINDERBIR SINGH PANNU,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),4271,35
+2022,Assembly,PB,QADIAN,6,6,MASTER JOHAR SINGH,Shiromani Akali Dal (Sanyukt),717,30
+2022,Assembly,PB,QADIAN,6,7,DR. FAROOQ MASIH,Peoples Party of India (Democratic),138,3
+2022,Assembly,PB,QADIAN,6,8,AMARPARTAP SINGH,Independent,201,1
+2022,Assembly,PB,QADIAN,6,9,JASPAL SINGH,Independent,584,4
+2022,Assembly,PB,QADIAN,6,10,PREM SINGH,Independent,181,1
+2022,Assembly,PB,QADIAN,6,11,MOHNIT SINGH,Independent,400,1
+2022,Assembly,PB,QADIAN,6,12,RAJWINDER SINGH,Independent,318,1
+2022,Assembly,PB,QADIAN,6,13,NOTA,None of the Above,760,17
+2022,Assembly,PB,BATALA,7,1,ASHWANI SEKHRI,Indian National Congress,26995,103
+2022,Assembly,PB,BATALA,7,2,AMANSHER SINGH (SHERY KALSI),Aam Aadmi Party,55174,396
+2022,Assembly,PB,BATALA,7,3,SUCHA SINGH CHHOTEPUR,Shiromani Akali Dal,23091,160
+2022,Assembly,PB,BATALA,7,4,HANSA SINGH,Communist Party of India  (Marxist),331,1
+2022,Assembly,PB,BATALA,7,5,FATEHJANG SINGH BAJWA,Bharatiya Janata Party,13809,70
+2022,Assembly,PB,BATALA,7,6,SUKHCHAIN SINGH,Punjab Kisan Dal,518,5
+2022,Assembly,PB,BATALA,7,7,GURBACHAN SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3644,9
+2022,Assembly,PB,BATALA,7,8,MANJIT SINGH,Nationalist Justice Party,156,0
+2022,Assembly,PB,BATALA,7,9,VIJAY KUMAR TREHAN,Lok Insaaf Party,286,0
+2022,Assembly,PB,BATALA,7,10,ASHWANI KUMAR,Independent,107,2
+2022,Assembly,PB,BATALA,7,11,SANJEEV KUMAR,Independent,178,0
+2022,Assembly,PB,BATALA,7,12,SUCHA SINGH,Independent,290,0
+2022,Assembly,PB,BATALA,7,13,BALWINDER SINGH,Independent,1557,5
+2022,Assembly,PB,BATALA,7,14,NOTA,None of the Above,653,5
+2022,Assembly,PB,SRI HARGOBINDPUR,8,1,AMARPAL SINGH,Aam Aadmi Party,52616,589
+2022,Assembly,PB,SRI HARGOBINDPUR,8,2,BALJINDER SINGH,Bharatiya Janata Party,1237,81
+2022,Assembly,PB,SRI HARGOBINDPUR,8,3,MANDEEP SINGH,Indian National Congress,24431,132
+2022,Assembly,PB,SRI HARGOBINDPUR,8,4,RAJANBIR SINGH,Shiromani Akali Dal,36005,237
+2022,Assembly,PB,SRI HARGOBINDPUR,8,5,JASBIR SINGH CHAHAL,Bahujan Samaj Party  (Ambedkar),1729,2
+2022,Assembly,PB,SRI HARGOBINDPUR,8,6,MUKHTAR SINGH,Peoples Party of India (Democratic),420,5
+2022,Assembly,PB,SRI HARGOBINDPUR,8,7,RESHAM SINGH,Sanjhi Virasat Party,353,0
+2022,Assembly,PB,SRI HARGOBINDPUR,8,8,HANSA SINGH,Independent,476,2
+2022,Assembly,PB,SRI HARGOBINDPUR,8,9,DR. KAMALJIT SINGH,Independent,4724,33
+2022,Assembly,PB,SRI HARGOBINDPUR,8,10,NOTA,None of the Above,1398,3
+2022,Assembly,PB,FATEHGARH CHURIAN,9,1,TRIPT RAJINDER SINGH BAJWA,Indian National Congress,46148,163
+2022,Assembly,PB,FATEHGARH CHURIAN,9,2,BALBIR SINGH,Aam Aadmi Party,35441,378
+2022,Assembly,PB,FATEHGARH CHURIAN,9,3,LAKHBIR SINGH LODHINANGAL,Shiromani Akali Dal,40605,161
+2022,Assembly,PB,FATEHGARH CHURIAN,9,4,KULWANT SINGH MAJHAIL,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3363,27
+2022,Assembly,PB,FATEHGARH CHURIAN,9,5,TAJINDER SINGH,Punjab Lok Congress Party,380,26
+2022,Assembly,PB,FATEHGARH CHURIAN,9,6,AMARBEER SINGH,Independent,195,1
+2022,Assembly,PB,FATEHGARH CHURIAN,9,7,SAHIB SINGH,Independent,398,1
+2022,Assembly,PB,FATEHGARH CHURIAN,9,8,BALJINDER SINGH,Independent,721,2
+2022,Assembly,PB,FATEHGARH CHURIAN,9,9,NOTA,None of the Above,806,6
+2022,Assembly,PB,DERA BABA NANAK,10,1,SUKHJINDER SINGH RANDHAWA,Indian National Congress,52361,194
+2022,Assembly,PB,DERA BABA NANAK,10,2,KULDEEP SINGH,Bharatiya Janata Party,1840,73
+2022,Assembly,PB,DERA BABA NANAK,10,3,GURDEEP SINGH,Aam Aadmi Party,31336,406
+2022,Assembly,PB,DERA BABA NANAK,10,4,RAVIKARAN SINGH KAHLON,Shiromani Akali Dal,51920,169
+2022,Assembly,PB,DERA BABA NANAK,10,5,SATNAM SINGH,Independent,534,1
+2022,Assembly,PB,DERA BABA NANAK,10,6,SUKHJINDER SINGH,Independent,883,4
+2022,Assembly,PB,DERA BABA NANAK,10,7,GURDEEP SINGH,Independent,263,1
+2022,Assembly,PB,DERA BABA NANAK,10,8,JAGJIT SINGH,Independent,2673,11
+2022,Assembly,PB,DERA BABA NANAK,10,9,DOMINIC MATTU,Independent,383,5
+2022,Assembly,PB,DERA BABA NANAK,10,10,MANPREET SINGH,Independent,202,1
+2022,Assembly,PB,DERA BABA NANAK,10,11,NOTA,None of the Above,1097,2
+2022,Assembly,PB,AJNALA,11,1,AMARPAL SINGH BONNY AJNALA,Shiromani Akali Dal,35549,163
+2022,Assembly,PB,AJNALA,11,2,HARPARTAP SINGH,Indian National Congress,33795,58
+2022,Assembly,PB,AJNALA,11,3,KULDEEP SINGH DHALIWAL,Aam Aadmi Party,43257,298
+2022,Assembly,PB,AJNALA,11,4,AMRIK SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),2169,16
+2022,Assembly,PB,AJNALA,11,5,SURJEET SINGH,Punjab Lok Congress Party,435,16
+2022,Assembly,PB,AJNALA,11,6,CHARNJEET SINGH,Sanyukt Sangharsh Party,580,3
+2022,Assembly,PB,AJNALA,11,7,AMIT MOHAN,Independent,248,2
+2022,Assembly,PB,AJNALA,11,8,SONA MASIH JAFAR,Independent,3106,4
+2022,Assembly,PB,AJNALA,11,9,HARPARTAP SINGH,Independent,1028,2
+2022,Assembly,PB,AJNALA,11,10,KARANJIT SINGH,Independent,485,0
+2022,Assembly,PB,AJNALA,11,11,NOTA,None of the Above,821,3
+2022,Assembly,PB,RAJA SANSI,12,1,SUKHBINDER SINGH SARKARIA,Indian National Congress,46802,70
+2022,Assembly,PB,RAJA SANSI,12,2,BALDEV SINGH MIADIAN,Aam Aadmi Party,37264,162
+2022,Assembly,PB,RAJA SANSI,12,3,BHUPINDER SINGH CHHINA,Communist Party of India  (Marxist),503,2
+2022,Assembly,PB,RAJA SANSI,12,4,MUKHWINDER SINGH,Bharatiya Janata Party,2373,36
+2022,Assembly,PB,RAJA SANSI,12,5,VIR SINGH LOPOKE,Shiromani Akali Dal,41333,65
+2022,Assembly,PB,RAJA SANSI,12,6,HARJINDER KAUR,Samajik Sangharsh Party,495,18
+2022,Assembly,PB,RAJA SANSI,12,7,SATNAM SINGH,Independent,1526,1
+2022,Assembly,PB,RAJA SANSI,12,8,GURLAL SINGH,Independent,429,0
+2022,Assembly,PB,RAJA SANSI,12,9,YADWINDER SINGH,Independent,719,1
+2022,Assembly,PB,RAJA SANSI,12,10,LAKHBIR SINGH,Independent,510,0
+2022,Assembly,PB,RAJA SANSI,12,11,NOTA,None of the Above,1305,1
+2022,Assembly,PB,MAJITHA,13,1,Sukhjinder Raj Singh (Lalli),Aam Aadmi Party,30683,282
+2022,Assembly,PB,MAJITHA,13,2,Ganieve Kaur Majithia,Shiromani Akali Dal,56839,188
+2022,Assembly,PB,MAJITHA,13,3,Jagwinder Pal Singh (Jagga Majithia),Indian National Congress,25916,92
+2022,Assembly,PB,MAJITHA,13,4,Pardeep Singh,Bharatiya Janata Party,1625,29
+2022,Assembly,PB,MAJITHA,13,5,Kulwant Singh Kotla Gujran,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3535,18
+2022,Assembly,PB,MAJITHA,13,6,Inderjit Singh,Independent,310,2
+2022,Assembly,PB,MAJITHA,13,7,Jasmeet Singh Randhawa,Independent,412,3
+2022,Assembly,PB,MAJITHA,13,8,Paramjit Singh Jajeani,Independent,875,4
+2022,Assembly,PB,MAJITHA,13,9,Maninder Singh,Independent,527,1
+2022,Assembly,PB,MAJITHA,13,10,NOTA,None of the Above,810,1
+2022,Assembly,PB,JANDIALA,14,1,SATINDERJIT SINGH CHHAJJALWADDI,Shiromani Akali Dal,26226,76
+2022,Assembly,PB,JANDIALA,14,2,"SUKHWINDER SINGH ""DANNY"" BANDALA",Indian National Congress,34246,95
+2022,Assembly,PB,JANDIALA,14,3,HARBHAJAN SINGH E.T.O.,Aam Aadmi Party,59301,423
+2022,Assembly,PB,JANDIALA,14,4,HARDEEP SINGH,Bahujan Samaj Party  (Ambedkar),570,7
+2022,Assembly,PB,JANDIALA,14,5,GAGANDEEP SINGH A.R.,Punjab Lok Congress Party,497,15
+2022,Assembly,PB,JANDIALA,14,6,DHARMINDER SINGH,Sanjhi Virasat Party,168,1
+2022,Assembly,PB,JANDIALA,14,7,BAKHSHISH SINGH UPPAL,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3347,14
+2022,Assembly,PB,JANDIALA,14,8,HARPAL SINGH,Independent,214,3
+2022,Assembly,PB,JANDIALA,14,9,GURNAM SINGH DAUD,Independent,1308,7
+2022,Assembly,PB,JANDIALA,14,10,PARAMJEET KAUR,Independent,607,3
+2022,Assembly,PB,JANDIALA,14,11,BIKAR SINGH,Independent,635,0
+2022,Assembly,PB,JANDIALA,14,12,NOTA,None of the Above,916,2
+2022,Assembly,PB,AMRITSAR NORTH,15,1,ANIL JOSHI,Shiromani Akali Dal,29719,96
+2022,Assembly,PB,AMRITSAR NORTH,15,2,SUKHMINDER SINGH PINTU,Bharatiya Janata Party,13795,70
+2022,Assembly,PB,AMRITSAR NORTH,15,3,SUNIL DUTTI,Indian National Congress,18925,58
+2022,Assembly,PB,AMRITSAR NORTH,15,4,KUNWAR VIJAY PRATAP SINGH,Aam Aadmi Party,57830,303
+2022,Assembly,PB,AMRITSAR NORTH,15,5,DAVINDER SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),585,4
+2022,Assembly,PB,AMRITSAR NORTH,15,6,MAHESH KUMAR,Peoples Party of India (Democratic),357,0
+2022,Assembly,PB,AMRITSAR NORTH,15,7,MORIS,Bahujan Mukti Party,254,2
+2022,Assembly,PB,AMRITSAR NORTH,15,8,VARINDER KUMAR,Aas Punjab Party,118,1
+2022,Assembly,PB,AMRITSAR NORTH,15,9,PANKAJ KHOSLA,Independent,139,0
+2022,Assembly,PB,AMRITSAR NORTH,15,10,BAL KRISHAN SHARMA,Independent,193,0
+2022,Assembly,PB,AMRITSAR NORTH,15,11,MANOJ BEDI,Independent,165,0
+2022,Assembly,PB,AMRITSAR NORTH,15,12,ROOP LAL,Independent,157,0
+2022,Assembly,PB,AMRITSAR NORTH,15,13,VISHAL JOSHI,Independent,177,0
+2022,Assembly,PB,AMRITSAR NORTH,15,14,NOTA,None of the Above,794,10
+2022,Assembly,PB,AMRITSAR WEST,16,1,AMARJIT SINGH ASAL,Communist Party of India,1364,4
+2022,Assembly,PB,AMRITSAR WEST,16,2,KUMAR AMIT ADVOCATE,Bharatiya Janata Party,8933,66
+2022,Assembly,PB,AMRITSAR WEST,16,3,DR. JASBIR SINGH SANDHU,Aam Aadmi Party,68848,403
+2022,Assembly,PB,AMRITSAR WEST,16,4,DALBIR SINGH,Shiromani Akali Dal,10331,39
+2022,Assembly,PB,AMRITSAR WEST,16,5,RAJ KUMAR VERKA,Indian National Congress,25239,99
+2022,Assembly,PB,AMRITSAR WEST,16,6,SUCHA LAL,Aas Punjab Party,421,2
+2022,Assembly,PB,AMRITSAR WEST,16,7,SHAM LAL GANDHI,Independent,268,1
+2022,Assembly,PB,AMRITSAR WEST,16,8,GAGANDEEP SINGH,Independent,321,0
+2022,Assembly,PB,AMRITSAR WEST,16,9,JUGRAJ SINGH,Independent,967,1
+2022,Assembly,PB,AMRITSAR WEST,16,10,ADVOCATE NIRMAL PREET SINGH HIRA,Independent,311,1
+2022,Assembly,PB,AMRITSAR WEST,16,11,NOTA,None of the Above,978,9
+2022,Assembly,PB,AMRITSAR CENTRAL,17,1,OM PARKASH SONI,Indian National Congress,26783,28
+2022,Assembly,PB,AMRITSAR CENTRAL,17,2,AJAY GUPTA,Aam Aadmi Party,40748,89
+2022,Assembly,PB,AMRITSAR CENTRAL,17,3,DALVIR KAUR,Bahujan Samaj Party,4008,8
+2022,Assembly,PB,AMRITSAR CENTRAL,17,4,DR. RAM CHAWLA,Bharatiya Janata Party,13525,26
+2022,Assembly,PB,AMRITSAR CENTRAL,17,5,ONKAR SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),629,0
+2022,Assembly,PB,AMRITSAR CENTRAL,17,6,RAMESH CHAND @ MAHANT RAMESHANAND,Aas Punjab Party,662,2
+2022,Assembly,PB,AMRITSAR CENTRAL,17,7,NOTA,None of the Above,694,3
+2022,Assembly,PB,AMRITSAR EAST,18,1,JAGMOHAN SINGH RAJU,Bharatiya Janata Party,7255,31
+2022,Assembly,PB,AMRITSAR EAST,18,2,JEEVAN JYOT KAUR,Aam Aadmi Party,39520,159
+2022,Assembly,PB,AMRITSAR EAST,18,3,NAVJOT SINGH SIDHU,Indian National Congress,32807,122
+2022,Assembly,PB,AMRITSAR EAST,18,4,BIKRAM SINGH MAJITHIA,Shiromani Akali Dal,25112,76
+2022,Assembly,PB,AMRITSAR EAST,18,5,HARPAL SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),908,4
+2022,Assembly,PB,AMRITSAR EAST,18,6,TARSEM LAL,Bahujan Mukti Party,207,1
+2022,Assembly,PB,AMRITSAR EAST,18,7,RAMESH SHUKLA SAFAR,Aas Punjab Party,193,1
+2022,Assembly,PB,AMRITSAR EAST,18,8,AMARJEET SINGH,Independent,306,1
+2022,Assembly,PB,AMRITSAR EAST,18,9,SUKHJINDER SINGH,Independent,348,1
+2022,Assembly,PB,AMRITSAR EAST,18,10,BALWINDER SINGH SEKHON,Independent,260,1
+2022,Assembly,PB,AMRITSAR EAST,18,11,NOTA,None of the Above,686,4
+2022,Assembly,PB,AMRITSAR SOUTH,19,1,INDERBIR SINGH NIJJAR,Aam Aadmi Party,52907,146
+2022,Assembly,PB,AMRITSAR SOUTH,19,2,INDERBIR SINGH BOLARIA,Indian National Congress,22438,29
+2022,Assembly,PB,AMRITSAR SOUTH,19,3,TALBIR SINGH GILL,Shiromani Akali Dal,25496,54
+2022,Assembly,PB,AMRITSAR SOUTH,19,4,HARJINDER SINGH THEKEDAR,Punjab Lok Congress Party,1561,5
+2022,Assembly,PB,AMRITSAR SOUTH,19,5,GURWINDER SINGH,Bahujan Samaj Party  (Ambedkar),112,0
+2022,Assembly,PB,AMRITSAR SOUTH,19,6,Pritpal Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1202,2
+2022,Assembly,PB,AMRITSAR SOUTH,19,7,PHULJIT SINGH VARPAL,Republican Party of India (Athawale),93,1
+2022,Assembly,PB,AMRITSAR SOUTH,19,8,RITISH KHANNA,Right to Recall Party,64,0
+2022,Assembly,PB,AMRITSAR SOUTH,19,9,AJAY BHATIA,Independent,51,1
+2022,Assembly,PB,AMRITSAR SOUTH,19,10,Satbir Singh,Independent,52,0
+2022,Assembly,PB,AMRITSAR SOUTH,19,11,Kudratpal Singh,Independent,193,0
+2022,Assembly,PB,AMRITSAR SOUTH,19,12,Kuldip Singh,Independent,81,0
+2022,Assembly,PB,AMRITSAR SOUTH,19,13,Tarun Mehta,Independent,162,0
+2022,Assembly,PB,AMRITSAR SOUTH,19,14,Brahmjeet Singh,Independent,285,0
+2022,Assembly,PB,AMRITSAR SOUTH,19,15,LOVE KUMAR,Independent,318,0
+2022,Assembly,PB,AMRITSAR SOUTH,19,16,NOTA,None of the Above,631,1
+2022,Assembly,PB,ATTARI,20,1,GULZAR SINGH RANIKE,Shiromani Akali Dal,36919,85
+2022,Assembly,PB,ATTARI,20,2,JASWINDER SINGH,Aam Aadmi Party,56515,283
+2022,Assembly,PB,ATTARI,20,3,TARSEM SINGH SIALKA,Indian National Congress,26152,52
+2022,Assembly,PB,ATTARI,20,4,BALWINDER KAUR,Bharatiya Janata Party,2519,29
+2022,Assembly,PB,ATTARI,20,5,AVTAR SINGH,Republican Party of India (Athawale),230,4
+2022,Assembly,PB,ATTARI,20,6,SUKHCHAIN SINGH,Punjab Kisan Dal,453,2
+2022,Assembly,PB,ATTARI,20,7,GURPREET SINGH,Aas Punjab Party,166,3
+2022,Assembly,PB,ATTARI,20,8,GOPI SINGH,Nationalist Justice Party,169,0
+2022,Assembly,PB,ATTARI,20,9,BACHITAR SINGH,Samajik Sangharsh Party,436,0
+2022,Assembly,PB,ATTARI,20,10,LAKHWINDER SINGH,Bahujan Mukti Party,296,3
+2022,Assembly,PB,ATTARI,20,11,KULWINDER SINGH,Independent,278,0
+2022,Assembly,PB,ATTARI,20,12,TAJINDER SINGH,Independent,1038,3
+2022,Assembly,PB,ATTARI,20,13,RESHAM SINGH,Independent,1124,5
+2022,Assembly,PB,ATTARI,20,14,NOTA,None of the Above,1381,0
+2022,Assembly,PB,TARN TARAN,21,1,Harmeet Singh Sandhu,Shiromani Akali Dal,39232,115
+2022,Assembly,PB,TARN TARAN,21,2,Dr. Kashmir Singh Sohal,Aam Aadmi Party,52469,466
+2022,Assembly,PB,TARN TARAN,21,3,Dr. Dharambir Agnihotri,Indian National Congress,26460,75
+2022,Assembly,PB,TARN TARAN,21,4,Navreet Singh Hundal,Bharatiya Janata Party,1132,44
+2022,Assembly,PB,TARN TARAN,21,5,Amrik SIngh Varpal,Lok Insaaf Party,355,4
+2022,Assembly,PB,TARN TARAN,21,6,Amritpal Singh Mehron,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),6339,24
+2022,Assembly,PB,TARN TARAN,21,7,Harjinder Singh,Revolutionary Socialist Party,189,0
+2022,Assembly,PB,TARN TARAN,21,8,Harjit Kaur,Punjab National Party,126,1
+2022,Assembly,PB,TARN TARAN,21,9,Dharampal Singh,Nationalist Justice Party,234,1
+2022,Assembly,PB,TARN TARAN,21,10,Dr. Sukhmandeep Singh Dhillon,Independent,1299,16
+2022,Assembly,PB,TARN TARAN,21,11,Malkiat Singh Gill,Independent,623,2
+2022,Assembly,PB,TARN TARAN,21,12,Vijay Kumar,Independent,499,1
+2022,Assembly,PB,TARN TARAN,21,13,NOTA,None of the Above,1165,3
+2022,Assembly,PB,KHEM KARAN,22,1,SARVAN SINGH DHUN,Aam Aadmi Party,64011,530
+2022,Assembly,PB,KHEM KARAN,22,2,SUKHPAL SINGH BHULLAR,Indian National Congress,28773,86
+2022,Assembly,PB,KHEM KARAN,22,3,Virsa Singh Valtoha,Shiromani Akali Dal,52499,160
+2022,Assembly,PB,KHEM KARAN,22,4,Ajay Kumar CHINNU,Aas Punjab Party,420,12
+2022,Assembly,PB,KHEM KARAN,22,5,INDERJEET SINGH DHOLAN,Bahujan Mukti Party,114,3
+2022,Assembly,PB,KHEM KARAN,22,6,SHINGARA SINGH,Nationalist Justice Party,141,3
+2022,Assembly,PB,KHEM KARAN,22,7,HARPAL SINGH BALER,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3249,21
+2022,Assembly,PB,KHEM KARAN,22,8,JAIMAL SINGH,Bahujan Samaj Party  (Ambedkar),151,2
+2022,Assembly,PB,KHEM KARAN,22,9,DALJIT SINGH GILL,Shiromani Akali Dal (Sanyukt),408,14
+2022,Assembly,PB,KHEM KARAN,22,10,PAWAN KUMAR,Revolutionary Socialist Party,160,0
+2022,Assembly,PB,KHEM KARAN,22,11,ANGREJ SINGH,Independent,156,2
+2022,Assembly,PB,KHEM KARAN,22,12,SURJIT SINGH,Independent,525,0
+2022,Assembly,PB,KHEM KARAN,22,13,SURJIT SINGH BHURA,Independent,1053,3
+2022,Assembly,PB,KHEM KARAN,22,14,GURSHARAN SINGH,Independent,656,4
+2022,Assembly,PB,KHEM KARAN,22,15,NOTA,None of the Above,1830,2
+2022,Assembly,PB,PATTI,23,1,Adaish Partap Singh Kairon,Shiromani Akali Dal,46173,151
+2022,Assembly,PB,PATTI,23,2,Harminder Singh Gill,Indian National Congress,32929,80
+2022,Assembly,PB,PATTI,23,3,Laljit Singh Bhullar,Aam Aadmi Party,56797,526
+2022,Assembly,PB,PATTI,23,4,Satnam Singh,Lok Insaaf Party,339,10
+2022,Assembly,PB,PATTI,23,5,Jaskaran Toot Gill,Punjab Lok Congress Party,445,14
+2022,Assembly,PB,PATTI,23,6,Dilbag Singh Sheron,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),4029,26
+2022,Assembly,PB,PATTI,23,7,Manjit Singh Sekhon,Democratic Bharatiya Samaj Party,201,3
+2022,Assembly,PB,PATTI,23,8,Amandeep Singh Ghuman,Independent,151,3
+2022,Assembly,PB,PATTI,23,9,Sartaj Singh Sandhu,Independent,415,4
+2022,Assembly,PB,PATTI,23,10,Dr.Sukhwant Singh Virdi,Independent,236,1
+2022,Assembly,PB,PATTI,23,11,Harjinder Singh,Independent,652,0
+2022,Assembly,PB,PATTI,23,12,Advocate Ravinder Singh Vohra,Independent,658,0
+2022,Assembly,PB,PATTI,23,13,NOTA,None of the Above,1077,2
+2022,Assembly,PB,KHADOOR SAHIB,24,1,MANJINDER SINGH LALPURA,Aam Aadmi Party,55286,470
+2022,Assembly,PB,KHADOOR SAHIB,24,2,RANJIT SINGH BRAHAMPURA,Shiromani Akali Dal,38417,115
+2022,Assembly,PB,KHADOOR SAHIB,24,3,RAMANJEET SINGH SAHOTA SIKKI,Indian National Congress,39155,110
+2022,Assembly,PB,KHADOOR SAHIB,24,4,JASWANT SINGH SOHAL,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),5455,18
+2022,Assembly,PB,KHADOOR SAHIB,24,5,PURAN SINGH SHEIKH,Bahujan Samaj Party  (Ambedkar),1224,8
+2022,Assembly,PB,KHADOOR SAHIB,24,6,HARJINDER SINGH TANDA,Independent,2607,14
+2022,Assembly,PB,KHADOOR SAHIB,24,7,GURDEV SINGH,Independent,816,2
+2022,Assembly,PB,KHADOOR SAHIB,24,8,VARINDER SINGH BHINDER (VICKY BHINDER),Independent,500,0
+2022,Assembly,PB,KHADOOR SAHIB,24,9,NOTA,None of the Above,1051,8
+2022,Assembly,PB,BABA BAKALA,25,1,SANTOKH SINGH BHALAIPUR,Indian National Congress,32846,70
+2022,Assembly,PB,BABA BAKALA,25,2,DALBIR SINGH TONG,Aam Aadmi Party,52041,427
+2022,Assembly,PB,BABA BAKALA,25,3,BALJIT SINGH JALAL USHMAN,Shiromani Akali Dal,30915,54
+2022,Assembly,PB,BABA BAKALA,25,4,MANJIT SINGH MANNA,Bharatiya Janata Party,5313,53
+2022,Assembly,PB,BABA BAKALA,25,5,ANGREJ SINGH,Bahujan Samaj Party  (Ambedkar),747,5
+2022,Assembly,PB,BABA BAKALA,25,6,HARPREET SINGH,Lok Insaaf Party,280,0
+2022,Assembly,PB,BABA BAKALA,25,7,DILBAG SINGH,Sanjhi Virasat Party,212,1
+2022,Assembly,PB,BABA BAKALA,25,8,NATHA SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),4298,12
+2022,Assembly,PB,BABA BAKALA,25,9,GURNAM KAUR,Independent,2514,6
+2022,Assembly,PB,BABA BAKALA,25,10,JASBIR KAUR BEERO,Independent,510,2
+2022,Assembly,PB,BABA BAKALA,25,11,NOTA,None of the Above,927,4
+2022,Assembly,PB,BHOLATH,26,1,SUKHPAL SINGH KHAIRA,Indian National Congress,37089,165
+2022,Assembly,PB,BHOLATH,26,2,BIBI JAGIR KAUR,Shiromani Akali Dal,27885,144
+2022,Assembly,PB,BHOLATH,26,3,RANJIT SINGH RANA,Aam Aadmi Party,13528,84
+2022,Assembly,PB,BHOLATH,26,4,AMANDEEP SINGH GORA GILL,Punjab Lok Congress Party,1190,5
+2022,Assembly,PB,BHOLATH,26,5,SARBJIT SINGH LUBANA,Sanyukt Sangharsh Party,743,0
+2022,Assembly,PB,BHOLATH,26,6,HARPREET KAUR,Republican Party of India (A),167,2
+2022,Assembly,PB,BHOLATH,26,7,RAJINDER SINGH FAUJI,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),7576,7
+2022,Assembly,PB,BHOLATH,26,8,SUKHWINDER SINGH MIRZAPURI,Independent,164,1
+2022,Assembly,PB,BHOLATH,26,9,GURWINDER SINGH (RAJA BAJWA),Independent,306,0
+2022,Assembly,PB,BHOLATH,26,10,JOGINDER SINGH MAAN,Independent,756,5
+2022,Assembly,PB,BHOLATH,26,11,NOTA,None of the Above,718,2
+2022,Assembly,PB,KAPURTHALA,27,1,Devinder Singh Dhapai,Bahujan Samaj Party,8583,44
+2022,Assembly,PB,KAPURTHALA,27,2,Manju Rana,Aam Aadmi Party,36498,294
+2022,Assembly,PB,KAPURTHALA,27,3,Ranjit Singh Khojewal,Bharatiya Janata Party,6664,81
+2022,Assembly,PB,KAPURTHALA,27,4,Rana Gurjeet Singh,Indian National Congress,43752,344
+2022,Assembly,PB,KAPURTHALA,27,5,Suraj Kumar,Bahujan Samaj Party  (Ambedkar),697,0
+2022,Assembly,PB,KAPURTHALA,27,6,Harpreet Singh,Sanjhi Virasat Party,322,0
+2022,Assembly,PB,KAPURTHALA,27,7,Narinder Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3802,5
+2022,Assembly,PB,KAPURTHALA,27,8,Kulwant Singh Jossan,Independent,983,9
+2022,Assembly,PB,KAPURTHALA,27,9,NOTA,None of the Above,613,9
+2022,Assembly,PB,SULTANPUR LODHI,28,1,SAJJAN SINGH CHEEMA,Aam Aadmi Party,29606,297
+2022,Assembly,PB,SULTANPUR LODHI,28,2,HARMINDER SINGH,Shiromani Akali Dal,17374,94
+2022,Assembly,PB,SULTANPUR LODHI,28,3,NAVTEJ SINGH CHEEMA,Indian National Congress,13393,66
+2022,Assembly,PB,SULTANPUR LODHI,28,4,SARDOOL SINGH,Insaniyat Lok Vikas Party,192,2
+2022,Assembly,PB,SULTANPUR LODHI,28,5,JAGTAR,Bahujan Samaj Party  (Ambedkar),402,4
+2022,Assembly,PB,SULTANPUR LODHI,28,6,JUGRAJ PAL SINGH SAHI,Shiromani Akali Dal (Sanyukt),458,3
+2022,Assembly,PB,SULTANPUR LODHI,28,7,MUKHTIAR SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3042,7
+2022,Assembly,PB,SULTANPUR LODHI,28,8,HARPRITPAL SIGH VIRK,Independent,704,6
+2022,Assembly,PB,SULTANPUR LODHI,28,9,DHARAMPAL,Independent,377,1
+2022,Assembly,PB,SULTANPUR LODHI,28,10,RANA INDER PARTAP SINGH,Independent,41125,212
+2022,Assembly,PB,SULTANPUR LODHI,28,11,NOTA,None of the Above,739,2
+2022,Assembly,PB,PHAGWARA,29,1,JASVIR SINGH GARHI,Bahujan Samaj Party,31130,102
+2022,Assembly,PB,PHAGWARA,29,2,Joginder Singh Mann,Aam Aadmi Party,34392,113
+2022,Assembly,PB,PHAGWARA,29,3,Balwinder Singh Dhaliwal,Indian National Congress,37102,115
+2022,Assembly,PB,PHAGWARA,29,4,VIJAY SAMPLA,Bharatiya Janata Party,15408,61
+2022,Assembly,PB,PHAGWARA,29,5,KULDEEP SINGH NOOR,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3768,8
+2022,Assembly,PB,PHAGWARA,29,6,JARNAIL NANGAL,Lok Insaaf Party,3639,6
+2022,Assembly,PB,PHAGWARA,29,7,KHUSHI RAM,Independent,1104,7
+2022,Assembly,PB,PHAGWARA,29,8,NOTA,None of the Above,1006,3
+2022,Assembly,PB,PHILLAUR,30,1,Prem Kumar,Aam Aadmi Party,34310,168
+2022,Assembly,PB,PHILLAUR,30,2,Baldev Singh Khaira,Shiromani Akali Dal,35819,166
+2022,Assembly,PB,PHILLAUR,30,3,Mela Singh,Communist Party of India  (Marxist),939,2
+2022,Assembly,PB,PHILLAUR,30,4,Vikramjit Singh Chaudhary,Indian National Congress,48154,134
+2022,Assembly,PB,PHILLAUR,30,5,Surjit Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),4352,6
+2022,Assembly,PB,PHILLAUR,30,6,Harvinder Kaur,Samajik Sangharsh Party,695,0
+2022,Assembly,PB,PHILLAUR,30,7,Goldy Nahar,Lok Insaaf Party,799,1
+2022,Assembly,PB,PHILLAUR,30,8,Damanvir Singh Phillaur,Shiromani Akali Dal (Sanyukt),4097,7
+2022,Assembly,PB,PHILLAUR,30,9,Baldeep Kumar,Bharatrashtra Democratic Party,406,0
+2022,Assembly,PB,PHILLAUR,30,10,Mulkh Raj Jakhu,Peoples Party of India (Democratic),325,0
+2022,Assembly,PB,PHILLAUR,30,11,Raunki Ram,Nationalist Justice Party,297,0
+2022,Assembly,PB,PHILLAUR,30,12,Advocate Ajay Kumar Phillaur,Independent,7077,19
+2022,Assembly,PB,PHILLAUR,30,13,Sunny Kumar,Independent,727,0
+2022,Assembly,PB,PHILLAUR,30,14,Swaran Singh Momi,Independent,465,1
+2022,Assembly,PB,PHILLAUR,30,15,NOTA,None of the Above,913,7
+2022,Assembly,PB,NAKODAR,31,1,Inderjit Kaur Mann,Aam Aadmi Party,42689,179
+2022,Assembly,PB,NAKODAR,31,2,Gurpartap Singh Wadala,Shiromani Akali Dal,39875,124
+2022,Assembly,PB,NAKODAR,31,3,Dr. Navjot Singh Dahiya,Indian National Congress,36006,62
+2022,Assembly,PB,NAKODAR,31,4,Parshotam Lal Bilga,Communist Party of India  (Marxist),821,2
+2022,Assembly,PB,NAKODAR,31,5,Shammi Kumar,Punjab Lok Congress Party,2029,13
+2022,Assembly,PB,NAKODAR,31,6,Harpreet Singh Gill,Bahujan Samaj Party  (Ambedkar),868,0
+2022,Assembly,PB,NAKODAR,31,7,Davinder Singh Sangowal,Lok Insaaf Party,481,0
+2022,Assembly,PB,NAKODAR,31,8,Subedar Major Singh Bhangala,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),4071,2
+2022,Assembly,PB,NAKODAR,31,9,Raj Kumar,Democratic Bharatiya Samaj Party,288,2
+2022,Assembly,PB,NAKODAR,31,10,Dr. Balwinder Singh Hayer,Independent,614,0
+2022,Assembly,PB,NAKODAR,31,11,Mandeep Singh Samra,Independent,4936,11
+2022,Assembly,PB,NAKODAR,31,12,NOTA,None of the Above,1080,10
+2022,Assembly,PB,SHAHKOT,32,1,Hardev Singh Laddi,Indian National Congress,51537,124
+2022,Assembly,PB,SHAHKOT,32,2,Jaskaranjeet Singh,Communist Party of India  (Marxist),900,1
+2022,Assembly,PB,SHAHKOT,32,3,Narinder Pal Singh Chandi,Bharatiya Janata Party,1440,9
+2022,Assembly,PB,SHAHKOT,32,4,Bachitar Singh Kohar,Shiromani Akali Dal,39470,112
+2022,Assembly,PB,SHAHKOT,32,5,Rattan Singh,Aam Aadmi Party,29190,158
+2022,Assembly,PB,SHAHKOT,32,6,Sukhdev,Bahujan Samaj Party  (Ambedkar),334,0
+2022,Assembly,PB,SHAHKOT,32,7,Sulakhan Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),5772,7
+2022,Assembly,PB,SHAHKOT,32,8,Dr. Jagtar Singh chandi,Sanyukt Sangharsh Party,1665,8
+2022,Assembly,PB,SHAHKOT,32,9,Satwant Singh,Independent,422,0
+2022,Assembly,PB,SHAHKOT,32,10,Kashmir Singh,Independent,310,0
+2022,Assembly,PB,SHAHKOT,32,11,Paramjot,Independent,185,0
+2022,Assembly,PB,SHAHKOT,32,12,NOTA,None of the Above,863,3
+2022,Assembly,PB,KARTARPUR,33,1,CHAUDHARY SURINDER SINGH,Indian National Congress,37130,126
+2022,Assembly,PB,KARTARPUR,33,2,SURINDER MAHEY,Bharatiya Janata Party,5476,42
+2022,Assembly,PB,KARTARPUR,33,3,BALKAR SINGH,Aam Aadmi Party,41651,179
+2022,Assembly,PB,KARTARPUR,33,4,ADVOCATE BALWINDER KUMAR,Bahujan Samaj Party,33598,111
+2022,Assembly,PB,KARTARPUR,33,5,HARWINDER SINGH  RAHUL NIJJAR,Bahujan Samaj Party  (Ambedkar),746,0
+2022,Assembly,PB,KARTARPUR,33,6,K. K. SABHARWAL,Democratic Bharatiya Samaj Party,452,0
+2022,Assembly,PB,KARTARPUR,33,7,JEEVAN KUMAR,Independent,731,1
+2022,Assembly,PB,KARTARPUR,33,8,RAJESH KUMAR,Independent,3601,7
+2022,Assembly,PB,KARTARPUR,33,9,NOTA,None of the Above,1136,1
+2022,Assembly,PB,JALANDHAR WEST,34,1,ANIL MEENIA,Bahujan Samaj Party,4085,40
+2022,Assembly,PB,JALANDHAR WEST,34,2,SHEETAL ANGURAL,Aam Aadmi Party,39001,212
+2022,Assembly,PB,JALANDHAR WEST,34,3,SUSHIL KUMAR RINKU,Indian National Congress,34718,242
+2022,Assembly,PB,JALANDHAR WEST,34,4,MOHINDER BHAGAT,Bharatiya Janata Party,33279,207
+2022,Assembly,PB,JALANDHAR WEST,34,5,JASBIR SINGH MANN,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1697,4
+2022,Assembly,PB,JALANDHAR WEST,34,6,BALJINDER SODHI ADVOCATE,Nationalist Justice Party,105,0
+2022,Assembly,PB,JALANDHAR WEST,34,7,BALWINDER KUMAR,Aazad Samaj Party (Kanshi Ram),244,0
+2022,Assembly,PB,JALANDHAR WEST,34,8,AMRISH BHAGAT,Independent,161,0
+2022,Assembly,PB,JALANDHAR WEST,34,9,SUBHASH GORIA,Independent,576,0
+2022,Assembly,PB,JALANDHAR WEST,34,10,KARAM CHAND,Independent,272,0
+2022,Assembly,PB,JALANDHAR WEST,34,11,NEELAM,Independent,299,2
+2022,Assembly,PB,JALANDHAR WEST,34,12,VIPAN KUMAR,Independent,180,2
+2022,Assembly,PB,JALANDHAR WEST,34,13,NOTA,None of the Above,906,15
+2022,Assembly,PB,JALANDHAR CENTRAL,35,1,CHANDAN KUMAR GREWAL,Shiromani Akali Dal,10793,114
+2022,Assembly,PB,JALANDHAR CENTRAL,35,2,MANORANJAN KALIA,Bharatiya Janata Party,27764,229
+2022,Assembly,PB,JALANDHAR CENTRAL,35,3,RAJINDER BERI,Indian National Congress,32479,285
+2022,Assembly,PB,JALANDHAR CENTRAL,35,4,RAMAN ARORA,Aam Aadmi Party,32642,369
+2022,Assembly,PB,JALANDHAR CENTRAL,35,5,JATINDER KUMAR SHARMA,Samajwadi Party,215,4
+2022,Assembly,PB,JALANDHAR CENTRAL,35,6,BHUPINDER SINGH,Jai Jawan Jai Kisan Party,326,3
+2022,Assembly,PB,JALANDHAR CENTRAL,35,7,MANJIT KAUR,Punjab National Party,170,1
+2022,Assembly,PB,JALANDHAR CENTRAL,35,8,NARINDER KUMAR,Independent,203,4
+2022,Assembly,PB,JALANDHAR CENTRAL,35,9,NOTA,None of the Above,932,21
+2022,Assembly,PB,JALANDHAR NORTH,36,1,Avtar Singh Junior,Indian National Congress,47127,211
+2022,Assembly,PB,JALANDHAR NORTH,36,2,Kuldip Singh Lubana,Bahujan Samaj Party,6097,56
+2022,Assembly,PB,JALANDHAR NORTH,36,3,Dinesh Dhall,Aam Aadmi Party,32467,218
+2022,Assembly,PB,JALANDHAR NORTH,36,4,K D Bhandari,Bharatiya Janata Party,37634,218
+2022,Assembly,PB,JALANDHAR NORTH,36,5,Gurpartap Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1605,5
+2022,Assembly,PB,JALANDHAR NORTH,36,6,Baljinder Sodhi,Nationalist Justice Party,91,1
+2022,Assembly,PB,JALANDHAR NORTH,36,7,Rajinder Kumar,Bahujan Mukti Party,251,2
+2022,Assembly,PB,JALANDHAR NORTH,36,8,Deepak Kamboj,Independent,152,0
+2022,Assembly,PB,JALANDHAR NORTH,36,9,Des Raj Jassal,Independent,640,9
+2022,Assembly,PB,JALANDHAR NORTH,36,10,Rahul Bajaj,Independent,422,2
+2022,Assembly,PB,JALANDHAR NORTH,36,11,NOTA,None of the Above,938,12
+2022,Assembly,PB,JALANDHAR CANTT.,37,1,SARABJIT SINGH MAKKAR,Bharatiya Janata Party,15758,188
+2022,Assembly,PB,JALANDHAR CANTT.,37,2,SURINDER SINGH SODHI,Aam Aadmi Party,34662,346
+2022,Assembly,PB,JALANDHAR CANTT.,37,3,JAGBIR SINGH BRAR,Shiromani Akali Dal,27171,216
+2022,Assembly,PB,JALANDHAR CANTT.,37,4,PARGAT SINGH POWAR,Indian National Congress,40507,309
+2022,Assembly,PB,JALANDHAR CANTT.,37,5,SATNAM ALEER,Aazad Samaj Party (Kanshi Ram),597,0
+2022,Assembly,PB,JALANDHAR CANTT.,37,6,SUKHJINDER KUMAR,Peoples Party of India (Democratic),281,0
+2022,Assembly,PB,JALANDHAR CANTT.,37,7,SUNIL BABBAR,Samajwadi Party,170,0
+2022,Assembly,PB,JALANDHAR CANTT.,37,8,GURMUKH SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1764,5
+2022,Assembly,PB,JALANDHAR CANTT.,37,9,RIBIKA,Bahujan Mukti Party,289,2
+2022,Assembly,PB,JALANDHAR CANTT.,37,10,JASWINDER SINGH SANGHA,Independent,1874,16
+2022,Assembly,PB,JALANDHAR CANTT.,37,11,NOTA,None of the Above,917,18
+2022,Assembly,PB,ADAMPUR,38,1,SUKHWINDER SINGH KOTLI,Indian National Congress,39373,181
+2022,Assembly,PB,ADAMPUR,38,2,JIT LAL BHATTI,Aam Aadmi Party,28687,260
+2022,Assembly,PB,ADAMPUR,38,3,PAWAN KUMAR TINU,Shiromani Akali Dal,34779,208
+2022,Assembly,PB,ADAMPUR,38,4,SUNNY JASSAL,Aazad Samaj Party (Kanshi Ram),759,1
+2022,Assembly,PB,ADAMPUR,38,5,HARBHAJAN SINGH,Jai Jawan Jai Kisan Party,326,4
+2022,Assembly,PB,ADAMPUR,38,6,JAGDISH KUMAR JASSAL,Punjab Lok Congress Party,1275,7
+2022,Assembly,PB,ADAMPUR,38,7,RAJDEEP KAUR,Bahujan Mukti Party,193,0
+2022,Assembly,PB,ADAMPUR,38,8,VINOD KUMAR,Bahujan Samaj Party  (Ambedkar),408,2
+2022,Assembly,PB,ADAMPUR,38,9,PATRAS,Independent,378,2
+2022,Assembly,PB,ADAMPUR,38,10,PARSHOTAM RAJ AHIR,Independent,5727,24
+2022,Assembly,PB,ADAMPUR,38,11,NOTA,None of the Above,1150,9
+2022,Assembly,PB,MUKERIAN,39,1,INDU BALA,Indian National Congress,28679,310
+2022,Assembly,PB,MUKERIAN,39,2,SARBJOT SINGH,Shiromani Akali Dal,28704,280
+2022,Assembly,PB,MUKERIAN,39,3,Prof. GURDHIAN SINGH MULTANI,Aam Aadmi Party,37745,608
+2022,Assembly,PB,MUKERIAN,39,4,JANGI LAL MAHAJAN,Bharatiya Janata Party,40475,569
+2022,Assembly,PB,MUKERIAN,39,5,PARMINDER SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3211,21
+2022,Assembly,PB,MUKERIAN,39,6,ASHOK KUMAR,Independent,555,7
+2022,Assembly,PB,MUKERIAN,39,7,KARAMJIT SINGH,Independent,708,7
+2022,Assembly,PB,MUKERIAN,39,8,GURVATAN SINGH,Independent,565,5
+2022,Assembly,PB,MUKERIAN,39,9,NOTA,None of the Above,839,12
+2022,Assembly,PB,DASUYA,40,1,ARUN DOGRA,Indian National Congress,34418,267
+2022,Assembly,PB,DASUYA,40,2,SUSHEEL KUMAR SHARMA,Bahujan Samaj Party,22611,272
+2022,Assembly,PB,DASUYA,40,3,KARAMBIR SINGH,Aam Aadmi Party,42617,655
+2022,Assembly,PB,DASUYA,40,4,RAGHUNATH SINGH RANA,Bharatiya Janata Party,25250,382
+2022,Assembly,PB,DASUYA,40,5,SUKHWINDER SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3403,26
+2022,Assembly,PB,DASUYA,40,6,BABBU SINGH BAAZ,Punjab Kisan Dal,349,9
+2022,Assembly,PB,DASUYA,40,7,JANAK RAJ,Independent,669,3
+2022,Assembly,PB,DASUYA,40,8,BALKAR SINGH,Independent,264,4
+2022,Assembly,PB,DASUYA,40,9,RAM LAL SANDHU,Independent,1024,7
+2022,Assembly,PB,DASUYA,40,10,LAKHBIR SINGH,Independent,401,1
+2022,Assembly,PB,DASUYA,40,11,NOTA,None of the Above,810,14
+2022,Assembly,PB,URMAR,41,1,Sangat Singh Gilzian,Indian National Congress,38148,238
+2022,Assembly,PB,URMAR,41,2,Jasvir Singh Raja Gill,Aam Aadmi Party,42029,547
+2022,Assembly,PB,URMAR,41,3,Lakhwinder Singh,Bahujan Samaj Party,23030,161
+2022,Assembly,PB,URMAR,41,4,Harjinder Singh,Nationalist Justice Party,586,3
+2022,Assembly,PB,URMAR,41,5,Kuldip Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),6862,28
+2022,Assembly,PB,URMAR,41,6,Gurdial Singh,Bharatrashtra Democratic Party,378,3
+2022,Assembly,PB,URMAR,41,7,Manjit Singh,Shiromani Akali Dal (Sanyukt),10910,46
+2022,Assembly,PB,URMAR,41,8,Arashdeep Singh,Independent,822,7
+2022,Assembly,PB,URMAR,41,9,Baljit Singh,Independent,526,1
+2022,Assembly,PB,URMAR,41,10,NOTA,None of the Above,875,5
+2022,Assembly,PB,SHAM CHAURASI,42,1,PAWAN KUMAR ADIA,Indian National Congress,39211,163
+2022,Assembly,PB,SHAM CHAURASI,42,2,MOHINDER SINGH SANDHAR,Bahujan Samaj Party,13357,155
+2022,Assembly,PB,SHAM CHAURASI,42,3,DR.RAVJOT SINGH,Aam Aadmi Party,60202,528
+2022,Assembly,PB,SHAM CHAURASI,42,4,DES RAJ DHUGGA,Shiromani Akali Dal (Sanyukt),3099,53
+2022,Assembly,PB,SHAM CHAURASI,42,5,MOHINDER LAL,Samajik Sangharsh Party,765,10
+2022,Assembly,PB,SHAM CHAURASI,42,6,KARAMJIT SINGH BABLU JOSH,Independent,3447,12
+2022,Assembly,PB,SHAM CHAURASI,42,7,BHAGWAN DASS,Independent,1916,11
+2022,Assembly,PB,SHAM CHAURASI,42,8,NOTA,None of the Above,1085,10
+2022,Assembly,PB,HOSHIARPUR,43,1,SUNDER SHAM ARORA,Indian National Congress,37080,173
+2022,Assembly,PB,HOSHIARPUR,43,2,TIKSHAN SUD,Bharatiya Janata Party,23833,140
+2022,Assembly,PB,HOSHIARPUR,43,3,BRAM SHANKER (JIMPA),Aam Aadmi Party,50733,379
+2022,Assembly,PB,HOSHIARPUR,43,4,VIRINDER SINGH PARHAR,Bahujan Samaj Party,11979,108
+2022,Assembly,PB,HOSHIARPUR,43,5,OM PARKASH JAKHU,Bharatrashtra Democratic Party,293,2
+2022,Assembly,PB,HOSHIARPUR,43,6,DR. NARESH SAGGAR,Sarav Sanjhi Party,544,1
+2022,Assembly,PB,HOSHIARPUR,43,7,JASVIR SINGH,Independent,304,0
+2022,Assembly,PB,HOSHIARPUR,43,8,RAJVEER SINGH KALSI,Independent,1183,4
+2022,Assembly,PB,HOSHIARPUR,43,9,NOTA,None of the Above,1140,11
+2022,Assembly,PB,CHABBEWAL,44,1,SOHAN SINGH THANDAL,Shiromani Akali Dal,19229,100
+2022,Assembly,PB,CHABBEWAL,44,2,HARMINDER SINGH,Aam Aadmi Party,39509,220
+2022,Assembly,PB,CHABBEWAL,44,3,DR. DILBAG RAI,Bharatiya Janata Party,4042,31
+2022,Assembly,PB,CHABBEWAL,44,4,DR. RAJ KUMAR,Indian National Congress,47228,147
+2022,Assembly,PB,CHABBEWAL,44,5,SODHI RAM,Lok Insaaf Party,626,2
+2022,Assembly,PB,CHABBEWAL,44,6,GURNAM SINGH,Bharatrashtra Democratic Party,740,2
+2022,Assembly,PB,CHABBEWAL,44,7,DAVINDER KUMAR,Samaj Bhalai Morcha,230,0
+2022,Assembly,PB,CHABBEWAL,44,8,DAVINDER SINGH,Independent,206,2
+2022,Assembly,PB,CHABBEWAL,44,9,BUDH DAYAL,Independent,479,1
+2022,Assembly,PB,CHABBEWAL,44,10,RASHPAL SINGH RAJU,Independent,1237,2
+2022,Assembly,PB,CHABBEWAL,44,11,RAMAN KUMAR,Independent,488,4
+2022,Assembly,PB,CHABBEWAL,44,12,NOTA,None of the Above,978,3
+2022,Assembly,PB,GARHSHANKAR,45,1,AMARPREET SINGH LALLY,Indian National Congress,28048,114
+2022,Assembly,PB,GARHSHANKAR,45,2,SURINDER SINGH HEER,Shiromani Akali Dal,25257,173
+2022,Assembly,PB,GARHSHANKAR,45,3,JAI KRISHAN,Aam Aadmi Party,32045,296
+2022,Assembly,PB,GARHSHANKAR,45,4,NIMISHA MEHTA,Bharatiya Janata Party,24536,199
+2022,Assembly,PB,GARHSHANKAR,45,5,MOHINDER KUMAR,Communist Party of India  (Marxist),1183,6
+2022,Assembly,PB,GARHSHANKAR,45,6,IQBAL SINGH,Sada Haq Party,1947,2
+2022,Assembly,PB,GARHSHANKAR,45,7,DARSHAN SINGH,Vishal Party of India,177,0
+2022,Assembly,PB,GARHSHANKAR,45,8,AVTAR SINGH,Independent,204,0
+2022,Assembly,PB,GARHSHANKAR,45,9,GONNY KHABRA,Independent,210,0
+2022,Assembly,PB,GARHSHANKAR,45,10,JASWANT SINGH,Independent,421,0
+2022,Assembly,PB,GARHSHANKAR,45,11,JANG BAHADUR SINGH,Independent,4091,15
+2022,Assembly,PB,GARHSHANKAR,45,12,MOHAN SINGH,Independent,2466,4
+2022,Assembly,PB,GARHSHANKAR,45,13,NOTA,None of the Above,1061,17
+2022,Assembly,PB,BANGA,46,1,SUKHWINDER KUMAR SUKHI DR.,Shiromani Akali Dal,37106,232
+2022,Assembly,PB,BANGA,46,2,KULJIT SINGH SARHAL,Aam Aadmi Party,31857,163
+2022,Assembly,PB,BANGA,46,3,TARLOCHAN SINGH,Indian National Congress,32110,159
+2022,Assembly,PB,BANGA,46,4,PAUL RAM,Communist Party of India,629,2
+2022,Assembly,PB,BANGA,46,5,MOHAN LAL BEHRAM,Bharatiya Janata Party,3951,23
+2022,Assembly,PB,BANGA,46,6,KRISHAN LAL,Aazad Samaj Party (Kanshi Ram),584,0
+2022,Assembly,PB,BANGA,46,7,MAKHAN SINGH TAHARPURI,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1097,0
+2022,Assembly,PB,BANGA,46,8,MANJIT SINGH BHANGAL,Independent,543,1
+2022,Assembly,PB,BANGA,46,9,RAJ KUMAR MAHAL KHURD,Independent,5827,13
+2022,Assembly,PB,BANGA,46,10,NOTA,None of the Above,990,14
+2022,Assembly,PB,NAWAN SHAHR,47,1,SATVIR SINGH PALLI JHIKKI,Indian National Congress,6952,46
+2022,Assembly,PB,NAWAN SHAHR,47,2,DR. NACHHATAR PAL,Bahujan Samaj Party,36695,336
+2022,Assembly,PB,NAWAN SHAHR,47,3,POONAM MANIK,Bharatiya Janata Party,3180,46
+2022,Assembly,PB,NAWAN SHAHR,47,4,LALIT MOHAN BALLU,Aam Aadmi Party,31360,295
+2022,Assembly,PB,NAWAN SHAHR,47,5,SURINDER SINGH,Nationalist Justice Party,1075,0
+2022,Assembly,PB,NAWAN SHAHR,47,6,DAVINDER SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),5034,3
+2022,Assembly,PB,NAWAN SHAHR,47,7,PARAMJIT SINGH,Jai Jawan Jai Kisan Party,504,1
+2022,Assembly,PB,NAWAN SHAHR,47,8,ANGAD SINGH,Independent,31342,174
+2022,Assembly,PB,NAWAN SHAHR,47,9,SUNNY SINGH JAFFARPUR,Independent,472,4
+2022,Assembly,PB,NAWAN SHAHR,47,10,KULDIP SINGH BAZIDPUR,Independent,5684,22
+2022,Assembly,PB,NAWAN SHAHR,47,11,NOTA,None of the Above,639,4
+2022,Assembly,PB,BALACHAUR,48,1,ASHOK BAATH,Bharatiya Janata Party,5481,85
+2022,Assembly,PB,BALACHAUR,48,2,SANTOSH KUMARI KATARIAA,Aam Aadmi Party,39168,465
+2022,Assembly,PB,BALACHAUR,48,3,SUNITA RANI,Shiromani Akali Dal,34802,290
+2022,Assembly,PB,BALACHAUR,48,4,DARSHAN LAL,Indian National Congress,31047,154
+2022,Assembly,PB,BALACHAUR,48,5,PREM CHAND,Communist Party of India  (Marxist),913,7
+2022,Assembly,PB,BALACHAUR,48,6,SATPAL,Independent,308,0
+2022,Assembly,PB,BALACHAUR,48,7,DALJIT SINGH BAINS,Independent,1563,2
+2022,Assembly,PB,BALACHAUR,48,8,NOTA,None of the Above,670,9
+2022,Assembly,PB,ANANDPUR SAHIB,49,1,HARJOT SINGH BAINS,Aam Aadmi Party,81730,402
+2022,Assembly,PB,ANANDPUR SAHIB,49,2,KANWAR PAL SINGH,Indian National Congress,36195,157
+2022,Assembly,PB,ANANDPUR SAHIB,49,3,GURDEV SINGH,Communist Party of India  (Marxist),506,1
+2022,Assembly,PB,ANANDPUR SAHIB,49,4,NUTAN KUMAR ALIAS NITIN NANDA,Bahujan Samaj Party,5898,25
+2022,Assembly,PB,ANANDPUR SAHIB,49,5,DR. PARMINDER SHARMA,Bharatiya Janata Party,11323,110
+2022,Assembly,PB,ANANDPUR SAHIB,49,6,ASHWANI KUMAR,Aazad Samaj Party (Kanshi Ram),301,0
+2022,Assembly,PB,ANANDPUR SAHIB,49,7,MALKIAT SINGH,Jai Jawan Jai Kisan Party,171,2
+2022,Assembly,PB,ANANDPUR SAHIB,49,8,RANJIT SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1452,7
+2022,Assembly,PB,ANANDPUR SAHIB,49,9,SANJEEV RANA,Independent,1206,3
+2022,Assembly,PB,ANANDPUR SAHIB,49,10,SHAMSHER SINGH,Independent,557,3
+2022,Assembly,PB,ANANDPUR SAHIB,49,11,SURINDER KUMAR BEDI,Independent,470,0
+2022,Assembly,PB,ANANDPUR SAHIB,49,12,NOTA,None of the Above,1286,4
+2022,Assembly,PB,RUPNAGAR,50,1,IQBAL SINGH LALPURA,Bharatiya Janata Party,10002,65
+2022,Assembly,PB,RUPNAGAR,50,2,Dr. DALJIT SINGH CHEEMA,Shiromani Akali Dal,22270,68
+2022,Assembly,PB,RUPNAGAR,50,3,DINESH KUMAR CHADHA,Aam Aadmi Party,59573,330
+2022,Assembly,PB,RUPNAGAR,50,4,BRINDER SINGH DHILLON,Indian National Congress,36184,87
+2022,Assembly,PB,RUPNAGAR,50,5,PARAMJEET SINGH MUKARI,Punjab Kisan Dal,516,3
+2022,Assembly,PB,RUPNAGAR,50,6,SUBEDAR AVTAR SINGH,Independent,3335,4
+2022,Assembly,PB,RUPNAGAR,50,7,DEVINDER SINGH BAJWA,Independent,1916,13
+2022,Assembly,PB,RUPNAGAR,50,8,BACHITAR SINGH,Independent,739,2
+2022,Assembly,PB,RUPNAGAR,50,9,NOTA,None of the Above,681,5
+2022,Assembly,PB,CHAMKAUR SAHIB,51,1,HARMOHAN SINGH,Bahujan Samaj Party,3788,14
+2022,Assembly,PB,CHAMKAUR SAHIB,51,2,CHARANJIT SINGH,Aam Aadmi Party,69981,267
+2022,Assembly,PB,CHAMKAUR SAHIB,51,3,CHARANJIT SINGH CHANNI,Indian National Congress,62148,158
+2022,Assembly,PB,CHAMKAUR SAHIB,51,4,DARSHAN SINGH SHIVJOT,Bharatiya Janata Party,2494,20
+2022,Assembly,PB,CHAMKAUR SAHIB,51,5,GURMUKH SINGH,Samajwadi Party,198,2
+2022,Assembly,PB,CHAMKAUR SAHIB,51,6,JAGDEEP SINGH,Marxist Leninist Party of India (Red Flag),143,2
+2022,Assembly,PB,CHAMKAUR SAHIB,51,7,NAIB SINGH,Punjab National Party,229,0
+2022,Assembly,PB,CHAMKAUR SAHIB,51,8,LAKHVIR SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),6969,5
+2022,Assembly,PB,CHAMKAUR SAHIB,51,9,RUPINDER SINGH,Independent,440,0
+2022,Assembly,PB,CHAMKAUR SAHIB,51,10,NOTA,None of the Above,711,2
+2022,Assembly,PB,KHARAR,52,1,Anmol Gagan Maan,Aam Aadmi Party,78067,206
+2022,Assembly,PB,KHARAR,52,2,Kamal Deep Singh Saini,Bharatiya Janata Party,15210,39
+2022,Assembly,PB,KHARAR,52,3,Ranjit Singh Gill,Shiromani Akali Dal,40349,39
+2022,Assembly,PB,KHARAR,52,4,Vijay Sharma Tinku,Indian National Congress,25265,26
+2022,Assembly,PB,KHARAR,52,5,Amandeep Prajapati,Samaj Adhikar Kalyan Party,227,1
+2022,Assembly,PB,KHARAR,52,6,Bhupinder Singh Mehton,Samajwadi Party,280,0
+2022,Assembly,PB,KHARAR,52,7,Rupinder Kaur,Punjab National Party,93,1
+2022,Assembly,PB,KHARAR,52,8,Lakhvir Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),7193,5
+2022,Assembly,PB,KHARAR,52,9,Sunaina,Independent,172,1
+2022,Assembly,PB,KHARAR,52,10,Kapil Dev Sharma,Independent,463,1
+2022,Assembly,PB,KHARAR,52,11,Kulbir Singh Bisht,Independent,1070,0
+2022,Assembly,PB,KHARAR,52,12,Jaswinder Singh Jassi,Independent,320,0
+2022,Assembly,PB,KHARAR,52,13,Jasvir Chander,Independent,733,0
+2022,Assembly,PB,KHARAR,52,14,Paramdeep Singh Baidwan,Independent,3970,5
+2022,Assembly,PB,KHARAR,52,15,Baljeet Singh Ladi,Independent,356,0
+2022,Assembly,PB,KHARAR,52,16,Manbir Singh,Independent,1232,1
+2022,Assembly,PB,KHARAR,52,17,Mohan Singh,Independent,624,0
+2022,Assembly,PB,KHARAR,52,18,NOTA,None of the Above,734,1
+2022,Assembly,PB,S.A.S. NAGAR,53,1,SANJEEV VASHISHT,Bharatiya Janata Party,16984,36
+2022,Assembly,PB,S.A.S. NAGAR,53,2,KULWANT SINGH,Aam Aadmi Party,76915,219
+2022,Assembly,PB,S.A.S. NAGAR,53,3,PARVINDER SINGH BAIDWAN,Shiromani Akali Dal,9601,27
+2022,Assembly,PB,S.A.S. NAGAR,53,4,BALBIR SINGH SIDHU,Indian National Congress,42929,108
+2022,Assembly,PB,S.A.S. NAGAR,53,5,SHINDERPAL SINGH,Punjab National Party,303,0
+2022,Assembly,PB,S.A.S. NAGAR,53,6,BALWINDER KAUR,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),2618,2
+2022,Assembly,PB,S.A.S. NAGAR,53,7,MANIKSHA,Samaj Adhikar Kalyan Party,343,1
+2022,Assembly,PB,S.A.S. NAGAR,53,8,HARSIMRAN SINGH,Independent,947,0
+2022,Assembly,PB,S.A.S. NAGAR,53,9,RAVNEET SINGH BRAR,Independent,2962,9
+2022,Assembly,PB,S.A.S. NAGAR,53,10,NOTA,None of the Above,1185,7
+2022,Assembly,PB,BASSI PATHANA,54,1,SHIV KUMAR KALYAN,Bahujan Samaj Party,7830,29
+2022,Assembly,PB,BASSI PATHANA,54,2,GURPREET SINGH,Indian National Congress,16112,65
+2022,Assembly,PB,BASSI PATHANA,54,3,RUPINDER SINGH,Aam Aadmi Party,53741,277
+2022,Assembly,PB,BASSI PATHANA,54,4,SATVIR SINGH,Apni Janta Party,618,2
+2022,Assembly,PB,BASSI PATHANA,54,5,JAGDEV SINGH,Lok Insaaf Party,582,4
+2022,Assembly,PB,BASSI PATHANA,54,6,DALJIT SINGH,"Rashtrawadi Party of India,",430,1
+2022,Assembly,PB,BASSI PATHANA,54,7,DEEPAK JYOTI,Punjab Lok Congress Party,1645,2
+2022,Assembly,PB,BASSI PATHANA,54,8,DHARAM SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),10892,7
+2022,Assembly,PB,BASSI PATHANA,54,9,LAKHVIR SINGH,Samajwadi Party,307,0
+2022,Assembly,PB,BASSI PATHANA,54,10,AMANDEEP KAUR,Independent,4996,16
+2022,Assembly,PB,BASSI PATHANA,54,11,MANOHAR SINGH,Independent,13777,19
+2022,Assembly,PB,BASSI PATHANA,54,12,NOTA,None of the Above,784,8
+2022,Assembly,PB,FATEHGARH SAHIB,55,1,Kuljit Singh Nagra,Indian National Congress,25412,95
+2022,Assembly,PB,FATEHGARH SAHIB,55,2,Jagdeep Singh Cheema,Shiromani Akali Dal,10866,56
+2022,Assembly,PB,FATEHGARH SAHIB,55,3,Didar Singh Bhatti,Bharatiya Janata Party,14128,58
+2022,Assembly,PB,FATEHGARH SAHIB,55,4,Lakhbir Singh Rai,Aam Aadmi Party,57363,343
+2022,Assembly,PB,FATEHGARH SAHIB,55,5,Er. Amritbir Singh Bhalmajra,Punjab Kisan Dal,409,3
+2022,Assembly,PB,FATEHGARH SAHIB,55,6,Emaan Singh Mann,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),12271,15
+2022,Assembly,PB,FATEHGARH SAHIB,55,7,Sarbjeet Singh (Makhan),Sanyukt Sangharsh Party,2154,5
+2022,Assembly,PB,FATEHGARH SAHIB,55,8,Sukhvir Singh,Samajik Sangharsh Party,447,2
+2022,Assembly,PB,FATEHGARH SAHIB,55,9,Gurwinder Singh,Lok Insaaf Party,210,0
+2022,Assembly,PB,FATEHGARH SAHIB,55,10,Bahal Singh,Aazad Samaj Party (Kanshi Ram),454,1
+2022,Assembly,PB,FATEHGARH SAHIB,55,11,Nawab Ali,Independent,257,0
+2022,Assembly,PB,FATEHGARH SAHIB,55,12,Balwant Singh,Independent,201,0
+2022,Assembly,PB,FATEHGARH SAHIB,55,13,NOTA,None of the Above,756,9
+2022,Assembly,PB,AMLOH,56,1,Kanwarveer Singh Tohra,Bharatiya Janata Party,9449,39
+2022,Assembly,PB,AMLOH,56,2,Gurpreet Singh Raju Khanna,Shiromani Akali Dal,28129,120
+2022,Assembly,PB,AMLOH,56,3,Gurinder Singh Garry Birring,Aam Aadmi Party,52648,264
+2022,Assembly,PB,AMLOH,56,4,Kaka Randeep Singh Nabha,Indian National Congress,16045,32
+2022,Assembly,PB,AMLOH,56,5,Sanjeev Kumar Pilot,Janata Dal  (United),292,0
+2022,Assembly,PB,AMLOH,56,6,Sutantardeep Singh Badgujran,Lok Insaaf Party,162,1
+2022,Assembly,PB,AMLOH,56,7,Gurbachan Singh,Punjab Kisan Dal,204,0
+2022,Assembly,PB,AMLOH,56,8,Jaspal Singh (Harman Tiwana),Jai Jawan Jai Kisan Party,376,1
+2022,Assembly,PB,AMLOH,56,9,Dharampal,National Apni Party,289,0
+2022,Assembly,PB,AMLOH,56,10,Lakhvir Singh Sounti,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3790,3
+2022,Assembly,PB,AMLOH,56,11,Sewa Ram Singh,Independent,356,0
+2022,Assembly,PB,AMLOH,56,12,Darshan Singh Babbi,Independent,1239,4
+2022,Assembly,PB,AMLOH,56,13,NOTA,None of the Above,518,5
+2022,Assembly,PB,KHANNA,57,1,GURKIRAT SINGH,Indian National Congress,20181,124
+2022,Assembly,PB,KHANNA,57,2,GURPREET SINGH BHATTI,Bharatiya Janata Party,12575,92
+2022,Assembly,PB,KHANNA,57,3,JASDEEP KAUR YADU,Shiromani Akali Dal,26635,170
+2022,Assembly,PB,KHANNA,57,4,TARUNPREET SINGH SOND,Aam Aadmi Party,61951,474
+2022,Assembly,PB,KHANNA,57,5,SUKHMIT SINGH KHANNA,Punjab Kisan Dal,305,3
+2022,Assembly,PB,KHANNA,57,6,KARNAIL SINGH IKOLAHA,Revolutionary Socialist Party,163,2
+2022,Assembly,PB,KHANNA,57,7,PARMJEET SINGH RINKA,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3933,3
+2022,Assembly,PB,KHANNA,57,8,SUKHWANT SINGH TILLU,Independent,728,4
+2022,Assembly,PB,KHANNA,57,9,PARMJEET WALIA,Independent,246,1
+2022,Assembly,PB,KHANNA,57,10,RAJ KUMAR,Independent,300,2
+2022,Assembly,PB,KHANNA,57,11,NOTA,None of the Above,689,5
+2022,Assembly,PB,SAMRALA,58,1,JAGTAR SINGH DIYALPURA,Aam Aadmi Party,57126,431
+2022,Assembly,PB,SAMRALA,58,2,PARAMJIT SINGH DHILLON,Shiromani Akali Dal,26537,130
+2022,Assembly,PB,SAMRALA,58,3,RANJIT SINGH GAHLEWAL,Bharatiya Janata Party,2312,19
+2022,Assembly,PB,SAMRALA,58,4,RUPINDER SINGH RAJA GILL,Indian National Congress,23276,92
+2022,Assembly,PB,SAMRALA,58,5,Dr. SOHAN LAL BLAGGAN,Samajwadi Party,306,1
+2022,Assembly,PB,SAMRALA,58,6,MAJOR SINGH,Bharatiya Jan Jagriti Party,182,0
+2022,Assembly,PB,SAMRALA,58,7,RAJINDER SHARMA,Apna Sangharsh Kisani Ekta Party,182,1
+2022,Assembly,PB,SAMRALA,58,8,VARINDER SINGH SEKHON,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),8310,18
+2022,Assembly,PB,SAMRALA,58,9,AMRIK SINGH DHILLON,Independent,7655,38
+2022,Assembly,PB,SAMRALA,58,10,AVNEET SINGH BAGLI KALAN,Independent,171,1
+2022,Assembly,PB,SAMRALA,58,11,SANDEEP SINGH,Independent,352,2
+2022,Assembly,PB,SAMRALA,58,12,KAMALJIT KAUR,Independent,360,0
+2022,Assembly,PB,SAMRALA,58,13,BALBIR SINGH RAJEWAL,Independent,4626,50
+2022,Assembly,PB,SAMRALA,58,14,LABH SINGH,Independent,404,1
+2022,Assembly,PB,SAMRALA,58,15,NOTA,None of the Above,937,4
+2022,Assembly,PB,SAHNEWAL,59,1,SHARANJIT SINGH DHILLON,Shiromani Akali Dal,41667,105
+2022,Assembly,PB,SAHNEWAL,59,2,HARDEEP SINGH MUNDIAN,Aam Aadmi Party,61312,203
+2022,Assembly,PB,SAHNEWAL,59,3,VIKRAM SINGH BAJWA,Indian National Congress,46231,91
+2022,Assembly,PB,SAHNEWAL,59,4,AMRITPAL SINGH CHHANDRAN,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),10887,12
+2022,Assembly,PB,SAHNEWAL,59,5,INDER DEV PANDEY,Insaniyat Lok Vikas Party,232,0
+2022,Assembly,PB,SAHNEWAL,59,6,HARPREET SINGH GARCHA,Shiromani Akali Dal (Sanyukt),12125,9
+2022,Assembly,PB,SAHNEWAL,59,7,GURCHARAN SINGH RAJPUT,Janata Dal  (United),285,1
+2022,Assembly,PB,SAHNEWAL,59,8,GURDEEP SINGH KAHLON,Nationalist Justice Party,196,0
+2022,Assembly,PB,SAHNEWAL,59,9,GURMIT SINGH MUNDIAN,Lok Insaaf Party,639,1
+2022,Assembly,PB,SAHNEWAL,59,10,DALBIR SINGH,Peoples Party of India (Democratic),220,0
+2022,Assembly,PB,SAHNEWAL,59,11,DEEPAK DHIR,Samajwadi Party,284,0
+2022,Assembly,PB,SAHNEWAL,59,12,LAKHWINDER SINGH,Aam Lok Party United,207,0
+2022,Assembly,PB,SAHNEWAL,59,13,SURINDER PAL KAUR,Independent,227,3
+2022,Assembly,PB,SAHNEWAL,59,14,HARJIT SINGH,Independent,505,0
+2022,Assembly,PB,SAHNEWAL,59,15,BUDH SINGH,Independent,440,0
+2022,Assembly,PB,SAHNEWAL,59,16,BHOLA SINGH,Independent,1020,0
+2022,Assembly,PB,SAHNEWAL,59,17,MALWINDER SINGH GURON,Independent,782,4
+2022,Assembly,PB,SAHNEWAL,59,18,MAJOR SINGH,Independent,410,0
+2022,Assembly,PB,SAHNEWAL,59,19,MOHAN SINGH,Independent,419,0
+2022,Assembly,PB,SAHNEWAL,59,20,NOTA,None of the Above,673,6
+2022,Assembly,PB,LUDHIANA EAST,60,1,SANJEEV TALWAR,Indian National Congress,32695,65
+2022,Assembly,PB,LUDHIANA EAST,60,2,JAGMOHAN SHARMA,Bharatiya Janata Party,18053,21
+2022,Assembly,PB,LUDHIANA EAST,60,3,DALJIT SINGH GREWAL (BHOLA),Aam Aadmi Party,68521,161
+2022,Assembly,PB,LUDHIANA EAST,60,4,RANJIT SINGH DHILLON,Shiromani Akali Dal,20341,28
+2022,Assembly,PB,LUDHIANA EAST,60,5,SAT NARYAN SAH,Nationalist Justice Party,140,0
+2022,Assembly,PB,LUDHIANA EAST,60,6,SURESH SINGH,Samajwadi Party,173,0
+2022,Assembly,PB,LUDHIANA EAST,60,7,GURJODH SINGH GILL,Lok Insaaf Party,199,0
+2022,Assembly,PB,LUDHIANA EAST,60,8,JASWANT SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1794,1
+2022,Assembly,PB,LUDHIANA EAST,60,9,JATINDER SINGH,Peoples Party of India (Democratic),165,0
+2022,Assembly,PB,LUDHIANA EAST,60,10,NARINDER PAL SIDHU,Aam Lok Party United,144,0
+2022,Assembly,PB,LUDHIANA EAST,60,11,PARDEEP SINGH DHAWAN,Insaniyat Lok Vikas Party,104,0
+2022,Assembly,PB,LUDHIANA EAST,60,12,DAVINDER SINGH BILLA,Independent,329,0
+2022,Assembly,PB,LUDHIANA EAST,60,13,RAMAN KUMAR (JAGDAMBA),Independent,379,0
+2022,Assembly,PB,LUDHIANA EAST,60,14,RAJINDER SINGH,Independent,358,1
+2022,Assembly,PB,LUDHIANA EAST,60,15,NOTA,None of the Above,804,5
+2022,Assembly,PB,LUDHIANA SOUTH,61,1,ISHWARJOT SINGH CHEEMA,Indian National Congress,15574,30
+2022,Assembly,PB,LUDHIANA SOUTH,61,2,SATINDERPAL SINGH TAJPURI,Bharatiya Janata Party,17657,16
+2022,Assembly,PB,LUDHIANA SOUTH,61,3,JATHEDAR HIRA SINGH GABRIA,Shiromani Akali Dal,11216,27
+2022,Assembly,PB,LUDHIANA SOUTH,61,4,RAJINDER PAL KAUR,Aam Aadmi Party,43697,114
+2022,Assembly,PB,LUDHIANA SOUTH,61,5,SUNDAR LAL,Samajwadi Party,361,1
+2022,Assembly,PB,LUDHIANA SOUTH,61,6,SUMIT KUMAR,Right to Recall Party,85,0
+2022,Assembly,PB,LUDHIANA SOUTH,61,7,CHAIL SINGH DHIMAN,Insaniyat Lok Vikas Party,132,0
+2022,Assembly,PB,LUDHIANA SOUTH,61,8,DARSHAN SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1940,1
+2022,Assembly,PB,LUDHIANA SOUTH,61,9,DR. DEVINDER SINGH GILL,Aam Lok Party United,126,1
+2022,Assembly,PB,LUDHIANA SOUTH,61,10,PARAMJIT SINGH,Nationalist Justice Party,103,0
+2022,Assembly,PB,LUDHIANA SOUTH,61,11,BALJIT SINGH,Peoples Party of India (Democratic),173,0
+2022,Assembly,PB,LUDHIANA SOUTH,61,12,BALVINDER SINGH BAINS,Lok Insaaf Party,11872,34
+2022,Assembly,PB,LUDHIANA SOUTH,61,13,AVTAR SINGH,Independent,252,0
+2022,Assembly,PB,LUDHIANA SOUTH,61,14,SANJAY KUMAR,Independent,210,0
+2022,Assembly,PB,LUDHIANA SOUTH,61,15,SURINDER SHARMA,Independent,683,0
+2022,Assembly,PB,LUDHIANA SOUTH,61,16,JASVIR SINGH JASSI,Independent,403,0
+2022,Assembly,PB,LUDHIANA SOUTH,61,17,RAJ KUMAR SATHI,Independent,178,0
+2022,Assembly,PB,LUDHIANA SOUTH,61,18,NOTA,None of the Above,536,5
+2022,Assembly,PB,ATAM NAGAR,62,1,ADVOCATE HARISH RAI DHANDA,Shiromani Akali Dal,7050,70
+2022,Assembly,PB,ATAM NAGAR,62,2,KAMALJIT SINGH KARWAL,Indian National Congress,28120,127
+2022,Assembly,PB,ATAM NAGAR,62,3,KULWANT SINGH SIDHU,Aam Aadmi Party,44369,232
+2022,Assembly,PB,ATAM NAGAR,62,4,PREM MITTAL,Bharatiya Janata Party,9407,40
+2022,Assembly,PB,ATAM NAGAR,62,5,ANIL KUMAR GOYAL,Insaniyat Lok Vikas Party,91,0
+2022,Assembly,PB,ATAM NAGAR,62,6,Simarjeet Singh Bains,Lok Insaaf Party,12654,66
+2022,Assembly,PB,ATAM NAGAR,62,7,KUNAL,Akhil Bharatiya Socialist Party,80,0
+2022,Assembly,PB,ATAM NAGAR,62,8,Baljit Singh,Peoples Party of India (Democratic),88,0
+2022,Assembly,PB,ATAM NAGAR,62,9,MOHINDER PAL SINGH,Samajwadi Party,55,1
+2022,Assembly,PB,ATAM NAGAR,62,10,SUKHDEV SINGH,Independent,92,0
+2022,Assembly,PB,ATAM NAGAR,62,11,SURINDER KAUR BAINS,Independent,98,1
+2022,Assembly,PB,ATAM NAGAR,62,12,HARKIRAT SINGH RANA,Independent,538,8
+2022,Assembly,PB,ATAM NAGAR,62,13,TAJINDER SINGH GUMBER (RINKU),Independent,112,0
+2022,Assembly,PB,ATAM NAGAR,62,14,DAVINDER SINGH (T.N.) VISHWKARMA RAMGARHIA,Independent,323,1
+2022,Assembly,PB,ATAM NAGAR,62,15,MANN SINGH RAJU,Independent,650,0
+2022,Assembly,PB,ATAM NAGAR,62,16,NOTA,None of the Above,804,6
+2022,Assembly,PB,LUDHIANA CENTRAL,63,1,Ashok Parashar (Pappi),Aam Aadmi Party,32707,82
+2022,Assembly,PB,LUDHIANA CENTRAL,63,2,Surinder  Kumar Dawar,Indian National Congress,26909,63
+2022,Assembly,PB,LUDHIANA CENTRAL,63,3,Gurdev Sharma Debi,Bharatiya Janata Party,27936,49
+2022,Assembly,PB,LUDHIANA CENTRAL,63,4,Pritpal Singh Pali,Shiromani Akali Dal,8207,13
+2022,Assembly,PB,LUDHIANA CENTRAL,63,5,Harjinder Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1281,0
+2022,Assembly,PB,LUDHIANA CENTRAL,63,6,Jagtar Singh,Samajwadi Party,101,0
+2022,Assembly,PB,LUDHIANA CENTRAL,63,7,Darshan Singh,Insaniyat Lok Vikas Party,88,0
+2022,Assembly,PB,LUDHIANA CENTRAL,63,8,Adv.Raminder Pal singh,Peoples Party of India (Democratic),105,0
+2022,Assembly,PB,LUDHIANA CENTRAL,63,9,Jatinder Pal Singh,Independent,194,0
+2022,Assembly,PB,LUDHIANA CENTRAL,63,10,NOTA,None of the Above,651,19
+2022,Assembly,PB,LUDHIANA WEST,64,1,GURPREET BASSI GOGI,Aam Aadmi Party,40075,368
+2022,Assembly,PB,LUDHIANA WEST,64,2,ADVOCATE BIKRAM SINGH SIDHU,Bharatiya Janata Party,27915,192
+2022,Assembly,PB,LUDHIANA WEST,64,3,BHARAT BHUSHAN ASHU,Indian National Congress,32635,296
+2022,Assembly,PB,LUDHIANA WEST,64,4,MAHESHINDER SINGH GREWAL,Shiromani Akali Dal,9921,151
+2022,Assembly,PB,LUDHIANA WEST,64,5,ANITA SHAH,Bahujan Mukti Party,212,2
+2022,Assembly,PB,LUDHIANA WEST,64,6,SARBJIT KAUR,Aas Punjab Party,133,3
+2022,Assembly,PB,LUDHIANA WEST,64,7,TARUN JAIN BAWA,Independent,3805,26
+2022,Assembly,PB,LUDHIANA WEST,64,8,BALWINDER SEKHON,Independent,449,4
+2022,Assembly,PB,LUDHIANA WEST,64,9,NOTA,None of the Above,1146,27
+2022,Assembly,PB,DAKHA,68,1,CAPT. SANDEEP SINGH SANDHU,Indian National Congress,43931,171
+2022,Assembly,PB,DAKHA,68,2,DR. K. N. S. KANG,Aam Aadmi Party,42647,347
+2022,Assembly,PB,DAKHA,68,3,MANPREET SINGH AYALI,Shiromani Akali Dal,49741,168
+2022,Assembly,PB,DAKHA,68,4,SIMRANDEEP SINGH,Revolutionary Socialist Party,293,6
+2022,Assembly,PB,DAKHA,68,5,HARPREET SINGH MAKHU,Sanyukt Sangharsh Party,2434,20
+2022,Assembly,PB,DAKHA,68,6,KARAMJIT SINGH,Peoples Party of India (Democratic),102,0
+2022,Assembly,PB,DAKHA,68,7,DAMANJIT SINGH MOHIE,Punjab Lok Congress Party,827,9
+2022,Assembly,PB,DAKHA,68,8,DR. DEVINDER SINGH GILL,Aam Lok Party United,137,2
+2022,Assembly,PB,DAKHA,68,9,JAGDEEP SINGH GILL,Independent,413,0
+2022,Assembly,PB,DAKHA,68,10,NEETU CHHATRAN WALA,Independent,315,5
+2022,Assembly,PB,DAKHA,68,11,NOTA,None of the Above,1169,2
+2022,Assembly,PB,RAIKOT,69,1,HAKAM SINGH THEKEDAR,Aam Aadmi Party,63303,356
+2022,Assembly,PB,RAIKOT,69,2,KAMIL AMAR SINGH,Indian National Congress,35895,120
+2022,Assembly,PB,RAIKOT,69,3,BALWINDER SINGH SANDHU,Bahujan Samaj Party,8351,30
+2022,Assembly,PB,RAIKOT,69,4,HARGOBIND SINGH,Punjab Kisan Dal,310,3
+2022,Assembly,PB,RAIKOT,69,5,GURPAL SINGH GOLDY,Shiromani Akali Dal (Sanyukt),1267,9
+2022,Assembly,PB,RAIKOT,69,6,BALDEV SINGH,Aam Lok Party United,114,2
+2022,Assembly,PB,RAIKOT,69,7,BALVIR SINGH,Bahujan Mukti Party,231,3
+2022,Assembly,PB,RAIKOT,69,8,RAJPAL SINGH,Samajik Sangharsh Party,375,1
+2022,Assembly,PB,RAIKOT,69,9,Dr. JAGTAR SINGH,Independent,1507,7
+2022,Assembly,PB,RAIKOT,69,10,BALDEV SINGH ( DEV SARABHA ),Independent,480,3
+2022,Assembly,PB,RAIKOT,69,11,NOTA,None of the Above,1217,15
+2022,Assembly,PB,JAGRAON,70,1,SARVJIT KAUR MANUKE,Aam Aadmi Party,64749,446
+2022,Assembly,PB,JAGRAON,70,2,S.R. KALER,Shiromani Akali Dal,25428,111
+2022,Assembly,PB,JAGRAON,70,3,KANWAR NARINDER SINGH,Bharatiya Janata Party,4449,27
+2022,Assembly,PB,JAGRAON,70,4,JAGTAR SINGH JAGGA HISSOWAL,Indian National Congress,20816,62
+2022,Assembly,PB,JAGRAON,70,5,SURINDER SINGH SAHOTA,Republican Party of India (A),378,1
+2022,Assembly,PB,JAGRAON,70,6,TEJINDER KAUR TEJI SANDHU,Lok Insaaf Party,474,4
+2022,Assembly,PB,JAGRAON,70,7,PARIVAR SINGH DALLA,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),5171,8
+2022,Assembly,PB,JAGRAON,70,8,KULDEEP SINGH DALLA,Independent,1381,16
+2022,Assembly,PB,JAGRAON,70,9,GURDEEP SINGH DHALIWAL,Independent,559,0
+2022,Assembly,PB,JAGRAON,70,10,PARAMJIT SINGH SAHOTA,Independent,366,0
+2022,Assembly,PB,JAGRAON,70,11,NOTA,None of the Above,1051,6
+2022,Assembly,PB,NIHAL SINGHWALA,71,1,BALDEV SINGH MANUKE,Shiromani Akali Dal,26670,88
+2022,Assembly,PB,NIHAL SINGHWALA,71,2,BHUPINDER SINGH SAHOKE,Indian National Congress,27073,99
+2022,Assembly,PB,NIHAL SINGHWALA,71,3,MANJIT SINGH BILASPUR,Aam Aadmi Party,64702,454
+2022,Assembly,PB,NIHAL SINGHWALA,71,4,SUKHDEV SINGH,Lok Insaaf Party,335,3
+2022,Assembly,PB,NIHAL SINGHWALA,71,5,PARAMJIT KAUR,Democratic Bharatiya Samaj Party,507,9
+2022,Assembly,PB,NIHAL SINGHWALA,71,6,PARMINDER SINGH,Krishak Bharti Party,297,1
+2022,Assembly,PB,NIHAL SINGHWALA,71,7,BALDEV SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),14610,8
+2022,Assembly,PB,NIHAL SINGHWALA,71,8,MUKHTIAR SINGH SANDHU S.P.,Punjab Lok Congress Party,1137,8
+2022,Assembly,PB,NIHAL SINGHWALA,71,9,AJAIB SINGH,Independent,211,2
+2022,Assembly,PB,NIHAL SINGHWALA,71,10,GURDEEP SINGH,Independent,546,3
+2022,Assembly,PB,NIHAL SINGHWALA,71,11,GURADITTA SINGH,Independent,3522,13
+2022,Assembly,PB,NIHAL SINGHWALA,71,12,NOTA,None of the Above,1002,8
+2022,Assembly,PB,BHAGHA PURANA,72,1,AMRITPAL SINGH SUKHANAND,Aam Aadmi Party,66859,284
+2022,Assembly,PB,BHAGHA PURANA,72,2,TIRATH SINGH MAHLA,Shiromani Akali Dal,33305,79
+2022,Assembly,PB,BHAGHA PURANA,72,3,DARSHAN SINGH BRAR,Indian National Congress,18003,39
+2022,Assembly,PB,BHAGHA PURANA,72,4,HARJINDER SINGH,Lok Insaaf Party,254,1
+2022,Assembly,PB,BHAGHA PURANA,72,5,JASWINDER KAUR,Jai Jawan Jai Kisan Party,280,3
+2022,Assembly,PB,BHAGHA PURANA,72,6,JAGTAR SINGH RAJEANA,Shiromani Akali Dal (Sanyukt),3263,4
+2022,Assembly,PB,BHAGHA PURANA,72,7,AMRITPAL SINGH,Independent,181,0
+2022,Assembly,PB,BHAGHA PURANA,72,8,DARSHAN SINGH KHOTE,Independent,319,2
+2022,Assembly,PB,BHAGHA PURANA,72,9,DARSHAN SINGH BRAR,Independent,474,0
+2022,Assembly,PB,BHAGHA PURANA,72,10,BHOLA SINGH BRAR,Independent,8677,25
+2022,Assembly,PB,BHAGHA PURANA,72,11,NOTA,None of the Above,1167,3
+2022,Assembly,PB,MOGA,73,1,DR. AMANDEEP KAUR ARORA,Aam Aadmi Party,58813,336
+2022,Assembly,PB,MOGA,73,2,DR. HARJOT KAMAL,Bharatiya Janata Party,10558,48
+2022,Assembly,PB,MOGA,73,3,BARJINDER SINGH MAKHAN BRAR,Shiromani Akali Dal,28213,120
+2022,Assembly,PB,MOGA,73,4,MALVIKA SOOD,Indian National Congress,38125,109
+2022,Assembly,PB,MOGA,73,5,CHANAN SINGH WATTU,Bahujan Mukti Party,271,0
+2022,Assembly,PB,MOGA,73,6,BALKARAN MOGA,Communist Party of India  (Marxist-Leninist)  (Liberation),231,0
+2022,Assembly,PB,MOGA,73,7,MANJEET SINGH MALLAH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3794,9
+2022,Assembly,PB,MOGA,73,8,GURCHARAN SINGH,Independent,223,0
+2022,Assembly,PB,MOGA,73,9,GURPREET SINGH ARORA,Independent,306,0
+2022,Assembly,PB,MOGA,73,10,NAVDEEP SANGHA,Independent,1878,9
+2022,Assembly,PB,MOGA,73,11,LAVINDER GILL,Independent,263,1
+2022,Assembly,PB,MOGA,73,12,NOTA,None of the Above,916,9
+2022,Assembly,PB,DHARAMKOT,74,1,SUKHJIT SINGH KAKA LOHGARH,Indian National Congress,35300,106
+2022,Assembly,PB,DHARAMKOT,74,2,SURJIT SINGH GAGRA,Communist Party of India  (Marxist),597,5
+2022,Assembly,PB,DHARAMKOT,74,3,JATHEDAR TOTA SINGH,Shiromani Akali Dal,30351,144
+2022,Assembly,PB,DHARAMKOT,74,4,DEVINDERJEET SINGH LADDI DHOSE,Aam Aadmi Party,64902,476
+2022,Assembly,PB,DHARAMKOT,74,5,JAGJIT SINGH,Lok Insaaf Party,380,0
+2022,Assembly,PB,DHARAMKOT,74,6,JUGRAJ SINGH,Democratic Bharatiya Samaj Party,198,1
+2022,Assembly,PB,DHARAMKOT,74,7,BALRAJ SINGH KHALSA,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),6189,11
+2022,Assembly,PB,DHARAMKOT,74,8,RAVINDER SINGH RAVI GREWAL,Punjab Lok Congress Party,745,8
+2022,Assembly,PB,DHARAMKOT,74,9,ANGREJ SINGH,Independent,427,3
+2022,Assembly,PB,DHARAMKOT,74,10,HARPREET SINGH HERO,Independent,1605,10
+2022,Assembly,PB,DHARAMKOT,74,11,NOTA,None of the Above,743,3
+2022,Assembly,PB,ZIRA,75,1,Avtar Singh Zira,Bharatiya Janata Party,1981,26
+2022,Assembly,PB,ZIRA,75,2,KULBIR SINGH ZIRA,Indian National Congress,40542,73
+2022,Assembly,PB,ZIRA,75,3,Janmeja Singh Sekhon,Shiromani Akali Dal,41200,58
+2022,Assembly,PB,ZIRA,75,4,Naresh Kataria,Aam Aadmi Party,63709,325
+2022,Assembly,PB,ZIRA,75,5,Sukhwinder Singh,Nationalist Justice Party,323,0
+2022,Assembly,PB,ZIRA,75,6,Priyanka Rani,Insaniyat Lok Vikas Party,124,4
+2022,Assembly,PB,ZIRA,75,7,Amandeep Singh,Independent,120,0
+2022,Assembly,PB,ZIRA,75,8,KAMALJIT SINGH,Independent,203,0
+2022,Assembly,PB,ZIRA,75,9,Kulbir Singh,Independent,338,1
+2022,Assembly,PB,ZIRA,75,10,Naresh Kumar,Independent,791,0
+2022,Assembly,PB,ZIRA,75,11,Megh Raj,Independent,716,1
+2022,Assembly,PB,ZIRA,75,12,NOTA,None of the Above,674,2
+2022,Assembly,PB,FIROZPUR CITY,76,1,GURMIT SINGH SODHI,Bharatiya Janata Party,24476,159
+2022,Assembly,PB,FIROZPUR CITY,76,2,PARMINDER SINGH PINKI,Indian National Congress,28785,89
+2022,Assembly,PB,FIROZPUR CITY,76,3,RANBIR SINGH,Aam Aadmi Party,47997,446
+2022,Assembly,PB,FIROZPUR CITY,76,4,ROHIT VOHRA,Shiromani Akali Dal,17696,61
+2022,Assembly,PB,FIROZPUR CITY,76,5,SUNIL KUMAR,Insaniyat Lok Vikas Party,154,1
+2022,Assembly,PB,FIROZPUR CITY,76,6,TEJINDER SINGH DEOL,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),2017,8
+2022,Assembly,PB,FIROZPUR CITY,76,7,BIMLA RANI,Janta Brigade Party,182,0
+2022,Assembly,PB,FIROZPUR CITY,76,8,RAHMA,Nationalist Justice Party,92,0
+2022,Assembly,PB,FIROZPUR CITY,76,9,SATPAL SINGH,Independent,84,0
+2022,Assembly,PB,FIROZPUR CITY,76,10,HARI CHAND GUPTA,Independent,113,3
+2022,Assembly,PB,FIROZPUR CITY,76,11,JUGRAJ SINGH,Independent,139,0
+2022,Assembly,PB,FIROZPUR CITY,76,12,PARVINDER SINGH,Independent,141,0
+2022,Assembly,PB,FIROZPUR CITY,76,13,PUSHPINDER SINGH,Independent,359,0
+2022,Assembly,PB,FIROZPUR CITY,76,14,RAJ,Independent,494,0
+2022,Assembly,PB,FIROZPUR CITY,76,15,LAKHWINDER SINGH,Independent,549,3
+2022,Assembly,PB,FIROZPUR CITY,76,16,NOTA,None of the Above,449,2
+2022,Assembly,PB,GURU HAR SAHAI,78,1,GURPERVEZ SINGH,Bharatiya Janata Party,3958,30
+2022,Assembly,PB,GURU HAR SAHAI,78,2,FAUJA SINGH,Aam Aadmi Party,67769,574
+2022,Assembly,PB,GURU HAR SAHAI,78,3,VARDEV SINGH,Shiromani Akali Dal,57497,272
+2022,Assembly,PB,GURU HAR SAHAI,78,4,VIJAY KUMAR,Indian National Congress,5550,28
+2022,Assembly,PB,GURU HAR SAHAI,78,5,KULWANT SINGH,Jai Jawan Jai Kisan Party,391,1
+2022,Assembly,PB,GURU HAR SAHAI,78,6,JATINDER SINGH THIND,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1204,4
+2022,Assembly,PB,GURU HAR SAHAI,78,7,KULDEEP SINGH,Independent,139,1
+2022,Assembly,PB,GURU HAR SAHAI,78,8,GURBHEJ SINGH,Independent,132,1
+2022,Assembly,PB,GURU HAR SAHAI,78,9,PARKASH SINGH,Independent,176,0
+2022,Assembly,PB,GURU HAR SAHAI,78,10,PARWINDER SINGH,Independent,152,0
+2022,Assembly,PB,GURU HAR SAHAI,78,11,MANOJ KUMAR,Independent,141,1
+2022,Assembly,PB,GURU HAR SAHAI,78,12,MALKEET SINGH,Independent,510,0
+2022,Assembly,PB,GURU HAR SAHAI,78,13,MAJOR SINGH,Independent,432,2
+2022,Assembly,PB,GURU HAR SAHAI,78,14,NOTA,None of the Above,440,3
+2022,Assembly,PB,JALALABAD,79,1,Sukhbir Singh Badal,Shiromani Akali Dal,59934,591
+2022,Assembly,PB,JALALABAD,79,2,JAGDEEP KAMBOJ,Aam Aadmi Party,90308,1147
+2022,Assembly,PB,JALALABAD,79,3,PURAN CHAND,Bharatiya Janata Party,5338,80
+2022,Assembly,PB,JALALABAD,79,4,Mohan Singh,Indian National Congress,8666,105
+2022,Assembly,PB,JALALABAD,79,5,Karamjit Singh,Samajwadi Party,237,3
+2022,Assembly,PB,JALALABAD,79,6,Kuldeep Singh,India Praja Bandhu Party,312,1
+2022,Assembly,PB,JALALABAD,79,7,GURCHARAN SINGH,Jai Jawan Jai Kisan Party,259,5
+2022,Assembly,PB,JALALABAD,79,8,Gurmeet Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1243,5
+2022,Assembly,PB,JALALABAD,79,9,Ranjit Ram,Republican Party of India (A),98,3
+2022,Assembly,PB,JALALABAD,79,10,Angrej Singh,Independent,201,4
+2022,Assembly,PB,JALALABAD,79,11,Surinder Singh,Independent,1832,28
+2022,Assembly,PB,JALALABAD,79,12,Harish Chander,Independent,132,0
+2022,Assembly,PB,JALALABAD,79,13,Gurpreet Singh,Independent,538,2
+2022,Assembly,PB,JALALABAD,79,14,Baljit Singh,Independent,267,2
+2022,Assembly,PB,JALALABAD,79,15,Manpreet Singh,Independent,546,0
+2022,Assembly,PB,JALALABAD,79,16,NOTA,None of the Above,823,7
+2022,Assembly,PB,FAZILKA,80,1,SURJIT KUMAR JYANI,Bharatiya Janata Party,34885,552
+2022,Assembly,PB,FAZILKA,80,2,HANS RAJ JOSAN,Shiromani Akali Dal,13559,158
+2022,Assembly,PB,FAZILKA,80,3,DAVINDER SINGH GHUBAYA,Indian National Congress,28887,209
+2022,Assembly,PB,FAZILKA,80,4,NARINDER PAL SINGH SAWNA,Aam Aadmi Party,62437,720
+2022,Assembly,PB,FAZILKA,80,5,SANDEEP KUMAR,Republican Party of India (A),307,0
+2022,Assembly,PB,FAZILKA,80,6,HARKIRAN JEET SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),583,5
+2022,Assembly,PB,FAZILKA,80,7,SONIA,Independent,90,0
+2022,Assembly,PB,FAZILKA,80,8,HARNEK SINGH,Independent,83,0
+2022,Assembly,PB,FAZILKA,80,9,KASHMIR SINGH,Independent,132,1
+2022,Assembly,PB,FAZILKA,80,10,GURJINDER SINGH,Independent,127,1
+2022,Assembly,PB,FAZILKA,80,11,NAGINDER SINGH,Independent,644,4
+2022,Assembly,PB,FAZILKA,80,12,NARINDER SINGH,Independent,321,0
+2022,Assembly,PB,FAZILKA,80,13,RESHAM LAL,Independent,484,6
+2022,Assembly,PB,FAZILKA,80,14,VIRU SINGH,Independent,230,0
+2022,Assembly,PB,FAZILKA,80,15,NOTA,None of the Above,789,10
+2022,Assembly,PB,BALLUANA,82,1,AMANDEEP SINGH MUSAFIR,Aam Aadmi Party,58439,454
+2022,Assembly,PB,BALLUANA,82,2,PRITHI RAM MEGH,Shiromani Akali Dal,17732,84
+2022,Assembly,PB,BALLUANA,82,3,RAJINDER KAUR RAJPURA,Indian National Congress,22633,114
+2022,Assembly,PB,BALLUANA,82,4,VANDANA SANGWAL,Bharatiya Janata Party,39473,247
+2022,Assembly,PB,BALLUANA,82,5,SURINDER SINGH KHALSA,Independent,1986,2
+2022,Assembly,PB,BALLUANA,82,6,SURINDER MEGH,Independent,316,1
+2022,Assembly,PB,BALLUANA,82,7,MANJIT KAUR,Independent,393,0
+2022,Assembly,PB,BALLUANA,82,8,MANDEEP SINGH,Independent,334,0
+2022,Assembly,PB,BALLUANA,82,9,RAM KUMAR MEGH,Independent,518,2
+2022,Assembly,PB,BALLUANA,82,10,NOTA,None of the Above,1234,2
+2022,Assembly,PB,LAMBI,83,1,GURMEET SINGH KHUDIAN,Aam Aadmi Party,65717,596
+2022,Assembly,PB,LAMBI,83,2,JAGPAL SINGH ABULKHURANA,Indian National Congress,10052,84
+2022,Assembly,PB,LAMBI,83,3,PARKASH SINGH BADAL,Shiromani Akali Dal,54360,557
+2022,Assembly,PB,LAMBI,83,4,RAKESH DHINGRA,Bharatiya Janata Party,1103,13
+2022,Assembly,PB,LAMBI,83,5,JASWINDER SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1315,3
+2022,Assembly,PB,LAMBI,83,6,GURTEJ SINGH,Independent,392,1
+2022,Assembly,PB,LAMBI,83,7,CHARANJIT SINGH,Independent,277,1
+2022,Assembly,PB,LAMBI,83,8,NOTA,None of the Above,1221,5
+2022,Assembly,PB,GIDDERBAHA,84,1,Amrinder Singh Raja Warring,Indian National Congress,50433,565
+2022,Assembly,PB,GIDDERBAHA,84,2,Hardeep Singh Dimpy Dhillon,Shiromani Akali Dal,49053,596
+2022,Assembly,PB,GIDDERBAHA,84,3,Pritpal Sharma,Aam Aadmi Party,38356,525
+2022,Assembly,PB,GIDDERBAHA,84,4,Om Parkash,Punjab Kisan Dal,216,4
+2022,Assembly,PB,GIDDERBAHA,84,5,Om Parkash,Punjab Lok Congress Party,379,12
+2022,Assembly,PB,GIDDERBAHA,84,6,Kuldeep Singh,Bahujan Mukti Party,135,1
+2022,Assembly,PB,GIDDERBAHA,84,7,Gurjinder Singh,Marxist Leninist Party of India (Red Flag),125,1
+2022,Assembly,PB,GIDDERBAHA,84,8,Amandeep Singh,Independent,248,4
+2022,Assembly,PB,GIDDERBAHA,84,9,Shivji Singh,Independent,300,3
+2022,Assembly,PB,GIDDERBAHA,84,10,Hardeep Singh,Independent,360,4
+2022,Assembly,PB,GIDDERBAHA,84,11,Gurpreet Singh Kotli,Independent,871,9
+2022,Assembly,PB,GIDDERBAHA,84,12,Vikramjit Singh,Independent,477,0
+2022,Assembly,PB,GIDDERBAHA,84,13,NOTA,None of the Above,1081,7
+2022,Assembly,PB,MALOUT,85,1,Harpreet Singh,Shiromani Akali Dal,36738,371
+2022,Assembly,PB,MALOUT,85,2,Devinder Singh Kotli,Communist Party of India  (Marxist),450,3
+2022,Assembly,PB,MALOUT,85,3,Dr. Baljit Kaur,Aam Aadmi Party,76460,910
+2022,Assembly,PB,MALOUT,85,4,Prof. Rupinder Kaur Ruby,Indian National Congress,17547,105
+2022,Assembly,PB,MALOUT,85,5,Karanvir Singh,Punjab Lok Congress Party,1162,7
+2022,Assembly,PB,MALOUT,85,6,Gurmeet Singh Ranghreta,Punjab Labour Party,153,1
+2022,Assembly,PB,MALOUT,85,7,Baldev Singh,Aazad Samaj Party (Kanshi Ram),256,1
+2022,Assembly,PB,MALOUT,85,8,Resham Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),935,3
+2022,Assembly,PB,MALOUT,85,9,Om Parkash Khichi,Independent,142,1
+2022,Assembly,PB,MALOUT,85,10,Sukhwinder Kumar,Independent,700,9
+2022,Assembly,PB,MALOUT,85,11,Harjit Singh,Independent,783,1
+2022,Assembly,PB,MALOUT,85,12,Gurmeet Kaur,Independent,242,0
+2022,Assembly,PB,MALOUT,85,13,Jassal Singh,Independent,378,1
+2022,Assembly,PB,MALOUT,85,14,Balwinder Singh,Independent,640,1
+2022,Assembly,PB,MALOUT,85,15,Bidra Ram,Independent,269,1
+2022,Assembly,PB,MALOUT,85,16,NOTA,None of the Above,894,3
+2022,Assembly,PB,MUKTSAR,86,1,KARAN KAUR,Indian National Congress,14170,120
+2022,Assembly,PB,MUKTSAR,86,2,KANWARJIT SINGH,Shiromani Akali Dal,41763,364
+2022,Assembly,PB,MUKTSAR,86,3,JAGDEEP SINGH 'KAKA BRAR',Aam Aadmi Party,75173,1148
+2022,Assembly,PB,MUKTSAR,86,4,RAJESH PATHELA,Bharatiya Janata Party,10499,135
+2022,Assembly,PB,MUKTSAR,86,5,SUKHRAJ SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1954,9
+2022,Assembly,PB,MUKTSAR,86,6,DHARAMJEET SINGH 'BONNY BEDI',Lok Insaaf Party,303,7
+2022,Assembly,PB,MUKTSAR,86,7,BALWANT SINGH,Nationalist Justice Party,118,1
+2022,Assembly,PB,MUKTSAR,86,8,ANUROOP KAUR SANDHU,Independent,909,25
+2022,Assembly,PB,MUKTSAR,86,9,ALWINDER SINGH,Independent,495,3
+2022,Assembly,PB,MUKTSAR,86,10,SANDEEP KUMAR,Independent,170,0
+2022,Assembly,PB,MUKTSAR,86,11,KALA SINGH,Independent,256,0
+2022,Assembly,PB,MUKTSAR,86,12,KRISHAN KUMAR ALIAS KRISHAN SINGH,Independent,551,0
+2022,Assembly,PB,MUKTSAR,86,13,RAJ KUMAR,Independent,397,0
+2022,Assembly,PB,MUKTSAR,86,14,NOTA,None of the Above,811,9
+2022,Assembly,PB,FARIDKOT,87,1,KUSHALDEEP SINGH DHILLON 'KIKKI DHILLON',Indian National Congress,33024,231
+2022,Assembly,PB,FARIDKOT,87,2,GURDIT SINGH SEKHON,Aam Aadmi Party,52689,795
+2022,Assembly,PB,FARIDKOT,87,3,GAURAV KAKKAR,Bharatiya Janata Party,2385,39
+2022,Assembly,PB,FARIDKOT,87,4,PARAMBANS SINGH 'BUNTY ROMANA',Shiromani Akali Dal,36400,287
+2022,Assembly,PB,FARIDKOT,87,5,SATNAM SINGH,Communist Party of India  (Marxist-Leninist)  (Liberation),268,1
+2022,Assembly,PB,FARIDKOT,87,6,SUKHBIR SINGH,Republican Party of India Ektavadi,158,3
+2022,Assembly,PB,FARIDKOT,87,7,GURSAWAK SINGH BHANA,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1557,6
+2022,Assembly,PB,FARIDKOT,87,8,GURCHARAN SINGH SANGHA,Lok Insaaf Party,266,2
+2022,Assembly,PB,FARIDKOT,87,9,GURJIT KAUR,Bharatiya Jan Jagriti Party,115,4
+2022,Assembly,PB,FARIDKOT,87,10,JAGDISH RAI SHARMA,Samajwadi Party,225,0
+2022,Assembly,PB,FARIDKOT,87,11,AMANDEEP SINGH,Independent,362,0
+2022,Assembly,PB,FARIDKOT,87,12,RAVINDER PAL KAUR,Independent,332,2
+2022,Assembly,PB,FARIDKOT,87,13,NOTA,None of the Above,727,5
+2022,Assembly,PB,KOTKAPURA,88,1,AJAIPAL SINGH SANDHU,Indian National Congress,32789,90
+2022,Assembly,PB,KOTKAPURA,88,2,KULTAR SINGH SANDHWAN,Aam Aadmi Party,53526,483
+2022,Assembly,PB,KOTKAPURA,88,3,MANTAR SINGH BRAR,Shiromani Akali Dal,29457,119
+2022,Assembly,PB,KOTKAPURA,88,4,KULWINDER SINGH,Lok Insaaf Party,260,3
+2022,Assembly,PB,KOTKAPURA,88,5,JASKARAN SINGH KAHAN SINGH WALA,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),2597,9
+2022,Assembly,PB,KOTKAPURA,88,6,JARNAIL SINGH,Nationalist Justice Party,156,0
+2022,Assembly,PB,KOTKAPURA,88,7,DARGESH KUMAR,Punjab Lok Congress Party,1035,10
+2022,Assembly,PB,KOTKAPURA,88,8,SIMARJIT KAUR,Independent,91,1
+2022,Assembly,PB,KOTKAPURA,88,9,HARSIMRANJOT SINGH,Independent,272,0
+2022,Assembly,PB,KOTKAPURA,88,10,HARPAL SINGH,Independent,261,0
+2022,Assembly,PB,KOTKAPURA,88,11,KULBIR SINGH MATTA,Independent,818,5
+2022,Assembly,PB,KOTKAPURA,88,12,DHANWANT KAUR,Independent,396,0
+2022,Assembly,PB,KOTKAPURA,88,13,NOTA,None of the Above,887,2
+2022,Assembly,PB,JAITU,89,1,AMOLAK SINGH,Aam Aadmi Party,59790,452
+2022,Assembly,PB,JAITU,89,2,DARSHAN SINGH,Indian National Congress,19299,89
+2022,Assembly,PB,JAITU,89,3,MANJIT SINGH ALIAS SUBA SINGH,Shiromani Akali Dal,27320,133
+2022,Assembly,PB,JAITU,89,4,HARCHAND RAM,Bahujan Mukti Party,469,7
+2022,Assembly,PB,JAITU,89,5,GURDEEP SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3128,10
+2022,Assembly,PB,JAITU,89,6,PARAMJIT KAUR GULSHAN,Shiromani Akali Dal (Sanyukt),1994,11
+2022,Assembly,PB,JAITU,89,7,PARMINDER KAUR,Independent,204,1
+2022,Assembly,PB,JAITU,89,8,BALJINDER SINGH,Independent,1007,3
+2022,Assembly,PB,JAITU,89,9,BALDEV SINGH,Independent,357,0
+2022,Assembly,PB,JAITU,89,10,RAMANDEEP SINGH,Independent,1136,14
+2022,Assembly,PB,JAITU,89,11,NOTA,None of the Above,889,5
+2022,Assembly,PB,RAMPURA PHUL,90,1,Sikander Singh Maluka,Shiromani Akali Dal,45386,359
+2022,Assembly,PB,RAMPURA PHUL,90,2,Gurpreet Singh Kangar,Indian National Congress,28077,108
+2022,Assembly,PB,RAMPURA PHUL,90,3,Balkar Singh Sidhu,Aam Aadmi Party,55715,440
+2022,Assembly,PB,RAMPURA PHUL,90,4,Amarjit Singh Sharma,Punjab Lok Congress Party,1023,18
+2022,Assembly,PB,RAMPURA PHUL,90,5,Baljinder Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),2529,12
+2022,Assembly,PB,RAMPURA PHUL,90,6,Sikander Singh,Independent,56,2
+2022,Assembly,PB,RAMPURA PHUL,90,7,Sikander Singh,Independent,87,0
+2022,Assembly,PB,RAMPURA PHUL,90,8,Harinderjeet Singh,Independent,92,1
+2022,Assembly,PB,RAMPURA PHUL,90,9,Gurpreet Singh,Independent,78,0
+2022,Assembly,PB,RAMPURA PHUL,90,10,Charan Singh,Independent,190,1
+2022,Assembly,PB,RAMPURA PHUL,90,11,Jaskaran Singh,Independent,89,2
+2022,Assembly,PB,RAMPURA PHUL,90,12,Pritam Singh,Independent,145,0
+2022,Assembly,PB,RAMPURA PHUL,90,13,Bavlesh Kumar,Independent,240,1
+2022,Assembly,PB,RAMPURA PHUL,90,14,Rajbir Singh Sidhu,Independent,388,1
+2022,Assembly,PB,RAMPURA PHUL,90,15,Lakhvir Singh,Independent,329,0
+2022,Assembly,PB,RAMPURA PHUL,90,16,NOTA,None of the Above,709,11
+2022,Assembly,PB,BHUCHO MANDI,91,1,JAGSIR SINGH,Aam Aadmi Party,85030,748
+2022,Assembly,PB,BHUCHO MANDI,91,2,DARSHAN SINGH KOTFATTA,Shiromani Akali Dal,35366,200
+2022,Assembly,PB,BHUCHO MANDI,91,3,PRITAM SINGH KOTBHAI,Indian National Congress,20581,100
+2022,Assembly,PB,BHUCHO MANDI,91,4,RUPINDERJIT SINGH,Bharatiya Janata Party,2284,46
+2022,Assembly,PB,BHUCHO MANDI,91,5,GURPREET KAUR,Independent,276,18
+2022,Assembly,PB,BHUCHO MANDI,91,6,JAGSEER SINGH,Independent,578,3
+2022,Assembly,PB,BHUCHO MANDI,91,7,BALDEV SINGH AKLIA,Independent,2523,23
+2022,Assembly,PB,BHUCHO MANDI,91,8,ROOP CHAND,Independent,393,0
+2022,Assembly,PB,BHUCHO MANDI,91,9,NOTA,None of the Above,1539,16
+2022,Assembly,PB,BATHINDA URBAN,92,1,Sarup Chand Singla,Shiromani Akali Dal,23906,277
+2022,Assembly,PB,BATHINDA URBAN,92,2,Jagroop Singh Gill,Aam Aadmi Party,91509,1548
+2022,Assembly,PB,BATHINDA URBAN,92,3,Manpreet Singh Badal,Indian National Congress,29190,286
+2022,Assembly,PB,BATHINDA URBAN,92,4,Raj Kumar,Bharatiya Janata Party,12618,143
+2022,Assembly,PB,BATHINDA URBAN,92,5,Sunil Kumar,Aazad Samaj Party (Kanshi Ram),280,0
+2022,Assembly,PB,BATHINDA URBAN,92,6,Wazir Singh,Bahujan Mukti Party,157,3
+2022,Assembly,PB,BATHINDA URBAN,92,7,Harmilap Singh Grewal,Independent,265,2
+2022,Assembly,PB,BATHINDA URBAN,92,8,Chand Singh,Independent,128,1
+2022,Assembly,PB,BATHINDA URBAN,92,9,Jaswant Singh,Independent,83,0
+2022,Assembly,PB,BATHINDA URBAN,92,10,Parveen Hiteshi,Independent,181,0
+2022,Assembly,PB,BATHINDA URBAN,92,11,Raj Kumar,Independent,183,0
+2022,Assembly,PB,BATHINDA URBAN,92,12,Ram Kishan,Independent,292,2
+2022,Assembly,PB,BATHINDA URBAN,92,13,Resham Singh,Independent,454,0
+2022,Assembly,PB,BATHINDA URBAN,92,14,NOTA,None of the Above,1174,16
+2022,Assembly,PB,TALWANDI SABO,94,1,Khushbaz Singh Jattana,Indian National Congress,26524,104
+2022,Assembly,PB,TALWANDI SABO,94,2,Jeetmohinder Singh Sidhu,Shiromani Akali Dal,33357,144
+2022,Assembly,PB,TALWANDI SABO,94,3,Prof. Baljinder Kaur,Aam Aadmi Party,48358,395
+2022,Assembly,PB,TALWANDI SABO,94,4,Ravi Preet Singh Sidhu,Bharatiya Janata Party,4343,26
+2022,Assembly,PB,TALWANDI SABO,94,5,Master Tajinderpal Singh,Jan Asra Party,1229,26
+2022,Assembly,PB,TALWANDI SABO,94,6,Sukhjit Singh,Independent,827,4
+2022,Assembly,PB,TALWANDI SABO,94,7,Sukhpreet Singh,Independent,99,0
+2022,Assembly,PB,TALWANDI SABO,94,8,Harjinder Singh,Independent,312,1
+2022,Assembly,PB,TALWANDI SABO,94,9,Harminder Singh Jassi,Independent,12575,48
+2022,Assembly,PB,TALWANDI SABO,94,10,Kamaljeet Kaur,Independent,317,1
+2022,Assembly,PB,TALWANDI SABO,94,11,Jagseer Singh,Independent,234,1
+2022,Assembly,PB,TALWANDI SABO,94,12,Davinder Singh,Independent,246,0
+2022,Assembly,PB,TALWANDI SABO,94,13,Baljinder Singh,Independent,345,0
+2022,Assembly,PB,TALWANDI SABO,94,14,Balvan Singh,Independent,537,1
+2022,Assembly,PB,TALWANDI SABO,94,15,Rampy Kaur,Independent,543,1
+2022,Assembly,PB,TALWANDI SABO,94,16,NOTA,None of the Above,1002,6
+2022,Assembly,PB,MAUR,95,1,SUKHVEER SINGH MAISERKHANA,Aam Aadmi Party,62547,552
+2022,Assembly,PB,MAUR,95,2,JAGMEET SINGH BRAR,Shiromani Akali Dal,23196,159
+2022,Assembly,PB,MAUR,95,3,DAYAL SODHI,Bharatiya Janata Party,3373,45
+2022,Assembly,PB,MAUR,95,4,DR. MANOJ BALA BANSAL,Indian National Congress,14890,144
+2022,Assembly,PB,MAUR,95,5,COMRADE PRITPAL SINGH,Communist Party of India  (Marxist-Leninist)  (Liberation),555,9
+2022,Assembly,PB,MAUR,95,6,HARDEV SINGH BAGGAR MAUR MANDI,Independent,148,2
+2022,Assembly,PB,MAUR,95,7,DARSHAN SINGH BAJIGAR,Independent,429,3
+2022,Assembly,PB,MAUR,95,8,PARGAT SINGH,Independent,310,3
+2022,Assembly,PB,MAUR,95,9,MANGAL RAM,Independent,273,1
+2022,Assembly,PB,MAUR,95,10,LAKHA SINGH SIDHANA,Independent,27936,155
+2022,Assembly,PB,MAUR,95,11,NOTA,None of the Above,1343,8
+2022,Assembly,PB,MANSA,96,1,Shubhdeep Singh Sidhu Moose Wala,Indian National Congress,36477,223
+2022,Assembly,PB,MANSA,96,2,Prem Kumar Arora,Shiromani Akali Dal,26991,189
+2022,Assembly,PB,MANSA,96,3,Dr.Vijay Singla,Aam Aadmi Party,99200,823
+2022,Assembly,PB,MANSA,96,4,Shivcharan Dass,Communist Party of India (Marxist-Leninist) Red Star,634,5
+2022,Assembly,PB,MANSA,96,5,Jiwan Dass Bawa,Punjab Lok Congress Party,1717,17
+2022,Assembly,PB,MANSA,96,6,Tarunveer Singh Ahluwalia,Lok Insaaf Party,142,2
+2022,Assembly,PB,MANSA,96,7,Vaid Balwant Singh,Akhil Bharatiya Rajarya Sabha,674,2
+2022,Assembly,PB,MANSA,96,8,Rajinder Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),4074,15
+2022,Assembly,PB,MANSA,96,9,Sukhwinder Singh,Independent,368,3
+2022,Assembly,PB,MANSA,96,10,Gurnam Singh,Independent,600,1
+2022,Assembly,PB,MANSA,96,11,Raj Kumar,Independent,497,3
+2022,Assembly,PB,MANSA,96,12,NOTA,None of the Above,1089,10
+2022,Assembly,PB,BUDHLADA,98,1,KRISHAN SINGH CHOUHAN,Communist Party of India,2110,17
+2022,Assembly,PB,BUDHLADA,98,2,Dr. NISHAN SINGH HAKAMWALA,Shiromani Akali Dal,36284,307
+2022,Assembly,PB,BUDHLADA,98,3,BUDH RAM,Aam Aadmi Party,87467,815
+2022,Assembly,PB,BUDHLADA,98,4,Dr. RANVIR KAUR MIAN,Indian National Congress,21375,117
+2022,Assembly,PB,BUDHLADA,98,5,BHOLA SINGH,Punjab Lok Congress Party,1893,25
+2022,Assembly,PB,BUDHLADA,98,6,RANJIT SINGH BHADRA,Lok Insaaf Party,260,0
+2022,Assembly,PB,BUDHLADA,98,7,RAM PARTAP SINGH @ NIKKA BAHADURPUR,Communist Party of India  (Marxist-Leninist)  (Liberation),920,3
+2022,Assembly,PB,BUDHLADA,98,8,DARSHAN SINGH,Independent,671,1
+2022,Assembly,PB,BUDHLADA,98,9,PARAMJEET KAUR,Independent,6628,17
+2022,Assembly,PB,BUDHLADA,98,10,RANGI RAM,Independent,565,0
+2022,Assembly,PB,BUDHLADA,98,11,NOTA,None of the Above,926,9
+2022,Assembly,PB,DIRBA,100,1,Ajaib Singh Ratolan,Indian National Congress,10437,35
+2022,Assembly,PB,DIRBA,100,2,Harpal Singh Cheema,Aam Aadmi Party,82228,402
+2022,Assembly,PB,DIRBA,100,3,Gulzar Singh Moonak,Shiromani Akali Dal,31899,76
+2022,Assembly,PB,DIRBA,100,4,Amanpreet Singh,Jai Jawan Jai Kisan Party,392,1
+2022,Assembly,PB,DIRBA,100,5,Soma Singh,Shiromani Akali Dal (Sanyukt),4750,10
+2022,Assembly,PB,DIRBA,100,6,Gobind Singh Chhajli,Communist Party of India  (Marxist-Leninist)  (Liberation),722,1
+2022,Assembly,PB,DIRBA,100,7,Bikar Singh,Lok Insaaf Party,246,2
+2022,Assembly,PB,DIRBA,100,8,Mandeep Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),8989,11
+2022,Assembly,PB,DIRBA,100,9,Malvinder Singh,Sanyukt Sangharsh Party,1191,3
+2022,Assembly,PB,DIRBA,100,10,Avtar Singh Namberdar,Independent,775,0
+2022,Assembly,PB,DIRBA,100,11,Gurmeet Singh,Independent,470,2
+2022,Assembly,PB,DIRBA,100,12,Ran Singh Mehlan,Independent,722,1
+2022,Assembly,PB,DIRBA,100,13,Lal Singh,Independent,890,0
+2022,Assembly,PB,DIRBA,100,14,NOTA,None of the Above,998,4
+2022,Assembly,PB,SUNAM,101,1,AMAN ARORA,Aam Aadmi Party,94274,520
+2022,Assembly,PB,SUNAM,101,2,JASWINDER SINGH DHIMAN S/o AMARJIT SINGH,Indian National Congress,19463,54
+2022,Assembly,PB,SUNAM,101,3,BALDEV SINGH MAAN,Shiromani Akali Dal,12662,52
+2022,Assembly,PB,SUNAM,101,4,AMRITPAL SINGH SIDHU,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),10700,21
+2022,Assembly,PB,SUNAM,101,5,SANMUKH SINGH MOKHA,Shiromani Akali Dal (Sanyukt),11288,63
+2022,Assembly,PB,SUNAM,101,6,HARBHAGWAN SHARMA BHIKHI,Communist Party of India  (Marxist-Leninist)  (Liberation),256,1
+2022,Assembly,PB,SUNAM,101,7,KARNAIL SINGH,Bahujan Mukti Party,330,2
+2022,Assembly,PB,SUNAM,101,8,AMARJIT SINGH MANN,Independent,1049,10
+2022,Assembly,PB,SUNAM,101,9,JASVINDER SINGH DHIMAN S/o DARSHAN SINGH,Independent,612,1
+2022,Assembly,PB,SUNAM,101,10,PARGAT SINGH,Independent,333,1
+2022,Assembly,PB,SUNAM,101,11,YADWINDER SINGH,Independent,454,0
+2022,Assembly,PB,SUNAM,101,12,RANJIT SINGH,Independent,1033,0
+2022,Assembly,PB,SUNAM,101,13,NOTA,None of the Above,1500,5
+2022,Assembly,PB,BHADAUR,102,1,SATNAM SINGH RAHI,Shiromani Akali Dal,21065,118
+2022,Assembly,PB,BHADAUR,102,2,CHARANJIT SINGH CHANNI,Indian National Congress,26294,115
+2022,Assembly,PB,BHADAUR,102,3,BALVIR SINGH ALIAS BALBIR SINGH,Communist Party of India  (Marxist),542,6
+2022,Assembly,PB,BHADAUR,102,4,LABH SINGH UGOKE,Aam Aadmi Party,63514,453
+2022,Assembly,PB,BHADAUR,102,5,HANS SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),8577,23
+2022,Assembly,PB,BHADAUR,102,6,JAGROOP SINGH,Lok Insaaf Party,400,6
+2022,Assembly,PB,BHADAUR,102,7,DHARAM SINGH FOUJI,Punjab Lok Congress Party,611,11
+2022,Assembly,PB,BHADAUR,102,8,BAGGA SINGH KAHNE KE,Punjab Kisan Dal,323,2
+2022,Assembly,PB,BHADAUR,102,9,BHAGWANT SINGH SAMAON,Communist Party of India  (Marxist-Leninist)  (Liberation),437,1
+2022,Assembly,PB,BHADAUR,102,10,RAJINDER SINGH,Punjab National Party,261,0
+2022,Assembly,PB,BHADAUR,102,11,KRISHAN SINGH,Independent,493,0
+2022,Assembly,PB,BHADAUR,102,12,GORA SINGH,Independent,337,0
+2022,Assembly,PB,BHADAUR,102,13,MANJIT KAUR,Independent,797,3
+2022,Assembly,PB,BHADAUR,102,14,NOTA,None of the Above,858,0
+2022,Assembly,PB,MEHAL KALAN,104,1,Harchand Kaur,Indian National Congress,17464,81
+2022,Assembly,PB,MEHAL KALAN,104,2,Kulwant Singh Pandori,Aam Aadmi Party,53266,448
+2022,Assembly,PB,MEHAL KALAN,104,3,Chamkaur Singh,Bahujan Samaj Party,10331,63
+2022,Assembly,PB,MEHAL KALAN,104,4,Sant Sukhwinder  Singh Tibba,Shiromani Akali Dal (Sanyukt),3117,21
+2022,Assembly,PB,MEHAL KALAN,104,5,Harbans Singh,Samajwadi Party,392,4
+2022,Assembly,PB,MEHAL KALAN,104,6,Gurjant Singh Kattu,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),23335,32
+2022,Assembly,PB,MEHAL KALAN,104,7,Gurpreet Singh Rureke,Communist Party of India  (Marxist-Leninist)  (Liberation),680,1
+2022,Assembly,PB,MEHAL KALAN,104,8,Gurmel Singh,National Apni Party,266,1
+2022,Assembly,PB,MEHAL KALAN,104,9,Teja Singh Kalabula,Apni Ekta Party,475,0
+2022,Assembly,PB,MEHAL KALAN,104,10,Supinder Singh,Independent,513,0
+2022,Assembly,PB,MEHAL KALAN,104,11,Gurtej Singh,Independent,828,2
+2022,Assembly,PB,MEHAL KALAN,104,12,Jasveer Singh,Independent,3314,23
+2022,Assembly,PB,MEHAL KALAN,104,13,NOTA,None of the Above,797,8
+2022,Assembly,PB,MALERKOTLA,105,1,ABDUL SATTAR,Communist Party of India  (Marxist),537,8
+2022,Assembly,PB,MALERKOTLA,105,2,NUSRAT ALI KHAN,Shiromani Akali Dal,8403,18
+2022,Assembly,PB,MALERKOTLA,105,3,MOHAMMAD JAMIL UR RAHMAN,Aam Aadmi Party,65698,250
+2022,Assembly,PB,MALERKOTLA,105,4,RAZIA SULTANA,Indian National Congress,44197,65
+2022,Assembly,PB,MALERKOTLA,105,5,SAYED MANZOOR GELANI,Punjab National Party,208,3
+2022,Assembly,PB,MALERKOTLA,105,6,HASAN MOHAMMAD,Apni Ekta Party,266,1
+2022,Assembly,PB,MALERKOTLA,105,7,F. NESARA KHATTON (FARZANA ALAM),Punjab Lok Congress Party,3755,11
+2022,Assembly,PB,MALERKOTLA,105,8,MOHAMMAD ANWER,Lok Insaaf Party,125,0
+2022,Assembly,PB,MALERKOTLA,105,9,SAIF UR ISMAIL,Independent,98,0
+2022,Assembly,PB,MALERKOTLA,105,10,DHARMINDER SINGH,Independent,167,0
+2022,Assembly,PB,MALERKOTLA,105,11,MOHINDER SINGH,Independent,313,5
+2022,Assembly,PB,MALERKOTLA,105,12,MOHAMMAD SHAKEEL,Independent,227,0
+2022,Assembly,PB,MALERKOTLA,105,13,MOHAMMAD  ZUBAIR,Independent,455,0
+2022,Assembly,PB,MALERKOTLA,105,14,MOHAMMAD MUNIR,Independent,319,0
+2022,Assembly,PB,MALERKOTLA,105,15,MOHAMMAD YASIN (GUGGI),Independent,225,1
+2022,Assembly,PB,MALERKOTLA,105,16,NOTA,None of the Above,686,1
+2022,Assembly,PB,AMARGARH,106,1,IQBAL SINGH JHUNDAN,Shiromani Akali Dal,25970,98
+2022,Assembly,PB,AMARGARH,106,2,SMIT SINGH MANN,Indian National Congress,16889,34
+2022,Assembly,PB,AMARGARH,106,3,PROF. JASWANT SINGH GAJJAN MAJRA,Aam Aadmi Party,44294,229
+2022,Assembly,PB,AMARGARH,106,4,SARDAR ALI,Punjab Lok Congress Party,1323,19
+2022,Assembly,PB,AMARGARH,106,5,SIMRANJIT SINGH MANN,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),38385,95
+2022,Assembly,PB,AMARGARH,106,6,KAMALJEET SINGH,Peoples Party of India (Democratic),293,0
+2022,Assembly,PB,AMARGARH,106,7,AMAR SINGH,Independent,197,0
+2022,Assembly,PB,AMARGARH,106,8,SATWINDER KAUR,Independent,240,8
+2022,Assembly,PB,AMARGARH,106,9,SATVIR SINGH SHEERA BANBHAURA,Independent,333,5
+2022,Assembly,PB,AMARGARH,106,10,JAGPAL SINGH,Independent,195,1
+2022,Assembly,PB,AMARGARH,106,11,DILBAGH SINGH,Independent,378,0
+2022,Assembly,PB,AMARGARH,106,12,LACHHMAN SINGH,Independent,287,0
+2022,Assembly,PB,AMARGARH,106,13,NOTA,None of the Above,594,1
+2022,Assembly,PB,SANGRUR,108,1,Arvind Khanna,Bharatiya Janata Party,13634,132
+2022,Assembly,PB,SANGRUR,108,2,Narinder Kaur Bharaj,Aam Aadmi Party,74047,804
+2022,Assembly,PB,SANGRUR,108,3,Vijay Inder Singla,Indian National Congress,38179,242
+2022,Assembly,PB,SANGRUR,108,4,Winnerjit Singh Goldy,Shiromani Akali Dal,10397,91
+2022,Assembly,PB,SANGRUR,108,5,Harmanpreet Singh,Lok Insaaf Party,376,3
+2022,Assembly,PB,SANGRUR,108,6,Gurnaib Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),4454,12
+2022,Assembly,PB,SANGRUR,108,7,Jagdeep Singh,Sanyukt Sangharsh Party,1200,9
+2022,Assembly,PB,SANGRUR,108,8,Bahadur Singh,Jai Jawan Jai Kisan Party,480,2
+2022,Assembly,PB,SANGRUR,108,9,NOTA,None of the Above,804,7
+2022,Assembly,PB,NABHA,109,1,SADHU SINGH,Indian National Congress,18218,33
+2022,Assembly,PB,NABHA,109,2,KASHMIR SINGH,Communist Party of India,891,4
+2022,Assembly,PB,NABHA,109,3,KABIR DASS,Shiromani Akali Dal,29339,114
+2022,Assembly,PB,NABHA,109,4,GURDEV SINGH DEV MAAN,Aam Aadmi Party,81710,343
+2022,Assembly,PB,NABHA,109,5,GURPREET SINGH SHAHPUR,Bharatiya Janata Party,6397,47
+2022,Assembly,PB,NABHA,109,6,SIMRANJEET SINGH,Samajwadi Party,392,2
+2022,Assembly,PB,NABHA,109,7,BARINDER KUMAR,Sanyukt Sangharsh Party,3004,10
+2022,Assembly,PB,NABHA,109,8,GULZAR KHANNA,Independent,474,0
+2022,Assembly,PB,NABHA,109,9,BALWANT SINGH,Independent,415,2
+2022,Assembly,PB,NABHA,109,10,NOTA,None of the Above,1414,10
+2022,Assembly,PB,RAJPURA,111,1,Hardial Singh Kamboj,Indian National Congress,28520,69
+2022,Assembly,PB,RAJPURA,111,2,Charanjit Singh Brar,Shiromani Akali Dal,14967,39
+2022,Assembly,PB,RAJPURA,111,3,Jagdish  Kumar Jagga,Bharatiya Janata Party,32252,89
+2022,Assembly,PB,RAJPURA,111,4,Neena Mittal,Aam Aadmi Party,54617,217
+2022,Assembly,PB,RAJPURA,111,5,Avtar Singh Harpalpur,Lok Insaaf Party,245,2
+2022,Assembly,PB,RAJPURA,111,6,Jagjit Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3340,4
+2022,Assembly,PB,RAJPURA,111,7,Harinder Singh,Independent,154,0
+2022,Assembly,PB,RAJPURA,111,8,Gursewak Singh,Independent,289,0
+2022,Assembly,PB,RAJPURA,111,9,Dr. Bhai Paramjit Singh,Independent,661,0
+2022,Assembly,PB,RAJPURA,111,10,Parveen Kumar,Independent,358,0
+2022,Assembly,PB,RAJPURA,111,11,NOTA,None of the Above,932,4
+2022,Assembly,PB,DERA BASSI,112,1,N. K. SHARMA,Shiromani Akali Dal,47678,53
+2022,Assembly,PB,DERA BASSI,112,2,SANJIV KHANNA,Bharatiya Janata Party,26903,60
+2022,Assembly,PB,DERA BASSI,112,3,KULJIT SINGH RANDHAWA,Aam Aadmi Party,69870,162
+2022,Assembly,PB,DERA BASSI,112,4,DEEPINDER SINGH DHILLON,Indian National Congress,48260,51
+2022,Assembly,PB,DERA BASSI,112,5,SARBJIT SINGH ROCKY,Republican Party of India (Athawale),364,0
+2022,Assembly,PB,DERA BASSI,112,6,KULWINDER SINGH,Aam Aadmi Parivartan Party,782,10
+2022,Assembly,PB,DERA BASSI,112,7,YOG RAJ SAHOTA,Right to Recall Party,224,0
+2022,Assembly,PB,DERA BASSI,112,8,AVTAR SINGH,Independent,1125,0
+2022,Assembly,PB,DERA BASSI,112,9,SHIV KUMAR MANWANI,Independent,264,1
+2022,Assembly,PB,DERA BASSI,112,10,SEEMA JAIN,Independent,314,3
+2022,Assembly,PB,DERA BASSI,112,11,DAVINDER SINGH,Independent,260,1
+2022,Assembly,PB,DERA BASSI,112,12,PARAMVIR SINGH,Independent,828,1
+2022,Assembly,PB,DERA BASSI,112,13,BALJINDER SINGH,Independent,575,0
+2022,Assembly,PB,DERA BASSI,112,14,RAJ Kumar,Independent,328,0
+2022,Assembly,PB,DERA BASSI,112,15,NOTA,None of the Above,1410,2
+2022,Assembly,PB,GHANAUR,113,1,GURLAL GHANAUR,Aam Aadmi Party,62562,221
+2022,Assembly,PB,GHANAUR,113,2,PREM SINGH CHANDUMAJRA,Shiromani Akali Dal,24100,41
+2022,Assembly,PB,GHANAUR,113,3,MADAN LAL,Indian National Congress,30954,64
+2022,Assembly,PB,GHANAUR,113,4,VIKAS SHARMA,Bharatiya Janata Party,5699,29
+2022,Assembly,PB,GHANAUR,113,5,JAGDEEP SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),1590,3
+2022,Assembly,PB,GHANAUR,113,6,AMRIK SINGH,Independent,211,1
+2022,Assembly,PB,GHANAUR,113,7,GURLAL SINGH,Independent,447,3
+2022,Assembly,PB,GHANAUR,113,8,JASPAL SINGH,Independent,688,0
+2022,Assembly,PB,GHANAUR,113,9,JAGNEET SINGH,Independent,821,2
+2022,Assembly,PB,GHANAUR,113,10,PREM SINGH BHANGU,Independent,1679,2
+2022,Assembly,PB,GHANAUR,113,11,NOTA,None of the Above,1305,1
+2022,Assembly,PB,SANOUR,114,1,HARMIT SINGH PATHANMAJRA,Aam Aadmi Party,83634,259
+2022,Assembly,PB,SANOUR,114,2,HARINDER PAL SINGH HARRY MANN,Indian National Congress,25365,43
+2022,Assembly,PB,SANOUR,114,3,HARINDER PAL SINGH CHANDUMAJRA,Shiromani Akali Dal,34704,67
+2022,Assembly,PB,SANOUR,114,4,NAVJOT SINGH,Jai Jawan Jai Kisan Party,976,7
+2022,Assembly,PB,SANOUR,114,5,BIKRAMJIT INDER SINGH CHAHAL,Punjab Lok Congress Party,9195,28
+2022,Assembly,PB,SANOUR,114,6,VIKRAMJEET SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),4931,4
+2022,Assembly,PB,SANOUR,114,7,AJAY KUMAR,Independent,135,1
+2022,Assembly,PB,SANOUR,114,8,SURINDER SINGH,Independent,213,0
+2022,Assembly,PB,SANOUR,114,9,HARMEET SINGH MURADMAJRA,Independent,338,0
+2022,Assembly,PB,SANOUR,114,10,GURPREET SINGH,Independent,326,0
+2022,Assembly,PB,SANOUR,114,11,JAGDEV SINGH,Independent,348,0
+2022,Assembly,PB,SANOUR,114,12,JATINDER,Independent,726,1
+2022,Assembly,PB,SANOUR,114,13,BUTA SINGH,Independent,1615,5
+2022,Assembly,PB,SANOUR,114,14,MOHAN LAL GHARAM WALE,Independent,469,0
+2022,Assembly,PB,SANOUR,114,15,NOTA,None of the Above,1613,4
+2022,Assembly,PB,SAMANA,116,1,SURJIT SINGH RAKHRA,Shiromani Akali Dal,34596,66
+2022,Assembly,PB,SAMANA,116,2,CHETAN SINGH JOURAMAJRA,Aam Aadmi Party,74066,309
+2022,Assembly,PB,SAMANA,116,3,RAJINDER SINGH,Indian National Congress,23538,38
+2022,Assembly,PB,SAMANA,116,4,AJAIB SINGH BATHOI,Samajwadi Party,409,0
+2022,Assembly,PB,SAMANA,116,5,SURINDER SINGH KHERKI,Punjab Lok Congress Party,5055,29
+2022,Assembly,PB,SAMANA,116,6,HARDEEP SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3822,11
+2022,Assembly,PB,SAMANA,116,7,JAGANDEEP KAUR,Punjab Kisan Dal,370,4
+2022,Assembly,PB,SAMANA,116,8,RACHHPAL SINGH JOURAMAJRA,Sanyukt Sangharsh Party,1475,9
+2022,Assembly,PB,SAMANA,116,9,ASHWANI  KUMAR,Independent,429,0
+2022,Assembly,PB,SAMANA,116,10,PARAMJIT SINGH SAHOLI,Independent,277,0
+2022,Assembly,PB,SAMANA,116,11,PARVEEN KUMAR,Independent,195,0
+2022,Assembly,PB,SAMANA,116,12,POONAM RANI,Independent,247,0
+2022,Assembly,PB,SAMANA,116,13,RAJU RAM,Independent,1174,0
+2022,Assembly,PB,SAMANA,116,14,LOVEPREET SINGH,Independent,1109,0
+2022,Assembly,PB,SAMANA,116,15,NOTA,None of the Above,1102,5
+2022,Assembly,PB,LUDHIANA NORTH,65,1,R.D. SHARMA,Shiromani Akali Dal,11425,29
+2022,Assembly,PB,LUDHIANA NORTH,65,2,PARVEEN BANSAL,Bharatiya Janata Party,35751,71
+2022,Assembly,PB,LUDHIANA NORTH,65,3,MADAN LAL BAGGA,Aam Aadmi Party,50983,121
+2022,Assembly,PB,LUDHIANA NORTH,65,4,RAKESH PANDEY,Indian National Congress,24274,52
+2022,Assembly,PB,LUDHIANA NORTH,65,5,ANIL KUMAR GOYAL,Insaniyat Lok Vikas Party,138,0
+2022,Assembly,PB,LUDHIANA NORTH,65,6,AVTAR SINGH,Peoples Party of India (Democratic),285,0
+2022,Assembly,PB,LUDHIANA NORTH,65,7,PROMILA RALHAN BANI,Bahujan Mukti Party,262,0
+2022,Assembly,PB,LUDHIANA NORTH,65,8,MANJU,Samajwadi Party,164,0
+2022,Assembly,PB,LUDHIANA NORTH,65,9,RANDHIR SINGH SIVIA,Lok Insaaf Party,980,2
+2022,Assembly,PB,LUDHIANA NORTH,65,10,RAMANJIT BADHAN LALLY,Independent,446,2
+2022,Assembly,PB,LUDHIANA NORTH,65,11,NOTA,None of the Above,912,10
+2022,Assembly,PB,GILL,66,1,Sucha Ram Ladhar,Bharatiya Janata Party,12751,50
+2022,Assembly,PB,GILL,66,2,Kuldeep Singh Vaid (Bulara),Indian National Congress,33648,138
+2022,Assembly,PB,GILL,66,3,Jiwan Singh Sangowal,Aam Aadmi Party,92173,523
+2022,Assembly,PB,GILL,66,4,Darshan Singh Shivalik,Shiromani Akali Dal,34885,167
+2022,Assembly,PB,GILL,66,5,Balbir Singh Alamgir,Communist Party of India  (Marxist),334,4
+2022,Assembly,PB,GILL,66,6,Gagandeep Alias Sunny Kainth,Lok Insaaf Party,3822,15
+2022,Assembly,PB,GILL,66,7,Jaswinder Singh,Bahujan Mukti Party,493,0
+2022,Assembly,PB,GILL,66,8,Darshan Singh,Aam Lok Party United,266,0
+2022,Assembly,PB,GILL,66,9,Dr. Brijesh Bangar,Peoples Party of India (Democratic),371,2
+2022,Assembly,PB,GILL,66,10,Rajinder Singh Singhpura,Independent,804,3
+2022,Assembly,PB,GILL,66,11,Rajeev  Kumar Lovely,Independent,2003,10
+2022,Assembly,PB,GILL,66,12,NOTA,None of the Above,1681,20
+2022,Assembly,PB,PAYAL,67,1,DOCTOR JASPREET SINGH BIJA,Bahujan Samaj Party,20515,133
+2022,Assembly,PB,PAYAL,67,2,BHAGWAN SINGH SOMAL KHERI,Communist Party of India,863,4
+2022,Assembly,PB,PAYAL,67,3,MANWINDER SINGH GIASPURA,Aam Aadmi Party,63211,422
+2022,Assembly,PB,PAYAL,67,4,LAKHVIR SINGH,Indian National Congress,30479,145
+2022,Assembly,PB,PAYAL,67,5,HARSHIT KUMAR SHEETAL,Shiromani Akali Dal (Sanyukt),668,14
+2022,Assembly,PB,PAYAL,67,6,GURPREET SINGH,Bahujan Mukti Party,188,6
+2022,Assembly,PB,PAYAL,67,7,JAGDEEP SINGH (R/o VILLAGE SIRTHLA),Rashtriya Janhit Sangharsh Party,147,1
+2022,Assembly,PB,PAYAL,67,8,JAGDEEP SINGH (R/o VILLAGE MAJRI),Lok Insaaf Party,302,1
+2022,Assembly,PB,PAYAL,67,9,RANJIT SINGH KAKA,Punjab Kisan Dal,195,0
+2022,Assembly,PB,PAYAL,67,10,RAJDEEP KAUR,Jai Jawan Jai Kisan Party,117,3
+2022,Assembly,PB,PAYAL,67,11,RAMPAL SINGH DAULATPUR,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),5682,5
+2022,Assembly,PB,PAYAL,67,12,LAKHVIR SINGH LAKHA,Peoples Party of India (Democratic),359,1
+2022,Assembly,PB,PAYAL,67,13,SIMARDEEP SINGH DOBURJI,Independent,1107,10
+2022,Assembly,PB,PAYAL,67,14,HARCHAND SINGH,Independent,528,1
+2022,Assembly,PB,PAYAL,67,15,GURDEEP SINGH KALI,Independent,369,3
+2022,Assembly,PB,PAYAL,67,16,Er. JAGTAR SINGH LAMBA,Independent,455,0
+2022,Assembly,PB,PAYAL,67,17,ADVOCATE PRABHJOT SINGH,Independent,271,2
+2022,Assembly,PB,PAYAL,67,18,MALKIT SINGH,Independent,94,0
+2022,Assembly,PB,PAYAL,67,19,NOTA,None of the Above,510,11
+2022,Assembly,PB,FIROZPUR RURAL,77,1,ASHU BANGER,Indian National Congress,20358,38
+2022,Assembly,PB,FIROZPUR RURAL,77,2,JOGINDER SINGH JINDU,Shiromani Akali Dal,47434,113
+2022,Assembly,PB,FIROZPUR RURAL,77,3,RAJNEESH KUMAR DAHIYA,Aam Aadmi Party,74891,402
+2022,Assembly,PB,FIROZPUR RURAL,77,4,SURJEET SINGH,Insaniyat Lok Vikas Party,264,5
+2022,Assembly,PB,FIROZPUR RURAL,77,5,SURESH KUMAR,Communist Party of India  (Marxist-Leninist)  (Liberation),324,0
+2022,Assembly,PB,FIROZPUR RURAL,77,6,JASWINDER SINGH,Punjab Lok Congress Party,771,6
+2022,Assembly,PB,FIROZPUR RURAL,77,7,NASEEB KAUR,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3186,10
+2022,Assembly,PB,FIROZPUR RURAL,77,8,BAGEECHA SINGH DHALIWAL,Republican Party of India Ektavadi,116,0
+2022,Assembly,PB,FIROZPUR RURAL,77,9,RAJ KUMAR,Aas Punjab Party,80,1
+2022,Assembly,PB,FIROZPUR RURAL,77,10,LOVEPREET KAUR,Jan Asra Party,520,0
+2022,Assembly,PB,FIROZPUR RURAL,77,11,JOGINDER,Independent,375,1
+2022,Assembly,PB,FIROZPUR RURAL,77,12,THOMES,Independent,232,0
+2022,Assembly,PB,FIROZPUR RURAL,77,13,BALDEV SINGH,Independent,439,1
+2022,Assembly,PB,FIROZPUR RURAL,77,14,MORDA SINGH,Independent,1743,6
+2022,Assembly,PB,FIROZPUR RURAL,77,15,NOTA,None of the Above,591,2
+2022,Assembly,PB,ABOHAR,81,1,ARUN NARANG,Bharatiya Janata Party,21332,202
+2022,Assembly,PB,ABOHAR,81,2,SANDEEP JAKHAR,Indian National Congress,49390,534
+2022,Assembly,PB,ABOHAR,81,3,KULDEEP KUMAR alias DEEP KAMBOJ,Aam Aadmi Party,43835,618
+2022,Assembly,PB,ABOHAR,81,4,MOHINDER KUMAR RINWA,Shiromani Akali Dal,14207,138
+2022,Assembly,PB,ABOHAR,81,5,BALVIR RAM,Republican Party of India (A),213,1
+2022,Assembly,PB,ABOHAR,81,6,HANS RAJ,Independent,209,0
+2022,Assembly,PB,ABOHAR,81,7,CHARANJIT,Independent,425,2
+2022,Assembly,PB,ABOHAR,81,8,BALJINDER SINGH,Independent,891,8
+2022,Assembly,PB,ABOHAR,81,9,RANJIT KUMAR,Independent,370,1
+2022,Assembly,PB,ABOHAR,81,10,NOTA,None of the Above,721,5
+2022,Assembly,PB,SARDULGARH,97,1,Kulwinder Singh,Communist Party of India  (Marxist),896,3
+2022,Assembly,PB,SARDULGARH,97,2,Gurpreet Singh Banawali,Aam Aadmi Party,75338,479
+2022,Assembly,PB,SARDULGARH,97,3,Jagjit Singh Milkha,Bharatiya Janata Party,2004,34
+2022,Assembly,PB,SARDULGARH,97,4,Dilraj Singh Bhundar,Shiromani Akali Dal,31572,185
+2022,Assembly,PB,SARDULGARH,97,5,Bikram Singh,Indian National Congress,34311,135
+2022,Assembly,PB,SARDULGARH,97,6,Gurdeep Singh Sidhu,Jai Jawan Jai Kisan Party,329,3
+2022,Assembly,PB,SARDULGARH,97,7,Gurmeet Singh Nandgarh,Communist Party of India  (Marxist-Leninist)  (Liberation),571,0
+2022,Assembly,PB,SARDULGARH,97,8,Baldev Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),2337,8
+2022,Assembly,PB,SARDULGARH,97,9,Gursewak Singh,Independent,1922,3
+2022,Assembly,PB,SARDULGARH,97,10,Chet Ram,Independent,447,1
+2022,Assembly,PB,SARDULGARH,97,11,Chhota Singh,Independent,536,3
+2022,Assembly,PB,SARDULGARH,97,12,Jaswinder Singh,Independent,325,0
+2022,Assembly,PB,SARDULGARH,97,13,Pardeep Singh,Independent,696,0
+2022,Assembly,PB,SARDULGARH,97,14,NOTA,None of the Above,680,4
+2022,Assembly,PB,LEHRA,99,1,Gobind Singh Longowal,Shiromani Akali Dal,11976,62
+2022,Assembly,PB,LEHRA,99,2,Barinder Kumar Goyal Vakeel,Aam Aadmi Party,59618,440
+2022,Assembly,PB,LEHRA,99,3,Rajinder Kaur Bhattal,Indian National Congress,20371,79
+2022,Assembly,PB,LEHRA,99,4,SHER SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),4984,7
+2022,Assembly,PB,LEHRA,99,5,Hardeep Singh,Revolutionary Socialist Party,690,4
+2022,Assembly,PB,LEHRA,99,6,Parminder Singh Dhindsa,Shiromani Akali Dal (Sanyukt),33385,155
+2022,Assembly,PB,LEHRA,99,7,Satwant Singh,Independent,1540,6
+2022,Assembly,PB,LEHRA,99,8,Jagdish Singh Atwal,Independent,650,3
+2022,Assembly,PB,LEHRA,99,9,Parminder Singh,Independent,1215,0
+2022,Assembly,PB,LEHRA,99,10,Balwinder Singh,Independent,1517,3
+2022,Assembly,PB,LEHRA,99,11,NOTA,None of the Above,1061,10
+2022,Assembly,PB,BARNALA,103,1,KULWANT SINGH KEETU,Shiromani Akali Dal,26990,188
+2022,Assembly,PB,BARNALA,103,2,GURMEET SINGH  MEET HAYER,Aam Aadmi Party,64091,709
+2022,Assembly,PB,BARNALA,103,3,DHIRAJ KUMAR,Bharatiya Janata Party,9041,81
+2022,Assembly,PB,BARNALA,103,4,MANISH BANSAL,Indian National Congress,16750,103
+2022,Assembly,PB,BARNALA,103,5,Karamjit Singh,Lok Insaaf Party,216,2
+2022,Assembly,PB,BARNALA,103,6,GURPREET SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),9890,27
+2022,Assembly,PB,BARNALA,103,7,GURBAJ SINGH,Bahujan Mukti Party,298,2
+2022,Assembly,PB,BARNALA,103,8,JAGRAJ SINGH,National Apni Party,299,1
+2022,Assembly,PB,BARNALA,103,9,RAJ KUMAR,Revolutionary Socialist Party,211,0
+2022,Assembly,PB,BARNALA,103,10,ABHIKARAN SINGH,Independent,313,4
+2022,Assembly,PB,BARNALA,103,11,SUKHWINDER SINGH,Independent,243,0
+2022,Assembly,PB,BARNALA,103,12,HARPREET SINGH,Independent,238,1
+2022,Assembly,PB,BARNALA,103,13,PAPPU KUMAR,Independent,289,1
+2022,Assembly,PB,BARNALA,103,14,BALJIT SINGH BADBAR,Independent,687,2
+2022,Assembly,PB,BARNALA,103,15,NOTA,None of the Above,848,7
+2022,Assembly,PB,DHURI,107,1,DALVIR SINGH GOLDY,Indian National Congress,14191,0
+2022,Assembly,PB,DHURI,107,2,PARKASH CHAND GARG,Shiromani Akali Dal,3740,0
+2022,Assembly,PB,DHURI,107,3,BHAGWANT MANN,Aam Aadmi Party,43898,0
+2022,Assembly,PB,DHURI,107,4,RANDEEP SINGH,Bharatiya Janata Party,815,0
+2022,Assembly,PB,DHURI,107,5,SUKHWINDER SINGH,National Apni Party,410,0
+2022,Assembly,PB,DHURI,107,6,HARPREET SINGH,Communist Party of India  (Marxist-Leninist)  (Liberation),108,0
+2022,Assembly,PB,DHURI,107,7,JASWINDER SINGH,Lok Insaaf Party,247,0
+2022,Assembly,PB,DHURI,107,8,NARINDER SINGH,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),3082,0
+2022,Assembly,PB,DHURI,107,9,PARDEEP KUMAR,Apni Ekta Party,355,0
+2022,Assembly,PB,DHURI,107,10,SARBJIT SINGH,Independent,702,0
+2022,Assembly,PB,DHURI,107,11,SHAKTI KUMAR GUPTA,Independent,303,0
+2022,Assembly,PB,DHURI,107,12,VIJAY SYAL,Independent,132,0
+2022,Assembly,PB,DHURI,107,13,NOTA,None of the Above,414,0
+2022,Assembly,PB,PATIALA,115,1,Ajit Pal Singh Kohli,Aam Aadmi Party,47704,400
+2022,Assembly,PB,PATIALA,115,2,Harpal Juneja,Shiromani Akali Dal,11725,110
+2022,Assembly,PB,PATIALA,115,3,Vishnu Sharma,Indian National Congress,9795,76
+2022,Assembly,PB,PATIALA,115,4,Amarinder Singh,Punjab Lok Congress Party,28007,224
+2022,Assembly,PB,PATIALA,115,5,Naunihal Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),2172,19
+2022,Assembly,PB,PATIALA,115,6,Paramjit Singh,Lok Insaaf Party,79,0
+2022,Assembly,PB,PATIALA,115,7,Yogesh Kumar,Jan Asra Party,94,1
+2022,Assembly,PB,PATIALA,115,8,Sonu,Independent,104,0
+2022,Assembly,PB,PATIALA,115,9,Gurmukh Singh,Independent,88,0
+2022,Assembly,PB,PATIALA,115,10,Jasbir Singh,Independent,99,1
+2022,Assembly,PB,PATIALA,115,11,Jagdish Kumar,Independent,571,1
+2022,Assembly,PB,PATIALA,115,12,Jyoti Tiwari,Independent,140,0
+2022,Assembly,PB,PATIALA,115,13,Davinder Singh,Independent,193,0
+2022,Assembly,PB,PATIALA,115,14,Pankaj Mohindru,Independent,188,1
+2022,Assembly,PB,PATIALA,115,15,Makhan Singh,Independent,277,6
+2022,Assembly,PB,PATIALA,115,16,Malwinder Singh,Independent,352,0
+2022,Assembly,PB,PATIALA,115,17,Ravinder Singh,Independent,287,0
+2022,Assembly,PB,PATIALA,115,18,NOTA,None of the Above,741,13
+2022,Assembly,PB,SHUTRANA,117,1,Kulwant Singh Bazigar,Aam Aadmi Party,81426,325
+2022,Assembly,PB,SHUTRANA,117,2,Darbara Singh,Indian National Congress,11315,38
+2022,Assembly,PB,SHUTRANA,117,3,Vaninder Kaur Loomba,Shiromani Akali Dal,30131,66
+2022,Assembly,PB,SHUTRANA,117,4,Sukhwinder Singh,Samajwadi Party,920,5
+2022,Assembly,PB,SHUTRANA,117,5,Gurjit Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),5975,8
+2022,Assembly,PB,SHUTRANA,117,6,Naryan Singh,Punjab Lok Congress Party,3566,15
+2022,Assembly,PB,SHUTRANA,117,7,Amarjit Singh,Independent,1513,6
+2022,Assembly,PB,SHUTRANA,117,8,Gurdhian Singh,Independent,478,5
+2022,Assembly,PB,SHUTRANA,117,9,Narinder,Independent,410,1
+2022,Assembly,PB,SHUTRANA,117,10,NOTA,None of the Above,1533,3
+2022,Assembly,PB,PATIALA RURAL,110,1,Jaspal Singh Bitu Chatha,Shiromani Akali Dal,19826,170
+2022,Assembly,PB,PATIALA RURAL,110,2,Dr.Balbir Singh,Aam Aadmi Party,76333,822
+2022,Assembly,PB,PATIALA RURAL,110,3,Mohit Mohindra,Indian National Congress,23554,127
+2022,Assembly,PB,PATIALA RURAL,110,4,Sanjeev Sharma Bittu,Punjab Lok Congress Party,11778,109
+2022,Assembly,PB,PATIALA RURAL,110,5,Harpreet Kaur,Samajik Sangharsh Party,318,2
+2022,Assembly,PB,PATIALA RURAL,110,6,Jasdev Singh Urf Jasleen Patiala,Insaniyat Lok Vikas Party,126,1
+2022,Assembly,PB,PATIALA RURAL,110,7,Tejwinderpal Singh Saini,Peoples Party of India (Democratic),314,0
+2022,Assembly,PB,PATIALA RURAL,110,8,Prof. Mohinder Pal Singh,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),5372,32
+2022,Assembly,PB,PATIALA RURAL,110,9,Abhishek Singh,Independent,207,5
+2022,Assembly,PB,PATIALA RURAL,110,10,Shweta Jindal,Independent,115,0
+2022,Assembly,PB,PATIALA RURAL,110,11,Saurabh Jain,Independent,3074,6
+2022,Assembly,PB,PATIALA RURAL,110,12,Krishan Kumar,Independent,121,0
+2022,Assembly,PB,PATIALA RURAL,110,13,Jasdeep Singh Nikku,Independent,1334,2
+2022,Assembly,PB,PATIALA RURAL,110,14,Jashandeep Singh Joshi,Independent,602,0
+2022,Assembly,PB,PATIALA RURAL,110,15,Dalbir Singh,Independent,882,2
+2022,Assembly,PB,PATIALA RURAL,110,16,Dhraminder Singh,Independent,1064,7
+2022,Assembly,PB,PATIALA RURAL,110,17,Paramjit Singh Bhullar,Independent,305,0
+2022,Assembly,PB,PATIALA RURAL,110,18,Baljeet Singh,Independent,568,0
+2022,Assembly,PB,PATIALA RURAL,110,19,Rajiv Kumar Babbar,Independent,294,0
+2022,Assembly,PB,PATIALA RURAL,110,20,NOTA,None of the Above,755,16
+2022,Assembly,PB,BATHINDA RURAL,93,1,AMIT RATTAN KOTFATTA,Aam Aadmi Party,33412,0
+2022,Assembly,PB,BATHINDA RURAL,93,2,Surjit Singh,Communist Party of India,415,0
+2022,Assembly,PB,BATHINDA RURAL,93,3,HARVINDER SINGH LADDI,Indian National Congress,12271,0
+2022,Assembly,PB,BATHINDA RURAL,93,4,PARKASH SINGH BHATTI,Shiromani Akali Dal,15875,0
+2022,Assembly,PB,BATHINDA RURAL,93,5,Savera Singh,Punjab Lok Congress Party,238,0
+2022,Assembly,PB,BATHINDA RURAL,93,6,CHAMKAUR SINGH,Independent,615,0
+2022,Assembly,PB,BATHINDA RURAL,93,7,Dr. JAGSIR SINGH  MRAR,Independent,313,0
+2022,Assembly,PB,BATHINDA RURAL,93,8,JEETA RAM,Independent,228,0
+2022,Assembly,PB,BATHINDA RURAL,93,9,NOTA,None of the Above,639,0

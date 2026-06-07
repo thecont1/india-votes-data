@@ -1,0 +1,342 @@
+election_year,election_type,election_state,constituency,constituency_no,serial_no,candidate,party,evm_votes,postal_votes
+2022,Assembly,GA,MANDREM,1,1,DAYANAND RAGHUNATH SOPTE,Bharatiya Janata Party,9273,399
+2022,Assembly,GA,MANDREM,1,2,DEEPAK BHALCHANDRA KALANGUTKAR,Goa Forward Party,1637,39
+2022,Assembly,GA,MANDREM,1,3,JIT VINAYAK AROLKAR,Maharashtrawadi Gomantak,10144,243
+2022,Assembly,GA,MANDREM,1,4,BABLI BHASKAR NAIK,Shiv Sena,116,3
+2022,Assembly,GA,MANDREM,1,5,D'COSTA MARIA,Sambhaji Brigade Party,46,0
+2022,Assembly,GA,MANDREM,1,6,PRASAD K. SHAHAPURKAR,Aam Aadmi Party,262,6
+2022,Assembly,GA,MANDREM,1,7,SUNAYANA RAJANIKANT GAWDE,Revolutionary Goans Party,1207,12
+2022,Assembly,GA,MANDREM,1,8,LAXMIKANT PARSEKAR,Independent,5507,304
+2022,Assembly,GA,MANDREM,1,9,Satish Sitaram Shetgaonkar,Independent,184,0
+2022,Assembly,GA,MANDREM,1,10,NOTA,None of the Above,259,2
+2022,Assembly,GA,PERNEM,2,1,JITENDRA YESHWANT GAONKAR,Indian National Congress,1801,26
+2022,Assembly,GA,PERNEM,2,2,PRAVIN PRABHAKAR ARLEKAR,Bharatiya Janata Party,12614,449
+2022,Assembly,GA,PERNEM,2,3,RAJAN BABUSO KORGAONKAR,Maharashtrawadi Gomantak,9326,319
+2022,Assembly,GA,PERNEM,2,4,PUNDALIK DHARGALKAR,Aam Aadmi Party,266,7
+2022,Assembly,GA,PERNEM,2,5,SUBHASH BARKELO KERKAR,Shiv Sena,222,1
+2022,Assembly,GA,PERNEM,2,6,SUJAY D. MHAPSEKAR,Revolutionary Goans Party,2735,20
+2022,Assembly,GA,PERNEM,2,7,GURUDAS VIRNODKAR,Independent,62,1
+2022,Assembly,GA,PERNEM,2,8,KAMLAKAR SHANKAR GADKAR,Independent,129,0
+2022,Assembly,GA,PERNEM,2,9,VISHNUDAS KORGAONKAR,Independent,855,7
+2022,Assembly,GA,PERNEM,2,10,NOTA,None of the Above,361,2
+2022,Assembly,GA,BICHOLIM,3,1,MEGHASHYAM VAMAN RAUT,Indian National Congress,737,0
+2022,Assembly,GA,BICHOLIM,3,2,NARESH RAJARAM SAWAL,Maharashtrawadi Gomantak,5909,0
+2022,Assembly,GA,BICHOLIM,3,3,RAJESH TULSHIDAS PATNEKAR,Bharatiya Janata Party,2824,0
+2022,Assembly,GA,BICHOLIM,3,4,ANISH AVINASH NAIK,Revolutionary Goans Party,326,0
+2022,Assembly,GA,BICHOLIM,3,5,DR. CHANDRAKANT SHETYE,Independent,6314,0
+2022,Assembly,GA,BICHOLIM,3,6,NOTA,None of the Above,241,0
+2022,Assembly,GA,TIVIM,4,1,AMAN LOTLIKAR,Indian National Congress,1230,32
+2022,Assembly,GA,TIVIM,4,2,GODFREY D' LIMA,Nationalist Congress Party,69,4
+2022,Assembly,GA,TIVIM,4,3,KAVITA  KANDOLKAR,All India Trinamool Congress,7172,191
+2022,Assembly,GA,TIVIM,4,4,NILKANTH RAMNATH HALARNKAR,Bharatiya Janata Party,9190,224
+2022,Assembly,GA,TIVIM,4,5,SWAPNESH BHANUDAS SHERLEKAR,Goencho Swabhiman Party,140,3
+2022,Assembly,GA,TIVIM,4,6,TUKARAM BHARAT PARAB,Revolutionary Goans Party,4959,92
+2022,Assembly,GA,TIVIM,4,7,UDAI SALKAR,Aam Aadmi Party,413,8
+2022,Assembly,GA,TIVIM,4,8,NOTA,None of the Above,202,0
+2022,Assembly,GA,MAPUSA,5,1,JOSHUA PETER DE SOUZA,Bharatiya Janata Party,9983,212
+2022,Assembly,GA,MAPUSA,5,2,SUDHIR RAMA KANDOLKAR,Indian National Congress,8379,169
+2022,Assembly,GA,MAPUSA,5,3,TARAK  AROLKAR,All India Trinamool Congress,1350,16
+2022,Assembly,GA,MAPUSA,5,4,JITESH JIVAJI KAMAT,Shiv Sena,123,3
+2022,Assembly,GA,MAPUSA,5,5,RAHUL MHAMBRE,Aam Aadmi Party,1476,35
+2022,Assembly,GA,MAPUSA,5,6,ROHAN SALGAONKAR,Revolutionary Goans Party,978,18
+2022,Assembly,GA,MAPUSA,5,7,NEETA PARESH KHANVILKAR,Independent,59,1
+2022,Assembly,GA,MAPUSA,5,8,SUDESH DIGAMBER HASOTIKAR,Independent,39,1
+2022,Assembly,GA,MAPUSA,5,9,NOTA,None of the Above,291,5
+2022,Assembly,GA,SIOLIM,6,1,DAYANAND RAYU MANDREKAR,Bharatiya Janata Party,7712,260
+2022,Assembly,GA,SIOLIM,6,2,DELILAH MICHAEL LOBO,Indian National Congress,9455,244
+2022,Assembly,GA,SIOLIM,6,3,LEAO F. P. DIAS,All India Trinamool Congress,212,7
+2022,Assembly,GA,SIOLIM,6,4,CHARISMA  FERNANDES,Shiv Sena,166,1
+2022,Assembly,GA,SIOLIM,6,5,DIANA FERNANDES,Sambhaji Brigade Party,43,0
+2022,Assembly,GA,SIOLIM,6,6,GAURESH  MANDREKAR,Revolutionary Goans Party,3134,54
+2022,Assembly,GA,SIOLIM,6,7,JAGANATH  GAONKAR,Jai Maha Bharath Party,35,0
+2022,Assembly,GA,SIOLIM,6,8,VISHNU  NAIK,Aam Aadmi Party,879,14
+2022,Assembly,GA,SIOLIM,6,9,ANIL VAMAN KERKAR,Independent,50,0
+2022,Assembly,GA,SIOLIM,6,10,DATTARAM  PEDNEKAR,Independent,461,3
+2022,Assembly,GA,SIOLIM,6,11,PALLAVI PRADEEP DABHOLKAR,Independent,112,1
+2022,Assembly,GA,SIOLIM,6,12,PATRICK SAVIO ALMEIDA,Independent,1451,31
+2022,Assembly,GA,SIOLIM,6,13,VINOD DATTARAM PALYEKAR,Independent,402,7
+2022,Assembly,GA,SIOLIM,6,14,NOTA,None of the Above,203,3
+2022,Assembly,GA,SALIGAO,7,1,Bholanath Ghadi Sakhalkar,All India Trinamool Congress,344,8
+2022,Assembly,GA,SALIGAO,7,2,Jayesh Salgaonkar,Bharatiya Janata Party,7942,204
+2022,Assembly,GA,SALIGAO,7,3,Kedar Jayprakash Naik,Indian National Congress,9798,247
+2022,Assembly,GA,SALIGAO,7,4,Mario Venancio Cordeiro,Aam Aadmi Party,829,18
+2022,Assembly,GA,SALIGAO,7,5,Rohan Kalangutkar,Revolutionary Goans Party,1888,40
+2022,Assembly,GA,SALIGAO,7,6,Rupesh Damodar Naik,Independent,785,20
+2022,Assembly,GA,SALIGAO,7,7,NOTA,None of the Above,207,5
+2022,Assembly,GA,CALANGUTE,8,1,Anthony Menezes,All India Trinamool Congress,1660,30
+2022,Assembly,GA,CALANGUTE,8,2,Joseph Robert Sequeira,Bharatiya Janata Party,4230,76
+2022,Assembly,GA,CALANGUTE,8,3,Michael Vincent Lobo,Indian National Congress,9103,182
+2022,Assembly,GA,CALANGUTE,8,4,Marcelino Francisco Gonsalves,Revolutionary Goans Party,2504,34
+2022,Assembly,GA,CALANGUTE,8,5,ROSHAN LUKE MATHIAS,Goencho Swabhiman Party,544,17
+2022,Assembly,GA,CALANGUTE,8,6,Sudesh Suresh Mayekar,Aam Aadmi Party,1750,19
+2022,Assembly,GA,CALANGUTE,8,7,Ricardo D'Souza,Independent,262,6
+2022,Assembly,GA,CALANGUTE,8,8,NOTA,None of the Above,172,1
+2022,Assembly,GA,PORVORIM,9,1,Rohan Khaunte,Bharatiya Janata Party,11349,365
+2022,Assembly,GA,PORVORIM,9,2,Sandeep Vazarkar,All India Trinamool Congress,3721,43
+2022,Assembly,GA,PORVORIM,9,3,Shankar Phadte,Nationalist Congress Party,154,2
+2022,Assembly,GA,PORVORIM,9,4,Vikas Ramchandra Prabhudesai,Indian National Congress,3528,67
+2022,Assembly,GA,PORVORIM,9,5,Ritesh Chodankar,Aam Aadmi Party,1509,26
+2022,Assembly,GA,PORVORIM,9,6,NOTA,None of the Above,461,12
+2022,Assembly,GA,ALDONA,10,1,CARLOS ALVARES FERREIRA,Indian National Congress,9074,246
+2022,Assembly,GA,ALDONA,10,2,GLENN JOHN VIJAY AMBROSE E SOUZA TICLO,Bharatiya Janata Party,7286,211
+2022,Assembly,GA,ALDONA,10,3,KIRAN KANDOLKAR,All India Trinamool Congress,3601,46
+2022,Assembly,GA,ALDONA,10,4,GOVIND GOVENKAR,Shiv Sena,342,8
+2022,Assembly,GA,ALDONA,10,5,MAHESH SATELKAR,Aam Aadmi Party,1267,39
+2022,Assembly,GA,ALDONA,10,6,POOJA MAYEKAR,Independent,109,7
+2022,Assembly,GA,ALDONA,10,7,NOTA,None of the Above,248,12
+2022,Assembly,GA,PANAJI,11,1,ATANASIO MONSERRATE,Bharatiya Janata Party,6531,256
+2022,Assembly,GA,PANAJI,11,2,ELVIS GOMES,Indian National Congress,3062,113
+2022,Assembly,GA,PANAJI,11,3,RAJESH VINAYAK REDKAR,Revolutionary Goans Party,354,5
+2022,Assembly,GA,PANAJI,11,4,VALMIKI DATTA NAIK,Aam Aadmi Party,760,17
+2022,Assembly,GA,PANAJI,11,5,DEVENDRA SUNDARAM,Independent,35,5
+2022,Assembly,GA,PANAJI,11,6,UTPAL MANOHAR  PARRIKAR,Independent,5857,214
+2022,Assembly,GA,PANAJI,11,7,YESHWANT MADAR,Independent,35,2
+2022,Assembly,GA,PANAJI,11,8,NOTA,None of the Above,166,7
+2022,Assembly,GA,TALEIGAO,12,1,JENNIFER MONSERRATE,Bharatiya Janata Party,9915,252
+2022,Assembly,GA,TALEIGAO,12,2,SHUBHANGI DEU SAWANT,Maharashtrawadi Gomantak,120,3
+2022,Assembly,GA,TALEIGAO,12,3,TONY ALFREDO RODRIGUES,Indian National Congress,7980,146
+2022,Assembly,GA,TALEIGAO,12,4,CECILLE RODRIGUES,Aam Aadmi Party,2550,57
+2022,Assembly,GA,TALEIGAO,12,5,Joseph Licio Roncon,Revolutionary Goans Party,1628,23
+2022,Assembly,GA,TALEIGAO,12,6,DILIP KASHINATH GHADI,Independent,23,2
+2022,Assembly,GA,TALEIGAO,12,7,ADV. PUNDALIK NAMDEO RAIKER,Independent,276,13
+2022,Assembly,GA,TALEIGAO,12,8,SHIVANAND HARIJAN,Independent,24,2
+2022,Assembly,GA,TALEIGAO,12,9,NOTA,None of the Above,414,7
+2022,Assembly,GA,ST.CRUZ,13,1,Antonio Caetano Fernandes,Bharatiya Janata Party,6199,178
+2022,Assembly,GA,ST.CRUZ,13,2,Rodolfo Louis Fernandes,Indian National Congress,8605,236
+2022,Assembly,GA,ST.CRUZ,13,3,Victor Benjamin Gonsalves,All India Trinamool Congress,497,26
+2022,Assembly,GA,ST.CRUZ,13,4,Ajay Tipu Kholkar,Revolutionary Goans Party,2444,53
+2022,Assembly,GA,ST.CRUZ,13,5,Amit Palekar,Aam Aadmi Party,4049,49
+2022,Assembly,GA,ST.CRUZ,13,6,NOTA,None of the Above,344,5
+2022,Assembly,GA,ST. ANDRE,14,1,Anthony Lino Fernandes,Indian National Congress,2617,78
+2022,Assembly,GA,ST. ANDRE,14,2,Estevan Elvis D'Souza,Nationalist Congress Party,128,3
+2022,Assembly,GA,ST. ANDRE,14,3,Francisco Silveira,Bharatiya Janata Party,5109,210
+2022,Assembly,GA,ST. ANDRE,14,4,Jagdish Umakant Bhobe,All India Trinamool Congress,1222,39
+2022,Assembly,GA,ST. ANDRE,14,5,Ramrao Surya Naik Wagh,Aam Aadmi Party,1101,21
+2022,Assembly,GA,ST. ANDRE,14,6,Viresh Mukesh Borkar,Revolutionary Goans Party,5292,103
+2022,Assembly,GA,ST. ANDRE,14,7,Rama Kankonkar,Independent,213,6
+2022,Assembly,GA,ST. ANDRE,14,8,NOTA,None of the Above,136,1
+2022,Assembly,GA,CUMBARJUA,15,1,Janita Pandurang Madkaikar,Bharatiya Janata Party,3848,101
+2022,Assembly,GA,CUMBARJUA,15,2,Rajesh Faldessai,Indian National Congress,6601,175
+2022,Assembly,GA,CUMBARJUA,15,3,Samil Audumber Volvaiker,All India Trinamool Congress,3015,57
+2022,Assembly,GA,CUMBARJUA,15,4,Chhagan Narayan Naik,Revolutionary Goans Party,2390,52
+2022,Assembly,GA,CUMBARJUA,15,5,Gorakhanath Suresh Kerkar,Aam Aadmi Party,993,29
+2022,Assembly,GA,CUMBARJUA,15,6,Maria Christina Varela,Goencho Swabhiman Party,79,12
+2022,Assembly,GA,CUMBARJUA,15,7,Rohan Ranganath Harmalkar,Independent,3784,86
+2022,Assembly,GA,CUMBARJUA,15,8,NOTA,None of the Above,322,6
+2022,Assembly,GA,MAEM,16,1,PREMENDRA VISHNU SHET,Bharatiya Janata Party,7636,238
+2022,Assembly,GA,MAEM,16,2,PRAVIN ZANTYE,Maharashtrawadi Gomantak,3240,184
+2022,Assembly,GA,MAEM,16,3,SANTOSH KUMAR SAWANT,Goa Forward Party,4613,125
+2022,Assembly,GA,MAEM,16,4,RAJESH TULSHIDAS KALANGUTKAR,Aam Aadmi Party,2053,31
+2022,Assembly,GA,MAEM,16,5,SHRIKRISHNA RAVINDRA PARAB,Revolutionary Goans Party,3933,41
+2022,Assembly,GA,MAEM,16,6,DEEPKUMAR D. MAPARI,Independent,88,1
+2022,Assembly,GA,MAEM,16,7,MILIND TULSHIDAS PILGAONKAR,Independent,2282,34
+2022,Assembly,GA,MAEM,16,8,ROHAN VAMAN SAWAIKAR,Independent,458,7
+2022,Assembly,GA,MAEM,16,9,SHEELA SANDEEP GHATWAL,Independent,191,1
+2022,Assembly,GA,MAEM,16,10,NOTA,None of the Above,331,1
+2022,Assembly,GA,SANQUELIM,17,1,Dharmesh Saglani,Indian National Congress,11414,170
+2022,Assembly,GA,SANQUELIM,17,2,Dr. Pramod Sawant,Bharatiya Janata Party,11795,455
+2022,Assembly,GA,SANQUELIM,17,3,Mahadev Yeshwant Khandekar,Maharashtrawadi Gomantak,361,9
+2022,Assembly,GA,SANQUELIM,17,4,Manojkumar Ghadi,Aam Aadmi Party,108,1
+2022,Assembly,GA,SANQUELIM,17,5,Navanath Ramkrishna Mulvi,Jai Maha Bharath Party,14,0
+2022,Assembly,GA,SANQUELIM,17,6,Sagar Dhargalkar,Shiv Sena,97,2
+2022,Assembly,GA,SANQUELIM,17,7,Sujay Gauns,Revolutionary Goans Party,740,2
+2022,Assembly,GA,SANQUELIM,17,8,Daudkhan  Pathan,Independent,31,1
+2022,Assembly,GA,SANQUELIM,17,9,Lavu Gurunath  Petkar,Independent,25,0
+2022,Assembly,GA,SANQUELIM,17,10,Mahesh Parab,Independent,30,0
+2022,Assembly,GA,SANQUELIM,17,11,Sunil Suresh Fulari,Independent,27,0
+2022,Assembly,GA,SANQUELIM,17,12,Sunil Datta Satodkar,Independent,96,2
+2022,Assembly,GA,SANQUELIM,17,13,NOTA,None of the Above,284,2
+2022,Assembly,GA,PORIEM,18,1,DEVIYA VISHWAJIT RANE,Bharatiya Janata Party,17142,674
+2022,Assembly,GA,PORIEM,18,2,GANPAT GAONKAR,All India Trinamool Congress,1491,9
+2022,Assembly,GA,PORIEM,18,3,RANJIT JAYASINGRAO RANE,Indian National Congress,1466,22
+2022,Assembly,GA,PORIEM,18,4,GURUDAS GAONKAR,Shiv Sena,265,2
+2022,Assembly,GA,PORIEM,18,5,JAYESHWAR GAWDE,Jai Maha Bharath Party,242,4
+2022,Assembly,GA,PORIEM,18,6,SAMEER SATARKAR,Revolutionary Goans Party,3489,24
+2022,Assembly,GA,PORIEM,18,7,VISHWAJIT RANE,Aam Aadmi Party,3768,105
+2022,Assembly,GA,PORIEM,18,8,NOTA,None of the Above,542,0
+2022,Assembly,GA,VALPOI,19,1,MANISHA SHENVI USGAONKAR,Indian National Congress,2081,20
+2022,Assembly,GA,VALPOI,19,2,VISHVESH PRABHU,Maharashtrawadi Gomantak,343,3
+2022,Assembly,GA,VALPOI,19,3,VISHWAJIT PRATAPSINGH RANE,Bharatiya Janata Party,14066,396
+2022,Assembly,GA,VALPOI,19,4,DEVIDAS GAONKAR,Shiv Sena,183,0
+2022,Assembly,GA,VALPOI,19,5,SATYAVIJAY NAIK,Aam Aadmi Party,2584,15
+2022,Assembly,GA,VALPOI,19,6,SUDESH MADHUKAR PARAB,Jai Maha Bharath Party,354,0
+2022,Assembly,GA,VALPOI,19,7,TUKARAM BHARAT PARAB,Revolutionary Goans Party,6319,58
+2022,Assembly,GA,VALPOI,19,8,ROHIDAS SADA GAONKAR,Independent,137,0
+2022,Assembly,GA,VALPOI,19,9,NOTA,None of the Above,407,4
+2022,Assembly,GA,PRIOL,20,1,Digvijay Madhu Velingkar,Nationalist Congress Party,146,3
+2022,Assembly,GA,PRIOL,20,2,Dinesh Shiva Zalmi,Indian National Congress,291,12
+2022,Assembly,GA,PRIOL,20,3,Govind Shepu Gaude,Bharatiya Janata Party,10682,337
+2022,Assembly,GA,PRIOL,20,4,Pandurang Alias Deepak Dhavalikar,Maharashtrawadi Gomantak,10537,269
+2022,Assembly,GA,PRIOL,20,5,Nonu Chandrakant Naik,Aam Aadmi Party,236,9
+2022,Assembly,GA,PRIOL,20,6,Vishvesh Naik,Revolutionary Goans Party,2486,31
+2022,Assembly,GA,PRIOL,20,7,Dattaram Tukaram Shetkar,Independent,83,2
+2022,Assembly,GA,PRIOL,20,8,Sandeep Nigalye,Independent,2624,73
+2022,Assembly,GA,PRIOL,20,9,NOTA,None of the Above,241,3
+2022,Assembly,GA,PONDA,21,1,KETAN PRABHU BHATIKAR,Maharashtrawadi Gomantak,7272,165
+2022,Assembly,GA,PONDA,21,2,RAJESH VERENKAR,Indian National Congress,6735,104
+2022,Assembly,GA,PONDA,21,3,RAVI NAIK,Bharatiya Janata Party,7269,245
+2022,Assembly,GA,PONDA,21,4,SANISH TILVE,Revolutionary Goans Party,1745,25
+2022,Assembly,GA,PONDA,21,5,SUREL TILVE,Aam Aadmi Party,612,8
+2022,Assembly,GA,PONDA,21,6,NARESH PADWALKAR,Independent,90,2
+2022,Assembly,GA,PONDA,21,7,SANDEEP SINAI KHANDEPARKAR,Independent,1197,40
+2022,Assembly,GA,PONDA,21,8,NOTA,None of the Above,285,7
+2022,Assembly,GA,SIRODA,22,1,Tukaram Borkar,Indian National Congress,1923,30
+2022,Assembly,GA,SIRODA,22,2,Subhash Shirodkar,Bharatiya Janata Party,8069,238
+2022,Assembly,GA,SIRODA,22,3,Sanket Naik Mule,Maharashtrawadi Gomantak,2344,53
+2022,Assembly,GA,SIRODA,22,4,Subhash Prabhudesai,Nationalist Congress Party,564,12
+2022,Assembly,GA,SIRODA,22,5,Mahadev Naik,Aam Aadmi Party,6023,110
+2022,Assembly,GA,SIRODA,22,6,Mukesh Naik,Sambhaji Brigade Party,182,2
+2022,Assembly,GA,SIRODA,22,7,Shailesh Naik,Revolutionary Goans Party,5024,39
+2022,Assembly,GA,SIRODA,22,8,Snehalo Gracias,Independent,186,0
+2022,Assembly,GA,SIRODA,22,9,NOTA,None of the Above,230,5
+2022,Assembly,GA,MARCAIM,23,1,Lavoo Mamledar,Indian National Congress,1071,19
+2022,Assembly,GA,MARCAIM,23,2,Ramkrishna Alias Sudin Dhavalikar,Maharashtrawadi Gomantak,13399,564
+2022,Assembly,GA,MARCAIM,23,3,Ravindra Talaulikar,Nationalist Congress Party,137,3
+2022,Assembly,GA,MARCAIM,23,4,Sudesh Bhingi,Bharatiya Janata Party,3907,93
+2022,Assembly,GA,MARCAIM,23,5,Harishchandra Naik,Jai Maha Bharath Party,56,3
+2022,Assembly,GA,MARCAIM,23,6,Premanand Gaude,Revolutionary Goans Party,3447,41
+2022,Assembly,GA,MARCAIM,23,7,Santosh Tari,Goencho Swabhiman Party,185,5
+2022,Assembly,GA,MARCAIM,23,8,Umesh Tendolkar,Aam Aadmi Party,409,10
+2022,Assembly,GA,MARCAIM,23,9,NOTA,None of the Above,367,6
+2022,Assembly,GA,MORMUGAO,24,1,Jayesh Kashinath Shetgaonkar,All India Trinamool Congress,123,0
+2022,Assembly,GA,MORMUGAO,24,2,Milind Sagun Naik,Bharatiya Janata Party,6935,191
+2022,Assembly,GA,MORMUGAO,24,3,Sankalp Amonkar,Indian National Congress,8969,98
+2022,Assembly,GA,MORMUGAO,24,4,Xeque Mahamod Acbar,Nationalist Congress Party,56,2
+2022,Assembly,GA,MORMUGAO,24,5,Parashuram Umaji Sonurlekar,Aam Aadmi Party,155,4
+2022,Assembly,GA,MORMUGAO,24,6,Paresh Sitaram Toraskar,Revolutionary Goans Party,128,2
+2022,Assembly,GA,MORMUGAO,24,7,Enayatulla Khan,Independent,27,1
+2022,Assembly,GA,MORMUGAO,24,8,Nilesh Mahadev Navelkar,Independent,91,3
+2022,Assembly,GA,MORMUGAO,24,9,NOTA,None of the Above,107,0
+2022,Assembly,GA,VASCO-DA-GAMA,25,1,Jose Luis Carlos Almeida,Indian National Congress,9314,147
+2022,Assembly,GA,VASCO-DA-GAMA,25,2,Krishna V. Salkar,Bharatiya Janata Party,12880,238
+2022,Assembly,GA,VASCO-DA-GAMA,25,3,Saifula Khan,All India Trinamool Congress,841,19
+2022,Assembly,GA,VASCO-DA-GAMA,25,4,Andre Sebastiao Viegas,Revolutionary Goans Party,845,6
+2022,Assembly,GA,VASCO-DA-GAMA,25,5,Maruti Shirgaonkar,Shiv Sena,71,0
+2022,Assembly,GA,VASCO-DA-GAMA,25,6,Sandeep Bhagwan Shetye,Jai Maha Bharath Party,19,1
+2022,Assembly,GA,VASCO-DA-GAMA,25,7,Sunil Loran,Aam Aadmi Party,773,11
+2022,Assembly,GA,VASCO-DA-GAMA,25,8,Andrew D’Cunha,Independent,41,1
+2022,Assembly,GA,VASCO-DA-GAMA,25,9,Chandrashekher Vast,Independent,52,3
+2022,Assembly,GA,VASCO-DA-GAMA,25,10,NOTA,None of the Above,242,2
+2022,Assembly,GA,DABOLIM,26,1,Jose Filipe De Sousa,Nationalist Congress Party,1028,9
+2022,Assembly,GA,DABOLIM,26,2,Mahesh Bhandari,All India Trinamool Congress,158,1
+2022,Assembly,GA,DABOLIM,26,3,MAUVIN HELIODORO GODINHO,Bharatiya Janata Party,7434,160
+2022,Assembly,GA,DABOLIM,26,4,Captain Viriato Hipolito Mendonca Fernandes,Indian National Congress,5932,92
+2022,Assembly,GA,DABOLIM,26,5,Gajanan Borkar,Revolutionary Goans Party,1116,13
+2022,Assembly,GA,DABOLIM,26,6,Premanand Nanoskar,Aam Aadmi Party,2506,27
+2022,Assembly,GA,DABOLIM,26,7,Tara Kerkar,Independent,69,2
+2022,Assembly,GA,DABOLIM,26,8,NOTA,None of the Above,197,1
+2022,Assembly,GA,CORTALIM,27,1,Gilbert Mariano Rodrigues,All India Trinamool Congress,3231,15
+2022,Assembly,GA,CORTALIM,27,2,Narayan Naik,Bharatiya Janata Party,2364,28
+2022,Assembly,GA,CORTALIM,27,3,Olencio Simoes,Indian National Congress,4255,89
+2022,Assembly,GA,CORTALIM,27,4,Alina Saldanha,Aam Aadmi Party,1306,49
+2022,Assembly,GA,CORTALIM,27,5,Bhakti Bhalchandra Khadapkar,Shiv Sena,55,0
+2022,Assembly,GA,CORTALIM,27,6,Teotonio Inacio  Santana Costa,Revolutionary Goans Party,2431,49
+2022,Assembly,GA,CORTALIM,27,7,Antonio Vas,Independent,5430,92
+2022,Assembly,GA,CORTALIM,27,8,Girish Pillai,Independent,4222,29
+2022,Assembly,GA,CORTALIM,27,9,Vishal Gajanan Naik,Independent,66,0
+2022,Assembly,GA,CORTALIM,27,10,NOTA,None of the Above,211,2
+2022,Assembly,GA,NUVEM,28,1,ALEIXO SEQUEIRA,Indian National Congress,8556,189
+2022,Assembly,GA,NUVEM,28,2,Datta Borkar,Bharatiya Janata Party,547,22
+2022,Assembly,GA,NUVEM,28,3,JOSE R CABRAL (RAJU),All India Trinamool Congress,1690,28
+2022,Assembly,GA,NUVEM,28,4,PACHECO FRANCISCO XAVIER,Nationalist Congress Party,2035,38
+2022,Assembly,GA,NUVEM,28,5,ARVIND D'COSTA,Revolutionary Goans Party,4260,88
+2022,Assembly,GA,NUVEM,28,6,DR. MARIANO GODINHO,Aam Aadmi Party,1183,39
+2022,Assembly,GA,NUVEM,28,7,WILFRED D'SA,Independent,2887,74
+2022,Assembly,GA,NUVEM,28,8,NOTA,None of the Above,174,1
+2022,Assembly,GA,CURTORIM,29,1,ANTHONY BARBOSA,Bharatiya Janata Party,2325,60
+2022,Assembly,GA,CURTORIM,29,2,ANTHONY ALBERTO PEIXOTO,All India Trinamool Congress,348,5
+2022,Assembly,GA,CURTORIM,29,3,MORENO REBELO,Indian National Congress,3805,100
+2022,Assembly,GA,CURTORIM,29,4,DOMINGO GAUNKAR (DOMNIC),Aam Aadmi Party,2714,79
+2022,Assembly,GA,CURTORIM,29,5,RUBERT PEREIRA,Revolutionary Goans Party,3423,56
+2022,Assembly,GA,CURTORIM,29,6,ALEIXO REGINALDO LOURENCO,Independent,8706,254
+2022,Assembly,GA,CURTORIM,29,7,CONCEICAO DIAS,Independent,106,3
+2022,Assembly,GA,CURTORIM,29,8,ISIDORIO,Independent,112,5
+2022,Assembly,GA,CURTORIM,29,9,NOTA,None of the Above,228,4
+2022,Assembly,GA,FATORDA,30,1,DAMU G. NAIK,Bharatiya Janata Party,9331,205
+2022,Assembly,GA,FATORDA,30,2,SEOULA VAS,All India Trinamool Congress,631,4
+2022,Assembly,GA,FATORDA,30,3,VIJAI SARDESAI,Goa Forward Party,10821,242
+2022,Assembly,GA,FATORDA,30,4,SANDESH TELEIKAR,Aam Aadmi Party,1031,19
+2022,Assembly,GA,FATORDA,30,5,ADV. VALERIE FERNANDES,Revolutionary Goans Party,1541,15
+2022,Assembly,GA,FATORDA,30,6,MICHAEL FERNS,Independent,56,0
+2022,Assembly,GA,FATORDA,30,7,NOTA,None of the Above,251,3
+2022,Assembly,GA,MARGAO,31,1,AJGAONKAR MANOHAR (BABU),Bharatiya Janata Party,5785,95
+2022,Assembly,GA,MARGAO,31,2,DIGAMBAR KAMAT,Indian National Congress,13345,329
+2022,Assembly,GA,MARGAO,31,3,MAHESH AMONKAR,All India Trinamool Congress,914,9
+2022,Assembly,GA,MARGAO,31,4,LINCOLN ANTHONY VAZ,Aam Aadmi Party,1144,29
+2022,Assembly,GA,MARGAO,31,5,SHASHIRAJ SUBHA NAIK SHIRODKAR,Revolutionary Goans Party,710,12
+2022,Assembly,GA,MARGAO,31,6,NOTA,None of the Above,258,3
+2022,Assembly,GA,BENAULIM,32,1,Antonio Feliciano Dias (Tony),Indian National Congress,4609,88
+2022,Assembly,GA,BENAULIM,32,2,Churchill Alemao,All India Trinamool Congress,4996,144
+2022,Assembly,GA,BENAULIM,32,3,Damodar (Samir) Bandodkar,Bharatiya Janata Party,821,30
+2022,Assembly,GA,BENAULIM,32,4,Desmond Fernandes,Revolutionary Goans Party,3784,70
+2022,Assembly,GA,BENAULIM,32,5,Venzy Viegas,Aam Aadmi Party,6267,144
+2022,Assembly,GA,BENAULIM,32,6,NOTA,None of the Above,159,2
+2022,Assembly,GA,NAVELIM,33,1,Avertano Furtado,Indian National Congress,3716,90
+2022,Assembly,GA,NAVELIM,33,2,Mohammad Rehan Mujawar,Nationalist Congress Party,2609,13
+2022,Assembly,GA,NAVELIM,33,3,Ulhas Tuenkar,Bharatiya Janata Party,5084,84
+2022,Assembly,GA,NAVELIM,33,4,Valanka Natasha Alemao,All India Trinamool Congress,4682,56
+2022,Assembly,GA,NAVELIM,33,5,Bento Da Silva,Revolutionary Goans Party,2068,18
+2022,Assembly,GA,NAVELIM,33,6,Pratima Betsy Coutinho,Aam Aadmi Party,2297,30
+2022,Assembly,GA,NAVELIM,33,7,Antonio Alvares,Independent,159,2
+2022,Assembly,GA,NAVELIM,33,8,Digvijit Chavan,Independent,183,4
+2022,Assembly,GA,NAVELIM,33,9,Francisco Andre Colaco,Independent,66,3
+2022,Assembly,GA,NAVELIM,33,10,NOTA,None of the Above,167,1
+2022,Assembly,GA,CUNCOLIM,34,1,Alemao Yuri,Indian National Congress,9572,294
+2022,Assembly,GA,CUNCOLIM,34,2,CLAFASIO DIAS,Bharatiya Janata Party,6427,205
+2022,Assembly,GA,CUNCOLIM,34,3,JORSON PIEDADE FERNANDES,All India Trinamool Congress,1237,45
+2022,Assembly,GA,CUNCOLIM,34,4,PRASHANT NAIK,Aam Aadmi Party,894,12
+2022,Assembly,GA,CUNCOLIM,34,5,WILSON PETER CARDOZO,Revolutionary Goans Party,2402,28
+2022,Assembly,GA,CUNCOLIM,34,6,DERICK DIAS,Independent,48,2
+2022,Assembly,GA,CUNCOLIM,34,7,MILAGRES GONSALVES,Independent,77,3
+2022,Assembly,GA,CUNCOLIM,34,8,RAYMOND D'CRUZ,Independent,33,0
+2022,Assembly,GA,CUNCOLIM,34,9,SANTOSH S. FAL DESSAI,Independent,1300,26
+2022,Assembly,GA,CUNCOLIM,34,10,SUDESH VINAYAK BHISE,Independent,307,5
+2022,Assembly,GA,CUNCOLIM,34,11,NOTA,None of the Above,184,2
+2022,Assembly,GA,VELIM,35,1,BENJAMIN SILVA,All India Trinamool Congress,4039,95
+2022,Assembly,GA,VELIM,35,2,D'SILVA SAVIO,Indian National Congress,5067,154
+2022,Assembly,GA,VELIM,35,3,FILIPE NERY RODRIGUES,Nationalist Congress Party,3296,124
+2022,Assembly,GA,VELIM,35,4,SAVIO RODRIGUES,Bharatiya Janata Party,1312,19
+2022,Assembly,GA,VELIM,35,5,CRUZ SILVA,Aam Aadmi Party,5279,111
+2022,Assembly,GA,VELIM,35,6,DAGLEY FERNANDES,Revolutionary Goans Party,3604,49
+2022,Assembly,GA,VELIM,35,7,NOTA,None of the Above,239,2
+2022,Assembly,GA,QUEPEM,36,1,ALOYSIOUS D'SILVA,Nationalist Congress Party,233,4
+2022,Assembly,GA,QUEPEM,36,2,ALTONE D'COSTA,Indian National Congress,14656,338
+2022,Assembly,GA,QUEPEM,36,3,CHANDRAKANT KAVLEKAR,Bharatiya Janata Party,10864,529
+2022,Assembly,GA,QUEPEM,36,4,KANTA GAUDE,All India Trinamool Congress,153,8
+2022,Assembly,GA,QUEPEM,36,5,ALEXY FERNANDES,Shiv Sena,66,0
+2022,Assembly,GA,QUEPEM,36,6,RAUL PEREIRA,Aam Aadmi Party,309,6
+2022,Assembly,GA,QUEPEM,36,7,VISHAL GAUNS DESSAI,Revolutionary Goans Party,1131,13
+2022,Assembly,GA,QUEPEM,36,8,NOTA,None of the Above,245,1
+2022,Assembly,GA,CURCHOREM,37,1,AMIT PATKAR,Indian National Congress,9113,188
+2022,Assembly,GA,CURCHOREM,37,2,NILESH CABRAL,Bharatiya Janata Party,9501,472
+2022,Assembly,GA,CURCHOREM,37,3,VITHOBA PRABHU DESSAI,Maharashtrawadi Gomantak,307,6
+2022,Assembly,GA,CURCHOREM,37,4,ADITYA RAUT DESSAI,Revolutionary Goans Party,2063,40
+2022,Assembly,GA,CURCHOREM,37,5,GABRIEL FERNANDES,Aam Aadmi Party,814,16
+2022,Assembly,GA,CURCHOREM,37,6,AJAY BOYER,Independent,51,0
+2022,Assembly,GA,CURCHOREM,37,7,NOTA,None of the Above,214,2
+2022,Assembly,GA,SANVORDEM,38,1,Ganesh Gaonkar,Bharatiya Janata Party,11457,420
+2022,Assembly,GA,SANVORDEM,38,2,Khemalo Sawant,Indian National Congress,376,7
+2022,Assembly,GA,SANVORDEM,38,3,Vinayak Gawas,Maharashtrawadi Gomantak,3718,50
+2022,Assembly,GA,SANVORDEM,38,4,Anil Gaonkar,Aam Aadmi Party,839,7
+2022,Assembly,GA,SANVORDEM,38,5,Vipin Naik,Revolutionary Goans Party,2118,17
+2022,Assembly,GA,SANVORDEM,38,6,Deepak Prabhu Pauskar,Independent,6466,221
+2022,Assembly,GA,SANVORDEM,38,7,Gangaram Lambor,Independent,541,13
+2022,Assembly,GA,SANVORDEM,38,8,NOTA,None of the Above,277,3
+2022,Assembly,GA,SANGUEM,39,1,Domacio Barreto,Nationalist Congress Party,174,0
+2022,Assembly,GA,SANGUEM,39,2,Prasad Shashikant Gaonkar,Indian National Congress,4506,138
+2022,Assembly,GA,SANGUEM,39,3,Rakhi Naik,All India Trinamool Congress,181,4
+2022,Assembly,GA,SANGUEM,39,4,Subhash Uttam Phal Dessai,Bharatiya Janata Party,8339,385
+2022,Assembly,GA,SANGUEM,39,5,Abhijit Dessai,Aam Aadmi Party,878,16
+2022,Assembly,GA,SANGUEM,39,6,Sunil Bombi Gaonkar,Revolutionary Goans Party,1479,21
+2022,Assembly,GA,SANGUEM,39,7,Ramesh Gopal Velingkar,Independent,93,1
+2022,Assembly,GA,SANGUEM,39,8,Savitri Chandrakant Kavlekar,Independent,7085,210
+2022,Assembly,GA,SANGUEM,39,9,NOTA,None of the Above,240,1
+2022,Assembly,GA,CANACONA,40,1,Janardhan Bhandari,Indian National Congress,5227,124
+2022,Assembly,GA,CANACONA,40,2,Mahadev Dessai,All India Trinamool Congress,1050,16
+2022,Assembly,GA,CANACONA,40,3,Ramesh Tawadkar,Bharatiya Janata Party,8636,427
+2022,Assembly,GA,CANACONA,40,4,Anoop Balkrishna Kudtarkar,Aam Aadmi Party,825,10
+2022,Assembly,GA,CANACONA,40,5,Prashant Suresh Pagi,Revolutionary Goans Party,1574,25
+2022,Assembly,GA,CANACONA,40,6,Isidore Aleixinho Fernandes,Independent,5835,177
+2022,Assembly,GA,CANACONA,40,7,Kanay Pagi,Independent,117,2
+2022,Assembly,GA,CANACONA,40,8,Vijay Pai Khot,Independent,4558,233
+2022,Assembly,GA,CANACONA,40,9,NOTA,None of the Above,292,4

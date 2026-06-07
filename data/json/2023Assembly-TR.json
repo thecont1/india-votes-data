@@ -1,9 +1,9 @@
 {
-    "election_year": 2023,
+    "title": "GENERAL ELECTION TO VIDHAN SABHA TRENDS & RESULT MARCH-2023",
+    "election_id": "AC-2023-03",
+    "election_year": "2023",
     "election_type": "Assembly",
     "election_state": "TR",
-    "title": "Tripura Assembly Election 2023",
-    "election_id": "AC-2023-03",
     "constituencywise_results": [
         {
             "source_url": "",

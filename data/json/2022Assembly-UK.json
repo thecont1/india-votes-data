@@ -1,0 +1,483 @@
+{
+    "title": "GEN ELECTION TO VIDHAN SABHA TRENDS & RESULT MARCH-2022",
+    "election_id": "AC-2022-03",
+    "election_year": "2022",
+    "election_type": "Assembly",
+    "election_state": "UK",
+    "constituencywise_results": [
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS281.htm?ac=1",
+            "voting_data": {
+                "constituency_no": "1",
+                "constituency": "PUROLA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Ujali Devi",
+                        "party": "Bahujan Samaj Party",
+                        "evm_votes": "379",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DURGESHWAR LAL",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "27213",
+                        "postal_votes": "643"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Malchand",
+                        "party": "Indian National Congress",
+                        "evm_votes": "21179",
+                        "postal_votes": "381"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Chain Singh",
+                        "party": "Samajwadi Party",
+                        "evm_votes": "458",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "PRAKASH",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "520",
+                        "postal_votes": "18"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Ram Prasad",
+                        "party": "Rashtriya Lokneeti Party",
+                        "evm_votes": "482",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "321",
+                        "postal_votes": "9"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS282.htm?ac=2",
+            "voting_data": {
+                "constituency_no": "2",
+                "constituency": "YAMUNOTRI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Kedar Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10187",
+                        "postal_votes": "433"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Jagaveer Singh",
+                        "party": "Bahujan Samaj Party",
+                        "evm_votes": "325",
+                        "postal_votes": "18"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Deepak Bijalwan",
+                        "party": "Indian National Congress",
+                        "evm_votes": "16038",
+                        "postal_votes": "275"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Manoj Kohli Shyam",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "559",
+                        "postal_votes": "24"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Ramesh Chand Ramola",
+                        "party": "Uttarakhand Kranti Dal",
+                        "evm_votes": "256",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Vipin",
+                        "party": "Satya Bahumat Party",
+                        "evm_votes": "216",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Vishal Singh",
+                        "party": "Rashtriya Uttarakhand Party",
+                        "evm_votes": "294",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Sanjay Dobhal",
+                        "party": "Independent",
+                        "evm_votes": "22410",
+                        "postal_votes": "542"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "558",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS283.htm?ac=3",
+            "voting_data": {
+                "constituency_no": "3",
+                "constituency": "GANGOTRI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Budhi Lal",
+                        "party": "Bahujan Samaj Party",
+                        "evm_votes": "367",
+                        "postal_votes": "27"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Mahavir Prasad",
+                        "party": "Communist Party of India",
+                        "evm_votes": "361",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Vijaypal Singh Sajwan",
+                        "party": "Indian National Congress",
+                        "evm_votes": "21040",
+                        "postal_votes": "550"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Suresh Singh Chauhan",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "28677",
+                        "postal_votes": "942"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Ajay Kothiyal",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "5998",
+                        "postal_votes": "163"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Jasveer Singh",
+                        "party": "Uttarakhand Kranti Dal",
+                        "evm_votes": "348",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Babu Lal Ghoghiyal",
+                        "party": "Jai Maha Bharath Party",
+                        "evm_votes": "271",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Vijay Bahuguna",
+                        "party": "Samajwadi Party",
+                        "evm_votes": "170",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "Navneet Uniyal",
+                        "party": "Independent",
+                        "evm_votes": "458",
+                        "postal_votes": "18"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "238",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS284.htm?ac=4",
+            "voting_data": {
+                "constituency_no": "4",
+                "constituency": "BADRINATH",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Mahendra Bhatt",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "29391",
+                        "postal_votes": "1204"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Mukesh Lal Koshwal",
+                        "party": "Bahujan Samaj Party",
+                        "evm_votes": "521",
+                        "postal_votes": "31"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Rajendra Singh Bhandari",
+                        "party": "Indian National Congress",
+                        "evm_votes": "31438",
+                        "postal_votes": "1223"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Vinod Joshi",
+                        "party": "Communist Party of India",
+                        "evm_votes": "791",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Pushkar Lal Baichhwal",
+                        "party": "Peoples Party of India (Democratic)",
+                        "evm_votes": "353",
+                        "postal_votes": "44"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Beeru Sajwan",
+                        "party": "Uttarakhand Kranti Dal",
+                        "evm_votes": "326",
+                        "postal_votes": "17"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Bhagwati  Prasad Mandoli",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "812",
+                        "postal_votes": "59"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Dheerendra Pal Singh",
+                        "party": "Independent",
+                        "evm_votes": "260",
+                        "postal_votes": "20"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "Mukund Singh",
+                        "party": "Independent",
+                        "evm_votes": "202",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "Shailendra Prakash Singh",
+                        "party": "Independent",
+                        "evm_votes": "478",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "11",
+                        "candidate": "Sunil Che",
+                        "party": "Independent",
+                        "evm_votes": "169",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "12",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "836",
+                        "postal_votes": "17"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS285.htm?ac=5",
+            "voting_data": {
+                "constituency_no": "5",
+                "constituency": "THARALI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Kunwar Ram",
+                        "party": "Communist Party of India  (Marxist)",
+                        "evm_votes": "822",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Dr. Jeet Ram",
+                        "party": "Indian National Congress",
+                        "evm_votes": "23680",
+                        "postal_votes": "870"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Bhupal Ram Tamta",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "31435",
+                        "postal_votes": "1417"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Laxman Ram",
+                        "party": "Bahujan Samaj Party",
+                        "evm_votes": "720",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Kasbi Lal Shah",
+                        "party": "Uttarakhand Kranti Dal",
+                        "evm_votes": "380",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Kishore Kumar",
+                        "party": "Samajwadi Party",
+                        "evm_votes": "212",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Guddu Lal",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "1776",
+                        "postal_votes": "90"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Naini Ram",
+                        "party": "Uttarakhand Janekta Party",
+                        "evm_votes": "960",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "Ganesh Kumar",
+                        "party": "Independent",
+                        "evm_votes": "524",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "642",
+                        "postal_votes": "21"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS286.htm?ac=6",
+            "voting_data": {
+                "constituency_no": "6",
+                "constituency": "KARNPRAYAG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Anil Nautiyal",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "27488",
+                        "postal_votes": "1423"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Mukesh Negi",
+                        "party": "Indian National Congress",
+                        "evm_votes": "21492",
+                        "postal_votes": "704"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Indresh Maikhuri",
+                        "party": "Communist Party of India  (Marxist-Leninist)  (Liberation)",
+                        "evm_votes": "575",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Umesh Khanduri",
+                        "party": "Uttarakhand Kranti Dal",
+                        "evm_votes": "454",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Dayal Singh Bisht",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "424",
+                        "postal_votes": "62"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Dr Mukesh  Pant",
+                        "party": "Uttarakhand Janekta Party",
+                        "evm_votes": "70",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Ranjna Rawat",
+                        "party": "Nyaydharmsabha",
+                        "evm_votes": "230",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Sureshi Devi",
+                        "party": "Peoples Party of India (Democratic)",
+                        "evm_votes": "168",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "Teeka Prasad Maikhuri",
+                        "party": "Independent",
+                        "evm_votes": "2913",
+                        "postal_votes": "48"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "Balwant Singh Negi",
+                        "party": "Independent",
+                        "evm_votes": "1053",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "11",
+                        "candidate": "Madan Mohan Singh Bhandari",
+                        "party": "Independent",
+                        "evm_votes": "883",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "12",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "921",
+                        "postal_votes": "37"
+                    }
+                ]
+            }
+        }
+    ]
+}

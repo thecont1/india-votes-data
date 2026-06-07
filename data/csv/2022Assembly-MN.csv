@@ -1,0 +1,326 @@
+election_year,election_type,election_state,constituency,constituency_no,serial_no,candidate,party,evm_votes,postal_votes
+2022,Assembly,MN,KHUNDRAKPAM,1,1,Thangjam Mohendro Singh,Bharatiya Janata Party,11786,210
+2022,Assembly,MN,KHUNDRAKPAM,1,2,Thokchom Lokeshwar Singh,Indian National Congress,12027,184
+2022,Assembly,MN,KHUNDRAKPAM,1,3,Elangbam Sovid Singh,Republican Party of India (Athawale),493,4
+2022,Assembly,MN,KHUNDRAKPAM,1,4,Thangjam Shyam Singh,Shiv Sena,38,2
+2022,Assembly,MN,KHUNDRAKPAM,1,5,NOTA,None of the Above,165,2
+2022,Assembly,MN,HEINGANG,2,1,NONGTHOMBAM BIREN SINGH,Bharatiya Janata Party,24268,546
+2022,Assembly,MN,HEINGANG,2,2,PANGEIJAM SARATCHANDRA SINGH,Indian National Congress,6486,57
+2022,Assembly,MN,HEINGANG,2,3,NOTA,None of the Above,239,0
+2022,Assembly,MN,KHURAI,3,1,R.K. AMUSANA SINGH,Communist Party of India,351,5
+2022,Assembly,MN,KHURAI,3,2,KHURAIJAM RATANKUMAR SINGH,Nationalist Congress Party,2438,23
+2022,Assembly,MN,KHURAI,3,3,LAITONJAM JAYANANDA SINGH,National People's Party,8767,127
+2022,Assembly,MN,KHURAI,3,4,LEISHANGTHEM SUSINDRO MEITEI,Bharatiya Janata Party,10745,386
+2022,Assembly,MN,KHURAI,3,5,KHAGOKPAM KHAMBA SINGH,Republican Party of India (Athawale),6722,70
+2022,Assembly,MN,KHURAI,3,6,TOIJAM LOKENDRO SINGH,Janata Dal  (United),2897,25
+2022,Assembly,MN,KHURAI,3,7,HEISNAM SUBHAS SINGH,Lok Janshakti Party(Ram Vilas),376,9
+2022,Assembly,MN,KHURAI,3,8,NOTA,None of the Above,169,0
+2022,Assembly,MN,KHETRIGAO,4,1,Mohammed Amin Shah,Indian National Congress,2792,40
+2022,Assembly,MN,KHETRIGAO,4,2,Nahakpam Indrajit Singh,Bharatiya Janata Party,11900,476
+2022,Assembly,MN,KHETRIGAO,4,3,Punnam Rani Wangkhem,Nationalist Congress Party,97,2
+2022,Assembly,MN,KHETRIGAO,4,4,Sheikh Noorul Hassan,National People's Party,12753,365
+2022,Assembly,MN,KHETRIGAO,4,5,Wahengbam Rojit Singh @ Bullet,Janata Dal  (United),5352,85
+2022,Assembly,MN,KHETRIGAO,4,6,NOTA,None of the Above,238,0
+2022,Assembly,MN,THONGJU,5,1,Thongam Biswajit Singh,Bharatiya Janata Party,14789,549
+2022,Assembly,MN,THONGJU,5,2,Seram Neken Singh,Indian National Congress,8534,115
+2022,Assembly,MN,THONGJU,5,3,Sanglakpam Preshyojit Sharma,Janata Dal  (United),4799,50
+2022,Assembly,MN,THONGJU,5,4,NOTA,None of the Above,671,3
+2022,Assembly,MN,KEIRAO,6,1,M.I. Khan,Nationalist Congress Party,981,2
+2022,Assembly,MN,KEIRAO,6,2,Thongram Tony Meitei,Indian National Congress,246,3
+2022,Assembly,MN,KEIRAO,6,3,Md. Nasiruddin Khan,National People's Party,8935,191
+2022,Assembly,MN,KEIRAO,6,4,Lourembam Rameshwor Meetei,Bharatiya Janata Party,16957,378
+2022,Assembly,MN,KEIRAO,6,5,Toijam Debananda Singh,Shiv Sena,154,48
+2022,Assembly,MN,KEIRAO,6,6,Yumnam Shanta Meetei,Janata Dal  (United),110,1
+2022,Assembly,MN,KEIRAO,6,7,NOTA,None of the Above,96,1
+2022,Assembly,MN,ANDRO,7,1,Keisham Ningthemjao Singh,Indian National Congress,381,7
+2022,Assembly,MN,ANDRO,7,2,Thounaojam Shyamkumar,Bharatiya Janata Party,16259,480
+2022,Assembly,MN,ANDRO,7,3,Lourembam Sanjoy Singh,National People's Party,15039,243
+2022,Assembly,MN,ANDRO,7,4,Asheibam Bele Singh,Independent,871,23
+2022,Assembly,MN,ANDRO,7,5,NOTA,None of the Above,120,0
+2022,Assembly,MN,LAMLAI,8,1,Achoibam Deben Singh,Indian National Congress,6977,72
+2022,Assembly,MN,LAMLAI,8,2,Khongbantabam Ibomcha,Bharatiya Janata Party,9940,165
+2022,Assembly,MN,LAMLAI,8,3,Mongjam Poireihenba Meetei,Republican Party of India (Athawale),953,4
+2022,Assembly,MN,LAMLAI,8,4,Kshetrimayum Biren Singh,Janata Dal  (United),9749,235
+2022,Assembly,MN,LAMLAI,8,5,Sapam Kangleipal Meitei,Independent,455,3
+2022,Assembly,MN,LAMLAI,8,6,NOTA,None of the Above,108,4
+2022,Assembly,MN,THANGMEIBAND,9,1,Jotin Waikhom,Bharatiya Janata Party,9633,223
+2022,Assembly,MN,THANGMEIBAND,9,2,Hijam Nutanchandra Singh,Indian National Congress,449,8
+2022,Assembly,MN,THANGMEIBAND,9,3,Khumukcham Joykisan Singh,Janata Dal  (United),13208,421
+2022,Assembly,MN,THANGMEIBAND,9,4,NOTA,None of the Above,356,4
+2022,Assembly,MN,URIPOK,10,1,KHWAIRAKPAM RAGHUMANI SINGH,Bharatiya Janata Party,8116,219
+2022,Assembly,MN,URIPOK,10,2,NUNGLEPAM MAHANANDA SINGH,Indian National Congress,1517,23
+2022,Assembly,MN,URIPOK,10,3,YUMNAM JOYKUMAR SINGH,National People's Party,7147,279
+2022,Assembly,MN,URIPOK,10,4,KHOMBONGMAYUM SURESH SINGH,Janata Dal  (United),5383,89
+2022,Assembly,MN,URIPOK,10,5,NOTA,None of the Above,265,3
+2022,Assembly,MN,SAGOLBAND,11,1,Moirangthem Momo Singh,Indian National Congress,556,8
+2022,Assembly,MN,SAGOLBAND,11,2,Rajkumar Imo Singh,Bharatiya Janata Party,10585,469
+2022,Assembly,MN,SAGOLBAND,11,3,Dr. Khwairakpam Loken Singh,Janata Dal  (United),8219,179
+2022,Assembly,MN,SAGOLBAND,11,4,NOTA,None of the Above,227,1
+2022,Assembly,MN,KEISAMTHONG,12,1,ARIBAM PRAMODINI DEVI,Indian National Congress,71,2
+2022,Assembly,MN,KEISAMTHONG,12,2,ELANGBAM SAMUEL JOHNSON,Bharatiya Janata Party,1739,77
+2022,Assembly,MN,KEISAMTHONG,12,3,LANGPOKLAKPAM JAYANTA KUMAR SINGH,National People's Party,5511,249
+2022,Assembly,MN,KEISAMTHONG,12,4,Maheshwar Thounaojam,Republican Party of India (Athawale),8467,220
+2022,Assembly,MN,KEISAMTHONG,12,5,SAPAM NISHIKANT SINGH,Independent,8650,224
+2022,Assembly,MN,KEISAMTHONG,12,6,NOTA,None of the Above,141,1
+2022,Assembly,MN,SINGJAMEI,13,1,Irengbam Hemochandra Singh,Indian National Congress,1564,36
+2022,Assembly,MN,SINGJAMEI,13,2,Oinam Romen Singh,National People's Party,6296,118
+2022,Assembly,MN,SINGJAMEI,13,3,Yumnam Khemchand Singh,Bharatiya Janata Party,8391,318
+2022,Assembly,MN,SINGJAMEI,13,4,Ngangbam Robert Singh,Janata Dal  (United),2130,34
+2022,Assembly,MN,SINGJAMEI,13,5,NOTA,None of the Above,128,0
+2022,Assembly,MN,YAISKUL,14,1,Thokchom Satyabrata Singh,Bharatiya Janata Party,9346,378
+2022,Assembly,MN,YAISKUL,14,2,Ningombam Helendro Singh,Indian National Congress,517,9
+2022,Assembly,MN,YAISKUL,14,3,Huidrom Vikramjit Singh,National People's Party,8868,224
+2022,Assembly,MN,YAISKUL,14,4,Thounaojam Brinda,Janata Dal  (United),4519,55
+2022,Assembly,MN,YAISKUL,14,5,Rajkumar Suraj Singh,Shiv Sena,122,0
+2022,Assembly,MN,YAISKUL,14,6,NOTA,None of the Above,117,2
+2022,Assembly,MN,WANGKHEI,15,1,Okram Henry,Bharatiya Janata Party,10564,276
+2022,Assembly,MN,WANGKHEI,15,2,Yumkham Erabot Singh,National People's Party,9095,180
+2022,Assembly,MN,WANGKHEI,15,3,Rajkumar Priyobarta Singh,Indian National Congress,399,17
+2022,Assembly,MN,WANGKHEI,15,4,Thangjam Arunkumar,Janata Dal  (United),11451,142
+2022,Assembly,MN,WANGKHEI,15,5,NOTA,None of the Above,336,1
+2022,Assembly,MN,SEKMAI,16,1,Ayangbam Oken Singh,National People's Party,6608,69
+2022,Assembly,MN,SEKMAI,16,2,Ningthoujam Popilal Singh,Nationalist Congress Party,1975,32
+2022,Assembly,MN,SEKMAI,16,3,Ningthoujam Biren Singh,Indian National Congress,1556,39
+2022,Assembly,MN,SEKMAI,16,4,Heikham Dingo Singh,Bharatiya Janata Party,9804,206
+2022,Assembly,MN,SEKMAI,16,5,Khaidem Ranjit Singh,Shiv Sena,470,1
+2022,Assembly,MN,SEKMAI,16,6,Khwairakpam Devendro Singh,Janata Dal  (United),5836,130
+2022,Assembly,MN,SEKMAI,16,7,Khwairakpam Robin Singh,Independent,182,4
+2022,Assembly,MN,SEKMAI,16,8,Maharabam Anita Devi,Independent,95,4
+2022,Assembly,MN,SEKMAI,16,9,NOTA,None of the Above,188,2
+2022,Assembly,MN,LAMSANG,17,1,Pukhrambam Sumati Devi,National People's Party,14628,157
+2022,Assembly,MN,LAMSANG,17,2,Likmabam Manibabu Singh,Indian National Congress,229,12
+2022,Assembly,MN,LAMSANG,17,3,Sorokhaibam Rajen Singh,Bharatiya Janata Party,14847,338
+2022,Assembly,MN,LAMSANG,17,4,Khundrakpam Kanba Meitei,Janata Dal  (United),605,11
+2022,Assembly,MN,LAMSANG,17,5,Arambam Karamjit Singh,Independent,723,10
+2022,Assembly,MN,LAMSANG,17,6,NOTA,None of the Above,209,1
+2022,Assembly,MN,KONTHOUJAM,18,1,Konthoujam Sharat Singh,National People's Party,12784,254
+2022,Assembly,MN,KONTHOUJAM,18,2,Khoirom Binarani Devi,Nationalist Congress Party,70,5
+2022,Assembly,MN,KONTHOUJAM,18,3,Laishram Nando Singh,Indian National Congress,889,6
+2022,Assembly,MN,KONTHOUJAM,18,4,Dr. Sapam Ranjan Singh,Bharatiya Janata Party,12934,498
+2022,Assembly,MN,KONTHOUJAM,18,5,Nongmaithem Herojit Singh,Janata Dal  (United),805,3
+2022,Assembly,MN,KONTHOUJAM,18,6,NOTA,None of the Above,151,1
+2022,Assembly,MN,PATSOI,19,1,Akoijam Mirabai Devi,Indian National Congress,11202,297
+2022,Assembly,MN,PATSOI,19,2,R.K. Rameshwar Singh,National People's Party,10531,210
+2022,Assembly,MN,PATSOI,19,3,Sapam Kunjakeswor (Keba) Singh,Bharatiya Janata Party,11916,270
+2022,Assembly,MN,PATSOI,19,4,Wakambam Ibomcha Singh,Janata Dal  (United),125,0
+2022,Assembly,MN,PATSOI,19,5,NOTA,None of the Above,284,1
+2022,Assembly,MN,LANGTHABAL,20,1,Okram Joy Singh,Indian National Congress,8552,210
+2022,Assembly,MN,LANGTHABAL,20,2,Karam Nabakishor Singh,National People's Party,5895,54
+2022,Assembly,MN,LANGTHABAL,20,3,Karam Shyam,Bharatiya Janata Party,10620,195
+2022,Assembly,MN,LANGTHABAL,20,4,Hijam Somarendro Singh,Independent,499,5
+2022,Assembly,MN,LANGTHABAL,20,5,NOTA,None of the Above,236,1
+2022,Assembly,MN,NAORIYA PAKHANGLAKPA,21,1,Sagolshem Kebi Devi,Bharatiya Janata Party,10668,390
+2022,Assembly,MN,NAORIYA PAKHANGLAKPA,21,2,Soibam Subhaschandra Singh,National People's Party,10266,261
+2022,Assembly,MN,NAORIYA PAKHANGLAKPA,21,3,Soraisham Manaoton Singh,Indian National Congress,9243,201
+2022,Assembly,MN,NAORIYA PAKHANGLAKPA,21,4,Konthoujam Manoranjan Singh,Janata Dal  (United),1693,28
+2022,Assembly,MN,NAORIYA PAKHANGLAKPA,21,5,NOTA,None of the Above,214,0
+2022,Assembly,MN,WANGOI,22,1,Oinam Lukhoi Singh,Bharatiya Janata Party,11828,512
+2022,Assembly,MN,WANGOI,22,2,KHURAIJAM LOKEN SINGH,National People's Party,15330,276
+2022,Assembly,MN,WANGOI,22,3,Salam Joy Singh,Indian National Congress,141,15
+2022,Assembly,MN,WANGOI,22,4,NOTA,None of the Above,122,0
+2022,Assembly,MN,MAYANG IMPHAL,23,1,Urikhimbam Ramesh Singh,National People's Party,7333,41
+2022,Assembly,MN,MAYANG IMPHAL,23,2,Kongkham Robindro Singh,Bharatiya Janata Party,14164,478
+2022,Assembly,MN,MAYANG IMPHAL,23,3,Dr. Khumujam Ratankumar Singh,Indian National Congress,8292,221
+2022,Assembly,MN,MAYANG IMPHAL,23,4,NOTA,None of the Above,150,0
+2022,Assembly,MN,NAMBOL,24,1,THOUNAOJAM BASANTA KUMAR SINGH,Bharatiya Janata Party,16387,498
+2022,Assembly,MN,NAMBOL,24,2,NAMEIRAKPAM LOKEN SINGH,Indian National Congress,13276,549
+2022,Assembly,MN,NAMBOL,24,3,NOTA,None of the Above,123,1
+2022,Assembly,MN,OINAM,25,1,Irengbam Nalini Devi,National People's Party,10573,235
+2022,Assembly,MN,OINAM,25,2,Thokchom Ithoibi Devi,Indian National Congress,3200,89
+2022,Assembly,MN,OINAM,25,3,Laishram Radhakishore Singh,Bharatiya Janata Party,10049,317
+2022,Assembly,MN,OINAM,25,4,Ashem Babu Singh,Shiv Sena,405,3
+2022,Assembly,MN,OINAM,25,5,Thingbaijam Swarankumar Singh,Janata Dal  (United),511,16
+2022,Assembly,MN,OINAM,25,6,Laitonjam Brojen Singh,Republican Party of India (Athawale),965,5
+2022,Assembly,MN,OINAM,25,7,Ngangom Shivakumar Singh,Independent,145,0
+2022,Assembly,MN,OINAM,25,8,NOTA,None of the Above,124,4
+2022,Assembly,MN,BISHENPUR,26,1,Konthoujam Govindas Singh,Bharatiya Janata Party,12944,667
+2022,Assembly,MN,BISHENPUR,26,2,Ningthoujam Joykumar Singh,Indian National Congress,3332,63
+2022,Assembly,MN,BISHENPUR,26,3,Oinam Nabakishore Singh,Janata Dal  (United),12037,165
+2022,Assembly,MN,BISHENPUR,26,4,NOTA,None of the Above,345,5
+2022,Assembly,MN,MOIRANG,27,1,Thongam Shanti Singh,National People's Party,14087,262
+2022,Assembly,MN,MOIRANG,27,2,Pukhrem Sharatchandra Singh,Indian National Congress,9156,202
+2022,Assembly,MN,MOIRANG,27,3,Mairembam Prithviraj Singh,Bharatiya Janata Party,11833,285
+2022,Assembly,MN,MOIRANG,27,4,NOTA,None of the Above,263,8
+2022,Assembly,MN,THANGA,28,1,Tongbram Robindro Singh,Bharatiya Janata Party,12531,564
+2022,Assembly,MN,THANGA,28,2,Birla Haobijam,Indian National Congress,7731,113
+2022,Assembly,MN,THANGA,28,3,NOTA,None of the Above,195,1
+2022,Assembly,MN,KUMBI,29,1,Dr. Khangembam Romesh Singh,Indian National Congress,1147,22
+2022,Assembly,MN,KUMBI,29,2,Ningthoujam Mangi Singh,National People's Party,7642,145
+2022,Assembly,MN,KUMBI,29,3,Sanasam Premchandra Singh,Bharatiya Janata Party,8382,131
+2022,Assembly,MN,KUMBI,29,4,Ahanthem Shanjoy Singh,Janata Dal  (United),8078,63
+2022,Assembly,MN,KUMBI,29,5,Naorem Sorojini Devi,Independent,329,1
+2022,Assembly,MN,KUMBI,29,6,NOTA,None of the Above,147,0
+2022,Assembly,MN,LILONG,30,1,Y. Antas Khan,Bharatiya Janata Party,15808,508
+2022,Assembly,MN,LILONG,30,2,Syed Anwar Hussain,Indian National Congress,431,14
+2022,Assembly,MN,LILONG,30,3,Mohd Abdul Nasir,Janata Dal  (United),16361,525
+2022,Assembly,MN,LILONG,30,4,Abdul Manan,Independent,162,0
+2022,Assembly,MN,LILONG,30,5,Md Irshad Hussain,Independent,20,0
+2022,Assembly,MN,LILONG,30,6,NOTA,None of the Above,139,1
+2022,Assembly,MN,THOUBAL,31,1,Okram Ibobi Singh,Indian National Congress,14324,761
+2022,Assembly,MN,THOUBAL,31,2,Leitanthem Basanta Singh,Bharatiya Janata Party,12002,540
+2022,Assembly,MN,THOUBAL,31,3,Irom Chaoba Singh,Janata Dal  (United),143,2
+2022,Assembly,MN,THOUBAL,31,4,Konsam Michael Singh,Shiv Sena,1582,40
+2022,Assembly,MN,THOUBAL,31,5,NOTA,None of the Above,184,3
+2022,Assembly,MN,WANGKHEM,32,1,Oinam Haridas Singh,Nationalist Congress Party,75,7
+2022,Assembly,MN,WANGKHEM,32,2,Keisham Meghachandra Singh,Indian National Congress,8304,585
+2022,Assembly,MN,WANGKHEM,32,3,Kharibam Jiban Singh,National People's Party,3419,55
+2022,Assembly,MN,WANGKHEM,32,4,Yumnam Nabachandra Singh,Bharatiya Janata Party,7309,288
+2022,Assembly,MN,WANGKHEM,32,5,Kangabam Jadu @ Jadumani Singh,Janata Dal  (United),2837,54
+2022,Assembly,MN,WANGKHEM,32,6,Prof. (Dr.) Nimai Chand Luwang,Republican Party of India (Athawale),6879,221
+2022,Assembly,MN,WANGKHEM,32,7,Md Abdul Halim,Independent,71,3
+2022,Assembly,MN,WANGKHEM,32,8,Laishram Domen Singh,Independent,33,1
+2022,Assembly,MN,WANGKHEM,32,9,NOTA,None of the Above,131,5
+2022,Assembly,MN,HEIROK,33,1,Thokchom Radheshyam Singh,Bharatiya Janata Party,12989,600
+2022,Assembly,MN,HEIROK,33,2,Ningthoujam Diten Singh,National People's Party,4712,54
+2022,Assembly,MN,HEIROK,33,3,Moirangthem Okendro,Indian National Congress,12568,618
+2022,Assembly,MN,HEIROK,33,4,Moirangthem Totomsana Nongshaba,Rashtriya Janhit Sangharsh Party,86,0
+2022,Assembly,MN,HEIROK,33,5,NOTA,None of the Above,120,1
+2022,Assembly,MN,WANGJING TENTHA,34,1,Usham Manglem,National People's Party,709,14
+2022,Assembly,MN,WANGJING TENTHA,34,2,Paonam Brojen Singh,Bharatiya Janata Party,15339,426
+2022,Assembly,MN,WANGJING TENTHA,34,3,Moirangthem Hemanta Singh,Indian National Congress,13445,407
+2022,Assembly,MN,WANGJING TENTHA,34,4,NOTA,None of the Above,157,1
+2022,Assembly,MN,KHANGABO,35,1,Khundrakpam Menjor Mangang,Bharatiya Janata Party,9449,183
+2022,Assembly,MN,KHANGABO,35,2,Surjakumar Okram,Indian National Congress,16710,725
+2022,Assembly,MN,KHANGABO,35,3,Thokchom Jadumani Singh,Janata Dal  (United),7476,79
+2022,Assembly,MN,KHANGABO,35,4,NOTA,None of the Above,410,3
+2022,Assembly,MN,WABGAI,36,1,Dr.USHAM DEBEN SINGH,Bharatiya Janata Party,8871,267
+2022,Assembly,MN,WABGAI,36,2,MD.FAJUR RAHIM,Indian National Congress,8929,159
+2022,Assembly,MN,WABGAI,36,3,MAYENGBAM RANJIT SINGH,National People's Party,5745,128
+2022,Assembly,MN,WABGAI,36,4,MD. SIKANDER,Janata Dal  (United),3565,36
+2022,Assembly,MN,WABGAI,36,5,SAKIR AHMED,Independent,1479,22
+2022,Assembly,MN,WABGAI,36,6,NOTA,None of the Above,152,0
+2022,Assembly,MN,KAKCHING,37,1,MAYANGLAMBAM RAMESHWAR SINGH,National People's Party,8392,154
+2022,Assembly,MN,KAKCHING,37,2,YENGKHOM NILACHANDRA SINGH,Nationalist Congress Party,1974,35
+2022,Assembly,MN,KAKCHING,37,3,YENGKHOM ROMA DEVI,Communist Party of India,660,16
+2022,Assembly,MN,KAKCHING,37,4,Yengkhom Surchandra Singh,Bharatiya Janata Party,7079,262
+2022,Assembly,MN,KAKCHING,37,5,KSHETRIMAYUM KENNEDY SINGH,Indian National Congress,5777,96
+2022,Assembly,MN,KAKCHING,37,6,Naorem Nabachandra Singh,Janata Dal  (United),2421,30
+2022,Assembly,MN,KAKCHING,37,7,NOTA,None of the Above,235,4
+2022,Assembly,MN,HIYANGLAM,38,1,MAIBAM DHANABIR SINGH,National People's Party,4162,61
+2022,Assembly,MN,HIYANGLAM,38,2,DR. YUMNAM RADHESHYAM SINGH,Bharatiya Janata Party,8549,64
+2022,Assembly,MN,HIYANGLAM,38,3,DR. HUIDROM JITEN SINGH,Indian National Congress,6481,103
+2022,Assembly,MN,HIYANGLAM,38,4,ELANGBAM DWIJAMANI SINGH,Janata Dal  (United),6409,150
+2022,Assembly,MN,HIYANGLAM,38,5,NONGMAITHEM SANJAY SINGH,Republican Party of India (Athawale),114,20
+2022,Assembly,MN,HIYANGLAM,38,6,NOTA,None of the Above,149,1
+2022,Assembly,MN,SUGNOO,39,1,KANGUJAM RANJIT SINGH,Indian National Congress,12354,319
+2022,Assembly,MN,SUGNOO,39,2,MAYANGLAMBAM BINOD,Bharatiya Janata Party,11446,211
+2022,Assembly,MN,SUGNOO,39,3,KAKYENPAIBAM MUKTASANA SINGH,Independent,550,5
+2022,Assembly,MN,SUGNOO,39,4,NOTA,None of the Above,145,1
+2022,Assembly,MN,JIRIBAM,40,1,NAMEIRAKPAM BUDHACHANDRA SINGH,Bharatiya Janata Party,11767,130
+2022,Assembly,MN,JIRIBAM,40,2,BADRUR RAHMAN,Indian National Congress,738,8
+2022,Assembly,MN,JIRIBAM,40,3,MAKAKMAYUM ABBAS KHAN,National People's Party,1108,5
+2022,Assembly,MN,JIRIBAM,40,4,MD. ACHAB UDDIN,Janata Dal  (United),12253,60
+2022,Assembly,MN,JIRIBAM,40,5,NOTA,None of the Above,578,1
+2022,Assembly,MN,CHANDEL,41,1,Langhu Paulhring Anal,Naga Peoples Front,9553,172
+2022,Assembly,MN,CHANDEL,41,2,SS. Olish,Bharatiya Janata Party,36810,256
+2022,Assembly,MN,CHANDEL,41,3,NOTA,None of the Above,81,10
+2022,Assembly,MN,TENGNOUPAL,42,1,D. Korungthang,Naga Peoples Front,15201,51
+2022,Assembly,MN,TENGNOUPAL,42,2,LETPAO HAOKIP,Bharatiya Janata Party,21523,140
+2022,Assembly,MN,TENGNOUPAL,42,3,Wairok Morung Makunga,Indian National Congress,4040,59
+2022,Assembly,MN,TENGNOUPAL,42,4,Kh. David Maring,Republican Party of India (Athawale),49,3
+2022,Assembly,MN,TENGNOUPAL,42,5,Jamkholun Haokip,Independent,25,2
+2022,Assembly,MN,TENGNOUPAL,42,6,Tantanga Kohai Moshilpha,Independent,775,2
+2022,Assembly,MN,TENGNOUPAL,42,7,NOTA,None of the Above,30,2
+2022,Assembly,MN,PHUNGYAR,43,1,AWUNG SHIMRAY HOPINGSON,Bharatiya Janata Party,10751,112
+2022,Assembly,MN,PHUNGYAR,43,2,LEISHIYO KEISHING,Naga Peoples Front,11579,63
+2022,Assembly,MN,PHUNGYAR,43,3,VICTOR KEISHING,Indian National Congress,7384,69
+2022,Assembly,MN,PHUNGYAR,43,4,NINGHOR JAJO,Shiv Sena,152,2
+2022,Assembly,MN,PHUNGYAR,43,5,WUNGNAOSHANG KASAR,Janata Dal  (United),692,1
+2022,Assembly,MN,PHUNGYAR,43,6,NOTA,None of the Above,33,0
+2022,Assembly,MN,UKHRUL,44,1,ALFRED KANNGAM S. ARTHUR,Indian National Congress,14431,130
+2022,Assembly,MN,UKHRUL,44,2,RAM MUIVAH,Naga Peoples Front,15376,127
+2022,Assembly,MN,UKHRUL,44,3,SOMATAI SHAIZA,Bharatiya Janata Party,9829,132
+2022,Assembly,MN,UKHRUL,44,4,NOTA,None of the Above,47,1
+2022,Assembly,MN,CHINGAI,45,1,KHASHIM VASHUM,Naga Peoples Front,12746,91
+2022,Assembly,MN,CHINGAI,45,2,NINGAM CHAMROY,National People's Party,10368,133
+2022,Assembly,MN,CHINGAI,45,3,PRESHOW MK SHIMRAY,Bharatiya Janata Party,9246,103
+2022,Assembly,MN,CHINGAI,45,4,SWORD VASHUM,Indian National Congress,8078,72
+2022,Assembly,MN,CHINGAI,45,5,NOTA,None of the Above,61,0
+2022,Assembly,MN,SAIKUL,46,1,Lhingkim Haokip,Indian National Congress,903,32
+2022,Assembly,MN,SAIKUL,46,2,Seikholal Haokip,National People's Party,637,8
+2022,Assembly,MN,SAIKUL,46,3,Yamthong Haokip,Bharatiya Janata Party,2634,33
+2022,Assembly,MN,SAIKUL,46,4,Ch. Ajang Khongsai,Janata Dal  (United),4446,40
+2022,Assembly,MN,SAIKUL,46,5,Jamchinlen Lunkim,Republican Party of India (Athawale),320,2
+2022,Assembly,MN,SAIKUL,46,6,Kimneo Haokip Hangshing,Kuki People’s Alliance,6655,55
+2022,Assembly,MN,SAIKUL,46,7,Chungkhokai Doungel,Independent,5076,31
+2022,Assembly,MN,SAIKUL,46,8,Kenn Raikhan,Independent,5441,20
+2022,Assembly,MN,SAIKUL,46,9,NOTA,None of the Above,101,2
+2022,Assembly,MN,KARONG,47,1,Khoho Siile Anthony,Naga Peoples Front,10462,21
+2022,Assembly,MN,KARONG,47,2,D. D. Thaisii,Indian National Congress,5839,52
+2022,Assembly,MN,KARONG,47,3,R Yuh Jonathan Tao,Bharatiya Janata Party,13619,30
+2022,Assembly,MN,KARONG,47,4,J Kumo Sha,Independent,17167,24
+2022,Assembly,MN,KARONG,47,5,Thaiba Sanii,Independent,2099,3
+2022,Assembly,MN,KARONG,47,6,NOTA,None of the Above,43,1
+2022,Assembly,MN,MAO,48,1,Losii Dikho,Naga Peoples Front,29531,60
+2022,Assembly,MN,MAO,48,2,Sanii Alexander Maikho,Bharatiya Janata Party,244,35
+2022,Assembly,MN,MAO,48,3,Woba Joram,Independent,21042,36
+2022,Assembly,MN,MAO,48,4,NOTA,None of the Above,26,0
+2022,Assembly,MN,TADUBI,49,1,M. Francis Ngajokpa,Naga Peoples Front,20977,75
+2022,Assembly,MN,TADUBI,49,2,N. Kayisii,National People's Party,21559,42
+2022,Assembly,MN,TADUBI,49,3,O. Lohrii,Bharatiya Janata Party,122,69
+2022,Assembly,MN,TADUBI,49,4,Robert Tailu Maram,Independent,2270,7
+2022,Assembly,MN,TADUBI,49,5,NOTA,None of the Above,55,3
+2022,Assembly,MN,KANGPOKPI,50,1,Nemcha Kipgen,Bharatiya Janata Party,14284,128
+2022,Assembly,MN,KANGPOKPI,50,2,Ngamkhohen Kipgen,Indian National Congress,1343,33
+2022,Assembly,MN,KANGPOKPI,50,3,Soshim Gurung,Janata Dal  (United),8976,40
+2022,Assembly,MN,KANGPOKPI,50,4,NOTA,None of the Above,315,0
+2022,Assembly,MN,SAITU,51,1,Lamtinthang Haokip,Indian National Congress,7017,116
+2022,Assembly,MN,SAITU,51,2,K Lhouvum,National People's Party,6950,28
+2022,Assembly,MN,SAITU,51,3,Ngamthang Haokip,Bharatiya Janata Party,9618,144
+2022,Assembly,MN,SAITU,51,4,L Johny Gangmei,Janata Dal  (United),154,10
+2022,Assembly,MN,SAITU,51,5,Haokholet Kipgen,Independent,12417,39
+2022,Assembly,MN,SAITU,51,6,Th. Sanglou Maram,Independent,2917,7
+2022,Assembly,MN,SAITU,51,7,NOTA,None of the Above,92,3
+2022,Assembly,MN,TAMEI,52,1,Awangbow Newmai,Naga Peoples Front,19528,115
+2022,Assembly,MN,TAMEI,52,2,Z. Kikhonbou Newmai,National People's Party,17837,108
+2022,Assembly,MN,TAMEI,52,3,GN. Kumuiteung (Dr. Aku),Indian National Congress,391,6
+2022,Assembly,MN,TAMEI,52,4,Wilubou Newmai,Bharatiya Janata Party,613,14
+2022,Assembly,MN,TAMEI,52,5,NOTA,None of the Above,31,1
+2022,Assembly,MN,TAMENGLONG,53,1,Huri Golmei,Bharatiya Janata Party,8862,285
+2022,Assembly,MN,TAMENGLONG,53,2,Janghemlung Panmei,National People's Party,10036,420
+2022,Assembly,MN,TAMENGLONG,53,3,Khangthuanang Panmei,Naga Peoples Front,4405,76
+2022,Assembly,MN,TAMENGLONG,53,4,Samuel Jendai,Janata Dal  (United),6196,251
+2022,Assembly,MN,TAMENGLONG,53,5,NOTA,None of the Above,122,0
+2022,Assembly,MN,NUNGBA,54,1,Dinganglung Gangmei,Bharatiya Janata Party,14216,248
+2022,Assembly,MN,NUNGBA,54,2,Gaikhangam,Indian National Congress,10372,306
+2022,Assembly,MN,NUNGBA,54,3,NOTA,None of the Above,59,0
+2022,Assembly,MN,TIPAIMUKH,55,1,Chalton Lien Amo,Bharatiya Janata Party,4970,48
+2022,Assembly,MN,TIPAIMUKH,55,2,Thangthatling Sinate,National People's Party,1313,2
+2022,Assembly,MN,TIPAIMUKH,55,3,Ngursanglur Sanate,Janata Dal  (United),6259,8
+2022,Assembly,MN,TIPAIMUKH,55,4,NOTA,None of the Above,128,0
+2022,Assembly,MN,THANLON,56,1,Khanthang Tonsing,National People's Party,4091,21
+2022,Assembly,MN,THANLON,56,2,Vungzagin Valte,Bharatiya Janata Party,4828,35
+2022,Assembly,MN,THANLON,56,3,Lalhlunsang Sungte,Shiv Sena,651,7
+2022,Assembly,MN,THANLON,56,4,Thangkhangin,Lok Janshakti Party(Ram Vilas),70,1
+2022,Assembly,MN,THANLON,56,5,Thangkhosei Guite,Janata Dal  (United),795,2
+2022,Assembly,MN,THANLON,56,6,Langkhanpau Guite,Independent,2779,10
+2022,Assembly,MN,THANLON,56,7,NOTA,None of the Above,48,2
+2022,Assembly,MN,HENGLEP,57,1,Letzamang Haokip,Bharatiya Janata Party,13823,74
+2022,Assembly,MN,HENGLEP,57,2,T. Manga Vaiphei,Indian National Congress,5996,53
+2022,Assembly,MN,HENGLEP,57,3,Nehminthang Haokip,National People's Party,3788,36
+2022,Assembly,MN,HENGLEP,57,4,Genneikhup,Janata Dal  (United),1082,15
+2022,Assembly,MN,HENGLEP,57,5,T. Thangzalam Haokip,Shiv Sena,2587,18
+2022,Assembly,MN,HENGLEP,57,6,Sehpu Haokip,Independent,80,4
+2022,Assembly,MN,HENGLEP,57,7,NOTA,None of the Above,40,0
+2022,Assembly,MN,CHURACHANDPUR,58,1,V HANGKHANLIAN,Bharatiya Janata Party,17320,287
+2022,Assembly,MN,CHURACHANDPUR,58,2,H. MANGCHINKHUP PAITE,Indian National Congress,8290,192
+2022,Assembly,MN,CHURACHANDPUR,58,3,Th. THANGZALIAN,National People's Party,498,17
+2022,Assembly,MN,CHURACHANDPUR,58,4,Dr. JAINSON HAOKIP D.D.,Kuki National Assembly,235,13
+2022,Assembly,MN,CHURACHANDPUR,58,5,L.M. KHAUTE,Janata Dal  (United),17964,267
+2022,Assembly,MN,CHURACHANDPUR,58,6,H.LIANCHINTHANG,Lok Janshakti Party(Ram Vilas),167,3
+2022,Assembly,MN,CHURACHANDPUR,58,7,JAMES KHUMA HAUZEL,Independent,2233,11
+2022,Assembly,MN,CHURACHANDPUR,58,8,NOTA,None of the Above,162,12
+2022,Assembly,MN,SAIKOT,59,1,George T. Haokip,Nationalist Congress Party,4726,70
+2022,Assembly,MN,SAIKOT,59,2,T. N Haokip,Indian National Congress,10099,151
+2022,Assembly,MN,SAIKOT,59,3,Khaipao Haokip,National People's Party,12481,105
+2022,Assembly,MN,SAIKOT,59,4,Paolienlal Haokip,Bharatiya Janata Party,18239,218
+2022,Assembly,MN,SAIKOT,59,5,JOHN H PULAMTE,Janata Dal  (United),203,28
+2022,Assembly,MN,SAIKOT,59,6,JOSHUA THIEK,Kuki National Assembly,817,20
+2022,Assembly,MN,SAIKOT,59,7,JOHN MK THANG,Independent,72,6
+2022,Assembly,MN,SAIKOT,59,8,Karong Onkholer,Independent,5151,18
+2022,Assembly,MN,SAIKOT,59,9,NOTA,None of the Above,183,3
+2022,Assembly,MN,SINGHAT,60,1,Ginsuanhau Zou,Bharatiya Janata Party,10109,70
+2022,Assembly,MN,SINGHAT,60,2,Tuankhan Kiamlo Hangzo,Indian National Congress,252,15
+2022,Assembly,MN,SINGHAT,60,3,Chinlunthang,Kuki People’s Alliance,12042,56
+2022,Assembly,MN,SINGHAT,60,4,T. Hangkhanpau,Janata Dal  (United),1031,0
+2022,Assembly,MN,SINGHAT,60,5,NOTA,None of the Above,55,2

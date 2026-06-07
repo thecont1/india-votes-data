@@ -1,0 +1,2756 @@
+{
+    "title": "GEN ELECTION TO VIDHAN SABHA TRENDS & RESULT MARCH-2022",
+    "election_id": "AC-2022-03",
+    "election_year": "2022",
+    "election_type": "Assembly",
+    "election_state": "GA",
+    "constituencywise_results": [
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS051.htm?ac=1",
+            "voting_data": {
+                "constituency_no": "1",
+                "constituency": "MANDREM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DAYANAND RAGHUNATH SOPTE",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9273",
+                        "postal_votes": "399"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DEEPAK BHALCHANDRA KALANGUTKAR",
+                        "party": "Goa Forward Party",
+                        "evm_votes": "1637",
+                        "postal_votes": "39"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "JIT VINAYAK AROLKAR",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "10144",
+                        "postal_votes": "243"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "BABLI BHASKAR NAIK",
+                        "party": "Shiv Sena",
+                        "evm_votes": "116",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "D'COSTA MARIA",
+                        "party": "Sambhaji Brigade Party",
+                        "evm_votes": "46",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "PRASAD K. SHAHAPURKAR",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "262",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "SUNAYANA RAJANIKANT GAWDE",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "1207",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "LAXMIKANT PARSEKAR",
+                        "party": "Independent",
+                        "evm_votes": "5507",
+                        "postal_votes": "304"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "Satish Sitaram Shetgaonkar",
+                        "party": "Independent",
+                        "evm_votes": "184",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "259",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS052.htm?ac=2",
+            "voting_data": {
+                "constituency_no": "2",
+                "constituency": "PERNEM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "JITENDRA YESHWANT GAONKAR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1801",
+                        "postal_votes": "26"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "PRAVIN PRABHAKAR ARLEKAR",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "12614",
+                        "postal_votes": "449"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RAJAN BABUSO KORGAONKAR",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "9326",
+                        "postal_votes": "319"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "PUNDALIK DHARGALKAR",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "266",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SUBHASH BARKELO KERKAR",
+                        "party": "Shiv Sena",
+                        "evm_votes": "222",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "SUJAY D. MHAPSEKAR",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "2735",
+                        "postal_votes": "20"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "GURUDAS VIRNODKAR",
+                        "party": "Independent",
+                        "evm_votes": "62",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "KAMLAKAR SHANKAR GADKAR",
+                        "party": "Independent",
+                        "evm_votes": "129",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "VISHNUDAS KORGAONKAR",
+                        "party": "Independent",
+                        "evm_votes": "855",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "361",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS053.htm?ac=3",
+            "voting_data": {
+                "constituency_no": "3",
+                "constituency": "BICHOLIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "MEGHASHYAM VAMAN RAUT",
+                        "party": "Indian National Congress",
+                        "evm_votes": "737",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "NARESH RAJARAM SAWAL",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "5909",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RAJESH TULSHIDAS PATNEKAR",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "2824",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ANISH AVINASH NAIK",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "326",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "DR. CHANDRAKANT SHETYE",
+                        "party": "Independent",
+                        "evm_votes": "6314",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "241",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS054.htm?ac=4",
+            "voting_data": {
+                "constituency_no": "4",
+                "constituency": "TIVIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "AMAN LOTLIKAR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1230",
+                        "postal_votes": "32"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "GODFREY D' LIMA",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "69",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "KAVITA  KANDOLKAR",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "7172",
+                        "postal_votes": "191"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NILKANTH RAMNATH HALARNKAR",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9190",
+                        "postal_votes": "224"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SWAPNESH BHANUDAS SHERLEKAR",
+                        "party": "Goencho Swabhiman Party",
+                        "evm_votes": "140",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "TUKARAM BHARAT PARAB",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "4959",
+                        "postal_votes": "92"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "UDAI SALKAR",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "413",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "202",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS055.htm?ac=5",
+            "voting_data": {
+                "constituency_no": "5",
+                "constituency": "MAPUSA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "JOSHUA PETER DE SOUZA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9983",
+                        "postal_votes": "212"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SUDHIR RAMA KANDOLKAR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8379",
+                        "postal_votes": "169"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "TARAK  AROLKAR",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1350",
+                        "postal_votes": "16"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "JITESH JIVAJI KAMAT",
+                        "party": "Shiv Sena",
+                        "evm_votes": "123",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "RAHUL MHAMBRE",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "1476",
+                        "postal_votes": "35"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "ROHAN SALGAONKAR",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "978",
+                        "postal_votes": "18"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NEETA PARESH KHANVILKAR",
+                        "party": "Independent",
+                        "evm_votes": "59",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "SUDESH DIGAMBER HASOTIKAR",
+                        "party": "Independent",
+                        "evm_votes": "39",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "291",
+                        "postal_votes": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS056.htm?ac=6",
+            "voting_data": {
+                "constituency_no": "6",
+                "constituency": "SIOLIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DAYANAND RAYU MANDREKAR",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "7712",
+                        "postal_votes": "260"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DELILAH MICHAEL LOBO",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9455",
+                        "postal_votes": "244"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "LEAO F. P. DIAS",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "212",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "CHARISMA  FERNANDES",
+                        "party": "Shiv Sena",
+                        "evm_votes": "166",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "DIANA FERNANDES",
+                        "party": "Sambhaji Brigade Party",
+                        "evm_votes": "43",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "GAURESH  MANDREKAR",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "3134",
+                        "postal_votes": "54"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "JAGANATH  GAONKAR",
+                        "party": "Jai Maha Bharath Party",
+                        "evm_votes": "35",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "VISHNU  NAIK",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "879",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "ANIL VAMAN KERKAR",
+                        "party": "Independent",
+                        "evm_votes": "50",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "DATTARAM  PEDNEKAR",
+                        "party": "Independent",
+                        "evm_votes": "461",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "11",
+                        "candidate": "PALLAVI PRADEEP DABHOLKAR",
+                        "party": "Independent",
+                        "evm_votes": "112",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "12",
+                        "candidate": "PATRICK SAVIO ALMEIDA",
+                        "party": "Independent",
+                        "evm_votes": "1451",
+                        "postal_votes": "31"
+                    },
+                    {
+                        "serial_no": "13",
+                        "candidate": "VINOD DATTARAM PALYEKAR",
+                        "party": "Independent",
+                        "evm_votes": "402",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "14",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "203",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS057.htm?ac=7",
+            "voting_data": {
+                "constituency_no": "7",
+                "constituency": "SALIGAO",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Bholanath Ghadi Sakhalkar",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "344",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Jayesh Salgaonkar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "7942",
+                        "postal_votes": "204"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Kedar Jayprakash Naik",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9798",
+                        "postal_votes": "247"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Mario Venancio Cordeiro",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "829",
+                        "postal_votes": "18"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Rohan Kalangutkar",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "1888",
+                        "postal_votes": "40"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Rupesh Damodar Naik",
+                        "party": "Independent",
+                        "evm_votes": "785",
+                        "postal_votes": "20"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "207",
+                        "postal_votes": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS058.htm?ac=8",
+            "voting_data": {
+                "constituency_no": "8",
+                "constituency": "CALANGUTE",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Anthony Menezes",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1660",
+                        "postal_votes": "30"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Joseph Robert Sequeira",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "4230",
+                        "postal_votes": "76"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Michael Vincent Lobo",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9103",
+                        "postal_votes": "182"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Marcelino Francisco Gonsalves",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "2504",
+                        "postal_votes": "34"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "ROSHAN LUKE MATHIAS",
+                        "party": "Goencho Swabhiman Party",
+                        "evm_votes": "544",
+                        "postal_votes": "17"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Sudesh Suresh Mayekar",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "1750",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Ricardo D'Souza",
+                        "party": "Independent",
+                        "evm_votes": "262",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "172",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS059.htm?ac=9",
+            "voting_data": {
+                "constituency_no": "9",
+                "constituency": "PORVORIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Rohan Khaunte",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "11349",
+                        "postal_votes": "365"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Sandeep Vazarkar",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "3721",
+                        "postal_votes": "43"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Shankar Phadte",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "154",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Vikas Ramchandra Prabhudesai",
+                        "party": "Indian National Congress",
+                        "evm_votes": "3528",
+                        "postal_votes": "67"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Ritesh Chodankar",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "1509",
+                        "postal_votes": "26"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "461",
+                        "postal_votes": "12"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0510.htm?ac=10",
+            "voting_data": {
+                "constituency_no": "10",
+                "constituency": "ALDONA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "CARLOS ALVARES FERREIRA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9074",
+                        "postal_votes": "246"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "GLENN JOHN VIJAY AMBROSE E SOUZA TICLO",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "7286",
+                        "postal_votes": "211"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "KIRAN KANDOLKAR",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "3601",
+                        "postal_votes": "46"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "GOVIND GOVENKAR",
+                        "party": "Shiv Sena",
+                        "evm_votes": "342",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "MAHESH SATELKAR",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "1267",
+                        "postal_votes": "39"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "POOJA MAYEKAR",
+                        "party": "Independent",
+                        "evm_votes": "109",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "248",
+                        "postal_votes": "12"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0511.htm?ac=11",
+            "voting_data": {
+                "constituency_no": "11",
+                "constituency": "PANAJI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ATANASIO MONSERRATE",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "6531",
+                        "postal_votes": "256"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ELVIS GOMES",
+                        "party": "Indian National Congress",
+                        "evm_votes": "3062",
+                        "postal_votes": "113"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RAJESH VINAYAK REDKAR",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "354",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "VALMIKI DATTA NAIK",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "760",
+                        "postal_votes": "17"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "DEVENDRA SUNDARAM",
+                        "party": "Independent",
+                        "evm_votes": "35",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "UTPAL MANOHAR  PARRIKAR",
+                        "party": "Independent",
+                        "evm_votes": "5857",
+                        "postal_votes": "214"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "YESHWANT MADAR",
+                        "party": "Independent",
+                        "evm_votes": "35",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "166",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0512.htm?ac=12",
+            "voting_data": {
+                "constituency_no": "12",
+                "constituency": "TALEIGAO",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "JENNIFER MONSERRATE",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9915",
+                        "postal_votes": "252"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SHUBHANGI DEU SAWANT",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "120",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "TONY ALFREDO RODRIGUES",
+                        "party": "Indian National Congress",
+                        "evm_votes": "7980",
+                        "postal_votes": "146"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "CECILLE RODRIGUES",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "2550",
+                        "postal_votes": "57"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Joseph Licio Roncon",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "1628",
+                        "postal_votes": "23"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "DILIP KASHINATH GHADI",
+                        "party": "Independent",
+                        "evm_votes": "23",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "ADV. PUNDALIK NAMDEO RAIKER",
+                        "party": "Independent",
+                        "evm_votes": "276",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "SHIVANAND HARIJAN",
+                        "party": "Independent",
+                        "evm_votes": "24",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "414",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0513.htm?ac=13",
+            "voting_data": {
+                "constituency_no": "13",
+                "constituency": "ST.CRUZ",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Antonio Caetano Fernandes",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "6199",
+                        "postal_votes": "178"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Rodolfo Louis Fernandes",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8605",
+                        "postal_votes": "236"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Victor Benjamin Gonsalves",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "497",
+                        "postal_votes": "26"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Ajay Tipu Kholkar",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "2444",
+                        "postal_votes": "53"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Amit Palekar",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "4049",
+                        "postal_votes": "49"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "344",
+                        "postal_votes": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0514.htm?ac=14",
+            "voting_data": {
+                "constituency_no": "14",
+                "constituency": "ST. ANDRE",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Anthony Lino Fernandes",
+                        "party": "Indian National Congress",
+                        "evm_votes": "2617",
+                        "postal_votes": "78"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Estevan Elvis D'Souza",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "128",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Francisco Silveira",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "5109",
+                        "postal_votes": "210"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Jagdish Umakant Bhobe",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1222",
+                        "postal_votes": "39"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Ramrao Surya Naik Wagh",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "1101",
+                        "postal_votes": "21"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Viresh Mukesh Borkar",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "5292",
+                        "postal_votes": "103"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Rama Kankonkar",
+                        "party": "Independent",
+                        "evm_votes": "213",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "136",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0515.htm?ac=15",
+            "voting_data": {
+                "constituency_no": "15",
+                "constituency": "CUMBARJUA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Janita Pandurang Madkaikar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "3848",
+                        "postal_votes": "101"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Rajesh Faldessai",
+                        "party": "Indian National Congress",
+                        "evm_votes": "6601",
+                        "postal_votes": "175"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Samil Audumber Volvaiker",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "3015",
+                        "postal_votes": "57"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Chhagan Narayan Naik",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "2390",
+                        "postal_votes": "52"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Gorakhanath Suresh Kerkar",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "993",
+                        "postal_votes": "29"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Maria Christina Varela",
+                        "party": "Goencho Swabhiman Party",
+                        "evm_votes": "79",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Rohan Ranganath Harmalkar",
+                        "party": "Independent",
+                        "evm_votes": "3784",
+                        "postal_votes": "86"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "322",
+                        "postal_votes": "6"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0516.htm?ac=16",
+            "voting_data": {
+                "constituency_no": "16",
+                "constituency": "MAEM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "PREMENDRA VISHNU SHET",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "7636",
+                        "postal_votes": "238"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "PRAVIN ZANTYE",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "3240",
+                        "postal_votes": "184"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SANTOSH KUMAR SAWANT",
+                        "party": "Goa Forward Party",
+                        "evm_votes": "4613",
+                        "postal_votes": "125"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "RAJESH TULSHIDAS KALANGUTKAR",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "2053",
+                        "postal_votes": "31"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SHRIKRISHNA RAVINDRA PARAB",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "3933",
+                        "postal_votes": "41"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "DEEPKUMAR D. MAPARI",
+                        "party": "Independent",
+                        "evm_votes": "88",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "MILIND TULSHIDAS PILGAONKAR",
+                        "party": "Independent",
+                        "evm_votes": "2282",
+                        "postal_votes": "34"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "ROHAN VAMAN SAWAIKAR",
+                        "party": "Independent",
+                        "evm_votes": "458",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "SHEELA SANDEEP GHATWAL",
+                        "party": "Independent",
+                        "evm_votes": "191",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "331",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0517.htm?ac=17",
+            "voting_data": {
+                "constituency_no": "17",
+                "constituency": "SANQUELIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Dharmesh Saglani",
+                        "party": "Indian National Congress",
+                        "evm_votes": "11414",
+                        "postal_votes": "170"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Dr. Pramod Sawant",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "11795",
+                        "postal_votes": "455"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Mahadev Yeshwant Khandekar",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "361",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Manojkumar Ghadi",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "108",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Navanath Ramkrishna Mulvi",
+                        "party": "Jai Maha Bharath Party",
+                        "evm_votes": "14",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Sagar Dhargalkar",
+                        "party": "Shiv Sena",
+                        "evm_votes": "97",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Sujay Gauns",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "740",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Daudkhan  Pathan",
+                        "party": "Independent",
+                        "evm_votes": "31",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "Lavu Gurunath  Petkar",
+                        "party": "Independent",
+                        "evm_votes": "25",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "Mahesh Parab",
+                        "party": "Independent",
+                        "evm_votes": "30",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "11",
+                        "candidate": "Sunil Suresh Fulari",
+                        "party": "Independent",
+                        "evm_votes": "27",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "12",
+                        "candidate": "Sunil Datta Satodkar",
+                        "party": "Independent",
+                        "evm_votes": "96",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "13",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "284",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0518.htm?ac=18",
+            "voting_data": {
+                "constituency_no": "18",
+                "constituency": "PORIEM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DEVIYA VISHWAJIT RANE",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17142",
+                        "postal_votes": "674"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "GANPAT GAONKAR",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1491",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RANJIT JAYASINGRAO RANE",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1466",
+                        "postal_votes": "22"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "GURUDAS GAONKAR",
+                        "party": "Shiv Sena",
+                        "evm_votes": "265",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "JAYESHWAR GAWDE",
+                        "party": "Jai Maha Bharath Party",
+                        "evm_votes": "242",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "SAMEER SATARKAR",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "3489",
+                        "postal_votes": "24"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "VISHWAJIT RANE",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "3768",
+                        "postal_votes": "105"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "542",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0519.htm?ac=19",
+            "voting_data": {
+                "constituency_no": "19",
+                "constituency": "VALPOI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "MANISHA SHENVI USGAONKAR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "2081",
+                        "postal_votes": "20"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "VISHVESH PRABHU",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "343",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "VISHWAJIT PRATAPSINGH RANE",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "14066",
+                        "postal_votes": "396"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "DEVIDAS GAONKAR",
+                        "party": "Shiv Sena",
+                        "evm_votes": "183",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SATYAVIJAY NAIK",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "2584",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "SUDESH MADHUKAR PARAB",
+                        "party": "Jai Maha Bharath Party",
+                        "evm_votes": "354",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "TUKARAM BHARAT PARAB",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "6319",
+                        "postal_votes": "58"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "ROHIDAS SADA GAONKAR",
+                        "party": "Independent",
+                        "evm_votes": "137",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "407",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0520.htm?ac=20",
+            "voting_data": {
+                "constituency_no": "20",
+                "constituency": "PRIOL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Digvijay Madhu Velingkar",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "146",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Dinesh Shiva Zalmi",
+                        "party": "Indian National Congress",
+                        "evm_votes": "291",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Govind Shepu Gaude",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10682",
+                        "postal_votes": "337"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Pandurang Alias Deepak Dhavalikar",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "10537",
+                        "postal_votes": "269"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Nonu Chandrakant Naik",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "236",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Vishvesh Naik",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "2486",
+                        "postal_votes": "31"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Dattaram Tukaram Shetkar",
+                        "party": "Independent",
+                        "evm_votes": "83",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Sandeep Nigalye",
+                        "party": "Independent",
+                        "evm_votes": "2624",
+                        "postal_votes": "73"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "241",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0521.htm?ac=21",
+            "voting_data": {
+                "constituency_no": "21",
+                "constituency": "PONDA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "KETAN PRABHU BHATIKAR",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "7272",
+                        "postal_votes": "165"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "RAJESH VERENKAR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "6735",
+                        "postal_votes": "104"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "RAVI NAIK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "7269",
+                        "postal_votes": "245"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SANISH TILVE",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "1745",
+                        "postal_votes": "25"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SUREL TILVE",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "612",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NARESH PADWALKAR",
+                        "party": "Independent",
+                        "evm_votes": "90",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "SANDEEP SINAI KHANDEPARKAR",
+                        "party": "Independent",
+                        "evm_votes": "1197",
+                        "postal_votes": "40"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "285",
+                        "postal_votes": "7"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0522.htm?ac=22",
+            "voting_data": {
+                "constituency_no": "22",
+                "constituency": "SIRODA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Tukaram Borkar",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1923",
+                        "postal_votes": "30"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Subhash Shirodkar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8069",
+                        "postal_votes": "238"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Sanket Naik Mule",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "2344",
+                        "postal_votes": "53"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Subhash Prabhudesai",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "564",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Mahadev Naik",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "6023",
+                        "postal_votes": "110"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Mukesh Naik",
+                        "party": "Sambhaji Brigade Party",
+                        "evm_votes": "182",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Shailesh Naik",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "5024",
+                        "postal_votes": "39"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Snehalo Gracias",
+                        "party": "Independent",
+                        "evm_votes": "186",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "230",
+                        "postal_votes": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0523.htm?ac=23",
+            "voting_data": {
+                "constituency_no": "23",
+                "constituency": "MARCAIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Lavoo Mamledar",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1071",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ramkrishna Alias Sudin Dhavalikar",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "13399",
+                        "postal_votes": "564"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Ravindra Talaulikar",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "137",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Sudesh Bhingi",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "3907",
+                        "postal_votes": "93"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Harishchandra Naik",
+                        "party": "Jai Maha Bharath Party",
+                        "evm_votes": "56",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Premanand Gaude",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "3447",
+                        "postal_votes": "41"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Santosh Tari",
+                        "party": "Goencho Swabhiman Party",
+                        "evm_votes": "185",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Umesh Tendolkar",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "409",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "367",
+                        "postal_votes": "6"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0524.htm?ac=24",
+            "voting_data": {
+                "constituency_no": "24",
+                "constituency": "MORMUGAO",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Jayesh Kashinath Shetgaonkar",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "123",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Milind Sagun Naik",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "6935",
+                        "postal_votes": "191"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Sankalp Amonkar",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8969",
+                        "postal_votes": "98"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Xeque Mahamod Acbar",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "56",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Parashuram Umaji Sonurlekar",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "155",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Paresh Sitaram Toraskar",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "128",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Enayatulla Khan",
+                        "party": "Independent",
+                        "evm_votes": "27",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Nilesh Mahadev Navelkar",
+                        "party": "Independent",
+                        "evm_votes": "91",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "107",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0525.htm?ac=25",
+            "voting_data": {
+                "constituency_no": "25",
+                "constituency": "VASCO-DA-GAMA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Jose Luis Carlos Almeida",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9314",
+                        "postal_votes": "147"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Krishna V. Salkar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "12880",
+                        "postal_votes": "238"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Saifula Khan",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "841",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Andre Sebastiao Viegas",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "845",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Maruti Shirgaonkar",
+                        "party": "Shiv Sena",
+                        "evm_votes": "71",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Sandeep Bhagwan Shetye",
+                        "party": "Jai Maha Bharath Party",
+                        "evm_votes": "19",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Sunil Loran",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "773",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Andrew D’Cunha",
+                        "party": "Independent",
+                        "evm_votes": "41",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "Chandrashekher Vast",
+                        "party": "Independent",
+                        "evm_votes": "52",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "242",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0526.htm?ac=26",
+            "voting_data": {
+                "constituency_no": "26",
+                "constituency": "DABOLIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Jose Filipe De Sousa",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "1028",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Mahesh Bhandari",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "158",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MAUVIN HELIODORO GODINHO",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "7434",
+                        "postal_votes": "160"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Captain Viriato Hipolito Mendonca Fernandes",
+                        "party": "Indian National Congress",
+                        "evm_votes": "5932",
+                        "postal_votes": "92"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Gajanan Borkar",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "1116",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Premanand Nanoskar",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "2506",
+                        "postal_votes": "27"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Tara Kerkar",
+                        "party": "Independent",
+                        "evm_votes": "69",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "197",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0527.htm?ac=27",
+            "voting_data": {
+                "constituency_no": "27",
+                "constituency": "CORTALIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Gilbert Mariano Rodrigues",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "3231",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Narayan Naik",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "2364",
+                        "postal_votes": "28"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Olencio Simoes",
+                        "party": "Indian National Congress",
+                        "evm_votes": "4255",
+                        "postal_votes": "89"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Alina Saldanha",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "1306",
+                        "postal_votes": "49"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Bhakti Bhalchandra Khadapkar",
+                        "party": "Shiv Sena",
+                        "evm_votes": "55",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Teotonio Inacio  Santana Costa",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "2431",
+                        "postal_votes": "49"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Antonio Vas",
+                        "party": "Independent",
+                        "evm_votes": "5430",
+                        "postal_votes": "92"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Girish Pillai",
+                        "party": "Independent",
+                        "evm_votes": "4222",
+                        "postal_votes": "29"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "Vishal Gajanan Naik",
+                        "party": "Independent",
+                        "evm_votes": "66",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "211",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0528.htm?ac=28",
+            "voting_data": {
+                "constituency_no": "28",
+                "constituency": "NUVEM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ALEIXO SEQUEIRA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8556",
+                        "postal_votes": "189"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Datta Borkar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "547",
+                        "postal_votes": "22"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "JOSE R CABRAL (RAJU)",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1690",
+                        "postal_votes": "28"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "PACHECO FRANCISCO XAVIER",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "2035",
+                        "postal_votes": "38"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "ARVIND D'COSTA",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "4260",
+                        "postal_votes": "88"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "DR. MARIANO GODINHO",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "1183",
+                        "postal_votes": "39"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "WILFRED D'SA",
+                        "party": "Independent",
+                        "evm_votes": "2887",
+                        "postal_votes": "74"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "174",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0529.htm?ac=29",
+            "voting_data": {
+                "constituency_no": "29",
+                "constituency": "CURTORIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ANTHONY BARBOSA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "2325",
+                        "postal_votes": "60"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ANTHONY ALBERTO PEIXOTO",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "348",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MORENO REBELO",
+                        "party": "Indian National Congress",
+                        "evm_votes": "3805",
+                        "postal_votes": "100"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "DOMINGO GAUNKAR (DOMNIC)",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "2714",
+                        "postal_votes": "79"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "RUBERT PEREIRA",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "3423",
+                        "postal_votes": "56"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "ALEIXO REGINALDO LOURENCO",
+                        "party": "Independent",
+                        "evm_votes": "8706",
+                        "postal_votes": "254"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "CONCEICAO DIAS",
+                        "party": "Independent",
+                        "evm_votes": "106",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "ISIDORIO",
+                        "party": "Independent",
+                        "evm_votes": "112",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "228",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0530.htm?ac=30",
+            "voting_data": {
+                "constituency_no": "30",
+                "constituency": "FATORDA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "DAMU G. NAIK",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9331",
+                        "postal_votes": "205"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SEOULA VAS",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "631",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "VIJAI SARDESAI",
+                        "party": "Goa Forward Party",
+                        "evm_votes": "10821",
+                        "postal_votes": "242"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SANDESH TELEIKAR",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "1031",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "ADV. VALERIE FERNANDES",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "1541",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "MICHAEL FERNS",
+                        "party": "Independent",
+                        "evm_votes": "56",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "251",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0531.htm?ac=31",
+            "voting_data": {
+                "constituency_no": "31",
+                "constituency": "MARGAO",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "AJGAONKAR MANOHAR (BABU)",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "5785",
+                        "postal_votes": "95"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DIGAMBAR KAMAT",
+                        "party": "Indian National Congress",
+                        "evm_votes": "13345",
+                        "postal_votes": "329"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MAHESH AMONKAR",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "914",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "LINCOLN ANTHONY VAZ",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "1144",
+                        "postal_votes": "29"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SHASHIRAJ SUBHA NAIK SHIRODKAR",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "710",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "258",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0532.htm?ac=32",
+            "voting_data": {
+                "constituency_no": "32",
+                "constituency": "BENAULIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Antonio Feliciano Dias (Tony)",
+                        "party": "Indian National Congress",
+                        "evm_votes": "4609",
+                        "postal_votes": "88"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Churchill Alemao",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "4996",
+                        "postal_votes": "144"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Damodar (Samir) Bandodkar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "821",
+                        "postal_votes": "30"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Desmond Fernandes",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "3784",
+                        "postal_votes": "70"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Venzy Viegas",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "6267",
+                        "postal_votes": "144"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "159",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0533.htm?ac=33",
+            "voting_data": {
+                "constituency_no": "33",
+                "constituency": "NAVELIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Avertano Furtado",
+                        "party": "Indian National Congress",
+                        "evm_votes": "3716",
+                        "postal_votes": "90"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Mohammad Rehan Mujawar",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "2609",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Ulhas Tuenkar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "5084",
+                        "postal_votes": "84"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Valanka Natasha Alemao",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "4682",
+                        "postal_votes": "56"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Bento Da Silva",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "2068",
+                        "postal_votes": "18"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Pratima Betsy Coutinho",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "2297",
+                        "postal_votes": "30"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Antonio Alvares",
+                        "party": "Independent",
+                        "evm_votes": "159",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Digvijit Chavan",
+                        "party": "Independent",
+                        "evm_votes": "183",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "Francisco Andre Colaco",
+                        "party": "Independent",
+                        "evm_votes": "66",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "167",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0534.htm?ac=34",
+            "voting_data": {
+                "constituency_no": "34",
+                "constituency": "CUNCOLIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Alemao Yuri",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9572",
+                        "postal_votes": "294"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "CLAFASIO DIAS",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "6427",
+                        "postal_votes": "205"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "JORSON PIEDADE FERNANDES",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1237",
+                        "postal_votes": "45"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "PRASHANT NAIK",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "894",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "WILSON PETER CARDOZO",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "2402",
+                        "postal_votes": "28"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "DERICK DIAS",
+                        "party": "Independent",
+                        "evm_votes": "48",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "MILAGRES GONSALVES",
+                        "party": "Independent",
+                        "evm_votes": "77",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "RAYMOND D'CRUZ",
+                        "party": "Independent",
+                        "evm_votes": "33",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "SANTOSH S. FAL DESSAI",
+                        "party": "Independent",
+                        "evm_votes": "1300",
+                        "postal_votes": "26"
+                    },
+                    {
+                        "serial_no": "10",
+                        "candidate": "SUDESH VINAYAK BHISE",
+                        "party": "Independent",
+                        "evm_votes": "307",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "11",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "184",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0535.htm?ac=35",
+            "voting_data": {
+                "constituency_no": "35",
+                "constituency": "VELIM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "BENJAMIN SILVA",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "4039",
+                        "postal_votes": "95"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "D'SILVA SAVIO",
+                        "party": "Indian National Congress",
+                        "evm_votes": "5067",
+                        "postal_votes": "154"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "FILIPE NERY RODRIGUES",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "3296",
+                        "postal_votes": "124"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SAVIO RODRIGUES",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "1312",
+                        "postal_votes": "19"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "CRUZ SILVA",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "5279",
+                        "postal_votes": "111"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "DAGLEY FERNANDES",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "3604",
+                        "postal_votes": "49"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "239",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0536.htm?ac=36",
+            "voting_data": {
+                "constituency_no": "36",
+                "constituency": "QUEPEM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ALOYSIOUS D'SILVA",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "233",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ALTONE D'COSTA",
+                        "party": "Indian National Congress",
+                        "evm_votes": "14656",
+                        "postal_votes": "338"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "CHANDRAKANT KAVLEKAR",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10864",
+                        "postal_votes": "529"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "KANTA GAUDE",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "153",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "ALEXY FERNANDES",
+                        "party": "Shiv Sena",
+                        "evm_votes": "66",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "RAUL PEREIRA",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "309",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "VISHAL GAUNS DESSAI",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "1131",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "245",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0537.htm?ac=37",
+            "voting_data": {
+                "constituency_no": "37",
+                "constituency": "CURCHOREM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "AMIT PATKAR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9113",
+                        "postal_votes": "188"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "NILESH CABRAL",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9501",
+                        "postal_votes": "472"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "VITHOBA PRABHU DESSAI",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "307",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ADITYA RAUT DESSAI",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "2063",
+                        "postal_votes": "40"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "GABRIEL FERNANDES",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "814",
+                        "postal_votes": "16"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "AJAY BOYER",
+                        "party": "Independent",
+                        "evm_votes": "51",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "214",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0538.htm?ac=38",
+            "voting_data": {
+                "constituency_no": "38",
+                "constituency": "SANVORDEM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Ganesh Gaonkar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "11457",
+                        "postal_votes": "420"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Khemalo Sawant",
+                        "party": "Indian National Congress",
+                        "evm_votes": "376",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Vinayak Gawas",
+                        "party": "Maharashtrawadi Gomantak",
+                        "evm_votes": "3718",
+                        "postal_votes": "50"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Anil Gaonkar",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "839",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Vipin Naik",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "2118",
+                        "postal_votes": "17"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Deepak Prabhu Pauskar",
+                        "party": "Independent",
+                        "evm_votes": "6466",
+                        "postal_votes": "221"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Gangaram Lambor",
+                        "party": "Independent",
+                        "evm_votes": "541",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "277",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0539.htm?ac=39",
+            "voting_data": {
+                "constituency_no": "39",
+                "constituency": "SANGUEM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Domacio Barreto",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "174",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Prasad Shashikant Gaonkar",
+                        "party": "Indian National Congress",
+                        "evm_votes": "4506",
+                        "postal_votes": "138"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Rakhi Naik",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "181",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Subhash Uttam Phal Dessai",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8339",
+                        "postal_votes": "385"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Abhijit Dessai",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "878",
+                        "postal_votes": "16"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Sunil Bombi Gaonkar",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "1479",
+                        "postal_votes": "21"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Ramesh Gopal Velingkar",
+                        "party": "Independent",
+                        "evm_votes": "93",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Savitri Chandrakant Kavlekar",
+                        "party": "Independent",
+                        "evm_votes": "7085",
+                        "postal_votes": "210"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "240",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS0540.htm?ac=40",
+            "voting_data": {
+                "constituency_no": "40",
+                "constituency": "CANACONA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Janardhan Bhandari",
+                        "party": "Indian National Congress",
+                        "evm_votes": "5227",
+                        "postal_votes": "124"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Mahadev Dessai",
+                        "party": "All India Trinamool Congress",
+                        "evm_votes": "1050",
+                        "postal_votes": "16"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Ramesh Tawadkar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8636",
+                        "postal_votes": "427"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Anoop Balkrishna Kudtarkar",
+                        "party": "Aam Aadmi Party",
+                        "evm_votes": "825",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Prashant Suresh Pagi",
+                        "party": "Revolutionary Goans Party",
+                        "evm_votes": "1574",
+                        "postal_votes": "25"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Isidore Aleixinho Fernandes",
+                        "party": "Independent",
+                        "evm_votes": "5835",
+                        "postal_votes": "177"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Kanay Pagi",
+                        "party": "Independent",
+                        "evm_votes": "117",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Vijay Pai Khot",
+                        "party": "Independent",
+                        "evm_votes": "4558",
+                        "postal_votes": "233"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "292",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        }
+    ]
+}

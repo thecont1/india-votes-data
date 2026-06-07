@@ -1,0 +1,2824 @@
+{
+    "title": "GEN ELECTION TO VIDHAN SABHA TRENDS & RESULT MARCH-2022",
+    "election_id": "AC-2022-03",
+    "election_year": "2022",
+    "election_type": "Assembly",
+    "election_state": "MN",
+    "constituencywise_results": [
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS141.htm?ac=1",
+            "voting_data": {
+                "constituency_no": "1",
+                "constituency": "KHUNDRAKPAM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Thangjam Mohendro Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "11786",
+                        "postal_votes": "210"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Thokchom Lokeshwar Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "12027",
+                        "postal_votes": "184"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Elangbam Sovid Singh",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "493",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Thangjam Shyam Singh",
+                        "party": "Shiv Sena",
+                        "evm_votes": "38",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "165",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS142.htm?ac=2",
+            "voting_data": {
+                "constituency_no": "2",
+                "constituency": "HEINGANG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "NONGTHOMBAM BIREN SINGH",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "24268",
+                        "postal_votes": "546"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "PANGEIJAM SARATCHANDRA SINGH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "6486",
+                        "postal_votes": "57"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "239",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS143.htm?ac=3",
+            "voting_data": {
+                "constituency_no": "3",
+                "constituency": "KHURAI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "R.K. AMUSANA SINGH",
+                        "party": "Communist Party of India",
+                        "evm_votes": "351",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "KHURAIJAM RATANKUMAR SINGH",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "2438",
+                        "postal_votes": "23"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "LAITONJAM JAYANANDA SINGH",
+                        "party": "National People's Party",
+                        "evm_votes": "8767",
+                        "postal_votes": "127"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "LEISHANGTHEM SUSINDRO MEITEI",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10745",
+                        "postal_votes": "386"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "KHAGOKPAM KHAMBA SINGH",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "6722",
+                        "postal_votes": "70"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "TOIJAM LOKENDRO SINGH",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "2897",
+                        "postal_votes": "25"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "HEISNAM SUBHAS SINGH",
+                        "party": "Lok Janshakti Party(Ram Vilas)",
+                        "evm_votes": "376",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "169",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS144.htm?ac=4",
+            "voting_data": {
+                "constituency_no": "4",
+                "constituency": "KHETRIGAO",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Mohammed Amin Shah",
+                        "party": "Indian National Congress",
+                        "evm_votes": "2792",
+                        "postal_votes": "40"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Nahakpam Indrajit Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "11900",
+                        "postal_votes": "476"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Punnam Rani Wangkhem",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "97",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Sheikh Noorul Hassan",
+                        "party": "National People's Party",
+                        "evm_votes": "12753",
+                        "postal_votes": "365"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Wahengbam Rojit Singh @ Bullet",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "5352",
+                        "postal_votes": "85"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "238",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS145.htm?ac=5",
+            "voting_data": {
+                "constituency_no": "5",
+                "constituency": "THONGJU",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Thongam Biswajit Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "14789",
+                        "postal_votes": "549"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Seram Neken Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8534",
+                        "postal_votes": "115"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Sanglakpam Preshyojit Sharma",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "4799",
+                        "postal_votes": "50"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "671",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS146.htm?ac=6",
+            "voting_data": {
+                "constituency_no": "6",
+                "constituency": "KEIRAO",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "M.I. Khan",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "981",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Thongram Tony Meitei",
+                        "party": "Indian National Congress",
+                        "evm_votes": "246",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Md. Nasiruddin Khan",
+                        "party": "National People's Party",
+                        "evm_votes": "8935",
+                        "postal_votes": "191"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Lourembam Rameshwor Meetei",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "16957",
+                        "postal_votes": "378"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Toijam Debananda Singh",
+                        "party": "Shiv Sena",
+                        "evm_votes": "154",
+                        "postal_votes": "48"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Yumnam Shanta Meetei",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "110",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "96",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS147.htm?ac=7",
+            "voting_data": {
+                "constituency_no": "7",
+                "constituency": "ANDRO",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Keisham Ningthemjao Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "381",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Thounaojam Shyamkumar",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "16259",
+                        "postal_votes": "480"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Lourembam Sanjoy Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "15039",
+                        "postal_votes": "243"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Asheibam Bele Singh",
+                        "party": "Independent",
+                        "evm_votes": "871",
+                        "postal_votes": "23"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "120",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS148.htm?ac=8",
+            "voting_data": {
+                "constituency_no": "8",
+                "constituency": "LAMLAI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Achoibam Deben Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "6977",
+                        "postal_votes": "72"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Khongbantabam Ibomcha",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9940",
+                        "postal_votes": "165"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Mongjam Poireihenba Meetei",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "953",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Kshetrimayum Biren Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "9749",
+                        "postal_votes": "235"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Sapam Kangleipal Meitei",
+                        "party": "Independent",
+                        "evm_votes": "455",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "108",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS149.htm?ac=9",
+            "voting_data": {
+                "constituency_no": "9",
+                "constituency": "THANGMEIBAND",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Jotin Waikhom",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9633",
+                        "postal_votes": "223"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Hijam Nutanchandra Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "449",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Khumukcham Joykisan Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "13208",
+                        "postal_votes": "421"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "356",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1410.htm?ac=10",
+            "voting_data": {
+                "constituency_no": "10",
+                "constituency": "URIPOK",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "KHWAIRAKPAM RAGHUMANI SINGH",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8116",
+                        "postal_votes": "219"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "NUNGLEPAM MAHANANDA SINGH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1517",
+                        "postal_votes": "23"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "YUMNAM JOYKUMAR SINGH",
+                        "party": "National People's Party",
+                        "evm_votes": "7147",
+                        "postal_votes": "279"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "KHOMBONGMAYUM SURESH SINGH",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "5383",
+                        "postal_votes": "89"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "265",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1411.htm?ac=11",
+            "voting_data": {
+                "constituency_no": "11",
+                "constituency": "SAGOLBAND",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Moirangthem Momo Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "556",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Rajkumar Imo Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10585",
+                        "postal_votes": "469"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Dr. Khwairakpam Loken Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "8219",
+                        "postal_votes": "179"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "227",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1412.htm?ac=12",
+            "voting_data": {
+                "constituency_no": "12",
+                "constituency": "KEISAMTHONG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ARIBAM PRAMODINI DEVI",
+                        "party": "Indian National Congress",
+                        "evm_votes": "71",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "ELANGBAM SAMUEL JOHNSON",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "1739",
+                        "postal_votes": "77"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "LANGPOKLAKPAM JAYANTA KUMAR SINGH",
+                        "party": "National People's Party",
+                        "evm_votes": "5511",
+                        "postal_votes": "249"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Maheshwar Thounaojam",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "8467",
+                        "postal_votes": "220"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SAPAM NISHIKANT SINGH",
+                        "party": "Independent",
+                        "evm_votes": "8650",
+                        "postal_votes": "224"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "141",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1413.htm?ac=13",
+            "voting_data": {
+                "constituency_no": "13",
+                "constituency": "SINGJAMEI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Irengbam Hemochandra Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1564",
+                        "postal_votes": "36"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Oinam Romen Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "6296",
+                        "postal_votes": "118"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Yumnam Khemchand Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8391",
+                        "postal_votes": "318"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Ngangbam Robert Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "2130",
+                        "postal_votes": "34"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "128",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1414.htm?ac=14",
+            "voting_data": {
+                "constituency_no": "14",
+                "constituency": "YAISKUL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Thokchom Satyabrata Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9346",
+                        "postal_votes": "378"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ningombam Helendro Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "517",
+                        "postal_votes": "9"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Huidrom Vikramjit Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "8868",
+                        "postal_votes": "224"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Thounaojam Brinda",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "4519",
+                        "postal_votes": "55"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Rajkumar Suraj Singh",
+                        "party": "Shiv Sena",
+                        "evm_votes": "122",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "117",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1415.htm?ac=15",
+            "voting_data": {
+                "constituency_no": "15",
+                "constituency": "WANGKHEI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Okram Henry",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10564",
+                        "postal_votes": "276"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Yumkham Erabot Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "9095",
+                        "postal_votes": "180"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Rajkumar Priyobarta Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "399",
+                        "postal_votes": "17"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Thangjam Arunkumar",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "11451",
+                        "postal_votes": "142"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "336",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1416.htm?ac=16",
+            "voting_data": {
+                "constituency_no": "16",
+                "constituency": "SEKMAI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Ayangbam Oken Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "6608",
+                        "postal_votes": "69"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ningthoujam Popilal Singh",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "1975",
+                        "postal_votes": "32"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Ningthoujam Biren Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1556",
+                        "postal_votes": "39"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Heikham Dingo Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9804",
+                        "postal_votes": "206"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Khaidem Ranjit Singh",
+                        "party": "Shiv Sena",
+                        "evm_votes": "470",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Khwairakpam Devendro Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "5836",
+                        "postal_votes": "130"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Khwairakpam Robin Singh",
+                        "party": "Independent",
+                        "evm_votes": "182",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Maharabam Anita Devi",
+                        "party": "Independent",
+                        "evm_votes": "95",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "188",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1417.htm?ac=17",
+            "voting_data": {
+                "constituency_no": "17",
+                "constituency": "LAMSANG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Pukhrambam Sumati Devi",
+                        "party": "National People's Party",
+                        "evm_votes": "14628",
+                        "postal_votes": "157"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Likmabam Manibabu Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "229",
+                        "postal_votes": "12"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Sorokhaibam Rajen Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "14847",
+                        "postal_votes": "338"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Khundrakpam Kanba Meitei",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "605",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Arambam Karamjit Singh",
+                        "party": "Independent",
+                        "evm_votes": "723",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "209",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1418.htm?ac=18",
+            "voting_data": {
+                "constituency_no": "18",
+                "constituency": "KONTHOUJAM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Konthoujam Sharat Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "12784",
+                        "postal_votes": "254"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Khoirom Binarani Devi",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "70",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Laishram Nando Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "889",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Dr. Sapam Ranjan Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "12934",
+                        "postal_votes": "498"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Nongmaithem Herojit Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "805",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "151",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1419.htm?ac=19",
+            "voting_data": {
+                "constituency_no": "19",
+                "constituency": "PATSOI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Akoijam Mirabai Devi",
+                        "party": "Indian National Congress",
+                        "evm_votes": "11202",
+                        "postal_votes": "297"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "R.K. Rameshwar Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "10531",
+                        "postal_votes": "210"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Sapam Kunjakeswor (Keba) Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "11916",
+                        "postal_votes": "270"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Wakambam Ibomcha Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "125",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "284",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1420.htm?ac=20",
+            "voting_data": {
+                "constituency_no": "20",
+                "constituency": "LANGTHABAL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Okram Joy Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8552",
+                        "postal_votes": "210"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Karam Nabakishor Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "5895",
+                        "postal_votes": "54"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Karam Shyam",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10620",
+                        "postal_votes": "195"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Hijam Somarendro Singh",
+                        "party": "Independent",
+                        "evm_votes": "499",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "236",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1421.htm?ac=21",
+            "voting_data": {
+                "constituency_no": "21",
+                "constituency": "NAORIYA PAKHANGLAKPA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Sagolshem Kebi Devi",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10668",
+                        "postal_votes": "390"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Soibam Subhaschandra Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "10266",
+                        "postal_votes": "261"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Soraisham Manaoton Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9243",
+                        "postal_votes": "201"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Konthoujam Manoranjan Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "1693",
+                        "postal_votes": "28"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "214",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1422.htm?ac=22",
+            "voting_data": {
+                "constituency_no": "22",
+                "constituency": "WANGOI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Oinam Lukhoi Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "11828",
+                        "postal_votes": "512"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "KHURAIJAM LOKEN SINGH",
+                        "party": "National People's Party",
+                        "evm_votes": "15330",
+                        "postal_votes": "276"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Salam Joy Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "141",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "122",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1423.htm?ac=23",
+            "voting_data": {
+                "constituency_no": "23",
+                "constituency": "MAYANG IMPHAL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Urikhimbam Ramesh Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "7333",
+                        "postal_votes": "41"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Kongkham Robindro Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "14164",
+                        "postal_votes": "478"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Dr. Khumujam Ratankumar Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8292",
+                        "postal_votes": "221"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "150",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1424.htm?ac=24",
+            "voting_data": {
+                "constituency_no": "24",
+                "constituency": "NAMBOL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "THOUNAOJAM BASANTA KUMAR SINGH",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "16387",
+                        "postal_votes": "498"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "NAMEIRAKPAM LOKEN SINGH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "13276",
+                        "postal_votes": "549"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "123",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1425.htm?ac=25",
+            "voting_data": {
+                "constituency_no": "25",
+                "constituency": "OINAM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Irengbam Nalini Devi",
+                        "party": "National People's Party",
+                        "evm_votes": "10573",
+                        "postal_votes": "235"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Thokchom Ithoibi Devi",
+                        "party": "Indian National Congress",
+                        "evm_votes": "3200",
+                        "postal_votes": "89"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Laishram Radhakishore Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10049",
+                        "postal_votes": "317"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Ashem Babu Singh",
+                        "party": "Shiv Sena",
+                        "evm_votes": "405",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Thingbaijam Swarankumar Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "511",
+                        "postal_votes": "16"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Laitonjam Brojen Singh",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "965",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Ngangom Shivakumar Singh",
+                        "party": "Independent",
+                        "evm_votes": "145",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "124",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1426.htm?ac=26",
+            "voting_data": {
+                "constituency_no": "26",
+                "constituency": "BISHENPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Konthoujam Govindas Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "12944",
+                        "postal_votes": "667"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ningthoujam Joykumar Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "3332",
+                        "postal_votes": "63"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Oinam Nabakishore Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "12037",
+                        "postal_votes": "165"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "345",
+                        "postal_votes": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1427.htm?ac=27",
+            "voting_data": {
+                "constituency_no": "27",
+                "constituency": "MOIRANG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Thongam Shanti Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "14087",
+                        "postal_votes": "262"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Pukhrem Sharatchandra Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "9156",
+                        "postal_votes": "202"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Mairembam Prithviraj Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "11833",
+                        "postal_votes": "285"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "263",
+                        "postal_votes": "8"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1428.htm?ac=28",
+            "voting_data": {
+                "constituency_no": "28",
+                "constituency": "THANGA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Tongbram Robindro Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "12531",
+                        "postal_votes": "564"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Birla Haobijam",
+                        "party": "Indian National Congress",
+                        "evm_votes": "7731",
+                        "postal_votes": "113"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "195",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1429.htm?ac=29",
+            "voting_data": {
+                "constituency_no": "29",
+                "constituency": "KUMBI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Dr. Khangembam Romesh Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1147",
+                        "postal_votes": "22"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ningthoujam Mangi Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "7642",
+                        "postal_votes": "145"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Sanasam Premchandra Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8382",
+                        "postal_votes": "131"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Ahanthem Shanjoy Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "8078",
+                        "postal_votes": "63"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Naorem Sorojini Devi",
+                        "party": "Independent",
+                        "evm_votes": "329",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "147",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1430.htm?ac=30",
+            "voting_data": {
+                "constituency_no": "30",
+                "constituency": "LILONG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Y. Antas Khan",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "15808",
+                        "postal_votes": "508"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Syed Anwar Hussain",
+                        "party": "Indian National Congress",
+                        "evm_votes": "431",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Mohd Abdul Nasir",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "16361",
+                        "postal_votes": "525"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Abdul Manan",
+                        "party": "Independent",
+                        "evm_votes": "162",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Md Irshad Hussain",
+                        "party": "Independent",
+                        "evm_votes": "20",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "139",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1431.htm?ac=31",
+            "voting_data": {
+                "constituency_no": "31",
+                "constituency": "THOUBAL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Okram Ibobi Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "14324",
+                        "postal_votes": "761"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Leitanthem Basanta Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "12002",
+                        "postal_votes": "540"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Irom Chaoba Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "143",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Konsam Michael Singh",
+                        "party": "Shiv Sena",
+                        "evm_votes": "1582",
+                        "postal_votes": "40"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "184",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1432.htm?ac=32",
+            "voting_data": {
+                "constituency_no": "32",
+                "constituency": "WANGKHEM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Oinam Haridas Singh",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "75",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Keisham Meghachandra Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8304",
+                        "postal_votes": "585"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Kharibam Jiban Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "3419",
+                        "postal_votes": "55"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Yumnam Nabachandra Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "7309",
+                        "postal_votes": "288"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Kangabam Jadu @ Jadumani Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "2837",
+                        "postal_votes": "54"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Prof. (Dr.) Nimai Chand Luwang",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "6879",
+                        "postal_votes": "221"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Md Abdul Halim",
+                        "party": "Independent",
+                        "evm_votes": "71",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Laishram Domen Singh",
+                        "party": "Independent",
+                        "evm_votes": "33",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "131",
+                        "postal_votes": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1433.htm?ac=33",
+            "voting_data": {
+                "constituency_no": "33",
+                "constituency": "HEIROK",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Thokchom Radheshyam Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "12989",
+                        "postal_votes": "600"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ningthoujam Diten Singh",
+                        "party": "National People's Party",
+                        "evm_votes": "4712",
+                        "postal_votes": "54"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Moirangthem Okendro",
+                        "party": "Indian National Congress",
+                        "evm_votes": "12568",
+                        "postal_votes": "618"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Moirangthem Totomsana Nongshaba",
+                        "party": "Rashtriya Janhit Sangharsh Party",
+                        "evm_votes": "86",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "120",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1434.htm?ac=34",
+            "voting_data": {
+                "constituency_no": "34",
+                "constituency": "WANGJING TENTHA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Usham Manglem",
+                        "party": "National People's Party",
+                        "evm_votes": "709",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Paonam Brojen Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "15339",
+                        "postal_votes": "426"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Moirangthem Hemanta Singh",
+                        "party": "Indian National Congress",
+                        "evm_votes": "13445",
+                        "postal_votes": "407"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "157",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1435.htm?ac=35",
+            "voting_data": {
+                "constituency_no": "35",
+                "constituency": "KHANGABO",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Khundrakpam Menjor Mangang",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9449",
+                        "postal_votes": "183"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Surjakumar Okram",
+                        "party": "Indian National Congress",
+                        "evm_votes": "16710",
+                        "postal_votes": "725"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Thokchom Jadumani Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "7476",
+                        "postal_votes": "79"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "410",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1436.htm?ac=36",
+            "voting_data": {
+                "constituency_no": "36",
+                "constituency": "WABGAI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Dr.USHAM DEBEN SINGH",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8871",
+                        "postal_votes": "267"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "MD.FAJUR RAHIM",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8929",
+                        "postal_votes": "159"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MAYENGBAM RANJIT SINGH",
+                        "party": "National People's Party",
+                        "evm_votes": "5745",
+                        "postal_votes": "128"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "MD. SIKANDER",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "3565",
+                        "postal_votes": "36"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "SAKIR AHMED",
+                        "party": "Independent",
+                        "evm_votes": "1479",
+                        "postal_votes": "22"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "152",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1437.htm?ac=37",
+            "voting_data": {
+                "constituency_no": "37",
+                "constituency": "KAKCHING",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "MAYANGLAMBAM RAMESHWAR SINGH",
+                        "party": "National People's Party",
+                        "evm_votes": "8392",
+                        "postal_votes": "154"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "YENGKHOM NILACHANDRA SINGH",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "1974",
+                        "postal_votes": "35"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "YENGKHOM ROMA DEVI",
+                        "party": "Communist Party of India",
+                        "evm_votes": "660",
+                        "postal_votes": "16"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Yengkhom Surchandra Singh",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "7079",
+                        "postal_votes": "262"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "KSHETRIMAYUM KENNEDY SINGH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "5777",
+                        "postal_votes": "96"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Naorem Nabachandra Singh",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "2421",
+                        "postal_votes": "30"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "235",
+                        "postal_votes": "4"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1438.htm?ac=38",
+            "voting_data": {
+                "constituency_no": "38",
+                "constituency": "HIYANGLAM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "MAIBAM DHANABIR SINGH",
+                        "party": "National People's Party",
+                        "evm_votes": "4162",
+                        "postal_votes": "61"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "DR. YUMNAM RADHESHYAM SINGH",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8549",
+                        "postal_votes": "64"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "DR. HUIDROM JITEN SINGH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "6481",
+                        "postal_votes": "103"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "ELANGBAM DWIJAMANI SINGH",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "6409",
+                        "postal_votes": "150"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NONGMAITHEM SANJAY SINGH",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "114",
+                        "postal_votes": "20"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "149",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1439.htm?ac=39",
+            "voting_data": {
+                "constituency_no": "39",
+                "constituency": "SUGNOO",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "KANGUJAM RANJIT SINGH",
+                        "party": "Indian National Congress",
+                        "evm_votes": "12354",
+                        "postal_votes": "319"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "MAYANGLAMBAM BINOD",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "11446",
+                        "postal_votes": "211"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "KAKYENPAIBAM MUKTASANA SINGH",
+                        "party": "Independent",
+                        "evm_votes": "550",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "145",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1440.htm?ac=40",
+            "voting_data": {
+                "constituency_no": "40",
+                "constituency": "JIRIBAM",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "NAMEIRAKPAM BUDHACHANDRA SINGH",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "11767",
+                        "postal_votes": "130"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "BADRUR RAHMAN",
+                        "party": "Indian National Congress",
+                        "evm_votes": "738",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "MAKAKMAYUM ABBAS KHAN",
+                        "party": "National People's Party",
+                        "evm_votes": "1108",
+                        "postal_votes": "5"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "MD. ACHAB UDDIN",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "12253",
+                        "postal_votes": "60"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "578",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1441.htm?ac=41",
+            "voting_data": {
+                "constituency_no": "41",
+                "constituency": "CHANDEL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Langhu Paulhring Anal",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "9553",
+                        "postal_votes": "172"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "SS. Olish",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "36810",
+                        "postal_votes": "256"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "81",
+                        "postal_votes": "10"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1442.htm?ac=42",
+            "voting_data": {
+                "constituency_no": "42",
+                "constituency": "TENGNOUPAL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "D. Korungthang",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "15201",
+                        "postal_votes": "51"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "LETPAO HAOKIP",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "21523",
+                        "postal_votes": "140"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Wairok Morung Makunga",
+                        "party": "Indian National Congress",
+                        "evm_votes": "4040",
+                        "postal_votes": "59"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Kh. David Maring",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "49",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Jamkholun Haokip",
+                        "party": "Independent",
+                        "evm_votes": "25",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Tantanga Kohai Moshilpha",
+                        "party": "Independent",
+                        "evm_votes": "775",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "30",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1443.htm?ac=43",
+            "voting_data": {
+                "constituency_no": "43",
+                "constituency": "PHUNGYAR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "AWUNG SHIMRAY HOPINGSON",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10751",
+                        "postal_votes": "112"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "LEISHIYO KEISHING",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "11579",
+                        "postal_votes": "63"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "VICTOR KEISHING",
+                        "party": "Indian National Congress",
+                        "evm_votes": "7384",
+                        "postal_votes": "69"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NINGHOR JAJO",
+                        "party": "Shiv Sena",
+                        "evm_votes": "152",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "WUNGNAOSHANG KASAR",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "692",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "33",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1444.htm?ac=44",
+            "voting_data": {
+                "constituency_no": "44",
+                "constituency": "UKHRUL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "ALFRED KANNGAM S. ARTHUR",
+                        "party": "Indian National Congress",
+                        "evm_votes": "14431",
+                        "postal_votes": "130"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "RAM MUIVAH",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "15376",
+                        "postal_votes": "127"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "SOMATAI SHAIZA",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9829",
+                        "postal_votes": "132"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "47",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1445.htm?ac=45",
+            "voting_data": {
+                "constituency_no": "45",
+                "constituency": "CHINGAI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "KHASHIM VASHUM",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "12746",
+                        "postal_votes": "91"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "NINGAM CHAMROY",
+                        "party": "National People's Party",
+                        "evm_votes": "10368",
+                        "postal_votes": "133"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "PRESHOW MK SHIMRAY",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9246",
+                        "postal_votes": "103"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "SWORD VASHUM",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8078",
+                        "postal_votes": "72"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "61",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1446.htm?ac=46",
+            "voting_data": {
+                "constituency_no": "46",
+                "constituency": "SAIKUL",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Lhingkim Haokip",
+                        "party": "Indian National Congress",
+                        "evm_votes": "903",
+                        "postal_votes": "32"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Seikholal Haokip",
+                        "party": "National People's Party",
+                        "evm_votes": "637",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Yamthong Haokip",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "2634",
+                        "postal_votes": "33"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Ch. Ajang Khongsai",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "4446",
+                        "postal_votes": "40"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Jamchinlen Lunkim",
+                        "party": "Republican Party of India (Athawale)",
+                        "evm_votes": "320",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Kimneo Haokip Hangshing",
+                        "party": "Kuki People’s Alliance",
+                        "evm_votes": "6655",
+                        "postal_votes": "55"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "Chungkhokai Doungel",
+                        "party": "Independent",
+                        "evm_votes": "5076",
+                        "postal_votes": "31"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Kenn Raikhan",
+                        "party": "Independent",
+                        "evm_votes": "5441",
+                        "postal_votes": "20"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "101",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1447.htm?ac=47",
+            "voting_data": {
+                "constituency_no": "47",
+                "constituency": "KARONG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Khoho Siile Anthony",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "10462",
+                        "postal_votes": "21"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "D. D. Thaisii",
+                        "party": "Indian National Congress",
+                        "evm_votes": "5839",
+                        "postal_votes": "52"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "R Yuh Jonathan Tao",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "13619",
+                        "postal_votes": "30"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "J Kumo Sha",
+                        "party": "Independent",
+                        "evm_votes": "17167",
+                        "postal_votes": "24"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Thaiba Sanii",
+                        "party": "Independent",
+                        "evm_votes": "2099",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "43",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1448.htm?ac=48",
+            "voting_data": {
+                "constituency_no": "48",
+                "constituency": "MAO",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Losii Dikho",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "29531",
+                        "postal_votes": "60"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Sanii Alexander Maikho",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "244",
+                        "postal_votes": "35"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Woba Joram",
+                        "party": "Independent",
+                        "evm_votes": "21042",
+                        "postal_votes": "36"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "26",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1449.htm?ac=49",
+            "voting_data": {
+                "constituency_no": "49",
+                "constituency": "TADUBI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "M. Francis Ngajokpa",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "20977",
+                        "postal_votes": "75"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "N. Kayisii",
+                        "party": "National People's Party",
+                        "evm_votes": "21559",
+                        "postal_votes": "42"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "O. Lohrii",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "122",
+                        "postal_votes": "69"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Robert Tailu Maram",
+                        "party": "Independent",
+                        "evm_votes": "2270",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "55",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1450.htm?ac=50",
+            "voting_data": {
+                "constituency_no": "50",
+                "constituency": "KANGPOKPI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Nemcha Kipgen",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "14284",
+                        "postal_votes": "128"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Ngamkhohen Kipgen",
+                        "party": "Indian National Congress",
+                        "evm_votes": "1343",
+                        "postal_votes": "33"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Soshim Gurung",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "8976",
+                        "postal_votes": "40"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "315",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1451.htm?ac=51",
+            "voting_data": {
+                "constituency_no": "51",
+                "constituency": "SAITU",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Lamtinthang Haokip",
+                        "party": "Indian National Congress",
+                        "evm_votes": "7017",
+                        "postal_votes": "116"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "K Lhouvum",
+                        "party": "National People's Party",
+                        "evm_votes": "6950",
+                        "postal_votes": "28"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Ngamthang Haokip",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "9618",
+                        "postal_votes": "144"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "L Johny Gangmei",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "154",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Haokholet Kipgen",
+                        "party": "Independent",
+                        "evm_votes": "12417",
+                        "postal_votes": "39"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Th. Sanglou Maram",
+                        "party": "Independent",
+                        "evm_votes": "2917",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "92",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1452.htm?ac=52",
+            "voting_data": {
+                "constituency_no": "52",
+                "constituency": "TAMEI",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Awangbow Newmai",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "19528",
+                        "postal_votes": "115"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Z. Kikhonbou Newmai",
+                        "party": "National People's Party",
+                        "evm_votes": "17837",
+                        "postal_votes": "108"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "GN. Kumuiteung (Dr. Aku)",
+                        "party": "Indian National Congress",
+                        "evm_votes": "391",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Wilubou Newmai",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "613",
+                        "postal_votes": "14"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "31",
+                        "postal_votes": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1453.htm?ac=53",
+            "voting_data": {
+                "constituency_no": "53",
+                "constituency": "TAMENGLONG",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Huri Golmei",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "8862",
+                        "postal_votes": "285"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Janghemlung Panmei",
+                        "party": "National People's Party",
+                        "evm_votes": "10036",
+                        "postal_votes": "420"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Khangthuanang Panmei",
+                        "party": "Naga Peoples Front",
+                        "evm_votes": "4405",
+                        "postal_votes": "76"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Samuel Jendai",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "6196",
+                        "postal_votes": "251"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "122",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1454.htm?ac=54",
+            "voting_data": {
+                "constituency_no": "54",
+                "constituency": "NUNGBA",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Dinganglung Gangmei",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "14216",
+                        "postal_votes": "248"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Gaikhangam",
+                        "party": "Indian National Congress",
+                        "evm_votes": "10372",
+                        "postal_votes": "306"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "59",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1455.htm?ac=55",
+            "voting_data": {
+                "constituency_no": "55",
+                "constituency": "TIPAIMUKH",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Chalton Lien Amo",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "4970",
+                        "postal_votes": "48"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Thangthatling Sinate",
+                        "party": "National People's Party",
+                        "evm_votes": "1313",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Ngursanglur Sanate",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "6259",
+                        "postal_votes": "8"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "128",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1456.htm?ac=56",
+            "voting_data": {
+                "constituency_no": "56",
+                "constituency": "THANLON",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Khanthang Tonsing",
+                        "party": "National People's Party",
+                        "evm_votes": "4091",
+                        "postal_votes": "21"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Vungzagin Valte",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "4828",
+                        "postal_votes": "35"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Lalhlunsang Sungte",
+                        "party": "Shiv Sena",
+                        "evm_votes": "651",
+                        "postal_votes": "7"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Thangkhangin",
+                        "party": "Lok Janshakti Party(Ram Vilas)",
+                        "evm_votes": "70",
+                        "postal_votes": "1"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "Thangkhosei Guite",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "795",
+                        "postal_votes": "2"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Langkhanpau Guite",
+                        "party": "Independent",
+                        "evm_votes": "2779",
+                        "postal_votes": "10"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "48",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1457.htm?ac=57",
+            "voting_data": {
+                "constituency_no": "57",
+                "constituency": "HENGLEP",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Letzamang Haokip",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "13823",
+                        "postal_votes": "74"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "T. Manga Vaiphei",
+                        "party": "Indian National Congress",
+                        "evm_votes": "5996",
+                        "postal_votes": "53"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Nehminthang Haokip",
+                        "party": "National People's Party",
+                        "evm_votes": "3788",
+                        "postal_votes": "36"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Genneikhup",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "1082",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "T. Thangzalam Haokip",
+                        "party": "Shiv Sena",
+                        "evm_votes": "2587",
+                        "postal_votes": "18"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "Sehpu Haokip",
+                        "party": "Independent",
+                        "evm_votes": "80",
+                        "postal_votes": "4"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "40",
+                        "postal_votes": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1458.htm?ac=58",
+            "voting_data": {
+                "constituency_no": "58",
+                "constituency": "CHURACHANDPUR",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "V HANGKHANLIAN",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "17320",
+                        "postal_votes": "287"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "H. MANGCHINKHUP PAITE",
+                        "party": "Indian National Congress",
+                        "evm_votes": "8290",
+                        "postal_votes": "192"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Th. THANGZALIAN",
+                        "party": "National People's Party",
+                        "evm_votes": "498",
+                        "postal_votes": "17"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Dr. JAINSON HAOKIP D.D.",
+                        "party": "Kuki National Assembly",
+                        "evm_votes": "235",
+                        "postal_votes": "13"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "L.M. KHAUTE",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "17964",
+                        "postal_votes": "267"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "H.LIANCHINTHANG",
+                        "party": "Lok Janshakti Party(Ram Vilas)",
+                        "evm_votes": "167",
+                        "postal_votes": "3"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "JAMES KHUMA HAUZEL",
+                        "party": "Independent",
+                        "evm_votes": "2233",
+                        "postal_votes": "11"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "162",
+                        "postal_votes": "12"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1459.htm?ac=59",
+            "voting_data": {
+                "constituency_no": "59",
+                "constituency": "SAIKOT",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "George T. Haokip",
+                        "party": "Nationalist Congress Party",
+                        "evm_votes": "4726",
+                        "postal_votes": "70"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "T. N Haokip",
+                        "party": "Indian National Congress",
+                        "evm_votes": "10099",
+                        "postal_votes": "151"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Khaipao Haokip",
+                        "party": "National People's Party",
+                        "evm_votes": "12481",
+                        "postal_votes": "105"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "Paolienlal Haokip",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "18239",
+                        "postal_votes": "218"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "JOHN H PULAMTE",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "203",
+                        "postal_votes": "28"
+                    },
+                    {
+                        "serial_no": "6",
+                        "candidate": "JOSHUA THIEK",
+                        "party": "Kuki National Assembly",
+                        "evm_votes": "817",
+                        "postal_votes": "20"
+                    },
+                    {
+                        "serial_no": "7",
+                        "candidate": "JOHN MK THANG",
+                        "party": "Independent",
+                        "evm_votes": "72",
+                        "postal_votes": "6"
+                    },
+                    {
+                        "serial_no": "8",
+                        "candidate": "Karong Onkholer",
+                        "party": "Independent",
+                        "evm_votes": "5151",
+                        "postal_votes": "18"
+                    },
+                    {
+                        "serial_no": "9",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "183",
+                        "postal_votes": "3"
+                    }
+                ]
+            }
+        },
+        {
+            "source_url": "https://results.eci.gov.in/ResultAcGenMar2022/ConstituencywiseS1460.htm?ac=60",
+            "voting_data": {
+                "constituency_no": "60",
+                "constituency": "SINGHAT",
+                "voting_tally": [
+                    {
+                        "serial_no": "1",
+                        "candidate": "Ginsuanhau Zou",
+                        "party": "Bharatiya Janata Party",
+                        "evm_votes": "10109",
+                        "postal_votes": "70"
+                    },
+                    {
+                        "serial_no": "2",
+                        "candidate": "Tuankhan Kiamlo Hangzo",
+                        "party": "Indian National Congress",
+                        "evm_votes": "252",
+                        "postal_votes": "15"
+                    },
+                    {
+                        "serial_no": "3",
+                        "candidate": "Chinlunthang",
+                        "party": "Kuki People’s Alliance",
+                        "evm_votes": "12042",
+                        "postal_votes": "56"
+                    },
+                    {
+                        "serial_no": "4",
+                        "candidate": "T. Hangkhanpau",
+                        "party": "Janata Dal  (United)",
+                        "evm_votes": "1031",
+                        "postal_votes": "0"
+                    },
+                    {
+                        "serial_no": "5",
+                        "candidate": "NOTA",
+                        "party": "None of the Above",
+                        "evm_votes": "55",
+                        "postal_votes": "2"
+                    }
+                ]
+            }
+        }
+    ]
+}
