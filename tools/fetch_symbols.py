@@ -16,7 +16,7 @@ import sqlite3
 import sys
 import urllib.request
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "data", "election_results.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "data", "india-votes-data.db")
 CSV_PATH = os.path.join(os.path.dirname(__file__), "data", "parties.csv")
 
 

@@ -153,7 +153,7 @@ Switch via `DATABASE_URL`:
 
 ```bash
 # SQLite
-DATABASE_URL="data/election_results.db"
+DATABASE_URL="data/india-votes-data.db"
 
 # PostgreSQL
 DATABASE_URL="postgresql://localhost:5432/election_results"

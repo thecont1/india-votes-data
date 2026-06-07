@@ -4,7 +4,7 @@
 import os
 import sqlite3
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "election_results.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "india-votes-data.db")
 OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "export")
 
 TABLES = ["states", "parties", "elections", "constituency_status", "rounds_ac"]

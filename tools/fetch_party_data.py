@@ -8,7 +8,7 @@ import time
 import urllib.request
 import urllib.parse
 
-DB_PATH = "data/election_results.db"
+DB_PATH = "data/india-votes-data.db"
 DELAY = 1.5  # seconds between requests
 MAX_RETRIES = 3
 

@@ -90,7 +90,7 @@ Endpoints:
 ### Dashboard
 
 ```bash
-DATABASE_URL=data/election_results.db uvicorn server:app --reload
+DATABASE_URL=data/india-votes-data.db uvicorn server:app --reload
 # Open http://localhost:8000
 ```
 
@@ -100,7 +100,7 @@ Dual-backend via `DATABASE_URL`:
 
 ```bash
 # SQLite (default)
-DATABASE_URL="data/election_results.db" uvicorn server:app --reload
+DATABASE_URL="data/india-votes-data.db" uvicorn server:app --reload
 
 # PostgreSQL
 DATABASE_URL="postgresql://localhost:5432/election_results" uvicorn server:app --reload
@@ -134,7 +134,7 @@ india-votes-data/
 │   ├── parties.csv              # 30 major parties metadata
 │   ├── csv/                     # CLI CSV output
 │   ├── json/                    # CLI JSON output
-│   └── election_results.db      # SQLite database (gitignored)
+│   └── india-votes-data.db      # SQLite database (gitignored)
 ├── docs/
 │   └── SCHEMA.md                # Database schema docs
 ├── notebooks/

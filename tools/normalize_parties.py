@@ -7,7 +7,7 @@ import sqlite3
 import re
 from collections import defaultdict
 
-DATABASE_URL = "data/election_results.db"
+DATABASE_URL = "data/india-votes-data.db"
 conn = sqlite3.connect(DATABASE_URL)
 cur = conn.cursor()
 

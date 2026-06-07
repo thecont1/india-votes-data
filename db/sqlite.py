@@ -3,7 +3,7 @@ Database layer for ECI Live Election Tracker.
 
 Supports both SQLite and PostgreSQL backends.
 Set DATABASE_URL env var:
-  - File path (e.g. "data/election_results.db") → SQLite
+  - File path (e.g. "data/india-votes-data.db") → SQLite
   - postgres:// or postgresql:// URL → PostgreSQL
 
 Tables:
@@ -23,7 +23,7 @@ from typing import Optional
 
 import pandas as pd
 
-DATABASE_URL = os.environ.get("DATABASE_URL", "data/election_results.db")
+DATABASE_URL = os.environ.get("DATABASE_URL", "data/india-votes-data.db")
 IS_PG = DATABASE_URL.startswith("postgresql://") or DATABASE_URL.startswith("postgres://")
 STATES_CSV = os.path.join(os.path.dirname(__file__), "data", "states.csv")
 PARTIES_CSV = os.path.join(os.path.dirname(__file__), "data", "parties.csv")
