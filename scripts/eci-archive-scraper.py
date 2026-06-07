@@ -170,8 +170,13 @@ def discover_constituencies(html: str, raw_code: str) -> tuple:
 def extract_election_metadata(html: str) -> tuple:
     """Extract (title, year) from the page."""
     soup = BeautifulSoup(html, "html.parser")
-    title_h3 = soup.find("h3", string=re.compile(r"GENERAL ELECTION"))  # type: ignore[call-overload]
-    title_text = title_h3.get_text(strip=True) if title_h3 else ""
+    title_text = ""
+    # Search h1-h5 using get_text() so nested tags (b, font, etc.) don't break matching
+    for tag in soup.find_all(["h1", "h2", "h3", "h4", "h5"]):
+        text = tag.get_text(strip=True)
+        if re.search(r"(GENERAL|ASSEMBLY)\s+ELECTION", text, re.I):
+            title_text = text
+            break
     year_match = re.search(r"(\d{4})", title_text)
     year = int(year_match.group(1)) if year_match else 0
     title = title_text.replace("&amp;", "&") if title_text else f"Assembly Election {year}"
@@ -346,6 +351,12 @@ Examples:
     state_code, constituencies = discover_constituencies(html, raw_code)
     title, election_year = extract_election_metadata(html)
     state_code_out = args.state_code or ECI_STATE_MAP.get(state_code, state_code) or state_code
+
+    # Fallback: parse year from --election-id (format AC-YYYY-MM) if page scrape failed
+    if election_year == 0:
+        id_year_match = re.search(r"(\d{4})", args.election_id)
+        if id_year_match:
+            election_year = int(id_year_match.group(1))
 
     print(f"ECI state   : {state_code} -> {state_code_out}")
     print(f"Election    : {title}")
