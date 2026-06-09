@@ -11,3 +11,7 @@ compatibility_flags = ["nodejs_compat"]
 binding = "DB"
 database_name = "election-results"
 database_id = "3b88bba3-e1ef-430b-80b3-2f648a733d98"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "b6b3333e36bb4df3b6cd8beb839e89a5"
