@@ -153,8 +153,15 @@ async function handleRoundIngest(request, env, corsHeaders) {
   // Execute all in one batch
   await env.DB.batch(stmts);
 
-  // Rebuild FTS index
-  await env.DB.prepare("INSERT INTO search_fts(search_fts) VALUES('rebuild')").run();
+  // Maintain latest_rounds_ac summary table
+  await env.DB.prepare(`
+    INSERT INTO latest_rounds_ac (state_code, ac_no, max_round)
+    SELECT state_code, ac_no, MAX(round_no)
+    FROM rounds_ac
+    WHERE state_code = ?
+    GROUP BY state_code, ac_no
+    ON CONFLICT(state_code, ac_no) DO UPDATE SET max_round = excluded.max_round
+  `).bind(state_code).run();
 
   return Response.json(
     { ok: true, candidates: candidates.length, state_code, ac_no, round_no },
@@ -247,7 +254,25 @@ async function handleBatchIngest(request, env, corsHeaders) {
     await env.DB.batch(stmts.slice(i, i + BATCH_SIZE));
   }
 
-  // Skip FTS rebuild per-batch — caller does it once after all loads
+  // Maintain latest_rounds_ac summary table for affected states
+  const affectedStates = [...new Set(rounds.map(r => r.state_code).filter(Boolean))];
+  for (const sc of affectedStates) {
+    await env.DB.prepare(`
+      INSERT INTO latest_rounds_ac (state_code, ac_no, max_round)
+      SELECT state_code, ac_no, MAX(round_no)
+      FROM rounds_ac
+      WHERE state_code = ?
+      GROUP BY state_code, ac_no
+      ON CONFLICT(state_code, ac_no) DO UPDATE SET max_round = excluded.max_round
+    `).bind(sc).run();
+  }
+
+  // Rebuild FTS only if explicitly requested (caller passes ?rebuild_fts=1 on final batch)
+  const rebuildFts = new URL(request.url).searchParams.get('rebuild_fts') === '1';
+  if (rebuildFts) {
+    await env.DB.prepare("INSERT INTO search_fts(search_fts) VALUES('rebuild')").run();
+  }
+
   return Response.json(
     { ok: true, rounds: rounds.length, candidates: totalCandidates },
     { headers: corsHeaders }
