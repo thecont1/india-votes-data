@@ -1,5 +1,6 @@
 import { jsonResponse } from '../shared/cors.js';
 import { getColor } from '../shared/party-colors.js';
+import { getPartiesWithSymbols } from './parties.js';
 
 /**
  * GET /api/bye-elections?election_id=BYE-2026-05&state=S10
@@ -61,12 +62,10 @@ export async function handleByeElections(request, env) {
 
   const rows = await env.DB.prepare(query).bind(...binds).all();
 
-  // Get party symbols
-  const symbolRows = await env.DB.prepare(
-    'SELECT abv, symbol_url FROM parties WHERE symbol_url IS NOT NULL'
-  ).all();
+  // Get party symbols (cached in KV)
+  const symbolRows = await getPartiesWithSymbols(env);
   const symbols = {};
-  for (const r of symbolRows.results) symbols[r.abv] = r.symbol_url;
+  for (const r of symbolRows) symbols[r.abv] = r.symbol_url;
 
   // Group by constituency
   const acMap = new Map();
@@ -112,5 +111,7 @@ export async function handleByeElections(request, env) {
     election_id: electionId,
     bye_elections: byeElections,
     total: byeElections.length,
+  }, 200, {
+    'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
   });
 }

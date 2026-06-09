@@ -1,5 +1,6 @@
 import { jsonResponse } from '../shared/cors.js';
 import { getColor } from '../shared/party-colors.js';
+import { getPartiesFull } from './parties.js';
 
 export async function handleAcRaces(request, env) {
   const url = new URL(request.url);
@@ -7,21 +8,16 @@ export async function handleAcRaces(request, env) {
   const electionId = url.searchParams.get('election_id')?.trim();
   if (!state) return jsonResponse({ error: 'state required' }, 400);
 
-  const electionFilter = electionId ? 'AND r.election_id = ?' : '';
-  const binds = electionId ? [state, electionId, state, electionId] : [state, state];
+  const binds = electionId ? [state, state, electionId] : [state, state];
 
   const rows = await env.DB.prepare(`
     WITH latest_rounds AS (
       SELECT lr.state_code, lr.ac_no, lr.max_round
-      FROM (
-        SELECT state_code, ac_no, MAX(round_no) as max_round
-        FROM rounds_ac
-        WHERE state_code = ? ${electionId ? 'AND election_id = ?' : ''}
-        GROUP BY state_code, ac_no
-      ) lr
+      FROM latest_rounds_ac lr
       JOIN constituency_status cs
         ON lr.state_code = cs.state_code AND lr.ac_no = cs.ac_no
       WHERE cs.status = 'DONE'
+        AND lr.state_code = ?
     ),
     ranked AS (
       SELECT r.state_code, r.ac_no, r.ac_name,
@@ -47,7 +43,7 @@ export async function handleAcRaces(request, env) {
       JOIN constituency_status cs
         ON r.state_code = cs.state_code
         AND r.ac_no = cs.ac_no
-      WHERE r.state_code = ? ${electionFilter}
+      WHERE r.state_code = ? ${electionId ? 'AND r.election_id = ?' : ''}
     )
     SELECT ac_no, ac_name, candidate, party_abv,
            votes, rank,
@@ -59,12 +55,10 @@ export async function handleAcRaces(request, env) {
     ORDER BY ac_no, rank
   `).bind(...binds).all();
 
-  // Get party names and symbols
-  const partyRows = await env.DB.prepare(
-    'SELECT abv, name, symbol_url FROM parties'
-  ).all();
+  // Get party names and symbols (cached)
+  const partyRows = await getPartiesFull(env);
   const partyInfo = {};
-  for (const r of partyRows.results) {
+  for (const r of partyRows) {
     partyInfo[r.abv] = { name: r.name, symbol_url: r.symbol_url };
   }
 
@@ -110,5 +104,7 @@ export async function handleAcRaces(request, env) {
   }
   result.sort((a, b) => b.margin - a.margin);
 
-  return jsonResponse({ races: result, state });
+  return jsonResponse({ races: result, state }, 200, {
+    'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
+  });
 }

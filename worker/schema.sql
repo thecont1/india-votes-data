@@ -102,3 +102,29 @@ CREATE INDEX IF NOT EXISTS idx_rounds_candidate
 -- election filtering: lookup by election_id
 CREATE INDEX IF NOT EXISTS idx_rounds_election
     ON rounds_ac (election_id);
+
+-- ============================================================
+-- Cost emergency fixes (2026-06-10)
+-- ============================================================
+
+-- Fix 1: Materialised latest-round-per-AC summary
+-- Eliminates ~60B row reads from GROUP BY on every request
+CREATE TABLE IF NOT EXISTS latest_rounds_ac (
+  state_code TEXT NOT NULL,
+  ac_no      INTEGER NOT NULL,
+  max_round  INTEGER NOT NULL,
+  PRIMARY KEY (state_code, ac_no)
+);
+
+-- Fix 2: Missing indexes
+-- constituency_status(state_code) — speeds up status endpoint GROUP BY
+CREATE INDEX IF NOT EXISTS idx_constituency_status_state
+  ON constituency_status(state_code);
+
+-- rounds_ac(state_code, ac_no, round_no DESC) — speeds up latest_round lookups
+CREATE INDEX IF NOT EXISTS idx_rounds_ac_state_ac_round_desc
+  ON rounds_ac(state_code, ac_no, round_no DESC);
+
+-- rounds_pc equivalents
+CREATE INDEX IF NOT EXISTS idx_rounds_pc_state_pc_round
+  ON rounds_pc(state_code, pc_no, round_no DESC);

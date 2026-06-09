@@ -40,5 +40,7 @@ export async function handleStatus(request, env) {
     statuses,
     active_states: state ? 1 : Object.keys(statuses).length,
     updated_at: new Date().toISOString(),
+  }, 200, {
+    'Cache-Control': 'public, max-age=15, stale-while-revalidate=30',
   });
 }

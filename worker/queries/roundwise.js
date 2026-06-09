@@ -1,5 +1,6 @@
 import { jsonResponse } from '../shared/cors.js';
 import { getColor } from '../shared/party-colors.js';
+import { getPartiesWithSymbols } from './parties.js';
 
 export async function handleRoundwise(request, env) {
   const url = new URL(request.url);
@@ -116,12 +117,10 @@ export async function handleRoundwise(request, env) {
   }
   const sortedParties = [...allParties].sort((a, b) => finalVotes.get(b) - finalVotes.get(a));
 
-  // Get party symbols
-  const symbolRows = await env.DB.prepare(
-    'SELECT abv, symbol_url FROM parties WHERE symbol_url IS NOT NULL'
-  ).all();
+  // Get party symbols (cached in KV)
+  const symbolRows = await getPartiesWithSymbols(env);
   const symbols = {};
-  for (const r of symbolRows.results) symbols[r.abv] = r.symbol_url;
+  for (const r of symbolRows) symbols[r.abv] = r.symbol_url;
 
   const series = sortedParties
     .filter(party => finalVotes.get(party) > 0)
@@ -216,5 +215,7 @@ export async function handleRoundwise(request, env) {
     }
   }
 
-  return jsonResponse({ state, rounds: allRounds, series, slopeDetail });
+  return jsonResponse({ state, rounds: allRounds, series, slopeDetail }, 200, {
+    'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
+  });
 }
