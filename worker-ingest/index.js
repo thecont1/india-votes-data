@@ -104,19 +104,21 @@ async function handleRoundIngest(request, env, corsHeaders) {
 
   // Update constituency_status
   const status = round_no === 999 ? 'DONE' : 'LIVE';
+  const won = round_no === 999 ? 1 : 0;
   stmts.push(
     env.DB.prepare(`
-      INSERT INTO constituency_status (state_code, ac_no, ac_name, status, current_round)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO constituency_status (state_code, ac_no, ac_name, status, current_round, won)
+      VALUES (?, ?, ?, ?, ?, ?)
       ON CONFLICT (state_code, ac_no) DO UPDATE SET
         ac_name = COALESCE(excluded.ac_name, constituency_status.ac_name),
         status = excluded.status,
         current_round = excluded.current_round,
+        won = CASE WHEN excluded.status = 'DONE' THEN 1 ELSE constituency_status.won END,
         error_count = CASE
           WHEN excluded.status = 'ERROR' THEN constituency_status.error_count + 1
           ELSE 0
         END
-    `).bind(state_code, ac_no, ac_name || null, status, round_no)
+    `).bind(state_code, ac_no, ac_name || null, status, round_no, won)
   );
 
   // Look up state standard code for search context (e.g. S25 -> WB)
@@ -203,19 +205,21 @@ async function handleBatchIngest(request, env, corsHeaders) {
     }
 
     const status = round_no === 999 ? 'DONE' : 'LIVE';
+    const won = round_no === 999 ? 1 : 0;
     stmts.push(
       env.DB.prepare(`
-        INSERT INTO constituency_status (state_code, ac_no, ac_name, status, current_round)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO constituency_status (state_code, ac_no, ac_name, status, current_round, won)
+        VALUES (?, ?, ?, ?, ?, ?)
         ON CONFLICT (state_code, ac_no) DO UPDATE SET
           ac_name = COALESCE(excluded.ac_name, constituency_status.ac_name),
           status = excluded.status,
           current_round = excluded.current_round,
+          won = CASE WHEN excluded.status = 'DONE' THEN 1 ELSE constituency_status.won END,
           error_count = CASE
             WHEN excluded.status = 'ERROR' THEN constituency_status.error_count + 1
             ELSE 0
           END
-      `).bind(state_code, ac_no, ac_name || null, status, round_no)
+      `).bind(state_code, ac_no, ac_name || null, status, round_no, won)
     );
 
     // Look up state standard code for search context (e.g. S25 -> WB)
