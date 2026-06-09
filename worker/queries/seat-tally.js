@@ -1,5 +1,6 @@
 import { jsonResponse } from '../shared/cors.js';
 import { getColor } from '../shared/party-colors.js';
+import { getPartiesWithSymbols } from './parties.js';
 import { getElectionById } from './elections.js';
 
 export async function handleSeatTally(request, env) {
@@ -37,11 +38,7 @@ export async function handleSeatTally(request, env) {
   const query = `
     WITH latest_rounds AS (
       SELECT lr.state_code, lr.ac_no, lr.max_round
-      FROM (
-        SELECT state_code, ac_no, MAX(round_no) as max_round
-        FROM rounds_ac
-        GROUP BY state_code, ac_no
-      ) lr
+      FROM latest_rounds_ac lr
       JOIN constituency_status cs
         ON lr.state_code = cs.state_code AND lr.ac_no = cs.ac_no
       WHERE cs.status = 'DONE'
@@ -125,12 +122,10 @@ export async function handleSeatTally(request, env) {
   const checkRow = await env.DB.prepare(checkQ).bind(...checkParams).first();
   const hasWonData = (checkRow?.won_count || 0) > 0;
 
-  // Get party symbols
-  const symbolRows = await env.DB.prepare(
-    'SELECT abv, symbol_url FROM parties WHERE symbol_url IS NOT NULL'
-  ).all();
+  // Get party symbols (cached in KV)
+  const symbolRows = await getPartiesWithSymbols(env);
   const symbols = {};
-  for (const r of symbolRows.results) symbols[r.abv] = r.symbol_url;
+  for (const r of symbolRows) symbols[r.abv] = r.symbol_url;
 
   const result = rows.results.map(row => {
     let won = row.won_seats;
@@ -184,5 +179,7 @@ export async function handleSeatTally(request, env) {
     if (mRow?.total_seats) majority = Math.floor(mRow.total_seats / 2) + 1;
   }
 
-  return jsonResponse({ parties: result, majority, updated_at: new Date().toISOString() });
+  return jsonResponse({ parties: result, majority, updated_at: new Date().toISOString() }, 200, {
+    'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
+  });
 }
