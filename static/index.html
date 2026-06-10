@@ -530,7 +530,7 @@
     color: var(--muted);
   }
 
-  /* Election Dropdown */
+  /* Election Dropdown - Civic Data Interface */
   .election-dropdown {
     position: relative;
     z-index: 40;
@@ -540,8 +540,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    min-height: 40px;
-    padding: 8px 12px;
+    min-height: 44px;
+    padding: 10px 12px;
     background: var(--control-bg);
     color: var(--control-text);
     border: 1px solid var(--control-border);
@@ -565,17 +565,22 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
   }
   .election-dropdown-btn__year {
     font-weight: 600;
     color: var(--text);
+    font-family: var(--font-numeric);
+    font-size: 14px;
+  }
+  .election-dropdown-btn__separator {
+    color: var(--muted);
   }
   .election-dropdown-btn__states {
     color: var(--muted);
     font-size: 12px;
+    line-height: 1.3;
   }
   .election-dropdown-btn__icon {
     flex-shrink: 0;
@@ -592,79 +597,91 @@
     top: calc(100% + 4px);
     left: 0;
     width: 100%;
-    max-width: 320px;
+    max-width: 380px;
     background: var(--card);
     border: 1px solid var(--border);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
-    max-height: min(400px, 60vh);
+    max-height: min(500px, 70vh);
     overflow-y: auto;
     z-index: 50;
+    font-family: var(--font-ui);
   }
   .election-dropdown-panel[hidden] {
     display: none;
   }
+  /* Year group wrapper */
   .election-year-group {
-    padding: 8px 0;
+    padding: 0;
   }
+  /* Year header - sticky for scanning */
   .election-year-header {
-    padding: 6px 12px;
+    position: sticky;
+    top: 0;
+    padding: 8px 12px;
     font-family: var(--font-numeric);
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 600;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
+    background: var(--card);
     border-bottom: 1px solid var(--border);
-    margin-bottom: 4px;
+    z-index: 4;
   }
+  /* Election row */
   .election-item {
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
     gap: 10px;
     padding: 8px 12px;
     cursor: pointer;
-    border-bottom: 1px solid transparent;
+    border-bottom: 1px solid var(--border);
     transition: background-color 0.15s ease;
   }
   .election-item:hover {
-    background: color-mix(in srgb, var(--accent) 8%, var(--bg) 92%);
+    background: color-mix(in srgb, var(--accent) 6%, var(--bg) 94%);
   }
   .election-item.active {
-    background: var(--control-active-bg);
+    border-left: 2px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 3%, var(--bg) 97%);
   }
-  .election-item.active .election-item__type {
-    color: var(--control-active-text);
+  .election-item:last-child {
+    border-bottom: none;
   }
-  .election-item.active .election-item__states {
-    color: color-mix(in srgb, var(--control-active-text) 80%, var(--control-active-text) 20%);
-  }
+  /* Radio indicator */
   .election-item__radio {
-    width: 14px;
-    height: 14px;
+    width: 10px;
+    height: 10px;
     border: 1px solid var(--border);
     border-radius: 50%;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 2px;
+    margin-top: 3px;
+  }
+  .election-item__radio::after {
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: transparent;
+    transition: background-color 0.15s ease;
   }
   .election-item.active .election-item__radio {
-    border-color: var(--control-active-text);
-    background: var(--control-active-text);
+    border-color: var(--accent);
   }
   .election-item.active .election-item__radio::after {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--control-active-bg);
+    background: var(--accent);
   }
+  /* Content columns */
   .election-item__content {
     display: flex;
     flex-direction: column;
     gap: 2px;
     min-width: 0;
+    flex: 1;
   }
   .election-item__type {
     font-size: 13px;
@@ -674,17 +691,18 @@
   .election-item__states {
     font-size: 12px;
     color: var(--muted);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px;
+    line-height: 1.3;
   }
-  .election-item__states span {
+  /* Month badge on right edge */
+  .election-item__month {
+    font-family: var(--font-numeric);
+    font-size: 11px;
+    color: var(--muted);
     white-space: nowrap;
+    padding-left: 8px;
+    align-self: flex-start;
+    margin-top: 3px;
   }
-  .election-item:last-child {
-    border-bottom: none;
-  }
-
   /* Mobile: election dropdown inside hamburger menu */
   .mobile-menu .election-dropdown {
     width: 100%;
@@ -3105,7 +3123,11 @@
   <div class="election-dropdown" id="election-dropdown">
     <button class="election-dropdown-btn" id="election-dropdown-btn" type="button" aria-label="Select election" aria-expanded="false" aria-haspopup="listbox" aria-controls="election-dropdown-panel">
       <span class="election-dropdown-btn__main">
-        <span class="election-dropdown-btn__year" id="election-dropdown-year">--</span>
+        <span class="election-dropdown-btn__year" id="election-dropdown-year">
+          <span id="election-dropdown-year-num">--</span>
+          <span class="election-dropdown-btn__separator">&nbsp;·&nbsp;</span>
+          <span id="election-dropdown-type">--</span>
+        </span>
         <span class="election-dropdown-btn__states" id="election-dropdown-states">Loading...</span>
       </span>
       <svg class="election-dropdown-btn__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l4 4 4-4"/></svg>
@@ -3151,7 +3173,11 @@
       <div class="election-dropdown" id="election-dropdown-mobile">
         <button class="election-dropdown-btn" id="election-dropdown-btn-mobile" type="button" aria-label="Select election" aria-expanded="false" aria-haspopup="listbox" aria-controls="election-dropdown-panel-mobile">
           <span class="election-dropdown-btn__main">
-            <span class="election-dropdown-btn__year" id="election-dropdown-year-mobile">--</span>
+            <span class="election-dropdown-btn__year" id="election-dropdown-year-mobile">
+              <span id="election-dropdown-year-num-mobile">--</span>
+              <span class="election-dropdown-btn__separator">&nbsp;·&nbsp;</span>
+              <span id="election-dropdown-type-mobile">--</span>
+            </span>
             <span class="election-dropdown-btn__states" id="election-dropdown-states-mobile">Loading...</span>
           </span>
           <svg class="election-dropdown-btn__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l4 4 4-4"/></svg>
@@ -3772,6 +3798,15 @@ function getElectionYear(electionId) {
   return match ? match[2] : '';
 }
 
+// Get month name from election_id (AC-2026-05 -> "May")
+function getElectionMonth(electionId) {
+  const match = electionId.match(/^(AC|BYE)-(\d{4})-(\d+)$/);
+  if (!match) return '';
+  const monthNum = parseInt(match[3], 10);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return months[monthNum - 1] || '';
+}
+
 // Format state codes to full names
 function formatStateNames(stateCodes) {
   if (!stateCodes || stateCodes.length === 0) return '';
@@ -3804,6 +3839,7 @@ function renderElectionDropdown() {
     byYear[year].forEach(election => {
       const type = getElectionType(election.election_id);
       const states = formatStateNames(election.states);
+      const month = getElectionMonth(election.election_id);
       const isActive = election.election_id === currentElection?.election_id;
       html += `
         <div class="election-item${isActive ? ' active' : ''}" data-election-id="${election.election_id}" role="option" aria-selected="${isActive}">
@@ -3812,6 +3848,7 @@ function renderElectionDropdown() {
             <div class="election-item__type">${type}</div>
             <div class="election-item__states">${states.split(', ').map(s => `<span>${s}</span>`).join(', ')}</div>
           </div>
+          <div class="election-item__month">${month}</div>
         </div>`;
     });
     html += '</div>';
@@ -3835,9 +3872,11 @@ function renderElectionDropdown() {
 
 // Update dropdown button display
 function updateDropdownButton() {
-  const yearEl = document.getElementById('election-dropdown-year');
+  const yearNumEl = document.getElementById('election-dropdown-year-num');
+  const typeEl = document.getElementById('election-dropdown-type');
   const statesEl = document.getElementById('election-dropdown-states');
-  const yearElMobile = document.getElementById('election-dropdown-year-mobile');
+  const yearNumElMobile = document.getElementById('election-dropdown-year-num-mobile');
+  const typeElMobile = document.getElementById('election-dropdown-type-mobile');
   const statesElMobile = document.getElementById('election-dropdown-states-mobile');
   
   if (currentElection) {
@@ -3845,10 +3884,11 @@ function updateDropdownButton() {
     const type = getElectionType(currentElection.election_id);
     const states = formatStateNames(currentElection.states);
     
-    const displayText = type ? `${year} — ${type}` : year;
-    if (yearEl) yearEl.textContent = displayText;
+    if (yearNumEl) yearNumEl.textContent = year;
+    if (typeEl) typeEl.textContent = type;
     if (statesEl) statesEl.textContent = states || 'No states';
-    if (yearElMobile) yearElMobile.textContent = displayText;
+    if (yearNumElMobile) yearNumElMobile.textContent = year;
+    if (typeElMobile) typeElMobile.textContent = type;
     if (statesElMobile) statesElMobile.textContent = states || 'No states';
   }
 }
