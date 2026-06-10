@@ -3785,22 +3785,31 @@ let electionsList = [];
 let stateNameMap = {};
 let electionDropdownOpen = false;
 
-// Get election type from election_id (AC-*, BYE-*)
+// Get election type from election_id (AC-*, LS-*, BYE-*)
 function getElectionType(electionId) {
+  if (electionId.startsWith('LS-')) return 'Parliamentary';
   if (electionId.startsWith('AC-')) return 'Assembly';
   if (electionId.startsWith('BYE-')) return 'Bye-Election';
   return '';
 }
 
+// Get type sort order (Parliamentary first, then Assembly, then Bye-Election)
+function getTypeOrder(type) {
+  if (type === 'Parliamentary') return 0;
+  if (type === 'Assembly') return 1;
+  if (type === 'Bye-Election') return 2;
+  return 9;
+}
+
 // Get year from election_id (AC-2026-05 -> 2026)
 function getElectionYear(electionId) {
-  const match = electionId.match(/^(AC|BYE)-(\d{4})-\d+$/);
+  const match = electionId.match(/^(AC|LS|BYE)-(\d{4})-\d+$/);
   return match ? match[2] : '';
 }
 
 // Get month name from election_id (AC-2026-05 -> "May")
 function getElectionMonth(electionId) {
-  const match = electionId.match(/^(AC|BYE)-(\d{4})-(\d+)$/);
+  const match = electionId.match(/^(AC|LS|BYE)-(\d{4})-(\d+)$/);
   if (!match) return '';
   const monthNum = parseInt(match[3], 10);
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -3821,37 +3830,44 @@ function renderElectionDropdown() {
   
   if (!panel || !panelMobile) return;
   
-  // Group elections by year (most recent first)
-  const byYear = {};
+  // Group by type, then by year within each type
+  const byTypeYear = {};
   electionsList.forEach(election => {
+    const type = getElectionType(election.election_id);
     const year = getElectionYear(election.election_id);
-    if (!byYear[year]) byYear[year] = [];
-    byYear[year].push(election);
+    const key = type;
+    if (!byTypeYear[key]) byTypeYear[key] = {};
+    if (!byTypeYear[key][year]) byTypeYear[key][year] = [];
+    byTypeYear[key][year].push(election);
   });
   
-  // Sort years descending
-  const sortedYears = Object.keys(byYear).sort((a, b) => b.localeCompare(a));
+  // Sort types: Parliamentary first, Assembly, Bye-Election
+  const sortedTypes = Object.keys(byTypeYear).sort((a, b) => getTypeOrder(a) - getTypeOrder(b));
   
   // Build HTML
   let html = '';
-  sortedYears.forEach(year => {
-    html += `<div class="election-year-group"><div class="election-year-header">${year}</div>`;
-    byYear[year].forEach(election => {
-      const type = getElectionType(election.election_id);
-      const states = formatStateNames(election.states);
-      const month = getElectionMonth(election.election_id);
-      const isActive = election.election_id === currentElection?.election_id;
-      html += `
-        <div class="election-item${isActive ? ' active' : ''}" data-election-id="${election.election_id}" role="option" aria-selected="${isActive}">
-          <div class="election-item__radio"></div>
-          <div class="election-item__content">
-            <div class="election-item__type">${type}</div>
-            <div class="election-item__states">${states.split(', ').map(s => `<span>${s}</span>`).join(', ')}</div>
-          </div>
-          <div class="election-item__month">${month}</div>
-        </div>`;
+  sortedTypes.forEach(type => {
+    const years = byTypeYear[type];
+    const sortedYears = Object.keys(years).sort((a, b) => b.localeCompare(a));
+    
+    // One section per type+year combination
+    sortedYears.forEach(year => {
+      html += `<div class="election-year-group"><div class="election-year-header">${year} ${type}</div>`;
+      years[year].forEach(election => {
+        const states = formatStateNames(election.states);
+        const month = getElectionMonth(election.election_id);
+        const isActive = election.election_id === currentElection?.election_id;
+        html += `
+          <div class="election-item${isActive ? ' active' : ''}" data-election-id="${election.election_id}" role="option" aria-selected="${isActive}">
+            <div class="election-item__radio"></div>
+            <div class="election-item__content">
+              <div class="election-item__states">${states}</div>
+            </div>
+            <div class="election-item__month">${month}</div>
+          </div>`;
+      });
+      html += '</div>';
     });
-    html += '</div>';
   });
   
   panel.innerHTML = html;
