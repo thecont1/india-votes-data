@@ -529,6 +529,186 @@
     font-size: 12px;
     color: var(--muted);
   }
+
+  /* Election Dropdown */
+  .election-dropdown {
+    position: relative;
+    z-index: 40;
+  }
+  .election-dropdown-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 12px;
+    background: var(--control-bg);
+    color: var(--control-text);
+    border: 1px solid var(--control-border);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    text-align: left;
+    width: 100%;
+    max-width: 280px;
+  }
+  .election-dropdown-btn:hover {
+    border-color: var(--control-hover-border);
+    color: var(--text);
+  }
+  .election-dropdown-btn:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+  .election-dropdown-btn__main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .election-dropdown-btn__year {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .election-dropdown-btn__states {
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .election-dropdown-btn__icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    color: var(--muted);
+    transition: transform 0.2s ease;
+  }
+  .election-dropdown-btn[aria-expanded="true"] .election-dropdown-btn__icon {
+    transform: rotate(180deg);
+  }
+  .election-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    max-width: 320px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+    max-height: min(400px, 60vh);
+    overflow-y: auto;
+    z-index: 50;
+  }
+  .election-dropdown-panel[hidden] {
+    display: none;
+  }
+  .election-year-group {
+    padding: 8px 0;
+  }
+  .election-year-header {
+    padding: 6px 12px;
+    font-family: var(--font-numeric);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+  .election-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.15s ease;
+  }
+  .election-item:hover {
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg) 92%);
+  }
+  .election-item.active {
+    background: var(--control-active-bg);
+  }
+  .election-item.active .election-item__type {
+    color: var(--control-active-text);
+  }
+  .election-item.active .election-item__states {
+    color: color-mix(in srgb, var(--control-active-text) 80%, var(--control-active-text) 20%);
+  }
+  .election-item__radio {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  .election-item.active .election-item__radio {
+    border-color: var(--control-active-text);
+    background: var(--control-active-text);
+  }
+  .election-item.active .election-item__radio::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--control-active-bg);
+  }
+  .election-item__content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .election-item__type {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .election-item__states {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+  .election-item__states span {
+    white-space: nowrap;
+  }
+  .election-item:last-child {
+    border-bottom: none;
+  }
+
+  /* Mobile: election dropdown inside hamburger menu */
+  .mobile-menu .election-dropdown {
+    width: 100%;
+  }
+  .mobile-menu .election-dropdown-btn {
+    max-width: none;
+  }
+  .mobile-menu .election-dropdown-panel {
+    position: static;
+    max-width: none;
+    box-shadow: none;
+    border: 1px solid var(--border);
+    margin-top: 6px;
+    max-height: 200px;
+  }
+  .mobile-menu .election-year-header {
+    font-size: 11px;
+  }
+  .mobile-menu .election-item__type {
+    font-size: 12px;
+  }
+  .mobile-menu .election-item__states {
+    font-size: 11px;
+  }
   .search-box {
     position: relative;
     z-index: 1001;
@@ -2198,13 +2378,9 @@
     .subtitle { display: none; }
     .mobile-timestamp { display: none; }
     #election-selector { display: none; }
+    .election-dropdown { display: block; margin-left: 12px; }
     .header .meta { display: none; }
     .hamburger-btn { display: inline-flex; margin-left: auto; }
-    .mobile-menu #election-selector-mobile {
-      width: 100%;
-      max-width: none;
-      margin-left: 0;
-    }
     .search-box {
       flex: none;
       width: 100%;
@@ -2925,27 +3101,37 @@
   <button class="hamburger-btn" id="hamburger-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
-  <select id="election-selector" aria-label="Select election period" style="margin-left:12px; min-width:180px; max-width:220px;"></select>
-  <div class="search-box">
-    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-    <input type="text" id="search-input" placeholder="Search candidates, constituencies..." autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-results" />
-  </div>
-  <div class="search-results-overlay" id="search-results-overlay">
-    <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
-  </div>
-  <div class="meta" aria-label="Dashboard status and preferences">
-    <span class="status-indicator" aria-live="polite">
-      <span class="status-dot idle" id="status-dot" aria-hidden="true"></span>
-      <span id="status-text">Waiting for data...</span>
-    </span>
-    <button class="download-btn" id="tv-btn" type="button" aria-label="Toggle LET Live TV" title="LET Live TV" aria-expanded="false">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M15.331 4.502a49.408 49.408 0 0 0-4.407-.425L13.5 1.501l-1-1L8.991 4.01A54.24 54.24 0 0 0 8 4.001l-4-4-1 1 3.034 3.034a50.304 50.304 0 0 0-5.365.467C.239 6.185 0 8.045 0 10s.239 3.815.669 5.498C2.913 15.821 5.393 16 8 16s5.087-.179 7.331-.502c.43-1.683.669-3.543.669-5.498s-.239-3.815-.669-5.498zm-1.833 9.164C11.815 13.881 9.955 14 8 14s-3.815-.119-5.498-.334C2.179 12.544 2 11.304 2 10s.179-2.543.502-3.666C4.185 6.119 6.045 6 8 6s3.815.119 5.498.334C13.821 7.456 14 8.696 14 10s-.179 2.543-.502 3.666z"/><path class="tv-bolt" d="M9 4 5 9h3l-1 5 4-5H8l1-5z" fill="var(--yellow)" opacity="0"/></svg>
+  <!-- Desktop Election Dropdown -->
+  <div class="election-dropdown" id="election-dropdown">
+    <button class="election-dropdown-btn" id="election-dropdown-btn" type="button" aria-label="Select election" aria-expanded="false" aria-haspopup="listbox" aria-controls="election-dropdown-panel">
+      <span class="election-dropdown-btn__main">
+        <span class="election-dropdown-btn__year" id="election-dropdown-year">--</span>
+        <span class="election-dropdown-btn__states" id="election-dropdown-states">Loading...</span>
+      </span>
+      <svg class="election-dropdown-btn__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l4 4 4-4"/></svg>
     </button>
-    <button class="download-btn" id="download-btn" type="button" aria-label="Download dataset as Excel" title="Download dataset">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 15V3"/>
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <path d="m7 10 5 5 5-5"/>
+    <div class="election-dropdown-panel" id="election-dropdown-panel" hidden role="listbox"></div>
+  </div>
+  <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="search-input" placeholder="Search candidates, constituencies..." autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-results" />
+    </div>
+    <div class="search-results-overlay" id="search-results-overlay">
+      <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="meta" aria-label="Dashboard status and preferences">
+      <span class="status-indicator" aria-live="polite">
+        <span class="status-dot idle" id="status-dot" aria-hidden="true"></span>
+        <span id="status-text">Waiting for data...</span>
+      </span>
+      <button class="download-btn" id="tv-btn" type="button" aria-label="Toggle LET Live TV" title="LET Live TV" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M15.331 4.502a49.408 49.408 0 0 0-4.407-.425L13.5 1.501l-1-1L8.991 4.01A54.24 54.24 0 0 0 8 4.001l-4-4-1 1 3.034 3.034a50.304 50.304 0 0 0-5.365.467C.239 6.185 0 8.045 0 10s.239 3.815.669 5.498C2.913 15.821 5.393 16 8 16s5.087-.179 7.331-.502c.43-1.683.669-3.543.669-5.498s-.239-3.815-.669-5.498zm-1.833 9.164C11.815 13.881 9.955 14 8 14s-3.815-.119-5.498-.334C2.179 12.544 2 11.304 2 10s.179-2.543.502-3.666C4.185 6.119 6.045 6 8 6s3.815.119 5.498.334C13.821 7.456 14 8.696 14 10s-.179 2.543-.502 3.666z"/><path class="tv-bolt" d="M9 4 5 9h3l-1 5 4-5H8l1-5z" fill="var(--yellow)" opacity="0"/></svg>
+      </button>
+      <button class="download-btn" id="download-btn" type="button" aria-label="Download dataset as Excel" title="Download dataset">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 15V3"/>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <path d="m7 10 5 5 5-5"/>
       </svg>
     </button>
     <div class="theme-picker" id="theme-picker">
@@ -2961,8 +3147,17 @@
   <!-- Mobile hamburger menu -->
   <div class="mobile-menu" id="mobile-menu" hidden>
     <div class="mobile-menu__section">
-      <label class="mobile-menu__label" for="election-selector-mobile">Election</label>
-      <select id="election-selector-mobile" aria-label="Select election period"></select>
+      <label class="mobile-menu__label">Election</label>
+      <div class="election-dropdown" id="election-dropdown-mobile">
+        <button class="election-dropdown-btn" id="election-dropdown-btn-mobile" type="button" aria-label="Select election" aria-expanded="false" aria-haspopup="listbox" aria-controls="election-dropdown-panel-mobile">
+          <span class="election-dropdown-btn__main">
+            <span class="election-dropdown-btn__year" id="election-dropdown-year-mobile">--</span>
+            <span class="election-dropdown-btn__states" id="election-dropdown-states-mobile">Loading...</span>
+          </span>
+          <svg class="election-dropdown-btn__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l4 4 4-4"/></svg>
+        </button>
+        <div class="election-dropdown-panel" id="election-dropdown-panel-mobile" hidden role="listbox"></div>
+      </div>
     </div>
     <div class="mobile-menu__section mobile-menu__actions">
       <button class="download-btn" id="tv-btn-mobile" type="button" aria-label="Toggle LET Live TV" title="LET Live TV">
@@ -3515,7 +3710,6 @@ document.addEventListener('click', (e) => {
 
 prefersReducedMotion.addEventListener('change', () => refreshChartTheme());
 
-// ---------------------------------------------------------------------------
 // Mobile hamburger menu
 // ---------------------------------------------------------------------------
 function setMobileMenuOpen(open) {
@@ -3531,22 +3725,7 @@ document.getElementById('hamburger-btn').addEventListener('click', (e) => {
   setMobileMenuOpen(menu.hidden);
 });
 
-document.getElementById('election-selector-mobile')?.addEventListener('change', (e) => {
-  const desktop = document.getElementById('election-selector');
-  if (desktop && desktop.value !== e.target.value) {
-    desktop.value = e.target.value;
-    desktop.dispatchEvent(new Event('change', { bubbles: true }));
-  }
-});
-
-
-document.querySelectorAll('.theme-option-mobile').forEach(btn => {
-  btn.addEventListener('click', () => {
-    applyTheme(btn.dataset.theme, true);
-    setMobileMenuOpen(false);
-  });
-});
-
+// Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
   const menu = document.getElementById('mobile-menu');
   const btn = document.getElementById('hamburger-btn');
@@ -3555,6 +3734,7 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Close mobile menu on Escape
 document.addEventListener('keydown', (e) => {
   const menu = document.getElementById('mobile-menu');
   if (e.key === 'Escape' && !menu.hidden) {
@@ -3563,71 +3743,129 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Sync mobile election select when desktop changes
-document.getElementById('election-selector').addEventListener('change', (e) => {
-  const mobile = document.getElementById('election-selector-mobile');
-  if (mobile && mobile.value !== e.target.value) mobile.value = e.target.value;
+// Theme options
+document.querySelectorAll('.theme-option-mobile').forEach(btn => {
+  btn.addEventListener('click', () => {
+    applyTheme(btn.dataset.theme, true);
+    setMobileMenuOpen(false);
+  });
 });
 
 // ---------------------------------------------------------------------------
-// Election selector
+// Election Dropdown
 // ---------------------------------------------------------------------------
 let currentElection = null;
 let electionsList = [];
 let stateNameMap = {};
+let electionDropdownOpen = false;
 
-async function loadElections() {
-  try {
-    // Load states for name mapping
-    const statesRes = await fetch(API_BASE + '/api/states');
-    const statesData = await statesRes.json();
-    stateNameMap = {};
-    (statesData.states || []).forEach(s => {
-      stateNameMap[s.state_code] = { name: s.state_name, std: s.state_code_std || s.state_code };
+// Get election type from election_id (AC-*, BYE-*)
+function getElectionType(electionId) {
+  if (electionId.startsWith('AC-')) return 'Assembly';
+  if (electionId.startsWith('BYE-')) return 'Bye-Election';
+  return '';
+}
+
+// Get year from election_id (AC-2026-05 -> 2026)
+function getElectionYear(electionId) {
+  const match = electionId.match(/^(AC|BYE)-(\d{4})-\d+$/);
+  return match ? match[2] : '';
+}
+
+// Format state codes to full names
+function formatStateNames(stateCodes) {
+  if (!stateCodes || stateCodes.length === 0) return '';
+  const names = stateCodes.map(code => stateNameMap[code]?.name || code);
+  return names.join(', ');
+}
+
+// Render the election dropdown
+function renderElectionDropdown() {
+  const panel = document.getElementById('election-dropdown-panel');
+  const panelMobile = document.getElementById('election-dropdown-panel-mobile');
+  
+  if (!panel || !panelMobile) return;
+  
+  // Group elections by year (most recent first)
+  const byYear = {};
+  electionsList.forEach(election => {
+    const year = getElectionYear(election.election_id);
+    if (!byYear[year]) byYear[year] = [];
+    byYear[year].push(election);
+  });
+  
+  // Sort years descending
+  const sortedYears = Object.keys(byYear).sort((a, b) => b.localeCompare(a));
+  
+  // Build HTML
+  let html = '';
+  sortedYears.forEach(year => {
+    html += `<div class="election-year-group"><div class="election-year-header">${year}</div>`;
+    byYear[year].forEach(election => {
+      const type = getElectionType(election.election_id);
+      const states = formatStateNames(election.states);
+      const isActive = election.election_id === currentElection?.election_id;
+      html += `
+        <div class="election-item${isActive ? ' active' : ''}" data-election-id="${election.election_id}" role="option" aria-selected="${isActive}">
+          <div class="election-item__radio"></div>
+          <div class="election-item__content">
+            <div class="election-item__type">${type}</div>
+            <div class="election-item__states">${states.split(', ').map(s => `<span>${s}</span>`).join(', ')}</div>
+          </div>
+        </div>`;
     });
+    html += '</div>';
+  });
+  
+  panel.innerHTML = html;
+  panelMobile.innerHTML = html;
+  
+  // Add click handlers
+  panel.querySelectorAll('.election-item').forEach(item => {
+    item.addEventListener('click', () => {
+      selectElection(item.dataset.electionId);
+    });
+  });
+  panelMobile.querySelectorAll('.election-item').forEach(item => {
+    item.addEventListener('click', () => {
+      selectElection(item.dataset.electionId);
+    });
+  });
+}
 
-    const res = await fetch(API_BASE + '/api/elections');
-    const data = await res.json();
-    electionsList = (data.elections || []).filter(e => !e.election_id.startsWith('BYE-'));
-    const selector = document.getElementById('election-selector');
-    const electionOptions = electionsList.map(e =>
-      `<option value="${e.election_id}">${e.name}</option>`
-    ).join('');
-    selector.innerHTML = electionOptions;
-    const mobileSelector = document.getElementById('election-selector-mobile');
-    if (mobileSelector) mobileSelector.innerHTML = electionOptions;
-    // Restore saved election or default to most recent
-    const savedElectionId = localStorage.getItem(ELECTION_STORAGE_KEY);
-    const savedElection = savedElectionId
-      ? electionsList.find(e => e.election_id === savedElectionId)
-      : null;
-    if (savedElection) {
-      selector.value = savedElection.election_id;
-      const mobileSelector = document.getElementById('election-selector-mobile');
-      if (mobileSelector) mobileSelector.value = savedElection.election_id;
-      currentElection = savedElection;
-    } else if (electionsList.length > 0) {
-      selector.value = electionsList[0].election_id;
-      const mobileSelector = document.getElementById('election-selector-mobile');
-      if (mobileSelector) mobileSelector.value = electionsList[0].election_id;
-      currentElection = electionsList[0];
-    }
-    if (currentElection) {
-      localStorage.setItem(ELECTION_STORAGE_KEY, currentElection.election_id);
-      // Initialize state bar for the current election
-      updateStateBarForElection(currentElection.states);
-    }
-  } catch (err) {
-    console.warn('Failed to load elections:', err);
+// Update dropdown button display
+function updateDropdownButton() {
+  const yearEl = document.getElementById('election-dropdown-year');
+  const statesEl = document.getElementById('election-dropdown-states');
+  const yearElMobile = document.getElementById('election-dropdown-year-mobile');
+  const statesElMobile = document.getElementById('election-dropdown-states-mobile');
+  
+  if (currentElection) {
+    const year = getElectionYear(currentElection.election_id);
+    const type = getElectionType(currentElection.election_id);
+    const states = formatStateNames(currentElection.states);
+    
+    const displayText = type ? `${year} — ${type}` : year;
+    if (yearEl) yearEl.textContent = displayText;
+    if (statesEl) statesEl.textContent = states || 'No states';
+    if (yearElMobile) yearElMobile.textContent = displayText;
+    if (statesElMobile) statesElMobile.textContent = states || 'No states';
   }
 }
 
-document.getElementById('election-selector').addEventListener('change', (e) => {
-  const selectedId = e.target.value;
-  const election = electionsList.find(el => el.election_id === selectedId);
-  if (election && election.election_id !== currentElection?.election_id) {
+// Select an election
+function selectElection(electionId) {
+  const election = electionsList.find(el => el.election_id === electionId);
+  if (!election) return;
+  
+  // Close dropdown
+  setElectionDropdownOpen(false);
+  
+  // Update current election
+  if (election.election_id !== currentElection?.election_id) {
     currentElection = election;
     localStorage.setItem(ELECTION_STORAGE_KEY, election.election_id);
+    
     // Default to first state alphabetically in this election, not Overall
     currentState = election.states && election.states.length > 0
       ? [...election.states].sort((a, b) => {
@@ -3663,7 +3901,88 @@ document.getElementById('election-selector').addEventListener('change', (e) => {
     fetchData();
     loadStateCharts();
   }
-});
+}
+
+// Toggle dropdown open/closed
+function setElectionDropdownOpen(open) {
+  const btn = document.getElementById('election-dropdown-btn');
+  const panel = document.getElementById('election-dropdown-panel');
+  
+  if (btn) btn.setAttribute('aria-expanded', String(open));
+  if (panel) panel.hidden = !open;
+  electionDropdownOpen = open;
+  
+  // Close mobile menu if dropdown opens on mobile
+  if (open && window.innerWidth <= 768) {
+    const menu = document.getElementById('mobile-menu');
+    if (!menu.hidden) setMobileMenuOpen(false);
+  }
+}
+
+// Initialize dropdown events
+function initElectionDropdown() {
+  // Toggle button
+  const btn = document.getElementById('election-dropdown-btn');
+  if (btn) {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setElectionDropdownOpen(!electionDropdownOpen);
+    });
+  }
+  
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('election-dropdown');
+    if (dropdown && !dropdown.contains(e.target) && electionDropdownOpen) {
+      setElectionDropdownOpen(false);
+    }
+  });
+  
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && electionDropdownOpen) {
+      setElectionDropdownOpen(false);
+      document.getElementById('election-dropdown-btn')?.focus();
+    }
+  });
+}
+
+async function loadElections() {
+  try {
+    // Load states for name mapping
+    const statesRes = await fetch(API_BASE + '/api/states');
+    const statesData = await statesRes.json();
+    stateNameMap = {};
+    (statesData.states || []).forEach(s => {
+      stateNameMap[s.state_code] = { name: s.state_name, std: s.state_code_std || s.state_code };
+    });
+
+    const res = await fetch(API_BASE + '/api/elections');
+    const data = await res.json();
+    electionsList = (data.elections || []).filter(e => !e.election_id.startsWith('BYE-'));
+    
+    // Restore saved election or default to most recent
+    const savedElectionId = localStorage.getItem(ELECTION_STORAGE_KEY);
+    const savedElection = savedElectionId
+      ? electionsList.find(e => e.election_id === savedElectionId)
+      : null;
+    if (savedElection) {
+      currentElection = savedElection;
+    } else if (electionsList.length > 0) {
+      currentElection = electionsList[0];
+    }
+    
+    if (currentElection) {
+      updateDropdownButton();
+      renderElectionDropdown();
+      localStorage.setItem(ELECTION_STORAGE_KEY, currentElection.election_id);
+      // Initialize state bar for the current election
+      updateStateBarForElection(currentElection.states);
+    }
+  } catch (err) {
+    console.warn('Failed to load elections:', err);
+  }
+}
 
 function updateStateBarForElection(stateCodes) {
   const sorted = [...stateCodes].sort((a, b) => {
@@ -3682,6 +4001,7 @@ function updateStateBarForElection(stateCodes) {
 
 // Boot
 loadElections().then(() => {
+  initElectionDropdown();
   init();
   setInterval(() => { fetchStatus(); fetchData(); }, 10000);
   setInterval(() => {
@@ -3698,6 +4018,10 @@ document.getElementById('header-brand').addEventListener('keydown', (e) => {
 });
 
 function resetToDefaults() {
+  // Close dropdown if open
+  if (electionDropdownOpen) {
+    setElectionDropdownOpen(false);
+  }
   // Clear all persisted state
   localStorage.removeItem(ELECTION_STORAGE_KEY);
   localStorage.removeItem(STATE_STORAGE_KEY);
@@ -3742,6 +4066,7 @@ function resetToDefaults() {
   lastDataFingerprint = '';
   drawRaceRoundwise._cache = null;
   loadElections().then(() => {
+    initElectionDropdown();
     // Default to first state alphabetically in current election (not Overall)
     if (currentElection && currentElection.states && currentElection.states.length > 0) {
       currentState = [...currentElection.states].sort((a, b) => {
