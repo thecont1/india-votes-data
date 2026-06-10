@@ -3902,10 +3902,10 @@ function updateDropdownButton() {
     
     if (yearNumEl) yearNumEl.textContent = year;
     if (typeEl) typeEl.textContent = type;
-    if (statesEl) statesEl.textContent = states || 'No states';
+    if (statesEl) statesEl.style.display = 'none';
     if (yearNumElMobile) yearNumElMobile.textContent = year;
     if (typeElMobile) typeElMobile.textContent = type;
-    if (statesElMobile) statesElMobile.textContent = states || 'No states';
+    if (statesElMobile) statesElMobile.style.display = 'none';
   }
 }
 
@@ -3953,6 +3953,8 @@ function selectElection(electionId) {
     lastDataFingerprint = '';
     drawRaceRoundwise._cache = null;
     updateStateBarForElection(election.states);
+    updateDropdownButton();
+    renderElectionDropdown();
     fetchStatus();
     fetchData();
     loadStateCharts();
