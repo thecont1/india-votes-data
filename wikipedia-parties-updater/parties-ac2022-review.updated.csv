@@ -1,0 +1,348 @@
+action,csv_party_name,d1_abv,d1_name,aliases,chief,colour,founded,symbol_url,wikipedia_url,alliance,states_in_ac2022,missing_fields,notes
+UPDATE,Aam Aadmi Parivartan Party,AAPP,Aam Aadmi Parivartan Party,,,,,,https://en.wikipedia.org/wiki/Parivartan,,"PB,UP","chief,colour,symbol_url,founded,aliases",from_existing_url
+UPDATE,Aam Aadmi Party,AAP,Aam Aadmi Party,,Arvind Kejriwal,#0072B0,2012.0,https://upload.wikimedia.org/wikipedia/commons/0/02/AAP_Symbol.png,https://en.wikipedia.org/wiki/Aam_Aadmi_Party,,"GA,PB,UK,UP",aliases,from_existing_url
+INSERT,Aam Janata Party,AJUP,Aam Janata Party,AJUP,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/AJUP_logo_official.png/250px-AJUP_logo_official.png,https://en.wikipedia.org/wiki/Aam_Janata_Unnayan_Party,,UP,ALL,filled:wikipedia_url;from_search:Aam Janata Party;filled:d1_abv;filled:aliases;filled:symbol_url
+UPDATE,Aam Janta Party (India),AJP3,Aam Janta Party (India),,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Aam Lok Party United,,Aam Lok Party United,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Aamjan Ekta Party,,Aamjan Ekta Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Aapki Apni Party (Peoples),AAP1,Aapki Apni Party (Peoples),,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Aas Punjab Party,,Aas Punjab Party,,,,,,,,PB,ALL,no_enwiki_match
+UPDATE,Aazad Samaj Party (Kanshi Ram),ASP3,Aazad Samaj Party (Kanshi Ram),ASP(KR),,,,https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/AZAD_SAMAJ_PARTY_LOGO.webp/250px-AZAD_SAMAJ_PARTY_LOGO.webp.png,https://en.wikipedia.org/wiki/Aazad_Samaj_Party_%28Kanshi_Ram%29,,"PB,UK,UP","chief,colour,symbol_url,founded,aliases",from_existing_url;filled:aliases;filled:symbol_url
+INSERT,Abhay Samaj Party,,Abhay Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Action Party,PAP,Action Party,PAP,,,,https://upload.wikimedia.org/wikipedia/en/thumb/2/28/People%27s_Action_Party_of_Singapore_logo.svg/250px-People%27s_Action_Party_of_Singapore_logo.svg.png,https://en.wikipedia.org/wiki/People's_Action_Party,,UP,ALL,filled:wikipedia_url;from_search:Action Party;filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,"Adarsh Janta Party,",,"Adarsh Janta Party,",,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Adarsh Samaj Party,,Adarsh Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Adarshwaadi Congress Party,ACP,Adarshwaadi Congress Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Adim Bhartiya Dal,,Adim Bhartiya Dal,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Akhand Bharat Vikas Party,ABVP,Akhand Bharat Vikas Party,,,,,,,,"UK,UP","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Akhil Bharatiya Rajarya Sabha,,Akhil Bharatiya Rajarya Sabha,,,,,,,,PB,ALL,no_enwiki_match
+UPDATE,Akhil Bharatiya Socialist Party,ABSP,Akhil Bharatiya Socialist Party,,,,,,,,"PB,UP","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Akhil Bhartiya Apna Dal,,Akhil Bhartiya Apna Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Akhil Bhartiya Jansatta Party,,Akhil Bhartiya Jansatta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Akhil Bhartiya Lok Dal,,Akhil Bhartiya Lok Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Akhil Bhartiya Naitik Party,,Akhil Bhartiya Naitik Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Al-Hind Party,,Al-Hind Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,All India Forward Bloc,AIFB,All India Forward Bloc,,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Indian_Election_Symbol_Lion.svg/250px-Indian_Election_Symbol_Lion.svg.png,https://en.wikipedia.org/wiki/All_India_Forward_Bloc,,UP,"chief,colour,symbol_url,founded,aliases",from_existing_url;filled:symbol_url
+UPDATE,All India Hindustan Congress Party,AIHCP,All India Hindustan Congress Party,,Buddh Prakash Sharma,,,https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/UPPL_Election_Symbol.png/250px-UPPL_Election_Symbol.png,https://en.wikipedia.org/wiki/All_India_Hindustan_Congress_Party,,UP,"colour,symbol_url,founded,aliases",from_existing_url;filled:symbol_url
+UPDATE,All India Majlis-E-Ittehadul Muslimeen,AIMIM,All India Majlis-E-Ittehadul Muslimeen,,Asaduddin Owaisi,,,https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/All_India_Majlis-e-Ittehadul_Muslimeen_logo.svg/250px-All_India_Majlis-e-Ittehadul_Muslimeen_logo.svg.png,https://en.wikipedia.org/wiki/All_India_Majlis-e-Ittehadul_Muslimeen,,"UK,UP","colour,symbol_url,founded,aliases",from_existing_url;filled:symbol_url
+INSERT,All India Minorities Front,,All India Minorities Front,,,,,,https://en.wikipedia.org/wiki/All_India_Minorities_Front,,UP,ALL,filled:wikipedia_url;from_search:All India Minorities Front
+INSERT,All India Peoples' Front (Radical),,All India Peoples' Front (Radical),,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,All India Trinamool Congress,AITC,All India Trinamool Congress,AITC (official) TMC (alternative),Mamata Banerjee,"#008000,#FFFFFF,#FF8C00",1998.0,https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/All_India_Trinamool_Congress_symbol_2021.svg/120px-All_India_Trinamool_Congress_symbol_2021.svg.png,https://en.wikipedia.org/wiki/Trinamool_Congress,,GA,aliases,from_existing_url;filled:aliases
+INSERT,Ambedkar Samaj Party,ASP,Ambedkar Samaj Party,ASP,,,,,https://en.wikipedia.org/wiki/Ambedkar_Samaj_Party,,UP,ALL,filled:wikipedia_url;from_search:Ambedkar Samaj Party;filled:d1_abv;filled:aliases
+INSERT,Ambedkar Yug Party,,Ambedkar Yug Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Ambedkarite Party of India,APOI,Ambedkarite Party of India,API,Vijay Mankar,,,,https://en.wikipedia.org/wiki/Ambedkarite_Party_of_India,,UP,"colour,symbol_url,founded,aliases",from_existing_url;filled:aliases
+UPDATE,Anarakshit Samaj Party,ASP5,Anarakshit Samaj Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Anjaan Aadmi Party,,Anjaan Aadmi Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Apana Dal Balihari Party,,Apana Dal Balihari Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Apna Bharatiya Sanatan Party,,Apna Bharatiya Sanatan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Apna Dal (Kamerawadi),AD(K),Apna Dal (Kamerawadi),AD(K),,,,https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Indian_Election_Symbol_Envelope.jpg/250px-Indian_Election_Symbol_Envelope.jpg,https://en.wikipedia.org/wiki/Apna_Dal_(Kamerawadi),,UP,ALL,filled:wikipedia_url;from_search:Apna Dal (Kamerawadi);filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Apna Dal (Soneylal),AD(S),Apna Dal (Soneylal),AD(S),,,,https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Indian_Election_Symbol_Cup_and_Saucer.jpg/250px-Indian_Election_Symbol_Cup_and_Saucer.jpg,https://en.wikipedia.org/wiki/Apna_Dal_(Soneylal),,UP,ALL,filled:wikipedia_url;from_search:Apna Dal (Soneylal);filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Apna Dal United Party,,Apna Dal United Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Apna Desh Party,,Apna Desh Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Apna Sangharsh Kisani Ekta Party,,Apna Sangharsh Kisani Ekta Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Apni Ekta Party,,Apni Ekta Party,,,,,,,,PB,ALL,no_enwiki_match
+UPDATE,Apni Janta Party,AJP,Apni Janta Party,,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Swami_Prasad_Maurya.jpg/250px-Swami_Prasad_Maurya.jpg,https://en.wikipedia.org/wiki/Swami_Prasad_Maurya,,"PB,UP","chief,colour,symbol_url,founded,aliases",from_existing_url;filled:symbol_url
+INSERT,Apni Zindgi Apna Dal,,Apni Zindgi Apna Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Arjak Adhikar Dal,,Arjak Adhikar Dal,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Asankhya Samaj Party,ASP6,Asankhya Samaj Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Atal Janshakti Party,,Atal Janshakti Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Awami Samta Party,ASP7,Awami Samta Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Bahujan Andolan Party,,Bahujan Andolan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bahujan Awam Party,,Bahujan Awam Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bahujan Kranti Party (Marxwad-Ambedkarwad),,Bahujan Kranti Party (Marxwad-Ambedkarwad),,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Bahujan Maha Party,BMP1,Bahujan Maha Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Bahujan Mukti Party,BMP,Bahujan Mukti Party,,,,,,https://en.wikipedia.org/wiki/Bahujan_Mukti_Party,,"PB,UK,UP","chief,colour,symbol_url,founded,aliases",from_existing_url
+INSERT,Bahujan Party,BSP,Bahujan Party,BSP,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Elephant_Bahujan_Samaj_Party.svg/250px-Elephant_Bahujan_Samaj_Party.svg.png,https://en.wikipedia.org/wiki/Bahujan_Samaj_Party,,UP,ALL,filled:wikipedia_url;from_search:Bahujan Party;filled:d1_abv;filled:aliases;filled:symbol_url
+UPDATE,Bahujan Samaj Party,BSP,Bahujan Samaj Party,,Mayawati,,2018.0,https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Elephant_Bahujan_Samaj_Party.svg/250px-Elephant_Bahujan_Samaj_Party.svg.png,https://en.wikipedia.org/wiki/Bahujan_Samaj_Party,,"PB,UK,UP","colour,symbol_url,aliases",from_existing_url;filled:symbol_url
+INSERT,Bahujan Samaj Party  (Ambedkar),,Bahujan Samaj Party  (Ambedkar),,,,,,,,PB,ALL,no_enwiki_match
+UPDATE,Bharat Lok Sewak Party,BLSP,Bharat Lok Sewak Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Bharat Mahaparivar Party,,Bharat Mahaparivar Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bharat Swabhiman Party,,Bharat Swabhiman Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bharat Vaibhav Party,,Bharat Vaibhav Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bharatiya Apna Samaj Party,,Bharatiya Apna Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bharatiya Eklavya Party,,Bharatiya Eklavya Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Bharatiya Jan Jagriti Party,BJJP1,Bharatiya Jan Jagriti Party,,,,,,,,"PB,UK,UP","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Bharatiya Jan Kranti Dal (Democratic),,Bharatiya Jan Kranti Dal (Democratic),,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bharatiya Jan Morcha Party,,Bharatiya Jan Morcha Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Bharatiya Janata Party,BJP,Bharatiya Janata Party,,Nitin Nabin,,1980.0,https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Lotus_flower_symbol.svg/250px-Lotus_flower_symbol.svg.png,https://en.wikipedia.org/wiki/Bharatiya_Janata_Party,,"GA,MN,PB,UK,UP","colour,aliases",from_existing_url
+INSERT,Bharatiya Kisan Parivartan Party,,Bharatiya Kisan Parivartan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bharatiya Majdoor Janta Party,,Bharatiya Majdoor Janta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bharatiya Nagrik Party,,Bharatiya Nagrik Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bharatiya Nav Kranti Party,,Bharatiya Nav Kranti Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bharatiya Samajwadi party (Loktantrik),,Bharatiya Samajwadi party (Loktantrik),,,,,,,,UK,ALL,no_enwiki_match
+INSERT,Bharatiya Samta Samaj Party,,Bharatiya Samta Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Bharatiya Sarvjan Vikas Party,BSVP,Bharatiya Sarvjan Vikas Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Bharatiya Sarvodaya Kranti Party,BSKP1,Bharatiya Sarvodaya Kranti Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Bharatiya Subhash Sena,,Bharatiya Subhash Sena,,,,,,,,"UK,UP",ALL,no_enwiki_match
+INSERT,Bharatiya Suheldev Janata Party,,Bharatiya Suheldev Janata Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bharatiya Swajivi Nagrik Party,,Bharatiya Swajivi Nagrik Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Bharatrashtra Democratic Party,BDP1,Bharatrashtra Democratic Party,,,,,,,,"PB,UP","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Bhartiya  Sarvjan Party,,Bhartiya  Sarvjan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Damitjan Party,,Bhartiya Damitjan Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Bhartiya Dharmanirpeksha Party,BDP3,Bhartiya Dharmanirpeksha Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,"Bhartiya Drishtigochar Party,",,"Bhartiya Drishtigochar Party,",,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Gadar Party (S),,Bhartiya Gadar Party (S),,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Jan Nayak Party,,Bhartiya Jan Nayak Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Jan Samman Party,,Bhartiya Jan Samman Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Janta Dal,,Bhartiya Janta Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Kamgar Party,,Bhartiya Kamgar Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Kisan Union Samaj Party,,Bhartiya Kisan Union Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Bhartiya Krishak Dal,BKD,Bhartiya Krishak Dal,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Bhartiya Lok Satta Party,,Bhartiya Lok Satta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Manav Samaj Party,,Bhartiya Manav Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Bhartiya Panchsheel Party,BPP,Bhartiya Panchsheel Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Bhartiya Rashtrawadi Party,BRP,Bhartiya Rashtrawadi Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Bhartiya Republican Party (Insan),,Bhartiya Republican Party (Insan),,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Sabka Dal,,Bhartiya Sabka Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Samta Party,,Bhartiya Samta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Sarvdharm Party,,Bhartiya Sarvdharm Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Bhartiya Shakti Chetna Party,BSCP,Bhartiya Shakti Chetna Party,,,,,,,,"UK,UP","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Bhartiya Tarak Samaj Party,,Bhartiya Tarak Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bhartiya Vanchitsamaj Party,,Bhartiya Vanchitsamaj Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Bhartiya Veer Dal,BVD,Bhartiya Veer Dal,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Bundelkhand Kranti Dal,,Bundelkhand Kranti Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Bundelkhand Vikas  Dal,,Bundelkhand Vikas  Dal,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Communist Party of India,CPI,Communist Party of India,,D. Raja,,1925.0,https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/CPI_symbol.svg/250px-CPI_symbol.svg.png,https://en.wikipedia.org/wiki/Communist_Party_of_India,,"MN,PB,UK,UP","colour,aliases",from_existing_url
+INSERT,Communist Party of India  (Marxist),"CPI(M), CPIM, CPM",Communist Party of India  (Marxist),"CPI(M), CPIM, CPM",,,,https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/CPI%28M%29_Official_Logo.png/250px-CPI%28M%29_Official_Logo.png,https://en.wikipedia.org/wiki/Communist_Party_of_India_(Marxist),,"PB,UK,UP",ALL,filled:wikipedia_url;from_search:Communist Party of India  (Marxist);filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Communist Party of India  (Marxist-Leninist)  (Liberation),"CPI(ML), CPI-ML, CPIML(L), CPI-ML(L), CPIML Liberation",Communist Party of India  (Marxist-Leninist)  (Liberation),"CPI(ML), CPI-ML, CPIML(L), CPI-ML(L), CPIML Liberation",,,,https://upload.wikimedia.org/wikipedia/en/thumb/a/a0/Communist_Party_of_India_%28Marxist%E2%80%93Leninist%29_Liberation_logo.png/250px-Communist_Party_of_India_%28Marxist%E2%80%93Leninist%29_Liberation_logo.png,https://en.wikipedia.org/wiki/Communist_Party_of_India_(Marxist–Leninist)_Liberation,,"PB,UK,UP",ALL,filled:wikipedia_url;from_search:Communist Party of India  (Marxist-Leninist)  (Liberation);filled:d1_abv;filled:aliases;filled:symbol_url
+UPDATE,Communist Party of India (Marxist-Leninist) Red Star,CPI(ML)(RS),Communist Party of India (Marxist-Leninist) Red Star,CPIML Red Star,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/CPI%28ML%29.svg/250px-CPI%28ML%29.svg.png,https://en.wikipedia.org/wiki/Communist_Party_of_India_%28Marxist%E2%80%93Leninist%29_Red_Star,,PB,"chief,colour,symbol_url,founded,aliases",from_existing_url;filled:aliases;filled:symbol_url
+INSERT,Democratic Bharatiya Samaj Party,,Democratic Bharatiya Samaj Party,,,,,,https://en.wikipedia.org/wiki/Democratic_Bharatiya_Samaj_Party,,PB,ALL,filled:wikipedia_url;from_search:Democratic Bharatiya Samaj Party
+INSERT,Desh Bachao Party,,Desh Bachao Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Desh Shakti Party,,Desh Shakti Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Gandhiyan Peoples Party,,Gandhiyan Peoples Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Gareeb Kranti Party,,Gareeb Kranti Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Gareeb Samana Party,,Gareeb Samana Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Garib Berozgar Vikas Party,,Garib Berozgar Vikas Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Goa Forward Party,GFP,Goa Forward Party,GFP,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Goa_Forward_Party_Flag.jpg/250px-Goa_Forward_Party_Flag.jpg,https://en.wikipedia.org/wiki/Goa_Forward_Party,,GA,ALL,filled:wikipedia_url;from_search:Goa Forward Party;filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Goencho Swabhiman Party,,Goencho Swabhiman Party,,,,,,,,GA,ALL,no_enwiki_match
+INSERT,Hamdard Party,,Hamdard Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Hindu Samaj Party,HSP,Hindu Samaj Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Hindustan Janmorcha,,Hindustan Janmorcha,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Hindustan Samaj Party,,Hindustan Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Hindustan Utthan Party,,Hindustan Utthan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Hindusthan Nirman Dal,,Hindusthan Nirman Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Hum Sabki Party,,Hum Sabki Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,India Janshakti Party,,India Janshakti Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,India Praja Bandhu Party,,India Praja Bandhu Party,,,,,,,,"PB,UP",ALL,no_enwiki_match
+UPDATE,Indian National Congress,INC,Indian National Congress,,Mallikarjun Kharge,#FF671F,1885.0,https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Hand_INC.svg/250px-Hand_INC.svg.png,https://en.wikipedia.org/wiki/Indian_National_Congress,,"GA,MN,PB,UK,UP",aliases,from_existing_url
+UPDATE,Indian National League,INL,Indian National League,IUML,K. M. Kader Mohideen,,,https://upload.wikimedia.org/wikipedia/en/thumb/d/da/Indian_Union_Muslim_Leage_logo.jpg/250px-Indian_Union_Muslim_Leage_logo.jpg,https://en.wikipedia.org/wiki/Indian_Union_Muslim_League,,UP,"colour,symbol_url,founded,aliases",from_existing_url;filled:aliases;filled:symbol_url
+INSERT,Indian Nationalist Alliance Party (India),,Indian Nationalist Alliance Party (India),,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Indian Union Muslim League,IUML,Indian Union Muslim League,,K. M. Kader Mohideen,#016600,1951.0,https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Indian_Election_Symbol_Lader.svg/120px-Indian_Election_Symbol_Lader.svg.png,https://en.wikipedia.org/wiki/Indian_Union_Muslim_League,,UP,aliases,from_existing_url
+INSERT,Inqalab Vikas Dal,,Inqalab Vikas Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Insaafwadi Party,,Insaafwadi Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Insaniyat Lok Vikas Party,,Insaniyat Lok Vikas Party,,,,,,,,PB,ALL,no_enwiki_match
+UPDATE,Jagrook Janta Party,JJP,Jagrook Janta Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Jai Jawan Jai Kisan Party,,Jai Jawan Jai Kisan Party,,,,,,,,PB,ALL,no_enwiki_match
+UPDATE,Jai Maha Bharath Party,JMBP,Jai Maha Bharath Party,,,,,,,,"GA,UK,UP","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Jai Samta Party,,Jai Samta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Jan Abhiyan Party,,Jan Abhiyan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Jan Adhikar Party,,Jan Adhikar Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Jan Adhikar Party (Loktantrik),JAP (L),Jan Adhikar Party (Loktantrik),JAP (L),,,,,https://en.wikipedia.org/wiki/Jan_Adhikar_Party_(Loktantrik),,UP,ALL,filled:wikipedia_url;from_search:Jan Adhikar Party (Loktantrik);filled:d1_abv;filled:aliases
+INSERT,Jan Asra Party,,Jan Asra Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Jan Ekta Party,,Jan Ekta Party,,,,,,,,UK,ALL,no_enwiki_match
+INSERT,Jan Jan (United) Party,,Jan Jan (United) Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Jan Kalyan Party,,Jan Kalyan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Jan Raajya Party,,Jan Raajya Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Jan Sangh Party,JSP,Jan Sangh Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Jan Seva Sahayak Party,,Jan Seva Sahayak Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Jan Shakti Ekta Party,,Jan Shakti Ekta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Janadhar Shakti Party,,Janadhar Shakti Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Janata Dal  (United),JD(U),Janata Dal  (United),JD(U),,,,https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Janata_Dal_%28United%29_Flag.svg/250px-Janata_Dal_%28United%29_Flag.svg.png,https://en.wikipedia.org/wiki/Janata_Dal_(United),,"MN,PB,UP",ALL,filled:wikipedia_url;from_search:Janata Dal  (United);filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Janhit Kisan Party,,Janhit Kisan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Janlok Vikas Party,,Janlok Vikas Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Jansatta Dal Loktantrik,JD(L),Jansatta Dal Loktantrik,JD(L),,,,https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Saw_election_symbol.png/250px-Saw_election_symbol.png,https://en.wikipedia.org/wiki/Jansatta_Dal_(Loktantrik),,UP,ALL,filled:wikipedia_url;from_search:Jansatta Dal Loktantrik;filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Jansatta Party,,Jansatta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Janta Brigade Party,,Janta Brigade Party,,,,,,,,"PB,UK,UP",ALL,no_enwiki_match
+UPDATE,Janta Kranti Party (Rashtravadi),JKP,Janta Kranti Party (Rashtravadi),,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Janta Raj Party,,Janta Raj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Janta Rakshak Party,,Janta Rakshak Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Kisan Majdoor Berojgar Sangh,,Kisan Majdoor Berojgar Sangh,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Kisan Party (Loktantrik),,Kisan Party (Loktantrik),,,,,,,,UP,ALL,no_enwiki_match
+INSERT,"Kisan Raksha Party,",,"Kisan Raksha Party,",,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Kishore Raj Party,,Kishore Raj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Krishak Bharti Party,,Krishak Bharti Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Kuki National Assembly,KNA,Kuki National Assembly,KNA,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Indian_election_symbol_two_leaves.svg/120px-Indian_election_symbol_two_leaves.svg.png,https://en.wikipedia.org/wiki/Kuki_National_Assembly,,MN,ALL,filled:wikipedia_url;from_search:Kuki National Assembly;filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Kuki People’s Alliance,KPA,Kuki People’s Alliance,KPA,,,,https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Logo_of_the_Kuki_People%27s_Alliance.png/250px-Logo_of_the_Kuki_People%27s_Alliance.png,https://en.wikipedia.org/wiki/Kuki_People's_Alliance,,MN,ALL,filled:wikipedia_url;from_search:Kuki People’s Alliance;filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Liberal Party of India,,Liberal Party of India,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Log Party,,Log Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Lok Bandhu Party,,Lok Bandhu Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Lok Dal,LOKLD,Lok Dal,RLD,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Indian_Election_Symbol_Hand_Pump.png/120px-Indian_Election_Symbol_Hand_Pump.png,https://en.wikipedia.org/wiki/Rashtriya_Lok_Dal,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",filled:wikipedia_url;from_search:Lok Dal;filled:aliases;filled:symbol_url
+INSERT,Lok Insaaf Party,LIP,Lok Insaaf Party,LIP,,,,https://upload.wikimedia.org/wikipedia/en/thumb/b/be/Official_logo_of_the_Lok_Insaaf_Party.png/250px-Official_logo_of_the_Lok_Insaaf_Party.png,https://en.wikipedia.org/wiki/Lok_Insaaf_Party,,PB,ALL,filled:wikipedia_url;from_search:Lok Insaaf Party;filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Lok Jan Shakti Party,LJP,Lok Jan Shakti Party,LJP,,,,https://upload.wikimedia.org/wikipedia/commons/5/51/Lok_Janshakti_Party_Symbol.jpg,https://en.wikipedia.org/wiki/Lok_Janshakti_Party,,UP,ALL,filled:wikipedia_url;from_search:Lok Jan Shakti Party;filled:d1_abv;filled:aliases;filled:symbol_url
+UPDATE,Lok Janshakti Party(Ram Vilas),LJP1,Lok Janshakti Party(Ram Vilas),"LJP (RV), LJP (R)",Chirag Paswan,,,https://upload.wikimedia.org/wikipedia/en/thumb/b/ba/LJP_R_Logo.jpg/250px-LJP_R_Logo.jpg,https://en.wikipedia.org/wiki/Lok_Janshakti_Party_%28Ram_Vilas%29,,"MN,UP","colour,symbol_url,founded,aliases",from_existing_url;filled:aliases;filled:symbol_url
+UPDATE,Lok Samaj Party,LSP1,Lok Samaj Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Lok Shakti,LS,Lok Shakti,,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Indian_Election_Symbol_Coconut_Tree.png/250px-Indian_Election_Symbol_Coconut_Tree.png,https://en.wikipedia.org/wiki/Lok_Shakti,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",filled:wikipedia_url;from_search:Lok Shakti;filled:symbol_url
+INSERT,Lokpriya Rashtrawadi Party,,Lokpriya Rashtrawadi Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Lokpriya Samaj Party,,Lokpriya Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Loktanter Suraksha Party,LSP4,Loktanter Suraksha Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Loktantrik Janshakti Party,,Loktantrik Janshakti Party,,,,,,,,"UK,UP",ALL,no_enwiki_match
+UPDATE,Loktantrik Janta Dal,LJD,Loktantrik Janta Dal,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Loktantrik Janwadi Party,,Loktantrik Janwadi Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Maharashtrawadi Gomantak,MGP or MAG,Maharashtrawadi Gomantak,MGP or MAG,,,,https://upload.wikimedia.org/wikipedia/en/thumb/6/61/Maharashtrawadi_Gomantak_Party_%28emblem%29.jpg/250px-Maharashtrawadi_Gomantak_Party_%28emblem%29.jpg,https://en.wikipedia.org/wiki/Maharashtrawadi_Gomantak_Party,,GA,ALL,filled:wikipedia_url;from_search:Maharashtrawadi Gomantak;filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Majdoor Kisan Union Party,,Majdoor Kisan Union Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Manavtawadi Kranti Dal,,Manavtawadi Kranti Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Manuvadi Party,,Manuvadi Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Manviya Bharat Party,,Manviya Bharat Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Marxist Communist Party of India (United),,Marxist Communist Party of India (United),,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Marxist Leninist Party of India (Red Flag),MLPI,Marxist Leninist Party of India (Red Flag),,,,,,,,PB,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Mera Adhikaar Rashtriya Dal,MARD,Mera Adhikaar Rashtriya Dal,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Meydhaa Party,,Meydhaa Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Mihir Sena,,Mihir Sena,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Minorities Democratic Party,MDP,Minorities Democratic Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Moderate Party,M,Moderate Party,M,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/M_v1.svg/250px-M_v1.svg.png,https://en.wikipedia.org/wiki/Moderate_Party,,UP,ALL,filled:wikipedia_url;from_search:Moderate Party;filled:d1_abv;filled:aliases;filled:symbol_url
+UPDATE,Moolniwasi Samaj Party,MSP2,Moolniwasi Samaj Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Most Backward Classes Of India,,Most Backward Classes Of India,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Moulik Adhikar Party,MAP,Moulik Adhikar Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Naga Peoples Front,NAG,Naga Peoples Front,,,,,,,,MN,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Nagrik Chetna Party,,Nagrik Chetna Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Nagrik Ekta Party,,Nagrik Ekta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Nai Kranti Party,,Nai Kranti Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Naitik Party,,Naitik Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Naki Bharatiya Ekta Party,NBEP,Naki Bharatiya Ekta Party,,,,,,,,"UK,UP","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,National Apni Party,,National Apni Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,National Democratic Peoples Front,,National Democratic Peoples Front,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,National People's Party,NPP,National People's Party,,Conrad Sangma,,,https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/National_People%27s_Party_%28India%29_logo_2023.png/250px-National_People%27s_Party_%28India%29_logo_2023.png,https://en.wikipedia.org/wiki/National_People%27s_Party_%28India%29,,MN,"colour,symbol_url,founded,aliases",from_existing_url;filled:symbol_url
+UPDATE,Nationalist Congress Party,NCP,Nationalist Congress Party,,Sunetra Pawar,#FFC0CA,1999.0,https://en.wikipedia.org/wiki/Nationalist_Congress_Party#/media/File:Clock_symbol_of_NCP.png,https://en.wikipedia.org/wiki/Nationalist_Congress_Party,,"GA,MN,UP",aliases,from_existing_url
+UPDATE,Nationalist Janshakti Party,NJP,Nationalist Janshakti Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Nationalist Justice Party,,Nationalist Justice Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Nirbal Indian Shoshit Hamara Aam Dal,,Nirbal Indian Shoshit Hamara Aam Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Nyay Party,,Nyay Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Nyaydharmsabha,NYAYN,Nyaydharmsabha,,,,,,,,UK,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Pachchasi Parivartan Samaj Party,,Pachchasi Parivartan Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Parivartan Samaj Party,,Parivartan Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Peace Party,PEACPP,Peace Party,PECP,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Indian_election_symbol_glass_tumbler.svg/120px-Indian_election_symbol_glass_tumbler.svg.png,https://en.wikipedia.org/wiki/Peace_Party_%28India%29,,"UK,UP","chief,colour,symbol_url,founded,aliases",from_existing_url;filled:aliases;filled:symbol_url
+UPDATE,Peoples Party of India (Democratic),PPID,Peoples Party of India (Democratic),,,,,,https://en.wikipedia.org/wiki/Political_parties_in_Jharkhand,,"PB,UK,UP","chief,colour,symbol_url,founded,aliases",from_existing_url
+INSERT,Pichhra Samaj Party,,Pichhra Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Pragatisheel Manav Samaj Party,,Pragatisheel Manav Samaj Party,,,,,,https://en.wikipedia.org/wiki/Pragatisheel_Manav_Samaj_Party,,UP,ALL,filled:wikipedia_url;from_search:Pragatisheel Manav Samaj Party
+INSERT,Pragatisheel Samaj Party,,Pragatisheel Samaj Party,,,,,,https://en.wikipedia.org/wiki/Pragatisheel_Manav_Samaj_Party,,UP,ALL,filled:wikipedia_url;from_search:Pragatisheel Samaj Party
+UPDATE,Prajashakti Party Samdarshi,PPS,Prajashakti Party Samdarshi,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,"Proutist Bloc, India",PBI,"Proutist Bloc, India",,Atal Bihari Vajpayee,,,,,,UP,"colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Punjab Kisan Dal,,Punjab Kisan Dal,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Punjab Labour Party,,Punjab Labour Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Punjab Lok Congress Party,,Punjab Lok Congress Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Punjab National Party,,Punjab National Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,RASHTRIYA VIKLANG PARTY,,RASHTRIYA VIKLANG PARTY,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Rashtra Nirman Party,RNP,Rashtra Nirman Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Rashtra Uday Party,,Rashtra Uday Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtravadi Vikas Party,,Rashtravadi Vikas Party,,,,,,,,"UK,UP",ALL,no_enwiki_match
+UPDATE,Rashtrawadi Janlok Party (Satya),RJP1,Rashtrawadi Janlok Party (Satya),,,,,,,,"UK,UP","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Rashtrawadi Janwadi Manch,,Rashtrawadi Janwadi Manch,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtrawadi Kisan Kranti Dal,,Rashtrawadi Kisan Kranti Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,"Rashtrawadi Party of India,",,"Rashtrawadi Party of India,",,,,,,,,"PB,UP",ALL,no_enwiki_match
+INSERT,Rashtriya Adarsh Party,,Rashtriya Adarsh Party,,,,,,,,UK,ALL,no_enwiki_match
+INSERT,Rashtriya Backward Party,,Rashtriya Backward Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Bhagidari Party,,Rashtriya Bhagidari Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Democratic Front,,Rashtriya Democratic Front,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Jan Gaurav Party,,Rashtriya Jan Gaurav Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Jan Manch,,Rashtriya Jan Manch,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Jan Sahyog Party,,Rashtriya Jan Sahyog Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Janhit Sangharsh Party,,Rashtriya Janhit Sangharsh Party,,,,,,,,"MN,PB",ALL,no_enwiki_match
+INSERT,Rashtriya Janshanti Party,,Rashtriya Janshanti Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Janta Party,,Rashtriya Janta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Jantantrik Bharat Vikas Party,,Rashtriya Jantantrik Bharat Vikas Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Janutthan Party,,Rashtriya Janutthan Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Rashtriya Jatigat Aarakshan Virodhi Party,RJAVP,Rashtriya Jatigat Aarakshan Virodhi Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Rashtriya Krantikari Samajwadi Party,,Rashtriya Krantikari Samajwadi Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Krishak Dal,,Rashtriya Krishak Dal,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Rashtriya Lok Dal,RLD,Rashtriya Lok Dal,,Jayant Chaudhary,,,https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Indian_Election_Symbol_Hand_Pump.png/120px-Indian_Election_Symbol_Hand_Pump.png,https://en.wikipedia.org/wiki/Rashtriya_Lok_Dal,National Alliance,"UK,UP","colour,symbol_url,founded,aliases",from_existing_url;filled:symbol_url
+INSERT,Rashtriya Lok Janta Party,,Rashtriya Lok Janta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Lokneeti Party,,Rashtriya Lokneeti Party,,,,,,,,UK,ALL,no_enwiki_match
+INSERT,Rashtriya Lokshakti Party,,Rashtriya Lokshakti Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Rashtriya Mazdoor Ekta Party,RMEP,Rashtriya Mazdoor Ekta Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Rashtriya Parivartan Dal,,Rashtriya Parivartan Dal,,,,,,https://en.wikipedia.org/wiki/Rashtriya_Parivartan_Dal,,UP,ALL,filled:wikipedia_url;from_search:Rashtriya Parivartan Dal
+UPDATE,Rashtriya Rashtrawadi Party,RRP1,Rashtriya Rashtrawadi Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Rashtriya Samaj Dal (R),RSDR,Rashtriya Samaj Dal (R),,,,,,,,"UK,UP","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Rashtriya Samaj Paksha,RSP2,Rashtriya Samaj Paksha,,Mahadev Jankar,,,,https://en.wikipedia.org/wiki/Rashtriya_Samaj_Paksha,,UP,"colour,symbol_url,founded,aliases",from_existing_url
+UPDATE,Rashtriya Samanta Dal,RSD1,Rashtriya Samanta Dal,,,,,,https://en.wikipedia.org/wiki/Rashtriya_Samanta_Dal,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",filled:wikipedia_url;from_search:Rashtriya Samanta Dal
+INSERT,Rashtriya Samta Vikas Party,,Rashtriya Samta Vikas Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Sarvajan Party,,Rashtriya Sarvajan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Shoshit Samaj Party,,Rashtriya Shoshit Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Surya Prakash Party,,Rashtriya Surya Prakash Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Teesara Vikalp Party,,Rashtriya Teesara Vikalp Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Rashtriya Ulama Council,RUC,Rashtriya Ulama Council,,Aamir Rashadi Madni,,,https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Rashtriya_Ulama_Council_%28RUC%29_Flag.jpg/250px-Rashtriya_Ulama_Council_%28RUC%29_Flag.jpg,https://en.wikipedia.org/wiki/Rashtriya_Ulama_Council,,UP,"colour,symbol_url,founded,aliases",from_existing_url;filled:symbol_url
+INSERT,Rashtriya Uttarakhand Party,,Rashtriya Uttarakhand Party,,,,,,,,UK,ALL,no_enwiki_match
+INSERT,Rashtriya Vikas Manch Party,,Rashtriya Vikas Manch Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Vyapari Party,,Rashtriya Vyapari Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya Yuva Morcha Dal,,Rashtriya Yuva Morcha Dal,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rashtriya mahan Gantantra Party,,Rashtriya mahan Gantantra Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Rastriya Hind Samaj Party,,Rastriya Hind Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Republican Bahujan Sena,RBS,Republican Bahujan Sena,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Republican Party of India (A),RPI(A)-K,Republican Party of India (A),,,,,,,,"PB,UK","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Republican Party of India (Athawale),RPI(A),Republican Party of India (Athawale),RPI (A),,,,https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Indian_Election_Symbol_sugarcane_farmer.png/250px-Indian_Election_Symbol_sugarcane_farmer.png,https://en.wikipedia.org/wiki/Republican_Party_of_India_%28Athawale%29,,"MN,PB","chief,colour,symbol_url,founded,aliases",from_existing_url;filled:aliases;filled:symbol_url
+INSERT,Republican Party of India Ektavadi,,Republican Party of India Ektavadi,,,,,,,,PB,ALL,no_enwiki_match
+UPDATE,Republican Sena,REPURS,Republican Sena,RS,,,,,https://en.wikipedia.org/wiki/Republican_Sena,,UP,"chief,colour,symbol_url,founded,aliases",from_existing_url;filled:aliases
+INSERT,Revolutionary Goans Party,RGP,Revolutionary Goans Party,RGP,,,,https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/Revolutionary_Goans_Party_logo.png/250px-Revolutionary_Goans_Party_logo.png,https://en.wikipedia.org/wiki/Revolutionary_Goans_Party,,GA,ALL,filled:wikipedia_url;from_search:Revolutionary Goans Party;filled:d1_abv;filled:aliases;filled:symbol_url
+UPDATE,Revolutionary Socialist Party,RSP,Revolutionary Socialist Party,,Manoj Bhattacharya,,2020.0,https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Indian_Election_Symbol_Spade_and_Stoker.png/120px-Indian_Election_Symbol_Spade_and_Stoker.png,https://en.wikipedia.org/wiki/Revolutionary_Socialist_Party_(India),,PB,"colour,aliases",from_existing_url
+UPDATE,Right to Recall Party,RRP,Right to Recall Party,,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/AMMK_SYMBOL_PRESSURE_COOKER.png/250px-AMMK_SYMBOL_PRESSURE_COOKER.png,https://en.wikipedia.org/wiki/Right_to_Recall_Party,,"PB,UK,UP","chief,colour,symbol_url,founded,aliases",from_existing_url;filled:symbol_url
+UPDATE,SOCIAL DEMOCRATIC PARTY OF INDIA,SDPI,Social Democratic Party Of India,,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/SDPI_Flag.jpg/250px-SDPI_Flag.jpg,https://en.wikipedia.org/wiki/Social_Democratic_Party_of_India,,UP,"chief,colour,symbol_url,founded,aliases",from_existing_url;filled:symbol_url
+UPDATE,SOCIALIST UNITY CENTRE OF INDIA (COMMUNIST),SUCI(C),Socialist Unity Centre Of India (COMMUNIST),,,,,,,,"UK,UP","chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Sabhi Jan Party,,Sabhi Jan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Sabka Dal United,,Sabka Dal United,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Sabse Achchhi Party,,Sabse Achchhi Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Sada Haq Party,,Sada Haq Party,,,,,,,,PB,ALL,no_enwiki_match
+UPDATE,Sainik Samaj Party,SSP,Sainik Samaj Party,,,,,,,,UK,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Samagra Utthan Party,,Samagra Utthan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Samagra Vikas Party,,Samagra Vikas Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Samaj Adhikar Kalyan Party,,Samaj Adhikar Kalyan Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Samaj Bhalai Morcha,,Samaj Bhalai Morcha,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Samaj Parivartan Party,,Samaj Parivartan Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Samaj Sevak Party,,Samaj Sevak Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Samajhdar Party,,Samajhdar Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Samajik Sangharsh Party,,Samajik Sangharsh Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Samajwadi Andolan Party,,Samajwadi Andolan Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Samajwadi Party,SAMASP,Samajwadi Party,SP,Akhilesh Yadav,,,https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Samajwadi_Party.png/250px-Samajwadi_Party.png,https://en.wikipedia.org/wiki/Samajwadi_Party,,"PB,UK,UP","colour,symbol_url,founded,aliases",from_existing_url;filled:aliases;filled:symbol_url
+INSERT,Saman Adhikar Party,,Saman Adhikar Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Samarth Kisan Party,,Samarth Kisan Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Sambhaji Brigade Party,SBP1,Sambhaji Brigade Party,,,,,,,,GA,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Samdarshi Samaj Party,,Samdarshi Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Samrat Ashok Sena Party,,Samrat Ashok Sena Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Samyak Party,,Samyak Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Sanatan Sanskriti Raksha Dal,,Sanatan Sanskriti Raksha Dal,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Sanjhi Virasat Party,SVP1,Sanjhi Virasat Party,,,,,,,,PB,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Sanyukt Samajwadi Dal,,Sanyukt Samajwadi Dal,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Sanyukt Sangharsh Party,SSP2,Sanyukt Sangharsh Party,,,,,,,,PB,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Sanyukt Vikas Party,,Sanyukt Vikas Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Sarav Sanjhi Party,,Sarav Sanjhi Party,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Sarv Rajya Party,,Sarv Rajya Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Sarv Samaj Party,,Sarv Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Sarva Samaj Janata Party,,Sarva Samaj Janata Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Sarvajan Hitay Party,,Sarvajan Hitay Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Sarvjan Awaz Party,,Sarvjan Awaz Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Sarvjan Lok Shakti Party,,Sarvjan Lok Shakti Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Sarvjan Sanatan Party,SSP3,Sarvjan Sanatan Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,Sarvodaya Bharat Party,,Sarvodaya Bharat Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Satya Bahumat Party,,Satya Bahumat Party,,,,,,,,"UK,UP",ALL,no_enwiki_match
+INSERT,Satya Kranti Party,,Satya Kranti Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Secular Inqlab Party,,Secular Inqlab Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Shiromani Akali Dal,SAD,Shiromani Akali Dal,,Sukhbir Singh Badal,#FE992F,1920.0,https://en.wikipedia.org/wiki/Shiromani_Akali_Dal#/media/File:Shiromani_Akali_Dal_symbol.svg,https://en.wikipedia.org/wiki/Shiromani_Akali_Dal,,PB,aliases,from_existing_url
+INSERT,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),,Shiromani Akali Dal (Amritsar)(Simranjit Singh Mann),,,,,,,,"PB,UK",ALL,no_enwiki_match
+INSERT,Shiromani Akali Dal (Sanyukt),SAD(S),Shiromani Akali Dal (Sanyukt),SAD(S),,,,,https://en.wikipedia.org/wiki/Shiromani_Akali_Dal_(Sanyukt),,PB,ALL,filled:wikipedia_url;from_search:Shiromani Akali Dal (Sanyukt);filled:d1_abv;filled:aliases
+UPDATE,Shiv Sena,SHS,Shiv Sena,,Eknath Shinde,#E37405,2022.0,https://en.wikipedia.org/wiki/Shiv_Sena_(2022%E2%80%93present)#/media/File:Indian_Election_Symbol_Bow_And_Arrow2.svg,https://en.wikipedia.org/wiki/Shiv_Sena_(2022%E2%80%93present),,"GA,MN,UP",aliases,from_existing_url
+INSERT,Shoshit Samaj Dal,,Shoshit Samaj Dal,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Socialist Party (India),SPI,Socialist Party (India),,,,,,https://en.wikipedia.org/wiki/Socialist_Party_%28India%2C_1948%29,,UP,"chief,colour,symbol_url,founded,aliases",from_existing_url
+INSERT,Subhashwadi Bhartiya Samajwadi Party (Subhas Party),,Subhashwadi Bhartiya Samajwadi Party (Subhas Party),,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Suheldev Bharatiya Samaj Party,SBSP,Suheldev Bharatiya Samaj Party,,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Indian_election_symbol_Key.svg/250px-Indian_election_symbol_Key.svg.png,https://en.wikipedia.org/wiki/Suheldev_Bharatiya_Samaj_Party,,UP,"chief,colour,symbol_url,founded,aliases",from_existing_url;filled:symbol_url
+INSERT,Suraksha Samaj Party,,Suraksha Samaj Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Swadesh Jan Sewak Party,,Swadesh Jan Sewak Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Swadeshi Hind Party,,Swadeshi Hind Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Swarna Bharat Party,,Swarna Bharat Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Swatantra Indian Labour Party,,Swatantra Indian Labour Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Swatantra Jantaraj Party,SJP2,Swatantra Jantaraj Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+INSERT,UTTARAKHAND PARIVARTAN PARTY,,UTTARAKHAND PARIVARTAN PARTY,,,,,,,,UK,ALL,no_enwiki_match
+INSERT,Uttar Pradesh Republican Party,,Uttar Pradesh Republican Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Uttarakhand Janata Party,,Uttarakhand Janata Party,,,,,,,,UK,ALL,no_enwiki_match
+INSERT,Uttarakhand Janekta Party,,Uttarakhand Janekta Party,,,,,,,,UK,ALL,no_enwiki_match
+INSERT,Uttarakhand Kranti Dal,UKD,Uttarakhand Kranti Dal,UKD,,,,https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/UKD-flag.gif/250px-UKD-flag.gif,https://en.wikipedia.org/wiki/Uttarakhand_Kranti_Dal,,UK,ALL,filled:wikipedia_url;from_search:Uttarakhand Kranti Dal;filled:d1_abv;filled:aliases;filled:symbol_url
+INSERT,Uttarakhand Kranti Dal (Democratic),,Uttarakhand Kranti Dal (Democratic),,,,,,,,UK,ALL,no_enwiki_match
+INSERT,Uttarakhand Kranti Dal(P),,Uttarakhand Kranti Dal(P),,,,,,,,UK,ALL,no_enwiki_match
+INSERT,Uttarakhand Raksha Morcha,,Uttarakhand Raksha Morcha,,,,,,,,UK,ALL,no_enwiki_match
+INSERT,VANCHITSAMAJ INSAAF PARTY,,VANCHITSAMAJ INSAAF PARTY,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Vijay Bharat Party,,Vijay Bharat Party,,,,,,,,UP,ALL,no_enwiki_match
+UPDATE,Vikas India Party,VIP,Vikas India Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Vikas Insaf Party,VIP1,Vikas Insaf Party,,,,,,,,UP,"chief,colour,symbol_url,founded,wikipedia_url,aliases",no_enwiki_match
+UPDATE,Vikassheel Insaan Party,VIP2,Vikassheel Insaan Party,VIP,Santosh Sahani,,,https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Vikassheel_Insaan_Party_logo.png/250px-Vikassheel_Insaan_Party_logo.png,https://en.wikipedia.org/wiki/Vikassheel_Insaan_Party,,UP,"colour,symbol_url,founded,aliases",from_existing_url;filled:aliases;filled:symbol_url
+INSERT,Vikassheel Janta Party,,Vikassheel Janta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Vishal Party of India,,Vishal Party of India,,,,,,,,PB,ALL,no_enwiki_match
+INSERT,Voters Party  International,,Voters Party  International,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Watan Janta Party,,Watan Janta Party,,,,,,,,UP,ALL,no_enwiki_match
+INSERT,Yuva Vikas Party,,Yuva Vikas Party,,,,,,,,UP,ALL,no_enwiki_match
