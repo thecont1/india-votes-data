@@ -1,6 +1,25 @@
 import { jsonResponse } from '../shared/cors.js';
 
 /**
+ * Fetch party colors from DB (1-hour KV cache).
+ * Returns array of {abv, colour}.
+ */
+export async function getPartyColors(env) {
+  const KV_KEY = 'parties:colors';
+  const cached = await env.KV?.get(KV_KEY, { type: 'json' });
+  if (cached) return cached;
+
+  const { results } = await env.DB.prepare(
+    "SELECT abv, colour FROM parties WHERE colour IS NOT NULL AND colour != ''"
+  ).all();
+
+  if (env.KV) {
+    await env.KV.put(KV_KEY, JSON.stringify(results), { expirationTtl: 3600 });
+  }
+  return results;
+}
+
+/**
  * Fetch parties with symbol_url from KV cache (1-hour TTL).
  * Used by seat-tally, roundwise, bye-elections.
  */

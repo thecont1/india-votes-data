@@ -1,6 +1,6 @@
 import { jsonResponse } from '../shared/cors.js';
 import { getColor } from '../shared/party-colors.js';
-import { getPartiesWithSymbols } from './parties.js';
+import { getPartiesWithSymbols, getPartyColors } from './parties.js';
 
 export async function handleRoundwise(request, env) {
   const url = new URL(request.url);
@@ -122,12 +122,17 @@ export async function handleRoundwise(request, env) {
   const symbols = {};
   for (const r of symbolRows) symbols[r.abv] = r.symbol_url;
 
+  // Get party colors from DB (cached in KV)
+  const colorRows = await getPartyColors(env);
+  const dbColors = {};
+  for (const r of colorRows) dbColors[r.abv] = r.colour;
+
   const series = sortedParties
     .filter(party => finalVotes.get(party) > 0)
     .map(party => ({
       party_abv: party,
       party_name: party,
-      color: getColor(party),
+      color: getColor(party, dbColors[party]),
       symbol_url: symbols[party] || null,
       data: allRounds.map(rn => cumulativeSeries.get(rn)?.get(party) || 0),
     }));

@@ -1,6 +1,6 @@
 import { jsonResponse } from '../shared/cors.js';
 import { getColor } from '../shared/party-colors.js';
-import { getPartiesWithSymbols } from './parties.js';
+import { getPartiesWithSymbols, getPartyColors } from './parties.js';
 import { getElectionById } from './elections.js';
 
 export async function handleSeatTally(request, env) {
@@ -127,6 +127,11 @@ export async function handleSeatTally(request, env) {
   const symbols = {};
   for (const r of symbolRows) symbols[r.abv] = r.symbol_url;
 
+  // Get party colors from DB (cached in KV)
+  const colorRows = await getPartyColors(env);
+  const dbColors = {};
+  for (const r of colorRows) dbColors[r.abv] = r.colour;
+
   const result = rows.results.map(row => {
     let won = row.won_seats;
     let leading = row.leading_seats;
@@ -146,7 +151,7 @@ export async function handleSeatTally(request, env) {
       lost_no_deposit: lostNoDep,
       lost_deposit: lostDep,
       total_votes: row.total_votes || 0,
-      color: getColor(row.party_abv),
+      color: getColor(row.party_abv, dbColors[row.party_abv]),
       symbol_url: symbols[row.party_abv] || null,
     };
   });

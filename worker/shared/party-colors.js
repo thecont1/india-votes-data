@@ -8,6 +8,6 @@ const PARTY_COLORS = {
 };
 const DEFAULT_COLOR = '#888888';
 
-export function getColor(abv) {
-  return PARTY_COLORS[abv] || DEFAULT_COLOR;
+export function getColor(abv, dbColor) {
+  return PARTY_COLORS[abv] || dbColor || DEFAULT_COLOR;
 }

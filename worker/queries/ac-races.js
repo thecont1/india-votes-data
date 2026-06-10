@@ -1,6 +1,6 @@
 import { jsonResponse } from '../shared/cors.js';
 import { getColor } from '../shared/party-colors.js';
-import { getPartiesFull } from './parties.js';
+import { getPartiesFull, getPartyColors } from './parties.js';
 
 export async function handleAcRaces(request, env) {
   const url = new URL(request.url);
@@ -62,6 +62,11 @@ export async function handleAcRaces(request, env) {
     partyInfo[r.abv] = { name: r.name, symbol_url: r.symbol_url };
   }
 
+  // Get party colors from DB (cached in KV)
+  const colorRows = await getPartyColors(env);
+  const dbColors = {};
+  for (const r of colorRows) dbColors[r.abv] = r.colour;
+
   // Group by AC
   const acMap = new Map();
   for (const row of rows.results) {
@@ -89,7 +94,7 @@ export async function handleAcRaces(request, env) {
       candidate: row.candidate,
       party_abv: row.party_abv, party_name: pi.name || row.party_abv,
       votes: row.votes, rank: row.rank,
-      color: getColor(row.party_abv),
+      color: getColor(row.party_abv, dbColors[row.party_abv]),
       symbol_url: pi.symbol_url || null,
     });
   }
