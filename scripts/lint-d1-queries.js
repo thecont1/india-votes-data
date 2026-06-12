@@ -18,7 +18,7 @@
 import { readFileSync, readdirSync, statSync } from "fs";
 import { join } from "path";
 
-const QUERY_DIRS = ["worker/queries", "worker-ingest"];
+const QUERY_DIRS = ["worker", "worker-ingest"];
 
 /**
  * Patterns that indicate a D1 read-cost explosion risk.

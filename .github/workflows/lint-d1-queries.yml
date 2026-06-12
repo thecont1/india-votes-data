@@ -3,12 +3,12 @@ on:
   push:
     branches: [main]
     paths:
-      - 'worker/queries/**'
+      - 'worker/**'
       - 'worker-ingest/**'
       - 'scripts/lint-d1-queries.js'
   pull_request:
     paths:
-      - 'worker/queries/**'
+      - 'worker/**'
       - 'worker-ingest/**'
       - 'scripts/lint-d1-queries.js'
 
