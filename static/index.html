@@ -3464,6 +3464,7 @@ const FETCH_TIMEOUT_MS = 8000;
 let tallyFetchController = null;   // fetchData() — seat-tally
 let statusFetchController = null;  // fetchStatus() — status
 let racesFetchController = null;   // renderRaces() — ac-races + bye-elections
+let racesGeneration = 0;          // staleness guard for ac-races fetch
 
 function resetAssemblyView() {
   assemblySeats = [];
@@ -5833,9 +5834,12 @@ function renderRaces(stateCode) {
   racesFetchController = new AbortController();
   const racesSignal = racesFetchController.signal;
   const racesTimeoutId = setTimeout(() => racesFetchController.abort(), FETCH_TIMEOUT_MS);
+  const gen = ++racesGeneration;
   fetch(`${API_BASE}/api/bye-elections?state=${stateCode}`, { signal: racesSignal })
     .then(r => { clearTimeout(racesTimeoutId); return r.json(); })
     .then(data => {
+      racesFetchController = null;
+      if (gen !== racesGeneration) return; // stale — discard
       byeElectionMap = {};
       const byeElectionId = data.election_id || null;
       (data.bye_elections || []).forEach(be => {
@@ -5858,7 +5862,8 @@ function renderRaces(stateCode) {
       if (currentRace) updateByeElectionIndicator(currentRace);
     })
     .catch(e => {
-      if (e.name === 'AbortError') return;
+      racesFetchController = null;
+      if (e.name === 'AbortError' || gen !== racesGeneration) return;
       byeElectionMap = {};
       byeSortBtn.disabled = true;
       byeSortBtn.style.opacity = '0.4';
@@ -5869,6 +5874,7 @@ function renderRaces(stateCode) {
   fetch(`${API_BASE}/api/ac-races?state=${stateCode}${electionParam}`, { signal: racesSignal })
     .then(r => r.json())
     .then(data => {
+      if (gen !== racesGeneration) return; // stale — discard
       racesData = data.races || [];
       if (!racesData.length) {
         card.style.display = 'none';
