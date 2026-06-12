@@ -3459,6 +3459,11 @@ let lastDataFingerprint = '';
 let selectedTheme = DEFAULT_THEME;
 let stateStatuses = {};
 let knownStates = [];
+// Fetch cancellation + timeout (Phase 1 — D1 cost fix)
+const FETCH_TIMEOUT_MS = 8000;
+let tallyFetchController = null;   // fetchData() — seat-tally
+let statusFetchController = null;  // fetchStatus() — status
+let racesFetchController = null;   // renderRaces() — ac-races + bye-elections
 
 function resetAssemblyView() {
   assemblySeats = [];
@@ -3951,6 +3956,11 @@ function selectElection(electionId) {
     // Clear UI
     document.getElementById('state-bar').innerHTML = '';
     document.getElementById('perf-legend-tally').innerHTML = '';
+    // Show loading state immediately (Phase 4)
+    document.getElementById('tally-chart').style.opacity = '0.4';
+    document.getElementById('status-text').textContent = 'Loading...';
+    const mobileStatusEl = document.getElementById('status-text-mobile');
+    if (mobileStatusEl) mobileStatusEl.textContent = 'Loading...';
     // Reload data for new election
     if (chart) { chart.destroy(); chart = null; }
     if (racesChart) { racesChart.destroy(); racesChart = null; }
@@ -4059,14 +4069,21 @@ function updateStateBarForElection(stateCodes) {
     short: stateNameMap[code]?.std || code
   }))];
   renderStateBar(states);
-  loadStateStatuses(states);
+  // Defer state status dots — not needed for first render (Phase 3)
+  setTimeout(() => loadStateStatuses(states), 0);
 }
 
 // Boot
 loadElections().then(() => {
   initElectionDropdown();
   init();
-  setInterval(() => { fetchStatus(); fetchData(); }, 10000);
+  // Self-scheduling poll: next tick starts 10s AFTER previous finishes
+  // (avoids overlapping requests when seat-tally takes 6s)
+  async function poll() {
+    await Promise.allSettled([fetchStatus(), fetchData()]);
+    setTimeout(poll, 10000);
+  }
+  poll();
   setInterval(() => {
     if (knownStates.length) loadStateStatuses(knownStates);
   }, 30000);
@@ -4226,21 +4243,32 @@ async function init() {
     b.classList.toggle('active', isActive);
     b.setAttribute('aria-pressed', String(isActive));
   });
+  // Fast path: status + seat-tally for first render
+  await fetchStatus();
+  fetchData();
+  // Deferred: party details, race cards, roundwise/assembly charts
+  setTimeout(initDeferred, 0);
+}
+
+async function initDeferred() {
   // Load party details for legend tooltips
   try {
     const res = await fetch(API_BASE + '/api/parties');
     const data = await res.json();
     partyDetails = data.parties || {};
   } catch (e) { /* ignore */ }
-  await fetchStatus();
   loadStateCharts();
-  fetchData();
 }
 
 // ---------------------------------------------------------------------------
 // Data fetch
 // ---------------------------------------------------------------------------
 async function fetchData() {
+  // Cancel any in-flight seat-tally fetch (race condition fix)
+  if (tallyFetchController) tallyFetchController.abort();
+  tallyFetchController = new AbortController();
+  const signal = tallyFetchController.signal;
+  const timeoutId = setTimeout(() => tallyFetchController.abort(), FETCH_TIMEOUT_MS);
   try {
     let url = API_BASE + '/api/seat-tally';
     if (currentState) {
@@ -4248,8 +4276,10 @@ async function fetchData() {
     } else if (currentElection) {
       url = `${API_BASE}/api/seat-tally?election_id=${currentElection.election_id}`;
     }
-    const resp = await fetch(url);
+    const resp = await fetch(url, { signal });
+    clearTimeout(timeoutId);
     const data = await resp.json();
+    tallyFetchController = null;
 
     const fp = JSON.stringify(data.parties);
     if (fp === lastDataFingerprint) {
@@ -4259,6 +4289,7 @@ async function fetchData() {
 
     currentMajority = data.majority;
     renderChart(data.parties, data.majority);
+    document.getElementById('tally-chart').style.opacity = '';
     if (perfView === 'share') renderVoteShare();
     const dt = new Date(data.updated_at);
     const day = dt.getDate();
@@ -4274,11 +4305,20 @@ async function fetchData() {
     const mobileStatus = document.getElementById('status-text-mobile');
     if (mobileStatus) mobileStatus.textContent = timestamp;
   } catch (e) {
-    console.warn('Fetch failed:', e);
+    clearTimeout(timeoutId);
+    tallyFetchController = null;
+    if (e.name !== 'AbortError') {
+      lastDataFingerprint = '';  // allow re-render on next poll
+      console.warn('Fetch failed:', e);
+    }
   }
 }
 
 async function fetchStatus() {
+  if (statusFetchController) statusFetchController.abort();
+  statusFetchController = new AbortController();
+  const signal = statusFetchController.signal;
+  const timeoutId = setTimeout(() => statusFetchController.abort(), FETCH_TIMEOUT_MS);
   try {
     let url;
     if (currentState) {
@@ -4288,10 +4328,15 @@ async function fetchStatus() {
     } else {
       url = API_BASE + '/api/status';
     }
-    const resp = await fetch(url);
+    const resp = await fetch(url, { signal });
+    clearTimeout(timeoutId);
     const status = await resp.json();
+    statusFetchController = null;
     updateStatusBar(status);
-  } catch (e) { /* ignore */ }
+  } catch (e) {
+    clearTimeout(timeoutId);
+    statusFetchController = null;
+  }
 }
 
 function loadStateCharts() {
@@ -5783,8 +5828,13 @@ function renderRaces(stateCode) {
 
   // Fetch bye-election data for this state (non-blocking)
   const byeSortBtn = document.getElementById('bye-sort-btn');
-  fetch(`${API_BASE}/api/bye-elections?state=${stateCode}`)
-    .then(r => r.json())
+  // Cancel any in-flight races fetches (race condition fix)
+  if (racesFetchController) racesFetchController.abort();
+  racesFetchController = new AbortController();
+  const racesSignal = racesFetchController.signal;
+  const racesTimeoutId = setTimeout(() => racesFetchController.abort(), FETCH_TIMEOUT_MS);
+  fetch(`${API_BASE}/api/bye-elections?state=${stateCode}`, { signal: racesSignal })
+    .then(r => { clearTimeout(racesTimeoutId); return r.json(); })
     .then(data => {
       byeElectionMap = {};
       const byeElectionId = data.election_id || null;
@@ -5807,7 +5857,8 @@ function renderRaces(stateCode) {
       // drawn before byeElectionMap was populated)
       if (currentRace) updateByeElectionIndicator(currentRace);
     })
-    .catch(() => {
+    .catch(e => {
+      if (e.name === 'AbortError') return;
       byeElectionMap = {};
       byeSortBtn.disabled = true;
       byeSortBtn.style.opacity = '0.4';
@@ -5815,7 +5866,7 @@ function renderRaces(stateCode) {
     });
 
   const electionParam = currentElection ? `&election_id=${currentElection.election_id}` : '';
-  fetch(`${API_BASE}/api/ac-races?state=${stateCode}${electionParam}`)
+  fetch(`${API_BASE}/api/ac-races?state=${stateCode}${electionParam}`, { signal: racesSignal })
     .then(r => r.json())
     .then(data => {
       racesData = data.races || [];
@@ -5846,8 +5897,11 @@ function renderRaces(stateCode) {
         document.querySelector('[data-sort="alpha"]')?.classList.add('active');
         populateRaceDropdown(false);
       }
+      racesFetchController = null;
     })
     .catch(e => {
+      if (e.name === 'AbortError') return;
+      racesFetchController = null;
       console.warn('Failed to load races:', e);
       card.style.display = 'none';
     });
@@ -7330,6 +7384,11 @@ function renderStateBar(states) {
       localStorage.removeItem(RACE_AC_STORAGE_KEY);
       lastDataFingerprint = '';
       drawRaceRoundwise._cache = null;
+      // Show loading state immediately (Phase 4)
+      document.getElementById('tally-chart').style.opacity = '0.4';
+      document.getElementById('status-text').textContent = 'Loading...';
+      const mobileStatus = document.getElementById('status-text-mobile');
+      if (mobileStatus) mobileStatus.textContent = 'Loading...';
       renderStateBar(states);
       fetchData();
       fetchStatus();
