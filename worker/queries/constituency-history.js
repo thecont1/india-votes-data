@@ -18,15 +18,19 @@ export async function handleConstituencyHistory(request, env) {
   `).bind(stateCode, acNo).first();
 
   // Get the final round for this constituency, per election.
-  // Uses latest_rounds_ac (materialised) instead of correlated subqueries.
+  // Uses a grouped MAX on rounds_ac with the composite index —
+  // correct per-election max, no latest_rounds_ac cross-election risk.
   const rows = await env.DB.prepare(`
     WITH election_finals AS (
-      SELECT cc.election_id, la.max_round as final_round
+      SELECT cc.election_id,
+             MAX(r.round_no) as final_round
       FROM (SELECT DISTINCT election_id, state_code, ac_no FROM rounds_ac
             WHERE state_code = ? AND ac_no = ?) cc
-      JOIN latest_rounds_ac la
-        ON la.state_code = cc.state_code
-       AND la.ac_no = cc.ac_no
+      JOIN rounds_ac r
+        ON r.election_id = cc.election_id
+       AND r.state_code  = cc.state_code
+       AND r.ac_no       = cc.ac_no
+      GROUP BY cc.election_id
     ),
     ranked AS (
       SELECT

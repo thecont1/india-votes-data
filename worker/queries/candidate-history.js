@@ -10,8 +10,10 @@ export async function handleCandidateHistory(request, env) {
 
   // For each (election_id, state_code, ac_no) the candidate contested,
   // get only the final round. Compute winner's votes and margin.
-  // Uses latest_rounds_ac (materialised) instead of correlated subqueries
-  // to avoid D1 read explosion (was costing $168/month).
+  // Uses a grouped MAX on rounds_ac with the composite index
+  // (election_id, state_code, ac_no, round_no) — correct per-election max,
+  // no correlated subqueries, no dependency on latest_rounds_ac which
+  // stores the global max across all elections.
   const rows = await env.DB.prepare(`
     WITH candidate_contests AS (
       SELECT DISTINCT election_id, state_code, ac_no
@@ -20,11 +22,13 @@ export async function handleCandidateHistory(request, env) {
     ),
     final_rounds AS (
       SELECT cc.election_id, cc.state_code, cc.ac_no,
-             la.max_round AS final_round
+             MAX(r.round_no) AS final_round
       FROM candidate_contests cc
-      JOIN latest_rounds_ac la
-        ON la.state_code = cc.state_code
-       AND la.ac_no      = cc.ac_no
+      JOIN rounds_ac r
+        ON r.election_id = cc.election_id
+       AND r.state_code  = cc.state_code
+       AND r.ac_no       = cc.ac_no
+      GROUP BY cc.election_id, cc.state_code, cc.ac_no
     ),
     ranked AS (
       SELECT
