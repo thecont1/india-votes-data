@@ -25,20 +25,23 @@ export async function handleByeElections(request, env) {
     electionId = latest.election_id;
   }
 
-  // Get all candidates for this bye-election's final round
+  // Get all candidates for this bye-election's final round.
+  // Uses a single indexed scan with window functions instead of
+  // correlated subqueries that re-scan rounds_ac per group.
   let query = `
-    WITH final_rounds AS (
+    WITH all_rounds AS (
+      SELECT state_code, ac_no, round_no,
+             MAX(CASE WHEN round_no = 999 THEN 1 ELSE 0 END)
+               OVER (PARTITION BY state_code, ac_no) AS has_final
+      FROM rounds_ac
+      WHERE election_id = ?
+    ),
+    final_rounds AS (
       SELECT state_code, ac_no,
-        COALESCE(
-          (SELECT MAX(round_no) FROM rounds_ac r2
-           WHERE r2.state_code = r.state_code AND r2.ac_no = r.ac_no
-             AND r2.election_id = ? AND r2.round_no = 999),
-          (SELECT MAX(round_no) FROM rounds_ac r2
-           WHERE r2.state_code = r.state_code AND r2.ac_no = r.ac_no
-             AND r2.election_id = ? AND r2.round_no != 999)
-        ) as final_round
-      FROM rounds_ac r
-      WHERE r.election_id = ?
+             MAX(CASE WHEN has_final = 1 AND round_no = 999 THEN round_no
+                      WHEN has_final = 0 THEN round_no
+                      ELSE NULL END) AS final_round
+      FROM all_rounds
       GROUP BY state_code, ac_no
     )
     SELECT
@@ -57,7 +60,7 @@ export async function handleByeElections(request, env) {
     ORDER BY r.state_code, r.ac_no, rank
   `;
 
-  const binds = [electionId, electionId, electionId, electionId];
+  const binds = [electionId, electionId];
   if (stateFilter) binds.push(stateFilter);
 
   const rows = await env.DB.prepare(query).bind(...binds).all();
@@ -117,6 +120,6 @@ export async function handleByeElections(request, env) {
     bye_elections: byeElections,
     total: byeElections.length,
   }, 200, {
-    'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
+    'Cache-Control': 'public, max-age=60, stale-while-revalidate=120',
   });
 }

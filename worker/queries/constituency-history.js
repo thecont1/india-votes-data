@@ -18,18 +18,15 @@ export async function handleConstituencyHistory(request, env) {
   `).bind(stateCode, acNo).first();
 
   // Get the final round for this constituency, per election.
-  // Each election has its own final round (999 or max).
+  // Uses latest_rounds_ac (materialised) instead of correlated subqueries.
   const rows = await env.DB.prepare(`
     WITH election_finals AS (
-      SELECT election_id,
-        COALESCE(
-          (SELECT MAX(r2.round_no) FROM rounds_ac r2
-           WHERE r2.election_id = r.election_id AND r2.state_code = r.state_code AND r2.ac_no = r.ac_no AND r2.round_no = 999),
-          (SELECT MAX(r2.round_no) FROM rounds_ac r2
-           WHERE r2.election_id = r.election_id AND r2.state_code = r.state_code AND r2.ac_no = r.ac_no AND r2.round_no != 999)
-        ) as final_round
+      SELECT cc.election_id, la.max_round as final_round
       FROM (SELECT DISTINCT election_id, state_code, ac_no FROM rounds_ac
-            WHERE state_code = ? AND ac_no = ?) r
+            WHERE state_code = ? AND ac_no = ?) cc
+      JOIN latest_rounds_ac la
+        ON la.state_code = cc.state_code
+       AND la.ac_no = cc.ac_no
     ),
     ranked AS (
       SELECT
