@@ -4000,6 +4000,16 @@ function initElectionDropdown() {
   if (btn) {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      // If in error state (button shows "Reload"), retry loading
+      if (!electionsLoaded && electionsList.length === 0) {
+        const yearEl = document.getElementById('election-dropdown-year-num');
+        if (yearEl && yearEl.textContent === '⚠') {
+          yearEl.textContent = '...';
+          document.getElementById('election-dropdown-type').textContent = '';
+          loadElections(true);
+          return;
+        }
+      }
       setElectionDropdownOpen(!electionDropdownOpen);
     });
   }
@@ -4021,7 +4031,9 @@ function initElectionDropdown() {
   });
 }
 
-async function loadElections() {
+let electionsLoaded = false;
+
+async function loadElections(retry = true) {
   try {
     // Load states for name mapping
     const statesRes = await fetch(API_BASE + '/api/states');
@@ -4034,6 +4046,7 @@ async function loadElections() {
     const res = await fetch(API_BASE + '/api/elections');
     const data = await res.json();
     electionsList = (data.elections || []).filter(e => !e.election_id.startsWith('BYE-'));
+    electionsLoaded = true;
     
     // Restore saved election or default to most recent
     const savedElectionId = localStorage.getItem(ELECTION_STORAGE_KEY);
@@ -4055,6 +4068,20 @@ async function loadElections() {
     }
   } catch (err) {
     console.warn('Failed to load elections:', err);
+    if (retry) {
+      // Retry once after 2s
+      await new Promise(r => setTimeout(r, 2000));
+      return loadElections(false);
+    }
+    // Show error state on button
+    const yearEl = document.getElementById('election-dropdown-year-num');
+    const typeEl = document.getElementById('election-dropdown-type');
+    if (yearEl) yearEl.textContent = '⚠';
+    if (typeEl) typeEl.textContent = 'Reload';
+    const yearElM = document.getElementById('election-dropdown-year-num-mobile');
+    const typeElM = document.getElementById('election-dropdown-type-mobile');
+    if (yearElM) yearElM.textContent = '⚠';
+    if (typeElM) typeElM.textContent = 'Reload';
   }
 }
 
