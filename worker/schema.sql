@@ -128,3 +128,8 @@ CREATE INDEX IF NOT EXISTS idx_rounds_ac_state_ac_round_desc
 -- rounds_pc equivalents
 CREATE INDEX IF NOT EXISTS idx_rounds_pc_state_pc_round
   ON rounds_pc(state_code, pc_no, round_no DESC);
+
+-- Bye-elections / candidate-history: composite index for election_id + state_code + ac_no + round_no
+-- Covers the all_rounds CTE in bye-elections and candidate_contests in candidate-history
+CREATE INDEX IF NOT EXISTS idx_rounds_ac_election_composite
+  ON rounds_ac(election_id, state_code, ac_no, round_no);
