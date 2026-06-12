@@ -1,0 +1,24 @@
+name: D1 Query Cost Lint
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'worker/queries/**'
+      - 'worker-ingest/**'
+      - 'scripts/lint-d1-queries.js'
+  pull_request:
+    paths:
+      - 'worker/queries/**'
+      - 'worker-ingest/**'
+      - 'scripts/lint-d1-queries.js'
+
+jobs:
+  lint-d1-queries:
+    name: D1 Query Cost Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/lint-d1-queries.js
